@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_422180(int a1, char a2)
+int __cdecl sio_read(int a1, char a2)
 {
   int result; // eax
 
@@ -7,7 +7,8 @@ int __cdecl sub_422180(int a1, char a2)
   switch ( a2 )
   {
     case 1:
-      return (unsigned __int8)sio_data_read(a1);
+      sio_data_read();
+      return (unsigned __int8)result;
     case 2:
       return (unsigned __int16)sio_read_half(a1);
     case 4:

@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_41E740()
+char op_BEQ()
 {
   unsigned int v0; // esi
   int v1; // eax
@@ -16,7 +16,7 @@ char sub_41E740()
   v1 = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
   if ( v1 == cpu_gpr[BYTE2(cpu_opcode) & 0x1F] )
   {
-    cpu_opcode = *(_DWORD *)((unsigned __int16)reg_pc + ram[HIWORD(reg_pc)]);
+    cpu_opcode = *(_DWORD *)((unsigned __int16)reg_pc + mem_read_hooks[HIWORD(reg_pc)]);
     reg_pc += 4 * v0;
     LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --dword_50C270;

@@ -10,7 +10,7 @@ char sub_42E650()
     {
       *(_DWORD *)dword_516530 &= ~0x1000000u;
       byte_50C215 = -1;
-      return dma_assert_int(6);
+      return dma_assert_int(6u);
     }
   }
   else

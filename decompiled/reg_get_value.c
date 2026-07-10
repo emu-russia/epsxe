@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_401000(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
+char __cdecl reg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
 {
   char v3; // bl
   HKEY hKey; // [esp+4h] [ebp-10h] BYREF

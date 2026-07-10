@@ -12,32 +12,32 @@ void epsxe_load_zip()
   int v8; // [esp+10h] [ebp-4h] BYREF
 
   v0 = &aNull_0[-3];
-  if ( !strncmp(&aNull_0[strlen(aNull_0) - 3], off_454EE0, 3u) || !strncmp(&v0[strlen(aNull_0)], off_454EDC, 3u) )
+  if ( !strncmp(&aNull_0[strlen(aNull_0) - 3], "zip", 3u) || !strncmp(&v0[strlen(aNull_0)], "ZIP", 3u) )
   {
-    if ( !strncmp(&v0[strlen(aNull_0)], off_454EE0, 3u) || !strncmp(&v0[strlen(aNull_0)], off_454EDC, 3u) )
+    if ( !strncmp(&v0[strlen(aNull_0)], "zip", 3u) || !strncmp(&v0[strlen(aNull_0)], "ZIP", 3u) )
     {
       v1 = malloc(0x2000u);
       memset(v1, 0, 0x2000u);
       if ( sub_420240(aNull_0) )
-        fatal_error_with_message_box(aEpsxErrorLoadi);
+        fatal_error_with_message_box(" * EPSX: error loading .zip file.");
       free(v1);
       if ( !dword_4FC458 )
-        fatal_error_with_message_box(aEpsxErrorLoadi);
+        fatal_error_with_message_box(" * EPSX: error loading .zip file.");
       if ( dword_4FC458 == 1 )
       {
-        if ( strncmp(&byte_566980[strlen(byte_566980) - 3], off_454EB4, 3u)
-          && strncmp(&byte_566980[strlen(byte_566980) - 3], off_44ED60, 3u) )
+        if ( strncmp(&byte_566980[strlen(byte_566980) - 3], "exe", 3u)
+          && strncmp(&byte_566980[strlen(byte_566980) - 3], "EXE", 3u) )
         {
           fatal_error_with_message_box("* EPSX: DEMO not found [%s]. \n", byte_566980);
         }
         Str2 = (char *)malloc(Size[0]);
         if ( sub_41FEB0(aNull_0, byte_566980, (LPVOID *)&Str2, (size_t *)&v8) )
-          fatal_error_with_message_box(aEpsxErrorLoadi);
+          fatal_error_with_message_box(" * EPSX: error loading .zip file.");
         v2 = Str2;
-        if ( strncmp(Str1, Str2, 8u) )
+        if ( strncmp("PS-X EXE", Str2, 8u) )
           fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", byte_566980);
         v3 = Str2;
-        qmemcpy((char *)ram_0 + (*((_DWORD *)v2 + 6) & 0x1FFFFF), Str2 + 2048, *((_DWORD *)v2 + 7));
+        qmemcpy((char *)ram + (*((_DWORD *)v2 + 6) & 0x1FFFFF), Str2 + 2048, *((_DWORD *)v2 + 7));
         dword_50C350 = *((_DWORD *)v2 + 5);
         dword_50C354 = -2145386752;
         dword_50C358 = -2145386752;
@@ -55,7 +55,7 @@ void epsxe_load_zip()
         do
         {
           v6 = &byte_566980[256 * v5];
-          if ( !strncmp(&v6[strlen(v6) - 3], off_454E90, 3u) || !strncmp(&v6[strlen(v6) - 3], off_454E8C, 3u) )
+          if ( !strncmp(&v6[strlen(v6) - 3], "pll", 3u) || !strncmp(&v6[strlen(v6) - 3], "PLL", 3u) )
             LOBYTE(Str2) = v4;
           LOBYTE(v8) = ++v4;
           v5 = v4;
@@ -63,7 +63,7 @@ void epsxe_load_zip()
         while ( v4 < dword_4FC458 );
         if ( (_BYTE)Str2 == 0xFF )
 LABEL_26:
-          fatal_error_with_message_box(aEpsxDemoPllNot);
+          fatal_error_with_message_box("* EPSX: DEMO .pll not found. \n");
         epsxe_load(&byte_566980[256 * (unsigned __int8)Str2], Size[(unsigned __int8)Str2]);
       }
     }

@@ -1,11 +1,10 @@
 #include "pch.h"
-int __cdecl sub_41C100(FILE *Stream, int a2)
+void __cdecl sub_41C100(FILE *Stream, int a2)
 {
-  int result; // eax
+  int v2; // eax
 
   fseek(Stream, 0, 2);
-  result = ftell(Stream) - 2048;
-  if ( a2 != result )
-    return dump_log(console_log_handle, " ePSXe: (Demo bugged header) Real: %x Load: %x \n", result, a2);
-  return result;
+  v2 = ftell(Stream) - 2048;
+  if ( a2 != v2 )
+    dump_log(console_log_handle, " ePSXe: (Demo bugged header) Real: %x Load: %x \n", v2, a2);
 }

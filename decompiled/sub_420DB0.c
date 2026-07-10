@@ -1,16 +1,16 @@
 #include "pch.h"
-int __cdecl sub_420DB0(unsigned __int8 a1, int a2, char a3)
+int __cdecl sub_420DB0(char a1, int a2, char a3)
 {
   int v3; // eax
   int v4; // eax
-  void *v5; // eax
+  int v5; // eax
   int v6; // ecx
   char v7; // dl
   int v8; // ecx
   int v10; // edx
   _BYTE v11[9]; // [esp+4h] [ebp-10h] BYREF
 
-  v3 = dword_456048[a1];
+  v3 = dword_456048[(unsigned __int8)a1];
   if ( !v3 )
     goto LABEL_24;
   v4 = v3 - 1;
@@ -18,10 +18,10 @@ int __cdecl sub_420DB0(unsigned __int8 a1, int a2, char a3)
   {
     if ( v4 == 3 )
     {
-      byte_4FC464[(unsigned __int8)byte_516560] = a3;
+      byte_4FC464[(unsigned __int8)byte_516560[0]] = a3;
       if ( a3 == 66 || a3 == 67 )
       {
-        if ( dword_4FD8E0[a1] )
+        if ( dword_4FD8E0[(unsigned __int8)a1] )
         {
           sub_42D0E0(a1, v11);
         }
@@ -41,7 +41,7 @@ int __cdecl sub_420DB0(unsigned __int8 a1, int a2, char a3)
         case 'E':
           *(_DWORD *)v11 = dword_4557BC;
           *(_DWORD *)&v11[4] = dword_4557C0;
-          v8 = dword_4FD8E0[a1];
+          v8 = dword_4FD8E0[(unsigned __int8)a1];
           v11[8] = byte_4557C4;
           if ( v8 == 1 )
             v11[5] = 1;
@@ -57,7 +57,7 @@ int __cdecl sub_420DB0(unsigned __int8 a1, int a2, char a3)
           v7 = byte_4557DC;
           goto LABEL_17;
         case 'L':
-          v5 = (void *)dword_4557EC;
+          v5 = dword_4557EC;
           v6 = dword_4557F0;
           v7 = byte_4557F4;
           goto LABEL_17;

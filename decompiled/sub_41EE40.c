@@ -89,7 +89,7 @@ LABEL_11:
       v32 = v4;
       if ( v4 == 0x8000 )
       {
-        sub_41FE70(dword_576984, 0x8000);
+        sub_41FE70(dword_576984, 0x8000u);
         v4 = 0;
         goto LABEL_2;
       }
@@ -192,7 +192,7 @@ LABEL_26:
       v32 = v4;
       if ( v4 == 0x8000 )
       {
-        sub_41FE70(dword_576984, 0x8000);
+        sub_41FE70(dword_576984, 0x8000u);
         v4 = 0;
         v32 = 0;
       }

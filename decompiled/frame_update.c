@@ -1,14 +1,15 @@
 #include "pch.h"
 int frame_update()
 {
+  int v0; // ecx
   DWORD i; // ecx
 
-  while ( PeekMessageA(&stru_50AB80, nullptr, 0, 0, 1u) )
+  while ( PeekMessageA(&g_msg, nullptr, 0, 0, 1u) )
   {
-    TranslateMessage(&stru_50AB80);
-    DispatchMessageA(&stru_50AB80);
+    TranslateMessage(&g_msg);
+    DispatchMessageA(&g_msg);
   }
-  if ( byte_4FD995 )
+  if ( use_performance_counters )
   {
     QueryPerformanceCounter(&stru_50AA48);
     for ( i = stru_50AA48.LowPart - PerformanceCount.LowPart;
@@ -20,11 +21,10 @@ int frame_update()
     GPUupdateLace(i);
     QueryPerformanceCounter(&stru_50AA48);
     PerformanceCount = stru_50AA48;
-    return process_input();
   }
   else
   {
-    ((void (*)(void))GPUupdateLace)();
-    return process_input();
+    GPUupdateLace(v0);
   }
+  return process_input();
 }

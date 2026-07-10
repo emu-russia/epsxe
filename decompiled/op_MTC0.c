@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int sub_41EBA0()
+unsigned int op_MTC0()
 {
   unsigned __int8 v0; // cl
   unsigned __int8 v1; // al

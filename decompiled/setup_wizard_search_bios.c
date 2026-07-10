@@ -39,9 +39,9 @@ INT_PTR __stdcall search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     FileName[v4++] = v5;
   }
   while ( v5 );
-  v6 = word_44E80C;
+  v6 = MEMORY[0x44E80C];
   v7 = &FileName[strlen(FileName)];
-  *(_DWORD *)v7 = dword_44E808;
+  *(_DWORD *)v7 = aBin_0;
   *((_WORD *)v7 + 2) = v6;
   if ( a2 == 16 )
   {
@@ -91,9 +91,9 @@ INT_PTR __stdcall search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       v13 = sub_407FA0(v12, 0x80000);
       free(v12);
       v14 = 0;
-      if ( dword_44DD4C )
+      if ( debug_bios )
       {
-        v15 = &unk_44DD70;
+        v15 = &retail_bioses;
         do
         {
           if ( v13 == *v15 )
@@ -101,7 +101,7 @@ INT_PTR __stdcall search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           ++v14;
           v15 += 9;
         }
-        while ( v14 < dword_44DD4C );
+        while ( v14 < debug_bios );
         if ( v10 != -1 )
         {
           sprintf(lParam, "%s", (const char *)(36 * v10 + 4513104));

@@ -1,5 +1,5 @@
 #include "pch.h"
-INT_PTR __stdcall sub_406BB0(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   LRESULT v5; // eax
   LRESULT v6; // eax
@@ -41,9 +41,9 @@ INT_PTR __stdcall sub_406BB0(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       }
       while ( v9 < HIBYTE(dword_4FD9BC) );
     }
-    SendDlgItemMessageA(hDlg, 1136, 0xF1u, (unsigned __int8)SubchannelW9xCdromEnabled, 0);
-    SendDlgItemMessageA(hDlg, 1137, 0xF1u, (unsigned __int8)SubchannelW9xCaching, 0);
-    SendDlgItemMessageA(hDlg, 1138, 0xF1u, (unsigned __int8)SubchannelW9xCachingLG, 0);
+    SendDlgItemMessageA(hDlg, 1136, BM_SETCHECK, (unsigned __int8)SubchannelW9xCdromEnabled, 0);
+    SendDlgItemMessageA(hDlg, 1137, BM_SETCHECK, (unsigned __int8)SubchannelW9xCaching, 0);
+    SendDlgItemMessageA(hDlg, 1138, BM_SETCHECK, (unsigned __int8)SubchannelW9xCachingLG, 0);
     return 1;
   }
   else

@@ -8,11 +8,11 @@ void __cdecl gpu_dma_write(unsigned int a1, unsigned int a2)
       if ( a1 >= 0x1F801000 )
         hw_reg_write_word(a1, a2);
       else
-        *(_DWORD *)((char *)&dcache + (a1 & 0xFFF)) = a2;
+        *(_DWORD *)&dcache[a1 & 0xFFF] = a2;
     }
     else
     {
-      *(_DWORD *)((unsigned __int16)a1 + mem_hooks[HIWORD(a1)]) = a2;
+      *(_DWORD *)((unsigned __int16)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
     }
   }
 }

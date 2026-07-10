@@ -42,7 +42,7 @@ char __cdecl sub_41BEA0(const char *a1, char *Buffer)
   if ( byte_450CC8[81 * v2] != -1 )
     byte_4FC4E6 = byte_450CC8[81 * v2];
   v8 = &aNull_1[81 * v2];
-  if ( !strcmp(aNull, v8) )
+  if ( !strcmp("NULL", v8) )
     return 0;
   sprintf(Buffer, "%s", v8);
   return 1;

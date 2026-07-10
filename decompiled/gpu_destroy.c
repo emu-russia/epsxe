@@ -3,27 +3,27 @@ HMODULE gpu_destroy()
 {
   HMODULE result; // eax
 
-  result = dword_4FD990;
-  if ( dword_4FD990 )
+  result = hGpuModule;
+  if ( hGpuModule )
   {
     if ( !gpu_closed )
     {
-      dbg_print(aClosingGpu);
+      dbg_print(" * Closing gpu ...\n");
       GPUclose();
       gpu_closed = 1;
     }
-    dbg_print(aShutdownGpu);
+    dbg_print(" * Shutdown gpu ...\n");
     GPUshutdown();
     ChangeDisplaySettingsA(nullptr, 0);
     ShowCursor(1);
-    result = (HMODULE)dword_4FD98C;
-    if ( dword_4FD98C )
+    result = (HMODULE)hSaveLoadWnd;
+    if ( hSaveLoadWnd )
     {
-      result = (HMODULE)DestroyWindow(dword_4FD98C);
+      result = (HMODULE)DestroyWindow(hSaveLoadWnd);
       if ( !result )
       {
-        result = (HMODULE)MessageBoxA(nullptr, aCouldNotReleas_0, aShutdownError, 0x40u);
-        dword_4FD98C = nullptr;
+        result = (HMODULE)MessageBoxA(nullptr, "Could NOT release hWnd.", "SHUTDOWN ERROR", 0x40u);
+        hSaveLoadWnd = nullptr;
       }
     }
   }

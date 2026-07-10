@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_41E2B0()
+int op_SRAV()
 {
   char v0; // cl
   int result; // eax

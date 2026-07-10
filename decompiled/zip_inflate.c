@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_41F180()
+int zip_inflate()
 {
   unsigned int v0; // esi
   int result; // eax

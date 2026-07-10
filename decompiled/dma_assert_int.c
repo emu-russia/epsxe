@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_42B020(unsigned __int8 a1)
+int __cdecl dma_assert_int(unsigned __int8 a1)
 {
   int result; // eax
 

@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_437310()
+char reopen_console_log()
 {
   FILE *v0; // eax
 

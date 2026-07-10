@@ -22,7 +22,7 @@ int mdec_decode()
         LOBYTE(dword_4FD888[0]) = 1;
         return result;
       }
-      v2 = (__m64 *)((char *)ram_0 + (dword_5164EC & 0x1FFFFF));
+      v2 = (__m64 *)((char *)ram + (dword_5164EC & 0x1FFFFF));
       v3 = dword_4FC4F0 & 0x8000000;
       v4 = 3 * result;
       if ( (dword_4FC4F0 & 0x8000000) == 0 )

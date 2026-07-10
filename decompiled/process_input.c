@@ -53,7 +53,7 @@ int sub_42D6E0()
   if ( word_4FD986 )
   {
     if ( word_4FD986 == 1 )
-      sub_42EDF0();
+      gpu_hide_screen_pic();
     --word_4FD986;
   }
   if ( byte_4FD984 )

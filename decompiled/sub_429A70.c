@@ -18,18 +18,18 @@ char *__cdecl sub_429A70(char *a1, int a2)
   v3 = a1;
   do
   {
-    if ( v3 - (char *)ram_0 >= 2096896 )
+    if ( v3 - (char *)ram >= 0x1FFF00 )
       break;
     v4 = *(_WORD *)v3;
     v5 = 0;
     v3 += 4;
-    *v8 = dword_5120C0 * ((__int16)(v4 << 6) >> 6);
+    *v8 = dword_5120C0[0] * ((__int16)(v4 << 6) >> 6);
     for ( i = *((_WORD *)v3 - 1); i != 0xFE00; v3 += 2 )
     {
       v5 += (i >> 10) + 1;
       if ( v5 > 63 )
         break;
-      v8[dword_455B20[v5]] = (v4 >> 10) * (i << 22 >> 22) * *((__int16 *)&dword_5120C0 + dword_455B20[v5]) / 8;
+      v8[dword_455B20[v5]] = (v4 >> 10) * (i << 22 >> 22) * dword_5120C0[dword_455B20[v5]] / 8;
       i = *(_WORD *)v3;
     }
     dword_511DE0[v9] = v5;

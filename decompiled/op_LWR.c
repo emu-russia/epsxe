@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int sub_41D750()
+unsigned int op_LWR()
 {
   unsigned int v0; // ecx
   unsigned int v1; // esi

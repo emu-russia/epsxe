@@ -2,7 +2,7 @@
 char init_aspi()
 {
   char result; // al
-  __int16 v1; // ax
+  __int16 ASPI32SupportInfo; // ax
   unsigned __int8 v2; // bl
   char v3; // al
   unsigned __int8 v4; // bl
@@ -18,10 +18,10 @@ char init_aspi()
   result = HIBYTE(dword_4FD9BC);
   if ( !HIBYTE(dword_4FD9BC) )
   {
-    v1 = GetASPI32SupportInfo();
-    BYTE1(dword_4FD9BC) = v1;
-    if ( HIBYTE(v1) != 1 && HIBYTE(v1) != 0xE8 )
-      fatal_error_with_message_box(" * Error in init aspi (%d)\n", HIBYTE(v1));
+    ASPI32SupportInfo = GetASPI32SupportInfo();
+    BYTE1(dword_4FD9BC) = ASPI32SupportInfo;
+    if ( HIBYTE(ASPI32SupportInfo) != 1 && HIBYTE(ASPI32SupportInfo) != 0xE8 )
+      fatal_error_with_message_box(" * Error in init aspi (%d)\n", HIBYTE(ASPI32SupportInfo));
     result = BYTE1(dword_4FD9BC);
     v2 = 0;
     for ( i = 0; v2 < BYTE1(dword_4FD9BC); i = v2 )

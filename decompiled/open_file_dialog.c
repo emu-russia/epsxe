@@ -30,7 +30,7 @@ BOOL __cdecl open_file_dialog(int a1, int a2, int a3, int a4, int a5)
     do
     {
       v7 = v8[v6 + 76];
-      byte_8B1560[v6++] = v7;
+      temp_path[v6++] = v7;
     }
     while ( v7 );
     return 1;

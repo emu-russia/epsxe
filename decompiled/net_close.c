@@ -6,8 +6,8 @@ HMODULE net_close()
   result = (HMODULE)dword_4FD99C;
   if ( dword_4FD99C )
   {
-    result = dword_4FD998;
-    if ( dword_4FD998 )
+    result = hNetModule;
+    if ( hNetModule )
     {
       if ( !byte_45696C )
       {

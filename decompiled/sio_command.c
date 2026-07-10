@@ -140,7 +140,7 @@ LABEL_30:
               {
                 if ( dword_4FD8E0[v2] )
                 {
-                  sub_42D0E0(v2, v3 + 0x516563);
+                  sub_42D0E0(v2, (_BYTE *)(v3 + 0x516563));
                 }
                 else
                 {
@@ -318,15 +318,15 @@ LABEL_30:
           if ( *a1 == 87 )
           {
             v35 = 87;
-            MEMORY[0x566860] = 87;
-            MEMORY[0x566861][0] = -118;
-            MEMORY[0x566862][0] = 0;
-            MEMORY[0x566863] = 90;
-            MEMORY[0x566864] = 93;
-            MEMORY[0x566865] = 0;
-            MEMORY[0x5668E8] = 92;
-            MEMORY[0x5668E9] = 93;
-            MEMORY[0x5668EA] = 71;
+            byte_547060[129024] = 87;
+            byte_547060[129025] = -118;
+            byte_547060[129026] = 0;
+            byte_547060[129027] = 90;
+            byte_547060[129028] = 93;
+            byte_547060[129029] = 0;
+            byte_547060[129160] = 92;
+            byte_547060[129161] = 93;
+            byte_547060[129162] = 71;
           }
           else
           {
@@ -337,21 +337,21 @@ LABEL_30:
             }
             v1 = byte_516560[0];
             v35 = 82;
-            MEMORY[0x566860] = 82;
-            MEMORY[0x566861][0] = -116;
-            MEMORY[0x566862][0] = 0;
-            MEMORY[0x566863] = 90;
-            MEMORY[0x566864] = 93;
-            MEMORY[0x566865] = 0;
-            MEMORY[0x566866] = 0;
-            MEMORY[0x566867] = 92;
-            MEMORY[0x566868] = 93;
-            MEMORY[0x5668EC] = 71;
+            byte_547060[129024] = 82;
+            byte_547060[129025] = -116;
+            byte_547060[129026] = 0;
+            byte_547060[129027] = 90;
+            byte_547060[129028] = 93;
+            byte_547060[129029] = 0;
+            byte_547060[129030] = 0;
+            byte_547060[129031] = 92;
+            byte_547060[129032] = 93;
+            byte_547060[129164] = 71;
           }
         }
         else
         {
-          v35 = MEMORY[0x566860];
+          v35 = byte_547060[129024];
         }
         if ( v35 == 82 )
         {
@@ -360,28 +360,28 @@ LABEL_30:
             LOBYTE(v37) = 0;
             HIBYTE(v37) = *a1;
             word_566962 = v37;
-            MEMORY[0x566869] = *a1;
+            byte_547060[129033] = *a1;
           }
           if ( v4 == 5 )
           {
             word_566962 |= (unsigned __int8)*a1;
-            MEMORY[0x56686A] = *a1;
+            byte_547060[129034] = *a1;
           }
           if ( v4 == 6 )
           {
             qmemcpy(
-              &MEMORY[0x56686B],
+              &byte_547060[129035],
               &byte_526860[128 * ((unsigned __int16)word_566962 + ((unsigned __int8)byte_516560[0] << 10))],
               0x80u);
             v38 = 0;
-            MEMORY[0x5668EB] = 0;
-            v39 = &MEMORY[0x566869];
+            byte_547060[129163] = 0;
+            v39 = &byte_547060[129033];
             v40 = 130;
             do
             {
               v38 ^= *v39++;
               --v40;
-              MEMORY[0x5668EB] = v38;
+              byte_547060[129163] = v38;
             }
             while ( v40 );
           }
@@ -393,22 +393,22 @@ LABEL_30:
           else
             dword_4FC478 = 1;
           if ( v4 > 3u && v4 < 0x86u )
-            MEMORY[0x566862][v4] = *a1;
+            byte_547060[v4 + 129026] = *a1;
           if ( v4 == 0x89 )
           {
             LOBYTE(v36) = 0;
-            HIBYTE(v36) = MEMORY[0x566866];
-            word_566962 = (unsigned __int8)MEMORY[0x566867] | v36;
-            qmemcpy(&byte_526860[128 * ((unsigned __int16)word_566962 + (v2 << 10))], &MEMORY[0x566868], 0x80u);
+            HIBYTE(v36) = byte_547060[129030];
+            word_566962 = (unsigned __int8)byte_547060[129031] | v36;
+            qmemcpy(&byte_526860[128 * ((unsigned __int16)word_566962 + (v2 << 10))], &byte_547060[129032], 0x80u);
           }
         }
-        if ( v4 >= (unsigned int)MEMORY[0x566861][0] )
-          sub_420D60(0, &MEMORY[0x566861][v4]);
+        if ( v4 >= (unsigned int)byte_547060[129025] )
+          sub_420D60(0, &byte_547060[v4 + 129025]);
         else
-          sub_420D60(1, &MEMORY[0x566861][v4]);
+          sub_420D60(1, &byte_547060[v4 + 129025]);
         ++byte_516560[65 * (unsigned __int8)byte_516560[0] + 2];
         v33 = (_BYTE *)(65 * (unsigned __int8)byte_516560[0] + 5334370);
-        v34 = (unsigned __int8)byte_516560[65 * (unsigned __int8)byte_516560[0] + 2] < (unsigned int)MEMORY[0x566861][0];
+        v34 = (unsigned __int8)byte_516560[65 * (unsigned __int8)byte_516560[0] + 2] < (unsigned int)byte_547060[129025];
       }
       if ( !v34 )
         *v33 = 0;

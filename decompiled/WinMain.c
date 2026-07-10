@@ -36,12 +36,12 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
                 goto LABEL_7;
         }
     LABEL_16:
-        sprintf(unk_8B4580, aNull);
-        sprintf((char* const)byte_8B3180, aNull);
-        sprintf((char* const)byte_8B3580, aNull);
-        sprintf(byte_8B2580, aInternal);
-        sprintf(unk_8B5180, aNull);
-        sprintf((char* const)byte_8B4180, aDisabled);
+        sprintf(byte_8B4580, "NULL");
+        sprintf((char* const)Memcard1, "NULL");
+        sprintf((char* const)Memcard2, "NULL");
+        sprintf(byte_8B2580, "INTERNAL");
+        sprintf(byte_8B5180, "NULL");
+        sprintf((char* const)NetPlugin, "DISABLED");
         version_setting = 0;
         dword_50C36C = 1;
         dword_50C370 = 0;
@@ -51,14 +51,14 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
         dword_50C380 = 0;
         dword_45593C = 312;
         dword_455940 = 2171;
-        unk_8B55A0 = 0;
+        byte_8B55A0 = 0;
         load_settings();
         parse_command_line_options(v13, (int)v14);
         sub_437030();
         select_cdrom_core();
-        dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", aEpsxe, 1.6, 0, &byte_45B8CC);
-        if (strlen(&unk_8B55A0))
-            load_cheat_file(&unk_8B55A0);
+        dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &byte_45B8CC);
+        if (strlen(&byte_8B55A0))
+            load_cheat_file(&byte_8B55A0);
         epsxe_main_loop_runner();
     }
 LABEL_7:

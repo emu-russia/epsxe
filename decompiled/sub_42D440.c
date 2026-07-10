@@ -85,11 +85,11 @@ _BYTE *__cdecl sub_42D440(char a1, _BYTE *a2)
       {
         if ( v5 < 0 )
           v5 = 0;
-        return (_BYTE *)sub_42EE20(0, v4, v5);
+        return (_BYTE *)gpu_cursor(0, v4, v5);
       }
       else
       {
-        return (_BYTE *)sub_42EE20(0, v4, 255);
+        return (_BYTE *)gpu_cursor(0, v4, 255);
       }
     }
     else
@@ -109,11 +109,11 @@ _BYTE *__cdecl sub_42D440(char a1, _BYTE *a2)
       {
         if ( v7 < 0 )
           v7 = 0;
-        return (_BYTE *)sub_42EE20(0, v6, v7);
+        return (_BYTE *)gpu_cursor(0, v6, v7);
       }
       else
       {
-        return (_BYTE *)sub_42EE20(0, v6, 255);
+        return (_BYTE *)gpu_cursor(0, v6, 255);
       }
     }
   }

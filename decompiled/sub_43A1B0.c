@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_43A1B0(int a1, int a2)
+int __cdecl sub_43A1B0(int a1, unsigned int a2)
 {
   int v3; // esi
   int v4; // eax
@@ -15,7 +15,7 @@ int __cdecl sub_43A1B0(int a1, int a2)
   if ( !a1 )
     return -2;
   v3 = *(_DWORD *)(a1 + 28);
-  if ( !v3 || (unsigned int)a2 > 4 )
+  if ( !v3 || a2 > 4 )
     return -2;
   if ( !*(_DWORD *)(a1 + 12)
     || !*(_DWORD *)a1 && *(_DWORD *)(a1 + 4)
@@ -46,7 +46,7 @@ int __cdecl sub_43A1B0(int a1, int a2)
     if ( *(_DWORD *)(v3 + 100) )
     {
       sub_43A460(v3, HIWORD(*(_DWORD *)(a1 + 48)));
-      sub_43A460(v3, (unsigned __int16)*(_DWORD *)(a1 + 48));
+      sub_43A460(v3, *(_DWORD *)(a1 + 48));
     }
     *(_DWORD *)(a1 + 48) = 1;
   }
@@ -59,7 +59,7 @@ int __cdecl sub_43A1B0(int a1, int a2)
       return 0;
     }
   }
-  else if ( !*(_DWORD *)(a1 + 4) && a2 <= v13 && a2 != 4 )
+  else if ( !*(_DWORD *)(a1 + 4) && (int)a2 <= v13 && a2 != 4 )
   {
     *(char **)(a1 + 24) = off_4575BC[0];
     return -5;
@@ -86,7 +86,7 @@ LABEL_45:
     if ( *(_DWORD *)(v3 + 24) )
       return 1;
     sub_43A460(v3, HIWORD(*(_DWORD *)(a1 + 48)));
-    sub_43A460(v3, (unsigned __int16)*(_DWORD *)(a1 + 48));
+    sub_43A460(v3, *(_DWORD *)(a1 + 48));
     sub_43A490(a1);
     v12 = *(_DWORD *)(v3 + 20);
     *(_DWORD *)(v3 + 24) = -1;

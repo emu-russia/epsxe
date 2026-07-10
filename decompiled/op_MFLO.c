@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_41E4F0()
+char op_MFLO()
 {
   char result; // al
 

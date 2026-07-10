@@ -6,13 +6,13 @@ void *state_save()
   char v2[64]; // [esp+8h] [ebp-440h] BYREF
   char Buffer[1024]; // [esp+48h] [ebp-400h] BYREF
 
-  sprintf(Buffer, "%s%s.%03d", aSstates, byte_8B3D80, (unsigned __int8)gpu_freeze_counter);
+  sprintf(Buffer, "%s%s.%03d", "sstates\\", byte_8B3D80, (unsigned __int8)gpu_freeze_counter);
   memset(v2, 0, sizeof(v2));
-  result = (void *)sub_4386F0(Buffer, (int)aWb1);
+  result = (void *)sub_4386F0(Buffer, (int)"wb1");
   v1 = result;
   if ( result )
   {
-    sprintf(v2, aEpsxe);
+    sprintf(v2, "ePSXe");
     if ( byte_44C0AC == -1 )
       *(_WORD *)&v2[5] = 2;
     else
@@ -21,22 +21,22 @@ void *state_save()
     *(_DWORD *)&v2[11] = unk_8B3D84;
     *(_DWORD *)&v2[15] = unk_8B3D88;
     sub_438F70((int)v1, (int)v2, 64);
-    sprintf(v2, aPsx);
+    sprintf(v2, "PSX");
     *(_DWORD *)&v2[3] = 364;
     sub_438F70((int)v1, (int)v2, 7);
     sub_438F70((int)v1, (int)&reg_pc, 364);
-    mem_freeze(aMem, (int)v1);
-    sub_423780(aReg, (int)v1);
-    sub_42B080(aIrq, (int)v1);
-    gte_freeze(aGte, (int)v1);
-    cdr_freeze(aCdr, (int)v1);
-    sio_freeze(aSio, (int)v1);
+    mem_freeze("MEM", (int)v1);
+    sub_423780("REG", (int)v1);
+    sub_42B080("IRQ", (int)v1);
+    gte_freeze("GTE", (int)v1);
+    cdr_freeze("CDR", (int)v1);
+    sio_freeze("SIO", (int)v1);
     if ( byte_44C0AC == -1 )
-      sub_42A0D0(aMde, (int)v1);
+      sub_42A0D0("MDE", (int)v1);
     else
-      sub_42A160(aMde, (int)v1);
-    gpu_freeze(aGpu, (int)v1, Buffer);
-    spu_freeze_cb(aSpu, v1);
+      sub_42A160("MDE", (int)v1);
+    gpu_freeze("GPU", (int)v1, Buffer);
+    spu_freeze_cb("SPU", v1);
     return (void *)sub_439420(v1);
   }
   return result;

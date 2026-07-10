@@ -75,8 +75,8 @@ int __userpurge sub_40E800@<eax>(int a1@<ebp>, _DWORD *a2, int a3)
              dword_4F776C[dword_4F82E8],
              &unk_448728)
         || ((v6 = (int *)dword_4F776C[dword_4F82E8], v7 = *v6, v52 == -1)
-          ? (v8 = (*(int (__stdcall **)(int *, int, int))(v7 + 52))(v6, dword_4F7A60, 6))
-          : (v8 = (*(int (__stdcall **)(int *, int, int))(v7 + 52))(v6, dword_4F7A60, 5)),
+          ? (v8 = (*(int (__stdcall **)(int *, int, int))(v7 + 52))(v6, hDlgInput, 6))
+          : (v8 = (*(int (__stdcall **)(int *, int, int))(v7 + 52))(v6, hDlgInput, 5)),
             v8) )
       {
         (*(void (__stdcall **)(int))(*(_DWORD *)dword_4F776C[dword_4F82E8] + 8))(dword_4F776C[dword_4F82E8]);

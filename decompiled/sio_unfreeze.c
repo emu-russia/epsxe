@@ -9,7 +9,7 @@ void __cdecl sio_unfreeze(int a1, int a2)
   v2 = (char *)malloc(0x40104u);
   sub_438CA0(a2, (char *)v3, 7);
   sub_438CA0(a2, byte_526600, 532);
-  sub_438CA0(a2, (char *)&byte_516560, 132);
+  sub_438CA0(a2, byte_516560, 132);
   memcard2_save();
   sub_438CA0(a2, v2, 262404);
   sub_438CA0(a2, (char *)v3, 64);

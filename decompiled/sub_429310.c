@@ -14,7 +14,7 @@ char sub_429310()
         dword_4FC504 = 0;
         dword_5164F4 &= ~0x1000000u;
         byte_4FC508 = -1;
-        dma_assert_int(1);
+        dma_assert_int(1u);
         result = byte_4FC508;
       }
     }

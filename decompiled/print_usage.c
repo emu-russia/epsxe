@@ -1,7 +1,7 @@
 #include "pch.h"
 void __noreturn print_usage()
 {
-  printf(" %s v.%1.1f.%d emulator by ePSXe team. Copyright 2000/2002. \n\n", aEpsxe, 1.6, 0);
+  printf(" %s v.%1.1f.%d emulator by ePSXe team. Copyright 2000/2002. \n\n", "ePSXe", 1.6, 0);
   printf("      epsxe [options] [PS-EXE] \n");
   printf("      options: \n\n");
   printf("        -pslib                     -   Load libpsx.exe.\n");

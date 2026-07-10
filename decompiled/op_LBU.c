@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_41D450()
+char op_LBU()
 {
   unsigned int v0; // ecx
   int byte; // eax

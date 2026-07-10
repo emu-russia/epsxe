@@ -8,9 +8,9 @@ char patch_game()
   LOBYTE(v0) = auto_ppf_load;
   if ( auto_ppf_load )
   {
-    if ( !strcmp(unk_8B4580, aNull) )
-      sprintf(unk_8B4580, "%s%s", aPatches, byte_8B3D80);
-    v0 = fopen(unk_8B4580, Mode);
+    if ( !strcmp(byte_8B4580, aNull) )
+      sprintf(byte_8B4580, "%s%s", aPatches, byte_8B3D80);
+    v0 = fopen(byte_8B4580, Mode);
     v1 = v0;
     if ( v0 )
     {
@@ -21,7 +21,7 @@ char patch_game()
       fseek(v1, 0, 0);
       dword_4FFC28 = (char *)malloc(v2);
       fread(dword_4FFC28, v2, 1u, v1);
-      if ( !strncmp(off_4574A4, dword_4FFC28, 3u) )
+      if ( !strncmp(aPpf_0, dword_4FFC28, 3u) )
       {
         if ( dword_4FFC28[5] )
         {

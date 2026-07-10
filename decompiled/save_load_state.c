@@ -19,10 +19,10 @@ void sub_40B2B0()
   spu_update_cb();
   memcard2_save();
   spu_close();
-  sub_42F5F0();
+  net_pause();
   gpu_close();
-  if ( dword_4FD98C )
-    ShowWindow(dword_4FD98C, 0);
+  if ( hSaveLoadWnd )
+    ShowWindow(hSaveLoadWnd, 0);
   ShowWindow(hWnd, 5);
   ShowCursor(1);
   UpdateWindow(hWnd);
@@ -33,12 +33,12 @@ void sub_40B2B0()
   }
   ShowCursor(0);
   ShowWindow(hWnd, 0);
-  sub_42DF80();
+  close_save_load_window();
   create_save_load_window();
-  if ( dword_4FD98C )
-    ShowWindow(dword_4FD98C, 5);
+  if ( hSaveLoadWnd )
+    ShowWindow(hSaveLoadWnd, 5);
   gpu_open();
-  sub_42F610();
+  net_resume();
   spu_open();
   dword_4F7594 = 0;
   if ( *(int *)dword_44DF24 >= 10 )

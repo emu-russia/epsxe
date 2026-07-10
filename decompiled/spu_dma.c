@@ -1,10 +1,10 @@
 #include "pch.h"
-char sub_40B9D0()
+char spu_dma()
 {
   unsigned int v0; // ebp
   int v1; // edi
   int v2; // esi
-  unsigned __int16 *v3; // eax
+  int v3; // eax
   int v4; // esi
   unsigned __int16 *j; // ebx
   int v6; // esi
@@ -18,7 +18,7 @@ char sub_40B9D0()
   v0 = dword_516510;
   v1 = HIWORD(dword_516514);
   v2 = (unsigned __int16)dword_516514;
-  v3 = (unsigned __int16 *)dma_mem_read(dword_516510);
+  v3 = dma_mem_read(dword_516510);
   if ( sound_enabled )
   {
     if ( *(_DWORD *)dword_516518 == 16777728 )
@@ -70,17 +70,17 @@ char sub_40B9D0()
         }
         else
         {
-          v3 = (unsigned __int16 *)dma_mem_read(v0);
+          v3 = dma_mem_read(v0);
           v4 = 2 * v1 * v2;
-          for ( j = v3; v4; --v4 )
+          for ( j = (unsigned __int16 *)v3; v4; --v4 )
             LOBYTE(v3) = SPUwriteDMA(*j++);
         }
       }
       else
       {
-        v3 = (unsigned __int16 *)dma_mem_read(v0);
+        v3 = dma_mem_read(v0);
         v6 = 2 * v1 * v2;
-        for ( k = v3; v6; unk_8A8080 += 2 )
+        for ( k = (unsigned __int16 *)v3; v6; unk_8A8080 += 2 )
         {
           LOBYTE(v3) = SPUputOne(unk_8A8080, *k++);
           --v6;
@@ -97,5 +97,5 @@ char sub_40B9D0()
         v2);
     }
   }
-  return (char)v3;
+  return v3;
 }

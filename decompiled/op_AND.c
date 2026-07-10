@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_41DD60()
+int op_AND()
 {
   int v0; // eax
   int result; // eax

@@ -57,8 +57,8 @@ INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   }
   while ( v5 );
   v6 = &FileName[strlen(FileName) + 1];
-  v7 = word_44E400;
-  *(_DWORD *)--v6 = dword_44E3FC;
+  v7 = MEMORY[0x44E400];
+  *(_DWORD *)--v6 = aDll;
   *((_WORD *)v6 + 2) = v7;
   if ( a2 == 16 )
   {
@@ -74,12 +74,12 @@ INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     v19 = hDlg;
     v20 = SendDlgItemMessageA;
     v21 = SendDlgItemMessageA(hDlg, 1129, 0x180u, 0, (LPARAM)lParam);
-    if ( !strcmp((const char *)&byte_8B1D80, aSpucore) )
+    if ( !strcmp((const char *)&SoundPlugin, aSpucore) )
       SendDlgItemMessageA(hDlg, 1129, 0x186u, v21, 0);
     v22 = dword_45B8E4;
     v23 = dword_45B8E4 << 10;
     *(int *)((char *)byte_8A9540 + v23) = *(_DWORD *)aSpucore;
-    *(int *)((char *)&unk_8A9544 + v23) = *(_DWORD *)&aSpucore[4];
+    *(int *)((char *)&byte_8A9544 + v23) = *(_DWORD *)&aSpucore[4];
     dword_45B8E4 = v22 + 1;
     while ( 1 )
     {
@@ -91,7 +91,7 @@ INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         PSEgetLibType = GetProcAddress(LibraryA, aPsegetlibtype);
         PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v25, aPsegetlibname);
         PSEgetLibVersion = GetProcAddress(v25, aPsegetlibversi);
-        unk_8A94C4 = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+        ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
@@ -99,13 +99,13 @@ INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
             if ( PSEgetLibVersion )
             {
               v27 = PSEgetLibVersion();
-              v28 = unk_8A94C4(v27);
+              v28 = ::PSEgetLibVersion(v27);
               v29 = (const char *)PSEgetLibName(BYTE1(v28));
               sprintf(lParam, "%s %d.%d", v29, v42, v43);
               if ( PSEgetLibType() == 4 )
               {
                 v30 = v20(v19, 1129, 0x180u, 0, (LPARAM)lParam);
-                if ( !strcmp((const char *)&byte_8B1D80, FindFileData.cFileName) )
+                if ( !strcmp((const char *)&SoundPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(v19, 1129, 0x186u, v30, 0);
                 v31 = dword_45B8E4;
                 if ( v30 == dword_45B8E4 )

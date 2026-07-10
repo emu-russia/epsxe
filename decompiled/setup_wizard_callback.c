@@ -32,10 +32,10 @@ int __cdecl sub_409CF0(HWND hWndParent)
         DialogBoxParamA(g_hInstance, aIddInstallEnd, hWndParent, setup_wizard_end, 0);
         continue;
       case 7:
-        sprintf((char *const)&byte_8B1980, "%s", byte_8A84C0);
-        sprintf((char *const)&byte_8B1D80, "%s", byte_8A88C0);
-        sprintf((char *const)&byte_8B2180, "%s", byte_8A8CC0);
-        sprintf((char *const)&byte_8B2980, "%s", byte_8A90C0);
+        sprintf((char *const)&VideoPlugin, "%s", byte_8A84C0);
+        sprintf((char *const)&SoundPlugin, "%s", byte_8A88C0);
+        sprintf((char *const)&CdromPlugin, "%s", byte_8A8CC0);
+        sprintf((char *const)&bios_name, "%s", byte_8A90C0);
         result = save_settings();
         break;
       default:

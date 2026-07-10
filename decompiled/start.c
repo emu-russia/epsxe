@@ -19,13 +19,13 @@ void __noreturn start()
   ms_exc.registration.TryLevel = 0;
   _ioinit();
   dword_8B5D08 = GetCommandLineA();
-  dword_4FFA64 = (char *)__crtGetEnvironmentStringsA();
+  dword_4FFA64 = __crtGetEnvironmentStringsA();
   _setargv();
   _setenvp();
   _cinit();
   StartupInfo.dwFlags = 0;
   GetStartupInfoA(&StartupInfo);
-  lpCmdLine = (CHAR *)_wincmdln();
+  lpCmdLine = _wincmdln();
   if ( (StartupInfo.dwFlags & 1) != 0 )
     wShowWindow = StartupInfo.wShowWindow;
   else

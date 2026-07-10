@@ -4,7 +4,7 @@ HWND create_save_load_window()
   dword_50AE4C = GetModuleHandleA(nullptr);
   if ( !register_save_load_win_class() )
     ui_error(aErrorRegisteri);
-  dword_4FD98C = CreateWindowExA(
+  hSaveLoadWnd = CreateWindowExA(
                    0x40100u,
                    aEpsx,
                    ConsoleTitle,
@@ -17,10 +17,10 @@ HWND create_save_load_window()
                    nullptr,
                    dword_50AE4C,
                    nullptr);
-  if ( !dword_4FD98C )
+  if ( !hSaveLoadWnd )
     ui_error(aErrorCreatingW);
   ShowCursor(0);
-  ShowWindow(dword_4FD98C, 5);
-  SetForegroundWindow(dword_4FD98C);
-  return SetFocus(dword_4FD98C);
+  ShowWindow(hSaveLoadWnd, 5);
+  SetForegroundWindow(hSaveLoadWnd);
+  return SetFocus(hSaveLoadWnd);
 }

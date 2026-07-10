@@ -3,16 +3,17 @@ __int16 __cdecl hw_reg_read_half(unsigned int a1)
 {
   int v1; // eax
   int v2; // ecx
-  __int16 v3; // bx
-  int v4; // esi
-  int v5; // esi
-  int v6; // eax
-  int v7; // ecx
-  unsigned int v8; // ecx
-  int v9; // esi
-  __int16 v10; // ax
-  int v11; // esi
-  __int16 v12; // ax
+  char v3; // al
+  __int16 v4; // bx
+  unsigned int v5; // esi
+  int v6; // esi
+  int v7; // eax
+  int v8; // ecx
+  unsigned int v9; // ecx
+  unsigned int v10; // esi
+  __int16 v11; // ax
+  int v12; // esi
+  __int16 v13; // ax
 
   if ( a1 < 0x1F801C00 || a1 > 0x1F801EEF )
   {
@@ -36,29 +37,29 @@ LABEL_33:
         case 0x1F801138u:
           goto LABEL_34;
         case 0x1F801120u:
-          LOWORD(v8) = dword_455940;
-          v9 = 4 * ((a1 >> 4) & 3);
-          v10 = dword_50BFD0[v9];
-          v11 = dword_50BFD4[v9] & 0x200;
-          if ( v11 )
-            v8 = (unsigned int)dword_455940 >> 3;
-          v12 = v8 + v10;
-          LOWORD(v8) = dword_50C270;
-          if ( v11 )
-            v8 = (unsigned int)dword_50C270 >> 3;
-          LOWORD(v1) = v12 - v8;
+          LOWORD(v9) = dword_455940;
+          v10 = 4 * ((a1 >> 4) & 3);
+          v11 = dword_50BFD0[v10];
+          v12 = dword_50BFD4[v10] & 0x200;
+          if ( v12 )
+            v9 = (unsigned int)dword_455940 >> 3;
+          v13 = v9 + v11;
+          LOWORD(v9) = dword_50C270;
+          if ( v12 )
+            v9 = (unsigned int)dword_50C270 >> 3;
+          LOWORD(v1) = v13 - v9;
           return v1;
         case 0x1F801130u:
           goto LABEL_36;
         default:
 LABEL_35:
-          dump_log(console_log_handle, "REG %s [%08x] -> %08x sizeof(%d)\n", (const char *)&off_455894, a1, 0, 2);
+          dump_log(console_log_handle, "REG %s [%08x] -> %08x sizeof(%d)\n", "UNK", a1, 0, 2);
 LABEL_36:
           LOWORD(v1) = 0;
           break;
       }
     }
-    else if ( a1 == 528486664 )
+    else if ( a1 == 0x1F801108 )
     {
 LABEL_34:
       LOWORD(v1) = dword_50BFD8[4 * ((a1 >> 4) & 3)];
@@ -69,12 +70,14 @@ LABEL_34:
       switch ( a1 )
       {
         case 0x1F801014u:
-          LOWORD(v1) = *(_WORD *)((char *)&byte_516600 + (unsigned __int16)a1);
+          LOWORD(v1) = *(_WORD *)&byte_516600[(unsigned __int16)a1];
           break;
         case 0x1F801040u:
-          HIBYTE(v3) = sio_data_read();
-          LOBYTE(v3) = sio_data_read();
-          LOWORD(v1) = v3;
+          sio_data_read();
+          HIBYTE(v4) = v3;
+          sio_data_read();
+          LOBYTE(v4) = v1;
+          LOWORD(v1) = v4;
           break;
         case 0x1F801044u:
           if ( dword_4FD86C && dword_50C270 < (unsigned int)dword_4FD864 )
@@ -105,17 +108,17 @@ LABEL_34:
           LOWORD(v1) = int_mask;
           break;
         case 0x1F801100u:
-          v4 = 4 * ((a1 >> 4) & 3);
-          LOWORD(v2) = dword_50BFD0[v4];
-          v5 = dword_50BFD4[v4] & 0x100;
-          v6 = 512;
-          if ( !v5 )
-            v6 = dword_455940;
-          v7 = v6 + v2;
-          if ( v5 )
-            v1 = v7 - (dword_50C270 << 9) / (unsigned int)dword_455940;
+          v5 = 4 * ((a1 >> 4) & 3);
+          LOWORD(v2) = dword_50BFD0[v5];
+          v6 = dword_50BFD4[v5] & 0x100;
+          v7 = 512;
+          if ( !v6 )
+            v7 = dword_455940;
+          v8 = v7 + v2;
+          if ( v6 )
+            v1 = v8 - (dword_50C270 << 9) / (unsigned int)dword_455940;
           else
-            LOWORD(v1) = v7 - dword_50C270;
+            LOWORD(v1) = v8 - dword_50C270;
           break;
         case 0x1F801104u:
           goto LABEL_33;

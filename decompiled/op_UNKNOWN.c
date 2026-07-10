@@ -1,5 +1,5 @@
 #include "pch.h"
-void __noreturn error_unknown_opcode()
+void __noreturn op_UNKNOWN()
 {
   ui_error(
     "\nePSXe: Opcode [%02x-%08x] in PC [%08x] UNKNOWN [%08x:%03d:%d]\n",

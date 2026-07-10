@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_401090(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpData)
+int __cdecl reg_set_value(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpData)
 {
   int result; // eax
   HKEY hKey; // [esp+0h] [ebp-8h] BYREF

@@ -6,20 +6,20 @@ char spu_destroy()
   result = sound_enabled;
   if ( sound_enabled )
   {
-    result = unk_8A8484;
-    if ( unk_8A8484 )
+    result = spu_need_to_be_closed;
+    if ( spu_need_to_be_closed )
     {
-      result = (char)hModule;
-      if ( hModule )
+      result = (char)hSpuModule;
+      if ( hSpuModule )
       {
-        dbg_print(aClosingSpu);
+        dbg_print(" * Closing spu ... \n");
         if ( !byte_45B8F0 )
         {
           SPUclose();
           byte_45B8F0 = 1;
         }
         result = SPUshutdown();
-        hModule = nullptr;
+        hSpuModule = nullptr;
       }
     }
   }

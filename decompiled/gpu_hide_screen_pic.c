@@ -1,5 +1,5 @@
 #include "pch.h"
-int (__stdcall *sub_42EDF0())(_DWORD)
+int (__stdcall *gpu_hide_screen_pic())(_DWORD)
 {
   int (__stdcall *result)(_DWORD); // eax
 

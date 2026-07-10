@@ -21,10 +21,10 @@ HANDLE sub_407FF0()
 
   strcpy(v13, "plugins\\");
   FileName[0] = byte_45B8CC;
-  v0 = byte_44E64C;
-  v1 = dword_44E648;
+  v0 = MEMORY[0x44E64C];
+  v1 = MEMORY[0x44E648];
   v2 = &FileName[strlen(FileName)];
-  *(_DWORD *)v2 = dword_44E644;
+  *(_DWORD *)v2 = aGpuDll;
   *((_DWORD *)v2 + 1) = v1;
   v2[8] = v0;
   FirstFileA = FindFirstFileA(FileName, &FindFileData);
@@ -37,11 +37,11 @@ HANDLE sub_407FF0()
     }
     while ( FindNextFileA(FirstFileA, &FindFileData) );
   }
-  v4 = dword_44E63C;
+  v4 = MEMORY[0x44E63C];
   FileName[0] = byte_45B8CC;
-  v5 = byte_44E640;
+  v5 = MEMORY[0x44E640];
   v6 = &FileName[strlen(FileName)];
-  *(_DWORD *)v6 = dword_44E638;
+  *(_DWORD *)v6 = aSpuDll;
   *((_DWORD *)v6 + 1) = v4;
   v6[8] = v5;
   v7 = FindFirstFileA(FileName, &FindFileData);
@@ -54,11 +54,11 @@ HANDLE sub_407FF0()
     }
     while ( FindNextFileA(v7, &FindFileData) );
   }
-  v8 = dword_44E630;
+  v8 = MEMORY[0x44E630];
   FileName[0] = byte_45B8CC;
-  v9 = byte_44E634;
+  v9 = MEMORY[0x44E634];
   v10 = &FileName[strlen(FileName)];
-  *(_DWORD *)v10 = dword_44E62C;
+  *(_DWORD *)v10 = aCdrDll;
   *((_DWORD *)v10 + 1) = v8;
   v10[8] = v9;
   result = FindFirstFileA(FileName, &FindFileData);

@@ -1,11 +1,11 @@
 #include "pch.h"
-int sub_41E6B0()
+int op_JALR()
 {
   int v0; // esi
   int v1; // ebx
   unsigned int v2; // ecx
 
-  v0 = ram[HIWORD(reg_pc)];
+  v0 = mem_read_hooks[HIWORD(reg_pc)];
   byte_576DAD = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   v1 = (unsigned __int16)cpu_opcode >> 11;
   v2 = ((unsigned int)cpu_opcode >> 21) & 0x1F;

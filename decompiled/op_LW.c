@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_41D5D0()
+int op_LW()
 {
   unsigned int v0; // ecx
   int result; // eax

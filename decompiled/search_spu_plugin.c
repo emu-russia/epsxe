@@ -1,5 +1,5 @@
 #include "pch.h"
-INT_PTR __stdcall sub_407780(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   int v4; // eax
   char v5; // cl
@@ -38,7 +38,7 @@ INT_PTR __stdcall sub_407780(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   char v38; // cl
   int v39; // ebp
   CHAR *v40; // eax
-  CHAR v41; // cl
+  char v41; // cl
   int v42; // [esp-18h] [ebp-D68h]
   int v43; // [esp-14h] [ebp-D64h]
   char v44[12]; // [esp+0h] [ebp-D50h] BYREF
@@ -57,23 +57,23 @@ INT_PTR __stdcall sub_407780(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   }
   while ( v5 );
   v6 = &FileName[strlen(FileName) + 1];
-  v7 = word_44E400;
-  *(_DWORD *)--v6 = dword_44E3FC;
+  v7 = MEMORY[0x44E400];
+  *(_DWORD *)--v6 = aDll;
   *((_WORD *)v6 + 2) = v7;
   if ( a2 == 272 )
   {
     hFindFile = FindFirstFileA(FileName, &FindFileData);
     dword_45B8E4 = 0;
-    sprintf(lParam, aEpsxeSpuCore15);
+    sprintf(lParam, "ePSXe SPU core 1.5.2.");
     v19 = hDlg;
     v20 = SendDlgItemMessageA;
     v21 = SendDlgItemMessageA(hDlg, 1010, 0x143u, 0, (LPARAM)lParam);
-    if ( !strcmp((const char *)&byte_8B1D80, aSpucore) )
+    if ( !strcmp((const char *)SoundPlugin, "SPUCORE") )
       SendDlgItemMessageA(hDlg, 1010, 0x14Eu, v21, 0);
     v22 = dword_45B8E4;
     v23 = dword_45B8E4 << 10;
-    *(int *)((char *)byte_8A9540 + v23) = *(_DWORD *)aSpucore;
-    *(int *)((char *)&unk_8A9544 + v23) = *(_DWORD *)&aSpucore[4];
+    *(_DWORD *)&byte_8A9540[v23] = *(_DWORD *)"SPUCORE";
+    strcpy(&byte_8A9544[v23], "ORE");
     dword_45B8E4 = v22 + 1;
     do
     {
@@ -85,7 +85,7 @@ INT_PTR __stdcall sub_407780(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         PSEgetLibType = GetProcAddress(LibraryA, aPsegetlibtype);
         PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v25, aPsegetlibname);
         PSEgetLibVersion = GetProcAddress(v25, aPsegetlibversi);
-        unk_8A94C4 = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+        ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
@@ -93,19 +93,19 @@ INT_PTR __stdcall sub_407780(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
             if ( PSEgetLibVersion )
             {
               v27 = PSEgetLibVersion();
-              v28 = unk_8A94C4(v27);
+              v28 = ::PSEgetLibVersion(v27);
               v29 = (const char *)PSEgetLibName(BYTE1(v28));
               sprintf(lParam, "%s %d.%d", v29, v42, v43);
               if ( PSEgetLibType() == 4 )
               {
                 v30 = v20(v19, 1010, 0x143u, 0, (LPARAM)lParam);
-                if ( !strcmp((const char *)&byte_8B1D80, FindFileData.cFileName) )
+                if ( !strcmp((const char *)SoundPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(v19, 1010, 0x14Eu, v30, 0);
                 v31 = dword_45B8E4;
                 if ( v30 == dword_45B8E4 )
                 {
                   cFileName = FindFileData.cFileName;
-                  v33 = (char *)byte_8A9540 + (dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName;
+                  v33 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
                     v34 = *cFileName;
@@ -118,7 +118,7 @@ INT_PTR __stdcall sub_407780(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 {
                   if ( v30 < dword_45B8E4 )
                   {
-                    v35 = (char *)&byte_8A9140 + 1024 * dword_45B8E4;
+                    v35 = &byte_8A9140[1024 * dword_45B8E4];
                     v36 = dword_45B8E4 - v30;
                     do
                     {
@@ -140,7 +140,7 @@ INT_PTR __stdcall sub_407780(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                   do
                   {
                     v41 = *v40;
-                    v40[(_DWORD)byte_8A9540 + v39] = *v40;
+                    byte_8A9540[v39 + (_DWORD)v40] = *v40;
                     ++v40;
                   }
                   while ( v41 );
@@ -171,12 +171,12 @@ INT_PTR __stdcall sub_407780(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           return 0;
         if ( v10 >= dword_45B8E4 )
           return 0;
-        v11 = (const char *)&byte_8A9540[256 * v10];
-        if ( !strcmp(v11, aSpucore) )
+        v11 = &byte_8A9540[1024 * v10];
+        if ( !strcmp(v11, "SPUCORE") )
           return 0;
         sprintf(LibFileName, "%s%s", v44, v11);
         v12 = LoadLibraryA(LibFileName);
-        GPUtest_0 = GetProcAddress(v12, aSputest);
+        GPUtest_0 = GetProcAddress(v12, "SPUtest");
         GPUtest_0();
         result = 0;
         break;
@@ -184,38 +184,38 @@ INT_PTR __stdcall sub_407780(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         v13 = SendDlgItemMessageA(hDlg, 1010, 0x147u, 0, 0);
         if ( v13 == -1 || v13 >= dword_45B8E4 )
           return 0;
-        v14 = (const char *)&byte_8A9540[256 * v13];
-        if ( !strcmp(v14, aSpucore) )
+        v14 = &byte_8A9540[1024 * v13];
+        if ( !strcmp(v14, "SPUCORE") )
         {
-          DialogBoxParamA(g_hInstance, aIddSound9x, hDlg, spucore_configure_dialog_callback, 0);
+          DialogBoxParamA(g_hInstance, "IDD_SOUND9X", hDlg, spucore_configure_dialog_callback, 0);
         }
         else
         {
           sprintf(LibFileName, "%s%s", v44, v14);
           v15 = LoadLibraryA(LibFileName);
-          GPUconfigure_0 = GetProcAddress(v15, aSpuconfigure);
+          GPUconfigure_0 = GetProcAddress(v15, "SPUconfigure");
           GPUconfigure_0();
         }
         result = 0;
         break;
       case 1013:
-        v16 = SendDlgItemMessageA(hDlg, 1010, 0x147u, 0, 0);
+        v16 = SendDlgItemMessageA(hDlg, 1010, CB_GETCURSEL, 0, 0);
         if ( v16 != -1 && v16 < dword_45B8E4 )
         {
-          v17 = (const char *)&byte_8A9540[256 * v16];
-          if ( strcmp(v17, aSpucore) )
+          v17 = &byte_8A9540[1024 * v16];
+          if ( strcmp(v17, "SPUCORE") )
           {
             sprintf(LibFileName, "%s%s", v44, v17);
             v18 = LoadLibraryA(LibFileName);
-            GPUabout_0 = GetProcAddress(v18, aSpuabout);
+            GPUabout_0 = GetProcAddress(v18, "SPUabout");
             GPUabout_0();
           }
         }
         return 0;
       case 1014:
-        v8 = SendDlgItemMessageA(hDlg, 1010, 0x147u, 0, 0);
+        v8 = SendDlgItemMessageA(hDlg, 1010, CB_GETCURSEL, 0, 0);
         if ( v8 != -1 && v8 < dword_45B8E4 )
-          sprintf((char *const)&byte_8B1D80, "%s", (const char *)&byte_8A9540[256 * v8]);
+          sprintf((char *const)SoundPlugin, "%s", &byte_8A9540[1024 * v8]);
         sound_enabled = SendDlgItemMessageA(hDlg, 1005, 0xF0u, 0, 0);
         sound_use_xa = SendDlgItemMessageA(hDlg, 1006, 0xF0u, 0, 0);
         sound_use_cdda = SendDlgItemMessageA(hDlg, 1009, 0xF0u, 0, 0);

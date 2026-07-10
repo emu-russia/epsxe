@@ -73,13 +73,13 @@ int __cdecl sub_403C60(_DWORD *a1, int a2, int a3, int a4)
   if ( !v9 )
   {
     *a1 = 37800;
-    dword_4FC49C();
+    spu_set_adpcm_flag_cb();
     return 0;
   }
   if ( v9 == 1 )
     *a1 = 18900;
   else
     *a1 = 0;
-  dword_4FC49C();
+  spu_set_adpcm_flag_cb();
   return 0;
 }

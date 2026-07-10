@@ -29,7 +29,7 @@ char sub_42F240()
       fatal_error_with_message_box(aNetplaySoundEn, Buffer[0]);
     if ( sound_enabled )
     {
-      if ( !strncmp(aSpucore, (const char *)&byte_8B1D80, 7u) )
+      if ( !strncmp(aSpucore, (const char *)&SoundPlugin, 7u) )
       {
         sprintf(Buffer, aSpucore140);
         if ( (unsigned __int8)NETcompareData(Buffer, 10) )
@@ -37,7 +37,7 @@ char sub_42F240()
       }
       else
       {
-        sprintf(Buffer, "%s%s", aPlugins, (const char *)&byte_8B1D80);
+        sprintf(Buffer, "%s%s", aPlugins, (const char *)&SoundPlugin);
         v1 = fopen(Buffer, Mode);
         v2 = v1;
         if ( v1 )

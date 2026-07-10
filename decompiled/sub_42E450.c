@@ -12,7 +12,7 @@ char sub_42E450()
     {
       *(_DWORD *)dword_516500 &= ~0x1000000u;
       byte_50C214 = -1;
-      result = dma_assert_int(2);
+      result = dma_assert_int(2u);
       byte_50C216 = -2;
     }
   }

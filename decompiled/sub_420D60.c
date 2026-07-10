@@ -1,12 +1,12 @@
 #include "pch.h"
-char __cdecl sub_420D60(char a1, _BYTE *a2)
+char __cdecl sub_420D60(char a1, char *a2)
 {
   int v2; // eax
 
   LOBYTE(v2) = a1;
   if ( !a1 )
     LOBYTE(sio0_mode_reg) = sio0_mode_reg | 2;
-  *((_BYTE *)&byte_52670C + (unsigned __int8)dword_526810 + 3) = *a2;
+  byte_52670C[(unsigned __int8)dword_526810 + 3] = *a2;
   LOBYTE(dword_526810) = dword_526810 + 1;
   if ( a1 )
   {

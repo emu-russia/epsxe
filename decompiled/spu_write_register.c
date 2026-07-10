@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_40BB80(unsigned int a1, unsigned __int16 a2)
+char __cdecl spu_write_register(unsigned int a1, unsigned __int16 a2)
 {
   char result; // al
 
@@ -100,7 +100,7 @@ LABEL_11:
         break;
       default:
 LABEL_26:
-        *(__int16 *)((char *)&unk_8A8084 + (a1 & 0x1FF)) = a2;
+        *(_WORD *)((char *)&unk_8A8084 + (a1 & 0x1FF)) = a2;
         result = a1;
         break;
     }

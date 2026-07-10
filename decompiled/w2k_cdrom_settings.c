@@ -1,5 +1,5 @@
 #include "pch.h"
-INT_PTR __stdcall sub_406DD0(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   LRESULT v5; // eax
   LRESULT v6; // eax
@@ -10,23 +10,23 @@ INT_PTR __stdcall sub_406DD0(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   if ( a2 == 272 )
   {
     sprintf(lParam, aFirstcdrom);
-    v6 = SendDlgItemMessageA(hDlg, 1133, 0x143u, 0, (LPARAM)lParam);
+    v6 = SendDlgItemMessageA(hDlg, 1133, CB_ADDSTRING, 0, (LPARAM)lParam);
     if ( !cdrom_letter )
-      SendDlgItemMessageA(hDlg, 1133, 0x14Eu, v6, 0);
+      SendDlgItemMessageA(hDlg, 1133, CB_SETCURSEL, v6, 0);
     for ( i = 65; i <= 90; ++i )
     {
       sprintf(lParam, "%c:\\", i);
       if ( GetDriveTypeA(lParam) == 5 )
       {
         sprintf(lParam, "--%c:--", i);
-        v8 = SendDlgItemMessageA(hDlg, 1133, 0x143u, 0, (LPARAM)lParam);
+        v8 = SendDlgItemMessageA(hDlg, 1133, CB_ADDSTRING, 0, (LPARAM)lParam);
         if ( i == cdrom_letter )
-          SendDlgItemMessageA(hDlg, 1133, 0x14Eu, v8, 0);
+          SendDlgItemMessageA(hDlg, 1133, CB_SETCURSEL, v8, 0);
       }
     }
-    SendDlgItemMessageA(hDlg, 1139, 0xF1u, (unsigned __int8)SubchannelW2kCdromEnabled, 0);
-    SendDlgItemMessageA(hDlg, 1140, 0xF1u, (unsigned __int8)SubchannelW2kCaching, 0);
-    SendDlgItemMessageA(hDlg, 1141, 0xF1u, (unsigned __int8)SubchannelW2kCachingLG, 0);
+    SendDlgItemMessageA(hDlg, 1139, BM_SETCHECK, (unsigned __int8)SubchannelW2kCdromEnabled, 0);
+    SendDlgItemMessageA(hDlg, 1140, BM_SETCHECK, (unsigned __int8)SubchannelW2kCaching, 0);
+    SendDlgItemMessageA(hDlg, 1141, BM_SETCHECK, (unsigned __int8)SubchannelW2kCachingLG, 0);
     return 1;
   }
   else
@@ -35,7 +35,7 @@ INT_PTR __stdcall sub_406DD0(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       return 0;
     if ( (unsigned __int16)a3 == 1134 )
     {
-      v5 = SendDlgItemMessageA(hDlg, 1133, 0x147u, 0, 0);
+      v5 = SendDlgItemMessageA(hDlg, 1133, CB_GETCURSEL, 0, 0);
       if ( v5 != -1 )
       {
         SendDlgItemMessageA(hDlg, 1133, 0x148u, v5, (LPARAM)lParam);
@@ -44,9 +44,9 @@ INT_PTR __stdcall sub_406DD0(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         else
           sscanf(lParam, "--%c:--", &cdrom_letter);
       }
-      SubchannelW2kCdromEnabled = SendDlgItemMessageA(hDlg, 1139, 0xF0u, 0, 0);
-      SubchannelW2kCaching = SendDlgItemMessageA(hDlg, 1140, 0xF0u, 0, 0);
-      SubchannelW2kCachingLG = SendDlgItemMessageA(hDlg, 1141, 0xF0u, 0, 0);
+      SubchannelW2kCdromEnabled = SendDlgItemMessageA(hDlg, 1139, BM_GETCHECK, 0, 0);
+      SubchannelW2kCaching = SendDlgItemMessageA(hDlg, 1140, BM_GETCHECK, 0, 0);
+      SubchannelW2kCachingLG = SendDlgItemMessageA(hDlg, 1141, BM_GETCHECK, 0, 0);
       EndDialog(hDlg, 1);
       cdrom_set_letter();
       return 1;

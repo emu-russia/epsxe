@@ -1,14 +1,14 @@
 #include "pch.h"
 int __cdecl sub_41C220(int a1, unsigned int *a2, unsigned int a3, const char *a4, int a5)
 {
-  int v5; // eax
+  unsigned int v5; // eax
   int v6; // eax
-  unsigned int v7; // edx
-  int v8; // eax
+  int v7; // edx
+  unsigned int v8; // eax
   unsigned int v9; // edx
-  int v10; // edx
-  int v12; // edx
-  int v13; // edx
+  unsigned int v10; // edx
+  unsigned int v12; // edx
+  unsigned int v13; // edx
 
   if ( strncmp((const char *)(a1 + *a2), aData, 4u) )
   {

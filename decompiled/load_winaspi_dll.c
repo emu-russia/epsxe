@@ -5,11 +5,11 @@ FARPROC load_winaspi_dll()
   FARPROC result; // eax
 
   LibraryA = LoadLibraryA(aWNASPI32DLL);
-  hLibModule = LibraryA;
+  hCdrModule = LibraryA;
   if ( !LibraryA )
     fatal_error_with_message_box(aErrorLoadingWn);
   GetASPI32SupportInfo = GetProcAddress(LibraryA, aGetaspi32suppo);
-  result = GetProcAddress(hLibModule, aSendaspi32comm);
+  result = GetProcAddress(hCdrModule, aSendaspi32comm);
   dword_4FFF68 = (int (__cdecl *)(_DWORD))result;
   if ( !GetASPI32SupportInfo || !result )
     fatal_error_with_message_box(aErrorLoadingWn_0);

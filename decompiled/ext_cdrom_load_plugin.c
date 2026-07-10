@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_430230()
+char ext_cdrom_load_plugin()
 {
   unsigned __int8 v0; // bl
   int v1; // esi
@@ -15,14 +15,14 @@ char sub_430230()
   int v12; // [esp+400h] [ebp-8h]
   int v13; // [esp+404h] [ebp-4h]
 
-  sprintf(LibFileName, "%s%s", aPlugins, (const char *)&byte_8B2180);
+  sprintf(LibFileName, "%s%s", aPlugins, (const char *)CdromPlugin);
   if ( byte_456D70 )
   {
     if ( byte_456D70 == 1 )
       sub_42F7E0(byte_505420);
     if ( dword_50C37C == 3 )
     {
-      sub_42FA70(bin_iso_file);
+      iso_load(bin_iso_file);
       sound_use_cdda = 0;
       byte_505542[0] = 0;
       byte_505544[0] = 0;
@@ -32,78 +32,79 @@ char sub_430230()
     }
     else
     {
-      if ( !strcmp((const char *)&byte_8B2180, aNull) )
-        fatal_error_with_message_box(aErrorCdromDoes);
+      if ( !strcmp((const char *)CdromPlugin, "NULL") )
+        fatal_error_with_message_box(" * !Error cdrom doesn't configurated \n"
+                                     " * !Go Config->Cdrom and choose a plugin. \n");
       LibraryA = LoadLibraryA(LibFileName);
-      hLibModule = LibraryA;
+      hCdrModule = LibraryA;
       if ( !LibraryA )
         fatal_error_with_message_box(" * Error loading [%s] \n", LibFileName);
-      CDRconfigure = GetProcAddress(LibraryA, aCdrconfigure);
+      CDRconfigure = GetProcAddress(LibraryA, "CDRconfigure");
       ::CDRconfigure = (int)CDRconfigure;
       if ( CDRconfigure )
       {
-        CDRconfigure = GetProcAddress(hLibModule, aCdrtest);
+        CDRconfigure = GetProcAddress(hCdrModule, "CDRtest");
         CDRtest = (int)CDRconfigure;
         if ( CDRconfigure )
         {
-          CDRconfigure = GetProcAddress(hLibModule, aCdrinit);
+          CDRconfigure = GetProcAddress(hCdrModule, "CDRinit");
           CDRinit = CDRconfigure;
           if ( CDRconfigure )
           {
-            CDRconfigure = GetProcAddress(hLibModule, aCdrshutdown);
-            CDRshutdown = (int)CDRconfigure;
+            CDRconfigure = GetProcAddress(hCdrModule, "CDRshutdown");
+            CDRshutdown = CDRconfigure;
             if ( CDRconfigure )
             {
-              CDRconfigure = GetProcAddress(hLibModule, aCdropen);
+              CDRconfigure = GetProcAddress(hCdrModule, "CDRopen");
               CDRopen = CDRconfigure;
               if ( CDRconfigure )
               {
-                CDRconfigure = GetProcAddress(hLibModule, aCdrclose);
-                CDRclose = (int)CDRconfigure;
+                CDRconfigure = GetProcAddress(hCdrModule, "CDRclose");
+                CDRclose = CDRconfigure;
                 if ( CDRconfigure )
                 {
-                  CDRconfigure = GetProcAddress(hLibModule, aCdrgettn);
+                  CDRconfigure = GetProcAddress(hCdrModule, "CDRgetTN");
                   CDRgetTN = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))CDRconfigure;
                   if ( CDRconfigure )
                   {
-                    CDRconfigure = GetProcAddress(hLibModule, aCdrgettd);
+                    CDRconfigure = GetProcAddress(hCdrModule, "CDRgetTD");
                     CDRgetTD = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))CDRconfigure;
                     if ( CDRconfigure )
                     {
-                      CDRconfigure = GetProcAddress(hLibModule, aCdrreadtrack);
-                      CDRreadTrack = (int)CDRconfigure;
+                      CDRconfigure = GetProcAddress(hCdrModule, "CDRreadTrack");
+                      CDRreadTrack = (int (__stdcall *)(_DWORD))CDRconfigure;
                       if ( CDRconfigure )
                       {
-                        CDRconfigure = GetProcAddress(hLibModule, aCdrgetbuffer);
-                        CDRgetBuffer = (int)CDRconfigure;
+                        CDRconfigure = GetProcAddress(hCdrModule, "CDRgetBuffer");
+                        CDRgetBuffer = CDRconfigure;
                         if ( CDRconfigure )
                         {
-                          CDRplay = (int)GetProcAddress(hLibModule, aCdrplay);
-                          CDRstop = (int)GetProcAddress(hLibModule, aCdrstop);
+                          CDRplay = (int)GetProcAddress(hCdrModule, "CDRplay");
+                          CDRstop = GetProcAddress(hCdrModule, "CDRstop");
                           if ( use_subchannel )
                           {
-                            CDRgetBufferSub = (int)GetProcAddress(hLibModule, aCdrgetbuffersu);
+                            CDRgetBufferSub = GetProcAddress(hCdrModule, "CDRgetBufferSub");
                             if ( CDRgetBufferSub )
                               BYTE1(dword_455945) = 0;
                           }
                           else
                           {
-                            CDRgetBufferSub = 0;
+                            CDRgetBufferSub = nullptr;
                           }
-                          dbg_print(aInitCdrom);
+                          dbg_print(" * Init cdrom ... ");
                           CDRinit();
-                          dbg_print(aOk_0);
+                          dbg_print("ok\n");
                           if ( nocd )
                           {
-                            dbg_print(aCdromOpen);
+                            dbg_print(" * Cdrom open... ");
                             ShowCursor(1);
                             CDRopen();
                             ShowCursor(0);
-                            dbg_print(aOk);
+                            dbg_print(" ok \n");
                           }
                           v13 = v6;
-                          LOBYTE(CDRconfigure) = (_BYTE)hLibModule;
-                          if ( hLibModule )
+                          LOBYTE(CDRconfigure) = (_BYTE)hCdrModule;
+                          if ( hCdrModule )
                           {
                             dword_505528 = 0;
                             word_50552C = 0;

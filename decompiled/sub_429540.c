@@ -2,7 +2,7 @@
 int __cdecl sub_429540(int a1)
 {
   int result; // eax
-  int *v2; // ecx
+  __int16 *v2; // ecx
   int v3; // edx
   _DWORD v4[63]; // [esp+10h] [ebp-200h]
   _DWORD v5[65]; // [esp+10Ch] [ebp-104h]
@@ -136,12 +136,11 @@ int __cdecl sub_429540(int a1)
   v4[61] = 58;
   v4[62] = 62;
   v5[0] = 63;
-  v2 = &dword_5120C0;
+  v2 = dword_5120C0;
   do
   {
     v3 = v4[result];
-    v2 = (int *)((char *)v2 + 2);
-    *((_WORD *)v2 - 1) = (v5[++result] * *(unsigned __int8 *)(v3 + a1) + 2048) >> 12;
+    *v2++ = (v5[++result] * *(unsigned __int8 *)(v3 + a1) + 2048) >> 12;
   }
   while ( (int)v2 < (int)dword_512140 );
   return result * 4;

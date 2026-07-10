@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int sub_41E430()
+unsigned int op_DIVU()
 {
   int v0; // ecx
   unsigned int v1; // esi
@@ -11,15 +11,15 @@ unsigned int sub_41E430()
   v1 = cpu_gpr[v0];
   if ( v1 )
   {
-    LODWORD(cpu_LO) = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] / v1;
+    cpu_LO = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] / v1;
     result = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] / (unsigned int)cpu_gpr[v0];
-    HIDWORD(cpu_LO) = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] % (unsigned int)cpu_gpr[v0];
+    cpu_HI = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] % (unsigned int)cpu_gpr[v0];
   }
   else
   {
-    HIDWORD(cpu_LO) = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
-    LODWORD(cpu_LO) = -1;
-    return dbg_print(aDivisionBy0);
+    cpu_HI = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
+    cpu_LO = -1;
+    return dbg_print(" division by 0 \n");
   }
   return result;
 }

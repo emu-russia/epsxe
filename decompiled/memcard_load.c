@@ -12,10 +12,10 @@ char memcard_load()
   LOBYTE(v0) = byte_4FC460;
   if ( !byte_4FC460 )
   {
-    if ( !strcmp((const char *)&ram[258248], aNull) )
-      sprintf((char *const)&ram[258248], "%s", aMemcardsEpsxe0);
-    if ( !strcmp((const char *)&ram[258504], aNull) )
-      sprintf((char *const)&ram[258504], "%s", aMemcardsEpsxe0_0);
+    if ( !strcmp((const char *)Memcard1, "NULL") )
+      sprintf((char *const)Memcard1, "%s", "memcards\\epsxe000.mcr");
+    if ( !strcmp((const char *)Memcard2, "NULL") )
+      sprintf((char *const)Memcard2, "%s", "memcards\\epsxe001.mcr");
     for ( i = 0; i < 0x20000; ++i )
     {
       byte_546860[i] = 0;
@@ -53,7 +53,7 @@ char memcard_load()
       byte_547060[k + 9] = -1;
       byte_527069[k] = -1;
     }
-    v4 = fopen((const char *)&ram[258248], Mode);
+    v4 = fopen((const char *)Memcard1, "rb");
     v5 = v4;
     if ( v4 )
     {
@@ -67,7 +67,7 @@ char memcard_load()
     {
       Offset = 0;
     }
-    v0 = fopen((const char *)&ram[258504], Mode);
+    v0 = fopen((const char *)Memcard2, "rb");
     v6 = v0;
     if ( v0 )
     {

@@ -1,8 +1,8 @@
 #include "pch.h"
-int sub_41ED00()
+unsigned int sub_41ED00()
 {
   unsigned int v0; // eax
-  int result; // eax
+  unsigned int result; // eax
 
   v0 = dword_50C2A4;
   if ( (dword_50C2A4 & 1) != 0 )

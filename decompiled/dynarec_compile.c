@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl dynarec_compile(unsigned int ArgList, int a2)
+int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
 {
   char *v2; // ebx
   unsigned int v3; // esi
@@ -89,7 +89,7 @@ int __cdecl dynarec_compile(unsigned int ArgList, int a2)
   _BYTE *v89; // ecx
   int v90; // eax
   char v91; // bl
-  char (*v92)(); // ecx
+  char *v92; // ecx
   int v93; // eax
   char v94; // cl
   int v95; // eax
@@ -98,7 +98,7 @@ int __cdecl dynarec_compile(unsigned int ArgList, int a2)
   char *v98; // eax
   unsigned __int8 v99; // al
   int v100; // eax
-  char (*v101)(void); // edx
+  int (*v101)(); // edx
   char v102; // cl
   char v103; // al
   char v104; // cl
@@ -188,7 +188,7 @@ int __cdecl dynarec_compile(unsigned int ArgList, int a2)
     v6 = (ArgList & 0xFFF00000) == 0xBFC00000 ? (ArgList & 0x7FFFF) + 0x200000 : ArgList & 0x1FFFFF;
     if ( *(LPVOID *)((char *)dword_5164C4 + v6) != dword_5164C0 && !v157 )
       break;
-    v7 = *(_DWORD *)((unsigned __int16)ArgList + ram[HIWORD(ArgList)]);
+    v7 = *(_DWORD *)((unsigned __int16)ArgList + mem_read_hooks[HIWORD(ArgList)]);
     if ( a2 != 1 )
     {
       *(_DWORD *)((char *)dword_5164C4 + v6) = v2;
@@ -1065,10 +1065,10 @@ LABEL_151:
         if ( a2 == 1
           || BYTE1(dword_455945)
           && v7 == 339804155
-          && *(_DWORD *)((unsigned __int16)(ArgList - 8) + ram[(ArgList - 8) >> 16]) == 4395045
-          && !*(_DWORD *)((unsigned __int16)(ArgList - 12) + ram[(ArgList - 12) >> 16])
-          && (*(_DWORD *)((unsigned __int16)(ArgList - 16) + ram[(ArgList - 16) >> 16]) & 0xFFFF0000) == 0x8C830000
-          && (*(_DWORD *)((unsigned __int16)(ArgList - 20) + ram[(ArgList - 20) >> 16]) & 0xFFFF0000) == 0x8CA20000 )
+          && *(_DWORD *)((unsigned __int16)(ArgList - 8) + mem_read_hooks[(ArgList - 8) >> 16]) == 4395045
+          && !*(_DWORD *)((unsigned __int16)(ArgList - 12) + mem_read_hooks[(ArgList - 12) >> 16])
+          && (*(_DWORD *)((unsigned __int16)(ArgList - 16) + mem_read_hooks[(ArgList - 16) >> 16]) & 0xFFFF0000) == 0x8C830000
+          && (*(_DWORD *)((unsigned __int16)(ArgList - 20) + mem_read_hooks[(ArgList - 20) >> 16]) & 0xFFFF0000) == 0x8CA20000 )
         {
           goto LABEL_422;
         }
@@ -1408,11 +1408,11 @@ LABEL_273:
               *(_WORD *)(dword_4FC4E0 + 5) = 18119;
               *(_BYTE *)(dword_4FC4E0 + 7) = -116;
               *(_DWORD *)(dword_4FC4E0 + 8) = v7;
-              v92 = (char (*)())op_MTC0;
+              v92 = (char *)op_MTC0;
 LABEL_242:
               *(_BYTE *)(dword_4FC4E0 + 12) = -24;
 LABEL_243:
-              *(_DWORD *)(dword_4FC4E0 + 13) = (char *)v92 - dword_4FC4E0 - 17;
+              *(_DWORD *)(dword_4FC4E0 + 13) = &v92[-dword_4FC4E0 - 17];
               *(_BYTE *)(dword_4FC4E0 + 17) = 94;
               *(_BYTE *)(dword_4FC4E0 + 18) = 95;
               *(_BYTE *)(dword_4FC4E0 + 19) = 79;
@@ -1564,10 +1564,11 @@ LABEL_253:
         {
           case 0u:
             if ( (v7 == 1208125440 || v7 == 1208127488 || v7 == 1208129536)
-              && *(_UNKNOWN **)((unsigned __int16)ArgList + ram[HIWORD(ArgList)]) == &MEMORY[0x5E182A] )
+              && *(int **)((unsigned __int16)ArgList + mem_read_hooks[HIWORD(ArgList)]) == (int *)((char *)&ram[43642]
+                                                                                                 + 2) )
             {
               v2[18] = -95;
-              *(_DWORD *)(dword_4FC4E0 + 19) = (char *)unk_8A7F00 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
+              *(_DWORD *)(dword_4FC4E0 + 19) = (char *)&word_8A7F00 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
               *(_WORD *)(dword_4FC4E0 + 23) = 18057;
               *(_BYTE *)(dword_4FC4E0 + 25) = 4 * (BYTE2(v7) & 0x1F);
               *(_BYTE *)(dword_4FC4E0 + 26) = 79;
@@ -1588,10 +1589,10 @@ LABEL_253:
             }
             if ( a2 != 1 )
               goto LABEL_265;
-            v95 = (unsigned __int16)*(_DWORD *)((unsigned __int16)(ArgList - 8) + ram[(ArgList - 8) >> 16]);
+            v95 = (unsigned __int16)*(_DWORD *)((unsigned __int16)(ArgList - 8) + mem_read_hooks[(ArgList - 8) >> 16]);
             if ( (v95 & 0x8000) != 0 )
               v95 |= 0xFFFF0000;
-            if ( *(_DWORD *)((unsigned __int16)(ArgList + 4 * v95 - 4) + ram[(ArgList + 4 * v95 - 4) >> 16]) != 1216872448 )
+            if ( *(_DWORD *)((unsigned __int16)(ArgList + 4 * v95 - 4) + mem_read_hooks[(ArgList + 4 * v95 - 4) >> 16]) != 1216872448 )
             {
               v2 = (char *)dword_4FC4E0;
 LABEL_265:
@@ -1602,7 +1603,7 @@ LABEL_265:
                 if ( v96 != 124 && v96 != 116 )
                 {
                   *v2 = -95;
-                  *(_DWORD *)(dword_4FC4E0 + 1) = (char *)unk_8A7F00 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
+                  *(_DWORD *)(dword_4FC4E0 + 1) = (char *)&word_8A7F00 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
                   goto LABEL_203;
                 }
                 *(_WORD *)v2 = 32393;
@@ -1613,7 +1614,7 @@ LABEL_265:
                 *(_BYTE *)(dword_4FC4E0 + 7) = -116;
                 *(_DWORD *)(dword_4FC4E0 + 8) = v7;
                 *(_BYTE *)(dword_4FC4E0 + 12) = -24;
-                v92 = op_GTE_opcode;
+                v92 = (char *)op_GTE_opcode;
                 goto LABEL_243;
               }
               *v2 = 79;
@@ -1625,7 +1626,7 @@ LABEL_265:
             if ( v13 )
             {
               *v2 = -95;
-              *(_DWORD *)(dword_4FC4E0 + 1) = (char *)unk_8A7F80 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
+              *(_DWORD *)(dword_4FC4E0 + 1) = (char *)&word_8A7F80 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
               goto LABEL_273;
             }
 LABEL_33:
@@ -1633,31 +1634,31 @@ LABEL_33:
             ++dword_4FC4E0;
             goto LABEL_422;
           case 4u:
-            v97 = (v7 >> 11) & 0x1F;
-            if ( v97 >= 0xEu && v97 <= 0x13u || v97 == 28 )
+            v97 = 4 * ((v7 >> 11) & 0x1F);
+            if ( v97 >= 0x38u && v97 <= 0x4Cu || v97 == 112 )
               goto LABEL_304;
             *v2 = 79;
             *(_WORD *)(dword_4FC4E0 + 1) = 18059;
             *(_BYTE *)(dword_4FC4E0 + 3) = 4 * (BYTE2(v7) & 0x1F);
-            if ( v97 == 1 || v97 == 3 || v97 == 5 || v97 == 8 || v97 == 9 || v97 == 10 || v97 == 11 )
+            if ( v97 == 4 || v97 == 12 || v97 == 20 || v97 == 32 || v97 == 36 || v97 == 40 || v97 == 44 )
             {
               *(_WORD *)(dword_4FC4E0 + 4) = -16625;
-              v98 = (char *)&unk_8A7F00[v97];
+              v98 = (char *)&word_8A7F00 + v97;
               goto LABEL_286;
             }
             *(_BYTE *)(dword_4FC4E0 + 4) = -93;
-            *(_DWORD *)(dword_4FC4E0 + 5) = &unk_8A7F00[v97];
+            *(_DWORD *)(dword_4FC4E0 + 5) = (char *)&word_8A7F00 + v97;
             dword_4FC4E0 += 9;
             goto LABEL_422;
           case 6u:
             *v2 = 79;
-            v99 = (v7 >> 11) & 0x1F;
+            v99 = 4 * ((v7 >> 11) & 0x1F);
             *(_WORD *)(dword_4FC4E0 + 1) = 18059;
             *(_BYTE *)(dword_4FC4E0 + 3) = 4 * (BYTE2(v7) & 0x1F);
-            if ( v99 == 4 || v99 == 12 || v99 == 20 || v99 == 26 || v99 == 27 || v99 == 29 || v99 == 30 )
+            if ( v99 == 16 || v99 == 48 || v99 == 80 || v99 == 104 || v99 == 108 || v99 == 116 || v99 == 120 )
             {
               *(_WORD *)(dword_4FC4E0 + 4) = -16625;
-              v98 = (char *)&unk_8A7F80[v99];
+              v98 = (char *)&word_8A7F80 + v99;
 LABEL_286:
               *(_BYTE *)(dword_4FC4E0 + 6) = -64;
               *(_BYTE *)(dword_4FC4E0 + 7) = -93;
@@ -1667,7 +1668,7 @@ LABEL_286:
             else
             {
               *(_BYTE *)(dword_4FC4E0 + 4) = -93;
-              *(_DWORD *)(dword_4FC4E0 + 5) = &unk_8A7F80[v99];
+              *(_DWORD *)(dword_4FC4E0 + 5) = (char *)&word_8A7F80 + v99;
               dword_4FC4E0 += 9;
             }
             goto LABEL_422;
@@ -1678,37 +1679,37 @@ LABEL_286:
               if ( v100 != 20971526 )
                 goto LABEL_304;
               *(_WORD *)v2 = 1479;
-              *(_DWORD *)(dword_4FC4E0 + 2) = &unk_8A7FFC;
+              *(_DWORD *)(dword_4FC4E0 + 2) = &dword_8A7FFC;
               *(_DWORD *)(dword_4FC4E0 + 6) = 0;
               *(_WORD *)(dword_4FC4E0 + 10) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 12) = 5;
-              *(_DWORD *)(dword_4FC4E0 + 13) = (char *)&unk_8A7F34 + 2;
+              *(_DWORD *)(dword_4FC4E0 + 13) = &unk_8A7F36;
               *(_WORD *)(dword_4FC4E0 + 17) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 19) = 13;
-              *(_DWORD *)(dword_4FC4E0 + 20) = (char *)&unk_8A7F38 + 2;
+              *(_DWORD *)(dword_4FC4E0 + 20) = &unk_8A7F3A;
               *(_WORD *)(dword_4FC4E0 + 24) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 26) = 21;
-              *(_DWORD *)(dword_4FC4E0 + 27) = &unk_8A7F30;
+              *(_DWORD *)(dword_4FC4E0 + 27) = &word_8A7F30;
               *(_WORD *)(dword_4FC4E0 + 31) = -16085;
               *(_WORD *)(dword_4FC4E0 + 33) = -20721;
               *(_BYTE *)(dword_4FC4E0 + 35) = -62;
               *(_WORD *)(dword_4FC4E0 + 36) = -10101;
               *(_WORD *)(dword_4FC4E0 + 38) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 40) = 5;
-              *(_DWORD *)(dword_4FC4E0 + 41) = (char *)&unk_8A7F30 + 2;
+              *(_DWORD *)(dword_4FC4E0 + 41) = &unk_8A7F32;
               *(_WORD *)(dword_4FC4E0 + 45) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 47) = 21;
-              *(_DWORD *)(dword_4FC4E0 + 48) = &unk_8A7F34;
+              *(_DWORD *)(dword_4FC4E0 + 48) = &word_8A7F34;
               *(_WORD *)(dword_4FC4E0 + 52) = -14293;
               *(_WORD *)(dword_4FC4E0 + 54) = -20721;
               *(_BYTE *)(dword_4FC4E0 + 56) = -54;
               *(_WORD *)(dword_4FC4E0 + 57) = -9981;
               *(_WORD *)(dword_4FC4E0 + 59) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 61) = 13;
-              *(_DWORD *)(dword_4FC4E0 + 62) = (char *)&unk_8A7F34 + 2;
+              *(_DWORD *)(dword_4FC4E0 + 62) = &unk_8A7F36;
               *(_WORD *)(dword_4FC4E0 + 66) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 68) = 21;
-              *(_DWORD *)(dword_4FC4E0 + 69) = &unk_8A7F38;
+              *(_DWORD *)(dword_4FC4E0 + 69) = &word_8A7F38;
               *(_WORD *)(dword_4FC4E0 + 73) = -16085;
               *(_WORD *)(dword_4FC4E0 + 75) = -20721;
               *(_BYTE *)(dword_4FC4E0 + 77) = -62;
@@ -1724,7 +1725,7 @@ LABEL_286:
             {
               if ( (v7 & 0x1FFFFFF) == 0x280030 )
               {
-                v101 = (char (*)(void))sub_40FE00;
+                v101 = sub_40FE00;
               }
               else
               {
@@ -1738,7 +1739,7 @@ LABEL_304:
                   *(_WORD *)(dword_4FC4E0 + 5) = 18119;
                   *(_BYTE *)(dword_4FC4E0 + 7) = -116;
                   *(_DWORD *)(dword_4FC4E0 + 8) = v7;
-                  v92 = op_GTE_opcode;
+                  v92 = (char *)op_GTE_opcode;
                   goto LABEL_242;
                 }
                 v101 = gte_optimized_sub1;
@@ -1891,7 +1892,7 @@ LABEL_314:
           *(_BYTE *)(dword_4FC4E0 + 7) = 37;
           *(_DWORD *)(dword_4FC4E0 + 8) = 0x1FFFFF;
           *(_BYTE *)(dword_4FC4E0 + 12) = 5;
-          *(_DWORD *)(dword_4FC4E0 + 13) = ram_0;
+          *(_DWORD *)(dword_4FC4E0 + 13) = ram;
           *(_WORD *)(dword_4FC4E0 + 17) = 32653;
           *(_BYTE *)(dword_4FC4E0 + 19) = -(char)dword_455945;
           *(_WORD *)(dword_4FC4E0 + 20) = 139;
@@ -1916,7 +1917,7 @@ LABEL_314:
           *(_BYTE *)(dword_4FC4E0 + 7) = 37;
           *(_DWORD *)(dword_4FC4E0 + 8) = 0x1FFFFF;
           *(_BYTE *)(dword_4FC4E0 + 12) = 5;
-          *(_DWORD *)(dword_4FC4E0 + 13) = ram_0;
+          *(_DWORD *)(dword_4FC4E0 + 13) = ram;
           *(_WORD *)(dword_4FC4E0 + 17) = 7563;
           *(_DWORD *)(dword_4FC4E0 + 19) = &dword_455945;
           *(_WORD *)(dword_4FC4E0 + 23) = -1237;
@@ -1940,8 +1941,8 @@ LABEL_314:
       case 0x24u:
         if ( a2 == 1
           && v7 == -1820196858
-          && *(_DWORD *)((unsigned __int16)(ArgList - 8) + ram[(ArgList - 8) >> 16]) == 65011720
-          && *(_DWORD *)((unsigned __int16)(ArgList + 128) + ram[(ArgList + 128) >> 16]) == 608305167 )
+          && *(_DWORD *)((unsigned __int16)(ArgList - 8) + mem_read_hooks[(ArgList - 8) >> 16]) == 65011720
+          && *(_DWORD *)((unsigned __int16)(ArgList + 128) + mem_read_hooks[(ArgList + 128) >> 16]) == 608305167 )
         {
           dbg_print(aWarningSkullmo);
           goto LABEL_422;
@@ -2218,11 +2219,11 @@ LABEL_384:
         dword_4FC4E0 += 56;
         goto LABEL_422;
       case 0x32u:
-        v146 = BYTE2(v7) & 0x1F;
+        v146 = 4 * (BYTE2(v7) & 0x1F);
         v147 = (unsigned __int16)v7;
         if ( (v7 & 0x8000) != 0 )
           v147 = v7 | 0xFFFF0000;
-        if ( v146 >= 0xEu && v146 <= 0x13u || v146 == 28 )
+        if ( v146 >= 0x38u && v146 <= 0x4Cu || v146 == 112 )
         {
           *(_WORD *)v2 = 32393;
           *(_BYTE *)(dword_4FC4E0 + 2) = -112;
@@ -2240,23 +2241,23 @@ LABEL_384:
         *(_BYTE *)(dword_4FC4E0 + 7) = 4 * ((v7 >> 21) & 0x1F);
         *(_BYTE *)(dword_4FC4E0 + 8) = -24;
         *(_DWORD *)(dword_4FC4E0 + 9) = (char *)dword_5164C0 - dword_4FC4E0 + 435;
-        if ( v146 == 7 )
+        if ( v146 == 28 )
         {
 LABEL_355:
           dword_4FC4E0 += 13;
         }
-        else if ( v146 == 1 || v146 == 3 || v146 == 5 || v146 == 8 || v146 == 9 || v146 == 10 || v146 == 11 )
+        else if ( v146 == 4 || v146 == 12 || v146 == 20 || v146 == 32 || v146 == 36 || v146 == 40 || v146 == 44 )
         {
           *(_WORD *)(dword_4FC4E0 + 13) = -16625;
           *(_BYTE *)(dword_4FC4E0 + 15) = -64;
           *(_BYTE *)(dword_4FC4E0 + 16) = -93;
-          *(_DWORD *)(dword_4FC4E0 + 17) = &unk_8A7F00[v146];
+          *(_DWORD *)(dword_4FC4E0 + 17) = (char *)&word_8A7F00 + v146;
           dword_4FC4E0 += 21;
         }
         else
         {
           *(_BYTE *)(dword_4FC4E0 + 13) = -93;
-          *(_DWORD *)(dword_4FC4E0 + 14) = &unk_8A7F00[v146];
+          *(_DWORD *)(dword_4FC4E0 + 14) = (char *)&word_8A7F00 + v146;
           dword_4FC4E0 += 18;
         }
         goto LABEL_422;
@@ -2289,7 +2290,7 @@ LABEL_414:
           *v2 = -72;
           *(_DWORD *)(dword_4FC4E0 + 1) = v150;
           *(_WORD *)(dword_4FC4E0 + 5) = 7563;
-          *(_DWORD *)(dword_4FC4E0 + 7) = (char *)unk_8A7F00 + (unsigned __int8)(4 * (BYTE2(v7) & 0x1F));
+          *(_DWORD *)(dword_4FC4E0 + 7) = (char *)&word_8A7F00 + (unsigned __int8)(4 * (BYTE2(v7) & 0x1F));
           *(_WORD *)(dword_4FC4E0 + 11) = 17923;
           *(_BYTE *)(dword_4FC4E0 + 13) = 4 * ((v7 >> 21) & 0x1F);
           *(_BYTE *)(dword_4FC4E0 + 14) = -24;

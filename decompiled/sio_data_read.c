@@ -6,6 +6,6 @@ void sio_data_read()
     dword_4FD86C = 0;
     sub_421FD0();
   }
-  if ( MEMORY[0x52680F] != (_BYTE)dword_526810 && ++MEMORY[0x52680F] == (_BYTE)dword_526810 )
+  if ( byte_52670C[259] != (_BYTE)dword_526810 && ++byte_52670C[259] == (_BYTE)dword_526810 )
     LOBYTE(sio0_mode_reg) = sio0_mode_reg & 0xFD;
 }

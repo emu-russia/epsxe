@@ -1,7 +1,7 @@
 #include "pch.h"
 _BYTE *__cdecl sub_42EBF0(char *a1, int a2)
 {
-  _BYTE *v2; // esi
+  char *v2; // esi
   _BYTE *v3; // edx
   int v4; // ebp
   int v5; // edi
@@ -10,7 +10,7 @@ _BYTE *__cdecl sub_42EBF0(char *a1, int a2)
   unsigned __int8 v8; // cl
   char v9; // cl
   int v10; // edx
-  _BYTE *v11; // eax
+  char *v11; // eax
   int v12; // edx
   _BYTE *v13; // eax
   _BYTE *result; // eax
@@ -18,7 +18,7 @@ _BYTE *__cdecl sub_42EBF0(char *a1, int a2)
   _BYTE *v16; // eax
 
   v2 = a1 + 309;
-  draw_text_on_screen(aFreeSlot, a1);
+  draw_text_on_screen("FREE SLOT", a1);
   v3 = (char *)&unk_4560D0 + 120 * a2;
   v4 = 20;
   do

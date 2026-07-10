@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_433DB0()
+char cdrom_gettrackinfo_0()
 {
   HANDLE EventA; // esi
   char result; // al
@@ -59,19 +59,19 @@ char sub_433DB0()
       dbg_print(" * Track %d: ", (unsigned __int8)byte_4FFC46[8 * (unsigned __int8)v8]);
       if ( (byte_4FFC45[8 * v3] & 4) != 0 )
       {
-        dbg_print(aData_0);
+        dbg_print("(DATA)  -");
       }
       else
       {
-        dbg_print(aAudio);
+        dbg_print("(AUDIO) -");
         if ( !v2 )
           nocd = 2;
       }
-      sub_431110(&v7, 8 * v3 + 5241928);
+      sub_431110(&v7, (unsigned __int8 *)(8 * v3 + 5241928));
       v7 += 150;
       dbg_print(" Start %d: (%02d,%02d,%02d) - ", v3, (unsigned __int8)(v7 / 0x4B / 0x3C), v7 / 0x4B % 0x3C, v7 % 0x4B);
-      sub_431110(&v7, 8 * v3 + 5241928);
-      sub_431110(&v9, 8 * v3 + 5241936);
+      sub_431110(&v7, (unsigned __int8 *)(8 * v3 + 5241928));
+      sub_431110(&v9, (unsigned __int8 *)(8 * v3 + 5241936));
       dbg_print(" Length %02d:%02d\n", (v9 - v7) / 0x4B / 0x3C, (v9 - v7) / 0x4B % 0x3C);
       result = v6;
       LOBYTE(v8) = ++v2;

@@ -1,16 +1,14 @@
 #include "pch.h"
-char __cdecl sub_42FA70(char *FileName)
+char __cdecl iso_load(char *FileName)
 {
   FILE *v1; // eax
   char result; // al
   char v3; // al
-  char *v4; // ecx
-  char v5; // al
   int Offset; // [esp+4h] [ebp-404h] BYREF
   char Buffer[1024]; // [esp+8h] [ebp-400h] BYREF
 
-  dbg_print(aLoadingIsoForm);
-  v1 = fopen(FileName, Mode);
+  dbg_print(" * Loading ISO Format ");
+  v1 = fopen(FileName, "rb");
   dword_50A098 = v1;
   if ( !v1 )
     fatal_error_with_message_box(" * Error loading cdrombin [%s]\n", FileName);
@@ -26,7 +24,7 @@ char __cdecl sub_42FA70(char *FileName)
     if ( Offset == 33554944 )
     {
       dword_4FD9AC = 150 * dword_456D78;
-      dbg_print(aNrg2352);
+      dbg_print("[NRG2352] ");
     }
   }
   else
@@ -38,17 +36,17 @@ char __cdecl sub_42FA70(char *FileName)
     if ( Offset == 0x80000 )
     {
       dword_456D78 = 2336;
-      dbg_print(aNrg2336);
+      dbg_print("[NRG2336] ");
       goto LABEL_12;
     }
     if ( Offset != 0x200000 )
     {
 LABEL_11:
-      dbg_print(aBinImg2352);
+      dbg_print("[BIN/IMG2352] ");
     }
     else
     {
-      dbg_print(aCdi2336);
+      dbg_print("[CDI2336] ");
       dword_456D78 = 2336;
       dword_4FD9AC = 350400;
     }
@@ -63,19 +61,16 @@ LABEL_12:
     use_subchannel = 0;
     if ( v3 == 46 )
     {
-      v4 = &Buffer[strlen(Buffer) - 3];
-      v5 = byte_456E22;
-      *(_WORD *)v4 = word_456E20;
-      v4[2] = v5;
-      dword_505400 = fopen(Buffer, Mode);
+      qmemcpy(&Buffer[strlen(Buffer) - 3], "sub", 3);
+      dword_505400 = fopen(Buffer, "rb");
       if ( dword_505400 )
       {
         use_subchannel = 1;
-        dbg_print(aSubchannel);
+        dbg_print("(+subchannel) ");
         BYTE1(dword_455945) = 0;
       }
     }
-    return dbg_print(aOk_0);
+    return dbg_print("ok\n");
   }
   return result;
 }

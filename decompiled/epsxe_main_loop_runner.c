@@ -4,7 +4,7 @@ void __noreturn epsxe_main_loop_runner()
   if ( create_window_flag )
     create_main_window();
   alloc_console();
-  dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", aEpsxe, 1.6, 0, &byte_45B8CC);
+  dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &byte_45B8CC);
   old_auto_ppf_load = auto_ppf_load;
   while ( 1 )
   {
@@ -49,7 +49,7 @@ void __noreturn epsxe_main_loop_runner()
     else if ( dword_50C37C == 4 )
     {
       if ( BYTE1(dword_4F831C) )
-        epsxe_load_demo(aLibpsExe);
+        epsxe_load_demo("libps.exe");
       if ( touch_demo_file() )
         epsxe_load_zip();
     }

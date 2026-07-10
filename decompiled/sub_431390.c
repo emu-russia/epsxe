@@ -5,10 +5,10 @@ int sub_431390()
   FARPROC SendASPI32Command; // eax
 
   LibraryA = LoadLibraryA(aWNASPI32DLL);
-  hLibModule = LibraryA;
+  hCdrModule = LibraryA;
   if ( LibraryA
     && (GetASPI32SupportInfo = GetProcAddress(LibraryA, aGetaspi32suppo),
-        SendASPI32Command = GetProcAddress(hLibModule, aSendaspi32comm),
+        SendASPI32Command = GetProcAddress(hCdrModule, aSendaspi32comm),
         dword_4FFF68 = (int (__cdecl *)(_DWORD))SendASPI32Command,
         GetASPI32SupportInfo)
     && SendASPI32Command )

@@ -5,11 +5,11 @@ __int64 sub_429140()
   __int64 v1; // rax
   __int64 v3; // [esp-20h] [ebp-2Ch]
 
-  *(_BYTE *)dword_4FC4E0 = -65;
+  *(_BYTE *)dword_4FC4E0 = 0xBF;
   *(_DWORD *)(dword_4FC4E0 + 1) = dword_455940;
-  *(_BYTE *)(dword_4FC4E0 + 5) = -66;
+  *(_BYTE *)(dword_4FC4E0 + 5) = 0xBE;
   *(_DWORD *)(dword_4FC4E0 + 6) = cpu_gpr;
-  *(_BYTE *)(dword_4FC4E0 + 10) = -72;
+  *(_BYTE *)(dword_4FC4E0 + 10) = 0xB8;
   if ( (reg_pc & 0xFFF00000) == 0xBFC00000 )
     v0 = (reg_pc & 0x7FFFF) + 0x200000;
   else

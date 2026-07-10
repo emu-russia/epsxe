@@ -1,13 +1,13 @@
 #include "pch.h"
-int sub_420D30()
+int issue_small_motor()
 {
   int result; // eax
 
   if ( dword_4FC45C )
-    return Small_Motor(1);
+    return Small_Motor();
   joy_init();
   result = dword_4FC45C;
   if ( dword_4FC45C )
-    return Small_Motor(1);
+    return Small_Motor();
   return result;
 }

@@ -1,8 +1,8 @@
 #include "pch.h"
-int sub_41DBF0()
+unsigned int op_ADDI()
 {
   unsigned int v0; // esi
-  int result; // eax
+  unsigned int result; // eax
 
   v0 = (unsigned __int16)cpu_opcode;
   unk_576DAF = ((unsigned int)cpu_opcode >> 21) & 0x1F;

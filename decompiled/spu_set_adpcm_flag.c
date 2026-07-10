@@ -1,5 +1,5 @@
 #include "pch.h"
-void sub_40C040()
+void spu_set_adpcm_flag()
 {
   spu_adpcm_flag = 1;
 }

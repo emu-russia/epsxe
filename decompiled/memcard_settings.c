@@ -1,12 +1,12 @@
 #include "pch.h"
-INT_PTR __stdcall sub_407DD0(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   INT_PTR result; // eax
 
   if ( a2 == 272 )
   {
-    SetDlgItemTextA(hDlg, 1082, (LPCSTR)&byte_8B3180);
-    SetDlgItemTextA(hDlg, 1026, (LPCSTR)&byte_8B3580);
+    SetDlgItemTextA(hDlg, 1082, (LPCSTR)Memcard1);
+    SetDlgItemTextA(hDlg, 1026, (LPCSTR)Memcard2);
     return 1;
   }
   else if ( a2 == 273 )
@@ -18,29 +18,29 @@ INT_PTR __stdcall sub_407DD0(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         return 1;
       case 1030:
         if ( !open_file_dialog(
-                (int)aSelectMemcardF_0,
-                (int)aMemcardFileMcr,
-                (int)byte_8B1560,
-                (int)aMemcards,
-                (int)&off_44E628) )
+                (int)"Select Memcard FILE 2",
+                (int)"MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)",
+                (int)temp_path,
+                (int)"memcards\\",
+                (int)"MCR") )
           return 1;
-        SetDlgItemTextA(hDlg, 1026, byte_8B1560);
+        SetDlgItemTextA(hDlg, 1026, temp_path);
         result = 1;
         break;
       case 1083:
         if ( !open_file_dialog(
-                (int)aSelectMemcardF,
-                (int)aMemcardFileMcr,
-                (int)byte_8B1560,
-                (int)aMemcards,
-                (int)&off_44E628) )
+                (int)"Select Memcard FILE 1",
+                (int)"MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)",
+                (int)temp_path,
+                (int)"memcards\\",
+                (int)"MCR") )
           return 1;
-        SetDlgItemTextA(hDlg, 1082, byte_8B1560);
+        SetDlgItemTextA(hDlg, 1082, temp_path);
         result = 1;
         break;
       case 1084:
-        GetDlgItemTextA(hDlg, 1082, (LPSTR)&byte_8B3180, 1024);
-        GetDlgItemTextA(hDlg, 1026, (LPSTR)&byte_8B3580, 1024);
+        GetDlgItemTextA(hDlg, 1082, (LPSTR)Memcard1, 1024);
+        GetDlgItemTextA(hDlg, 1026, (LPSTR)Memcard2, 1024);
         if ( byte_4FC460 )
         {
           byte_4FC460 = 0;

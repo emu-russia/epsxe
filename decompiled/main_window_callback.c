@@ -51,9 +51,9 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
         switch ( (unsigned __int16)wParam )
         {
           case 0x9C41u:
-            if ( !strcmp((const char *)byte_8B1980, aNull) )
+            if ( !strcmp((const char *)VideoPlugin, "NULL") )
               goto LABEL_26;
-            if ( !strcmp((const char *)byte_8B2180, aNull) )
+            if ( !strcmp((const char *)CdromPlugin, "NULL") )
               goto LABEL_28;
             if ( sub_41C0B0() )
               goto LABEL_30;
@@ -61,32 +61,32 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
             if ( byte_45B8E8 )
               fastboot = 0;
             nocd = 1;
-            sub_41C010(aNull);
+            sub_41C010("NULL");
             dword_50C37C = 1;
             byte_44DD19 = 0;
             return 1;
           case 0x9C42u:
-            if ( !strcmp((const char *)byte_8B1980, aNull) )
+            if ( !strcmp((const char *)VideoPlugin, "NULL") )
               goto LABEL_26;
-            if ( !strcmp((const char *)byte_8B2180, aNull) )
+            if ( !strcmp((const char *)CdromPlugin, "NULL") )
               goto LABEL_28;
             if ( sub_41C0B0() )
               goto LABEL_30;
             PostQuitMessage(0);
             fastboot = 0;
             nocd = 0;
-            sub_41C010(aNull);
+            sub_41C010("NULL");
             dword_50C37C = 2;
             byte_44DD19 = 0;
             return 1;
           case 0x9C43u:
-            if ( !strcmp((const char *)byte_8B1980, aNull) )
+            if ( !strcmp((const char *)VideoPlugin, "NULL") )
             {
 LABEL_26:
               MessageBoxA(nullptr, aEpsxeIsNotComp, aEpsxeNotConfig, 0x10u);
               return 1;
             }
-            if ( !strcmp((const char *)byte_8B2180, aNull) )
+            if ( !strcmp((const char *)CdromPlugin, "NULL") )
             {
 LABEL_28:
               MessageBoxA(nullptr, aEpsxeIsNotComp_0, aEpsxeNotConfig, 0x10u);
@@ -99,15 +99,15 @@ LABEL_30:
               return 1;
             }
             if ( !open_file_dialog(
-                    (int)aOpenPsxIso,
-                    (int)aPsxIsosBinIsoI,
-                    (int)byte_8B1560,
+                    (int)"Open PSX ISO",
+                    (int)"PSX ISOs (*.BIN, *.ISO, *.IMG)",
+                    (int)temp_path,
                     (int)byte_8B3980,
-                    (int)&off_44EDC4) )
+                    (int)"ISO") )
               return 1;
-            GetFullPathNameA(byte_8B1560, 0x400u, Buffer, &FilePart);
+            GetFullPathNameA(temp_path, 0x400u, Buffer, &FilePart);
             *FilePart = 0;
-            sprintf((char *const)byte_8B3980, "%s", byte_8B1560);
+            sprintf((char *const)byte_8B3980, "%s", temp_path);
             cdrom_iso_set_path();
             PostQuitMessage(0);
             if ( byte_45B8E8 )
@@ -115,49 +115,49 @@ LABEL_30:
             v7 = 0;
             do
             {
-              v8 = byte_8B1560[v7];
+              v8 = temp_path[v7];
               bin_iso_file[v7++] = v8;
             }
             while ( v8 );
-            sub_41C010(aNull);
+            sub_41C010("NULL");
             dword_50C37C = 3;
             byte_44DD19 = 0;
             return 1;
           case 0x9C44u:
             if ( !open_file_dialog(
-                    (int)aOpenPsxExe,
-                    (int)aPsxExesZipExe,
-                    (int)byte_8B1560,
+                    (int)"Open PSX EXE",
+                    (int)"PSX EXEs (*.ZIP, *.EXE)",
+                    (int)temp_path,
                     (int)asc_44B034,
-                    (int)off_44ED60) )
+                    (int)"EXE") )
               return 1;
             PostQuitMessage(0);
-            sub_41C010(byte_8B1560);
+            sub_41C010(temp_path);
             dword_50C37C = 4;
             byte_44DD19 = 0;
             return 1;
           case 0x9C45u:
-            ui_error(aGoingOutFromGu_0);
+            ui_error(" * Going out from gui. (exit)\n");
           case 0x9C46u:
-            DialogBoxParamA(g_hInstance, aIddVideo, hWnd, search_video_plugin, 0);
+            DialogBoxParamA(g_hInstance, "IDD_VIDEO", hWnd, search_video_plugin, 0);
             return 1;
           case 0x9C47u:
-            DialogBoxParamA(g_hInstance, aIddSound, hWnd, search_spu_plugin, 0);
+            DialogBoxParamA(g_hInstance, "IDD_SOUND", hWnd, search_spu_plugin, 0);
             return 1;
           case 0x9C48u:
-            DialogBoxParamA(g_hInstance, aIddCdrom, hWnd, search_cdrom_plugin, 0);
+            DialogBoxParamA(g_hInstance, "IDD_CDROM", hWnd, search_cdrom_plugin, 0);
             return 1;
           case 0x9C49u:
-            DialogBoxParamA(g_hInstance, aIddBios, hWnd, bios_dialog_callback, 0);
+            DialogBoxParamA(g_hInstance, "IDD_BIOS", hWnd, bios_dialog_callback, 0);
             return 1;
           case 0x9C4Cu:
-            DialogBoxParamA(g_hInstance, aIddCheat, hWnd, (DLGPROC)cheat_dialog_callback, 0);
+            DialogBoxParamA(g_hInstance, "IDD_CHEAT", hWnd, (DLGPROC)cheat_dialog_callback, 0);
             goto LABEL_68;
           case 0x9C4Du:
-            DialogBoxParamA(g_hInstance, aIddAbout, hWnd, (DLGPROC)about_callback, 0);
+            DialogBoxParamA(g_hInstance, "IDD_ABOUT", hWnd, (DLGPROC)about_callback, 0);
             goto LABEL_68;
           case 0x9C4Fu:
-            ShellExecuteA(hWnd, Operation, aHttpWwwEpsxeCo, nullptr, nullptr, 3);
+            ShellExecuteA(hWnd, "open", "http://www.epsxe.com", nullptr, nullptr, 3);
             return 1;
           case 0x9C50u:
             if ( dword_50C37C )
@@ -185,36 +185,36 @@ LABEL_30:
               goto LABEL_70;
             goto LABEL_71;
           case 0x9C56u:
-            DialogBoxParamA(g_hInstance, aIddMemcard, hWnd, memcard_settings, 0);
+            DialogBoxParamA(g_hInstance, "IDD_MEMCARD", hWnd, memcard_settings, 0);
             return 1;
           case 0x9C58u:
             cdrom_deinit_cb(Msg - 256);
-            MessageBoxA(nullptr, aInsertANewCdro, aChangeDiscOpti, 0x40u);
+            MessageBoxA(nullptr, "Insert a new cdrom and hit the button to continue", "Change Disc Option", 0x40u);
             nocd = 1;
-            sub_41C010(aNull);
+            sub_41C010("NULL");
             dword_50C37C = 1;
             goto LABEL_40;
           case 0x9C59u:
             if ( !open_file_dialog(
-                    (int)aOpenPsxIso,
-                    (int)aPsxIsosBinIsoI,
-                    (int)byte_8B1560,
+                    (int)"Open PSX ISO",
+                    (int)"PSX ISOs (*.BIN, *.ISO, *.IMG)",
+                    (int)temp_path,
                     (int)byte_8B3980,
-                    (int)&off_44EDC4) )
+                    (int)"ISO") )
               return 1;
-            GetFullPathNameA(byte_8B1560, 0x400u, Buffer, &FilePart);
+            GetFullPathNameA(temp_path, 0x400u, Buffer, &FilePart);
             *FilePart = 0;
-            sprintf((char *const)byte_8B3980, "%s", byte_8B1560);
+            sprintf((char *const)byte_8B3980, "%s", temp_path);
             cdrom_iso_set_path();
             cdrom_deinit_cb(v9);
             v10 = 0;
             do
             {
-              v11 = byte_8B1560[v10];
+              v11 = temp_path[v10];
               bin_iso_file[v10++] = v11;
             }
             while ( v11 );
-            sub_41C010(aNull);
+            sub_41C010("NULL");
             dword_50C37C = 3;
 LABEL_40:
             byte_44DD19 = 0;
@@ -281,13 +281,13 @@ LABEL_41:
             *(_DWORD *)dword_44DF24 = 4;
             goto LABEL_41;
           case 0x9C69u:
-            ShellExecuteA(hWnd, Operation, aHttpWwwEpsxeCo_0, nullptr, nullptr, 3);
+            ShellExecuteA(hWnd, "open", "http://www.epsxe.com/step/step.html", nullptr, nullptr, 3);
             return 1;
           case 0x9C6Au:
-            ShellExecuteA(hWnd, Operation, aHttpWwwEpsxeCo_1, nullptr, nullptr, 3);
+            ShellExecuteA(hWnd, "open", "http://www.epsxe.com/step/step_sp.html", nullptr, nullptr, 3);
             return 1;
           case 0x9C6Fu:
-            DialogBoxParamA(g_hInstance, aIddNet, hWnd, (DLGPROC)search_net_plugin, 0);
+            DialogBoxParamA(g_hInstance, "IDD_NET", hWnd, (DLGPROC)search_net_plugin, 0);
             return 1;
           case 0x9C70u:
             setup_wizard_step = 0;
@@ -302,7 +302,7 @@ LABEL_41:
               CheckMenuItem(v21, 0x9C71u, 0);
             goto LABEL_83;
           case 0x9C72u:
-            ShellExecuteA(hWnd, Operation, File, nullptr, nullptr, 3);
+            ShellExecuteA(hWnd, "open", "epsxe.chm", nullptr, nullptr, 3);
             return 1;
           case 0x9C73u:
             console_allocated ^= 1u;
@@ -325,11 +325,11 @@ LABEL_41:
             if ( v18 <= 96 )
             {
 LABEL_70:
-              DialogBoxParamA(g_hInstance, aIddController, hWnd, (DLGPROC)sub_4043B0, 0);
+              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", hWnd, (DLGPROC)sub_4043B0, 0);
               goto LABEL_68;
             }
 LABEL_71:
-            DialogBoxParamA(g_hInstance, aIddControllerL, v32, (DLGPROC)sub_4043B0, 0);
+            DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", v32, (DLGPROC)sub_4043B0, 0);
             result = 1;
             break;
           case 0x9C75u:
@@ -343,13 +343,13 @@ LABEL_71:
 LABEL_65:
             if ( DeviceCaps > 96 )
             {
-              DialogBoxParamA(g_hInstance, aIddControllerL, v31, (DLGPROC)sub_4043B0, 0);
+              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", v31, (DLGPROC)sub_4043B0, 0);
 LABEL_68:
               result = 1;
             }
             else
             {
-              DialogBoxParamA(g_hInstance, aIddController, v31, (DLGPROC)sub_4043B0, 0);
+              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", v31, (DLGPROC)sub_4043B0, 0);
               result = 1;
             }
             break;

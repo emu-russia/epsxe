@@ -12,7 +12,7 @@ char gpu_dma()
   int v8; // esi
   int v9; // esi
   int i; // esi
-  int v11; // eax
+  unsigned int v11; // eax
   unsigned int v12; // [esp+10h] [ebp-4h]
 
   v0 = dword_5164F8;
@@ -42,7 +42,7 @@ char gpu_dma()
     }
     goto LABEL_27;
   }
-  if ( *(_DWORD *)dword_516500 == 16777729 )
+  if ( *(_DWORD *)dword_516500 == 0x1000201 )
   {
     v8 = v1 * v2;
     if ( GPUwriteDataMem )
@@ -62,7 +62,7 @@ LABEL_27:
   result = dword_516500[0] - 1;
   if ( *(_DWORD *)dword_516500 == 16778241 )
   {
-    GPUdmaChain(ram_0, v0 & 0x1FFFFF);
+    GPUdmaChain(ram, v0 & 0x1FFFFF);
     while ( 1 )
     {
       v5 = gpu_dma_read(v0);

@@ -1,79 +1,78 @@
 #include "pch.h"
-int sub_42DFE0()
+HWND gpu_load_plugin()
 {
   HMODULE LibraryA; // eax
   FARPROC GPUclearDynarec; // eax
-  char v2; // al
-  char v4; // [esp-8h] [ebp-408h]
+  int v2; // eax
   CHAR LibFileName[1024]; // [esp+0h] [ebp-400h] BYREF
 
-  if ( !strcmp((const char *)&byte_8B1980, aNull) )
-    fatal_error_with_message_box(aErrorVideoDoes, v4);
-  sprintf(LibFileName, "%s%s", aPlugins, (const char *)&byte_8B1980);
+  if ( !strcmp((const char *)VideoPlugin, "NULL") )
+    fatal_error_with_message_box(" * !Error video doesn't configurated \n * !Go Config->Video and choose a plugin. \n");
+  sprintf(LibFileName, "%s%s", aPlugins, (const char *)VideoPlugin);
   LibraryA = LoadLibraryA(LibFileName);
-  dword_4FD990 = LibraryA;
+  hGpuModule = LibraryA;
   if ( !LibraryA )
-    fatal_error_with_message_box(aErrorLoadingS, (char)LibFileName);
+    fatal_error_with_message_box(" * Error loading [%s] \n", LibFileName);
   gpu_closed = 1;
   GPUinit = GetProcAddress(LibraryA, ProcName);
   if ( !GPUinit )
-    ui_error(aGetprocaddress, (char)ProcName);
-  GPUshutdown = (int)GetProcAddress(dword_4FD990, aGpushutdown);
+    ui_error(" * GetProcAddress error %s\n", ProcName);
+  GPUshutdown = GetProcAddress(hGpuModule, aGpushutdown);
   if ( !GPUshutdown )
-    ui_error(aGetprocaddress, (char)aGpushutdown);
-  GPUopen = (int)GetProcAddress(dword_4FD990, aGpuopen);
+    ui_error(" * GetProcAddress error %s\n", aGpushutdown);
+  GPUopen = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUopen");
   if ( !GPUopen )
-    ui_error(aGetprocaddress, (char)aGpuopen);
-  GPUclose = (int)GetProcAddress(dword_4FD990, aGpuclose);
+    ui_error(" * GetProcAddress error %s\n", "GPUopen");
+  GPUclose = GetProcAddress(hGpuModule, "GPUclose");
   if ( !GPUclose )
-    ui_error(aGetprocaddress, (char)aGpuclose);
-  GPUconfigure = (int)GetProcAddress(dword_4FD990, aGpuconfigure);
+    ui_error(" * GetProcAddress error %s\n", "GPUclose");
+  GPUconfigure = (int)GetProcAddress(hGpuModule, aGpuconfigure);
   if ( !GPUconfigure )
-    ui_error(aGetprocaddress, (char)aGpuconfigure);
-  GPUabout = (int)GetProcAddress(dword_4FD990, aGpuabout);
+    ui_error(" * GetProcAddress error %s\n", aGpuconfigure);
+  GPUabout = (int)GetProcAddress(hGpuModule, aGpuabout);
   if ( !GPUabout )
-    ui_error(aGetprocaddress, (char)aGpuabout);
-  GPUtest = (int)GetProcAddress(dword_4FD990, aGputest);
+    ui_error(" * GetProcAddress error %s\n", aGpuabout);
+  GPUtest = (int)GetProcAddress(hGpuModule, aGputest);
   if ( !GPUtest )
-    ui_error(aGetprocaddress, (char)aGputest);
-  GPUwriteData = (int)GetProcAddress(dword_4FD990, aGpuwritedata);
+    ui_error(" * GetProcAddress error %s\n", aGputest);
+  GPUwriteData = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUwriteData");
   if ( !GPUwriteData )
-    ui_error(aGetprocaddress, (char)aGpuwritedata);
-  GPUwriteStatus = (int)GetProcAddress(dword_4FD990, aGpuwritestatus);
+    ui_error(" * GetProcAddress error %s\n", "GPUwriteData");
+  GPUwriteStatus = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUwriteStatus");
   if ( !GPUwriteStatus )
-    ui_error(aGetprocaddress, (char)aGpuwritestatus);
-  GPUreadData = (int)GetProcAddress(dword_4FD990, aGpureaddata);
+    ui_error(" * GetProcAddress error %s\n", "GPUwriteStatus");
+  GPUreadData = GetProcAddress(hGpuModule, "GPUreadData");
   if ( !GPUreadData )
-    ui_error(aGetprocaddress, (char)aGpureaddata);
-  GPUreadStatus = (int)GetProcAddress(dword_4FD990, aGpureadstatus);
+    ui_error(" * GetProcAddress error %s\n", "GPUreadData");
+  GPUreadStatus = GetProcAddress(hGpuModule, "GPUreadStatus");
   if ( !GPUreadStatus )
-    ui_error(aGetprocaddress, (char)aGpureadstatus);
-  GPUdmaChain = (int)GetProcAddress(dword_4FD990, aGpudmachain);
+    ui_error(" * GetProcAddress error %s\n", "GPUreadStatus");
+  GPUdmaChain = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUdmaChain");
   if ( !GPUdmaChain )
-    ui_error(aGetprocaddress, (char)aGpudmachain);
-  GPUgetMode = (int)GetProcAddress(dword_4FD990, aGpugetmode);
+    ui_error(" * GetProcAddress error %s\n", "GPUdmaChain");
+  GPUgetMode = (int)GetProcAddress(hGpuModule, "GPUgetMode");
   if ( !GPUgetMode )
-    ui_error(aGetprocaddress, (char)aGpugetmode);
-  GPUsetMode = (int)GetProcAddress(dword_4FD990, aGpusetmode);
+    ui_error(" * GetProcAddress error %s\n", "GPUgetMode");
+  GPUsetMode = (int)GetProcAddress(hGpuModule, "GPUsetMode");
   if ( !GPUsetMode )
-    ui_error(aGetprocaddress, (char)aGpusetmode);
-  GPUupdateLace = (int)GetProcAddress(dword_4FD990, aGpuupdatelace);
+    ui_error(" * GetProcAddress error %s\n", "GPUsetMode");
+  GPUupdateLace = (int (__fastcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUupdateLace");
   if ( !GPUupdateLace )
-    ui_error(aGetprocaddress, (char)aGpuupdatelace);
-  GPUmakeSnapshot = (int)GetProcAddress(dword_4FD990, aGpumakesnapsho);
-  GPUwriteDataMem = (int)GetProcAddress(dword_4FD990, aGpuwritedatame);
-  GPUreadDataMem = (int)GetProcAddress(dword_4FD990, aGpureaddatamem);
-  GPUdisplayFlags = (int)GetProcAddress(dword_4FD990, aGpudisplayflag);
-  GPUfreeze = (int)GetProcAddress(dword_4FD990, aGpufreeze);
-  GPUgetScreenPic = (int)GetProcAddress(dword_4FD990, aGpugetscreenpi);
-  GPUshowScreenPic = (int)GetProcAddress(dword_4FD990, aGpushowscreenp);
-  GPUcursor = (int)GetProcAddress(dword_4FD990, aGpucursor);
-  GPUclearDynarec = GetProcAddress(dword_4FD990, aGpucleardynare);
+    ui_error(" * GetProcAddress error %s\n", "GPUupdateLace");
+  GPUmakeSnapshot = GetProcAddress(hGpuModule, "GPUmakeSnapshot");
+  GPUwriteDataMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUwriteDataMem");
+  GPUreadDataMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUreadDataMem");
+  GPUdisplayFlags = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUdisplayFlags");
+  GPUfreeze = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUfreeze");
+  GPUgetScreenPic = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUgetScreenPic");
+  GPUshowScreenPic = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUshowScreenPic");
+  GPUcursor = (int (__stdcall *)(_DWORD, _DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUcursor");
+  GPUclearDynarec = GetProcAddress(hGpuModule, "GPUclearDynarec");
   dword_50ADD4 = (int)GPUclearDynarec;
   if ( GPUclearDynarec )
-    ((void (__stdcall *)(int (*)()))GPUclearDynarec)(sub_42DED0);
+    ((void (__stdcall *)(void (*)()))GPUclearDynarec)(sub_42DED0);
   v2 = GPUinit();
-  dbg_print(aDoingInitGpuD, v2);
+  dbg_print(" * Doing init gpu[%d]... \n", v2);
   net_load_plugin();
   net_open();
   netplay_handler();

@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_42B6C0(char a1)
+char __cdecl cdrom_reg0_write(char a1)
 {
   char result; // al
 
@@ -17,11 +17,11 @@ char __cdecl sub_42B6C0(char a1)
       if ( a1 == 2 )
       {
         byte_50BF66 = 1;
-        HIBYTE(byte_50AF44) = a1 & 1;
+        byte_50AF44[3] = a1 & 1;
         return result;
       }
     }
-    HIBYTE(byte_50AF44) = a1 & 1;
+    byte_50AF44[3] = a1 & 1;
   }
   return result;
 }

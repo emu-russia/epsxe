@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_41D3D0()
+int op_LB()
 {
   unsigned int v0; // ecx
   int v1; // ecx

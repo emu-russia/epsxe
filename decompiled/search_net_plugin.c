@@ -1,5 +1,5 @@
 #include "pch.h"
-INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a4, LPARAM a5)
+INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   int v5; // eax
   char v6; // cl
@@ -23,7 +23,7 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
   int v24; // eax
   HMODULE LibraryA; // eax
   HMODULE v26; // esi
-  FARPROC PSEgetLibVersion; // eax
+  FARPROC PSEgetLibVersion_ptr; // eax
   unsigned __int8 v28; // al
   int v29; // eax
   const char *v30; // eax
@@ -38,74 +38,74 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
   char v39; // cl
   int v40; // ebp
   CHAR *v41; // eax
-  CHAR v42; // cl
+  char v42; // cl
   int v43; // [esp-18h] [ebp-D68h]
   int v44; // [esp-14h] [ebp-D64h]
-  char v46[12]; // [esp+0h] [ebp-D50h] BYREF
+  char v45[12]; // [esp+0h] [ebp-D50h] BYREF
   HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
   struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
   CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
   char lParam[1024]; // [esp+550h] [ebp-800h] BYREF
   CHAR FileName[1024]; // [esp+950h] [ebp-400h] BYREF
 
-  strcpy(v46, "plugins\\");
+  strcpy(v45, "plugins\\");
   v5 = 0;
   do
   {
-    v6 = v46[v5];
+    v6 = v45[v5];
     FileName[v5++] = v6;
   }
   while ( v6 );
   v7 = &FileName[strlen(FileName) + 1];
-  v8 = word_44E400;
-  *(_DWORD *)--v7 = dword_44E3FC;
+  v8 = MEMORY[0x44E400];
+  *(_DWORD *)--v7 = aDll;
   *((_WORD *)v7 + 2) = v8;
-  if ( a3 == 272 )
+  if ( a2 == 272 )
   {
     hFindFile = FindFirstFileA(FileName, &FindFileData);
     if ( hFindFile == (HANDLE)-1 )
-      dbg_print(aNotNetPluginsF, a1);
+      dbg_print(aNotNetPluginsF);
     dword_45B8E4 = 0;
     sprintf(lParam, aDisabledNetpla);
     v21 = hDlg;
     v22 = SendDlgItemMessageA;
     v23 = SendDlgItemMessageA(hDlg, 1104, 0x143u, 0, (LPARAM)lParam);
-    if ( !strcmp((const char *)&byte_8B4180, aDisabled) )
+    if ( !strcmp((const char *)NetPlugin, "DISABLED") )
       SendDlgItemMessageA(hDlg, 1104, 0x14Eu, v23, 0);
     v24 = dword_45B8E4;
-    strcpy((char *)&byte_8A9540[256 * dword_45B8E4], "DISABLED");
+    strcpy(&byte_8A9540[1024 * dword_45B8E4], "DISABLED");
     dword_45B8E4 = v24 + 1;
     while ( 1 )
     {
-      sprintf(LibFileName, "%s%s", v46, FindFileData.cFileName);
+      sprintf(LibFileName, "%s%s", v45, FindFileData.cFileName);
       LibraryA = LoadLibraryA(LibFileName);
       v26 = LibraryA;
       if ( LibraryA )
       {
         PSEgetLibType = GetProcAddress(LibraryA, aPsegetlibtype);
         PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v26, aPsegetlibname);
-        PSEgetLibVersion = GetProcAddress(v26, aPsegetlibversi);
-        unk_8A94C4 = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+        PSEgetLibVersion_ptr = GetProcAddress(v26, aPsegetlibversi);
+        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion_ptr;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
           {
-            if ( PSEgetLibVersion )
+            if ( PSEgetLibVersion_ptr )
             {
-              v28 = PSEgetLibVersion();
-              v29 = unk_8A94C4(v28);
+              v28 = PSEgetLibVersion_ptr();
+              v29 = PSEgetLibVersion(v28);
               v30 = (const char *)PSEgetLibName(BYTE1(v29));
               sprintf(lParam, "%s %d.%d", v30, v43, v44);
               if ( PSEgetLibType() == 16 )
               {
                 v31 = v22(v21, 1104, 0x143u, 0, (LPARAM)lParam);
-                if ( !strcmp((const char *)&byte_8B4180, FindFileData.cFileName) )
+                if ( !strcmp((const char *)NetPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(v21, 1104, 0x14Eu, v31, 0);
                 v32 = dword_45B8E4;
                 if ( v31 == dword_45B8E4 )
                 {
                   cFileName = FindFileData.cFileName;
-                  v34 = (char *)byte_8A9540 + (dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName;
+                  v34 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
                     v35 = *cFileName;
@@ -118,7 +118,7 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
                 {
                   if ( v31 < dword_45B8E4 )
                   {
-                    v36 = (char *)&byte_8A9140 + 1024 * dword_45B8E4;
+                    v36 = &byte_8A9140[1024 * dword_45B8E4];
                     v37 = dword_45B8E4 - v31;
                     do
                     {
@@ -140,7 +140,7 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
                   do
                   {
                     v42 = *v41;
-                    v41[(_DWORD)byte_8A9540 + v40] = *v41;
+                    byte_8A9540[v40 + (_DWORD)v41] = *v41;
                     ++v41;
                   }
                   while ( v42 );
@@ -158,9 +158,9 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
     }
     return 1;
   }
-  else if ( a3 == 273 )
+  else if ( a2 == 273 )
   {
-    switch ( (__int16)a4 )
+    switch ( (__int16)a3 )
     {
       case 1099:
         if ( !dword_45B8E4 )
@@ -170,10 +170,10 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
           return 0;
         if ( v11 >= dword_45B8E4 )
           return 0;
-        v12 = (const char *)&byte_8A9540[256 * v11];
-        if ( !strcmp(v12, aDisabled) )
+        v12 = &byte_8A9540[1024 * v11];
+        if ( !strcmp(v12, "DISABLED") )
           return 0;
-        sprintf(LibFileName, "%s%s", v46, v12);
+        sprintf(LibFileName, "%s%s", v45, v12);
         v13 = LoadLibraryA(LibFileName);
         GPUtest_0 = GetProcAddress(v13, aNettest);
         v14 = GPUtest_0();
@@ -199,10 +199,10 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
           return 0;
         if ( v15 >= dword_45B8E4 )
           return 0;
-        v16 = (const char *)&byte_8A9540[256 * v15];
-        if ( !strcmp(v16, aDisabled) )
+        v16 = &byte_8A9540[1024 * v15];
+        if ( !strcmp(v16, "DISABLED") )
           return 0;
-        sprintf(LibFileName, "%s%s", v46, v16);
+        sprintf(LibFileName, "%s%s", v45, v16);
         v17 = LoadLibraryA(LibFileName);
         GPUconfigure_0 = GetProcAddress(v17, aNetconfigure);
         GPUconfigure_0();
@@ -214,10 +214,10 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
           v18 = SendDlgItemMessageA(hDlg, 1104, 0x147u, 0, 0);
           if ( v18 != -1 && v18 < dword_45B8E4 )
           {
-            v19 = (const char *)&byte_8A9540[256 * v18];
-            if ( strcmp(v19, aDisabled) )
+            v19 = &byte_8A9540[1024 * v18];
+            if ( strcmp(v19, "DISABLED") )
             {
-              sprintf(LibFileName, "%s%s", v46, v19);
+              sprintf(LibFileName, "%s%s", v45, v19);
               v20 = LoadLibraryA(LibFileName);
               GPUabout_0 = GetProcAddress(v20, aNetabout);
               GPUabout_0();
@@ -230,14 +230,14 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
         {
           v10 = SendDlgItemMessageA(hDlg, 1104, 0x147u, 0, 0);
           if ( v10 != -1 && v10 < dword_45B8E4 )
-            sprintf((char *const)&byte_8B4180, "%s", (const char *)&byte_8A9540[256 * v10]);
+            sprintf((char *const)NetPlugin, "%s", &byte_8A9540[1024 * v10]);
           EndDialog(hDlg, 1);
           save_settings();
           result = 1;
         }
         else
         {
-          sprintf((char *const)&byte_8B4180, aNull);
+          sprintf((char *const)NetPlugin, "NULL");
           EndDialog(hDlg, 1);
           save_settings();
           result = 1;
@@ -250,7 +250,7 @@ INT_PTR __userpurge sub_406510@<eax>(char a1@<dil>, HWND hDlg, UINT a3, WPARAM a
         }
         else
         {
-          sprintf((char *const)&byte_8B4180, aNull);
+          sprintf((char *const)NetPlugin, "NULL");
           EndDialog(hDlg, 1);
           save_settings();
         }

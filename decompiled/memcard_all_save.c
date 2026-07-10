@@ -20,7 +20,7 @@ char memcard_save()
     LOBYTE(v1) = byte_4FC460;
     if ( byte_4FC460 )
     {
-      v0 = fopen((const char *)&byte_8B3580, aWb);
+      v0 = fopen((const char *)&Memcard2, aWb);
       if ( v0 )
       {
         fseek(v0, dword_4FC474, 0);
@@ -29,7 +29,7 @@ char memcard_save()
       }
       else
       {
-        LOBYTE(v1) = dbg_print(" * Warning: The memcard [%s] has NOT been saved to disk\n", (const char *)&byte_8B3580);
+        LOBYTE(v1) = dbg_print(" * Warning: The memcard [%s] has NOT been saved to disk\n", (const char *)&Memcard2);
       }
     }
   }

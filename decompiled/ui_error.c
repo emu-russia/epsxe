@@ -1,5 +1,5 @@
 #include "pch.h"
-void __noreturn sub_4370D0(char *Format, ...)
+void sub_4370D0(char *Format, ...)
 {
   DWORD v1; // ecx
   int v2; // ecx

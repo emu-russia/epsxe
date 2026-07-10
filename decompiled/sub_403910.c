@@ -1,5 +1,5 @@
 #include "pch.h"
-int *__cdecl sub_403910(int *a1, unsigned __int8 a2, __int16 *a3, _WORD *a4, int a5)
+int *__cdecl sub_403910(int *a1, unsigned __int8 a2, __int16 *a3, _WORD *a4, unsigned int a5)
 {
   int v6; // ebp
   char v7; // bl
@@ -14,7 +14,7 @@ int *__cdecl sub_403910(int *a1, unsigned __int8 a2, __int16 *a3, _WORD *a4, int
   _WORD *v16; // ecx
   __int16 *v18; // [esp+10h] [ebp-Ch]
   int v19; // [esp+14h] [ebp-8h]
-  int v20; // [esp+18h] [ebp-4h]
+  unsigned int v20; // [esp+18h] [ebp-4h]
   char v21; // [esp+24h] [ebp+8h]
   int v22; // [esp+28h] [ebp+Ch]
   int v23; // [esp+30h] [ebp+14h]

@@ -4,8 +4,8 @@ char sub_42DCF0()
   int PerformanceFrequency; // eax
   __int64 v2; // [esp-8h] [ebp-8h]
 
-  LOBYTE(PerformanceFrequency) = byte_4FD995;
-  if ( byte_4FD995 )
+  LOBYTE(PerformanceFrequency) = use_performance_counters;
+  if ( use_performance_counters )
   {
     qword_50AE58 = 0;
     PerformanceFrequency = QueryPerformanceFrequency(&Frequency);

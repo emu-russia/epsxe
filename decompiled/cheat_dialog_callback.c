@@ -31,9 +31,9 @@ LRESULT __stdcall sub_405870(HWND hDlg, int a2, __int16 a3, int a4)
     switch ( a3 )
     {
       case 1056:
-        if ( !open_file_dialog(aOpenPsxCheat, aPsxCheatsCht, byte_8B1560, aCheats, &aCht_0) )
+        if ( !open_file_dialog(aOpenPsxCheat, aPsxCheatsCht, temp_path, aCheats, &aCht_0) )
           return 0;
-        v9 = fopen(byte_8B1560, aR);
+        v9 = fopen(temp_path, aR);
         while ( (v9->_flag & 0x10) == 0 )
         {
           sprintf(lParam, asc_44E24C);
@@ -48,9 +48,9 @@ LRESULT __stdcall sub_405870(HWND hDlg, int a2, __int16 a3, int a4)
         result = 0;
         break;
       case 1057:
-        if ( open_file_dialog(aSavePsxCheat, aPsxCheatsCht_0, byte_8B1560, aCheats, &aCht_0) )
+        if ( open_file_dialog(aSavePsxCheat, aPsxCheatsCht_0, temp_path, aCheats, &aCht_0) )
         {
-          v10 = fopen(byte_8B1560, aW);
+          v10 = fopen(temp_path, aW);
           v11 = SendDlgItemMessageA(hDlg, 1142, 0x18Bu, 0, 0);
           if ( v11 )
           {

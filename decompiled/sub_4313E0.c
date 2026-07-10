@@ -3,10 +3,10 @@ HMODULE sub_4313E0()
 {
   HMODULE result; // eax
 
-  result = hLibModule;
-  if ( hLibModule )
+  result = hCdrModule;
+  if ( hCdrModule )
   {
-    FreeLibrary(hLibModule);
+    FreeLibrary(hCdrModule);
     if ( GetASPI32SupportInfo )
       GetASPI32SupportInfo = nullptr;
     result = (HMODULE)dword_4FFF68;

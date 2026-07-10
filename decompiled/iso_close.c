@@ -5,5 +5,5 @@ int iso_close()
     _close((int)dword_50A098);
   if ( dword_505400 )
     _close((int)dword_505400);
-  return dbg_print(aClosingIsoSyst);
+  return dbg_print(" * Closing ISO system. \n");
 }

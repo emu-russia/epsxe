@@ -27,13 +27,13 @@ char __cdecl sub_40C620(int a1)
   if ( (unsigned __int16)dword_463904 == v2 && (word_4F7550 & 0x40) != 0 && !dword_4F75A0 )
   {
     dword_4F75A0 = 1;
-    sub_42B070();
+    spu_registered_callback();
     v1 = dword_463904;
   }
   if ( v1 == dword_4655BC[74 * a1] + 1 && (word_4F7550 & 0x40) != 0 && !dword_4F75A0 )
   {
     dword_4F75A0 = 1;
-    sub_42B070();
+    spu_registered_callback();
     v1 = dword_463904;
   }
   v4 = dword_4655BC[74 * a1] + 2;

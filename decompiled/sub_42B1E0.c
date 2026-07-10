@@ -6,8 +6,8 @@ unsigned int sub_42B1E0()
   int v2; // eax
 
   v0 = reg_pc;
-  result = *(_DWORD *)((unsigned __int16)reg_pc + ram[HIWORD(reg_pc)]);
-  for ( cpu_opcode = result; reg_pc != -2147287040; cpu_opcode = result )
+  result = *(_DWORD *)((unsigned __int16)reg_pc + mem_read_hooks[HIWORD(reg_pc)]);
+  for ( cpu_opcode = result; reg_pc != 0x80030000; cpu_opcode = result )
   {
     reg_pc = v0 + 4;
     cpu_main_table[result >> 26]();
@@ -22,7 +22,7 @@ unsigned int sub_42B1E0()
       }
     }
     v0 = reg_pc;
-    result = *(_DWORD *)((unsigned __int16)reg_pc + ram[HIWORD(reg_pc)]);
+    result = *(_DWORD *)((unsigned __int16)reg_pc + mem_read_hooks[HIWORD(reg_pc)]);
   }
   return result;
 }

@@ -23,7 +23,7 @@ int sub_42B2A0()
   {
     while ( 1 )
     {
-      v0 = *(_DWORD *)((unsigned __int16)reg_pc + ram[HIWORD(reg_pc)]);
+      v0 = *(_DWORD *)((unsigned __int16)reg_pc + mem_read_hooks[HIWORD(reg_pc)]);
       v1 = dword_4F831C;
       cpu_opcode = v0;
       if ( (_BYTE)dword_4F831C )
@@ -116,13 +116,13 @@ int sub_42B2A0()
         }
         v10 = dword_455940;
         v11 = 512;
-        if ( (dword_50BFD4 & 0x100) == 0 )
+        if ( (dword_50BFD4[0] & 0x100) == 0 )
           v11 = dword_455940;
-        dword_50BFD0 += v11;
-        if ( dword_50BFD0 >= (unsigned int)dword_50BFDC )
+        dword_50BFD0[0] += v11;
+        if ( dword_50BFD0[0] >= (unsigned int)dword_50BFDC[0] )
         {
-          dword_50BFD0 = 0;
-          if ( (dword_50BFD4 & 0x50) == 0x50 )
+          dword_50BFD0[0] = 0;
+          if ( (dword_50BFD4[0] & 0x50) == 0x50 )
             int_reg |= 0x10u;
         }
         v12 = 1;

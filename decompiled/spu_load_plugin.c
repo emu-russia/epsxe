@@ -5,98 +5,98 @@ char spu_load_plugin()
   HMODULE LibraryA; // eax
   CHAR LibFileName[1024]; // [esp+4h] [ebp-400h] BYREF
 
-  sprintf(LibFileName, "%s%s", aPlugins, (const char *)byte_8B1D80);
+  sprintf(LibFileName, "%s%s", aPlugins, (const char *)SoundPlugin);
   result = sound_enabled;
-  unk_8A8484 = 0;
+  spu_need_to_be_closed = 0;
   if ( sound_enabled )
   {
-    unk_8A8484 = 1;
+    spu_need_to_be_closed = 1;
     LibraryA = LoadLibraryA(LibFileName);
-    hModule = LibraryA;
+    hSpuModule = LibraryA;
     if ( !LibraryA )
       fatal_error_with_message_box(" * Error loading [%s] \n", LibFileName);
-    SPUinit = GetProcAddress(LibraryA, aSpuinit);
+    SPUinit = GetProcAddress(LibraryA, "SPUinit");
     if ( !SPUinit )
-      ui_error(" * GetProcAddress error %s\n", aSpuinit);
-    SPUshutdown = GetProcAddress(hModule, aSpushutdown);
+      ui_error(" * GetProcAddress error %s\n", "SPUinit");
+    SPUshutdown = GetProcAddress(hSpuModule, "SPUshutdown");
     if ( !SPUshutdown )
-      ui_error(" * GetProcAddress error %s\n", aSpushutdown);
-    SPUopen = (int (__stdcall *)(_DWORD))GetProcAddress(hModule, aSpuopen);
+      ui_error(" * GetProcAddress error %s\n", "SPUshutdown");
+    SPUopen = (int (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUopen");
     if ( !SPUopen )
-      ui_error(" * GetProcAddress error %s\n", aSpuopen);
-    SPUclose = GetProcAddress(hModule, aSpuclose);
+      ui_error(" * GetProcAddress error %s\n", "SPUopen");
+    SPUclose = GetProcAddress(hSpuModule, "SPUclose");
     if ( !SPUclose )
-      ui_error(" * GetProcAddress error %s\n", aSpuclose);
-    SPUconfigure = GetProcAddress(hModule, aSpuconfigure);
+      ui_error(" * GetProcAddress error %s\n", "SPUclose");
+    SPUconfigure = GetProcAddress(hSpuModule, "SPUconfigure");
     if ( !SPUconfigure )
-      ui_error(" * GetProcAddress error %s\n", aSpuconfigure);
-    SPUabout = GetProcAddress(hModule, aSpuabout);
+      ui_error(" * GetProcAddress error %s\n", "SPUconfigure");
+    SPUabout = GetProcAddress(hSpuModule, "SPUabout");
     if ( !SPUabout )
-      ui_error(" * GetProcAddress error %s\n", aSpuabout);
-    SPUtest = GetProcAddress(hModule, aSputest);
+      ui_error(" * GetProcAddress error %s\n", "SPUabout");
+    SPUtest = GetProcAddress(hSpuModule, "SPUtest");
     if ( !SPUtest )
-      ui_error(" * GetProcAddress error %s\n", aSputest);
-    SPUplaySample = GetProcAddress(hModule, aSpuplaysample);
+      ui_error(" * GetProcAddress error %s\n", "SPUtest");
+    SPUplaySample = GetProcAddress(hSpuModule, "SPUplaySample");
     if ( !SPUplaySample )
-      ui_error(" * GetProcAddress error %s\n", aSpuplaysample);
-    SPUstartChannels1 = GetProcAddress(hModule, aSpustartchanne);
+      ui_error(" * GetProcAddress error %s\n", "SPUplaySample");
+    SPUstartChannels1 = GetProcAddress(hSpuModule, "SPUstartChannels1");
     if ( !SPUstartChannels1 )
-      ui_error(" * GetProcAddress error %s\n", aSpustartchanne);
-    SPUstartChannels2 = GetProcAddress(hModule, aSpustartchanne_0);
+      ui_error(" * GetProcAddress error %s\n", "SPUstartChannels1");
+    SPUstartChannels2 = GetProcAddress(hSpuModule, "SPUstartChannels2");
     if ( !SPUstartChannels2 )
-      ui_error(" * GetProcAddress error %s\n", aSpustartchanne_0);
-    SPUstopChannels1 = GetProcAddress(hModule, aSpustopchannel);
+      ui_error(" * GetProcAddress error %s\n", "SPUstartChannels2");
+    SPUstopChannels1 = GetProcAddress(hSpuModule, "SPUstopChannels1");
     if ( !SPUstopChannels1 )
-      ui_error(" * GetProcAddress error %s\n", aSpustopchannel);
-    SPUstopChannels2 = GetProcAddress(hModule, aSpustopchannel_0);
+      ui_error(" * GetProcAddress error %s\n", "SPUstopChannels1");
+    SPUstopChannels2 = GetProcAddress(hSpuModule, "SPUstopChannels2");
     if ( !SPUstopChannels2 )
-      ui_error(" * GetProcAddress error %s\n", aSpustopchannel_0);
-    *(_DWORD *)&SPUputOne = GetProcAddress(hModule, aSpuputone);
+      ui_error(" * GetProcAddress error %s\n", "SPUstopChannels2");
+    *(_DWORD *)&SPUputOne = GetProcAddress(hSpuModule, "SPUputOne");
     if ( !*(_DWORD *)&SPUputOne )
-      ui_error(" * GetProcAddress error %s\n", aSpuputone);
-    *(_DWORD *)&SPUgetOne = GetProcAddress(hModule, aSpugetone);
+      ui_error(" * GetProcAddress error %s\n", "SPUputOne");
+    *(_DWORD *)&SPUgetOne = GetProcAddress(hSpuModule, "SPUgetOne");
     if ( !*(_DWORD *)&SPUgetOne )
-      ui_error(" * GetProcAddress error %s\n", aSpugetone);
-    SPUsetAddr = GetProcAddress(hModule, aSpusetaddr);
-    if ( !SPUsetAddr )
-      ui_error(" * GetProcAddress error %s\n", aSpusetaddr);
-    SPUsetPitch = GetProcAddress(hModule, aSpusetpitch);
+      ui_error(" * GetProcAddress error %s\n", "SPUgetOne");
+    *(_DWORD *)&SPUsetAddr = GetProcAddress(hSpuModule, "SPUsetAddr");
+    if ( !*(_DWORD *)&SPUsetAddr )
+      ui_error(" * GetProcAddress error %s\n", "SPUsetAddr");
+    SPUsetPitch = GetProcAddress(hSpuModule, "SPUsetPitch");
     if ( !SPUsetPitch )
-      ui_error(" * GetProcAddress error %s\n", aSpusetpitch);
-    SPUsetVolumeL = GetProcAddress(hModule, aSpusetvolumel);
+      ui_error(" * GetProcAddress error %s\n", "SPUsetPitch");
+    SPUsetVolumeL = GetProcAddress(hSpuModule, "SPUsetVolumeL");
     if ( !SPUsetVolumeL )
-      ui_error(" * GetProcAddress error %s\n", aSpusetvolumel);
-    SPUsetVolumeR = GetProcAddress(hModule, aSpusetvolumer);
+      ui_error(" * GetProcAddress error %s\n", "SPUsetVolumeL");
+    SPUsetVolumeR = GetProcAddress(hSpuModule, "SPUsetVolumeR");
     if ( !SPUsetVolumeR )
-      ui_error(" * GetProcAddress error %s\n", aSpusetvolumer);
-    SPUplayADPCMchannel = GetProcAddress(hModule, aSpuplayadpcmch);
+      ui_error(" * GetProcAddress error %s\n", "SPUsetVolumeR");
+    SPUplayADPCMchannel = GetProcAddress(hSpuModule, "SPUplayADPCMchannel");
     if ( !SPUplayADPCMchannel )
-      ui_error(" * GetProcAddress error %s\n", aSpuplayadpcmch);
-    SPUwriteRegister = GetProcAddress(hModule, aSpuwriteregist);
+      ui_error(" * GetProcAddress error %s\n", "SPUplayADPCMchannel");
+    SPUwriteRegister = GetProcAddress(hSpuModule, "SPUwriteRegister");
     if ( !SPUwriteRegister )
       spu_use_external_plugin = 0;
-    SPUreadRegister = GetProcAddress(hModule, aSpureadregiste);
-    if ( !SPUreadRegister )
+    *(_DWORD *)&SPUreadRegister = GetProcAddress(hSpuModule, "SPUreadRegister");
+    if ( !*(_DWORD *)&SPUreadRegister )
       spu_use_external_plugin = 0;
-    SPUwriteDMA = GetProcAddress(hModule, aSpuwritedma);
-    if ( !SPUwriteDMA )
+    *(_DWORD *)&SPUwriteDMA = GetProcAddress(hSpuModule, "SPUwriteDMA");
+    if ( !*(_DWORD *)&SPUwriteDMA )
       spu_use_external_plugin = 0;
-    SPUreadDMA = GetProcAddress(hModule, aSpureaddma);
+    SPUreadDMA = GetProcAddress(hSpuModule, "SPUreadDMA");
     if ( !SPUreadDMA )
       spu_use_external_plugin = 0;
-    SPUregisterCallback = (char (__stdcall *)(_DWORD))GetProcAddress(hModule, aSpuregistercal);
-    SPUfreeze = GetProcAddress(hModule, aSpufreeze);
-    SPUupdate = GetProcAddress(hModule, aSpuupdate);
-    SPUasync = GetProcAddress(hModule, aSpuasync);
-    SPUreadDMAMem = GetProcAddress(hModule, aSpureaddmamem);
-    SPUwriteDMAMem = GetProcAddress(hModule, aSpuwritedmamem);
-    dbg_print(aDoingSpuInit);
+    SPUregisterCallback = (char (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUregisterCallback");
+    SPUfreeze = GetProcAddress(hSpuModule, "SPUfreeze");
+    SPUupdate = GetProcAddress(hSpuModule, "SPUupdate");
+    SPUasync = GetProcAddress(hSpuModule, "SPUasync");
+    *(_DWORD *)&SPUreadDMAMem = GetProcAddress(hSpuModule, "SPUreadDMAMem");
+    SPUwriteDMAMem = GetProcAddress(hSpuModule, "SPUwriteDMAMem");
+    dbg_print(" * Doing spu init... \n");
     SPUinit();
-    dbg_print(aSpuOpen);
-    SPUopen(dword_4FD98C);
+    dbg_print(" * Spu open... \n");
+    SPUopen(hSaveLoadWnd);
     result = (char)SPUregisterCallback;
     if ( SPUregisterCallback )
-      return SPUregisterCallback(sub_42B070);
+      return SPUregisterCallback(spu_registered_callback);
   }
   else
   {

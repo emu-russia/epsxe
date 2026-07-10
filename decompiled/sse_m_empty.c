@@ -1,5 +1,5 @@
 #include "pch.h"
-void sub_42A940()
+void sse_m_empty()
 {
   _m_empty();
 }

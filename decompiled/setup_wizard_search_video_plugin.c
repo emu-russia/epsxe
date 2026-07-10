@@ -50,8 +50,8 @@ INT_PTR __stdcall search_video_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   }
   while ( v5 );
   v6 = &FileName[strlen(FileName) + 1];
-  v7 = word_44E400;
-  *(_DWORD *)--v6 = dword_44E3FC;
+  v7 = MEMORY[0x44E400];
+  *(_DWORD *)--v6 = aDll;
   *((_WORD *)v6 + 2) = v7;
   if ( a2 == 16 )
   {
@@ -75,7 +75,7 @@ INT_PTR __stdcall search_video_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         PSEgetLibType = GetProcAddress(LibraryA, aPsegetlibtype);
         PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v18, aPsegetlibname);
         PSEgetLibVersion = GetProcAddress(v18, aPsegetlibversi);
-        unk_8A94C4 = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+        ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
@@ -83,13 +83,13 @@ INT_PTR __stdcall search_video_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
             if ( PSEgetLibVersion )
             {
               v20 = PSEgetLibVersion();
-              v21 = unk_8A94C4(v20);
+              v21 = ::PSEgetLibVersion(v20);
               v22 = (const char *)PSEgetLibName(BYTE1(v21));
               sprintf(lParam, "%s %d.%d", v22, v35, v36);
               if ( PSEgetLibType() == 2 )
               {
                 v23 = SendDlgItemMessageA(hDlg, 1124, 0x180u, 0, (LPARAM)lParam);
-                if ( !strcmp((const char *)&byte_8B1980, FindFileData.cFileName) )
+                if ( !strcmp((const char *)&VideoPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(hDlg, 1124, 0x186u, v23, 0);
                 v24 = dword_45B8E4;
                 if ( v23 == dword_45B8E4 )

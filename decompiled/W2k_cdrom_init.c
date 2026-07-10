@@ -17,7 +17,7 @@ char cdrom_init()
     sub_42F7E0(byte_505420);
   if ( dword_50C37C == 3 )
   {
-    result = sub_42FA70(bin_iso_file);
+    result = iso_load(bin_iso_file);
     sound_use_cdda = 0;
   }
   else

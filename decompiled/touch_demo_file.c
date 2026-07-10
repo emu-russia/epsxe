@@ -1,11 +1,11 @@
 #include "pch.h"
-int sub_41C940()
+int touch_demo_file()
 {
   FILE *v0; // eax
 
-  if ( !strncmp(aNull_0, aNull, 4u) )
+  if ( !strncmp(aNull_0, "NULL", 4u) )
     return 0;
-  v0 = fopen(aNull_0, Mode);
+  v0 = fopen(aNull_0, "rb");
   if ( !v0 )
     fatal_error_with_message_box(" * EPSX: DEMO not found [%s]. \n", aNull_0);
   fclose(v0);

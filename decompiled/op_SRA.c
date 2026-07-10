@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_41E260()
+char op_SRA()
 {
   int v0; // edx
   char result; // al

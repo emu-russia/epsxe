@@ -10,12 +10,12 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
 
   if ( a1 <= 0x1F801020 && a1 >= 0x1F801000 )
   {
-    *(int *)((char *)&byte_516600 + (unsigned __int16)a1) = a2;
+    *(_DWORD *)&byte_516600[(unsigned __int16)a1] = a2;
     return;
   }
   if ( a1 <= 0x1F801138 && a1 >= 0x1F801100 )
   {
-    rcnt_write_reg((unsigned __int16)a1, a2);
+    rcnt_write_reg(a1, a2);
     return;
   }
   if ( a1 <= 0x1F801E0F && a1 >= 0x1F801C00 )
@@ -26,14 +26,14 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
   }
   if ( a1 <= 0x1F8010B8 )
   {
-    if ( a1 == 528486584 )
+    if ( a1 == 0x1F8010B8 )
     {
       dword_51650C = a2;
       if ( (dword_5164D0 & 0x8000) != 0 )
       {
         cdrom_dma();
         dword_51650C = a2 & 0xFEFFFFFF;
-        dma_assert_int(3);
+        dma_assert_int(3u);
       }
     }
     else
@@ -47,7 +47,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           sio_data_write(a1, SHIBYTE(a2));
           break;
         case 0x1F801060u:
-          *(int *)((char *)&byte_516600 + (unsigned __int16)a1) = a2;
+          *(_DWORD *)&byte_516600[(unsigned __int16)a1] = a2;
           break;
         case 0x1F801070u:
           if ( dword_4FD878 )
@@ -90,7 +90,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
             if ( !mdectiming )
             {
               dword_5164F4 = a2 & 0xFEFFFFFF;
-              dma_assert_int(1);
+              dma_assert_int(1u);
             }
           }
           break;
@@ -131,7 +131,7 @@ LABEL_32:
           {
             spu_dma_cb();
             *(_DWORD *)dword_516518 = a2 & 0xFEFFFFFF;
-            dma_assert_int(4);
+            dma_assert_int(4u);
           }
           break;
         case 0x1F8010D8u:
@@ -139,7 +139,7 @@ LABEL_32:
           if ( ((unsigned int)&unk_800000 & dword_5164D0) != 0 )
           {
             dword_516524 = a2 & 0xFEFFFFFF;
-            dma_assert_int(5);
+            dma_assert_int(5u);
           }
           break;
         default:
@@ -163,14 +163,7 @@ LABEL_32:
         return;
     }
 LABEL_51:
-    dump_log(
-      console_log_handle,
-      "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n",
-      (const char *)&off_455894,
-      a1,
-      a2,
-      4,
-      reg_pc);
+    dump_log(console_log_handle, "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n", "UNK", a1, a2, 4, reg_pc);
     return;
   }
   if ( a1 == 528488464 )
@@ -210,15 +203,15 @@ LABEL_51:
           v2 -= 4;
           v4 -= 4;
           --v5;
-          *(int *)((char *)ram_0 + v7) = v6;
+          *(int *)((char *)ram + v7) = v6;
         }
         while ( v5 );
       }
-      *(int *)((char *)&MEMORY[0x5B6E44] + (v2 & 0x1FFFFF)) = 0xFFFFFF;
+      *(int *)((char *)&ram[1] + (v2 & 0x1FFFFF)) = 0xFFFFFF;
       if ( v3 <= 0x40 )
       {
         *(_DWORD *)dword_516530 = 268435458;
-        dma_assert_int(6);
+        dma_assert_int(6u);
       }
       else
       {

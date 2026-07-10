@@ -1,8 +1,8 @@
 #include "pch.h"
-unsigned int __cdecl hw_reg_read_word(unsigned int a1)
+int __cdecl hw_reg_read_word(unsigned int a1)
 {
   int register_cb; // edi
-  unsigned int result; // eax
+  int result; // eax
   int v3; // esi
   unsigned int v4; // esi
   unsigned int v5; // esi
@@ -37,7 +37,7 @@ unsigned int __cdecl hw_reg_read_word(unsigned int a1)
               break;
             default:
 LABEL_44:
-              dump_log(console_log_handle, "REG %s [%08x] -> %08x sizeof(%d)\n", (const char *)&off_455894, a1, 0, 4);
+              dump_log(console_log_handle, "REG %s [%08x] -> %08x sizeof(%d)\n", "UNK", a1, 0, 4);
               return 0;
           }
         }

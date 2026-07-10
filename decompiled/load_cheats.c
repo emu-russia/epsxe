@@ -8,7 +8,7 @@ FILE *load_cheats()
   FILE *v4; // esi
   int v5; // eax
 
-  v0 = fopen(aCheatsDatabase, Mode);
+  v0 = fopen("cheats\\database.dat", "rb");
   v1 = v0;
   if ( v0 )
   {
@@ -21,14 +21,14 @@ FILE *load_cheats()
           break;
         fread((void *)(24 * v2 + 4520368), 1u, 0x18u, v1);
         v2 = dword_44F9A8;
-        if ( !(unsigned __int8)sub_41BC30(dword_44F9C0[6 * dword_44F9A8], dword_44F9C4[6 * dword_44F9A8]) )
+        if ( !sub_41BC30(dword_44F9C0[6 * dword_44F9A8], dword_44F9C4[6 * dword_44F9A8]) )
           dword_44F9A8 = ++v2;
       }
       while ( (v1->_flag & 0x10) == 0 );
     }
     fclose(v1);
   }
-  result = fopen(aCheatsDataconf, Mode);
+  result = fopen("cheats\\dataconf.dat", "rb");
   v4 = result;
   if ( result )
   {
