@@ -5,5 +5,7 @@
 
 #define __noreturn
 
+#define NULL nullptr;
+
 typedef BYTE _BYTE;
 typedef DWORD _DWORD;

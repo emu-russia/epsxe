@@ -29,6 +29,7 @@
     <ClCompile Include="..\decompiled\alloc_console.c" />
     <ClCompile Include="..\decompiled\Big_Motor.c" />
     <ClCompile Include="..\decompiled\bios_dialog_callback.c" />
+    <ClCompile Include="..\decompiled\calc_bios_checksum.c" />
     <ClCompile Include="..\decompiled\cdrom_assert_int.c" />
     <ClCompile Include="..\decompiled\cdrom_detect_region.c" />
     <ClCompile Include="..\decompiled\cdrom_dma.c" />
@@ -46,6 +47,7 @@
     <ClCompile Include="..\decompiled\check_state_exists.c" />
     <ClCompile Include="..\decompiled\clear_memory.c" />
     <ClCompile Include="..\decompiled\clear_regs.c" />
+    <ClCompile Include="..\decompiled\close_save_load_window.c" />
     <ClCompile Include="..\decompiled\cmdline_set_bios_name.c" />
     <ClCompile Include="..\decompiled\cpu_interrupt.c" />
     <ClCompile Include="..\decompiled\crc32_calc.c" />
@@ -70,12 +72,11 @@
     <ClCompile Include="..\decompiled\ext_CDR_read.c" />
     <ClCompile Include="..\decompiled\fatal_error_with_message_box.c" />
     <ClCompile Include="..\decompiled\frame_update.c" />
-    <ClCompile Include="..\decompiled\free.c" />
     <ClCompile Include="..\decompiled\free_console.c" />
-    <ClCompile Include="..\decompiled\GetOpenFileNameA.c" />
     <ClCompile Include="..\decompiled\get_gpu_freeze_counter.c" />
     <ClCompile Include="..\decompiled\get_tick_count.c" />
     <ClCompile Include="..\decompiled\gpu_close.c" />
+    <ClCompile Include="..\decompiled\gpu_cursor.c" />
     <ClCompile Include="..\decompiled\gpu_destroy.c" />
     <ClCompile Include="..\decompiled\gpu_display_flags.c" />
     <ClCompile Include="..\decompiled\gpu_dma.c" />
@@ -83,6 +84,7 @@
     <ClCompile Include="..\decompiled\gpu_dma_write.c" />
     <ClCompile Include="..\decompiled\gpu_freeze.c" />
     <ClCompile Include="..\decompiled\gpu_freeze_with_counter.c" />
+    <ClCompile Include="..\decompiled\gpu_hide_screen_pic.c" />
     <ClCompile Include="..\decompiled\gpu_load_plugin.c" />
     <ClCompile Include="..\decompiled\gpu_make_snapshot.c" />
     <ClCompile Include="..\decompiled\gpu_open.c" />
@@ -102,6 +104,7 @@
     <ClCompile Include="..\decompiled\init_direct_input.c" />
     <ClCompile Include="..\decompiled\init_memory_handlers.c" />
     <ClCompile Include="..\decompiled\iso_close.c" />
+    <ClCompile Include="..\decompiled\iso_load.c" />
     <ClCompile Include="..\decompiled\issue_big_motor.c" />
     <ClCompile Include="..\decompiled\issue_small_motor.c" />
     <ClCompile Include="..\decompiled\joy_init.c" />
@@ -132,6 +135,8 @@
     <ClCompile Include="..\decompiled\net_close.c" />
     <ClCompile Include="..\decompiled\net_load_plugin.c" />
     <ClCompile Include="..\decompiled\net_open.c" />
+    <ClCompile Include="..\decompiled\net_pause.c" />
+    <ClCompile Include="..\decompiled\net_resume.c" />
     <ClCompile Include="..\decompiled\nullsub_1.c" />
     <ClCompile Include="..\decompiled\nullsub_2.c" />
     <ClCompile Include="..\decompiled\nullsub_3.c" />
@@ -262,6 +267,7 @@
     <ClCompile Include="..\decompiled\spu_open.c" />
     <ClCompile Include="..\decompiled\spu_play_adpcm.c" />
     <ClCompile Include="..\decompiled\spu_read_register.c" />
+    <ClCompile Include="..\decompiled\spu_registered_callback.c" />
     <ClCompile Include="..\decompiled\spu_set_adpcm_flag.c" />
     <ClCompile Include="..\decompiled\spu_unfreeze.c" />
     <ClCompile Include="..\decompiled\spu_update.c" />
