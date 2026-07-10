@@ -1,0 +1,771 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\decompiled\pch.h" />
+    <ClInclude Include="..\decompiled\vars.h" />
+    <ClInclude Include="..\resources\Resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\decompiled\about_callback.c" />
+    <ClCompile Include="..\decompiled\alloc_console.c" />
+    <ClCompile Include="..\decompiled\Big_Motor.c" />
+    <ClCompile Include="..\decompiled\bios_dialog_callback.c" />
+    <ClCompile Include="..\decompiled\cdrom_assert_int.c" />
+    <ClCompile Include="..\decompiled\cdrom_detect_region.c" />
+    <ClCompile Include="..\decompiled\cdrom_dma.c" />
+    <ClCompile Include="..\decompiled\cdrom_gettrackinfo.c" />
+    <ClCompile Include="..\decompiled\cdrom_gettrackinfo_0.c" />
+    <ClCompile Include="..\decompiled\cdrom_iso_set_path.c" />
+    <ClCompile Include="..\decompiled\cdrom_reg0_write.c" />
+    <ClCompile Include="..\decompiled\cdrom_reg1_write.c" />
+    <ClCompile Include="..\decompiled\cdrom_reg2_write.c" />
+    <ClCompile Include="..\decompiled\cdrom_reg3_write.c" />
+    <ClCompile Include="..\decompiled\cdrom_set_hain_target_lun.c" />
+    <ClCompile Include="..\decompiled\cdrom_set_letter.c" />
+    <ClCompile Include="..\decompiled\cdr_freeze.c" />
+    <ClCompile Include="..\decompiled\cheat_dialog_callback.c" />
+    <ClCompile Include="..\decompiled\check_state_exists.c" />
+    <ClCompile Include="..\decompiled\clear_memory.c" />
+    <ClCompile Include="..\decompiled\clear_regs.c" />
+    <ClCompile Include="..\decompiled\cmdline_set_bios_name.c" />
+    <ClCompile Include="..\decompiled\cpu_interrupt.c" />
+    <ClCompile Include="..\decompiled\crc32_calc.c" />
+    <ClCompile Include="..\decompiled\create_main_window.c" />
+    <ClCompile Include="..\decompiled\create_save_load_window.c" />
+    <ClCompile Include="..\decompiled\dbg_print.c" />
+    <ClCompile Include="..\decompiled\dbg_print_no_flush.c" />
+    <ClCompile Include="..\decompiled\DirectInputCreateA.c" />
+    <ClCompile Include="..\decompiled\DirectSoundCreate.c" />
+    <ClCompile Include="..\decompiled\dma_assert_int.c" />
+    <ClCompile Include="..\decompiled\dma_mem_read.c" />
+    <ClCompile Include="..\decompiled\do_GPUfreeze.c" />
+    <ClCompile Include="..\decompiled\draw_text_on_screen.c" />
+    <ClCompile Include="..\decompiled\dump_log.c" />
+    <ClCompile Include="..\decompiled\dynarec_compile.c" />
+    <ClCompile Include="..\decompiled\epsxe_load.c" />
+    <ClCompile Include="..\decompiled\epsxe_load_demo.c" />
+    <ClCompile Include="..\decompiled\epsxe_load_zip.c" />
+    <ClCompile Include="..\decompiled\epsxe_main_loop_runner.c" />
+    <ClCompile Include="..\decompiled\ext_cdrom_deinit.c" />
+    <ClCompile Include="..\decompiled\ext_cdrom_load_plugin.c" />
+    <ClCompile Include="..\decompiled\ext_CDRplay.c" />
+    <ClCompile Include="..\decompiled\ext_CDRstop.c" />
+    <ClCompile Include="..\decompiled\ext_CDR_read.c" />
+    <ClCompile Include="..\decompiled\fatal_error_with_message_box.c" />
+    <ClCompile Include="..\decompiled\frame_update.c" />
+    <ClCompile Include="..\decompiled\free.c" />
+    <ClCompile Include="..\decompiled\free_console.c" />
+    <ClCompile Include="..\decompiled\GetOpenFileNameA.c" />
+    <ClCompile Include="..\decompiled\get_gpu_freeze_counter.c" />
+    <ClCompile Include="..\decompiled\get_tick_count.c" />
+    <ClCompile Include="..\decompiled\gpu_close.c" />
+    <ClCompile Include="..\decompiled\gpu_destroy.c" />
+    <ClCompile Include="..\decompiled\gpu_display_flags.c" />
+    <ClCompile Include="..\decompiled\gpu_dma.c" />
+    <ClCompile Include="..\decompiled\gpu_dma_read.c" />
+    <ClCompile Include="..\decompiled\gpu_dma_write.c" />
+    <ClCompile Include="..\decompiled\gpu_freeze.c" />
+    <ClCompile Include="..\decompiled\gpu_freeze_with_counter.c" />
+    <ClCompile Include="..\decompiled\gpu_load_plugin.c" />
+    <ClCompile Include="..\decompiled\gpu_make_snapshot.c" />
+    <ClCompile Include="..\decompiled\gpu_open.c" />
+    <ClCompile Include="..\decompiled\gpu_show_screen_pic.c" />
+    <ClCompile Include="..\decompiled\gpu_unfreeze.c" />
+    <ClCompile Include="..\decompiled\gte_clamp.c" />
+    <ClCompile Include="..\decompiled\gte_freeze.c" />
+    <ClCompile Include="..\decompiled\gte_optimized_sub1.c" />
+    <ClCompile Include="..\decompiled\gte_unfreeze.c" />
+    <ClCompile Include="..\decompiled\hw_reg_read_byte.c" />
+    <ClCompile Include="..\decompiled\hw_reg_read_half.c" />
+    <ClCompile Include="..\decompiled\hw_reg_read_word.c" />
+    <ClCompile Include="..\decompiled\hw_reg_write_byte.c" />
+    <ClCompile Include="..\decompiled\hw_reg_write_half.c" />
+    <ClCompile Include="..\decompiled\hw_reg_write_word.c" />
+    <ClCompile Include="..\decompiled\init_aspi.c" />
+    <ClCompile Include="..\decompiled\init_direct_input.c" />
+    <ClCompile Include="..\decompiled\init_memory_handlers.c" />
+    <ClCompile Include="..\decompiled\iso_close.c" />
+    <ClCompile Include="..\decompiled\issue_big_motor.c" />
+    <ClCompile Include="..\decompiled\issue_small_motor.c" />
+    <ClCompile Include="..\decompiled\joy_init.c" />
+    <ClCompile Include="..\decompiled\j_GPUreadData.c" />
+    <ClCompile Include="..\decompiled\j_GPUreadStatus.c" />
+    <ClCompile Include="..\decompiled\j_GPUwriteData.c" />
+    <ClCompile Include="..\decompiled\j_GPUwriteStatus.c" />
+    <ClCompile Include="..\decompiled\load_bios.c" />
+    <ClCompile Include="..\decompiled\load_cheats.c" />
+    <ClCompile Include="..\decompiled\load_cheat_file.c" />
+    <ClCompile Include="..\decompiled\load_settings.c" />
+    <ClCompile Include="..\decompiled\load_winaspi_dll.c" />
+    <ClCompile Include="..\decompiled\main_window_callback.c" />
+    <ClCompile Include="..\decompiled\mdec_decode.c" />
+    <ClCompile Include="..\decompiled\mdec_idct_sse.c" />
+    <ClCompile Include="..\decompiled\memcard1_save.c" />
+    <ClCompile Include="..\decompiled\memcard2_save.c" />
+    <ClCompile Include="..\decompiled\memcard_all_save.c" />
+    <ClCompile Include="..\decompiled\memcard_load.c" />
+    <ClCompile Include="..\decompiled\memcard_settings.c" />
+    <ClCompile Include="..\decompiled\mem_freeze.c" />
+    <ClCompile Include="..\decompiled\mem_read_half.c" />
+    <ClCompile Include="..\decompiled\mem_read_word.c" />
+    <ClCompile Include="..\decompiled\mem_unfreeze.c" />
+    <ClCompile Include="..\decompiled\mem_write_half.c" />
+    <ClCompile Include="..\decompiled\mem_write_word.c" />
+    <ClCompile Include="..\decompiled\netplay_handler.c" />
+    <ClCompile Include="..\decompiled\net_close.c" />
+    <ClCompile Include="..\decompiled\net_load_plugin.c" />
+    <ClCompile Include="..\decompiled\net_open.c" />
+    <ClCompile Include="..\decompiled\nullsub_1.c" />
+    <ClCompile Include="..\decompiled\nullsub_2.c" />
+    <ClCompile Include="..\decompiled\nullsub_3.c" />
+    <ClCompile Include="..\decompiled\nullsub_4.c" />
+    <ClCompile Include="..\decompiled\nullsub_5.c" />
+    <ClCompile Include="..\decompiled\nullsub_6.c" />
+    <ClCompile Include="..\decompiled\nullsub_7.c" />
+    <ClCompile Include="..\decompiled\nullsub_8.c" />
+    <ClCompile Include="..\decompiled\open_file_dialog.c" />
+    <ClCompile Include="..\decompiled\op_ADD.c" />
+    <ClCompile Include="..\decompiled\op_ADDI.c" />
+    <ClCompile Include="..\decompiled\op_AND.c" />
+    <ClCompile Include="..\decompiled\op_ANDI.c" />
+    <ClCompile Include="..\decompiled\op_BCONDZ.c" />
+    <ClCompile Include="..\decompiled\op_BEQ.c" />
+    <ClCompile Include="..\decompiled\op_BGTZ.c" />
+    <ClCompile Include="..\decompiled\op_BLEZ.c" />
+    <ClCompile Include="..\decompiled\op_BNE.c" />
+    <ClCompile Include="..\decompiled\op_COP0.c" />
+    <ClCompile Include="..\decompiled\op_DIV.c" />
+    <ClCompile Include="..\decompiled\op_DIVU.c" />
+    <ClCompile Include="..\decompiled\op_GTE_opcode.c" />
+    <ClCompile Include="..\decompiled\op_J.c" />
+    <ClCompile Include="..\decompiled\op_JAL.c" />
+    <ClCompile Include="..\decompiled\op_JALR.c" />
+    <ClCompile Include="..\decompiled\op_JR.c" />
+    <ClCompile Include="..\decompiled\op_LB.c" />
+    <ClCompile Include="..\decompiled\op_LBU.c" />
+    <ClCompile Include="..\decompiled\op_LH.c" />
+    <ClCompile Include="..\decompiled\op_LHU.c" />
+    <ClCompile Include="..\decompiled\op_LUI.c" />
+    <ClCompile Include="..\decompiled\op_LW.c" />
+    <ClCompile Include="..\decompiled\op_LWC2.c" />
+    <ClCompile Include="..\decompiled\op_LWL.c" />
+    <ClCompile Include="..\decompiled\op_LWR.c" />
+    <ClCompile Include="..\decompiled\op_MFC0.c" />
+    <ClCompile Include="..\decompiled\op_MFHI.c" />
+    <ClCompile Include="..\decompiled\op_MFLO.c" />
+    <ClCompile Include="..\decompiled\op_MTC0.c" />
+    <ClCompile Include="..\decompiled\op_MTHI.c" />
+    <ClCompile Include="..\decompiled\op_MTLO.c" />
+    <ClCompile Include="..\decompiled\op_MULT.c" />
+    <ClCompile Include="..\decompiled\op_MULTU.c" />
+    <ClCompile Include="..\decompiled\op_NOR.c" />
+    <ClCompile Include="..\decompiled\op_OR.c" />
+    <ClCompile Include="..\decompiled\op_ORI.c" />
+    <ClCompile Include="..\decompiled\op_SB.c" />
+    <ClCompile Include="..\decompiled\op_SH.c" />
+    <ClCompile Include="..\decompiled\op_SLL.c" />
+    <ClCompile Include="..\decompiled\op_SLLV.c" />
+    <ClCompile Include="..\decompiled\op_SLT.c" />
+    <ClCompile Include="..\decompiled\op_SLTI.c" />
+    <ClCompile Include="..\decompiled\op_SLTIU.c" />
+    <ClCompile Include="..\decompiled\op_SLTU.c" />
+    <ClCompile Include="..\decompiled\op_SPECIAL.c" />
+    <ClCompile Include="..\decompiled\op_SRA.c" />
+    <ClCompile Include="..\decompiled\op_SRAV.c" />
+    <ClCompile Include="..\decompiled\op_SRL.c" />
+    <ClCompile Include="..\decompiled\op_SRLV.c" />
+    <ClCompile Include="..\decompiled\op_SUB.c" />
+    <ClCompile Include="..\decompiled\op_SW.c" />
+    <ClCompile Include="..\decompiled\op_SWC2.c" />
+    <ClCompile Include="..\decompiled\op_SWL.c" />
+    <ClCompile Include="..\decompiled\op_SWR.c" />
+    <ClCompile Include="..\decompiled\op_SYSCALL.c" />
+    <ClCompile Include="..\decompiled\op_UNKNOWN.c" />
+    <ClCompile Include="..\decompiled\op_XOR.c" />
+    <ClCompile Include="..\decompiled\op_XORI.c" />
+    <ClCompile Include="..\decompiled\parse_command_line_options.c" />
+    <ClCompile Include="..\decompiled\patch_game.c" />
+    <ClCompile Include="..\decompiled\pch.c" />
+    <ClCompile Include="..\decompiled\print_develop_options.c" />
+    <ClCompile Include="..\decompiled\print_usage.c" />
+    <ClCompile Include="..\decompiled\print_version.c" />
+    <ClCompile Include="..\decompiled\process_input.c" />
+    <ClCompile Include="..\decompiled\rcnt_write_reg.c" />
+    <ClCompile Include="..\decompiled\register_save_load_win_class.c" />
+    <ClCompile Include="..\decompiled\register_win_class.c" />
+    <ClCompile Include="..\decompiled\reg_get_value.c" />
+    <ClCompile Include="..\decompiled\reg_set_value.c" />
+    <ClCompile Include="..\decompiled\reopen_console_log.c" />
+    <ClCompile Include="..\decompiled\RtlUnwind.c" />
+    <ClCompile Include="..\decompiled\save_load_state.c" />
+    <ClCompile Include="..\decompiled\save_load_win_callback.c" />
+    <ClCompile Include="..\decompiled\save_settings.c" />
+    <ClCompile Include="..\decompiled\search_cdrom_plugin.c" />
+    <ClCompile Include="..\decompiled\search_net_plugin.c" />
+    <ClCompile Include="..\decompiled\search_spu_plugin.c" />
+    <ClCompile Include="..\decompiled\search_video_plugin.c" />
+    <ClCompile Include="..\decompiled\select_cdrom_core.c" />
+    <ClCompile Include="..\decompiled\select_plugins_backend.c" />
+    <ClCompile Include="..\decompiled\setup_wizard_begin.c" />
+    <ClCompile Include="..\decompiled\setup_wizard_callback.c" />
+    <ClCompile Include="..\decompiled\setup_wizard_controllers.c" />
+    <ClCompile Include="..\decompiled\setup_wizard_end.c" />
+    <ClCompile Include="..\decompiled\setup_wizard_search_bios.c" />
+    <ClCompile Include="..\decompiled\setup_wizard_search_cdrom_plugin.c" />
+    <ClCompile Include="..\decompiled\setup_wizard_search_spu_plugin.c" />
+    <ClCompile Include="..\decompiled\setup_wizard_search_video_plugin.c" />
+    <ClCompile Include="..\decompiled\set_gpu_freeze_counter.c" />
+    <ClCompile Include="..\decompiled\sio_assert_int.c" />
+    <ClCompile Include="..\decompiled\sio_command.c" />
+    <ClCompile Include="..\decompiled\sio_data_read.c" />
+    <ClCompile Include="..\decompiled\sio_data_write.c" />
+    <ClCompile Include="..\decompiled\sio_freeze.c" />
+    <ClCompile Include="..\decompiled\sio_read.c" />
+    <ClCompile Include="..\decompiled\sio_read_half.c" />
+    <ClCompile Include="..\decompiled\sio_read_word.c" />
+    <ClCompile Include="..\decompiled\sio_reset.c" />
+    <ClCompile Include="..\decompiled\sio_unfreeze.c" />
+    <ClCompile Include="..\decompiled\Small_Motor.c" />
+    <ClCompile Include="..\decompiled\spucore_configure_dialog_callback.c" />
+    <ClCompile Include="..\decompiled\spucore_destroy.c" />
+    <ClCompile Include="..\decompiled\spucore_dma.c" />
+    <ClCompile Include="..\decompiled\spucore_freeze.c" />
+    <ClCompile Include="..\decompiled\spucore_init.c" />
+    <ClCompile Include="..\decompiled\spucore_play_adpcm.c" />
+    <ClCompile Include="..\decompiled\spucore_read_register.c" />
+    <ClCompile Include="..\decompiled\spucore_unfreeze.c" />
+    <ClCompile Include="..\decompiled\spucore_update.c" />
+    <ClCompile Include="..\decompiled\spucore_write_register.c" />
+    <ClCompile Include="..\decompiled\spu_async_update.c" />
+    <ClCompile Include="..\decompiled\spu_close.c" />
+    <ClCompile Include="..\decompiled\spu_destroy.c" />
+    <ClCompile Include="..\decompiled\spu_dma.c" />
+    <ClCompile Include="..\decompiled\spu_freeze.c" />
+    <ClCompile Include="..\decompiled\spu_init_internal_core.c" />
+    <ClCompile Include="..\decompiled\spu_load_plugin.c" />
+    <ClCompile Include="..\decompiled\spu_open.c" />
+    <ClCompile Include="..\decompiled\spu_play_adpcm.c" />
+    <ClCompile Include="..\decompiled\spu_read_register.c" />
+    <ClCompile Include="..\decompiled\spu_set_adpcm_flag.c" />
+    <ClCompile Include="..\decompiled\spu_unfreeze.c" />
+    <ClCompile Include="..\decompiled\spu_update.c" />
+    <ClCompile Include="..\decompiled\spu_write_register.c" />
+    <ClCompile Include="..\decompiled\sse_m_empty.c" />
+    <ClCompile Include="..\decompiled\start.c" />
+    <ClCompile Include="..\decompiled\state_load.c" />
+    <ClCompile Include="..\decompiled\state_save.c" />
+    <ClCompile Include="..\decompiled\sub_4038F0.c" />
+    <ClCompile Include="..\decompiled\sub_403910.c" />
+    <ClCompile Include="..\decompiled\sub_403BF0.c" />
+    <ClCompile Include="..\decompiled\sub_403C30.c" />
+    <ClCompile Include="..\decompiled\sub_403C60.c" />
+    <ClCompile Include="..\decompiled\sub_403DF0.c" />
+    <ClCompile Include="..\decompiled\sub_403F60.c" />
+    <ClCompile Include="..\decompiled\sub_4041B0.c" />
+    <ClCompile Include="..\decompiled\sub_4042B0.c" />
+    <ClCompile Include="..\decompiled\sub_4043B0.c" />
+    <ClCompile Include="..\decompiled\sub_407FA0.c" />
+    <ClCompile Include="..\decompiled\sub_407FF0.c" />
+    <ClCompile Include="..\decompiled\sub_40C390.c" />
+    <ClCompile Include="..\decompiled\sub_40C560.c" />
+    <ClCompile Include="..\decompiled\sub_40C5B0.c" />
+    <ClCompile Include="..\decompiled\sub_40C5F0.c" />
+    <ClCompile Include="..\decompiled\sub_40C620.c" />
+    <ClCompile Include="..\decompiled\sub_40C8B0.c" />
+    <ClCompile Include="..\decompiled\sub_40CCF0.c" />
+    <ClCompile Include="..\decompiled\sub_40CD20.c" />
+    <ClCompile Include="..\decompiled\sub_40CD50.c" />
+    <ClCompile Include="..\decompiled\sub_40CD60.c" />
+    <ClCompile Include="..\decompiled\sub_40CD70.c" />
+    <ClCompile Include="..\decompiled\sub_40CD80.c" />
+    <ClCompile Include="..\decompiled\sub_40CDA0.c" />
+    <ClCompile Include="..\decompiled\sub_40CDD0.c" />
+    <ClCompile Include="..\decompiled\sub_40CDF0.c" />
+    <ClCompile Include="..\decompiled\sub_40CE00.c" />
+    <ClCompile Include="..\decompiled\sub_40CE10.c" />
+    <ClCompile Include="..\decompiled\sub_40CE20.c" />
+    <ClCompile Include="..\decompiled\sub_40D0D0.c" />
+    <ClCompile Include="..\decompiled\sub_40E1D0.c" />
+    <ClCompile Include="..\decompiled\sub_40E240.c" />
+    <ClCompile Include="..\decompiled\sub_40E2C0.c" />
+    <ClCompile Include="..\decompiled\sub_40E2E0.c" />
+    <ClCompile Include="..\decompiled\sub_40E3C0.c" />
+    <ClCompile Include="..\decompiled\sub_40E3F0.c" />
+    <ClCompile Include="..\decompiled\sub_40E460.c" />
+    <ClCompile Include="..\decompiled\sub_40E510.c" />
+    <ClCompile Include="..\decompiled\sub_40E5E0.c" />
+    <ClCompile Include="..\decompiled\sub_40E670.c" />
+    <ClCompile Include="..\decompiled\sub_40E700.c" />
+    <ClCompile Include="..\decompiled\sub_40E750.c" />
+    <ClCompile Include="..\decompiled\sub_40E800.c" />
+    <ClCompile Include="..\decompiled\sub_40F010.c" />
+    <ClCompile Include="..\decompiled\sub_40F340.c" />
+    <ClCompile Include="..\decompiled\sub_40FA30.c" />
+    <ClCompile Include="..\decompiled\sub_40FA70.c" />
+    <ClCompile Include="..\decompiled\sub_40FAB0.c" />
+    <ClCompile Include="..\decompiled\sub_40FB20.c" />
+    <ClCompile Include="..\decompiled\sub_40FB40.c" />
+    <ClCompile Include="..\decompiled\sub_40FB60.c" />
+    <ClCompile Include="..\decompiled\sub_40FB80.c" />
+    <ClCompile Include="..\decompiled\sub_40FE00.c" />
+    <ClCompile Include="..\decompiled\sub_410400.c" />
+    <ClCompile Include="..\decompiled\sub_410420.c" />
+    <ClCompile Include="..\decompiled\sub_410690.c" />
+    <ClCompile Include="..\decompiled\sub_410D20.c" />
+    <ClCompile Include="..\decompiled\sub_4110A0.c" />
+    <ClCompile Include="..\decompiled\sub_411980.c" />
+    <ClCompile Include="..\decompiled\sub_411E50.c" />
+    <ClCompile Include="..\decompiled\sub_412B10.c" />
+    <ClCompile Include="..\decompiled\sub_412D70.c" />
+    <ClCompile Include="..\decompiled\sub_4131C0.c" />
+    <ClCompile Include="..\decompiled\sub_413C70.c" />
+    <ClCompile Include="..\decompiled\sub_414030.c" />
+    <ClCompile Include="..\decompiled\sub_4144A0.c" />
+    <ClCompile Include="..\decompiled\sub_4145C0.c" />
+    <ClCompile Include="..\decompiled\sub_414EE0.c" />
+    <ClCompile Include="..\decompiled\sub_41BA80.c" />
+    <ClCompile Include="..\decompiled\sub_41BB00.c" />
+    <ClCompile Include="..\decompiled\sub_41BB90.c" />
+    <ClCompile Include="..\decompiled\sub_41BC30.c" />
+    <ClCompile Include="..\decompiled\sub_41BD60.c" />
+    <ClCompile Include="..\decompiled\sub_41BDC0.c" />
+    <ClCompile Include="..\decompiled\sub_41BEA0.c" />
+    <ClCompile Include="..\decompiled\sub_41C010.c" />
+    <ClCompile Include="..\decompiled\sub_41C0B0.c" />
+    <ClCompile Include="..\decompiled\sub_41C100.c" />
+    <ClCompile Include="..\decompiled\sub_41C220.c" />
+    <ClCompile Include="..\decompiled\sub_41C390.c" />
+    <ClCompile Include="..\decompiled\sub_41E900.c" />
+    <ClCompile Include="..\decompiled\sub_41EA00.c" />
+    <ClCompile Include="..\decompiled\sub_41EA80.c" />
+    <ClCompile Include="..\decompiled\sub_41EB10.c" />
+    <ClCompile Include="..\decompiled\sub_41ED00.c" />
+    <ClCompile Include="..\decompiled\sub_41EE40.c" />
+    <ClCompile Include="..\decompiled\sub_41F1F0.c" />
+    <ClCompile Include="..\decompiled\sub_41F960.c" />
+    <ClCompile Include="..\decompiled\sub_41FE40.c" />
+    <ClCompile Include="..\decompiled\sub_41FE70.c" />
+    <ClCompile Include="..\decompiled\sub_41FEB0.c" />
+    <ClCompile Include="..\decompiled\sub_4201C0.c" />
+    <ClCompile Include="..\decompiled\sub_420210.c" />
+    <ClCompile Include="..\decompiled\sub_420240.c" />
+    <ClCompile Include="..\decompiled\sub_420310.c" />
+    <ClCompile Include="..\decompiled\sub_4203E0.c" />
+    <ClCompile Include="..\decompiled\sub_420500.c" />
+    <ClCompile Include="..\decompiled\sub_420730.c" />
+    <ClCompile Include="..\decompiled\sub_4208D0.c" />
+    <ClCompile Include="..\decompiled\sub_420A00.c" />
+    <ClCompile Include="..\decompiled\sub_420AF0.c" />
+    <ClCompile Include="..\decompiled\sub_420C20.c" />
+    <ClCompile Include="..\decompiled\sub_420C70.c" />
+    <ClCompile Include="..\decompiled\sub_420CB0.c" />
+    <ClCompile Include="..\decompiled\sub_420CC0.c" />
+    <ClCompile Include="..\decompiled\sub_420D60.c" />
+    <ClCompile Include="..\decompiled\sub_420DB0.c" />
+    <ClCompile Include="..\decompiled\sub_420F90.c" />
+    <ClCompile Include="..\decompiled\sub_421B10.c" />
+    <ClCompile Include="..\decompiled\sub_421B40.c" />
+    <ClCompile Include="..\decompiled\sub_421FD0.c" />
+    <ClCompile Include="..\decompiled\sub_422340.c" />
+    <ClCompile Include="..\decompiled\sub_422360.c" />
+    <ClCompile Include="..\decompiled\sub_422390.c" />
+    <ClCompile Include="..\decompiled\sub_423780.c" />
+    <ClCompile Include="..\decompiled\sub_4237F0.c" />
+    <ClCompile Include="..\decompiled\sub_423850.c" />
+    <ClCompile Include="..\decompiled\sub_4238B0.c" />
+    <ClCompile Include="..\decompiled\sub_4281B0.c" />
+    <ClCompile Include="..\decompiled\sub_428270.c" />
+    <ClCompile Include="..\decompiled\sub_429100.c" />
+    <ClCompile Include="..\decompiled\sub_429140.c" />
+    <ClCompile Include="..\decompiled\sub_4291E0.c" />
+    <ClCompile Include="..\decompiled\sub_429220.c" />
+    <ClCompile Include="..\decompiled\sub_429240.c" />
+    <ClCompile Include="..\decompiled\sub_429280.c" />
+    <ClCompile Include="..\decompiled\sub_4292C0.c" />
+    <ClCompile Include="..\decompiled\sub_429310.c" />
+    <ClCompile Include="..\decompiled\sub_429380.c" />
+    <ClCompile Include="..\decompiled\sub_429540.c" />
+    <ClCompile Include="..\decompiled\sub_429A70.c" />
+    <ClCompile Include="..\decompiled\sub_429B90.c" />
+    <ClCompile Include="..\decompiled\sub_429C30.c" />
+    <ClCompile Include="..\decompiled\sub_429D20.c" />
+    <ClCompile Include="..\decompiled\sub_42A0D0.c" />
+    <ClCompile Include="..\decompiled\sub_42A160.c" />
+    <ClCompile Include="..\decompiled\sub_42A1B0.c" />
+    <ClCompile Include="..\decompiled\sub_42A210.c" />
+    <ClCompile Include="..\decompiled\sub_42A950.c" />
+    <ClCompile Include="..\decompiled\sub_42ACC0.c" />
+    <ClCompile Include="..\decompiled\sub_42AFD0.c" />
+    <ClCompile Include="..\decompiled\sub_42B070.c" />
+    <ClCompile Include="..\decompiled\sub_42B080.c" />
+    <ClCompile Include="..\decompiled\sub_42B120.c" />
+    <ClCompile Include="..\decompiled\sub_42B1E0.c" />
+    <ClCompile Include="..\decompiled\sub_42B2A0.c" />
+    <ClCompile Include="..\decompiled\sub_42B680.c" />
+    <ClCompile Include="..\decompiled\sub_42B6A0.c" />
+    <ClCompile Include="..\decompiled\sub_42C6D0.c" />
+    <ClCompile Include="..\decompiled\sub_42C710.c" />
+    <ClCompile Include="..\decompiled\sub_42C7E0.c" />
+    <ClCompile Include="..\decompiled\sub_42C820.c" />
+    <ClCompile Include="..\decompiled\sub_42C830.c" />
+    <ClCompile Include="..\decompiled\sub_42C8B0.c" />
+    <ClCompile Include="..\decompiled\sub_42C8D0.c" />
+    <ClCompile Include="..\decompiled\sub_42C9A0.c" />
+    <ClCompile Include="..\decompiled\sub_42CA00.c" />
+    <ClCompile Include="..\decompiled\sub_42CA70.c" />
+    <ClCompile Include="..\decompiled\sub_42CDE0.c" />
+    <ClCompile Include="..\decompiled\sub_42CE40.c" />
+    <ClCompile Include="..\decompiled\sub_42CED0.c" />
+    <ClCompile Include="..\decompiled\sub_42CF40.c" />
+    <ClCompile Include="..\decompiled\sub_42CFE0.c" />
+    <ClCompile Include="..\decompiled\sub_42D010.c" />
+    <ClCompile Include="..\decompiled\sub_42D0E0.c" />
+    <ClCompile Include="..\decompiled\sub_42D3C0.c" />
+    <ClCompile Include="..\decompiled\sub_42D440.c" />
+    <ClCompile Include="..\decompiled\sub_42D620.c" />
+    <ClCompile Include="..\decompiled\sub_42DBC0.c" />
+    <ClCompile Include="..\decompiled\sub_42DBE0.c" />
+    <ClCompile Include="..\decompiled\sub_42DC00.c" />
+    <ClCompile Include="..\decompiled\sub_42DCC0.c" />
+    <ClCompile Include="..\decompiled\sub_42DCF0.c" />
+    <ClCompile Include="..\decompiled\sub_42DED0.c" />
+    <ClCompile Include="..\decompiled\sub_42DF80.c" />
+    <ClCompile Include="..\decompiled\sub_42E3A0.c" />
+    <ClCompile Include="..\decompiled\sub_42E450.c" />
+    <ClCompile Include="..\decompiled\sub_42E650.c" />
+    <ClCompile Include="..\decompiled\sub_42E940.c" />
+    <ClCompile Include="..\decompiled\sub_42EB00.c" />
+    <ClCompile Include="..\decompiled\sub_42EBF0.c" />
+    <ClCompile Include="..\decompiled\sub_42EDF0.c" />
+    <ClCompile Include="..\decompiled\sub_42EE20.c" />
+    <ClCompile Include="..\decompiled\sub_42F5F0.c" />
+    <ClCompile Include="..\decompiled\sub_42F610.c" />
+    <ClCompile Include="..\decompiled\sub_42F630.c" />
+    <ClCompile Include="..\decompiled\sub_42F7E0.c" />
+    <ClCompile Include="..\decompiled\sub_42F870.c" />
+    <ClCompile Include="..\decompiled\sub_42F8F0.c" />
+    <ClCompile Include="..\decompiled\sub_42F990.c" />
+    <ClCompile Include="..\decompiled\sub_42FA10.c" />
+    <ClCompile Include="..\decompiled\sub_42FA70.c" />
+    <ClCompile Include="..\decompiled\sub_42FCB0.c" />
+    <ClCompile Include="..\decompiled\sub_42FF60.c" />
+    <ClCompile Include="..\decompiled\sub_4304E0.c" />
+    <ClCompile Include="..\decompiled\sub_430500.c" />
+    <ClCompile Include="..\decompiled\sub_430750.c" />
+    <ClCompile Include="..\decompiled\sub_430810.c" />
+    <ClCompile Include="..\decompiled\sub_430820.c" />
+    <ClCompile Include="..\decompiled\sub_430A00.c" />
+    <ClCompile Include="..\decompiled\sub_430B60.c" />
+    <ClCompile Include="..\decompiled\sub_430D70.c" />
+    <ClCompile Include="..\decompiled\sub_430E40.c" />
+    <ClCompile Include="..\decompiled\sub_431110.c" />
+    <ClCompile Include="..\decompiled\sub_431390.c" />
+    <ClCompile Include="..\decompiled\sub_4313E0.c" />
+    <ClCompile Include="..\decompiled\sub_4314A0.c" />
+    <ClCompile Include="..\decompiled\sub_4314C0.c" />
+    <ClCompile Include="..\decompiled\sub_4315A0.c" />
+    <ClCompile Include="..\decompiled\sub_431680.c" />
+    <ClCompile Include="..\decompiled\sub_431760.c" />
+    <ClCompile Include="..\decompiled\sub_431810.c" />
+    <ClCompile Include="..\decompiled\sub_431900.c" />
+    <ClCompile Include="..\decompiled\sub_431990.c" />
+    <ClCompile Include="..\decompiled\sub_431A20.c" />
+    <ClCompile Include="..\decompiled\sub_431AB0.c" />
+    <ClCompile Include="..\decompiled\sub_431B00.c" />
+    <ClCompile Include="..\decompiled\sub_433220.c" />
+    <ClCompile Include="..\decompiled\sub_433530.c" />
+    <ClCompile Include="..\decompiled\sub_433610.c" />
+    <ClCompile Include="..\decompiled\sub_433630.c" />
+    <ClCompile Include="..\decompiled\sub_4337F0.c" />
+    <ClCompile Include="..\decompiled\sub_433930.c" />
+    <ClCompile Include="..\decompiled\sub_433B20.c" />
+    <ClCompile Include="..\decompiled\sub_433B70.c" />
+    <ClCompile Include="..\decompiled\sub_433C10.c" />
+    <ClCompile Include="..\decompiled\sub_433CF0.c" />
+    <ClCompile Include="..\decompiled\sub_434000.c" />
+    <ClCompile Include="..\decompiled\sub_4341C0.c" />
+    <ClCompile Include="..\decompiled\sub_4341E0.c" />
+    <ClCompile Include="..\decompiled\sub_4342D0.c" />
+    <ClCompile Include="..\decompiled\sub_4345E0.c" />
+    <ClCompile Include="..\decompiled\sub_434600.c" />
+    <ClCompile Include="..\decompiled\sub_4347A0.c" />
+    <ClCompile Include="..\decompiled\sub_4348D0.c" />
+    <ClCompile Include="..\decompiled\sub_434AC0.c" />
+    <ClCompile Include="..\decompiled\sub_434B80.c" />
+    <ClCompile Include="..\decompiled\sub_434C60.c" />
+    <ClCompile Include="..\decompiled\sub_434D40.c" />
+    <ClCompile Include="..\decompiled\sub_434DF0.c" />
+    <ClCompile Include="..\decompiled\sub_434EE0.c" />
+    <ClCompile Include="..\decompiled\sub_434F70.c" />
+    <ClCompile Include="..\decompiled\sub_435000.c" />
+    <ClCompile Include="..\decompiled\sub_435090.c" />
+    <ClCompile Include="..\decompiled\sub_4350E0.c" />
+    <ClCompile Include="..\decompiled\sub_436800.c" />
+    <ClCompile Include="..\decompiled\sub_436830.c" />
+    <ClCompile Include="..\decompiled\sub_436910.c" />
+    <ClCompile Include="..\decompiled\sub_436960.c" />
+    <ClCompile Include="..\decompiled\sub_436A00.c" />
+    <ClCompile Include="..\decompiled\sub_436AF0.c" />
+    <ClCompile Include="..\decompiled\sub_436B50.c" />
+    <ClCompile Include="..\decompiled\sub_436F30.c" />
+    <ClCompile Include="..\decompiled\sub_436F60.c" />
+    <ClCompile Include="..\decompiled\sub_437030.c" />
+    <ClCompile Include="..\decompiled\sub_437040.c" />
+    <ClCompile Include="..\decompiled\sub_4386F0.c" />
+    <ClCompile Include="..\decompiled\sub_438710.c" />
+    <ClCompile Include="..\decompiled\sub_438970.c" />
+    <ClCompile Include="..\decompiled\sub_438A20.c" />
+    <ClCompile Include="..\decompiled\sub_438B70.c" />
+    <ClCompile Include="..\decompiled\sub_438BF0.c" />
+    <ClCompile Include="..\decompiled\sub_438CA0.c" />
+    <ClCompile Include="..\decompiled\sub_438F10.c" />
+    <ClCompile Include="..\decompiled\sub_438F70.c" />
+    <ClCompile Include="..\decompiled\sub_439110.c" />
+    <ClCompile Include="..\decompiled\sub_4391D0.c" />
+    <ClCompile Include="..\decompiled\sub_439320.c" />
+    <ClCompile Include="..\decompiled\sub_4393D0.c" />
+    <ClCompile Include="..\decompiled\sub_439420.c" />
+    <ClCompile Include="..\decompiled\sub_439470.c" />
+    <ClCompile Include="..\decompiled\sub_4394A0.c" />
+    <ClCompile Include="..\decompiled\sub_4395A0.c" />
+    <ClCompile Include="..\decompiled\sub_4395F0.c" />
+    <ClCompile Include="..\decompiled\sub_439640.c" />
+    <ClCompile Include="..\decompiled\sub_439770.c" />
+    <ClCompile Include="..\decompiled\sub_439BA0.c" />
+    <ClCompile Include="..\decompiled\sub_439C30.c" />
+    <ClCompile Include="..\decompiled\sub_439D60.c" />
+    <ClCompile Include="..\decompiled\sub_439F60.c" />
+    <ClCompile Include="..\decompiled\sub_43A060.c" />
+    <ClCompile Include="..\decompiled\sub_43A0E0.c" />
+    <ClCompile Include="..\decompiled\sub_43A1B0.c" />
+    <ClCompile Include="..\decompiled\sub_43A460.c" />
+    <ClCompile Include="..\decompiled\sub_43A490.c" />
+    <ClCompile Include="..\decompiled\sub_43A510.c" />
+    <ClCompile Include="..\decompiled\sub_43A5C0.c" />
+    <ClCompile Include="..\decompiled\sub_43A770.c" />
+    <ClCompile Include="..\decompiled\sub_43A810.c" />
+    <ClCompile Include="..\decompiled\sub_43A970.c" />
+    <ClCompile Include="..\decompiled\sub_43AAA0.c" />
+    <ClCompile Include="..\decompiled\sub_43AB20.c" />
+    <ClCompile Include="..\decompiled\sub_43AE50.c" />
+    <ClCompile Include="..\decompiled\sub_43AFC0.c" />
+    <ClCompile Include="..\decompiled\sub_43B3F0.c" />
+    <ClCompile Include="..\decompiled\sub_43B540.c" />
+    <ClCompile Include="..\decompiled\sub_43B550.c" />
+    <ClCompile Include="..\decompiled\sub_43B570.c" />
+    <ClCompile Include="..\decompiled\sub_43B590.c" />
+    <ClCompile Include="..\decompiled\sub_43B5A0.c" />
+    <ClCompile Include="..\decompiled\sub_43B620.c" />
+    <ClCompile Include="..\decompiled\sub_43B6C0.c" />
+    <ClCompile Include="..\decompiled\sub_43C3C0.c" />
+    <ClCompile Include="..\decompiled\sub_43C400.c" />
+    <ClCompile Include="..\decompiled\sub_43C440.c" />
+    <ClCompile Include="..\decompiled\sub_43C450.c" />
+    <ClCompile Include="..\decompiled\sub_43C580.c" />
+    <ClCompile Include="..\decompiled\sub_43C600.c" />
+    <ClCompile Include="..\decompiled\sub_43C670.c" />
+    <ClCompile Include="..\decompiled\sub_43C710.c" />
+    <ClCompile Include="..\decompiled\sub_43C970.c" />
+    <ClCompile Include="..\decompiled\sub_43CB60.c" />
+    <ClCompile Include="..\decompiled\sub_43CDA0.c" />
+    <ClCompile Include="..\decompiled\sub_43CE80.c" />
+    <ClCompile Include="..\decompiled\sub_43D0B0.c" />
+    <ClCompile Include="..\decompiled\sub_43D130.c" />
+    <ClCompile Include="..\decompiled\sub_43D1A0.c" />
+    <ClCompile Include="..\decompiled\sub_43D290.c" />
+    <ClCompile Include="..\decompiled\sub_43D500.c" />
+    <ClCompile Include="..\decompiled\sub_43DA80.c" />
+    <ClCompile Include="..\decompiled\sub_43DB30.c" />
+    <ClCompile Include="..\decompiled\sub_43DF70.c" />
+    <ClCompile Include="..\decompiled\sub_43DFF0.c" />
+    <ClCompile Include="..\decompiled\sub_43E010.c" />
+    <ClCompile Include="..\decompiled\sub_43E0A0.c" />
+    <ClCompile Include="..\decompiled\sub_43E120.c" />
+    <ClCompile Include="..\decompiled\sub_43E1C0.c" />
+    <ClCompile Include="..\decompiled\sub_43E200.c" />
+    <ClCompile Include="..\decompiled\sub_43E9B0.c" />
+    <ClCompile Include="..\decompiled\sub_43E9D0.c" />
+    <ClCompile Include="..\decompiled\sub_43EA80.c" />
+    <ClCompile Include="..\decompiled\sub_43EF50.c" />
+    <ClCompile Include="..\decompiled\sub_43F0E0.c" />
+    <ClCompile Include="..\decompiled\sub_43F110.c" />
+    <ClCompile Include="..\decompiled\sub_43F250.c" />
+    <ClCompile Include="..\decompiled\sub_43FBA8.c" />
+    <ClCompile Include="..\decompiled\sub_4406FF.c" />
+    <ClCompile Include="..\decompiled\sub_44259C.c" />
+    <ClCompile Include="..\decompiled\sub_4425C9.c" />
+    <ClCompile Include="..\decompiled\sub_442711.c" />
+    <ClCompile Include="..\decompiled\sub_4427E1.c" />
+    <ClCompile Include="..\decompiled\sub_442FBF.c" />
+    <ClCompile Include="..\decompiled\sub_443103.c" />
+    <ClCompile Include="..\decompiled\sub_443159.c" />
+    <ClCompile Include="..\decompiled\sub_44321B.c" />
+    <ClCompile Include="..\decompiled\sub_443272.c" />
+    <ClCompile Include="..\decompiled\sub_4432B7.c" />
+    <ClCompile Include="..\decompiled\sub_4434BF.c" />
+    <ClCompile Include="..\decompiled\sub_444CC9.c" />
+    <ClCompile Include="..\decompiled\sub_44574C.c" />
+    <ClCompile Include="..\decompiled\sub_445762.c" />
+    <ClCompile Include="..\decompiled\sub_445778.c" />
+    <ClCompile Include="..\decompiled\sub_4457A5.c" />
+    <ClCompile Include="..\decompiled\sub_445EF7.c" />
+    <ClCompile Include="..\decompiled\touch_demo_file.c" />
+    <ClCompile Include="..\decompiled\ui_error.c" />
+    <ClCompile Include="..\decompiled\vars.c" />
+    <ClCompile Include="..\decompiled\W2k_cdrom_deinit.c" />
+    <ClCompile Include="..\decompiled\W2k_cdrom_init.c" />
+    <ClCompile Include="..\decompiled\W2k_cdrom_play_cdda.c" />
+    <ClCompile Include="..\decompiled\W2k_cdrom_read_data.c" />
+    <ClCompile Include="..\decompiled\w2k_cdrom_settings.c" />
+    <ClCompile Include="..\decompiled\W2k_cdrom_stop.c" />
+    <ClCompile Include="..\decompiled\W2k_cdrom_subchannel_read.c" />
+    <ClCompile Include="..\decompiled\W9x_cdrom_deinit.c" />
+    <ClCompile Include="..\decompiled\W9x_cdrom_init.c" />
+    <ClCompile Include="..\decompiled\W9x_cdrom_read_data.c" />
+    <ClCompile Include="..\decompiled\w9x_cdrom_settings.c" />
+    <ClCompile Include="..\decompiled\W9x_cdrom_stop.c" />
+    <ClCompile Include="..\decompiled\W9x_cdrom_subchannel_read.c" />
+    <ClCompile Include="..\decompiled\W9x_play_cdda.c" />
+    <ClCompile Include="..\decompiled\WinMain.c" />
+    <ClCompile Include="..\decompiled\zip_inflate.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\resources\BITMAP140_1.bmp" />
+    <Image Include="..\resources\BITMAP142_1.bmp" />
+    <Image Include="..\resources\BITMAP144_1.bmp" />
+    <Image Include="..\resources\BITMAP145_1.bmp" />
+    <Image Include="..\resources\ICON137_1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\resources\ePSXe.rc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>18.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{eb881b2b-0cf4-4d83-8974-12b7bf48dc22}</ProjectGuid>
+    <RootNamespace>ePSXe</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

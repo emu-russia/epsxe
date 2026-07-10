@@ -1,0 +1,10 @@
+#include "pch.h"
+int __cdecl sub_41CE50(unsigned int a1)
+{
+  dword_50C270 -= 4;
+  if ( (a1 & 0x1FC00000) != 0x1F800000 )
+    return *(_DWORD *)((unsigned __int16)a1 + ram[HIWORD(a1)]);
+  if ( (unsigned __int16)a1 >= 0x1000u )
+    return hw_reg_read_word(a1);
+  return *(int *)((char *)&dcache + (a1 & 0xFFF));
+}

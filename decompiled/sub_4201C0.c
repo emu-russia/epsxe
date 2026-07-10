@@ -1,0 +1,20 @@
+#include "pch.h"
+char *__cdecl sub_4201C0(const char *a1)
+{
+  char *result; // eax
+  char *v2; // esi
+
+  strcpy(byte_4FC350, a1);
+  result = strtok(byte_4FC350, Delimiter);
+  if ( result )
+  {
+    do
+    {
+      v2 = result;
+      result = strtok(nullptr, Delimiter);
+    }
+    while ( result );
+    return v2;
+  }
+  return result;
+}

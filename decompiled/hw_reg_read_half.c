@@ -1,0 +1,132 @@
+#include "pch.h"
+__int16 __cdecl hw_reg_read_half(unsigned int a1)
+{
+  int v1; // eax
+  int v2; // ecx
+  __int16 v3; // bx
+  int v4; // esi
+  int v5; // esi
+  int v6; // eax
+  int v7; // ecx
+  unsigned int v8; // ecx
+  int v9; // esi
+  __int16 v10; // ax
+  int v11; // esi
+  __int16 v12; // ax
+
+  if ( a1 < 0x1F801C00 || a1 > 0x1F801EEF )
+  {
+    if ( a1 > 0x1F801108 )
+    {
+      switch ( a1 )
+      {
+        case 0x1F801110u:
+          LOWORD(v1) = LOWORD(dword_50BFD0[4 * ((a1 >> 4) & 3)])
+                     + ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : dword_455940)
+                     - ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : dword_50C270);
+          return v1;
+        case 0x1F801114u:
+        case 0x1F801124u:
+        case 0x1F801134u:
+LABEL_33:
+          LOWORD(v1) = dword_50BFD4[4 * ((a1 >> 4) & 3)];
+          return v1;
+        case 0x1F801118u:
+        case 0x1F801128u:
+        case 0x1F801138u:
+          goto LABEL_34;
+        case 0x1F801120u:
+          LOWORD(v8) = dword_455940;
+          v9 = 4 * ((a1 >> 4) & 3);
+          v10 = dword_50BFD0[v9];
+          v11 = dword_50BFD4[v9] & 0x200;
+          if ( v11 )
+            v8 = (unsigned int)dword_455940 >> 3;
+          v12 = v8 + v10;
+          LOWORD(v8) = dword_50C270;
+          if ( v11 )
+            v8 = (unsigned int)dword_50C270 >> 3;
+          LOWORD(v1) = v12 - v8;
+          return v1;
+        case 0x1F801130u:
+          goto LABEL_36;
+        default:
+LABEL_35:
+          dump_log(console_log_handle, "REG %s [%08x] -> %08x sizeof(%d)\n", (const char *)&off_455894, a1, 0, 2);
+LABEL_36:
+          LOWORD(v1) = 0;
+          break;
+      }
+    }
+    else if ( a1 == 528486664 )
+    {
+LABEL_34:
+      LOWORD(v1) = dword_50BFD8[4 * ((a1 >> 4) & 3)];
+    }
+    else
+    {
+      HIWORD(v2) = 0;
+      switch ( a1 )
+      {
+        case 0x1F801014u:
+          LOWORD(v1) = *(_WORD *)((char *)&byte_516600 + (unsigned __int16)a1);
+          break;
+        case 0x1F801040u:
+          HIBYTE(v3) = sio_data_read();
+          LOBYTE(v3) = sio_data_read();
+          LOWORD(v1) = v3;
+          break;
+        case 0x1F801044u:
+          if ( dword_4FD86C && dword_50C270 < (unsigned int)dword_4FD864 )
+          {
+            dword_4FD86C = 0;
+            sub_421FD0();
+          }
+          LOWORD(v1) = sio0_mode_reg;
+          break;
+        case 0x1F801048u:
+          LOWORD(v1) = HIWORD(sio0_mode_reg);
+          break;
+        case 0x1F80104Au:
+          LOWORD(v1) = sio0_control_reg;
+          break;
+        case 0x1F80104Eu:
+          LOWORD(v1) = HIWORD(sio0_control_reg);
+          break;
+        case 0x1F801070u:
+          if ( dword_4FD878 && dword_50C270 < (unsigned int)dword_4FD870 )
+          {
+            int_reg |= dword_4FD878;
+            dword_4FD878 = 0;
+          }
+          LOWORD(v1) = int_reg | forcepad;
+          break;
+        case 0x1F801074u:
+          LOWORD(v1) = int_mask;
+          break;
+        case 0x1F801100u:
+          v4 = 4 * ((a1 >> 4) & 3);
+          LOWORD(v2) = dword_50BFD0[v4];
+          v5 = dword_50BFD4[v4] & 0x100;
+          v6 = 512;
+          if ( !v5 )
+            v6 = dword_455940;
+          v7 = v6 + v2;
+          if ( v5 )
+            v1 = v7 - (dword_50C270 << 9) / (unsigned int)dword_455940;
+          else
+            LOWORD(v1) = v7 - dword_50C270;
+          break;
+        case 0x1F801104u:
+          goto LABEL_33;
+        default:
+          goto LABEL_35;
+      }
+    }
+  }
+  else
+  {
+    LOWORD(v1) = spu_read_register_cb(a1);
+  }
+  return v1;
+}

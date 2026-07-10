@@ -1,0 +1,21 @@
+#include "pch.h"
+char sub_42E650()
+{
+  char result; // al
+
+  result = byte_50C215;
+  if ( byte_50C215 <= 0 )
+  {
+    if ( !byte_50C215 )
+    {
+      *(_DWORD *)dword_516530 &= ~0x1000000u;
+      byte_50C215 = -1;
+      return dma_assert_int(6);
+    }
+  }
+  else
+  {
+    return --byte_50C215;
+  }
+  return result;
+}

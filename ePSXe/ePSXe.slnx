@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="ePSXe.vcxproj" Id="eb881b2b-0cf4-4d83-8974-12b7bf48dc22" />
+</Solution>

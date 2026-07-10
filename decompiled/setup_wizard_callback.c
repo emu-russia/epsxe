@@ -1,0 +1,47 @@
+#include "pch.h"
+int __cdecl sub_409CF0(HWND hWndParent)
+{
+  int result; // eax
+
+  unk_8A94C0 = 0;
+  while ( 2 )
+  {
+    result = setup_wizard_step;
+    switch ( setup_wizard_step )
+    {
+      case 0:
+        sub_407FF0();
+        DialogBoxParamA(g_hInstance, aIddInstall, hWndParent, setup_wizard_begin, 0);
+        continue;
+      case 1:
+        DialogBoxParamA(g_hInstance, aIddInstallBios, hWndParent, setup_wizard_search_bios, 0);
+        continue;
+      case 2:
+        DialogBoxParamA(g_hInstance, aIddInstallGpu, hWndParent, setup_wizard_search_video_plugin, 0);
+        continue;
+      case 3:
+        DialogBoxParamA(g_hInstance, aIddInstallSpu, hWndParent, setup_wizard_search_spu_plugin, 0);
+        continue;
+      case 4:
+        DialogBoxParamA(g_hInstance, aIddInstallCdro, hWndParent, setup_wizard_search_cdrom_plugin, 0);
+        continue;
+      case 5:
+        DialogBoxParamA(g_hInstance, aIddInstallPad, hWndParent, setup_wizard_controllers, 0);
+        continue;
+      case 6:
+        DialogBoxParamA(g_hInstance, aIddInstallEnd, hWndParent, setup_wizard_end, 0);
+        continue;
+      case 7:
+        sprintf((char *const)&byte_8B1980, "%s", byte_8A84C0);
+        sprintf((char *const)&byte_8B1D80, "%s", byte_8A88C0);
+        sprintf((char *const)&byte_8B2180, "%s", byte_8A8CC0);
+        sprintf((char *const)&byte_8B2980, "%s", byte_8A90C0);
+        result = save_settings();
+        break;
+      default:
+        return result;
+    }
+    break;
+  }
+  return result;
+}

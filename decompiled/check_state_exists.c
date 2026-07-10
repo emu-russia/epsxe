@@ -1,0 +1,13 @@
+#include "pch.h"
+char __cdecl check_state_exists(unsigned __int8 a1)
+{
+  FILE *v1; // eax
+  char Buffer[1024]; // [esp+0h] [ebp-400h] BYREF
+
+  sprintf(Buffer, "%s%s.%03d", aSstates, byte_8B3D80, a1);
+  v1 = fopen(Buffer, Mode);
+  if ( !v1 )
+    return -1;
+  fclose(v1);
+  return 0;
+}

@@ -1,0 +1,9 @@
+.vs
+x64
+Win32
+Debug
+Release
+*.exe
+*.dll
+*.bin
+*.aps
