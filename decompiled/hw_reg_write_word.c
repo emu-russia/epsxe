@@ -136,7 +136,7 @@ LABEL_32:
           break;
         case 0x1F8010D8u:
           dword_516524 = a2;
-          if ( ((unsigned int)&unk_800000 & dword_5164D0) != 0 )
+          if ( ((unsigned int)&MEMORY[0x800000] & dword_5164D0) != 0 )
           {
             dword_516524 = a2 & 0xFEFFFFFF;
             dma_assert_int(5u);

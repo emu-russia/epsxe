@@ -20,13 +20,13 @@ void init_memory_handlers()
     }
     if ( i >= 0x1F00 && i <= 0x1F01 )
     {
-      v2 = &byte_876EA0[0x10000 * (unsigned __int8)i];
+      v2 = &pio_mem[0x10000 * (unsigned __int8)i];
       mem_read_hooks[i] = (int)v2;
       mem_write_hooks[i] = (int)v2;
     }
     if ( i >= 0x1FC0 && i <= 0x1FC7 || i >= 0x9FC0 && i <= 0x9FC7 || i >= 0xBFC0 && i <= 0xBFC7 )
     {
-      mem_read_hooks[i] = (int)&byte_7F6E80[0x10000 * (i & 7)];
+      mem_read_hooks[i] = (int)&bios_image[0x10000 * (i & 7)];
       mem_write_hooks[i] = (int)dummy_page;
     }
   }

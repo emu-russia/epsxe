@@ -8,7 +8,7 @@ char __cdecl sub_41BEA0(const char *a1, char *Buffer)
   char v7; // cl
   const char *v8; // eax
 
-  if ( byte_45B8CA )
+  if ( noauto )
     return 0;
   v2 = 0;
   if ( !dword_450C70 )
@@ -38,7 +38,7 @@ char __cdecl sub_41BEA0(const char *a1, char *Buffer)
   if ( byte_450CC5[81 * v2] != -1 )
     byte_4F75AA = byte_450CC5[81 * v2];
   if ( byte_450CC6[81 * v2] != -1 )
-    byte_4FD880 = byte_450CC6[81 * v2];
+    nocdstatus = byte_450CC6[81 * v2];
   if ( byte_450CC8[81 * v2] != -1 )
     byte_4FC4E6 = byte_450CC8[81 * v2];
   v8 = &aNull_1[81 * v2];

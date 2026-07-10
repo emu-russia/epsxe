@@ -19,9 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\bios_descr.h" />
     <ClInclude Include="..\decompiled\pch.h" />
-    <ClInclude Include="..\decompiled\vars.h" />
     <ClInclude Include="..\resources\Resource.h" />
+    <ClInclude Include="..\vars.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\decompiled\about_callback.c" />
@@ -626,7 +627,6 @@
     <ClCompile Include="..\decompiled\sub_445EF7.c" />
     <ClCompile Include="..\decompiled\touch_demo_file.c" />
     <ClCompile Include="..\decompiled\ui_error.c" />
-    <ClCompile Include="..\decompiled\vars.c" />
     <ClCompile Include="..\decompiled\W2k_cdrom_deinit.c" />
     <ClCompile Include="..\decompiled\W2k_cdrom_init.c" />
     <ClCompile Include="..\decompiled\W2k_cdrom_play_cdda.c" />
@@ -643,6 +643,7 @@
     <ClCompile Include="..\decompiled\W9x_play_cdda.c" />
     <ClCompile Include="..\decompiled\WinMain.c" />
     <ClCompile Include="..\decompiled\zip_inflate.c" />
+    <ClCompile Include="..\vars.c" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\resources\BITMAP140_1.bmp" />

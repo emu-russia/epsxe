@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_40C620(int a1)
+unsigned __int8 __cdecl sub_40C620(int a1)
 {
   unsigned __int16 v1; // cx
   int v2; // edi
@@ -8,7 +8,7 @@ char __cdecl sub_40C620(int a1)
   int v5; // eax
   unsigned __int8 v6; // cl
   int v7; // eax
-  char result; // al
+  unsigned __int8 result; // al
   __int16 v9; // di
   int v10; // eax
   int v11; // ebp

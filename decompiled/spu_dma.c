@@ -51,9 +51,9 @@ char spu_dma()
       }
       else
       {
-        for ( i = 2 * v8; i; unk_8A8080 += 2 )
+        for ( i = 2 * v8; i; dword_8A8080 += 2 )
         {
-          v12 = SPUgetOne(unk_8A8080);
+          v12 = SPUgetOne(dword_8A8080);
           LOBYTE(v3) = hw_reg_write_half(v0, v12);
           v0 += 2;
           --i;
@@ -80,9 +80,9 @@ char spu_dma()
       {
         v3 = dma_mem_read(v0);
         v6 = 2 * v1 * v2;
-        for ( k = (unsigned __int16 *)v3; v6; unk_8A8080 += 2 )
+        for ( k = (unsigned __int16 *)v3; v6; dword_8A8080 += 2 )
         {
-          LOBYTE(v3) = SPUputOne(unk_8A8080, *k++);
+          LOBYTE(v3) = SPUputOne(dword_8A8080, *k++);
           --v6;
         }
       }

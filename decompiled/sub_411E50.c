@@ -176,8 +176,8 @@ char sub_411E50()
   dword_8A7F64 = v9 + ((word_8A7F20 * v8) >> 12);
   dword_8A7F68 = v6 + ((word_8A7F20 * gte_clamp(-2139095040, dword_8A7FD8 - v6)) >> 12);
   v10 = gte_clamp(0x400000, dword_8A7FDC - v7);
-  v11 = unk_8A7F54;
-  unk_8A7F54 = unk_8A7F58;
+  v11 = dword_8A7F54;
+  dword_8A7F54 = unk_8A7F58;
   unk_8A7F50 = v11;
   v12 = dword_8A7F68 >> 4;
   v13 = (v7 + ((word_8A7F20 * v10) >> 12)) >> 4;
@@ -232,7 +232,7 @@ char sub_411E50()
     dword_8A7FFC |= 0x80000u;
     unk_8A7F5A = 0;
   }
-  unk_8A7F5B = byte_8A7F1B;
+  byte_8A7F5B = byte_8A7F1B;
   v14 = word_8A7F0A * word_8A7FAE;
   v15 = word_8A7F0C * word_8A7FB0;
   v16 = (word_8A7F0C * word_8A7FA4 + word_8A7F0A * word_8A7FA2 + word_8A7F08 * word_8A7FA0) >> 12;
@@ -358,8 +358,8 @@ char sub_411E50()
   dword_8A7F64 = v25 + ((word_8A7F20 * v24) >> 12);
   dword_8A7F68 = v22 + ((word_8A7F20 * gte_clamp(-2139095040, dword_8A7FD8 - v22)) >> 12);
   v26 = gte_clamp(0x400000, dword_8A7FDC - v23);
-  v27 = unk_8A7F54;
-  unk_8A7F54 = unk_8A7F58;
+  v27 = dword_8A7F54;
+  dword_8A7F54 = unk_8A7F58;
   unk_8A7F50 = v27;
   v28 = dword_8A7F68 >> 4;
   v29 = (v23 + ((word_8A7F20 * v26) >> 12)) >> 4;
@@ -414,7 +414,7 @@ char sub_411E50()
     dword_8A7FFC |= 0x80000u;
     unk_8A7F5A = 0;
   }
-  unk_8A7F5B = byte_8A7F1B;
+  byte_8A7F5B = byte_8A7F1B;
   v30 = word_8A7F12 * word_8A7FAE;
   v31 = word_8A7F14 * word_8A7FB0;
   v32 = (word_8A7F14 * word_8A7FA4 + word_8A7F12 * word_8A7FA2 + word_8A7F10 * word_8A7FA0) >> 12;
@@ -592,13 +592,13 @@ char sub_411E50()
     dword_8A7FFC |= 0x400000u;
     *(_DWORD *)word_8A7F2C = 0;
   }
-  unk_8A7F50 = unk_8A7F54;
+  unk_8A7F50 = dword_8A7F54;
   v43 = dword_8A7F68 >> 4;
   v44 = v42 >> 4;
-  unk_8A7F54 = unk_8A7F58;
-  unk_8A8004 = dword_8A7F64 >> 4;
-  unk_8A8008 = dword_8A7F68 >> 4;
-  unk_8A800C = v44;
+  dword_8A7F54 = unk_8A7F58;
+  dword_8A8004 = dword_8A7F64 >> 4;
+  dword_8A8008 = dword_8A7F68 >> 4;
+  dword_8A800C = v44;
   if ( dword_8A7F64 >> 4 >= 0 )
   {
     if ( dword_8A7F64 >> 4 <= 255 )
@@ -645,14 +645,14 @@ char sub_411E50()
       LOBYTE(v44) = byte_8A7F1B;
       unk_8A7F5A = -1;
     }
-    unk_8A7F5B = byte_8A7F1B;
+    byte_8A7F5B = byte_8A7F1B;
   }
   else
   {
     LOBYTE(v44) = dword_8A7FFC;
     unk_8A7F5A = 0;
     dword_8A7FFC |= 0x80000u;
-    unk_8A7F5B = byte_8A7F1B;
+    byte_8A7F5B = byte_8A7F1B;
   }
   return v44;
 }

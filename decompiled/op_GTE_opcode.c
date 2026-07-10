@@ -238,7 +238,7 @@ char op_GTE_opcode()
       switch ( (_BYTE)v26 )
       {
         case 0xE:
-          unk_8A7F3C = v31;
+          dword_8A7F3C = v31;
           break;
         case 0xF:
           LOBYTE(v26) = word_8A7F34;
@@ -338,8 +338,10 @@ LABEL_37:
                       return v26;
                     }
 LABEL_612:
-                    v26 = word_8A7F38 * (unk_8A7F32 - unk_8A7F36);
-                    unk_8A7F60 = v26 + word_8A7F34 * (unk_8A7F3A - unk_8A7F32) + word_8A7F30 * (unk_8A7F36 - unk_8A7F3A);
+                    v26 = word_8A7F38 * (unk_8A7F32 - word_8A7F36);
+                    dword_8A7F60 = v26
+                                 + word_8A7F34 * (word_8A7F3A - unk_8A7F32)
+                                 + word_8A7F30 * (word_8A7F36 - word_8A7F3A);
                     return v26;
                   }
                   if ( v26 == 0x280030 )
@@ -2932,13 +2934,13 @@ LABEL_515:
         if ( v26 != 5767213 )
           goto LABEL_630;
 LABEL_694:
-        unk_8A7F60 = word_8A7FF4 * (unk_8A7F44 + unk_8A7F48 + unk_8A7F4C);
-        v26 = (int)unk_8A7F60 >> 12;
-        if ( (int)unk_8A7F60 >> 12 >= 0 )
+        dword_8A7F60 = word_8A7FF4 * (dword_8A7F44 + dword_8A7F48 + dword_8A7F4C);
+        v26 = (int)dword_8A7F60 >> 12;
+        if ( (int)dword_8A7F60 >> 12 >= 0 )
         {
           if ( (int)v26 <= 0xFFFF )
           {
-            word_8A7F1C = (int)unk_8A7F60 >> 12;
+            word_8A7F1C = (int)dword_8A7F60 >> 12;
           }
           else
           {
@@ -3055,14 +3057,14 @@ LABEL_694:
                 dword_8A7FFC |= 0x400000u;
                 *(_DWORD *)word_8A7F2C = -32768;
               }
-              unk_8A7F50 = unk_8A7F54;
+              unk_8A7F50 = dword_8A7F54;
               v26 = dword_8A7F64 >> 4;
-              unk_8A7F54 = unk_8A7F58;
+              dword_8A7F54 = unk_8A7F58;
               v24 = v22 >> 4;
               v25 = v23 >> 4;
-              unk_8A8004 = dword_8A7F64 >> 4;
-              unk_8A8008 = v24;
-              unk_8A800C = v25;
+              dword_8A8004 = dword_8A7F64 >> 4;
+              dword_8A8008 = v24;
+              dword_8A800C = v25;
               if ( dword_8A7F64 >> 4 >= 0 )
               {
                 if ( (int)v26 <= 255 )
@@ -3109,14 +3111,14 @@ LABEL_694:
                   LOBYTE(v26) = byte_8A7F1B;
                   unk_8A7F5A = -1;
                 }
-                unk_8A7F5B = byte_8A7F1B;
+                byte_8A7F5B = byte_8A7F1B;
               }
               else
               {
                 LOBYTE(v26) = dword_8A7FFC;
                 dword_8A7FFC |= 0x80000u;
                 unk_8A7F5A = 0;
-                unk_8A7F5B = byte_8A7F1B;
+                byte_8A7F5B = byte_8A7F1B;
               }
               return v26;
             }
@@ -3193,14 +3195,14 @@ LABEL_694:
           dword_8A7FFC |= 0x400000u;
           *(_DWORD *)word_8A7F2C = -32768;
         }
-        unk_8A7F50 = unk_8A7F54;
+        unk_8A7F50 = dword_8A7F54;
         v26 = dword_8A7F64 >> 4;
-        unk_8A7F54 = unk_8A7F58;
+        dword_8A7F54 = unk_8A7F58;
         v20 = v18 >> 4;
         v21 = v19 >> 4;
-        unk_8A8004 = dword_8A7F64 >> 4;
-        unk_8A8008 = v20;
-        unk_8A800C = v21;
+        dword_8A8004 = dword_8A7F64 >> 4;
+        dword_8A8008 = v20;
+        dword_8A800C = v21;
         if ( dword_8A7F64 >> 4 >= 0 )
         {
           if ( (int)v26 <= 255 )
@@ -3247,14 +3249,14 @@ LABEL_694:
             LOBYTE(v26) = byte_8A7F1B;
             unk_8A7F5A = -1;
           }
-          unk_8A7F5B = byte_8A7F1B;
+          byte_8A7F5B = byte_8A7F1B;
         }
         else
         {
           LOBYTE(v26) = dword_8A7FFC;
           dword_8A7FFC |= 0x80000u;
           unk_8A7F5A = 0;
-          unk_8A7F5B = byte_8A7F1B;
+          byte_8A7F5B = byte_8A7F1B;
         }
         return v26;
       }
@@ -3388,13 +3390,13 @@ LABEL_694:
               dword_8A7FFC |= 0x400000u;
               *(_DWORD *)word_8A7F2C = -32768;
             }
-            unk_8A7F50 = unk_8A7F54;
+            unk_8A7F50 = dword_8A7F54;
             v3 = dword_8A7F68 >> 4;
             v26 = v2 >> 4;
-            unk_8A7F54 = unk_8A7F58;
-            unk_8A8004 = dword_8A7F64 >> 4;
-            unk_8A8008 = dword_8A7F68 >> 4;
-            unk_8A800C = v26;
+            dword_8A7F54 = unk_8A7F58;
+            dword_8A8004 = dword_8A7F64 >> 4;
+            dword_8A8008 = dword_8A7F68 >> 4;
+            dword_8A800C = v26;
             if ( dword_8A7F64 >> 4 >= 0 )
             {
               if ( dword_8A7F64 >> 4 <= 255 )
@@ -3441,14 +3443,14 @@ LABEL_694:
                 LOBYTE(v26) = byte_8A7F1B;
                 unk_8A7F5A = -1;
               }
-              unk_8A7F5B = byte_8A7F1B;
+              byte_8A7F5B = byte_8A7F1B;
             }
             else
             {
               LOBYTE(v26) = dword_8A7FFC;
               dword_8A7FFC |= 0x80000u;
               unk_8A7F5A = 0;
-              unk_8A7F5B = byte_8A7F1B;
+              byte_8A7F5B = byte_8A7F1B;
             }
             return v26;
           }
@@ -3516,14 +3518,14 @@ LABEL_704:
                 dword_8A7FFC |= 0x400000u;
                 *(_DWORD *)word_8A7F2C = -32768;
               }
-              unk_8A7F50 = unk_8A7F54;
+              unk_8A7F50 = dword_8A7F54;
               v26 = v8 >> 4;
-              unk_8A7F54 = unk_8A7F58;
+              dword_8A7F54 = unk_8A7F58;
               v11 = v9 >> 4;
               v12 = v10 >> 4;
-              unk_8A8004 = v26;
-              unk_8A8008 = v11;
-              unk_8A800C = v12;
+              dword_8A8004 = v26;
+              dword_8A8008 = v11;
+              dword_8A800C = v12;
               if ( (v26 & 0x80000000) == 0 )
               {
                 if ( (int)v26 <= 255 )
@@ -3570,13 +3572,13 @@ LABEL_704:
                   dword_8A7FFC |= 0x80000u;
                   unk_8A7F5A = -1;
                 }
-                unk_8A7F5B = byte_8A7F1B;
+                byte_8A7F5B = byte_8A7F1B;
               }
               else
               {
                 dword_8A7FFC |= 0x80000u;
                 unk_8A7F5A = 0;
-                unk_8A7F5B = byte_8A7F1B;
+                byte_8A7F5B = byte_8A7F1B;
                 LOBYTE(v26) = byte_8A7F1B;
               }
               return v26;
@@ -3586,13 +3588,13 @@ LABEL_626:
             return v26;
           }
 LABEL_699:
-          unk_8A7F60 = word_8A7FF8 * (unk_8A7F40 + unk_8A7F44 + unk_8A7F48 + unk_8A7F4C);
-          v26 = (int)unk_8A7F60 >> 12;
-          if ( (int)unk_8A7F60 >> 12 >= 0 )
+          dword_8A7F60 = word_8A7FF8 * (dword_8A7F40 + dword_8A7F44 + dword_8A7F48 + dword_8A7F4C);
+          v26 = (int)dword_8A7F60 >> 12;
+          if ( (int)dword_8A7F60 >> 12 >= 0 )
           {
             if ( (int)v26 <= 0xFFFF )
             {
-              word_8A7F1C = (int)unk_8A7F60 >> 12;
+              word_8A7F1C = (int)dword_8A7F60 >> 12;
             }
             else
             {
@@ -3730,14 +3732,14 @@ LABEL_735:
           dword_8A7FFC |= 0x400000u;
           *(_DWORD *)word_8A7F2C = -32768;
         }
-        unk_8A7F50 = unk_8A7F54;
+        unk_8A7F50 = dword_8A7F54;
         v26 = v13 >> 4;
-        unk_8A7F54 = unk_8A7F58;
+        dword_8A7F54 = unk_8A7F58;
         v16 = v14 >> 4;
         v17 = v15 >> 4;
-        unk_8A8004 = v26;
-        unk_8A8008 = v16;
-        unk_8A800C = v17;
+        dword_8A8004 = v26;
+        dword_8A8008 = v16;
+        dword_8A800C = v17;
         if ( (v26 & 0x80000000) == 0 )
         {
           if ( (int)v26 <= 255 )
@@ -3784,13 +3786,13 @@ LABEL_735:
             dword_8A7FFC |= 0x80000u;
             unk_8A7F5A = -1;
           }
-          unk_8A7F5B = byte_8A7F1B;
+          byte_8A7F5B = byte_8A7F1B;
         }
         else
         {
           dword_8A7FFC |= 0x80000u;
           unk_8A7F5A = 0;
-          unk_8A7F5B = byte_8A7F1B;
+          byte_8A7F5B = byte_8A7F1B;
           LOBYTE(v26) = byte_8A7F1B;
         }
         return v26;
@@ -3822,7 +3824,7 @@ LABEL_735:
       if ( v26 == 0x108041B )
         goto LABEL_602;
 LABEL_630:
-      if ( byte_4F8318 )
+      if ( gtrace )
         LOBYTE(v26) = dbg_print("CODE [%07x]\n", v26);
       return v26;
   }

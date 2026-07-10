@@ -10,7 +10,7 @@ unsigned int __cdecl sub_41BB00(unsigned __int8 a1, unsigned int a2)
   switch ( a1 )
   {
     case 0xEu:
-      unk_8A7F3C = a2;
+      dword_8A7F3C = a2;
       break;
     case 0xFu:
       word_8A7F30 = word_8A7F34;

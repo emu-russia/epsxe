@@ -23,16 +23,16 @@ void sub_40B2B0()
   gpu_close();
   if ( hSaveLoadWnd )
     ShowWindow(hSaveLoadWnd, 0);
-  ShowWindow(hWnd, 5);
+  ShowWindow(g_hWnd, 5);
   ShowCursor(1);
-  UpdateWindow(hWnd);
-  while ( GetMessageA(&unk_8A94E0, nullptr, 0, 0) )
+  UpdateWindow(g_hWnd);
+  while ( GetMessageA(&stru_8A94E0, nullptr, 0, 0) )
   {
-    TranslateMessage(&unk_8A94E0);
-    DispatchMessageA(&unk_8A94E0);
+    TranslateMessage(&stru_8A94E0);
+    DispatchMessageA(&stru_8A94E0);
   }
   ShowCursor(0);
-  ShowWindow(hWnd, 0);
+  ShowWindow(g_hWnd, 0);
   close_save_load_window();
   create_save_load_window();
   if ( hSaveLoadWnd )

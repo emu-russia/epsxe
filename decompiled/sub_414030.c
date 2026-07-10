@@ -129,13 +129,13 @@ char sub_414030()
     word_8A7F2C = 0;
   }
   v6 = v3 >> 4;
-  unk_8A7F50 = unk_8A7F54;
+  unk_8A7F50 = dword_8A7F54;
   v7 = v4 >> 4;
   v8 = v5 >> 4;
-  unk_8A7F54 = unk_8A7F58;
-  unk_8A8004 = v6;
-  unk_8A8008 = v7;
-  unk_8A800C = v8;
+  dword_8A7F54 = unk_8A7F58;
+  dword_8A8004 = v6;
+  dword_8A8008 = v7;
+  dword_8A800C = v8;
   if ( v6 >= 0 )
   {
     if ( v6 <= 255 )

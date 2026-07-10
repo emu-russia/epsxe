@@ -6,7 +6,7 @@ int sub_40E2E0()
   _DWORD v3[3]; // [esp+Ch] [ebp-14h] BYREF
   _BYTE v4[8]; // [esp+18h] [ebp-8h]
 
-  if ( !dword_4FD8DC )
+  if ( !point_device_enabled )
     return 0;
   v1 = dword_4F75C8;
   dword_4F82F0 = 0;

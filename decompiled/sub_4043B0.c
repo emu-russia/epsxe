@@ -339,8 +339,8 @@ LABEL_78:
     v13 = dword_4FD884[2 * (unsigned __int8)byte_44DD1A];
     v14 = dword_4FD888[2 * (unsigned __int8)byte_44DD1A];
     qmemcpy(&unk_8A9500, &word_455FA8[16 * (unsigned __int8)byte_44DD1A], 0x20u);
-    unk_8B1548 = v13;
-    unk_8B154C = v14;
+    dword_8B1548 = v13;
+    dword_8B154C = v14;
     sub_4042B0(hDlg, 0xFFu);
     sub_4041B0(hDlg, (unsigned __int8)byte_44DD44);
     sprintf(String, "PAD NUMBER %d", (unsigned __int8)byte_44DD1A);
@@ -426,9 +426,9 @@ LABEL_78:
         return 0;
       case 1047:
         v27 = (unsigned __int8)byte_44DD1A;
-        v28 = unk_8B154C;
+        v28 = dword_8B154C;
         qmemcpy(&word_455FA8[16 * (unsigned __int8)byte_44DD1A], &unk_8A9500, 0x20u);
-        dword_4FD884[2 * v27] = unk_8B1548;
+        dword_4FD884[2 * v27] = dword_8B1548;
         dword_4FD888[2 * v27] = v28;
         KillTimer(hDlg, 0);
         EndDialog(hDlg, 1);
@@ -448,7 +448,7 @@ LABEL_78:
                 v34 = 4;
                 v35 = 0;
                 v23 = *(&v33 + v22);
-                dword_4FD8DC = 0;
+                point_device_enabled = 0;
                 *(_DWORD *)&word_456044[2 * (unsigned __int8)byte_44DD1A] = v23;
               }
             }
@@ -459,10 +459,10 @@ LABEL_78:
               v35 = 2;
               v36 = 0;
               dword_45604C = *(&v33 + v22);
-              dword_4FD8DC = 0;
+              point_device_enabled = 0;
               if ( dword_45604C == 2 )
               {
-                dword_4FD8DC = 1;
+                point_device_enabled = 1;
                 if ( dword_456048[0] == 5 || dword_456048[0] == 6 || dword_456048[0] == 2 || dword_456048[0] == 3 )
                 {
                   dword_456048[0] = 1;
@@ -485,10 +485,10 @@ LABEL_78:
             v38 = 2;
             v39 = 0;
             dword_456048[0] = *(&v33 + v22);
-            dword_4FD8DC = 0;
+            point_device_enabled = 0;
             if ( dword_456048[0] == 5 || dword_456048[0] == 6 || dword_456048[0] == 2 || dword_456048[0] == 3 )
             {
-              dword_4FD8DC = 1;
+              point_device_enabled = 1;
               if ( dword_45604C == 2 )
               {
                 dword_45604C = 1;

@@ -59,7 +59,7 @@ char sub_42F240()
         }
       }
     }
-    if ( (unsigned __int8)NETcompareData(&byte_7F6E80, 0x80000) )
+    if ( (unsigned __int8)NETcompareData(&bios_image, 0x80000) )
       fatal_error_with_message_box(aNetplayErrorPs_0, Buffer[0]);
     v5 = sub_422340(1);
     if ( (unsigned __int8)NETcompareData(v5, 0x20000) )
@@ -81,7 +81,7 @@ char sub_42F240()
     BYTE1(dword_50A620) = dword_45604C;
     LOBYTE(dword_50A624) = forcepad;
     BYTE1(dword_50A624) = dword_50C374;
-    BYTE2(dword_50A624) = byte_4FD880;
+    BYTE2(dword_50A624) = nocdstatus;
     HIBYTE(dword_50A624) = country_setting;
     LOBYTE(dword_50A628) = mdectiming;
     BYTE1(dword_50A628) = mdec_disable;
@@ -92,7 +92,7 @@ char sub_42F240()
     forcepad = (unsigned __int8)dword_50A624;
     dword_50C374 = BYTE1(dword_50A624);
     dword_45604C = BYTE1(dword_50A620);
-    byte_4FD880 = BYTE2(dword_50A624);
+    nocdstatus = BYTE2(dword_50A624);
     country_setting = HIBYTE(dword_50A624);
     mdectiming = (unsigned __int8)dword_50A628;
     forcespu = HIBYTE(dword_50A628);

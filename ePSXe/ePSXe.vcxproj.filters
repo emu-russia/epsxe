@@ -21,7 +21,10 @@
     <ClInclude Include="..\decompiled\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\decompiled\vars.h">
+    <ClInclude Include="..\vars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\bios_descr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1877,10 +1880,10 @@
     <ClCompile Include="..\decompiled\zip_inflate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\vars.c">
+    <ClCompile Include="..\decompiled\WinMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\WinMain.c">
+    <ClCompile Include="..\vars.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

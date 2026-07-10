@@ -1,7 +1,7 @@
 #include "pch.h"
 int sub_40E240()
 {
-  if ( dword_4F75C8 && dword_4FD8DC )
+  if ( dword_4F75C8 && point_device_enabled )
     (*(void (__stdcall **)(int))(*(_DWORD *)dword_4F75C8 + 32))(dword_4F75C8);
   if ( dword_4F7A5C )
     (*(void (__stdcall **)(int))(*(_DWORD *)dword_4F7A5C + 32))(dword_4F7A5C);

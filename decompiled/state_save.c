@@ -13,13 +13,13 @@ void *state_save()
   if ( result )
   {
     sprintf(v2, "ePSXe");
-    if ( byte_44C0AC == -1 )
+    if ( save_state_ver == -1 )
       *(_WORD *)&v2[5] = 2;
     else
-      *(_WORD *)&v2[5] = byte_44C0AC;
+      *(_WORD *)&v2[5] = save_state_ver;
     *(_DWORD *)&v2[7] = *(_DWORD *)byte_8B3D80;
-    *(_DWORD *)&v2[11] = unk_8B3D84;
-    *(_DWORD *)&v2[15] = unk_8B3D88;
+    *(_DWORD *)&v2[11] = dword_8B3D84;
+    *(_DWORD *)&v2[15] = dword_8B3D88;
     sub_438F70((int)v1, (int)v2, 64);
     sprintf(v2, "PSX");
     *(_DWORD *)&v2[3] = 364;
@@ -31,7 +31,7 @@ void *state_save()
     gte_freeze("GTE", (int)v1);
     cdr_freeze("CDR", (int)v1);
     sio_freeze("SIO", (int)v1);
-    if ( byte_44C0AC == -1 )
+    if ( save_state_ver == -1 )
       sub_42A0D0("MDE", (int)v1);
     else
       sub_42A160("MDE", (int)v1);

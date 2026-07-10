@@ -1,5 +1,5 @@
 #include "pch.h"
-void __noreturn print_develop_options()
+void print_develop_options()
 {
   printf("      develop options: \n\n");
   printf("        -nocdstatus                -   No return cdstatus.\n");

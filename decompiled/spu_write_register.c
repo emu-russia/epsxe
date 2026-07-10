@@ -88,19 +88,19 @@ LABEL_11:
           result = SPUstopChannels2(a2);
         break;
       case 0x1F801DA6u:
-        unk_8A8080 = 8 * a2;
+        dword_8A8080 = 8 * a2;
         break;
       case 0x1F801DA8u:
         result = sound_enabled;
         if ( sound_enabled )
         {
-          result = SPUputOne(unk_8A8080, a2);
-          unk_8A8080 += 2;
+          result = SPUputOne(dword_8A8080, a2);
+          dword_8A8080 += 2;
         }
         break;
       default:
 LABEL_26:
-        *(_WORD *)((char *)&unk_8A8084 + (a1 & 0x1FF)) = a2;
+        *(_WORD *)((char *)&word_8A8084 + (a1 & 0x1FF)) = a2;
         result = a1;
         break;
     }

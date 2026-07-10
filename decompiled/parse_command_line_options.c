@@ -109,258 +109,288 @@ LABEL_146:
             goto LABEL_146;
           }
           if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-v", 3u) )
+          {
             print_version();
-          if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-f", 3u)
-            || !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-fastboot", 3u) )
-          {
-            fastboot = 1;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-slowboot") )
-          {
-            fastboot = 0;
-            goto LABEL_146;
-          }
-          if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-fl", 4u) )
-          {
-            use_performance_counters = 1;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nosound") )
-          {
-            sound_enabled = 0;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-sound") )
-          {
-            sound_enabled = 1;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nomdec") )
-          {
-            mdec_disable = 1;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mdec") )
-          {
-            mdec_disable = 0;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nomemcard") )
-          {
-            byte_4557A8 = 0;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-memcard") )
-          {
-            byte_4557A8 = 1;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-xasound") )
-          {
-            sound_use_xa = 1;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noxasound") )
-          {
-            sound_use_xa = 0;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-xaread") )
-          {
-            xa_read_enable = 1;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noxaread") )
-          {
-            xa_read_enable = 0;
-            goto LABEL_146;
-          }
-          if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-savefake") )
-          {
-            byte_456D70 = 1;
-            strcpy(byte_505420, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
-            v3 += 2;
           }
           else
           {
-            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-legaia") )
+            if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-f", 3u)
+              || !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-fastboot", 3u) )
             {
-              byte_4FD881 = 1;
+              fastboot = 1;
               goto LABEL_146;
             }
-            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-ff9pal") )
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-slowboot") )
             {
-              BYTE1(dword_455945) = 0;
+              fastboot = 0;
               goto LABEL_146;
             }
-            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-pe2") )
+            if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-fl", 4u) )
             {
-              byte_4FD860 = 1;
+              use_performance_counters = 1;
               goto LABEL_146;
             }
-            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocputrick") )
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nosound") )
             {
-              BYTE1(dword_455945) = 0;
+              sound_enabled = 0;
               goto LABEL_146;
             }
-            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadfake") )
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-sound") )
             {
-              byte_456D70 = 0;
+              sound_enabled = 1;
+              goto LABEL_146;
+            }
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nomdec") )
+            {
+              mdec_disable = 1;
+              goto LABEL_146;
+            }
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mdec") )
+            {
+              mdec_disable = 0;
+              goto LABEL_146;
+            }
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nomemcard") )
+            {
+              byte_4557A8 = 0;
+              goto LABEL_146;
+            }
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-memcard") )
+            {
+              byte_4557A8 = 1;
+              goto LABEL_146;
+            }
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-xasound") )
+            {
+              sound_use_xa = 1;
+              goto LABEL_146;
+            }
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noxasound") )
+            {
+              sound_use_xa = 0;
+              goto LABEL_146;
+            }
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-xaread") )
+            {
+              xa_read_enable = 1;
+              goto LABEL_146;
+            }
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noxaread") )
+            {
+              xa_read_enable = 0;
+              goto LABEL_146;
+            }
+            if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-savefake") )
+            {
+              byte_456D70 = 1;
               strcpy(byte_505420, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
-              v3 += 2;
-            }
-            else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadppf") )
-            {
-              strcpy(byte_8B4580, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
-              v3 += 2;
-            }
-            else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadmemc0") )
-            {
-              strcpy((char *)Memcard1, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
-              v3 += 2;
-            }
-            else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadmemc1") )
-            {
-              strcpy((char *)Memcard2, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
-              v3 += 2;
-            }
-            else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadbin")
-                   || !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadiso") )
-            {
-              strcpy(bin_iso_file, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
-              dword_50C37C = 3;
-              v3 += 2;
-            }
-            else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadcheat") )
-            {
-              strcpy(&byte_8B55A0, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
               v3 += 2;
             }
             else
             {
-              if ( strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadstate") )
+              if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-legaia") )
+              {
+                byte_4FD881 = 1;
+                goto LABEL_146;
+              }
+              if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-ff9pal") )
+              {
+                BYTE1(dword_455945) = 0;
+                goto LABEL_146;
+              }
+              if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-pe2") )
+              {
+                byte_4FD860 = 1;
+                goto LABEL_146;
+              }
+              if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocputrick") )
+              {
+                BYTE1(dword_455945) = 0;
+                goto LABEL_146;
+              }
+              if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadfake") )
+              {
+                byte_456D70 = 0;
+                strcpy(byte_505420, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                v3 += 2;
+              }
+              else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadppf") )
+              {
+                strcpy(Buffer, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                v3 += 2;
+              }
+              else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadmemc0") )
+              {
+                strcpy((char *)Memcard1, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                v3 += 2;
+              }
+              else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadmemc1") )
+              {
+                strcpy((char *)Memcard2, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                v3 += 2;
+              }
+              else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadbin")
+                     || !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadiso") )
+              {
+                strcpy(bin_iso_file, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                dword_50C37C = 3;
+                v3 += 2;
+              }
+              else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadcheat") )
+              {
+                strcpy(&cheat_file_from_cmdline, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                v3 += 2;
+              }
+              else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadstate") )
+              {
+                strcpy(state_file_from_cmdline, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                v3 += 2;
+              }
+              else
               {
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-ssv0") )
                 {
-                  byte_44C0AC = 0;
+                  save_state_ver = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocdstatus") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocdstatus") )
                 {
-                  byte_4FD880 = 1;
+                  nocdstatus = 1;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noauto") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noauto") )
                 {
-                  byte_45B8CA = 1;
+                  noauto = 1;
                   BYTE1(dword_455945) = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mouse") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mouse") )
                 {
                   dword_456048[0] = 2;
-                  dword_4FD8DC = 1;
+                  point_device_enabled = 1;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mouse2") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mouse2") )
                 {
                   if ( dword_456048[0] == 2 )
                     dword_456048[0] = 1;
                   dword_45604C = 2;
-                  dword_4FD8DC = 1;
+                  point_device_enabled = 1;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-anamouse") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-anamouse") )
                 {
                   dword_456048[0] = 6;
                   dword_4FD8E0[0] = 0;
-                  dword_4FD8DC = 1;
+                  point_device_enabled = 1;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-gun") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-gun") )
                 {
                   dword_456048[0] = 3;
-                  dword_4FD8DC = 1;
+                  point_device_enabled = 1;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-multitap") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-multitap") )
                 {
                   multitap_1 = 1;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog") )
                 {
                   dword_456048[0] = 4;
                   dword_4FD8E0[0] = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog1") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog1") )
                 {
                   dword_456048[0] = 4;
                   dword_4FD8E0[0] = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog2") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog2") )
                 {
                   dword_45604C = 4;
                   dword_4FD8E4 = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog3") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog3") )
                 {
                   dword_456050 = 4;
                   dword_4FD8E8 = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog4") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog4") )
                 {
                   dword_456054 = 4;
                   dword_4FD8EC = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noignorecmd") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noignorecmd") )
                 {
                   byte_455FA3 = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocdinc") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocdinc") )
                 {
                   byte_455FA4 = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noppf") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noppf") )
                 {
                   auto_ppf_load = 0;
+                  goto LABEL_146;
                 }
-                else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-ppf") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-ppf") )
                 {
                   auto_ppf_load = 1;
+                  goto LABEL_146;
                 }
-                else if ( strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nolog") )
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nolog") )
+                  goto LABEL_146;
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-gtrace") )
                 {
-                  if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-gtrace") )
+                  gtrace = 1;
+                  goto LABEL_146;
+                }
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-adjusttiming") )
+                {
+                  adjust_timing = 1;
+                  goto LABEL_146;
+                }
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-oldtiming") )
+                {
+                  old_timing = 1;
+                  goto LABEL_146;
+                }
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noadjusttiming") )
+                {
+                  adjust_timing = 0;
+                  goto LABEL_146;
+                }
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-disablereportmode") )
+                {
+                  byte_455FA5 = 0;
+                  goto LABEL_146;
+                }
+                if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-hdev") )
+                {
+                  print_develop_options();
+                }
+                else
+                {
+                  if ( strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-h", 2u) )
                   {
-                    byte_4F8318 = 1;
-                  }
-                  else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-adjusttiming") )
-                  {
-                    byte_4FC4E5 = 1;
-                  }
-                  else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-oldtiming") )
-                  {
-                    byte_45B8C9 = 1;
-                  }
-                  else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noadjusttiming") )
-                  {
-                    byte_4FC4E5 = 0;
-                  }
-                  else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-disablereportmode") )
-                  {
-                    byte_455FA5 = 0;
-                  }
-                  else
-                  {
-                    if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-hdev") )
-                      print_develop_options();
-                    if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-h", 2u) )
-                      print_usage();
                     v4 = *(const char **)(a2 + 4 * (unsigned __int16)v3);
                     if ( *v4 == '-' )
                       fatal_error_with_message_box(" * ePSXe error: %s param incorrect \n", v4);
                     sub_41C010(v4);
                     dword_50C37C = 4;
+                    goto LABEL_146;
                   }
+                  print_usage();
                 }
-                goto LABEL_146;
               }
-              strcpy(byte_8B5180, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
-              v3 += 2;
             }
           }
         }

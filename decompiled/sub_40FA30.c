@@ -3,7 +3,7 @@ int sub_40FA30()
 {
   int result; // eax
 
-  if ( !dword_4FD8DC )
+  if ( !point_device_enabled )
     return 0;
   sub_40E2E0();
   result = dword_4F82F0;

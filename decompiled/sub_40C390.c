@@ -59,7 +59,7 @@ int sub_40C390()
         v5 += 2;
         v4 += 2;
       }
-      while ( (int)v5 < (int)MEMORY[0x4F7350] );
+      while ( (int)v5 < (int)&byte_4F7154[508] );
       result = (*(int (__stdcall **)(int, int, int, int *, int *, int *, int *, _DWORD))(*(_DWORD *)dword_45B8FC + 44))(
                  dword_45B8FC,
                  v1,

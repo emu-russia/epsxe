@@ -3,7 +3,7 @@ int __cdecl sub_409CF0(HWND hWndParent)
 {
   int result; // eax
 
-  unk_8A94C0 = 0;
+  byte_8A94C0 = 0;
   while ( 2 )
   {
     result = setup_wizard_step;

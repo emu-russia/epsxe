@@ -10,7 +10,7 @@ void load_bios()
   v1 = v0;
   if ( !v0 )
     fatal_error_with_message_box(" * !Error: PSX BIOS not found [%s]. \n", (const char *)bios_name);
-  fread(byte_7F6E80, 1u, 0x80000u, v0);
+  fread(bios_image, 1u, 0x80000u, v0);
   fclose(v1);
   dbg_print_no_flush(" * ePSXe: PSX BIOS loaded [%s]. \n", (const char *)bios_name);
 }

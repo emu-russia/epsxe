@@ -25,15 +25,15 @@ __int16 __cdecl sub_40BF40(unsigned int a1)
           return v1;
         }
         if ( a1 == 528489894 )
-          return (unsigned int)unk_8A8080 >> 3;
+          return (unsigned int)dword_8A8080 >> 3;
 LABEL_15:
-        LOWORD(v1) = *(__int16 *)((char *)&unk_8A8084 + (a1 & 0x1FF));
+        LOWORD(v1) = *(__int16 *)((char *)&word_8A8084 + (a1 & 0x1FF));
         return v1;
       }
       if ( sound_enabled )
       {
-        LOWORD(v1) = SPUgetOne(unk_8A8080);
-        unk_8A8080 += 2;
+        LOWORD(v1) = SPUgetOne(dword_8A8080);
+        dword_8A8080 += 2;
         return v1;
       }
     }

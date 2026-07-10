@@ -7,3 +7,6 @@ Release
 *.dll
 *.bin
 *.aps
+*.id?
+*.nam
+*.til

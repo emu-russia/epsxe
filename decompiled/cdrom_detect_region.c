@@ -32,20 +32,20 @@ int cdrom_detect_region()
     if ( !country_setting )
     {
       dword_45593C = 262;
-      dword_455940 = byte_45B8C9 != 0 ? 1916 : 2154;
+      dword_455940 = old_timing != 0 ? 1916 : 2154;
       return dbg_print(" * Force NTSC cdrom detected. \n");
     }
-    if ( unk_8B3D82 != 'E' && unk_8B3D82 != 'e' )
+    if ( byte_8B3D82 != 'E' && byte_8B3D82 != 'e' )
     {
       country_setting = 0;
       dword_45593C = 262;
-      dword_455940 = byte_45B8C9 != 0 ? 1916 : 2154;
+      dword_455940 = old_timing != 0 ? 1916 : 2154;
       return dbg_print(" * NTSC cdrom detected. \n");
     }
     country_setting = 1;
     v2 = " * PAL cdrom detected. \n";
   }
   dword_45593C = 312;
-  dword_455940 = byte_45B8C9 != 0 ? 1923 : 2171;
+  dword_455940 = old_timing != 0 ? 1923 : 2171;
   return dbg_print(v2);
 }

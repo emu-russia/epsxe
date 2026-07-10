@@ -8,9 +8,9 @@ char patch_game()
   LOBYTE(v0) = auto_ppf_load;
   if ( auto_ppf_load )
   {
-    if ( !strcmp(byte_8B4580, aNull) )
-      sprintf(byte_8B4580, "%s%s", aPatches, byte_8B3D80);
-    v0 = fopen(byte_8B4580, Mode);
+    if ( !strcmp(Buffer, aNull) )
+      sprintf(Buffer, "%s%s", aPatches, byte_8B3D80);
+    v0 = fopen(Buffer, Mode);
     v1 = v0;
     if ( v0 )
     {

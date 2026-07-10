@@ -200,7 +200,7 @@ INT_PTR __stdcall search_cdrom_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           if ( v14 == -1 || v14 >= dword_45B8E4 )
             return 0;
           v15 = (const char *)&byte_8A9540[256 * v14];
-          unk_8A94C0 = 1;
+          byte_8A94C0 = 1;
           if ( !strcmp(v15, aW9xcdrcore) )
           {
             DialogBoxParamA(g_hInstance, TemplateName, hDlg, w9x_cdrom_settings, 0);
@@ -240,7 +240,7 @@ INT_PTR __stdcall search_cdrom_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
             MessageBoxA(nullptr, aEpsxeDetectedT_3, aCdromPluginNot_0, 0x10u);
             return 0;
           }
-          if ( !unk_8A94C0 && strcmp((const char *)&byte_8A9540[256 * v8], aW2kcdrcore) )
+          if ( !byte_8A94C0 && strcmp((const char *)&byte_8A9540[256 * v8], aW2kcdrcore) )
           {
             MessageBoxA(nullptr, aEpsxeDetectedT_2, aCdromPluginNot, 0x10u);
             return 0;

@@ -6,6 +6,7 @@ void __noreturn start()
   HMODULE ModuleHandleA; // eax
   int v3; // [esp-4h] [ebp-78h]
   CHAR *lpCmdLine; // [esp+10h] [ebp-64h]
+  int v5; // [esp+14h] [ebp-60h]
   struct _STARTUPINFOA StartupInfo; // [esp+18h] [ebp-5Ch] BYREF
   CPPEH_RECORD ms_exc; // [esp+5Ch] [ebp-18h]
 
@@ -32,5 +33,6 @@ void __noreturn start()
     wShowWindow = 10;
   v3 = wShowWindow;
   ModuleHandleA = GetModuleHandleA(nullptr);
-  WinMain(ModuleHandleA, nullptr, lpCmdLine, v3);
+  v5 = WinMain(ModuleHandleA, nullptr, lpCmdLine, v3);
+  exit(v5);
 }

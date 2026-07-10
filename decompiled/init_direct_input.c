@@ -16,7 +16,7 @@ int init_direct_input()
     if ( (*(int (__stdcall **)(int, void *))(*(_DWORD *)dword_4F7A5C + 44))(dword_4F7A5C, &unk_448758) < 0 )
       return 0;
     (*(void (__stdcall **)(int, int, int))(*(_DWORD *)dword_4F7A5C + 52))(dword_4F7A5C, hDlgInput, 6);
-    if ( !dword_4FD8DC || byte_44DD19 )
+    if ( !point_device_enabled || byte_44DD19 )
       goto LABEL_25;
     if ( (*(int (__stdcall **)(int, void *, int *, _DWORD))(*(_DWORD *)dword_4F7768 + 12))(
            dword_4F7768,

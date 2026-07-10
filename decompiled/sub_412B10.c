@@ -24,16 +24,16 @@ int sub_412B10()
     dword_8A7F64 = v4 + ((word_8A7F20 * v3) >> 12);
     dword_8A7F68 = v1 + ((word_8A7F20 * gte_clamp(-2139095040, dword_8A7FD8 - v1)) >> 12);
     v5 = gte_clamp(0x400000, dword_8A7FDC - v2);
-    v0 = unk_8A7F54;
+    v0 = dword_8A7F54;
     result = v2 + ((word_8A7F20 * v5) >> 12);
-    unk_8A7F54 = unk_8A7F58;
+    dword_8A7F54 = unk_8A7F58;
     v7 = dword_8A7F68 >> 4;
     v8 = result >> 4;
     dword_8A7F6C = result;
     unk_8A7F50 = v0;
-    unk_8A8004 = dword_8A7F64 >> 4;
-    unk_8A8008 = dword_8A7F68 >> 4;
-    unk_8A800C = result >> 4;
+    dword_8A8004 = dword_8A7F64 >> 4;
+    dword_8A8008 = dword_8A7F68 >> 4;
+    dword_8A800C = result >> 4;
     if ( dword_8A7F64 >> 4 >= 0 )
     {
       if ( dword_8A7F64 >> 4 <= 255 )

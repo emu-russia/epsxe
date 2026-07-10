@@ -3,7 +3,7 @@ int sub_40FA70()
 {
   int result; // eax
 
-  if ( !dword_4FD8DC )
+  if ( !point_device_enabled )
     return 0;
   result = dword_4F82F4[0];
   if ( dword_4F82F4[0] < dword_44F880 )

@@ -12,14 +12,14 @@ void *state_load()
 
   v0 = dword_50C36C;
   v1 = dword_50C37C;
-  if ( !strcmp(byte_8B5180, "NULL") )
+  if ( !strcmp(state_file_from_cmdline, "NULL") )
   {
     sprintf(Buffer, "%s%s.%03d", "sstates\\", byte_8B3D80, (unsigned __int8)gpu_freeze_counter);
   }
   else
   {
-    sprintf(Buffer, "%s", byte_8B5180);
-    sprintf(byte_8B5180, "NULL");
+    sprintf(Buffer, "%s", state_file_from_cmdline);
+    sprintf(state_file_from_cmdline, "NULL");
   }
   result = (void *)sub_4386F0(Buffer, (int)"rb1");
   v3 = result;

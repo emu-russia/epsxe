@@ -11,8 +11,8 @@ char __cdecl sub_41BDC0(const char *a1)
   int *v8; // [esp+0h] [ebp-8h]
   int v9; // [esp+4h] [ebp-4h]
 
-  result = byte_45B8CA;
-  if ( !byte_45B8CA )
+  result = noauto;
+  if ( !noauto )
   {
     result = dword_44F9A8;
     if ( dword_44F9A8 )

@@ -328,7 +328,7 @@ char sub_4131C0()
   v17 = ((unsigned __int8)word_8A7F18 * (__int16)word_8A7F24) >> 12;
   v18 = (BYTE1(word_8A7F18) * (__int16)word_8A7F28) >> 12;
   v19 = (BYTE2(word_8A7F18) * (__int16)word_8A7F2C) >> 12;
-  unk_8A7F54 = unk_8A7F58;
+  dword_8A7F54 = unk_8A7F58;
   if ( v17 >= 0 )
   {
     if ( v17 <= 255 )
@@ -554,13 +554,13 @@ char sub_4131C0()
     word_8A7F2C = 0;
   }
   v30 = v27 >> 4;
-  unk_8A7F50 = unk_8A7F54;
+  unk_8A7F50 = dword_8A7F54;
   v31 = v28 >> 4;
   v32 = v29 >> 4;
-  unk_8A7F54 = unk_8A7F58;
-  unk_8A8004 = v30;
-  unk_8A8008 = v31;
-  unk_8A800C = v32;
+  dword_8A7F54 = unk_8A7F58;
+  dword_8A8004 = v30;
+  dword_8A8008 = v31;
+  dword_8A800C = v32;
   if ( v30 >= 0 )
   {
     if ( v30 <= 255 )

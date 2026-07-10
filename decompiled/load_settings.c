@@ -223,7 +223,7 @@ int load_settings()
       || dword_456048[0] == 2
       || dword_45604C == 2 )
     {
-      dword_4FD8DC = 1;
+      point_device_enabled = 1;
     }
   }
   if ( !reg_get_value("Software\\epsxe\\config", "GamepadSubType", (LPBYTE)Buffer) )

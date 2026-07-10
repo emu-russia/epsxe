@@ -422,7 +422,7 @@ LABEL_130:
             dword_5164CC = dword_4FC4E0 + 10;
             dword_4FC4E0 += 11;
             if ( v27 == v26 )
-              dword_4FF9E8 |= (unsigned int)&unk_800000;
+              dword_4FF9E8 |= (unsigned int)&MEMORY[0x800000];
             *v28 = 79;
             if ( v27 )
             {
@@ -1683,10 +1683,10 @@ LABEL_286:
               *(_DWORD *)(dword_4FC4E0 + 6) = 0;
               *(_WORD *)(dword_4FC4E0 + 10) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 12) = 5;
-              *(_DWORD *)(dword_4FC4E0 + 13) = &unk_8A7F36;
+              *(_DWORD *)(dword_4FC4E0 + 13) = &word_8A7F36;
               *(_WORD *)(dword_4FC4E0 + 17) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 19) = 13;
-              *(_DWORD *)(dword_4FC4E0 + 20) = &unk_8A7F3A;
+              *(_DWORD *)(dword_4FC4E0 + 20) = &word_8A7F3A;
               *(_WORD *)(dword_4FC4E0 + 24) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 26) = 21;
               *(_DWORD *)(dword_4FC4E0 + 27) = &word_8A7F30;
@@ -1706,7 +1706,7 @@ LABEL_286:
               *(_WORD *)(dword_4FC4E0 + 57) = -9981;
               *(_WORD *)(dword_4FC4E0 + 59) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 61) = 13;
-              *(_DWORD *)(dword_4FC4E0 + 62) = &unk_8A7F36;
+              *(_DWORD *)(dword_4FC4E0 + 62) = &word_8A7F36;
               *(_WORD *)(dword_4FC4E0 + 66) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 68) = 21;
               *(_DWORD *)(dword_4FC4E0 + 69) = &word_8A7F38;
@@ -1716,7 +1716,7 @@ LABEL_286:
               *(_WORD *)(dword_4FC4E0 + 78) = -10237;
               *(_WORD *)(dword_4FC4E0 + 80) = -15477;
               *(_BYTE *)(dword_4FC4E0 + 82) = -93;
-              *(_DWORD *)(dword_4FC4E0 + 83) = &unk_8A7F60;
+              *(_DWORD *)(dword_4FC4E0 + 83) = &dword_8A7F60;
               *(_WORD *)(dword_4FC4E0 + 87) = 32653;
               *(_BYTE *)(dword_4FC4E0 + 89) = -4;
               dword_4FC4E0 += 90;
@@ -1882,7 +1882,7 @@ LABEL_314:
           v115 = (_BYTE *)(dword_4FC4E0 + 3);
         }
         dword_4FC4E0 = (int)v115;
-        v116 = byte_4FC4E5 == 0;
+        v116 = adjust_timing == 0;
         *v115 = -87;
         *(_DWORD *)(dword_4FC4E0 + 1) = 1602224128;
         *(_BYTE *)(dword_4FC4E0 + 5) = 117;
