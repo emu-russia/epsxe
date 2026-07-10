@@ -52,8 +52,6 @@
     <ClCompile Include="..\decompiled\create_save_load_window.c" />
     <ClCompile Include="..\decompiled\dbg_print.c" />
     <ClCompile Include="..\decompiled\dbg_print_no_flush.c" />
-    <ClCompile Include="..\decompiled\DirectInputCreateA.c" />
-    <ClCompile Include="..\decompiled\DirectSoundCreate.c" />
     <ClCompile Include="..\decompiled\dma_assert_int.c" />
     <ClCompile Include="..\decompiled\dma_mem_read.c" />
     <ClCompile Include="..\decompiled\do_GPUfreeze.c" />
@@ -214,7 +212,6 @@
     <ClCompile Include="..\decompiled\reg_get_value.c" />
     <ClCompile Include="..\decompiled\reg_set_value.c" />
     <ClCompile Include="..\decompiled\reopen_console_log.c" />
-    <ClCompile Include="..\decompiled\RtlUnwind.c" />
     <ClCompile Include="..\decompiled\save_load_state.c" />
     <ClCompile Include="..\decompiled\save_load_win_callback.c" />
     <ClCompile Include="..\decompiled\save_settings.c" />

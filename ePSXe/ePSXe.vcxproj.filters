@@ -110,12 +110,6 @@
     <ClCompile Include="..\decompiled\dbg_print_no_flush.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\DirectInputCreateA.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\DirectSoundCreate.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\dma_assert_int.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -594,9 +588,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\reopen_console_log.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\RtlUnwind.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\save_load_state.c">
