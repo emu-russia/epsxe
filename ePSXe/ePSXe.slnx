@@ -4,4 +4,5 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="ePSXe.vcxproj" Id="eb881b2b-0cf4-4d83-8974-12b7bf48dc22" />
+  <Project Path="zlib.vcxproj" Id="e573e340-cf42-4f79-879b-9e8a073f3320" />
 </Solution>

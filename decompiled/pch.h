@@ -5,7 +5,9 @@
 
 #define __noreturn
 
-#define NULL nullptr;
+#define nullptr NULL
 
 typedef BYTE _BYTE;
 typedef DWORD _DWORD;
+
+#include "../zlib-1.1.3/zlib.h"
