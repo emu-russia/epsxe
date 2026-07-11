@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\bios_descr.h" />
     <ClInclude Include="..\decompiled\pch.h" />
+    <ClInclude Include="..\psxdefs.h" />
     <ClInclude Include="..\resources\Resource.h" />
     <ClInclude Include="..\vars.h" />
   </ItemGroup>

@@ -13,3 +13,4 @@ typedef DWORD _DWORD;
 #define BYTE2(n) (((n)>>16)&0xff)
 
 #include "../zlib-1.1.3/zlib.h"
+#include "../psxdefs.h"
