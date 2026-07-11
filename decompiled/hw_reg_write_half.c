@@ -39,7 +39,7 @@ void __cdecl hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
                 HIWORD(sio0_control_reg) = a2;
                 break;
               case 0x1F801070u:
-                if ( dword_4FD878 && dword_50C270 < (unsigned int)dword_4FD870 )
+                if ( dword_4FD878 && hw_update_counter < (unsigned int)dword_4FD870 )
                 {
                   int_reg |= dword_4FD878;
                   dword_4FD878 = 0;

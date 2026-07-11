@@ -9,6 +9,6 @@ char op_J()
   cpu_opcode = *(_DWORD *)((unsigned __int16)reg_pc + mem_read_hooks[HIWORD(reg_pc)]);
   reg_pc = v0 | reg_pc & 0xF0000000;
   result = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
-  --dword_50C270;
+  --hw_update_counter;
   return result;
 }

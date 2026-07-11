@@ -3,9 +3,9 @@ int op_ANDI()
 {
   int result; // eax
 
-  unk_576DAF = ((unsigned int)cpu_opcode >> 21) & 0x1F;
+  op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   dword_576DA4 = (unsigned __int16)cpu_opcode;
-  byte_576DB0 = BYTE2(cpu_opcode) & 0x1F;
+  op_rt = BYTE2(cpu_opcode) & 0x1F;
   result = (unsigned __int16)cpu_opcode & cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
   cpu_gpr[BYTE2(cpu_opcode) & 0x1F] = result;
   return result;

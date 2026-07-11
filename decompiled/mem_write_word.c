@@ -5,7 +5,7 @@ void __cdecl mem_write_word(unsigned int a1, unsigned int a2)
   int v3; // ecx
   LPVOID v4; // edi
 
-  dword_50C270 -= 4;
+  hw_update_counter -= 4;
   if ( (a1 & 0x1FC00000) == 0x1F800000 )
   {
     if ( (unsigned __int16)a1 >= 0x1000u )

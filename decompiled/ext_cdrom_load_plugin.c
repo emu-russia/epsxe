@@ -15,7 +15,7 @@ char ext_cdrom_load_plugin()
   int v12; // [esp+400h] [ebp-8h]
   int v13; // [esp+404h] [ebp-4h]
 
-  sprintf(LibFileName, "%s%s", aPlugins, (const char *)CdromPlugin);
+  sprintf(LibFileName, "%s%s", "plugins\\", (const char *)CdromPlugin);
   if ( byte_456D70 )
   {
     if ( byte_456D70 == 1 )

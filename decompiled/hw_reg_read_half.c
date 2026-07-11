@@ -24,7 +24,7 @@ __int16 __cdecl hw_reg_read_half(unsigned int a1)
         case 0x1F801110u:
           LOWORD(v1) = LOWORD(dword_50BFD0[4 * ((a1 >> 4) & 3)])
                      + ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : dword_455940)
-                     - ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : dword_50C270);
+                     - ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter);
           return v1;
         case 0x1F801114u:
         case 0x1F801124u:
@@ -44,9 +44,9 @@ LABEL_33:
           if ( v12 )
             v9 = (unsigned int)dword_455940 >> 3;
           v13 = v9 + v11;
-          LOWORD(v9) = dword_50C270;
+          LOWORD(v9) = hw_update_counter;
           if ( v12 )
-            v9 = (unsigned int)dword_50C270 >> 3;
+            v9 = (unsigned int)hw_update_counter >> 3;
           LOWORD(v1) = v13 - v9;
           return v1;
         case 0x1F801130u:
@@ -80,7 +80,7 @@ LABEL_34:
           LOWORD(v1) = v4;
           break;
         case 0x1F801044u:
-          if ( dword_4FD86C && dword_50C270 < (unsigned int)dword_4FD864 )
+          if ( dword_4FD86C && hw_update_counter < (unsigned int)dword_4FD864 )
           {
             dword_4FD86C = 0;
             sub_421FD0();
@@ -97,7 +97,7 @@ LABEL_34:
           LOWORD(v1) = HIWORD(sio0_control_reg);
           break;
         case 0x1F801070u:
-          if ( dword_4FD878 && dword_50C270 < (unsigned int)dword_4FD870 )
+          if ( dword_4FD878 && hw_update_counter < (unsigned int)dword_4FD870 )
           {
             int_reg |= dword_4FD878;
             dword_4FD878 = 0;
@@ -116,9 +116,9 @@ LABEL_34:
             v7 = dword_455940;
           v8 = v7 + v2;
           if ( v6 )
-            v1 = v8 - (dword_50C270 << 9) / (unsigned int)dword_455940;
+            v1 = v8 - (hw_update_counter << 9) / (unsigned int)dword_455940;
           else
-            LOWORD(v1) = v8 - dword_50C270;
+            LOWORD(v1) = v8 - hw_update_counter;
           break;
         case 0x1F801104u:
           goto LABEL_33;

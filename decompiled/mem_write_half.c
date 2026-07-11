@@ -6,7 +6,7 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
   LPVOID v4; // edi
   char v5; // cl
 
-  dword_50C270 -= 4;
+  hw_update_counter -= 4;
   if ( (a1 & 0x1FC00000) == 0x1F800000 )
   {
     if ( (unsigned __int16)a1 >= 0x1000u )
@@ -41,7 +41,7 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
               HIWORD(sio0_control_reg) = a2;
               break;
             case 0x1F801070u:
-              if ( dword_4FD878 && dword_50C270 < (unsigned int)dword_4FD870 )
+              if ( dword_4FD878 && hw_update_counter < (unsigned int)dword_4FD870 )
               {
                 int_reg |= dword_4FD878;
                 dword_4FD878 = 0;

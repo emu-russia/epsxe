@@ -172,6 +172,16 @@ def get_disassembly_listing(ea, error_msg=""):
 
 # Get total number of functions for progress counter
 all_functions = list(idautils.Functions())
+
+# Excluding LIB
+filtered_functions = []
+for ea in all_functions:
+    func = idaapi.get_func(ea)
+    if func and (func.flags & idaapi.FUNC_LIB):
+        continue
+    filtered_functions.append(ea)
+all_functions = filtered_functions
+
 total_functions = len(all_functions)
 current_function = 0
 failed_functions = []

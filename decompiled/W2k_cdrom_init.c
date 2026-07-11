@@ -1,5 +1,5 @@
 #include "pch.h"
-char cdrom_init()
+char W2k_cdrom_init()
 {
   char result; // al
   void *v1; // esp
@@ -9,7 +9,7 @@ char cdrom_init()
   {
     cdrom_letter = sub_433B20();
     if ( !cdrom_letter )
-      fatal_error_with_message_box(aCdromNotFound);
+      fatal_error_with_message_box(" * cdrom not found \n");
   }
   if ( !byte_456D70 )
     return sub_42F870(byte_505420);
@@ -22,8 +22,8 @@ char cdrom_init()
   }
   else
   {
-    dbg_print(aInitCoreW2kCdr);
-    sub_433C10((unsigned __int8)cdrom_letter, &byte_457338, &byte_4FD9D0, &byte_4FD9D4);
+    dbg_print(" * Init Core W2k cdrom ... ");
+    sub_433C10(cdrom_letter, &byte_457338, &byte_4FD9D0, &byte_4FD9D4);
     hObject = sub_433B70(cdrom_letter);
     if ( !hObject )
       sound_use_cdda = 0;

@@ -1,20 +1,20 @@
 #include "pch.h"
-void __noreturn sub_4370D0(char *Format, ...)
+void __noreturn ui_error(char *Format, ...)
 {
   DWORD v1; // ecx
   int v2; // ecx
   char *v3; // esi
   char *v4; // esi
   DWORD NumberOfCharsWritten; // [esp+0h] [ebp-4h] BYREF
-  va_list va; // [esp+Ch] [ebp+8h] BYREF
+  va_list ArgList; // [esp+Ch] [ebp+8h] BYREF
 
-  va_start(va, Format);
+  va_start(ArgList, Format);
   NumberOfCharsWritten = v1;
-  memcard2_save();
-  net_close(NumberOfCharsWritten);
+  memcard12_save();
+  net_close();
   nullsub_1();
   if ( spu_destroy_cb )
-    spu_destroy_cb();
+    spu_destroy_cb(NumberOfCharsWritten);
   if ( dword_50C36C == 1 )
     sub_429100();
   gpu_destroy();
@@ -25,7 +25,7 @@ void __noreturn sub_4370D0(char *Format, ...)
   if ( byte_4FF9F0 )
   {
     v3 = (char *)malloc(0x8000u);
-    vsprintf(v3, Format, va);
+    vsprintf(v3, Format, ArgList);
     fprintf(&stru_458A00, "%s", v3);
     if ( console_allocated )
       WriteConsoleA(hConsoleOutput, v3, strlen(v3), &NumberOfCharsWritten, nullptr);
@@ -34,7 +34,7 @@ void __noreturn sub_4370D0(char *Format, ...)
   else
   {
     v4 = (char *)malloc(0x8000u);
-    vsprintf(v4, Format, va);
+    vsprintf(v4, Format, ArgList);
     printf("%s", v4);
     free(v4);
   }

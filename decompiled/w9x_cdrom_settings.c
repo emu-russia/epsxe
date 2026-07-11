@@ -29,7 +29,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           v10 - 9,
           v10,
           v10 + 17);
-        SendDlgItemMessageA(hDlg, 1081, 0x143u, 0, (LPARAM)lParam);
+        SendDlgItemMessageA(hDlg, 1081, CB_ADDSTRING, 0, (LPARAM)lParam);
         if ( *(_DWORD *)(v10 + 43) == cdrom_hain
           && *(_DWORD *)(v10 + 47) == cdrom_target
           && *(_DWORD *)(v10 + 51) == cdrom_lun )
@@ -52,7 +52,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       return 0;
     if ( (unsigned __int16)a3 == 1079 )
     {
-      v5 = SendDlgItemMessageA(hDlg, 1081, 0x147u, 0, 0);
+      v5 = SendDlgItemMessageA(hDlg, 1081, CB_GETCURSEL, 0, 0);
       if ( v5 != -1 && v5 < HIBYTE(dword_4FD9BC) )
       {
         v6 = v5 << 6;
@@ -62,9 +62,9 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         cdrom_target = v7;
         cdrom_lun = v8;
       }
-      SubchannelW9xCdromEnabled = SendDlgItemMessageA(hDlg, 1136, 0xF0u, 0, 0);
-      SubchannelW9xCaching = SendDlgItemMessageA(hDlg, 1137, 0xF0u, 0, 0);
-      SubchannelW9xCachingLG = SendDlgItemMessageA(hDlg, 1138, 0xF0u, 0, 0);
+      SubchannelW9xCdromEnabled = SendDlgItemMessageA(hDlg, 1136, BM_GETCHECK, 0, 0);
+      SubchannelW9xCaching = SendDlgItemMessageA(hDlg, 1137, BM_GETCHECK, 0, 0);
+      SubchannelW9xCachingLG = SendDlgItemMessageA(hDlg, 1138, BM_GETCHECK, 0, 0);
       EndDialog(hDlg, 1);
       cdrom_set_hain_target_lun();
       return 1;

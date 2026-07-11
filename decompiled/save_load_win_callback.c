@@ -32,7 +32,7 @@ int __stdcall save_load_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
       case 1u:
         return 1;
       case 2u:
-        memcard2_save();
+        memcard12_save();
         PostQuitMessage(0);
         result = 1;
         break;

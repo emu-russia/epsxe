@@ -6,8 +6,8 @@ int __cdecl mem_freeze(const char *a1, int a2)
 
   sprintf(Buffer, "%s", a1);
   v4 = 2232320;
-  sub_438F70(a2, (int)Buffer, 7);
-  sub_438F70(a2, (int)ram, 0x200000);
-  sub_438F70(a2, (int)pio_mem, 0x20000);
-  return sub_438F70(a2, (int)dcache, 4096);
+  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
+  gzwrite(a2, (unsigned __int8 *)ram, 0x200000u);
+  gzwrite(a2, (unsigned __int8 *)pio_mem, 0x20000u);
+  return gzwrite(a2, (unsigned __int8 *)dcache, 0x1000u);
 }

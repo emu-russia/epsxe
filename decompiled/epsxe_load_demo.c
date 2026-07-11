@@ -23,6 +23,6 @@ int __cdecl epsxe_load_demo(char *FileName)
   dword_50C358 = 0x801FFF00;
   dword_50C350 = v6;
   dword_50C35C = 0;
-  reg_pc = v5;
+  *(_DWORD *)reg_pc = v5;
   return fclose(v2);
 }

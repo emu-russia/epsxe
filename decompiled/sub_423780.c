@@ -6,9 +6,9 @@ int __cdecl sub_423780(const char *a1, int a2)
 
   sprintf(Buffer, "%s", a1);
   v4 = 65640;
-  sub_438F70(a2, (int)Buffer, 7);
-  sub_438F70(a2, (int)&dword_5164D0, 4);
-  sub_438F70(a2, (int)&dword_566964, 4);
-  sub_438F70(a2, (int)dword_5164E0, 96);
-  return sub_438F70(a2, (int)byte_516600, 0x10000);
+  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
+  gzwrite(a2, (unsigned __int8 *)dword_5164D0, 4u);
+  gzwrite(a2, (unsigned __int8 *)dword_566964, 4u);
+  gzwrite(a2, (unsigned __int8 *)dword_5164E0, 0x60u);
+  return gzwrite(a2, (unsigned __int8 *)byte_516600, 0x10000u);
 }

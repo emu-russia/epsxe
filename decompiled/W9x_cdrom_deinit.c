@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_431540()
+HMODULE W9x_cdrom_deinit()
 {
   if ( byte_456D70 >= 0 )
     sub_42FA10();

@@ -85,11 +85,11 @@ LABEL_11:
       v5 -= v14;
       if ( v10 != 16 )
         break;
-      *((_BYTE *)dword_576984 + v4++) = v9[4];
+      *((_BYTE *)lpMem + v4++) = v9[4];
       v32 = v4;
       if ( v4 == 0x8000 )
       {
-        sub_41FE70(dword_576984, 0x8000u);
+        sub_41FE70(lpMem, 0x8000u);
         v4 = 0;
         goto LABEL_2;
       }
@@ -178,21 +178,21 @@ LABEL_26:
       {
         do
         {
-          *((_BYTE *)dword_576984 + v4++) = *((_BYTE *)dword_576984 + v28++);
+          *((_BYTE *)lpMem + v4++) = *((_BYTE *)lpMem + v28++);
           --v30;
         }
         while ( v30 );
       }
       else
       {
-        qmemcpy((char *)dword_576984 + v4, (char *)dword_576984 + v28, v30);
+        qmemcpy((char *)lpMem + v4, (char *)lpMem + v28, v30);
         v4 = v30 + v32;
         LOWORD(v28) = v30 + v28;
       }
       v32 = v4;
       if ( v4 == 0x8000 )
       {
-        sub_41FE70(dword_576984, 0x8000u);
+        sub_41FE70(lpMem, 0x8000u);
         v4 = 0;
         v32 = 0;
       }

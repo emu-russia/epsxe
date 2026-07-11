@@ -14,21 +14,21 @@ char __cdecl sub_420D60(char a1, char *a2)
     if ( (sio0_control_reg & 0x1000) != 0 )
     {
       sub_42AFD0();
-      v2 = dword_50C270;
-      if ( dword_50C270 >= 0 )
+      v2 = hw_update_counter;
+      if ( hw_update_counter >= 0 )
       {
-        if ( (unsigned int)dword_50C270 > 0x1F9 )
+        if ( (unsigned int)hw_update_counter > 0x1F9 )
         {
-          dword_4FD864 = dword_50C270 - 505;
+          dword_4FD864 = hw_update_counter - 505;
           dword_4FD86C = 128;
-          LOBYTE(v2) = dword_50C270 + 7;
+          LOBYTE(v2) = hw_update_counter + 7;
           return v2;
         }
       }
       else
       {
         v2 = 0;
-        dword_50C270 = 0;
+        hw_update_counter = 0;
       }
       dword_4FD868 = dword_455940 + v2 - 505;
       dword_4FD86C = 0;

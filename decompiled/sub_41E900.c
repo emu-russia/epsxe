@@ -5,7 +5,7 @@ char sub_41E900()
   int v1; // eax
 
   v0 = (unsigned __int16)cpu_opcode;
-  unk_576DAF = ((unsigned int)cpu_opcode >> 21) & 0x1F;
+  op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   dword_576DA8 = (unsigned __int16)cpu_opcode;
   if ( (cpu_opcode & 0x8000) != 0 )
   {
@@ -18,7 +18,7 @@ char sub_41E900()
     cpu_opcode = *(_DWORD *)((unsigned __int16)reg_pc + mem_read_hooks[HIWORD(reg_pc)]);
     reg_pc += 4 * v0;
     LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
-    --dword_50C270;
+    --hw_update_counter;
   }
   return v1;
 }

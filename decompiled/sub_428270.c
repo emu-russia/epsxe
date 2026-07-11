@@ -88,7 +88,7 @@ int sub_428270()
   *(_BYTE *)(dword_4FC4E0 + 52) = 37;
   *(_DWORD *)(dword_4FC4E0 + 53) = 4095;
   *(_WORD *)(dword_4FC4E0 + 57) = -32629;
-  *(_DWORD *)(dword_4FC4E0 + 59) = &dcache;
+  *(_DWORD *)(dword_4FC4E0 + 59) = dcache;
   *(_BYTE *)(dword_4FC4E0 + 63) = -61;
   *(_WORD *)(dword_4FC4E0 + 64) = 32393;
   *(_BYTE *)(dword_4FC4E0 + 66) = -112;
@@ -128,7 +128,7 @@ int sub_428270()
   *(_BYTE *)(dword_4FC4E0 + 52) = 37;
   *(_DWORD *)(dword_4FC4E0 + 53) = 4095;
   *(_WORD *)(dword_4FC4E0 + 57) = -32629;
-  *(_DWORD *)(dword_4FC4E0 + 59) = &dcache;
+  *(_DWORD *)(dword_4FC4E0 + 59) = dcache;
   *(_BYTE *)(dword_4FC4E0 + 63) = -61;
   *(_WORD *)(dword_4FC4E0 + 64) = 32393;
   *(_BYTE *)(dword_4FC4E0 + 66) = -112;
@@ -168,7 +168,7 @@ int sub_428270()
   *(_BYTE *)(dword_4FC4E0 + 52) = 37;
   *(_DWORD *)(dword_4FC4E0 + 53) = 4095;
   *(_WORD *)(dword_4FC4E0 + 57) = -32629;
-  *(_DWORD *)(dword_4FC4E0 + 59) = &dcache;
+  *(_DWORD *)(dword_4FC4E0 + 59) = dcache;
   *(_BYTE *)(dword_4FC4E0 + 63) = -61;
   *(_WORD *)(dword_4FC4E0 + 64) = 32393;
   *(_BYTE *)(dword_4FC4E0 + 66) = -112;
@@ -223,7 +223,7 @@ int sub_428270()
   *(_BYTE *)(dword_4FC4E0 + 126) = 37;
   *(_DWORD *)(dword_4FC4E0 + 127) = 4095;
   *(_WORD *)(dword_4FC4E0 + 131) = -26488;
-  *(_DWORD *)(dword_4FC4E0 + 133) = &dcache;
+  *(_DWORD *)(dword_4FC4E0 + 133) = dcache;
   *(_BYTE *)(dword_4FC4E0 + 137) = -61;
   *(_BYTE *)(dword_4FC4E0 + 138) = 83;
   *(_BYTE *)(dword_4FC4E0 + 139) = 80;
@@ -278,7 +278,7 @@ int sub_428270()
   *(_DWORD *)(dword_4FC4E0 + 128) = 4095;
   *(_BYTE *)(dword_4FC4E0 + 132) = 102;
   *(_WORD *)(dword_4FC4E0 + 133) = -26487;
-  *(_DWORD *)(dword_4FC4E0 + 135) = &dcache;
+  *(_DWORD *)(dword_4FC4E0 + 135) = dcache;
   *(_BYTE *)(dword_4FC4E0 + 139) = -61;
   *(_BYTE *)(dword_4FC4E0 + 140) = 83;
   *(_BYTE *)(dword_4FC4E0 + 141) = 80;
@@ -332,7 +332,7 @@ int sub_428270()
   *(_BYTE *)(dword_4FC4E0 + 126) = 37;
   *(_DWORD *)(dword_4FC4E0 + 127) = 4095;
   *(_WORD *)(dword_4FC4E0 + 131) = 0x9889;
-  *(_DWORD *)(dword_4FC4E0 + 133) = &dcache;
+  *(_DWORD *)(dword_4FC4E0 + 133) = dcache;
   *(_BYTE *)(dword_4FC4E0 + 137) = -61;
   *(_BYTE *)(dword_4FC4E0 + 138) = 83;
   *(_BYTE *)(dword_4FC4E0 + 139) = 80;

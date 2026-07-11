@@ -1,9 +1,9 @@
 #include "pch.h"
-void sub_40B2B0()
+void save_load_state()
 {
   int v0; // esi
   char v1; // [esp+8h] [ebp-4h]
-  char v2; // [esp+8h] [ebp-4h]
+  char gpu_freeze_counter; // [esp+8h] [ebp-4h]
 
   *(_DWORD *)dword_44DF24 = 255;
   byte_45B8E8 = 0;
@@ -12,12 +12,12 @@ void sub_40B2B0()
   do
   {
     spu_update_cb();
-    Sleep(0xAu);
+    Sleep(10u);
     --v0;
   }
   while ( v0 );
   spu_update_cb();
-  memcard2_save();
+  memcard12_save();
   spu_close();
   net_pause();
   gpu_close();
@@ -45,11 +45,11 @@ void sub_40B2B0()
   {
     if ( *(int *)dword_44DF24 < 20 )
     {
-      v2 = get_gpu_freeze_counter();
+      gpu_freeze_counter = get_gpu_freeze_counter();
       set_gpu_freeze_counter(dword_44DF24[0] - 10);
       state_save();
       dbg_print(" * SaveState Done! (%d)\n", *(_DWORD *)dword_44DF24 - 10);
-      set_gpu_freeze_counter(v2);
+      set_gpu_freeze_counter(gpu_freeze_counter);
       PostQuitMessage(0);
     }
   }

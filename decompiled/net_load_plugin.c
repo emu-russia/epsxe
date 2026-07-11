@@ -5,7 +5,7 @@ int net_load_plugin()
   HMODULE LibraryA; // eax
   CHAR LibFileName[1024]; // [esp+8h] [ebp-400h] BYREF
 
-  sprintf(LibFileName, "%s%s", aPlugins, (const char *)NetPlugin);
+  sprintf(LibFileName, "%s%s", "plugins\\", (const char *)NetPlugin);
   if ( !strcmp((const char *)NetPlugin, "DISABLED") )
   {
     result = dword_4FD99C;

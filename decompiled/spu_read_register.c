@@ -21,7 +21,7 @@ __int16 __cdecl sub_40BF40(unsigned int a1)
       {
         if ( a1 == 528489484 )
         {
-          LOWORD(v1) = dword_50C270;
+          LOWORD(v1) = hw_update_counter;
           return v1;
         }
         if ( a1 == 528489894 )

@@ -8,33 +8,33 @@ HWND gpu_load_plugin()
 
   if ( !strcmp((const char *)VideoPlugin, "NULL") )
     fatal_error_with_message_box(" * !Error video doesn't configurated \n * !Go Config->Video and choose a plugin. \n");
-  sprintf(LibFileName, "%s%s", aPlugins, (const char *)VideoPlugin);
+  sprintf(LibFileName, "%s%s", "plugins\\", (const char *)VideoPlugin);
   LibraryA = LoadLibraryA(LibFileName);
   hGpuModule = LibraryA;
   if ( !LibraryA )
     fatal_error_with_message_box(" * Error loading [%s] \n", LibFileName);
   gpu_closed = 1;
-  GPUinit = GetProcAddress(LibraryA, ProcName);
+  GPUinit = GetProcAddress(LibraryA, "GPUinit");
   if ( !GPUinit )
-    ui_error(" * GetProcAddress error %s\n", ProcName);
-  GPUshutdown = GetProcAddress(hGpuModule, aGpushutdown);
+    ui_error(" * GetProcAddress error %s\n", "GPUinit");
+  GPUshutdown = GetProcAddress(hGpuModule, "GPUshutdown");
   if ( !GPUshutdown )
-    ui_error(" * GetProcAddress error %s\n", aGpushutdown);
+    ui_error(" * GetProcAddress error %s\n", "GPUshutdown");
   GPUopen = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUopen");
   if ( !GPUopen )
     ui_error(" * GetProcAddress error %s\n", "GPUopen");
   GPUclose = GetProcAddress(hGpuModule, "GPUclose");
   if ( !GPUclose )
     ui_error(" * GetProcAddress error %s\n", "GPUclose");
-  GPUconfigure = (int)GetProcAddress(hGpuModule, aGpuconfigure);
+  GPUconfigure = (int)GetProcAddress(hGpuModule, "GPUconfigure");
   if ( !GPUconfigure )
-    ui_error(" * GetProcAddress error %s\n", aGpuconfigure);
-  GPUabout = (int)GetProcAddress(hGpuModule, aGpuabout);
+    ui_error(" * GetProcAddress error %s\n", "GPUconfigure");
+  GPUabout = (int)GetProcAddress(hGpuModule, "GPUabout");
   if ( !GPUabout )
-    ui_error(" * GetProcAddress error %s\n", aGpuabout);
-  GPUtest = (int)GetProcAddress(hGpuModule, aGputest);
+    ui_error(" * GetProcAddress error %s\n", "GPUabout");
+  GPUtest = (int)GetProcAddress(hGpuModule, "GPUtest");
   if ( !GPUtest )
-    ui_error(" * GetProcAddress error %s\n", aGputest);
+    ui_error(" * GetProcAddress error %s\n", "GPUtest");
   GPUwriteData = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUwriteData");
   if ( !GPUwriteData )
     ui_error(" * GetProcAddress error %s\n", "GPUwriteData");

@@ -9,7 +9,7 @@ unsigned int op_MTC0()
 
   v0 = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   v1 = BYTE2(cpu_opcode) & 0x1F;
-  byte_576DB0 = BYTE2(cpu_opcode) & 0x1F;
+  op_rt = BYTE2(cpu_opcode) & 0x1F;
   byte_576DAD = v0;
   if ( v0 == 14 || v0 == 15 || v0 == 8 )
     return dbg_print("[%d] only read!!!\n", (unsigned __int16)cpu_opcode >> 11);
@@ -26,7 +26,7 @@ LABEL_21:
         result = dword_50C2A4 & 0xFFFFFFC0;
         dword_50C2AC = reg_pc;
         dword_50C2A8 = 256;
-        reg_pc = -2147483520;
+        reg_pc = 0x80000080;
         dword_50C2A4 = dword_50C2A4 & 0xFFFFFFC0 | (4 * (dword_50C2A4 & 0xF));
       }
     }
@@ -62,7 +62,7 @@ LABEL_21:
         }
       }
     }
-    dword_50C274[v0] = cpu_gpr[v1];
+    cop0_regs[v0] = cpu_gpr[v1];
     return v0;
   }
   return result;

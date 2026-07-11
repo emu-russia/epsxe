@@ -6,6 +6,6 @@ int __cdecl gte_freeze(const char *a1, int a2)
 
   sprintf(Buffer, "%s", a1);
   v4 = 256;
-  sub_438F70(a2, (int)Buffer, 7);
-  return sub_438F70(a2, (int)word_8A7F00, 256);
+  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
+  return gzwrite(a2, (unsigned __int8 *)word_8A7F00, 0x100u);
 }

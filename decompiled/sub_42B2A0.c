@@ -70,11 +70,11 @@ int sub_42B2A0()
       cpu_gpr[0] = 0;
       if ( (int_reg & int_mask & 0x3FB) != 0 && (dword_50C2A4 & 0x401) == 0x401 )
         cpu_interrupt();
-      v8 = --dword_50C270;
-      if ( dword_50C270 < 0 )
+      v8 = --hw_update_counter;
+      if ( hw_update_counter < 0 )
       {
         v9 = (((_BYTE)dword_4FC4EC + 1) & 0x1F) == 0;
-        dword_50C270 = dword_455940 + v8;
+        hw_update_counter = dword_455940 + v8;
         ++dword_50C364;
         ++dword_4FC4EC;
         if ( v9 )

@@ -8,5 +8,5 @@ void __noreturn op_UNKNOWN()
     reg_pc - 4,
     dword_50C360,
     dword_50C364,
-    dword_50C270);
+    hw_update_counter);
 }

@@ -5,8 +5,8 @@ int op_LW()
   int result; // eax
 
   v0 = (unsigned __int16)cpu_opcode;
-  byte_576DAC = ((unsigned int)cpu_opcode >> 21) & 0x1F;
-  byte_576DB0 = BYTE2(cpu_opcode) & 0x1F;
+  op_rs = ((unsigned int)cpu_opcode >> 21) & 0x1F;
+  op_rt = BYTE2(cpu_opcode) & 0x1F;
   dword_576DA8 = (unsigned __int16)cpu_opcode;
   if ( (cpu_opcode & 0x8000) != 0 )
   {
@@ -16,6 +16,6 @@ int op_LW()
   if ( (cpu_opcode & 0x1F0000) == 0 )
     return mem_read_word(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
   result = mem_read_word(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
-  cpu_gpr[(unsigned __int8)byte_576DB0] = result;
+  cpu_gpr[(unsigned __int8)op_rt] = result;
   return result;
 }

@@ -86,9 +86,9 @@ LABEL_39:
               v8 = dword_455940;
             v9 = v8 + v6;
             if ( v7 )
-              result = v9 - (dword_50C270 << 9) / (unsigned int)dword_455940;
+              result = v9 - (hw_update_counter << 9) / (unsigned int)dword_455940;
             else
-              result = v9 - dword_50C270;
+              result = v9 - hw_update_counter;
             break;
           case 0x1F801104u:
           case 0x1F801114u:
@@ -98,7 +98,7 @@ LABEL_39:
             goto LABEL_39;
           case 0x1F801110u:
             result = ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : dword_455940)
-                   - ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : dword_50C270)
+                   - ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter)
                    + dword_50BFD0[4 * ((a1 >> 4) & 3)];
             break;
           case 0x1F801120u:
@@ -109,9 +109,9 @@ LABEL_39:
             if ( v13 )
               v10 = (unsigned int)dword_455940 >> 3;
             v14 = v10 + v12;
-            v15 = dword_50C270;
+            v15 = hw_update_counter;
             if ( v13 )
-              v15 = (unsigned int)dword_50C270 >> 3;
+              v15 = (unsigned int)hw_update_counter >> 3;
             result = v14 - v15;
             break;
           default:
@@ -147,7 +147,7 @@ LABEL_15:
         case 0x1F801070u:
           if ( dword_4FD878 )
           {
-            if ( dword_50C270 < (unsigned int)dword_4FD870 )
+            if ( hw_update_counter < (unsigned int)dword_4FD870 )
             {
               int_reg |= dword_4FD878;
               dword_4FD878 = 0;

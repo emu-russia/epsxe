@@ -11,10 +11,10 @@ unsigned int sub_42B1E0()
   {
     reg_pc = v0 + 4;
     cpu_main_table[result >> 26]();
-    v2 = --dword_50C270;
-    if ( dword_50C270 < 0 )
+    v2 = --hw_update_counter;
+    if ( hw_update_counter < 0 )
     {
-      dword_50C270 = dword_455940 + v2;
+      hw_update_counter = dword_455940 + v2;
       if ( ++dword_50C364 >= (unsigned int)dword_45593C )
       {
         dword_50C364 = 0;

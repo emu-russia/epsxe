@@ -1,7 +1,7 @@
 #include "pch.h"
-int __cdecl sub_40DC90(int a1, int a2)
+int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
 {
-  unsigned __int16 *v2; // edi
+  char *v2; // edi
   int *v3; // esi
   unsigned int v4; // ebp
   unsigned __int16 v5; // ax
@@ -38,14 +38,14 @@ int __cdecl sub_40DC90(int a1, int a2)
   int v36; // [esp+14h] [ebp-21Ch]
   int v37; // [esp+18h] [ebp-218h]
   char Str1[12]; // [esp+24h] [ebp-20Ch] BYREF
-  _BYTE v39[384]; // [esp+30h] [ebp-200h] BYREF
+  char v39[384]; // [esp+30h] [ebp-200h] BYREF
   char v40; // [esp+1B0h] [ebp-80h] BYREF
 
-  sub_438CA0(a2, v39, 7);
-  sub_438CA0(a2, Str1, 8);
-  sub_438CA0(a2, v39, 8);
-  sub_438CA0(a2, v39, 512);
-  v2 = (unsigned __int16 *)v39;
+  gzread(a2, v39, 7);
+  gzread(a2, Str1, 8);
+  gzread(a2, v39, 8);
+  gzread(a2, v39, 512);
+  v2 = v39;
   v3 = dword_465550;
   v34 = 24;
   do
@@ -59,9 +59,9 @@ int __cdecl sub_40DC90(int a1, int a2)
         switch ( v4 )
         {
           case 0u:
-            v5 = *v2;
-            v6 = (*v2 >> 14) & 1;
-            v7 = *v2 & 0x3FFF;
+            v5 = *(_WORD *)v2;
+            v6 = (*(unsigned __int16 *)v2 >> 14) & 1;
+            v7 = *(_WORD *)v2 & 0x3FFF;
             *v3 = v6;
             v3[2] = v6;
             *(v3 - 4) = v7;
@@ -78,7 +78,7 @@ int __cdecl sub_40DC90(int a1, int a2)
           case 0xDu:
             break;
           case 2u:
-            v8 = v2[1];
+            v8 = *((_WORD *)v2 + 1);
             *(v3 - 3) = v8 & 0x3FFF;
             v9 = (v8 >> 14) & 1;
             v3[1] = v9;
@@ -88,18 +88,18 @@ int __cdecl sub_40DC90(int a1, int a2)
             *(v3 - 1) = v8 & 0x7F;
             break;
           case 4u:
-            v10 = (double)(v2[2] & 0x3FFF);
-            v3[8] = v2[2] & 0x3FFF;
+            v10 = (double)(*((_WORD *)v2 + 2) & 0x3FFF);
+            v3[8] = *((_WORD *)v2 + 2) & 0x3FFF;
             v11 = v10 * 0.000244140625;
             *((float *)v3 + 24) = v11;
             v3[25] = (__int64)(v11 * 65536.0);
             break;
           case 6u:
-            v3[9] = v2[3];
+            v3[9] = *((unsigned __int16 *)v2 + 3);
             break;
           case 8u:
-            v12 = v2[4];
-            v13 = *((_BYTE *)v2 + 9);
+            v12 = *((_WORD *)v2 + 4);
+            v13 = v2[9];
             v3[10] = v12 >> 15;
             v14 = v13 & 0x7F;
             v15 = (unsigned __int8)v12 >> 4;
@@ -115,7 +115,7 @@ int __cdecl sub_40DC90(int a1, int a2)
             v3[67] = v19;
             break;
           case 0xAu:
-            v20 = v2[5];
+            v20 = *((_WORD *)v2 + 5);
             v3[14] = v20 >> 15;
             v21 = (v20 >> 14) & 1;
             v22 = (v20 >> 6) & 0x7F;
@@ -127,24 +127,24 @@ int __cdecl sub_40DC90(int a1, int a2)
             v3[18] = v24;
             if ( v21 )
             {
-              v26 = -(int)*(&dword_44F448 + v22);
+              v26 = -dword_44F448[v22];
               v25 = -dword_44F688[v24];
               v3[68] = v26;
             }
             else
             {
-              v3[68] = (int)*(&dword_44F448 + v22);
+              v3[68] = dword_44F448[v22];
               v25 = -dword_44F688[v24];
             }
             v3[69] = v25;
             break;
           case 0xCu:
-            v37 = v2[6] << 9;
+            v37 = *((unsigned __int16 *)v2 + 6) << 9;
             v3[19] = v37;
             *((float *)v3 + 26) = (double)v37 * 0.000030517578125;
             break;
           case 0xEu:
-            v3[20] = v2[7];
+            v3[20] = *((unsigned __int16 *)v2 + 7);
             break;
         }
       }
@@ -152,7 +152,7 @@ int __cdecl sub_40DC90(int a1, int a2)
       --v36;
     }
     while ( v36 );
-    v2 += 8;
+    v2 += 16;
     v3 += 74;
     --v34;
   }
@@ -205,7 +205,7 @@ int __cdecl sub_40DC90(int a1, int a2)
         v30 = ((unsigned __int16)*v31 << 16) + (unsigned __int16)v30;
         break;
       case 34:
-        MEMORY[0x4F7140] = *v31;
+        byte_4EF142[0x3FFF] = *v31;
         break;
       case 36:
         LOWORD(dword_463904) = *v31;
@@ -243,13 +243,13 @@ int __cdecl sub_40DC90(int a1, int a2)
   dword_4EF138 = v30;
   dword_463900 = v28;
   dword_4F7558 = v27;
-  sub_438CA0(a2, spu_ram, 0x80000);
-  sub_438CA0(a2, &dword_4E7108, 32800);
-  dword_44F7A0 = dword_4E7108;
+  gzread(a2, (char *)spu_ram, 0x80000);
+  gzread(a2, dword_4E7108, 32800);
+  dword_44F7A0 = *(_DWORD *)dword_4E7108;
   if ( dword_4E7114 > 4096 )
     dword_4E7114 = 0;
-  result = strncmp(Str1, aIspu, 4u);
+  result = strncmp(Str1, "ISPU", 4u);
   if ( !result )
-    return sub_438CA0(a2, dword_465540, 7104);
+    return gzread(a2, (char *)dword_465540, 7104);
   return result;
 }

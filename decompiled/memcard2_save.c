@@ -1,11 +1,9 @@
 #include "pch.h"
-// Microsoft VisualC 2-14/net runtime
 char memcard2_save()
 {
   char result; // al
   FILE *v1; // esi
 
-  memcard1_save();
   result = byte_4FC460;
   if ( byte_4FC460 )
   {

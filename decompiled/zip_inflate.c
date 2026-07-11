@@ -19,7 +19,7 @@ int zip_inflate()
       v0 = dword_4F8340;
     if ( v2 )
     {
-      sub_41FE70(dword_576984, dword_4F8324);
+      sub_41FE70(lpMem, dword_4F8324);
       return 0;
     }
   }

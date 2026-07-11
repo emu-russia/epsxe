@@ -1,12 +1,12 @@
 #include "pch.h"
-void __noreturn fatal_error_with_message_box(char *Format, ...)
+void fatal_error_with_message_box(char *Format, ...)
 {
   char *v1; // esi
   int v2; // ecx
   va_list ArgList; // [esp+8h] [ebp+8h] BYREF
 
   va_start(ArgList, Format);
-  memcard2_save();
+  memcard12_save();
   net_close();
   nullsub_1();
   if ( spu_destroy_cb )

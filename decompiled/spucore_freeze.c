@@ -1,9 +1,9 @@
 #include "pch.h"
-int __cdecl sub_40D8F0(const char *a1, int a2)
+int __cdecl spucore_freeze(const char *a1, int a2)
 {
   int v2; // edx
   char *v3; // esi
-  int v4; // eax
+  int *v4; // eax
   int v5; // ecx
   int v6; // edi
   int v7; // ebp
@@ -18,19 +18,19 @@ int __cdecl sub_40D8F0(const char *a1, int a2)
   __int16 *v16; // ecx
   int v17; // edx
   int v18; // esi
-  int v19; // kr10_4
+  int *v19; // kr10_4
   char Buffer[384]; // [esp+10h] [ebp-200h] BYREF
   char v22; // [esp+190h] [ebp-80h] BYREF
 
   sprintf(Buffer, "%s", a1);
   *(_DWORD *)&Buffer[3] = 564744;
-  sub_438F70(a2, Buffer, 7);
-  sprintf(Buffer, aIspu);
-  sub_438F70(a2, Buffer, 8);
+  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
+  sprintf(Buffer, "ISPU");
+  gzwrite(a2, (unsigned __int8 *)Buffer, 8u);
   *(_QWORD *)Buffer = 0x89DF800000002LL;
-  sub_438F70(a2, Buffer, 8);
+  gzwrite(a2, (unsigned __int8 *)Buffer, 8u);
   v3 = &Buffer[2];
-  v4 = (int)dword_465550;
+  v4 = dword_465550;
   v5 = 24;
   do
   {
@@ -43,46 +43,46 @@ int __cdecl sub_40D8F0(const char *a1, int a2)
       switch ( v6 )
       {
         case 0:
-          v9 = 2 * (unsigned __int16)(*(_WORD *)v4 | (2 * *(_WORD *)(v4 + 24)));
-          LOWORD(v9) = *(_WORD *)(v4 + 16) | v9;
+          v9 = 2 * (unsigned __int16)(*(_WORD *)v4 | (2 * *((_WORD *)v4 + 12)));
+          LOWORD(v9) = *((_WORD *)v4 + 8) | v9;
           v2 = v9 << 13;
-          LOWORD(v2) = *(_WORD *)(v4 - 16) | v2;
+          LOWORD(v2) = *((_WORD *)v4 - 8) | v2;
           *((_WORD *)v3 - 1) = v2;
           break;
         case 2:
-          v10 = 2 * (unsigned __int16)(*(_WORD *)(v4 + 4) | (2 * *(_WORD *)(v4 + 28)));
-          LOWORD(v10) = *(_WORD *)(v4 + 20) | v10;
+          v10 = 2 * (unsigned __int16)(*((_WORD *)v4 + 2) | (2 * *((_WORD *)v4 + 14)));
+          LOWORD(v10) = *((_WORD *)v4 + 10) | v10;
           v2 = v10 << 13;
-          LOWORD(v2) = *(_WORD *)(v4 - 12) | v2;
+          LOWORD(v2) = *((_WORD *)v4 - 6) | v2;
           *(_WORD *)v3 = v2;
           break;
         case 4:
-          LOWORD(v2) = *(_WORD *)(v4 + 32);
+          LOWORD(v2) = *((_WORD *)v4 + 16);
           *((_WORD *)v3 + 1) = v2;
           break;
         case 6:
-          LOWORD(v2) = *(_WORD *)(v4 + 36);
+          LOWORD(v2) = *((_WORD *)v4 + 18);
           *((_WORD *)v3 + 2) = v2;
           break;
         case 8:
-          v11 = 16 * (unsigned __int16)(*(_WORD *)(v4 + 44) | (*(_WORD *)(v4 + 40) << 7));
-          LOWORD(v11) = *(_WORD *)(v4 + 48) | v11;
+          v11 = 16 * (unsigned __int16)(*((_WORD *)v4 + 22) | (*((_WORD *)v4 + 20) << 7));
+          LOWORD(v11) = *((_WORD *)v4 + 24) | v11;
           v2 = 16 * v11;
-          LOWORD(v2) = *(_WORD *)(v4 + 52) | v2;
+          LOWORD(v2) = *((_WORD *)v4 + 26) | v2;
           *((_WORD *)v3 + 3) = v2;
           break;
         case 10:
-          LOBYTE(v2) = *(_BYTE *)(v4 + 60) | (2 * *(_BYTE *)(v4 + 56));
+          LOBYTE(v2) = *((_BYTE *)v4 + 60) | (2 * *((_BYTE *)v4 + 56));
           LOBYTE(v12) = 0;
           HIBYTE(v12) = v2;
-          *((_WORD *)v3 + 4) = *(_WORD *)(v4 + 72) | (32 * (*(_WORD *)(v4 + 68) | (2 * (*(_WORD *)(v4 + 64) | v12))));
+          *((_WORD *)v3 + 4) = *((_WORD *)v4 + 36) | (32 * (*((_WORD *)v4 + 34) | (2 * (*((_WORD *)v4 + 32) | v12))));
           break;
         case 12:
-          v2 = *(int *)(v4 + 76) >> 9;
+          v2 = v4[19] >> 9;
           *((_WORD *)v3 + 5) = v2;
           break;
         case 14:
-          LOWORD(v2) = *(_WORD *)(v4 + 80);
+          LOWORD(v2) = *((_WORD *)v4 + 40);
           *((_WORD *)v3 + 6) = v2;
           break;
         default:
@@ -93,7 +93,7 @@ int __cdecl sub_40D8F0(const char *a1, int a2)
       --v7;
     }
     while ( v7 );
-    v4 += 296;
+    v4 += 74;
     v3 += 16;
     --v5;
   }
@@ -107,7 +107,7 @@ int __cdecl sub_40D8F0(const char *a1, int a2)
   do
   {
     v19 = v4;
-    v4 = 0;
+    v4 = nullptr;
     switch ( v17 )
     {
       case 0:
@@ -126,37 +126,37 @@ int __cdecl sub_40D8F0(const char *a1, int a2)
         LOWORD(v4) = dword_4F7558;
         goto LABEL_37;
       case 18:
-        v4 = v15;
+        v4 = (int *)v15;
         goto LABEL_37;
       case 20:
         LOWORD(v4) = dword_463900;
         goto LABEL_37;
       case 22:
-        v4 = BYTE2(dword_463900);
+        v4 = (int *)BYTE2(dword_463900);
         goto LABEL_37;
       case 24:
         LOWORD(v4) = dword_4E7100;
         goto LABEL_37;
       case 26:
-        v4 = BYTE2(dword_4E7100);
+        v4 = (int *)BYTE2(dword_4E7100);
         goto LABEL_37;
       case 28:
         LOWORD(v4) = dword_4EF138;
         goto LABEL_37;
       case 30:
-        v4 = BYTE2(dword_4EF138);
+        v4 = (int *)BYTE2(dword_4EF138);
         goto LABEL_37;
       case 34:
-        LOWORD(v4) = MEMORY[0x4F7140];
+        LOWORD(v4) = byte_4EF142[0x3FFF];
         goto LABEL_37;
       case 36:
         LOWORD(v4) = dword_463904;
         goto LABEL_37;
       case 42:
-        v4 = sub_40CDF0(v16);
+        LOWORD(v4) = sub_40CDF0();
         goto LABEL_37;
       case 44:
-        v4 = sub_40CE00(v16);
+        LOWORD(v4) = sub_40CE00();
         goto LABEL_37;
       case 46:
         LOWORD(v4) = sub_40CE10();
@@ -173,7 +173,7 @@ int __cdecl sub_40D8F0(const char *a1, int a2)
       case 54:
         LOWORD(v4) = word_4F7584;
 LABEL_37:
-        *v16 = v4;
+        *v16 = (__int16)v4;
         break;
       default:
         v4 = v19;
@@ -184,8 +184,8 @@ LABEL_37:
     --v18;
   }
   while ( v18 );
-  sub_438F70(a2, Buffer, 512);
-  sub_438F70(a2, spu_ram, 0x80000);
-  sub_438F70(a2, &dword_4E7108, 32800);
-  return sub_438F70(a2, dword_465540, 7104);
+  gzwrite(a2, (unsigned __int8 *)Buffer, 0x200u);
+  gzwrite(a2, (unsigned __int8 *)spu_ram, 0x80000u);
+  gzwrite(a2, (unsigned __int8 *)dword_4E7108, 0x8020u);
+  return gzwrite(a2, (unsigned __int8 *)dword_465540, 0x1BC0u);
 }

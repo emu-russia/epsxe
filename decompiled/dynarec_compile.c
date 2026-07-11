@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
+int __cdecl dynarec_compile(unsigned int ArgList, int a2)
 {
   char *v2; // ebx
   unsigned int v3; // esi
@@ -23,6 +23,7 @@ int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
   char v22; // dl
   char v23; // cl
   char v24; // dl
+  int result; // eax
   char v26; // cl
   char v27; // al
   _BYTE *v28; // edx
@@ -386,7 +387,7 @@ LABEL_130:
             *(_DWORD *)(dword_4FC4E0 + 5) = (char *)dword_5164C0 - dword_4FC4E0 + 119;
             *(_BYTE *)(dword_4FC4E0 + 9) = 80;
             dword_4FC4E0 += 10;
-            dynarec_compile(ArgList, 1);
+            dynarec_compile(ArgList, 1u);
             *(_BYTE *)dword_4FC4E0 = 88;
             *(_WORD *)(dword_4FC4E0 + 1) = 8447;
             dword_4FC4E0 += 3;
@@ -422,7 +423,7 @@ LABEL_130:
             dword_5164CC = dword_4FC4E0 + 10;
             dword_4FC4E0 += 11;
             if ( v27 == v26 )
-              dword_4FF9E8 |= (unsigned int)&MEMORY[0x800000];
+              dword_4FF9E8 |= (unsigned int)&bios_image[37248];
             *v28 = 79;
             if ( v27 )
             {
@@ -449,7 +450,7 @@ LABEL_130:
               v30 = dword_4FC4E0 + 10;
             }
             dword_4FC4E0 = v30;
-            dynarec_compile(ArgList, 1);
+            dynarec_compile(ArgList, 1u);
             *(_BYTE *)dword_4FC4E0 = 88;
             *(_WORD *)(dword_4FC4E0 + 1) = 8447;
             dword_4FC4E0 += 3;
@@ -817,9 +818,10 @@ LABEL_121:
               "SPEC Opcode %02x UNK (PC %08x) (%08x) (%d,%d)\n",
               v7 & 0x3F,
               ArgList - 4,
-              reg_pc,
+              *(_DWORD *)reg_pc,
               dword_50C360,
               dword_50C364);
+            return result;
         }
         goto LABEL_203;
       case 1u:
@@ -927,6 +929,7 @@ LABEL_151:
             break;
           default:
             fatal_error_with_message_box(" REGIM Opcode %02x UNK PC[%08x]\n", 1, ArgList - 4);
+            return result;
         }
         goto LABEL_428;
       case 2u:
@@ -944,7 +947,7 @@ LABEL_151:
             dword_4FC4E0 += 11;
             dword_5164CC = v52;
             *(_BYTE *)dword_4FC4E0++ = 79;
-            dynarec_compile(ArgList, 1);
+            dynarec_compile(ArgList, 1u);
             *(_BYTE *)dword_4FC4E0 = -72;
             if ( (v51 & 0xFFF00000 | ArgList & 0xF0000000) == 0xBFC00000 )
               v53 = (v51 & 0x7FFFF) + 0x200000;
@@ -995,7 +998,7 @@ LABEL_151:
           else
             *(_DWORD *)(dword_4FC4E0 + 4) = (ArgList + 4) | 0x80000000;
           dword_4FC4E0 += 8;
-          dynarec_compile(ArgList, 1);
+          dynarec_compile(ArgList, 1u);
           *(_BYTE *)dword_4FC4E0 = -72;
           if ( (v54 & 0xFFF00000 | ArgList & 0xF0000000) == 0xBFC00000 )
             v55 = (v54 & 0x7FFFF) + 0x200000;
@@ -1113,7 +1116,7 @@ LABEL_436:
         *(_DWORD *)(dword_4FC4E0 + 7) = (char *)dword_5164C4 + v154;
         *(_WORD *)(dword_4FC4E0 + 11) = 8447;
         dword_4FC4E0 += 13;
-        dynarec_compile(ArgList, 1);
+        dynarec_compile(ArgList, 1u);
         if ( !v7 )
           v7 = 1;
         *(_BYTE *)dword_4FC4E0 = -72;
@@ -1176,7 +1179,7 @@ LABEL_141:
         v151 = dword_4FC4E0 + 15;
 LABEL_428:
         dword_4FC4E0 = v151;
-        dynarec_compile(ArgList, 1);
+        dynarec_compile(ArgList, 1u);
         if ( !v7 )
           v7 = 1;
         *(_BYTE *)dword_4FC4E0 = -72;
@@ -1466,7 +1469,7 @@ LABEL_243:
               if ( v91 == 48 )
               {
                 *(_BYTE *)dword_4FC4E0 = -95;
-                *(_DWORD *)(dword_4FC4E0 + 1) = &int_reg;
+                *(_DWORD *)(dword_4FC4E0 + 1) = int_reg;
                 *(_WORD *)(dword_4FC4E0 + 5) = 1315;
                 *(_DWORD *)(dword_4FC4E0 + 7) = &int_mask;
                 *(_BYTE *)(dword_4FC4E0 + 11) = -87;
@@ -1506,7 +1509,7 @@ LABEL_243:
             *(_BYTE *)(dword_4FC4E0 + 21) = 79;
             dword_4FC4E0 += 22;
             *(_BYTE *)dword_4FC4E0 = -95;
-            *(_DWORD *)(dword_4FC4E0 + 1) = &int_reg;
+            *(_DWORD *)(dword_4FC4E0 + 1) = int_reg;
             *(_WORD *)(dword_4FC4E0 + 5) = 1315;
             *(_DWORD *)(dword_4FC4E0 + 7) = &int_mask;
             *(_BYTE *)(dword_4FC4E0 + 11) = -87;
@@ -1568,7 +1571,7 @@ LABEL_253:
                                                                                                  + 2) )
             {
               v2[18] = -95;
-              *(_DWORD *)(dword_4FC4E0 + 19) = (char *)&word_8A7F00 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
+              *(_DWORD *)(dword_4FC4E0 + 19) = &word_8A7F00[(unsigned __int8)(4 * ((v7 >> 11) & 0x1F))];
               *(_WORD *)(dword_4FC4E0 + 23) = 18057;
               *(_BYTE *)(dword_4FC4E0 + 25) = 4 * (BYTE2(v7) & 0x1F);
               *(_BYTE *)(dword_4FC4E0 + 26) = 79;
@@ -1603,7 +1606,7 @@ LABEL_265:
                 if ( v96 != 124 && v96 != 116 )
                 {
                   *v2 = -95;
-                  *(_DWORD *)(dword_4FC4E0 + 1) = (char *)&word_8A7F00 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
+                  *(_DWORD *)(dword_4FC4E0 + 1) = &word_8A7F00[(unsigned __int8)(4 * ((v7 >> 11) & 0x1F))];
                   goto LABEL_203;
                 }
                 *(_WORD *)v2 = 32393;
@@ -1626,7 +1629,7 @@ LABEL_265:
             if ( v13 )
             {
               *v2 = -95;
-              *(_DWORD *)(dword_4FC4E0 + 1) = (char *)&word_8A7F80 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
+              *(_DWORD *)(dword_4FC4E0 + 1) = (char *)word_8A7F80 + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
               goto LABEL_273;
             }
 LABEL_33:
@@ -1643,22 +1646,22 @@ LABEL_33:
             if ( v97 == 4 || v97 == 12 || v97 == 20 || v97 == 32 || v97 == 36 || v97 == 40 || v97 == 44 )
             {
               *(_WORD *)(dword_4FC4E0 + 4) = -16625;
-              v98 = (char *)&word_8A7F00 + v97;
+              v98 = &word_8A7F00[v97];
               goto LABEL_286;
             }
             *(_BYTE *)(dword_4FC4E0 + 4) = -93;
-            *(_DWORD *)(dword_4FC4E0 + 5) = (char *)&word_8A7F00 + v97;
+            *(_DWORD *)(dword_4FC4E0 + 5) = &word_8A7F00[v97];
             dword_4FC4E0 += 9;
             goto LABEL_422;
           case 6u:
             *v2 = 79;
-            v99 = 4 * ((v7 >> 11) & 0x1F);
+            v99 = 2 * ((v7 >> 11) & 0x1F);
             *(_WORD *)(dword_4FC4E0 + 1) = 18059;
             *(_BYTE *)(dword_4FC4E0 + 3) = 4 * (BYTE2(v7) & 0x1F);
-            if ( v99 == 16 || v99 == 48 || v99 == 80 || v99 == 104 || v99 == 108 || v99 == 116 || v99 == 120 )
+            if ( v99 == 8 || v99 == 24 || v99 == 40 || v99 == 52 || v99 == 54 || v99 == 58 || v99 == 60 )
             {
               *(_WORD *)(dword_4FC4E0 + 4) = -16625;
-              v98 = (char *)&word_8A7F80 + v99;
+              v98 = (char *)&word_8A7F80[v99];
 LABEL_286:
               *(_BYTE *)(dword_4FC4E0 + 6) = -64;
               *(_BYTE *)(dword_4FC4E0 + 7) = -93;
@@ -1668,7 +1671,7 @@ LABEL_286:
             else
             {
               *(_BYTE *)(dword_4FC4E0 + 4) = -93;
-              *(_DWORD *)(dword_4FC4E0 + 5) = (char *)&word_8A7F80 + v99;
+              *(_DWORD *)(dword_4FC4E0 + 5) = &word_8A7F80[v99];
               dword_4FC4E0 += 9;
             }
             goto LABEL_422;
@@ -2251,13 +2254,13 @@ LABEL_355:
           *(_WORD *)(dword_4FC4E0 + 13) = -16625;
           *(_BYTE *)(dword_4FC4E0 + 15) = -64;
           *(_BYTE *)(dword_4FC4E0 + 16) = -93;
-          *(_DWORD *)(dword_4FC4E0 + 17) = (char *)&word_8A7F00 + v146;
+          *(_DWORD *)(dword_4FC4E0 + 17) = &word_8A7F00[v146];
           dword_4FC4E0 += 21;
         }
         else
         {
           *(_BYTE *)(dword_4FC4E0 + 13) = -93;
-          *(_DWORD *)(dword_4FC4E0 + 14) = (char *)&word_8A7F00 + v146;
+          *(_DWORD *)(dword_4FC4E0 + 14) = &word_8A7F00[v146];
           dword_4FC4E0 += 18;
         }
         goto LABEL_422;
@@ -2290,7 +2293,7 @@ LABEL_414:
           *v2 = -72;
           *(_DWORD *)(dword_4FC4E0 + 1) = v150;
           *(_WORD *)(dword_4FC4E0 + 5) = 7563;
-          *(_DWORD *)(dword_4FC4E0 + 7) = (char *)&word_8A7F00 + (unsigned __int8)(4 * (BYTE2(v7) & 0x1F));
+          *(_DWORD *)(dword_4FC4E0 + 7) = &word_8A7F00[(unsigned __int8)(4 * (BYTE2(v7) & 0x1F))];
           *(_WORD *)(dword_4FC4E0 + 11) = 17923;
           *(_BYTE *)(dword_4FC4E0 + 13) = 4 * ((v7 >> 21) & 0x1F);
           *(_BYTE *)(dword_4FC4E0 + 14) = -24;
@@ -2305,6 +2308,7 @@ LABEL_414:
           ArgList - 4,
           dword_50C360,
           dword_50C364);
+        return result;
     }
   }
   if ( v158 == 1 )

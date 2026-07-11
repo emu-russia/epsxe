@@ -8,8 +8,8 @@ int __cdecl sub_420500(FILE *Stream, const char *a2, int a3, int a4)
   unsigned __int16 v9; // dx
   __int16 v10; // ax
   int v11; // [esp+10h] [ebp-10Ch]
-  char *v12; // [esp+14h] [ebp-108h]
-  _BYTE v13[256]; // [esp+1Ch] [ebp-100h] BYREF
+  unsigned __int8 *v12; // [esp+14h] [ebp-108h]
+  char v13[256]; // [esp+1Ch] [ebp-100h] BYREF
 
   v4 = 0;
   v5 = 0x2000;
@@ -23,7 +23,7 @@ int __cdecl sub_420500(FILE *Stream, const char *a2, int a3, int a4)
   else if ( fread(byte_4F8350, 1u, v5, Stream) == v5 )
   {
     v11 = 0;
-    v12 = byte_4F8350;
+    v12 = (unsigned __int8 *)byte_4F8350;
     while ( v11 < *(unsigned __int16 *)(a3 + 10) )
     {
       sub_420A00(v12, a4);

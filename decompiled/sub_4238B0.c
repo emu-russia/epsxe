@@ -12,7 +12,7 @@ char *sub_4238B0()
   int v9; // eax
 
   dword_50C2B4 = 0;
-  if ( (dword_50C270 & 0xC0000000) == 0x80000000 )
+  if ( (hw_update_counter & 0xC0000000) == 0x80000000 )
   {
     if ( (int_reg & int_mask) != 0 )
       cpu_interrupt();
@@ -29,7 +29,7 @@ char *sub_4238B0()
     sub_429310();
     sub_42E450();
     sub_42E650();
-    dword_50C270 = dword_455940;
+    hw_update_counter = dword_455940;
     ++dword_50C364;
     sub_42CA70();
     sub_42C9A0();

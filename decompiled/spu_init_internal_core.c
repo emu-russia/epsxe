@@ -79,7 +79,7 @@ LABEL_11:
   v9 = 0;
   dword_4F7560 = 36;
   dword_4F7564 = 16392;
-  byte_4F7570 = (int)&v3;
+  *(_DWORD *)byte_4F7570 = &v3;
   if ( ppDS->lpVtbl->CreateSoundBuffer(
          ppDS,
          (LPCDSBUFFERDESC)&dword_4F7560,

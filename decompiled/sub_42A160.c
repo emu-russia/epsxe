@@ -6,6 +6,6 @@ int __cdecl sub_42A160(const char *a1, int a2)
 
   sprintf(Buffer, "%s", a1);
   v4 = 96;
-  sub_438F70(a2, Buffer, 7);
-  return sub_438F70(a2, &dword_4FC4F0, 96);
+  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
+  return gzwrite(a2, (unsigned __int8 *)dword_4FC4F0, 0x60u);
 }

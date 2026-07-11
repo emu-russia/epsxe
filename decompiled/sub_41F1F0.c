@@ -5,7 +5,7 @@ int __cdecl sub_41F1F0(int *a1)
   unsigned int v2; // eax
   unsigned __int8 *v3; // esi
   int v4; // edx
-  unsigned __int8 *v5; // esi
+  int *v5; // esi
   int v6; // edx
   unsigned int v7; // eax
   unsigned int v8; // ecx
@@ -68,7 +68,7 @@ int __cdecl sub_41F1F0(int *a1)
   int v65; // [esp+8h] [ebp-51Ch]
   unsigned int v66; // [esp+Ch] [ebp-518h]
   int v67; // [esp+10h] [ebp-514h] BYREF
-  int v68; // [esp+14h] [ebp-510h] BYREF
+  unsigned int v68; // [esp+14h] [ebp-510h] BYREF
   unsigned int j; // [esp+18h] [ebp-50Ch]
   unsigned int k; // [esp+1Ch] [ebp-508h]
   int v71; // [esp+20h] [ebp-504h]
@@ -92,20 +92,21 @@ int __cdecl sub_41F1F0(int *a1)
     }
     while ( !v1 );
   }
-  v5 = (unsigned __int8 *)a1;
+  v5 = a1;
   v6 = v2 & 1;
   v7 = v2 >> 1;
   v8 = v1 - 1;
   *a1 = v6;
   if ( v8 < 2 )
   {
-    v5 = (unsigned __int8 *)dword_576980;
+    v5 = (int *)dword_576980;
     do
     {
-      v9 = *v5 << v8;
+      v9 = *(unsigned __int8 *)v5 << v8;
       v8 += 8;
       v7 |= v9;
-      dword_576980 = (int)++v5;
+      v5 = (int *)((char *)v5 + 1);
+      dword_576980 = (int)v5;
     }
     while ( v8 < 2 );
   }
@@ -178,7 +179,7 @@ LABEL_94:
         while ( v41 < 0x13 );
       }
       v64 = 7;
-      v46 = sub_41F960(v72, 19, 19, 0, 0, &v63, &v64);
+      v46 = sub_41F960(v72, 0x13u, 0x13u, 0, 0, &v63, &v64);
       v47 = v64;
       v48 = v46;
       if ( !v64 )
@@ -295,7 +296,7 @@ LABEL_94:
       v64 = dword_45516C;
       dword_4F8328 = v39;
       dword_4F832C = v40;
-      v61 = sub_41F960(v72, v49, 257, &unk_455074, &unk_4550B4, &v63, &v64);
+      v61 = sub_41F960(v72, v49, 0x101u, (int)&unk_455074, (int)&unk_4550B4, &v63, &v64);
       if ( !v64 )
       {
         v61 = 1;
@@ -306,12 +307,12 @@ LABEL_94:
         if ( v61 != 1 )
           return v61;
 LABEL_82:
-        printf("%s", aIncompleteLTre);
+        printf("%s", "(incomplete l-tree)  ");
         sub_41FE40(v63);
         return v61;
       }
       v68 = dword_455170;
-      v62 = sub_41F960(&v72[v49], k, 0, &unk_4550F4, &unk_455130, &v67, &v68);
+      v62 = sub_41F960(&v72[v49], k, 0, (int)&unk_4550F4, (int)&unk_455130, &v67, &v68);
       if ( v68 || v49 <= 0x101 )
       {
         if ( v62 >= 2 )
@@ -328,7 +329,7 @@ LABEL_82:
       }
       else
       {
-        printf("%s", aIncompleteDTre);
+        printf("%s", "(incomplete d-tree)  ");
         sub_41FE40(v63);
       }
     }
@@ -346,7 +347,14 @@ LABEL_82:
     memset32(v75, 7, 0x18u);
     memset32(v76, 8, 8u);
     dword_4F8338 = 7;
-    result = sub_41F960(v73, 288, 257, &unk_455074, &unk_4550B4, &dword_4F8330, &dword_4F8338);
+    result = sub_41F960(
+               v73,
+               0x120u,
+               0x101u,
+               (int)&unk_455074,
+               (int)&unk_4550B4,
+               &dword_4F8330,
+               (unsigned int *)&dword_4F8338);
     if ( result )
     {
       dword_4F8330 = 0;
@@ -354,7 +362,7 @@ LABEL_82:
     }
     memset32(v73, 5, 0x1Eu);
     dword_4F833C = 5;
-    v25 = sub_41F960(v73, 30, 0, &unk_4550F4, &unk_455130, &dword_4F8334, &dword_4F833C);
+    v25 = sub_41F960(v73, 0x1Eu, 0, (int)&unk_4550F4, (int)&unk_455130, &dword_4F8334, (unsigned int *)&dword_4F833C);
     if ( v25 <= 1 )
     {
       return sub_41EE40(dword_4F8330, dword_4F8334, dword_4F8338, dword_4F833C) != 0;
@@ -403,10 +411,10 @@ LABEL_82:
             v23 += 8;
             v22 |= *v12++ << v24;
           }
-          *((_BYTE *)dword_576984 + v13++) = v22;
+          *((_BYTE *)lpMem + v13++) = v22;
           if ( v13 == 0x8000 )
           {
-            sub_41FE70(dword_576984, 0x8000);
+            sub_41FE70(lpMem, 0x8000u);
             v13 = 0;
           }
           v22 >>= 8;

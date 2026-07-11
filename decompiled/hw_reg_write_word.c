@@ -52,7 +52,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
         case 0x1F801070u:
           if ( dword_4FD878 )
           {
-            if ( dword_50C270 < (unsigned int)dword_4FD870 )
+            if ( hw_update_counter < (unsigned int)dword_4FD870 )
             {
               int_reg |= dword_4FD878;
               dword_4FD878 = 0;

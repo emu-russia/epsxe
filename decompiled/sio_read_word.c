@@ -23,7 +23,7 @@ int __cdecl sio_read_word(int a1)
   {
     if ( dword_4FD86C )
     {
-      if ( dword_50C270 < (unsigned int)dword_4FD864 )
+      if ( hw_update_counter < (unsigned int)dword_4FD864 )
       {
         dword_4FD86C = 0;
         sub_421FD0();
