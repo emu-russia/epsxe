@@ -5,7 +5,7 @@ char W2k_cdrom_stop()
   HANDLE EventA; // esi
   DWORD BytesReturned[20]; // [esp+0h] [ebp-50h] BYREF
 
-  byte_457359 = (32 * byte_4FD9D4) | 1;
+  BYTE1(dword_457358) = (32 * byte_4FD9D4) | 1;
   result = sound_use_cdda;
   if ( sound_use_cdda )
   {
@@ -24,7 +24,7 @@ char W2k_cdrom_stop()
       BytesReturned[3] = 0;
       BytesReturned[4] = 0;
       BytesReturned[6] = (DWORD)EventA;
-      BytesReturned[12] = unk_457358;
+      BytesReturned[12] = dword_457358;
       BytesReturned[13] = dword_45735C;
       LOWORD(BytesReturned[14]) = word_457360;
       ResetEvent(EventA);

@@ -5,7 +5,7 @@ char W9x_cdrom_stop()
   HANDLE EventA; // esi
   _DWORD v2[20]; // [esp+0h] [ebp-50h] BYREF
 
-  byte_456FC1 = (32 * cdrom_lun) | 1;
+  BYTE1(dword_456FC0) = (32 * cdrom_lun) | 1;
   result = sound_use_cdda;
   if ( sound_use_cdda )
   {
@@ -24,11 +24,11 @@ char W9x_cdrom_stop()
       v2[3] = 0;
       v2[4] = 0;
       v2[6] = EventA;
-      v2[12] = unk_456FC0;
+      v2[12] = dword_456FC0;
       v2[13] = dword_456FC4;
       LOWORD(v2[14]) = word_456FC8;
       ResetEvent(EventA);
-      if ( !dword_4FFF68(v2) )
+      if ( !SendASPI32Command_cb(v2) )
         WaitForSingleObject(EventA, 0xFFFFFFFF);
       if ( BYTE1(v2[0]) != 1 )
         printf(" * Stop cdrom error. \n");

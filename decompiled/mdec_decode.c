@@ -23,9 +23,9 @@ int mdec_decode()
         return result;
       }
       v2 = (__m64 *)((char *)ram + (dword_5164EC & 0x1FFFFF));
-      v3 = dword_4FC4F0 & 0x8000000;
+      v3 = *(_DWORD *)dword_4FC4F0 & 0x8000000;
       v4 = 3 * result;
-      if ( (dword_4FC4F0 & 0x8000000) == 0 )
+      if ( (*(_DWORD *)dword_4FC4F0 & 0x8000000) == 0 )
         v4 = 2 * result;
       v5 = v4 / 384;
       if ( v4 / 384 < 31 )

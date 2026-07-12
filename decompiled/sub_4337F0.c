@@ -20,7 +20,7 @@ unsigned __int8 __cdecl sub_4337F0(
   v7 = (a3 & 0xF) % 10
      + 75 * ((a2 & 0xF) % 10 + 10 * ((a2 >> 4) + 6 * ((a1 & 0xF) % 10 + 10 * (a1 >> 4))))
      + 10 * (a3 >> 4);
-  sub_431110(&v11, 8 * (unsigned __int8)dword_4FD9BC + 5262504);
+  sub_431110(&v11, (unsigned __int8 *)(8 * (unsigned __int8)dword_4FD9BC + 5262504));
   if ( v11 > v7 )
   {
     result = dword_4FD9BC;
@@ -28,7 +28,7 @@ unsigned __int8 __cdecl sub_4337F0(
     {
       while ( 1 )
       {
-        sub_431110(&v11, 8 * (unsigned __int8)v12 + 5262512);
+        sub_431110(&v11, (unsigned __int8 *)(8 * (unsigned __int8)v12 + 5262512));
         if ( v11 > v7 )
           break;
         result = dword_4FD9BC;

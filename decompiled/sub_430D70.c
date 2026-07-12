@@ -18,7 +18,7 @@ char __cdecl sub_430D70(const void *a1, unsigned int a2, int a3, int a4)
   v6[6] = EventA;
   qmemcpy(&v6[12], a1, a2);
   ResetEvent(EventA);
-  if ( !dword_4FFF68(v6) )
+  if ( !SendASPI32Command_cb(v6) )
     WaitForSingleObject(EventA, 0xFFFFFFFF);
   if ( BYTE1(v6[0]) != 1 )
     return 1;

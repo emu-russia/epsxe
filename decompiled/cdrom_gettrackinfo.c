@@ -1,5 +1,5 @@
 #include "pch.h"
-int cdrom_gettrackinfo()
+_DWORD *cdrom_gettrackinfo()
 {
   char v0; // bl
   bool v1; // al
@@ -18,12 +18,12 @@ int cdrom_gettrackinfo()
   v1 = 1;
   while ( v1 )
   {
-    memset(&unk_504CA0, 0, 0x324u);
-    v1 = sub_430D70(v9, 0xAu, (int)&unk_504CA0, 804) != 0;
+    memset(&byte_504CA0, 0, 0x324u);
+    v1 = sub_430D70(v9, 0xAu, (int)&byte_504CA0, 804) != 0;
     if ( !++v0 )
     {
       if ( v1 )
-        return dbg_print(aCdromGettracki);
+        return (_DWORD *)dbg_print(" * Cdrom gettrackinfo error.\n");
       break;
     }
   }
@@ -40,23 +40,23 @@ int cdrom_gettrackinfo()
       dbg_print(" * Track %d: ", (unsigned __int8)byte_504CA6[8 * (unsigned __int8)v6]);
       if ( (byte_504CA5[8 * v4] & 4) != 0 )
       {
-        dbg_print(aData_0);
+        dbg_print("(DATA)  -");
       }
       else
       {
-        dbg_print(aAudio);
+        dbg_print("(AUDIO) -");
         if ( !v3 )
           nocd = 2;
       }
-      sub_431110(&v5, 8 * v4 + 5262504);
+      sub_431110(&v5, (unsigned __int8 *)(8 * v4 + 5262504));
       v5 += 150;
       dbg_print(" Start %d: (%02d,%02d,%02d) - ", v4, (unsigned __int8)(v5 / 0x4B / 0x3C), v5 / 0x4B % 0x3C, v5 % 0x4B);
-      sub_431110(&v5, 8 * v4 + 5262504);
-      sub_431110(&v8, 8 * v4 + 5262512);
+      sub_431110(&v5, (unsigned __int8 *)(8 * v4 + 5262504));
+      sub_431110(&v8, (unsigned __int8 *)(8 * v4 + 5262512));
       dbg_print(" Length %02d:%02d\n", (v8 - v5) / 0x4B / 0x3C, (v8 - v5) / 0x4B % 0x3C);
       LOBYTE(v6) = ++v3;
     }
     while ( v3 < (unsigned __int8)v7 );
   }
-  return sub_431110(&v8, 8 * (unsigned __int8)v7 + 5262504);
+  return sub_431110(&v8, (unsigned __int8 *)(8 * (unsigned __int8)v7 + 5262504));
 }

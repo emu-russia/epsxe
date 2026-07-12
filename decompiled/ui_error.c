@@ -20,7 +20,7 @@ void __noreturn ui_error(char *Format, ...)
   gpu_destroy();
   if ( cdrom_deinit_cb )
     cdrom_deinit_cb(v2);
-  sub_436F30();
+  ppf_free();
   sub_437040();
   if ( byte_4FF9F0 )
   {

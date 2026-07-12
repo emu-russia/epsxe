@@ -1,5 +1,5 @@
 #include "pch.h"
-void sub_42AF60()
+void cdrom_assert_int()
 {
-  int_reg |= 4u;
+  *(_DWORD *)int_reg |= 4u;
 }

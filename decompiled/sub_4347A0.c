@@ -22,7 +22,7 @@ char __cdecl sub_4347A0(
      + 75
      * ((a2 & 0xF) % 10 + 10 * ((a2 >> 4) + 6 * ((unsigned __int8)(a1 & 0xF) % 10 + 10 * ((unsigned __int8)a1 >> 4))))
      + 10 * (a3 >> 4);
-  sub_431110(&a1, 8 * (unsigned __int8)byte_4FD9E3 + 5241928);
+  sub_431110(&a1, (unsigned __int8 *)(8 * (unsigned __int8)byte_4FD9E3 + 5241928));
   if ( a1 > v7 )
   {
     LOBYTE(v10) = byte_4FD9E3;
@@ -30,7 +30,7 @@ char __cdecl sub_4347A0(
     {
       while ( 1 )
       {
-        sub_431110(&a1, 8 * v14 + 5241936);
+        sub_431110(&a1, (unsigned __int8 *)(8 * v14 + 5241936));
         if ( a1 > v7 )
           break;
         LOBYTE(v10) = ++v14;

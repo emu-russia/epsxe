@@ -1,65 +1,60 @@
 #include "pch.h"
-INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   int v4; // eax
   char v5; // cl
-  CHAR *v6; // edi
-  __int16 v7; // cx
-  unsigned int v8; // eax
+  unsigned int v6; // eax
   INT_PTR result; // eax
-  unsigned int v10; // eax
-  const char *v11; // eax
-  HMODULE v12; // eax
-  unsigned int v13; // eax
-  const char *v14; // eax
-  HMODULE v15; // eax
-  unsigned int v16; // eax
-  const char *v17; // eax
-  HMODULE v18; // eax
-  HWND v19; // ebx
-  LRESULT (__stdcall *v20)(HWND, int, UINT, WPARAM, LPARAM); // ebp
-  LRESULT v21; // eax
-  int v22; // eax
-  int v23; // ecx
+  unsigned int v8; // eax
+  const char *v9; // eax
+  HMODULE v10; // eax
+  unsigned int v11; // eax
+  const char *v12; // eax
+  HMODULE v13; // eax
+  unsigned int v14; // eax
+  const char *v15; // eax
+  HMODULE v16; // eax
+  HWND v17; // ebx
+  LRESULT (__stdcall *v18)(HWND, int, UINT, WPARAM, LPARAM); // ebp
+  LRESULT v19; // eax
+  int v20; // eax
+  int v21; // ecx
   HMODULE LibraryA; // eax
-  HMODULE v25; // esi
+  HMODULE v23; // esi
   FARPROC PSEgetLibVersion; // eax
-  unsigned __int8 v27; // al
-  int v28; // eax
-  const char *v29; // eax
-  signed int v30; // ebp
-  int v31; // ebx
+  unsigned __int8 v25; // al
+  int v26; // eax
+  const char *v27; // eax
+  signed int v28; // ebp
+  int v29; // ebx
   CHAR *cFileName; // eax
-  char *v33; // edx
-  CHAR v34; // cl
-  char *v35; // esi
-  int v36; // edi
-  char *v37; // eax
-  char v38; // cl
-  int v39; // ebp
-  CHAR *v40; // eax
-  CHAR v41; // cl
-  int v42; // [esp-18h] [ebp-D68h]
-  int v43; // [esp-14h] [ebp-D64h]
-  char v44[12]; // [esp+0h] [ebp-D50h] BYREF
+  char *v31; // edx
+  CHAR v32; // cl
+  char *v33; // esi
+  int v34; // edi
+  char *v35; // eax
+  char v36; // cl
+  int v37; // ebp
+  CHAR *v38; // eax
+  char v39; // cl
+  int v40; // [esp-18h] [ebp-D68h]
+  int v41; // [esp-14h] [ebp-D64h]
+  char v42[12]; // [esp+0h] [ebp-D50h] BYREF
   HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
   struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
   CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
   char lParam[1024]; // [esp+550h] [ebp-800h] BYREF
   CHAR FileName[1024]; // [esp+950h] [ebp-400h] BYREF
 
-  strcpy(v44, "plugins\\");
+  strcpy(v42, "plugins\\");
   v4 = 0;
   do
   {
-    v5 = v44[v4];
+    v5 = v42[v4];
     FileName[v4++] = v5;
   }
   while ( v5 );
-  v6 = &FileName[strlen(FileName) + 1];
-  v7 = MEMORY[0x44E400];
-  *(_DWORD *)--v6 = aDll;
-  *((_WORD *)v6 + 2) = v7;
+  strcat(FileName, "*.dll");
   if ( a2 == 16 )
   {
     setup_wizard_step = 8;
@@ -70,27 +65,27 @@ INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   {
     hFindFile = FindFirstFileA(FileName, &FindFileData);
     dword_45B8E4 = 0;
-    sprintf(lParam, aEpsxeSpuCore15);
-    v19 = hDlg;
-    v20 = SendDlgItemMessageA;
-    v21 = SendDlgItemMessageA(hDlg, 1129, 0x180u, 0, (LPARAM)lParam);
-    if ( !strcmp((const char *)&SoundPlugin, aSpucore) )
-      SendDlgItemMessageA(hDlg, 1129, 0x186u, v21, 0);
-    v22 = dword_45B8E4;
-    v23 = dword_45B8E4 << 10;
-    *(int *)((char *)byte_8A9540 + v23) = *(_DWORD *)aSpucore;
-    *(int *)((char *)&byte_8A9544 + v23) = *(_DWORD *)&aSpucore[4];
-    dword_45B8E4 = v22 + 1;
+    sprintf(lParam, "ePSXe SPU core 1.5.2.");
+    v17 = hDlg;
+    v18 = SendDlgItemMessageA;
+    v19 = SendDlgItemMessageA(hDlg, 1129, LB_ADDSTRING, 0, (LPARAM)lParam);
+    if ( !strcmp((const char *)SoundPlugin, "SPUCORE") )
+      SendDlgItemMessageA(hDlg, 1129, LB_SETCURSEL, v19, 0);
+    v20 = dword_45B8E4;
+    v21 = dword_45B8E4 << 10;
+    *(_DWORD *)&byte_8A9540[v21] = *(_DWORD *)"SPUCORE";
+    strcpy(&byte_8A9544[v21], "ORE");
+    dword_45B8E4 = v20 + 1;
     while ( 1 )
     {
-      sprintf(LibFileName, "%s%s", v44, FindFileData.cFileName);
+      sprintf(LibFileName, "%s%s", v42, FindFileData.cFileName);
       LibraryA = LoadLibraryA(LibFileName);
-      v25 = LibraryA;
+      v23 = LibraryA;
       if ( LibraryA )
       {
-        PSEgetLibType = GetProcAddress(LibraryA, aPsegetlibtype);
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v25, aPsegetlibname);
-        PSEgetLibVersion = GetProcAddress(v25, aPsegetlibversi);
+        PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
+        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
+        PSEgetLibVersion = GetProcAddress(v23, "PSEgetLibVersion");
         ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
         if ( PSEgetLibType )
         {
@@ -98,61 +93,61 @@ INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           {
             if ( PSEgetLibVersion )
             {
-              v27 = PSEgetLibVersion();
-              v28 = ::PSEgetLibVersion(v27);
-              v29 = (const char *)PSEgetLibName(BYTE1(v28));
-              sprintf(lParam, "%s %d.%d", v29, v42, v43);
+              v25 = PSEgetLibVersion();
+              v26 = ::PSEgetLibVersion(v25);
+              v27 = (const char *)PSEgetLibName(BYTE1(v26));
+              sprintf(lParam, "%s %d.%d", v27, v40, v41);
               if ( PSEgetLibType() == 4 )
               {
-                v30 = v20(v19, 1129, 0x180u, 0, (LPARAM)lParam);
-                if ( !strcmp((const char *)&SoundPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(v19, 1129, 0x186u, v30, 0);
-                v31 = dword_45B8E4;
-                if ( v30 == dword_45B8E4 )
+                v28 = v18(v17, 1129, 0x180u, 0, (LPARAM)lParam);
+                if ( !strcmp((const char *)SoundPlugin, FindFileData.cFileName) )
+                  SendDlgItemMessageA(v17, 1129, 0x186u, v28, 0);
+                v29 = dword_45B8E4;
+                if ( v28 == dword_45B8E4 )
                 {
                   cFileName = FindFileData.cFileName;
-                  v33 = (char *)byte_8A9540 + (dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName;
+                  v31 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
-                    v34 = *cFileName;
-                    cFileName[(_DWORD)v33] = *cFileName;
+                    v32 = *cFileName;
+                    cFileName[(_DWORD)v31] = *cFileName;
                     ++cFileName;
                   }
-                  while ( v34 );
+                  while ( v32 );
                 }
                 else
                 {
-                  if ( v30 < dword_45B8E4 )
+                  if ( v28 < dword_45B8E4 )
                   {
-                    v35 = (char *)&byte_8A9140 + 1024 * dword_45B8E4;
-                    v36 = dword_45B8E4 - v30;
+                    v33 = &byte_8A9140[1024 * dword_45B8E4];
+                    v34 = dword_45B8E4 - v28;
                     do
                     {
-                      v37 = v35;
+                      v35 = v33;
                       do
                       {
-                        v38 = *v37;
-                        v37[1024] = *v37;
-                        ++v37;
+                        v36 = *v35;
+                        v35[1024] = *v35;
+                        ++v35;
                       }
-                      while ( v38 );
-                      v35 -= 1024;
-                      --v36;
+                      while ( v36 );
+                      v33 -= 1024;
+                      --v34;
                     }
-                    while ( v36 );
+                    while ( v34 );
                   }
-                  v39 = (v30 << 10) - (_DWORD)FindFileData.cFileName;
-                  v40 = FindFileData.cFileName;
+                  v37 = (v28 << 10) - (_DWORD)FindFileData.cFileName;
+                  v38 = FindFileData.cFileName;
                   do
                   {
-                    v41 = *v40;
-                    v40[(_DWORD)byte_8A9540 + v39] = *v40;
-                    ++v40;
+                    v39 = *v38;
+                    byte_8A9540[v37 + (_DWORD)v38] = *v38;
+                    ++v38;
                   }
-                  while ( v41 );
+                  while ( v39 );
                 }
-                dword_45B8E4 = v31 + 1;
-                v19 = hDlg;
+                dword_45B8E4 = v29 + 1;
+                v17 = hDlg;
               }
             }
           }
@@ -160,11 +155,11 @@ INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       }
       if ( !FindNextFileA(hFindFile, &FindFileData) )
         break;
-      v20 = SendDlgItemMessageA;
+      v18 = SendDlgItemMessageA;
     }
     if ( dword_45B8E4 == 1 )
     {
-      SendDlgItemMessageA(v19, 1129, 0x186u, 0, 0);
+      SendDlgItemMessageA(v17, 1129, LB_SETCURSEL, 0, 0);
       return 1;
     }
     return 1;
@@ -174,46 +169,46 @@ INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   switch ( (__int16)a3 )
   {
     case 1111:
-      v13 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
-      if ( v13 == -1 || v13 >= dword_45B8E4 )
+      v11 = SendDlgItemMessageA(hDlg, 1129, LB_GETCURSEL, 0, 0);
+      if ( v11 == -1 || v11 >= dword_45B8E4 )
         return 0;
-      v14 = (const char *)&byte_8A9540[256 * v13];
-      if ( !strcmp(v14, aSpucore) )
+      v12 = &byte_8A9540[1024 * v11];
+      if ( !strcmp(v12, "SPUCORE") )
       {
-        DialogBoxParamA(g_hInstance, aIddSound9x, hDlg, spucore_configure_dialog_callback, 0);
+        DialogBoxParamA(g_hInstance, "IDD_SOUND9X", hDlg, spucore_configure_dialog_callback, 0);
       }
       else
       {
-        sprintf(LibFileName, "%s%s", v44, v14);
-        v15 = LoadLibraryA(LibFileName);
-        GPUconfigure_0 = GetProcAddress(v15, aSpuconfigure);
-        GPUconfigure_0();
+        sprintf(LibFileName, "%s%s", v42, v12);
+        v13 = LoadLibraryA(LibFileName);
+        PSEconfigure = GetProcAddress(v13, "SPUconfigure");
+        PSEconfigure();
       }
       return 0;
     case 1112:
-      v10 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
-      if ( v10 == -1 )
+      v8 = SendDlgItemMessageA(hDlg, 1129, LB_GETCURSEL, 0, 0);
+      if ( v8 == -1 )
         return 0;
-      if ( v10 >= dword_45B8E4 )
+      if ( v8 >= dword_45B8E4 )
         return 0;
-      v11 = (const char *)&byte_8A9540[256 * v10];
-      if ( !strcmp(v11, aSpucore) )
+      v9 = &byte_8A9540[1024 * v8];
+      if ( !strcmp(v9, "SPUCORE") )
         return 0;
-      sprintf(LibFileName, "%s%s", v44, v11);
-      v12 = LoadLibraryA(LibFileName);
-      GPUtest_0 = GetProcAddress(v12, aSputest);
+      sprintf(LibFileName, "%s%s", v42, v9);
+      v10 = LoadLibraryA(LibFileName);
+      GPUtest_0 = GetProcAddress(v10, "SPUtest");
       GPUtest_0();
       return 0;
     case 1113:
-      v16 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
-      if ( v16 != -1 && v16 < dword_45B8E4 )
+      v14 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
+      if ( v14 != -1 && v14 < dword_45B8E4 )
       {
-        v17 = (const char *)&byte_8A9540[256 * v16];
-        if ( strcmp(v17, aSpucore) )
+        v15 = &byte_8A9540[1024 * v14];
+        if ( strcmp(v15, "SPUCORE") )
         {
-          sprintf(LibFileName, "%s%s", v44, v17);
-          v18 = LoadLibraryA(LibFileName);
-          GPUabout_0 = GetProcAddress(v18, aSpuabout);
+          sprintf(LibFileName, "%s%s", v42, v15);
+          v16 = LoadLibraryA(LibFileName);
+          GPUabout_0 = GetProcAddress(v16, "SPUabout");
           GPUabout_0();
         }
       }
@@ -223,15 +218,19 @@ INT_PTR __stdcall search_spu_plugin2(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       EndDialog(hDlg, 1);
       return 1;
     case 1131:
-      v8 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
-      if ( v8 != -1 && v8 < dword_45B8E4 )
+      v6 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
+      if ( v6 != -1 && v6 < dword_45B8E4 )
       {
-        sprintf(byte_8A88C0, "%s", (const char *)&byte_8A9540[256 * v8]);
+        sprintf(byte_8A88C0, "%s", &byte_8A9540[1024 * v6]);
         ++setup_wizard_step;
         EndDialog(hDlg, 1);
         return 1;
       }
-      MessageBoxA(nullptr, aEpsxeDetectedT_1, aSpuPluginNotSe, 0x10u);
+      MessageBoxA(
+        nullptr,
+        "ePSXe detected that you haven't selected a SPU plugin. Please, select your favourite plugin and hit on config button",
+        "SPU plugin not selected",
+        0x10u);
       result = 0;
       break;
     default:

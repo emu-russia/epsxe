@@ -1,5 +1,5 @@
 #include "pch.h"
-__int16 __cdecl sub_40D370(__int16 a1, unsigned __int16 a2)
+__int16 __cdecl spucore_write_register(__int16 a1, unsigned __int16 a2)
 {
   unsigned int v2; // eax
   __int16 result; // ax
@@ -66,7 +66,7 @@ __int16 __cdecl sub_40D370(__int16 a1, unsigned __int16 a2)
       dword_4EF138 = (unsigned __int16)dword_4EF138 + (a2 << 16);
       break;
     case 0xDA2:
-      MEMORY[0x4F7140] = a2;
+      byte_4EF142[0x3FFF] = a2;
       break;
     case 0xDA4:
       LOWORD(dword_463904) = a2;

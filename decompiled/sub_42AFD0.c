@@ -9,13 +9,13 @@ int sub_42AFD0()
     result = 0;
     hw_update_counter = 0;
 LABEL_3:
-    dword_4FD874 = dword_455940 + result - 535;
-    dword_4FD878 = 0;
+    *(_DWORD *)dword_4FD874 = dword_455940 + result - 535;
+    *(_DWORD *)dword_4FD878 = 0;
     return result;
   }
   if ( (unsigned int)hw_update_counter <= 0x217 )
     goto LABEL_3;
-  dword_4FD870 = hw_update_counter - 535;
-  dword_4FD878 = 128;
+  *(_DWORD *)dword_4FD870 = hw_update_counter - 535;
+  *(_DWORD *)dword_4FD878 = 128;
   return hw_update_counter - 535;
 }

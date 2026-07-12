@@ -1,8 +1,8 @@
 #include "pch.h"
-int sub_42CD30()
+unsigned int cdrom_dma()
 {
   int v0; // ecx
-  int result; // eax
+  unsigned int result; // eax
   unsigned int v2; // edi
   unsigned int v3; // ebp
   int v4; // esi

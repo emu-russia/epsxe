@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl dynarec_compile(unsigned int ArgList, int a2)
+int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
 {
   char *v2; // ebx
   unsigned int v3; // esi
@@ -146,7 +146,7 @@ int __cdecl dynarec_compile(unsigned int ArgList, int a2)
   char v145; // cl
   unsigned __int8 v146; // al
   unsigned int v147; // edx
-  int (*v148)(); // ecx
+  char *v148; // ecx
   char v149; // dl
   unsigned int v150; // ecx
   int v151; // eax
@@ -179,13 +179,13 @@ int __cdecl dynarec_compile(unsigned int ArgList, int a2)
     v2 = (char *)dword_5164C0 + 1216;
   }
   if ( cpu_gpr[0] )
-    fatal_error_with_message_box(aDohhZeroReg0);
+    fatal_error_with_message_box(" dohh zero reg != 0\n");
   while ( 1 )
   {
     if ( v3 == 1 )
       v157 = 1;
     if ( ++v158 > v3 )
-      fatal_error_with_message_box(aEpsxeErrorReco);
+      fatal_error_with_message_box(" ePSXe (error) recompile block too large \n");
     v6 = (ArgList & 0xFFF00000) == 0xBFC00000 ? (ArgList & 0x7FFFF) + 0x200000 : ArgList & 0x1FFFFF;
     if ( *(LPVOID *)((char *)dword_5164C4 + v6) != dword_5164C0 && !v157 )
       break;
@@ -387,7 +387,7 @@ LABEL_130:
             *(_DWORD *)(dword_4FC4E0 + 5) = (char *)dword_5164C0 - dword_4FC4E0 + 119;
             *(_BYTE *)(dword_4FC4E0 + 9) = 80;
             dword_4FC4E0 += 10;
-            dynarec_compile(ArgList, 1u);
+            dynarec_compile(ArgList, 1);
             *(_BYTE *)dword_4FC4E0 = 88;
             *(_WORD *)(dword_4FC4E0 + 1) = 8447;
             dword_4FC4E0 += 3;
@@ -450,7 +450,7 @@ LABEL_130:
               v30 = dword_4FC4E0 + 10;
             }
             dword_4FC4E0 = v30;
-            dynarec_compile(ArgList, 1u);
+            dynarec_compile(ArgList, 1);
             *(_BYTE *)dword_4FC4E0 = 88;
             *(_WORD *)(dword_4FC4E0 + 1) = 8447;
             dword_4FC4E0 += 3;
@@ -947,7 +947,7 @@ LABEL_151:
             dword_4FC4E0 += 11;
             dword_5164CC = v52;
             *(_BYTE *)dword_4FC4E0++ = 79;
-            dynarec_compile(ArgList, 1u);
+            dynarec_compile(ArgList, 1);
             *(_BYTE *)dword_4FC4E0 = -72;
             if ( (v51 & 0xFFF00000 | ArgList & 0xF0000000) == 0xBFC00000 )
               v53 = (v51 & 0x7FFFF) + 0x200000;
@@ -998,7 +998,7 @@ LABEL_151:
           else
             *(_DWORD *)(dword_4FC4E0 + 4) = (ArgList + 4) | 0x80000000;
           dword_4FC4E0 += 8;
-          dynarec_compile(ArgList, 1u);
+          dynarec_compile(ArgList, 1);
           *(_BYTE *)dword_4FC4E0 = -72;
           if ( (v54 & 0xFFF00000 | ArgList & 0xF0000000) == 0xBFC00000 )
             v55 = (v54 & 0x7FFFF) + 0x200000;
@@ -1116,7 +1116,7 @@ LABEL_436:
         *(_DWORD *)(dword_4FC4E0 + 7) = (char *)dword_5164C4 + v154;
         *(_WORD *)(dword_4FC4E0 + 11) = 8447;
         dword_4FC4E0 += 13;
-        dynarec_compile(ArgList, 1u);
+        dynarec_compile(ArgList, 1);
         if ( !v7 )
           v7 = 1;
         *(_BYTE *)dword_4FC4E0 = -72;
@@ -1179,7 +1179,7 @@ LABEL_141:
         v151 = dword_4FC4E0 + 15;
 LABEL_428:
         dword_4FC4E0 = v151;
-        dynarec_compile(ArgList, 1u);
+        dynarec_compile(ArgList, 1);
         if ( !v7 )
           v7 = 1;
         *(_BYTE *)dword_4FC4E0 = -72;
@@ -1401,7 +1401,7 @@ LABEL_273:
           {
             v91 = 4 * ((v7 >> 11) & 0x1F);
             if ( ArgList == 548880 )
-              ui_error(aByePie);
+              ui_error("bye pie\n");
             if ( v91 == 12 )
             {
               *(_WORD *)dword_4FC4E0 = 32393;
@@ -1699,7 +1699,7 @@ LABEL_286:
               *(_WORD *)(dword_4FC4E0 + 36) = -10101;
               *(_WORD *)(dword_4FC4E0 + 38) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 40) = 5;
-              *(_DWORD *)(dword_4FC4E0 + 41) = &unk_8A7F32;
+              *(_DWORD *)(dword_4FC4E0 + 41) = &word_8A7F32;
               *(_WORD *)(dword_4FC4E0 + 45) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 47) = 21;
               *(_DWORD *)(dword_4FC4E0 + 48) = &word_8A7F34;
@@ -1855,12 +1855,12 @@ LABEL_314:
         }
         *(_WORD *)(dword_4FC4E0 + 26) = 3211;
         *(_BYTE *)(dword_4FC4E0 + 28) = -99;
-        *(_DWORD *)(dword_4FC4E0 + 29) = &unk_4558BC;
+        *(_DWORD *)(dword_4FC4E0 + 29) = byte_4558BC;
         *(_WORD *)(dword_4FC4E0 + 33) = 20001;
         *(_BYTE *)(dword_4FC4E0 + 35) = v111;
         *(_WORD *)(dword_4FC4E0 + 36) = 3211;
         *(_BYTE *)(dword_4FC4E0 + 38) = -99;
-        *(_DWORD *)(dword_4FC4E0 + 39) = &unk_4558CC;
+        *(_DWORD *)(dword_4FC4E0 + 39) = byte_4558CC;
         *(_WORD *)(dword_4FC4E0 + 43) = -7981;
         goto LABEL_328;
       case 0x23u:
@@ -1947,7 +1947,7 @@ LABEL_314:
           && *(_DWORD *)((unsigned __int16)(ArgList - 8) + mem_read_hooks[(ArgList - 8) >> 16]) == 65011720
           && *(_DWORD *)((unsigned __int16)(ArgList + 128) + mem_read_hooks[(ArgList + 128) >> 16]) == 608305167 )
         {
-          dbg_print(aWarningSkullmo);
+          dbg_print(" * warning: skullmonkeys trick enabled. \n");
           goto LABEL_422;
         }
         v117 = BYTE2(v7) & 0x1F;
@@ -2038,12 +2038,12 @@ LABEL_354:
         {
           *(_WORD *)(dword_4FC4E0 + 26) = 0xC8B;
           *(_BYTE *)(dword_4FC4E0 + 28) = 0x9D;
-          *(_DWORD *)(dword_4FC4E0 + 29) = &unk_4558DC;
+          *(_DWORD *)(dword_4FC4E0 + 29) = byte_4558DC;
           *(_WORD *)(dword_4FC4E0 + 33) = 0x4E21;
           *(_BYTE *)(dword_4FC4E0 + 35) = v111;
           *(_WORD *)(dword_4FC4E0 + 36) = 0xC8B;
           *(_BYTE *)(dword_4FC4E0 + 38) = 0x9D;
-          *(_DWORD *)(dword_4FC4E0 + 39) = &unk_4558EC;
+          *(_DWORD *)(dword_4FC4E0 + 39) = byte_4558EC;
           *(_WORD *)(dword_4FC4E0 + 43) = 0xE8D3;
 LABEL_328:
           *(_WORD *)(dword_4FC4E0 + 45) = 0x4609;
@@ -2136,11 +2136,11 @@ LABEL_328:
         *(_DWORD *)(dword_4FC4E0 + 23) = (char *)dword_5164C0 - dword_4FC4E0 + 421;
         *(_WORD *)(dword_4FC4E0 + 27) = 3211;
         *(_BYTE *)(dword_4FC4E0 + 29) = -99;
-        *(_DWORD *)(dword_4FC4E0 + 30) = &unk_4558FC;
+        *(_DWORD *)(dword_4FC4E0 + 30) = byte_4558FC;
         *(_WORD *)(dword_4FC4E0 + 34) = -16093;
         *(_WORD *)(dword_4FC4E0 + 36) = 3211;
         *(_BYTE *)(dword_4FC4E0 + 38) = -99;
-        *(_DWORD *)(dword_4FC4E0 + 39) = &unk_45590C;
+        *(_DWORD *)(dword_4FC4E0 + 39) = byte_45590C;
         *(_WORD *)(dword_4FC4E0 + 43) = 24203;
         *(_BYTE *)(dword_4FC4E0 + 45) = v136;
         *(_WORD *)(dword_4FC4E0 + 46) = -5165;
@@ -2206,11 +2206,11 @@ LABEL_328:
         *(_DWORD *)(dword_4FC4E0 + 23) = (char *)dword_5164C0 - dword_4FC4E0 + 421;
         *(_WORD *)(dword_4FC4E0 + 27) = 3211;
         *(_BYTE *)(dword_4FC4E0 + 29) = -99;
-        *(_DWORD *)(dword_4FC4E0 + 30) = &unk_45591C;
+        *(_DWORD *)(dword_4FC4E0 + 30) = byte_45591C;
         *(_WORD *)(dword_4FC4E0 + 34) = -16093;
         *(_WORD *)(dword_4FC4E0 + 36) = 3211;
         *(_BYTE *)(dword_4FC4E0 + 38) = -99;
-        *(_DWORD *)(dword_4FC4E0 + 39) = &unk_45592C;
+        *(_DWORD *)(dword_4FC4E0 + 39) = byte_45592C;
         *(_WORD *)(dword_4FC4E0 + 43) = 24203;
         *(_BYTE *)(dword_4FC4E0 + 45) = v145;
         *(_WORD *)(dword_4FC4E0 + 46) = -7213;
@@ -2235,7 +2235,7 @@ LABEL_384:
           *(_WORD *)(dword_4FC4E0 + 5) = 18119;
           *(_BYTE *)(dword_4FC4E0 + 7) = -116;
           *(_DWORD *)(dword_4FC4E0 + 8) = v7;
-          v148 = op_LWC2;
+          v148 = (char *)op_LWC2;
           goto LABEL_414;
         }
         *v2 = -72;
@@ -2278,10 +2278,10 @@ LABEL_355:
           *(_WORD *)(dword_4FC4E0 + 5) = 18119;
           *(_BYTE *)(dword_4FC4E0 + 7) = -116;
           *(_DWORD *)(dword_4FC4E0 + 8) = v7;
-          v148 = op_SWC2;
+          v148 = (char *)op_SWC2;
 LABEL_414:
           *(_BYTE *)(dword_4FC4E0 + 12) = -24;
-          *(_DWORD *)(dword_4FC4E0 + 13) = (char *)v148 - dword_4FC4E0 - 17;
+          *(_DWORD *)(dword_4FC4E0 + 13) = &v148[-dword_4FC4E0 - 17];
           *(_BYTE *)(dword_4FC4E0 + 17) = 94;
           *(_BYTE *)(dword_4FC4E0 + 18) = 95;
           *(_WORD *)(dword_4FC4E0 + 19) = 32653;

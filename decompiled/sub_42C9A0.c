@@ -3,8 +3,8 @@ char sub_42C9A0()
 {
   char result; // al
 
-  result = byte_50AF44[1];
-  if ( !byte_50AF44[1] && (byte_50AF44[2] || (result = byte_50BF6A) != 0) )
+  result = byte_50AF07[62];
+  if ( !byte_50AF07[62] && (byte_50AF07[63] || (result = byte_50BF6A) != 0) )
   {
     result = ++word_4FD87C;
     if ( (unsigned __int16)word_4FD87C >= (unsigned __int16)word_455FA6 )

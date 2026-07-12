@@ -3,9 +3,9 @@ HANDLE W2k_cdrom_deinit()
 {
   HANDLE result; // eax
 
-  if ( byte_456D70 >= 0 )
+  if ( cd_savefake_flag >= 0 )
     sub_42FA10();
-  if ( dword_50C37C == 3 )
+  if ( loaded_file_type == 3 )
     iso_close();
   if ( dword_504C84 )
     free(dword_504C84);

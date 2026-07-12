@@ -1,5 +1,5 @@
 #include "pch.h"
-char spu_dma()
+void spu_dma()
 {
   unsigned int v0; // ebp
   int v1; // edi
@@ -28,33 +28,29 @@ char spu_dma()
       {
         if ( SPUreadDMAMem )
         {
-          LOBYTE(v3) = SPUreadDMAMem(v3, 2 * v8);
+          SPUreadDMAMem(v3, 2 * v8);
         }
-        else
+        else if ( 2 * v8 )
         {
-          LOBYTE(v3) = 2 * v8;
-          if ( 2 * v8 )
+          v9 = 2 * v8;
+          do
           {
-            v9 = 2 * v8;
-            do
-            {
-              v10 = SPUreadDMA();
-              LOBYTE(v3) = hw_reg_write_half(v0, v10);
-              v0 += 2;
-              --v9;
-            }
-            while ( v9 );
+            v10 = SPUreadDMA();
+            hw_reg_write_half(v0, v10);
+            v0 += 2;
+            --v9;
           }
+          while ( v9 );
         }
         if ( dword_50C36C == 1 && v8 )
-          LOBYTE(v3) = sub_4281B0(dword_516510, v8);
+          sub_4281B0(dword_516510, v8);
       }
       else
       {
         for ( i = 2 * v8; i; dword_8A8080 += 2 )
         {
           v12 = SPUgetOne(dword_8A8080);
-          LOBYTE(v3) = hw_reg_write_half(v0, v12);
+          hw_reg_write_half(v0, v12);
           v0 += 2;
           --i;
         }
@@ -66,23 +62,21 @@ char spu_dma()
       {
         if ( SPUwriteDMAMem )
         {
-          LOBYTE(v3) = SPUwriteDMAMem(v3, 2 * v1 * v2);
+          SPUwriteDMAMem(v3, 2 * v1 * v2);
         }
         else
         {
-          v3 = dma_mem_read(v0);
           v4 = 2 * v1 * v2;
-          for ( j = (unsigned __int16 *)v3; v4; --v4 )
-            LOBYTE(v3) = SPUwriteDMA(*j++);
+          for ( j = (unsigned __int16 *)dma_mem_read(v0); v4; --v4 )
+            SPUwriteDMA(*j++);
         }
       }
       else
       {
-        v3 = dma_mem_read(v0);
         v6 = 2 * v1 * v2;
-        for ( k = (unsigned __int16 *)v3; v6; dword_8A8080 += 2 )
+        for ( k = (unsigned __int16 *)dma_mem_read(v0); v6; dword_8A8080 += 2 )
         {
-          LOBYTE(v3) = SPUputOne(dword_8A8080, *k++);
+          SPUputOne(dword_8A8080, *k++);
           --v6;
         }
       }
@@ -97,5 +91,4 @@ char spu_dma()
         v2);
     }
   }
-  return v3;
 }

@@ -1,8 +1,8 @@
 #include "pch.h"
-int __cdecl hw_reg_read_word(unsigned int a1)
+unsigned int __cdecl hw_reg_read_word(unsigned int a1)
 {
   int register_cb; // edi
-  int result; // eax
+  unsigned int result; // eax
   int v3; // esi
   unsigned int v4; // esi
   unsigned int v5; // esi
@@ -72,7 +72,7 @@ LABEL_39:
         switch ( a1 )
         {
           case 0x1F8010F0u:
-            result = dword_5164D0;
+            result = *(_DWORD *)dword_5164D0;
             break;
           case 0x1F8010F4u:
             result = dword_50BFC8;
@@ -145,15 +145,15 @@ LABEL_15:
           result = sio_read(a1, 4);
           break;
         case 0x1F801070u:
-          if ( dword_4FD878 )
+          if ( *(_DWORD *)dword_4FD878 )
           {
-            if ( hw_update_counter < (unsigned int)dword_4FD870 )
+            if ( (unsigned int)hw_update_counter < *(_DWORD *)dword_4FD870 )
             {
-              int_reg |= dword_4FD878;
-              dword_4FD878 = 0;
+              *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
+              *(_DWORD *)dword_4FD878 = 0;
             }
           }
-          result = int_reg | forcepad;
+          result = *(_DWORD *)int_reg | forcepad;
           break;
         case 0x1F801074u:
           result = int_mask;

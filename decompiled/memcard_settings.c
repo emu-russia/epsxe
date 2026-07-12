@@ -18,22 +18,22 @@ INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         return 1;
       case 1030:
         if ( !open_file_dialog(
-                (int)"Select Memcard FILE 2",
-                (int)"MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)",
-                (int)temp_path,
-                (int)"memcards\\",
-                (int)"MCR") )
+                "Select Memcard FILE 2",
+                "MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)",
+                temp_path,
+                "memcards\\",
+                "MCR") )
           return 1;
         SetDlgItemTextA(hDlg, 1026, temp_path);
         result = 1;
         break;
       case 1083:
         if ( !open_file_dialog(
-                (int)"Select Memcard FILE 1",
-                (int)"MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)",
-                (int)temp_path,
-                (int)"memcards\\",
-                (int)"MCR") )
+                "Select Memcard FILE 1",
+                "MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)",
+                temp_path,
+                "memcards\\",
+                "MCR") )
           return 1;
         SetDlgItemTextA(hDlg, 1082, temp_path);
         result = 1;

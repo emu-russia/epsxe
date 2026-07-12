@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_40D820(int a1)
+char __cdecl spucore_play_adpcm(int a1)
 {
   char result; // al
   int v2; // edx
@@ -10,7 +10,7 @@ char __cdecl sub_40D820(int a1)
     result = sound_use_xa;
     if ( sound_use_xa )
     {
-      if ( sub_403BF0(&dword_4E7108, a1, spu_adpcm_flag) )
+      if ( xa_decode_wrapper(dword_4E7108, a1, spu_adpcm_flag) )
       {
         v2 = dword_4E7114;
       }
@@ -19,13 +19,13 @@ char __cdecl sub_40D820(int a1)
         v2 = 2016;
         dword_4E7114 = 2016;
       }
-      result = dword_4E7108;
+      result = dword_4E7108[0];
       if ( spu_adpcm_flag == 1 )
-        dword_44F7A0 = dword_4E7108;
+        dword_44F7A0 = *(_DWORD *)dword_4E7108;
       spu_adpcm_flag = 0;
       if ( HIWORD(dword_4F75B0) )
       {
-        if ( dword_44F7A0 < dword_4E7108 )
+        if ( dword_44F7A0 < *(int *)dword_4E7108 )
         {
           result = dword_44F7A0 - 6;
           dword_44F7A0 += 250;
@@ -34,7 +34,7 @@ char __cdecl sub_40D820(int a1)
       else
       {
         if ( 2 * v2 > 0 )
-          qmemcpy(word_4EF140, &byte_4E7128, 4 * ((unsigned int)(2 * v2) >> 1));
+          qmemcpy(word_4EF140, byte_4E7128, 4 * ((unsigned int)(2 * v2) >> 1));
         HIWORD(dword_4F75B0) = v2;
         dword_4E7114 = 0;
       }

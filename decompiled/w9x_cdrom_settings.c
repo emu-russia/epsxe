@@ -13,11 +13,11 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   {
     load_winaspi_dll();
     init_aspi();
-    sub_4313E0();
+    free_winaspi_dll();
     v9 = 0;
     if ( HIBYTE(dword_4FD9BC) )
     {
-      v10 = (char *)&unk_504FE9;
+      v10 = byte_504FE9;
       do
       {
         sprintf(
@@ -58,7 +58,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         v6 = v5 << 6;
         v7 = *(int *)((char *)&dword_505018 + v6);
         cdrom_hain = *(int *)((char *)&dword_505014 + v6);
-        v8 = *(int *)((char *)&dword_50501C + v6);
+        v8 = *(int *)((char *)dword_50501C + v6);
         cdrom_target = v7;
         cdrom_lun = v8;
       }

@@ -4,7 +4,7 @@ int sub_42F630()
   int result; // eax
 
   result = 0;
-  if ( dword_4FD99C )
+  if ( network_enabled )
   {
     HIWORD(dword_50A1D0) = dword_455FB0;
     byte_50A1D4 = dword_4FD900[0];

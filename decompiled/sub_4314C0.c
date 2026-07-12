@@ -11,9 +11,9 @@ unsigned int __cdecl sub_4314C0(__int16 a1, _BYTE *a2, _BYTE *a3, _BYTE *a4)
   if ( a1 <= (int)(unsigned __int8)dword_4FD9BC )
   {
     if ( a1 )
-      sub_431110(&v7, 8 * a1 + 5262496);
+      sub_431110(&v7, (unsigned __int8 *)(8 * a1 + 5262496));
     else
-      sub_431110(&v7, 8 * (unsigned __int8)dword_4FD9BC + 5262504);
+      sub_431110(&v7, (unsigned __int8 *)(8 * (unsigned __int8)dword_4FD9BC + 5262504));
     v5 = (v7 + 150) / 0x4Bu;
     *a4 = (v7 + 150) % 0x4Bu;
     v6 = v5 % 0x3C;

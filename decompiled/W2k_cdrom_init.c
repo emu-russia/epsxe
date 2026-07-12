@@ -11,11 +11,11 @@ char W2k_cdrom_init()
     if ( !cdrom_letter )
       fatal_error_with_message_box(" * cdrom not found \n");
   }
-  if ( !byte_456D70 )
-    return sub_42F870(byte_505420);
-  if ( byte_456D70 == 1 )
-    sub_42F7E0(byte_505420);
-  if ( dword_50C37C == 3 )
+  if ( !cd_savefake_flag )
+    return cdrom_load_fake_file(cdrom_fake_filename);
+  if ( cd_savefake_flag == 1 )
+    cdrom_create_fake_file(cdrom_fake_filename);
+  if ( loaded_file_type == 3 )
   {
     result = iso_load(bin_iso_file);
     sound_use_cdda = 0;

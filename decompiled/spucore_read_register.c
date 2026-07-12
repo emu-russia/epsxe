@@ -1,5 +1,5 @@
 #include "pch.h"
-__int16 __cdecl sub_40D690(__int16 a1)
+__int16 __cdecl spucore_read_register(__int16 a1)
 {
   unsigned int v1; // eax
   unsigned int v2; // eax
@@ -47,7 +47,7 @@ __int16 __cdecl sub_40D690(__int16 a1)
         LOWORD(v2) = HIWORD(dword_4EF138);
         break;
       case 0xDA2:
-        LOWORD(v2) = MEMORY[0x4F7140];
+        LOWORD(v2) = byte_4EF142[0x3FFF];
         break;
       case 0xDA4:
         LOWORD(v2) = dword_463904;

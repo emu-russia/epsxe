@@ -2,7 +2,7 @@
 _BYTE *__cdecl sub_42EB00(char *a1, int a2)
 {
   char *v2; // esi
-  _BYTE *v3; // edx
+  char *v3; // edx
   int v4; // ebp
   int v5; // edi
   unsigned __int8 v6; // cl
@@ -19,14 +19,14 @@ _BYTE *__cdecl sub_42EB00(char *a1, int a2)
 
   v2 = a1 + 309;
   draw_text_on_screen("NO SAVE PIC", a1);
-  v3 = (char *)&unk_4560D0 + 120 * a2;
+  v3 = &byte_4560D0[120 * a2];
   v4 = 20;
   do
   {
     v5 = 6;
     do
     {
-      sub_42E940(v2, *v3 >> 6);
+      sub_42E940(v2, (unsigned __int8)*v3 >> 6);
       v7 = v2 + 3;
       sub_42E940(v7, (v6 >> 4) & 3);
       v7 += 3;
@@ -34,7 +34,7 @@ _BYTE *__cdecl sub_42EB00(char *a1, int a2)
       v7 += 3;
       sub_42E940(v7, v9 & 3);
       v2 = v7 + 3;
-      v3 = (_BYTE *)(v10 + 1);
+      v3 = (char *)(v10 + 1);
       --v5;
     }
     while ( v5 );

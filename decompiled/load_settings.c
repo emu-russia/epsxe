@@ -124,7 +124,7 @@ int load_settings()
       &word_45601A,
       &dword_45601C,
       (char *)&dword_45601C + 2,
-      &unk_456020,
+      &word_456020,
       &word_456022,
       &dword_456024,
       (char *)&dword_456024 + 2);
@@ -134,7 +134,7 @@ int load_settings()
       "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
       &word_456028,
       &word_45602A,
-      &unk_45602C,
+      &word_45602C,
       &word_45602E,
       &word_456030,
       &word_456032,
@@ -255,7 +255,7 @@ int load_settings()
   if ( !reg_get_value("Software\\epsxe\\config", "GamepadBMotorType", (LPBYTE)Buffer) )
     sscanf(Buffer, "%d,%d,%d,%d", dword_4FD8CC, &dword_4FD8D0, &dword_4FD8D4, &dword_4FD8D8);
   if ( reg_get_value("Software\\epsxe\\config", "IsoDirectory", (LPBYTE)Buffer) )
-    return sprintf((char *const)byte_8B3980, ".");
+    return sprintf(IsoDirectory, ".");
   else
-    return sprintf((char *const)byte_8B3980, "%s", Buffer);
+    return sprintf(IsoDirectory, "%s", Buffer);
 }

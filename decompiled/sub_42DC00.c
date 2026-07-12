@@ -5,7 +5,7 @@ int __cdecl sub_42DC00(unsigned __int8 a1)
 
   if ( a1 == 1 )
   {
-    word_455FC8 = 203;
+    word_455FC8[0] = 203;
     word_455FCA = 205;
     word_455FCC = 200;
     word_455FCE = 208;

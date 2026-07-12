@@ -61,7 +61,7 @@ int __cdecl sub_41F960(_DWORD *a1, unsigned int a2, unsigned int a3, int a4, int
   int v64; // [esp+8Ch] [ebp-548h]
   _DWORD v65[16]; // [esp+90h] [ebp-544h]
   _DWORD v66[17]; // [esp+D0h] [ebp-504h]
-  _DWORD v67[16]; // [esp+114h] [ebp-4C0h]
+  int v67[16]; // [esp+114h] [ebp-4C0h]
   _DWORD v68[288]; // [esp+154h] [ebp-480h] BYREF
   int v69; // [esp+5DCh] [ebp+8h]
 
@@ -282,7 +282,7 @@ LABEL_49:
       a6 = v40 + 1;
       v40[1] = 0;
       v61 = (char *)(v40 + 2);
-      v67[v28] = v40 + 2;
+      v67[v28] = (int)(v40 + 2);
       if ( v28 )
       {
         LOBYTE(v54) = v34 + 16;

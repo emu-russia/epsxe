@@ -23,14 +23,14 @@ int sub_42B2A0()
   {
     while ( 1 )
     {
-      v0 = *(_DWORD *)((unsigned __int16)reg_pc + mem_read_hooks[HIWORD(reg_pc)]);
+      v0 = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
       v1 = dword_4F831C;
       cpu_opcode = v0;
       if ( (_BYTE)dword_4F831C )
       {
         v2 = 0;
         v16 = 0;
-        v3 = reg_pc & 0x1FFFFF;
+        v3 = *(_DWORD *)reg_pc & 0x1FFFFF;
         do
         {
           v4 = dword_5B6DC4[2 * v16];
@@ -63,12 +63,12 @@ int sub_42B2A0()
         LOBYTE(dword_4F831C) = v1;
         cpu_opcode = v0;
       }
-      if ( (reg_pc & 0xFFF00000) == 0x1F800000 )
-        ui_error(aOutOfLine);
-      reg_pc += 4;
+      if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0x1F800000 )
+        ui_error("out of line\n");
+      *(_DWORD *)reg_pc += 4;
       cpu_main_table[v0 >> 26]();
       cpu_gpr[0] = 0;
-      if ( (int_reg & int_mask & 0x3FB) != 0 && (dword_50C2A4 & 0x401) == 0x401 )
+      if ( (*(_DWORD *)int_reg & int_mask & 0x3FB) != 0 && (dword_50C2A4 & 0x401) == 0x401 )
         cpu_interrupt();
       v8 = --hw_update_counter;
       if ( hw_update_counter < 0 )
@@ -85,23 +85,23 @@ int sub_42B2A0()
         sub_42E650();
         sub_42CA70();
         sub_42C9A0();
-        if ( (int_reg & 4) == 0 && sub_42C8B0() )
-          int_reg |= 4u;
-        if ( dword_50C210 && (int_reg & 0x200) == 0 )
+        if ( (int_reg[0] & 4) == 0 && sub_42C8B0() )
+          *(_DWORD *)int_reg |= 4u;
+        if ( dword_50C210 && (*(_WORD *)int_reg & 0x200) == 0 )
         {
-          int_reg |= 0x200u;
+          *(_DWORD *)int_reg |= 0x200u;
           --dword_50C210;
         }
-        if ( dword_4FD878 )
+        if ( *(_DWORD *)dword_4FD878 )
         {
-          int_reg |= dword_4FD878;
-          dword_4FD878 = 0;
+          *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
+          *(_DWORD *)dword_4FD878 = 0;
         }
-        else if ( dword_4FD874 )
+        else if ( *(_DWORD *)dword_4FD874 )
         {
-          dword_4FD878 = 128;
-          dword_4FD870 = dword_4FD874;
-          dword_4FD874 = 0;
+          *(_DWORD *)dword_4FD878 = 128;
+          *(_DWORD *)dword_4FD870 = *(_DWORD *)dword_4FD874;
+          *(_DWORD *)dword_4FD874 = 0;
         }
         if ( dword_4FD86C )
         {
@@ -123,7 +123,7 @@ int sub_42B2A0()
         {
           dword_50BFD0[0] = 0;
           if ( (dword_50BFD4[0] & 0x50) == 0x50 )
-            int_reg |= 0x10u;
+            *(_DWORD *)int_reg |= 0x10u;
         }
         v12 = 1;
         if ( (dword_50BFE4 & 0x100) == 0 )
@@ -133,7 +133,7 @@ int sub_42B2A0()
         {
           dword_50BFE0 = 0;
           if ( (dword_50BFE4 & 0x50) == 0x50 )
-            int_reg |= 0x20u;
+            *(_DWORD *)int_reg |= 0x20u;
         }
         if ( (dword_50BFF4 & 0x200) != 0 )
           v10 = (unsigned int)dword_455940 >> 3;
@@ -142,17 +142,17 @@ int sub_42B2A0()
         {
           dword_50BFF0 = 0;
           if ( (dword_50BFF4 & 0x50) == 0x50 )
-            int_reg |= 0x40u;
+            *(_DWORD *)int_reg |= 0x40u;
         }
         v13 = dword_45593C;
         if ( dword_50C364 == dword_45593C - 22 )
         {
-          v14 = int_reg | 1;
-          int_reg |= 1u;
+          v14 = *(_DWORD *)int_reg | 1;
+          *(_DWORD *)int_reg |= 1u;
           if ( (int_mask & 0x200) != 0 && forcespu && (dword_50C360 & 3) == 0 )
-            int_reg = v14 | 0x200;
+            *(_DWORD *)int_reg = v14 | 0x200;
         }
-        if ( (int_mask & int_reg) != 0 )
+        if ( (int_mask & *(_DWORD *)int_reg) != 0 )
           cpu_interrupt();
         if ( dword_50C364 >= v13 )
           break;
@@ -162,8 +162,8 @@ int sub_42B2A0()
     ++dword_50C360;
     ++dword_50C000;
     frame_update();
-    result = dword_50C380;
-    if ( dword_50C380 )
+    result = reset_flag;
+    if ( reset_flag )
       break;
     if ( (dword_50C360 & 0x3F) == 0 )
       sub_42CE40();

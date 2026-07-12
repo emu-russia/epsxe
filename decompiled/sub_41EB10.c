@@ -15,9 +15,9 @@ char sub_41EB10()
   v1 = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
   if ( v1 >= 0 )
   {
-    cpu_opcode = *(_DWORD *)((unsigned __int16)reg_pc + mem_read_hooks[HIWORD(reg_pc)]);
-    dword_50C35C = reg_pc + 4;
-    reg_pc += 4 * v0;
+    cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+    dword_50C35C = *(_DWORD *)reg_pc + 4;
+    *(_DWORD *)reg_pc += 4 * v0;
     LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }

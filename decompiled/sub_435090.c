@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_435090(int a1)
+bool __cdecl sub_435090(int a1)
 {
   __int16 v2; // [esp+0h] [ebp-Ch] BYREF
   char v3; // [esp+2h] [ebp-Ah]
@@ -16,5 +16,5 @@ int __cdecl sub_435090(int a1)
   v2 = 43;
   v5 = BYTE1(a1);
   v6 = a1;
-  return sub_434AC0(&v2, 10, 0, 0);
+  return sub_434AC0(&v2, 0xAu, 0, 0);
 }

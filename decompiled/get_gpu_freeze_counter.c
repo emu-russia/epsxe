@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_403590()
+char get_gpu_freeze_counter()
 {
   return gpu_freeze_counter;
 }

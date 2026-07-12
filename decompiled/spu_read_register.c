@@ -1,5 +1,5 @@
 #include "pch.h"
-__int16 __cdecl sub_40BF40(unsigned int a1)
+__int16 __cdecl spu_read_register(unsigned int a1)
 {
   int v1; // eax
 
@@ -27,7 +27,7 @@ __int16 __cdecl sub_40BF40(unsigned int a1)
         if ( a1 == 528489894 )
           return (unsigned int)dword_8A8080 >> 3;
 LABEL_15:
-        LOWORD(v1) = *(__int16 *)((char *)&word_8A8084 + (a1 & 0x1FF));
+        LOWORD(v1) = *(__int16 *)((char *)word_8A8084 + (a1 & 0x1FF));
         return v1;
       }
       if ( sound_enabled )

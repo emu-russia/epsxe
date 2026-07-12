@@ -8,13 +8,13 @@ int net_load_plugin()
   sprintf(LibFileName, "%s%s", "plugins\\", (const char *)NetPlugin);
   if ( !strcmp((const char *)NetPlugin, "DISABLED") )
   {
-    result = dword_4FD99C;
-    if ( !dword_4FD99C )
+    result = network_enabled;
+    if ( !network_enabled )
       return result;
   }
   else
   {
-    dword_4FD99C = 1;
+    network_enabled = 1;
   }
   LibraryA = LoadLibraryA(LibFileName);
   hNetModule = LibraryA;

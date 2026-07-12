@@ -7,7 +7,7 @@ char alloc_console()
   if ( console_allocated )
   {
     AllocConsole();
-    SetConsoleTitleA(ConsoleTitle);
+    SetConsoleTitleA("ePSXe - Enhanced PSX emulator");
     StdHandle = GetStdHandle(0xFFFFFFF5);
     hConsoleOutput = StdHandle;
   }

@@ -16,14 +16,14 @@ HMODULE gpu_destroy()
     GPUshutdown();
     ChangeDisplaySettingsA(nullptr, 0);
     ShowCursor(1);
-    result = (HMODULE)hSaveLoadWnd;
-    if ( hSaveLoadWnd )
+    result = (HMODULE)hOutputWnd;
+    if ( hOutputWnd )
     {
-      result = (HMODULE)DestroyWindow(hSaveLoadWnd);
+      result = (HMODULE)DestroyWindow(hOutputWnd);
       if ( !result )
       {
         result = (HMODULE)MessageBoxA(nullptr, "Could NOT release hWnd.", "SHUTDOWN ERROR", 0x40u);
-        hSaveLoadWnd = nullptr;
+        hOutputWnd = nullptr;
       }
     }
   }

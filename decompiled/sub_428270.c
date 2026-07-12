@@ -13,15 +13,15 @@ int sub_428270()
     v0 = (unsigned int)malloc(0x200040u);
     dword_5164C0 = (LPVOID)v0;
     if ( !v0 )
-      fatal_error_with_message_box(aEpsxeErrorDoin);
+      fatal_error_with_message_box("ePSXe error doing malloc!!!! \n");
     if ( (v0 & 0x3F) != 0 )
       dword_5164C0 = (LPVOID)((v0 & 0xFFFFFFC0) + 64);
     dword_5164C4 = malloc(0x280000u);
     if ( !dword_5164C4 )
-      fatal_error_with_message_box(aEpsxeErrorDoin);
+      fatal_error_with_message_box("ePSXe error doing malloc!!!! \n");
     dword_5164C8 = malloc(0x280000u);
     if ( !dword_5164C8 )
-      fatal_error_with_message_box(aEpsxeErrorDoin);
+      fatal_error_with_message_box("ePSXe error doing malloc!!!! \n");
   }
   for ( i = 0; i < 0x280000; i += 4 )
     *(_DWORD *)((char *)dword_5164C4 + i) = dword_5164C0;

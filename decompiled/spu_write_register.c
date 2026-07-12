@@ -100,7 +100,7 @@ LABEL_11:
         break;
       default:
 LABEL_26:
-        *(_WORD *)((char *)&word_8A8084 + (a1 & 0x1FF)) = a2;
+        *(__int16 *)((char *)word_8A8084 + (a1 & 0x1FF)) = a2;
         result = a1;
         break;
     }

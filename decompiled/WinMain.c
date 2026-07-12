@@ -48,8 +48,8 @@ LABEL_16:
     dword_50C370 = 0;
     forcepad = 0;
     country_setting = 255;
-    dword_50C37C = 1;
-    dword_50C380 = 0;
+    loaded_file_type = 1;
+    reset_flag = 0;
     dword_45593C = 312;
     dword_455940 = 2171;
     cheat_file_from_cmdline = 0;

@@ -12,7 +12,7 @@ char __cdecl W9x_play_cdda(unsigned int a1, int a2, unsigned __int8 a3)
     v4 = a2;
     a3 = sub_433220(a1, a2);
     BYTE1(dword_456FB8) = a3;
-    byte_456FB7 = a1;
+    HIBYTE(dword_456FB4) = a1;
     LOBYTE(dword_456FB8) = v4;
     sub_431110(&a2, (unsigned __int8 *)(8 * (unsigned __int8)dword_4FD9BC + 5262504));
     LOBYTE(word_456FBC) = (a2 + 150) % 0x4Bu;
@@ -29,11 +29,11 @@ char __cdecl W9x_play_cdda(unsigned int a1, int a2, unsigned __int8 a3)
     v6[3] = 0;
     v6[4] = 0;
     v6[6] = EventA;
-    v6[12] = unk_456FB4;
+    v6[12] = dword_456FB4;
     v6[13] = dword_456FB8;
     LOWORD(v6[14]) = word_456FBC;
     ResetEvent(EventA);
-    if ( !dword_4FFF68(v6) )
+    if ( !SendASPI32Command_cb(v6) )
       WaitForSingleObject(EventA, 0xFFFFFFFF);
     result = CloseHandle(EventA);
     if ( BYTE1(v6[0]) == 1 )

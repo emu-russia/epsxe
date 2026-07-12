@@ -1,5 +1,5 @@
 #include "pch.h"
-INT_PTR __stdcall sub_409C00(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+INT_PTR __stdcall setup_wizard_end(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   if ( a2 == 16 )
   {

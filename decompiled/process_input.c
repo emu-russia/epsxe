@@ -1,16 +1,16 @@
 #include "pch.h"
-int sub_42D6E0()
+int process_input()
 {
   int v0; // esi
   int v1; // edi
-  int v2; // esi
-  int v3; // edx
-  int *v4; // eax
-  unsigned __int16 *v5; // ecx
-  int v6; // esi
-  unsigned __int16 v7; // dx
+  int v2; // eax
+  unsigned __int8 v3; // si
+  int v4; // edx
+  int *v5; // eax
+  unsigned __int16 *v6; // ecx
+  int v7; // esi
+  unsigned __int16 v8; // dx
   int result; // eax
-  char v9; // [esp+0h] [ebp-Ch]
 
   sub_40F340();
   dword_4FD8F0 = sub_40FA30();
@@ -28,18 +28,18 @@ int sub_42D6E0()
     --v1;
   }
   while ( v1 );
-  if ( byte_50AA7B )
+  if ( byte_50AA7B[0] )
   {
     if ( !create_window_flag )
-      ui_error(aUserHitEsc, v9);
-    if ( dword_4FD99C )
+      ui_error(" User   hit ESC ... \n");
+    if ( network_enabled )
     {
       dword_4FD9A0 = 1;
     }
     else
     {
       save_load_state();
-      memset(&byte_50AA60, 0, 0x100u);
+      memset(byte_50AA60, 0, 0x100u);
     }
   }
   if ( byte_50AA91 )
@@ -64,29 +64,30 @@ int sub_42D6E0()
   if ( byte_50AAD0 )
   {
     state_save();
-    dbg_print(aSavestateDone);
+    dbg_print(" * SaveState Done! \n");
     byte_4FD984 = 25;
     goto LABEL_51;
   }
   if ( byte_50AAD1 )
   {
-    v2 = gpu_freeze_with_counter();
+    LOBYTE(v2) = gpu_freeze_with_counter();
+    v3 = v2;
     dbg_print(" * Increased SlotState! (%d)\n", v2);
-    gpu_show_screen_pic(v2);
+    gpu_show_screen_pic(v3);
     byte_4FD984 = 25;
     word_4FD986 = 150;
     goto LABEL_51;
   }
   if ( byte_50AAD2 )
   {
-    if ( dword_4FD99C )
+    if ( network_enabled )
     {
-      dbg_print(aLoadstateDoesn);
+      dbg_print(" * LoadState doesn't implemented yet with Netplay! \n");
     }
     else
     {
       state_load();
-      dbg_print(aLoadstateDone);
+      dbg_print(" * LoadState Done! \n");
       byte_4FC4E4 = 1;
     }
     byte_4FD984 = 25;
@@ -94,18 +95,18 @@ int sub_42D6E0()
   }
   if ( byte_50AAD3 )
   {
-    if ( dword_4FD99C )
+    if ( network_enabled )
     {
-      dbg_print(aSioTrickDoesnT);
+      dbg_print(" * SIO trick doesn't implemented yet with Netplay! \n");
       byte_4FD984 = 25;
     }
     else
     {
       forcepad ^= 0x80u;
       if ( forcepad )
-        dbg_print(aSioIrqEnabled);
+        dbg_print(" * SIO irq enabled. \n");
       else
-        dbg_print(aSioIrqDisabled);
+        dbg_print(" * SIO irq disabled. \n");
       byte_4FD984 = 25;
     }
     goto LABEL_51;
@@ -113,95 +114,95 @@ int sub_42D6E0()
   if ( byte_50AAD4 )
   {
     dword_4FD8E0[(unsigned __int8)dword_4FD988] ^= 1u;
-    v3 = (unsigned __int8)dword_4FD988;
+    LOBYTE(v4) = dword_4FD988;
 LABEL_42:
-    sub_42D620(v3);
+    sub_42D620(v4);
     byte_4FD984 = 25;
     goto LABEL_51;
   }
   if ( byte_50AAD5 )
   {
-    v3 = ((unsigned __int8)dword_4FD988 + 1) % (2 * (multitap_1 != 0) + 2);
-    LOBYTE(dword_4FD988) = v3;
+    v4 = ((unsigned __int8)dword_4FD988 + 1) % (2 * (multitap_1 != 0) + 2);
+    LOBYTE(dword_4FD988) = v4;
     goto LABEL_42;
   }
   if ( byte_50AAD6 )
   {
     byte_455944 ^= 1u;
     if ( byte_455944 )
-      dbg_print(aXenogearsTrick_0);
+      dbg_print(" * Xenogears trick disabled. \n");
     else
-      dbg_print(aXenogearsTrick);
+      dbg_print(" * Xenogears trick enabled. \n");
     byte_4FD984 = 25;
   }
   else if ( byte_50AAD7 )
   {
-    dbg_print(aPictureDone);
+    dbg_print(" * Picture done. \n");
     gpu_make_snapshot();
     byte_4FD984 = 25;
   }
 LABEL_51:
-  v4 = &dword_455FB0;
-  v5 = word_455FD0 + 2;
-  v6 = 4;
+  v5 = &dword_455FB0;
+  v6 = (unsigned __int16 *)&word_455FD2;
+  v7 = 4;
   do
   {
-    v7 = *(v5 - 5);
-    *v4 = -1;
-    if ( v7 )
+    v8 = *(v6 - 5);
+    *v5 = -1;
+    if ( v8 )
     {
-      if ( byte_50ABC0[v5[1]] )
-        *v4 = -65;
-      if ( byte_50ABC0[*v5] )
-        *v4 &= ~0x20u;
-      if ( byte_50ABC0[v5[2]] )
-        *v4 &= ~0x80u;
-      if ( byte_50ABC0[*(v5 - 1)] )
-        *v4 &= ~0x10u;
-      if ( byte_50ABC0[v5[7]] )
-        *v4 &= ~0x800u;
-      if ( byte_50ABC0[v5[8]] )
-        *v4 &= ~0x100u;
-      if ( byte_50ABC0[*(v5 - 3)] )
-        *v4 &= ~0x1000u;
-      if ( byte_50ABC0[*(v5 - 2)] )
-        *v4 &= ~0x4000u;
-      if ( byte_50ABC0[v7] )
-        *v4 &= ~0x8000u;
-      if ( byte_50ABC0[*(v5 - 4)] )
-        *v4 &= ~0x2000u;
-      if ( byte_50ABC0[v5[3]] )
-        *v4 &= ~4u;
-      if ( byte_50ABC0[v5[4]] )
-        *v4 &= ~1u;
-      if ( byte_50ABC0[v5[5]] )
-        *v4 &= ~8u;
-      if ( byte_50ABC0[v5[6]] )
-        *v4 &= ~2u;
-      if ( byte_50ABC0[v5[9]] )
-        *v4 &= ~0x200u;
-      if ( byte_50ABC0[v5[10]] )
-        *v4 &= ~0x400u;
+      if ( byte_50ABC0[v6[1]] )
+        *v5 = -65;
+      if ( byte_50ABC0[*v6] )
+        *v5 &= ~0x20u;
+      if ( byte_50ABC0[v6[2]] )
+        *v5 &= ~0x80u;
+      if ( byte_50ABC0[*(v6 - 1)] )
+        *v5 &= ~0x10u;
+      if ( byte_50ABC0[v6[7]] )
+        *v5 &= ~0x800u;
+      if ( byte_50ABC0[v6[8]] )
+        *v5 &= ~0x100u;
+      if ( byte_50ABC0[*(v6 - 3)] )
+        *v5 &= ~0x1000u;
+      if ( byte_50ABC0[*(v6 - 2)] )
+        *v5 &= ~0x4000u;
+      if ( byte_50ABC0[v8] )
+        *v5 &= ~0x8000u;
+      if ( byte_50ABC0[*(v6 - 4)] )
+        *v5 &= ~0x2000u;
+      if ( byte_50ABC0[v6[3]] )
+        *v5 &= ~4u;
+      if ( byte_50ABC0[v6[4]] )
+        *v5 &= ~1u;
+      if ( byte_50ABC0[v6[5]] )
+        *v5 &= ~8u;
+      if ( byte_50ABC0[v6[6]] )
+        *v5 &= ~2u;
+      if ( byte_50ABC0[v6[9]] )
+        *v5 &= ~0x200u;
+      if ( byte_50ABC0[v6[10]] )
+        *v5 &= ~0x400u;
     }
-    v5 += 16;
-    ++v4;
-    --v6;
+    v6 += 16;
+    ++v5;
+    --v7;
   }
-  while ( v6 );
+  while ( v7 );
   if ( LOBYTE(dword_4FD888[0]) )
   {
     LOBYTE(dword_4FD888[0]) = 0;
     dword_455FB0 &= 0xFFFFF7BF;
   }
-  result = dword_4FD99C;
-  if ( dword_4FD99C )
+  result = network_enabled;
+  if ( network_enabled )
   {
-    result = sub_42F630(v5);
+    result = sub_42F630();
     if ( result )
     {
       dword_4FD9A0 = 0;
       save_load_state();
-      memset(&byte_50AA60, 0, 0x100u);
+      memset(byte_50AA60, 0, 0x100u);
       return 0;
     }
   }

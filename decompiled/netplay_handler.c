@@ -12,15 +12,15 @@ char netplay_handler()
   char *v8; // eax
   char Buffer[1024]; // [esp+18h] [ebp-400h] BYREF
 
-  result = dword_4FD99C;
-  if ( dword_4FD99C )
+  result = network_enabled;
+  if ( network_enabled )
   {
     dword_50A1E0 = NETqueryPlayer();
     if ( (unsigned __int8)NETcompareData(byte_8B3D80, 12) )
       fatal_error_with_message_box(" * NETPLAY: Error psx game is different in every site. \n");
-    byte_50A201 = fastboot;
+    byte_50A201[0] = fastboot;
     byte_50A200 = sound_enabled;
-    if ( (unsigned __int8)NETcompareData(&byte_50A201, 1) )
+    if ( (unsigned __int8)NETcompareData(byte_50A201, 1) )
       fatal_error_with_message_box(" * NETPLAY: Start Mode option is different in every site. \n");
     if ( (unsigned __int8)NETcompareData(&byte_50A200, 1) )
       fatal_error_with_message_box(" * NETPLAY: Sound Enable option is different in every site. \n");
@@ -64,7 +64,7 @@ char netplay_handler()
       v6 = sub_422340(1u);
       NETtransferData("Transfer Memcard 1", v6, 0x20000);
       if ( dword_50A1E0 == 2 )
-        sub_422360();
+        save_temp_memcard1();
     }
     v7 = sub_422340(2u);
     if ( (unsigned __int8)NETcompareData(v7, 0x20000) )
@@ -72,7 +72,7 @@ char netplay_handler()
       v8 = sub_422340(2u);
       NETtransferData("Transfer Memcard 2", v8, 0x20000);
       if ( dword_50A1E0 == 2 )
-        sub_422390();
+        save_temp_memcard2();
     }
     LOBYTE(dword_50A620) = dword_456048[0];
     BYTE1(dword_50A620) = dword_45604C;
@@ -80,10 +80,10 @@ char netplay_handler()
     BYTE1(dword_50A624) = dword_50C374;
     BYTE2(dword_50A624) = nocdstatus;
     HIBYTE(dword_50A624) = country_setting;
-    LOBYTE(dword_50A628) = mdectiming;
-    BYTE1(dword_50A628) = mdec_disable;
-    BYTE2(dword_50A628) = xa_read_enable;
-    HIBYTE(dword_50A628) = forcespu;
+    byte_50A628 = mdectiming;
+    byte_50A629 = mdec_disable;
+    byte_50A62A = xa_read_enable;
+    byte_50A62B[0] = forcespu;
     NETtransferData("Transfer configuration info", &dword_50A620, 1037);
     dword_456048[0] = (unsigned __int8)dword_50A620;
     forcepad = (unsigned __int8)dword_50A624;
@@ -91,11 +91,11 @@ char netplay_handler()
     dword_45604C = BYTE1(dword_50A620);
     nocdstatus = BYTE2(dword_50A624);
     country_setting = HIBYTE(dword_50A624);
-    mdectiming = (unsigned __int8)dword_50A628;
-    forcespu = HIBYTE(dword_50A628);
-    xa_read_enable = BYTE2(dword_50A628);
-    mdec_disable = BYTE1(dword_50A628);
-    return BYTE2(dword_50A628);
+    mdectiming = (unsigned __int8)byte_50A628;
+    xa_read_enable = byte_50A62A;
+    forcespu = byte_50A62B[0];
+    mdec_disable = (unsigned __int8)byte_50A629;
+    return byte_50A62A;
   }
   return result;
 }

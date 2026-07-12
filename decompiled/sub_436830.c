@@ -9,11 +9,11 @@ unsigned int __cdecl sub_436830(int a1, int a2, unsigned int a3, void *a4)
   v7 = (a1 + 150) % 0x4Bu;
   v6 = (a1 + 150) / 0x4Bu / 0x3C;
   v5 = (a1 + 150) / 0x4Bu % 0x3C;
-  if ( dword_50C37C == 3 )
+  if ( loaded_file_type == 3 )
   {
     sub_42FF60(v6, v5, v7, (int)v8);
   }
-  else if ( dword_50C37C == 1 )
+  else if ( loaded_file_type == 1 )
   {
     cdrom_read_data_cb(v6, v5, v7, v8);
   }

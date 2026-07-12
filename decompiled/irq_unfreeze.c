@@ -10,6 +10,6 @@ int __cdecl irq_unfreeze(int a1, _DWORD *a2)
   gzread(a2, int_reg, 656);
   dword_4FD864 = dword_50C218;
   dword_4FD868 = dword_50C21C;
-  dword_4FD86C = dword_50C220;
-  return dword_50C220;
+  dword_4FD86C = dword_50C220[0];
+  return dword_50C220[0];
 }

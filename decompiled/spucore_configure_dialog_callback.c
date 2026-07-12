@@ -1,5 +1,5 @@
 #include "pch.h"
-INT_PTR __stdcall sub_407740(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+INT_PTR __stdcall spucore_configure_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   if ( a2 != 272 )
   {

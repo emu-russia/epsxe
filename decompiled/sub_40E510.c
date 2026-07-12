@@ -29,5 +29,5 @@ unsigned int __cdecl sub_40E510(_DWORD *a1, int a2)
   a1[13] = 16;
   a1[14] = v5;
   a1[1] = 3;
-  return (sub_40E3F0(a2, a1) & 0x80000000) == 0 ? 0 : 0x80004005;
+  return (sub_40E3F0(a2, a1) & 0x80000000) == 0 ? 0 : E_FAIL;
 }

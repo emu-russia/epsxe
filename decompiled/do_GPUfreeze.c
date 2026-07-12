@@ -1,5 +1,5 @@
 #include "pch.h"
-int (__stdcall *__cdecl sub_42EE00(int a1))(_DWORD, _DWORD)
+int (__stdcall *__cdecl do_GPUfreeze(int a1))(_DWORD, _DWORD)
 {
   int (__stdcall *result)(_DWORD, _DWORD); // eax
 

@@ -1,11 +1,11 @@
 #include "pch.h"
-int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, char *Buffer)
+int __cdecl W2k_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, char *Buffer)
 {
   unsigned __int8 v4; // dl
-  int v6; // ebx
+  unsigned __int8 v6; // bl
   int v7; // edi
   int v9; // eax
-  void *v10; // ebp
+  char *v10; // ebp
   unsigned int v11; // eax
   int *v12; // eax
   int *v13; // edx
@@ -26,10 +26,10 @@ int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __i
   int v28; // edx
   int *v29; // ecx
   int *v30; // ecx
-  int *v31; // eax
+  char *v31; // eax
   int *v32; // eax
   int *v33; // ecx
-  int *v34; // eax
+  char *v34; // eax
   int v35; // eax
   int v36; // [esp+18h] [ebp-4h]
   int v37; // [esp+18h] [ebp-4h]
@@ -39,9 +39,9 @@ int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __i
   v6 = a2;
   v7 = a3;
   v38 = 75 * (a2 + 60 * a1) + a3 - 150;
-  if ( byte_456D70 )
+  if ( cd_savefake_flag )
   {
-    if ( dword_50C37C == 3 )
+    if ( loaded_file_type == 3 )
     {
       sub_42FF60(a1, a2, v7, (int)Buffer);
       if ( auto_ppf_load )
@@ -49,7 +49,7 @@ int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __i
         v9 = sub_42C6D0(a1, a2, v7);
         sub_436F60(v9, (int)Buffer);
       }
-      if ( byte_456D70 == 1 )
+      if ( cd_savefake_flag == 1 )
         sub_42F8F0(a1, a2, v7, Buffer);
     }
     else
@@ -65,7 +65,7 @@ int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __i
         switch ( dword_504C8C )
         {
           case 1:
-            if ( sub_434EE0(v4, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( sub_434EE0(v4, a2, a3, 8u, (DWORD)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             v28 = 0;
             dword_5053E0 = 0;
@@ -73,10 +73,10 @@ int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __i
             dword_5053E8 = 0;
             goto LABEL_65;
           case 2:
-            if ( sub_434F70(v4, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( sub_434F70(v4, a2, a3, 8u, (DWORD)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             dword_5053EC = dword_5008C0;
-            dword_5053E0 = unk_5008B4;
+            dword_5053E0 = *(_DWORD *)byte_5008B4;
             dword_5053E4 = dword_5008B8;
             dword_5053E8 = dword_5008BC;
             HIBYTE(dword_5053E0) = (unsigned __int8)byte_5008B7 % 10 + 16 * ((unsigned __int8)byte_5008B7 / 10);
@@ -87,15 +87,15 @@ int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __i
             BYTE1(dword_5053E8) = BYTE1(dword_5008BC) % 10 + 16 * (BYTE1(dword_5008BC) / 10);
             goto LABEL_66;
           case 3:
-            if ( sub_434F70(v4, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( sub_434F70(v4, a2, a3, 8u, (DWORD)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
-            dword_5053E0 = unk_5008B4;
+            dword_5053E0 = *(_DWORD *)byte_5008B4;
             dword_5053E4 = dword_5008B8;
             dword_5053E8 = dword_5008BC;
             dword_5053EC = dword_5008C0;
             goto LABEL_66;
           case 4:
-            if ( sub_434EE0(v4, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( sub_434EE0(v4, a2, a3, 8u, (DWORD)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             memset(dword_504C04, 0, 0x80u);
             if ( a1 == 3 && (dword_50C280 & 0x1F000000) == 0x1F000000 && sub_435000(3u, a2, a3, 8u, (DWORD)dword_504C04) )
@@ -103,23 +103,23 @@ int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __i
             goto LABEL_64;
           case 5:
             fseek(Stream, 96 * v38, 0);
-            fread(&unk_4FFF84, 1u, 0x300u, Stream);
+            fread(byte_4FFF84, 1u, 0x300u, Stream);
             v30 = dword_504C04;
-            v31 = (int *)&unk_4FFF90;
+            v31 = byte_4FFF90;
             v36 = 8;
             do
             {
-              *v30 = *v31;
-              v30[1] = v31[1];
-              v30[2] = v31[2];
-              v30[3] = v31[3];
-              v31 += 24;
+              *v30 = *(_DWORD *)v31;
+              v30[1] = *((_DWORD *)v31 + 1);
+              v30[2] = *((_DWORD *)v31 + 2);
+              v30[3] = *((_DWORD *)v31 + 3);
+              v31 += 96;
               v30 += 4;
               --v36;
             }
             while ( v36 );
             v6 = a2;
-            if ( !sub_434EE0(a1, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( !sub_434EE0(a1, a2, a3, 8u, (DWORD)byte_4FFF84) )
               goto LABEL_56;
             dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             dword_5053E0 = dword_504C04[0];
@@ -128,7 +128,7 @@ int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __i
             dword_5053EC = dword_504C10;
             goto LABEL_66;
           case 6:
-            if ( sub_434EE0(v4, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( sub_434EE0(v4, a2, a3, 8u, (DWORD)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             if ( a1 != 3 )
               goto LABEL_46;
@@ -139,7 +139,7 @@ int __cdecl cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __i
             dword_5053EC = v29[3];
             goto LABEL_66;
           case 7:
-            if ( sub_434D40(v4, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( sub_434D40(v4, a2, a3, 8u, (DWORD)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
 LABEL_46:
             dword_5053E0 = 0;
@@ -151,11 +151,11 @@ LABEL_46:
             memset(dword_504C04, 0, 0x80u);
             if ( v4 == 3 && (dword_50C280 & 0x1F000000) == 0x1F000000 )
             {
-              if ( sub_434DF0(3u, a2, a3, 8u, (DWORD)&unk_4FFF84, dword_504C04) )
+              if ( sub_434DF0(3u, a2, a3, 8u, (DWORD)byte_4FFF84, dword_504C04) )
                 dbg_print(" * Error sub reading CD: %d,%d,%d\n", 3, a2, v7);
               v4 = a1;
             }
-            if ( sub_434D40(v4, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( sub_434D40(v4, a2, a3, 8u, (DWORD)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
 LABEL_64:
             dword_5053E0 = dword_504C04[0];
@@ -165,23 +165,23 @@ LABEL_64:
             goto LABEL_65;
           case 9:
             fseek(Stream, 96 * v38, 0);
-            fread(&unk_4FFF84, 1u, 0x300u, Stream);
+            fread(byte_4FFF84, 1u, 0x300u, Stream);
             v33 = dword_504C04;
-            v34 = (int *)&unk_4FFF90;
+            v34 = byte_4FFF90;
             v37 = 8;
             do
             {
-              *v33 = *v34;
-              v33[1] = v34[1];
-              v33[2] = v34[2];
-              v33[3] = v34[3];
-              v34 += 24;
+              *v33 = *(_DWORD *)v34;
+              v33[1] = *((_DWORD *)v34 + 1);
+              v33[2] = *((_DWORD *)v34 + 2);
+              v33[3] = *((_DWORD *)v34 + 3);
+              v34 += 96;
               v33 += 4;
               --v37;
             }
             while ( v37 );
             v6 = a2;
-            if ( sub_434D40(a1, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( sub_434D40(a1, a2, a3, 8u, (DWORD)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
 LABEL_56:
             dword_5053E0 = dword_504C04[0];
@@ -190,7 +190,7 @@ LABEL_56:
             dword_5053EC = dword_504C10;
             goto LABEL_66;
           case 10:
-            if ( sub_434D40(v4, a2, a3, 8u, (DWORD)&unk_4FFF84) )
+            if ( sub_434D40(v4, a2, a3, 8u, (DWORD)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             if ( a1 == 3 )
             {
@@ -212,7 +212,7 @@ LABEL_65:
 LABEL_66:
             v10 = Buffer;
             dword_4FFF80 = v38;
-            qmemcpy(Buffer, &unk_4FFF84, 0x930u);
+            qmemcpy(Buffer, byte_4FFF84, 0x930u);
             break;
           default:
             goto LABEL_66;
@@ -222,7 +222,7 @@ LABEL_66:
       {
         v10 = Buffer;
         v11 = v38 - dword_4FFF80;
-        qmemcpy(Buffer, (char *)&unk_4FFF84 + (v38 - dword_4FFF80) * dword_504C88, 0x930u);
+        qmemcpy(Buffer, &byte_4FFF84[(v38 - dword_4FFF80) * dword_504C88], 0x930u);
         switch ( dword_504C8C )
         {
           case 1:
@@ -233,7 +233,7 @@ LABEL_66:
             dword_5053EC = 0;
             break;
           case 2:
-            v13 = (int *)((char *)&unk_5008B4 + v11 * dword_504C88);
+            v13 = (int *)&byte_5008B4[v11 * dword_504C88];
             v14 = v13[1];
             v15 = v13[2];
             dword_5053E0 = *v13;
@@ -252,7 +252,7 @@ LABEL_66:
             BYTE1(dword_5053E8) = BYTE4(v19) + v19;
             break;
           case 3:
-            v20 = (int *)((char *)&unk_5008B4 + v11 * dword_504C88);
+            v20 = (int *)&byte_5008B4[v11 * dword_504C88];
             v21 = v20[1];
             dword_5053E0 = *v20;
             v22 = v20[2];
@@ -301,7 +301,7 @@ LABEL_66:
         v35 = sub_42C6D0(a1, v6, v7);
         sub_436F60(v35, (int)v10);
       }
-      if ( byte_456D70 == 1 )
+      if ( cd_savefake_flag == 1 )
         sub_42F8F0(a1, v6, v7, v10);
     }
     return 0;

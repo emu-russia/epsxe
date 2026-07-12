@@ -3,14 +3,14 @@ int sub_40C560()
 {
   int v0; // ecx
   int result; // eax
-  _BYTE *v2; // esi
+  char *v2; // esi
   int v3; // ebp
   int v4; // edi
   char v5; // dl
 
   v0 = 0;
   result = 0;
-  v2 = &unk_45B900;
+  v2 = byte_45B900;
   v3 = 256;
   do
   {

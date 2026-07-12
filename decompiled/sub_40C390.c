@@ -6,7 +6,7 @@ int sub_40C390()
   int v2; // ebx
   int v3; // edi
   char *v4; // ecx
-  _WORD *v5; // eax
+  char *v5; // eax
   int v6; // edx
   int v7; // edi
   char v8; // dl
@@ -21,7 +21,10 @@ int sub_40C390()
   else
   {
     dword_4F75A4 = 0;
-    (*(void (__stdcall **)(int, int *, void *))(*(_DWORD *)dword_45B8FC + 16))(dword_45B8FC, &dword_465534, &unk_4EF134);
+    (*(void (__stdcall **)(int, int *, char *))(*(_DWORD *)dword_45B8FC + 16))(
+      dword_45B8FC,
+      &dword_465534,
+      &byte_4EF134);
     v1 = dword_4F7598;
     result = dword_465534;
     if ( dword_4F7598 > (unsigned int)dword_465534 )
@@ -45,10 +48,10 @@ int sub_40C390()
         v3 = dword_4F7594;
       }
       v4 = byte_463910;
-      v5 = &unk_4F7150;
+      v5 = &byte_4F7150;
       do
       {
-        *(_WORD *)v4 = *v5;
+        *(_WORD *)v4 = *(_WORD *)v5;
         v6 = *(_DWORD *)v5;
         if ( *(int *)v5 > 0x7FFF )
           *(_WORD *)v4 = 0x7FFF;
@@ -56,7 +59,7 @@ int sub_40C390()
           *(_WORD *)v4 = -32767;
         if ( v3 )
           *(_WORD *)v4 = 0;
-        v5 += 2;
+        v5 += 4;
         v4 += 2;
       }
       while ( (int)v5 < (int)&byte_4F7154[508] );

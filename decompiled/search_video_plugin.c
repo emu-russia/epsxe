@@ -3,133 +3,128 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   int v4; // eax
   char v5; // cl
-  CHAR *v6; // edi
-  __int16 v7; // cx
   INT_PTR result; // eax
-  unsigned int v9; // eax
-  unsigned int v10; // eax
-  HMODULE v11; // esi
-  char v12; // al
+  unsigned int v7; // eax
+  unsigned int v8; // eax
+  HMODULE v9; // esi
+  char v10; // al
+  unsigned int v11; // eax
+  HMODULE v12; // esi
   unsigned int v13; // eax
   HMODULE v14; // esi
-  unsigned int v15; // eax
-  HMODULE v16; // esi
   HMODULE LibraryA; // eax
-  HMODULE v18; // esi
-  FARPROC PSEgetLibVersion; // eax
-  unsigned __int8 v20; // al
-  int v21; // eax
-  const char *v22; // eax
-  LRESULT v23; // ebp
-  int v24; // ebx
+  HMODULE v16; // esi
+  FARPROC PSEgetLibVersion_ptr; // eax
+  unsigned __int8 v18; // al
+  int v19; // eax
+  const char *v20; // eax
+  LRESULT v21; // ebp
+  int v22; // ebx
   CHAR *cFileName; // eax
-  char *v26; // edx
-  CHAR v27; // cl
-  char *v28; // esi
-  int v29; // edi
-  char *v30; // eax
-  char v31; // cl
-  int v32; // ebp
-  CHAR *v33; // eax
-  char v34; // cl
-  int v35; // [esp-18h] [ebp-D68h]
-  int v36; // [esp-14h] [ebp-D64h]
-  char v37[12]; // [esp+0h] [ebp-D50h] BYREF
+  char *v24; // edx
+  CHAR v25; // cl
+  char *v26; // esi
+  int v27; // edi
+  char *v28; // eax
+  char v29; // cl
+  int v30; // ebp
+  CHAR *v31; // eax
+  char v32; // cl
+  int v33; // [esp-18h] [ebp-D68h]
+  int v34; // [esp-14h] [ebp-D64h]
+  char v35[12]; // [esp+0h] [ebp-D50h] BYREF
   HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
   struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
   CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
   CHAR FileName[1024]; // [esp+550h] [ebp-800h] BYREF
   char lParam[1024]; // [esp+950h] [ebp-400h] BYREF
 
-  strcpy(v37, "plugins\\");
+  strcpy(v35, "plugins\\");
   v4 = 0;
   do
   {
-    v5 = v37[v4];
+    v5 = v35[v4];
     FileName[v4++] = v5;
   }
   while ( v5 );
-  v6 = &FileName[strlen(FileName) + 1];
-  v7 = MEMORY[0x44E400];
-  *(_DWORD *)--v6 = aDll;
-  *((_WORD *)v6 + 2) = v7;
+  strcat(FileName, "*.dll");
   if ( a2 == 272 )
   {
     hFindFile = FindFirstFileA(FileName, &FindFileData);
     if ( hFindFile == (HANDLE)-1 )
-      dbg_print(aNotVideoPlugin);
+      dbg_print("not video plugins found\n");
     dword_45B8E4 = 0;
     do
     {
-      sprintf(LibFileName, "%s%s", v37, FindFileData.cFileName);
+      sprintf(LibFileName, "%s%s", v35, FindFileData.cFileName);
       LibraryA = LoadLibraryA(LibFileName);
-      v18 = LibraryA;
+      v16 = LibraryA;
       if ( LibraryA )
       {
-        PSEgetLibType = GetProcAddress(LibraryA, aPsegetlibtype);
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v18, aPsegetlibname);
-        PSEgetLibVersion = GetProcAddress(v18, aPsegetlibversi);
-        ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+        PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
+        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v16, "PSEgetLibName");
+        PSEgetLibVersion_ptr = GetProcAddress(v16, "PSEgetLibVersion");
+        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion_ptr;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
           {
-            if ( PSEgetLibVersion )
+            if ( PSEgetLibVersion_ptr )
             {
-              v20 = PSEgetLibVersion();
-              v21 = ::PSEgetLibVersion(v20);
-              v22 = (const char *)PSEgetLibName(BYTE1(v21));
-              sprintf(lParam, "%s %d.%d", v22, v35, v36);
+              v18 = PSEgetLibVersion_ptr();
+              v19 = PSEgetLibVersion(v18);
+              v20 = (const char *)PSEgetLibName(BYTE1(v19));
+              sprintf(lParam, "%s %d.%d", v20, v33, v34);
               if ( PSEgetLibType() == 2 )
               {
-                v23 = SendDlgItemMessageA(hDlg, 1017, 0x143u, 0, (LPARAM)lParam);
+                v21 = SendDlgItemMessageA(hDlg, 1017, 0x143u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)VideoPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(hDlg, 1017, 0x14Eu, v23, 0);
-                v24 = dword_45B8E4;
-                if ( v23 == dword_45B8E4 )
+                  SendDlgItemMessageA(hDlg, 1017, 0x14Eu, v21, 0);
+                v22 = dword_45B8E4;
+                if ( v21 == dword_45B8E4 )
                 {
                   cFileName = FindFileData.cFileName;
-                  v26 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
+                  v24 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
-                    v27 = *cFileName;
-                    cFileName[(_DWORD)v26] = *cFileName;
+                    v25 = *cFileName;
+                    cFileName[(_DWORD)v24] = *cFileName;
                     ++cFileName;
                   }
-                  while ( v27 );
+                  while ( v25 );
                 }
                 else
                 {
-                  if ( v23 < dword_45B8E4 )
+                  if ( v21 < dword_45B8E4 )
                   {
-                    v28 = (char *)&byte_8A9140 + 1024 * dword_45B8E4;
-                    v29 = dword_45B8E4 - v23;
+                    v26 = &byte_8A9140[1024 * dword_45B8E4];
+                    v27 = dword_45B8E4 - v21;
                     do
                     {
-                      v30 = v28;
+                      v28 = v26;
                       do
                       {
-                        v31 = *v30;
-                        v30[1024] = *v30;
-                        ++v30;
+                        v29 = *v28;
+                        v28[1024] = *v28;
+                        ++v28;
                       }
-                      while ( v31 );
-                      v28 -= 1024;
-                      --v29;
+                      while ( v29 );
+                      v26 -= 1024;
+                      --v27;
                     }
-                    while ( v29 );
+                    while ( v27 );
                   }
-                  v32 = (v23 << 10) - (_DWORD)FindFileData.cFileName;
-                  v33 = FindFileData.cFileName;
+                  v30 = (v21 << 10) - (_DWORD)FindFileData.cFileName;
+                  v31 = FindFileData.cFileName;
                   do
                   {
-                    v34 = *v33;
-                    byte_8A9540[v32 + (_DWORD)v33] = *v33;
-                    ++v33;
+                    v32 = *v31;
+                    byte_8A9540[v30 + (_DWORD)v31] = *v31;
+                    ++v31;
                   }
-                  while ( v34 );
+                  while ( v32 );
                 }
-                dword_45B8E4 = v24 + 1;
+                dword_45B8E4 = v22 + 1;
               }
             }
           }
@@ -146,28 +141,28 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       case 1018:
         if ( !dword_45B8E4 )
           return 0;
-        v10 = SendDlgItemMessageA(hDlg, 1017, 0x147u, 0, 0);
-        if ( v10 == -1 || v10 >= dword_45B8E4 )
+        v8 = SendDlgItemMessageA(hDlg, 1017, CB_GETCURSEL, 0, 0);
+        if ( v8 == -1 || v8 >= dword_45B8E4 )
           return 0;
-        sprintf(LibFileName, "%s%s", v37, &byte_8A9540[1024 * v10]);
-        v11 = LoadLibraryA(LibFileName);
-        GPUinit_0 = GetProcAddress(v11, ProcName);
-        GPUtest_0 = GetProcAddress(v11, aGputest);
-        GPUshutdown_0 = GetProcAddress(v11, aGpushutdown);
+        sprintf(LibFileName, "%s%s", v35, &byte_8A9540[1024 * v8]);
+        v9 = LoadLibraryA(LibFileName);
+        GPUinit_0 = GetProcAddress(v9, "GPUinit");
+        GPUtest_0 = GetProcAddress(v9, "GPUtest");
+        GPUshutdown_0 = GetProcAddress(v9, "GPUshutdown");
         GPUinit_0();
-        v12 = GPUtest_0();
-        if ( v12 )
+        v10 = GPUtest_0();
+        if ( v10 )
         {
-          if ( v12 == -1 )
-            MessageBoxA(nullptr, aPluginNotWorki, aTestingGpuPlug, 0x10u);
+          if ( v10 == -1 )
+            MessageBoxA(nullptr, "   Plugin NOT working, try configuring it.  ", "Testing GPU Plugin", 0x10u);
           else
-            MessageBoxA(nullptr, aUnkValue, aTestingGpuPlug, 0x40u);
+            MessageBoxA(nullptr, "UNK value", "Testing GPU Plugin", 0x40u);
           GPUshutdown_0();
           result = 0;
         }
         else
         {
-          MessageBoxA(nullptr, aPluginWorkingC, aTestingGpuPlug, 0x40u);
+          MessageBoxA(nullptr, "   Plugin working correctly.  ", "Testing GPU Plugin", 0x40u);
           GPUshutdown_0();
           result = 0;
         }
@@ -175,30 +170,30 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       case 1019:
         if ( !dword_45B8E4 )
           return 0;
-        v13 = SendDlgItemMessageA(hDlg, 1017, 0x147u, 0, 0);
-        if ( v13 == -1 || v13 >= dword_45B8E4 )
+        v11 = SendDlgItemMessageA(hDlg, 1017, CB_GETCURSEL, 0, 0);
+        if ( v11 == -1 || v11 >= dword_45B8E4 )
           return 0;
-        sprintf(LibFileName, "%s%s", v37, &byte_8A9540[1024 * v13]);
-        v14 = LoadLibraryA(LibFileName);
-        GPUinit_0 = GetProcAddress(v14, ProcName);
-        GPUconfigure_0 = GetProcAddress(v14, aGpuconfigure);
-        GPUshutdown_0 = GetProcAddress(v14, aGpushutdown);
+        sprintf(LibFileName, "%s%s", v35, &byte_8A9540[1024 * v11]);
+        v12 = LoadLibraryA(LibFileName);
+        GPUinit_0 = GetProcAddress(v12, "GPUinit");
+        PSEconfigure = GetProcAddress(v12, "GPUconfigure");
+        GPUshutdown_0 = GetProcAddress(v12, "GPUshutdown");
         GPUinit_0();
-        GPUconfigure_0();
+        PSEconfigure();
         GPUshutdown_0();
         result = 0;
         break;
       case 1020:
         if ( dword_45B8E4 )
         {
-          v15 = SendDlgItemMessageA(hDlg, 1017, 0x147u, 0, 0);
-          if ( v15 != -1 && v15 < dword_45B8E4 )
+          v13 = SendDlgItemMessageA(hDlg, 1017, CB_GETCURSEL, 0, 0);
+          if ( v13 != -1 && v13 < dword_45B8E4 )
           {
-            sprintf(LibFileName, "%s%s", v37, &byte_8A9540[1024 * v15]);
-            v16 = LoadLibraryA(LibFileName);
-            GPUinit_0 = GetProcAddress(v16, ProcName);
-            GPUabout_0 = GetProcAddress(v16, aGpuabout);
-            GPUshutdown_0 = GetProcAddress(v16, aGpushutdown);
+            sprintf(LibFileName, "%s%s", v35, &byte_8A9540[1024 * v13]);
+            v14 = LoadLibraryA(LibFileName);
+            GPUinit_0 = GetProcAddress(v14, "GPUinit");
+            GPUabout_0 = GetProcAddress(v14, "GPUabout");
+            GPUshutdown_0 = GetProcAddress(v14, "GPUshutdown");
             GPUinit_0();
             GPUabout_0();
             GPUshutdown_0();
@@ -208,16 +203,16 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       case 1021:
         if ( dword_45B8E4 )
         {
-          v9 = SendDlgItemMessageA(hDlg, 1017, 0x147u, 0, 0);
-          if ( v9 != -1 && v9 < dword_45B8E4 )
-            sprintf((char *const)VideoPlugin, "%s", &byte_8A9540[1024 * v9]);
+          v7 = SendDlgItemMessageA(hDlg, 1017, 0x147u, 0, 0);
+          if ( v7 != -1 && v7 < dword_45B8E4 )
+            sprintf((char *const)VideoPlugin, "%s", &byte_8A9540[1024 * v7]);
           EndDialog(hDlg, 1);
           save_settings();
           result = 1;
         }
         else
         {
-          sprintf((char *const)VideoPlugin, aNull);
+          sprintf((char *const)VideoPlugin, "NULL");
           EndDialog(hDlg, 1);
           save_settings();
           result = 1;
@@ -230,7 +225,7 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         }
         else
         {
-          sprintf((char *const)VideoPlugin, aNull);
+          sprintf((char *const)VideoPlugin, "NULL");
           EndDialog(hDlg, 1);
           save_settings();
         }

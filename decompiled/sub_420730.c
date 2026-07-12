@@ -3,7 +3,7 @@ int __cdecl sub_420730(FILE *Stream, int a2, int a3)
 {
   size_t v3; // esi
   int v5; // ebx
-  char *v6; // ebp
+  unsigned __int8 *v6; // ebp
   int v7; // esi
   char v8; // al
   unsigned __int16 v9; // cx
@@ -25,7 +25,7 @@ int __cdecl sub_420730(FILE *Stream, int a2, int a3)
   else if ( fread(byte_4F8350, 1u, v3, Stream) == v3 )
   {
     v5 = 0;
-    v6 = byte_4F8350;
+    v6 = (unsigned __int8 *)byte_4F8350;
     while ( v5 < *(unsigned __int16 *)(a2 + 10) )
     {
       sub_420A00(v6, a3);

@@ -95,5 +95,5 @@ int __cdecl sub_436B50(int a1, int a2, unsigned int a3)
     }
     while ( v4 < v21 );
   }
-  return dbg_print(aDone);
+  return dbg_print("done.\n");
 }

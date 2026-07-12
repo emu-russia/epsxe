@@ -7,7 +7,7 @@ int select_plugins_backend()
     spu_read_register_cb = (int (__cdecl *)(_DWORD))spucore_read_register;
     spu_write_register_cb = (int (__cdecl *)(_DWORD, _DWORD))spucore_write_register;
     spu_init_cb = spucore_init;
-    spu_destroy_cb = spucore_destroy;
+    spu_destroy_cb = (int (__cdecl *)(_DWORD))spucore_destroy;
     spu_play_adpcm_cb = (int (__cdecl *)(_DWORD))spucore_play_adpcm;
     spu_set_adpcm_flag_cb = (int (*)(void))spu_set_adpcm_flag;
     spu_update_cb = spucore_update;
@@ -21,7 +21,7 @@ int select_plugins_backend()
     spu_read_register_cb = (int (__cdecl *)(_DWORD))spu_read_register;
     spu_write_register_cb = (int (__cdecl *)(_DWORD, _DWORD))spu_write_register;
     spu_init_cb = (int (*)(void))spu_load_plugin;
-    spu_destroy_cb = (int (*)(void))spu_destroy;
+    spu_destroy_cb = (int (__cdecl *)(_DWORD))spu_destroy;
     spu_play_adpcm_cb = (int (__cdecl *)(_DWORD))spu_play_adpcm;
     spu_set_adpcm_flag_cb = (int (*)(void))spu_set_adpcm_flag;
     spu_update_cb = (int (*)(void))spu_update;
@@ -38,7 +38,7 @@ int select_plugins_backend()
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W9x_cdrom_read_data;
     cdrom_play_cdda_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))W9x_play_cdda;
     cdrom_stop_cb = (int (*)(void))W9x_cdrom_stop;
-    dword_4FC4CC = sub_433610;
+    dword_4FC4CC = (int (*)(void))sub_433610;
     dword_4FC4D0 = (int)nullsub_1;
     dword_4FC4D4 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_4337F0;
     dword_4FC4D8 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_433930;

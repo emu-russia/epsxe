@@ -31,7 +31,7 @@ int sub_4315A0()
   LOBYTE(v4[12]) = 21;
   LOBYTE(v4[13]) = 12;
   ResetEvent(EventA);
-  if ( !dword_4FFF68(v4) )
+  if ( !SendASPI32Command_cb(v4) )
     WaitForSingleObject(EventA, 0xFFFFFFFF);
   return BYTE1(v4[0]) != 1 ? 4 : 1;
 }

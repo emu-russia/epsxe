@@ -64,16 +64,16 @@ int __userpurge sub_40E800@<eax>(int a1@<ebp>, _DWORD *a2, int a3)
       if ( dword_4FD8AC[i] == dword_4F82E8 + 1 )
         v52 = i;
     }
-    if ( !(*(int (__stdcall **)(int, _DWORD *, void *, int, _DWORD))(*(_DWORD *)a3 + 36))(
+    if ( !(*(int (__stdcall **)(int, _DWORD *, char *, int, _DWORD))(*(_DWORD *)a3 + 36))(
             a3,
             v40,
-            &unk_448500,
+            &byte_448500,
             4 * dword_4F82E8 + 5207916,
             0) )
     {
-      if ( (*(int (__stdcall **)(int, void *))(*(_DWORD *)dword_4F776C[dword_4F82E8] + 44))(
+      if ( (*(int (__stdcall **)(int, char *))(*(_DWORD *)dword_4F776C[dword_4F82E8] + 44))(
              dword_4F776C[dword_4F82E8],
-             &unk_448728)
+             &byte_448728)
         || ((v6 = (int *)dword_4F776C[dword_4F82E8], v7 = *v6, v52 == -1)
           ? (v8 = (*(int (__stdcall **)(int *, int, int))(v7 + 52))(v6, hDlgInput, 6))
           : (v8 = (*(int (__stdcall **)(int *, int, int))(v7 + 52))(v6, hDlgInput, 5)),
@@ -205,11 +205,11 @@ int __userpurge sub_40E800@<eax>(int a1@<ebp>, _DWORD *a2, int a3)
         (*(void (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v34 + 24))(v34, 9, v46);
         v35 = dword_4F82E8;
         v36 = &dword_4F78C8[25 * dword_4F82E8];
-        v39 = (char *)&byte_4F75D0 + 100 * dword_4F82E8;
+        v39 = &byte_4F75D0[100 * dword_4F82E8];
         dword_4F82F8[dword_4F82E8] = (int)v39;
         dword_4F8308[v35] = (int)v36;
         sub_40E700(v39);
-        sub_40E700(dword_4F8308[dword_4F82E8]);
+        sub_40E700((_DWORD *)dword_4F8308[dword_4F82E8]);
         *(_DWORD *)(dword_4F82F8[dword_4F82E8] + 24) = 100 * dword_44F888;
         *(_DWORD *)(dword_4F8308[dword_4F82E8] + 24) = 100 * dword_44F888;
         v37 = dword_4FD8CC[v52];
@@ -219,7 +219,7 @@ int __userpurge sub_40E800@<eax>(int a1@<ebp>, _DWORD *a2, int a3)
         }
         else if ( v37 == 2 )
         {
-          sub_40E510(dword_4F82F8[dword_4F82E8], dword_4F776C[dword_4F82E8]);
+          sub_40E510((_DWORD *)dword_4F82F8[dword_4F82E8], dword_4F776C[dword_4F82E8]);
         }
         v38 = dword_4FD8BC[v52];
         if ( v38 == 1 )
@@ -228,7 +228,7 @@ int __userpurge sub_40E800@<eax>(int a1@<ebp>, _DWORD *a2, int a3)
         }
         else if ( v38 == 2 )
         {
-          sub_40E510(dword_4F8308[dword_4F82E8], dword_4F776C[dword_4F82E8]);
+          sub_40E510((_DWORD *)dword_4F8308[dword_4F82E8], dword_4F776C[dword_4F82E8]);
         }
       }
       ++dword_4F82E8;

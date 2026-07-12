@@ -21,8 +21,8 @@ void save_load_state()
   spu_close();
   net_pause();
   gpu_close();
-  if ( hSaveLoadWnd )
-    ShowWindow(hSaveLoadWnd, 0);
+  if ( hOutputWnd )
+    ShowWindow(hOutputWnd, 0);
   ShowWindow(g_hWnd, 5);
   ShowCursor(1);
   UpdateWindow(g_hWnd);
@@ -33,10 +33,10 @@ void save_load_state()
   }
   ShowCursor(0);
   ShowWindow(g_hWnd, 0);
-  close_save_load_window();
-  create_save_load_window();
-  if ( hSaveLoadWnd )
-    ShowWindow(hSaveLoadWnd, 5);
+  close_output_window();
+  create_output_window();
+  if ( hOutputWnd )
+    ShowWindow(hOutputWnd, 5);
   gpu_open();
   net_resume();
   spu_open();

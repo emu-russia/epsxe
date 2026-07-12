@@ -6,13 +6,25 @@ BOOL create_main_window()
   byte_45B8E8 = 0;
   g_hInstance = GetModuleHandleA(nullptr);
   if ( !register_win_class() )
-    ui_error(aErrorRegisteri);
+    ui_error(" * Error registering window.\n");
   dword_45B8D8 = LoadBitmapA(g_hInstance, (LPCSTR)0x8C);
   h = LoadBitmapA(g_hInstance, (LPCSTR)0x8E);
-  Window = CreateWindowExA(0, ClassName, WindowName, 0xA0000u, 0, 0, 400, 300, nullptr, nullptr, g_hInstance, nullptr);
+  Window = CreateWindowExA(
+             0,
+             "EPSXGUI",
+             " ePSXe - Enhanced PSX emulator",
+             0xA0000u,
+             0,
+             0,
+             400,
+             300,
+             nullptr,
+             nullptr,
+             g_hInstance,
+             nullptr);
   g_hWnd = Window;
   if ( !Window )
-    ui_error(aErrorCreatingW);
+    ui_error(" * Error creating window.\n");
   ShowWindow(Window, 5);
   UpdateWindow(g_hWnd);
   while ( GetMessageA(&stru_8A94E0, nullptr, 0, 0) )

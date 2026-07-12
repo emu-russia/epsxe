@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_41F1F0(int *a1)
+unsigned int __cdecl sub_41F1F0(int *a1)
 {
   int v1; // ecx
   unsigned int v2; // eax
@@ -11,7 +11,7 @@ int __cdecl sub_41F1F0(int *a1)
   unsigned int v8; // ecx
   int v9; // edx
   int v10; // edx
-  int result; // eax
+  unsigned int result; // eax
   unsigned __int8 *v12; // eax
   int v13; // ebp
   int v14; // ecx
@@ -296,7 +296,7 @@ LABEL_94:
       v64 = dword_45516C;
       dword_4F8328 = v39;
       dword_4F832C = v40;
-      v61 = sub_41F960(v72, v49, 0x101u, (int)&unk_455074, (int)&unk_4550B4, &v63, &v64);
+      v61 = sub_41F960(v72, v49, 0x101u, (int)byte_455074, (int)byte_4550B4, &v63, &v64);
       if ( !v64 )
       {
         v61 = 1;
@@ -312,7 +312,7 @@ LABEL_82:
         return v61;
       }
       v68 = dword_455170;
-      v62 = sub_41F960(&v72[v49], k, 0, (int)&unk_4550F4, (int)&unk_455130, &v67, &v68);
+      v62 = sub_41F960(&v72[v49], k, 0, (int)byte_4550F4, (int)byte_455130, &v67, &v68);
       if ( v68 || v49 <= 0x101 )
       {
         if ( v62 >= 2 )
@@ -351,8 +351,8 @@ LABEL_82:
                v73,
                0x120u,
                0x101u,
-               (int)&unk_455074,
-               (int)&unk_4550B4,
+               (int)byte_455074,
+               (int)byte_4550B4,
                &dword_4F8330,
                (unsigned int *)&dword_4F8338);
     if ( result )
@@ -362,7 +362,7 @@ LABEL_82:
     }
     memset32(v73, 5, 0x1Eu);
     dword_4F833C = 5;
-    v25 = sub_41F960(v73, 0x1Eu, 0, (int)&unk_4550F4, (int)&unk_455130, &dword_4F8334, (unsigned int *)&dword_4F833C);
+    v25 = sub_41F960(v73, 0x1Eu, 0, (int)byte_4550F4, (int)byte_455130, &dword_4F8334, (unsigned int *)&dword_4F833C);
     if ( v25 <= 1 )
     {
       return sub_41EE40(dword_4F8330, dword_4F8334, dword_4F8338, dword_4F833C) != 0;

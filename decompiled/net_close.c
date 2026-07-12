@@ -3,20 +3,20 @@ HMODULE net_close()
 {
   HMODULE result; // eax
 
-  result = (HMODULE)dword_4FD99C;
-  if ( dword_4FD99C )
+  result = (HMODULE)network_enabled;
+  if ( network_enabled )
   {
     result = hNetModule;
     if ( hNetModule )
     {
       if ( !byte_45696C )
       {
-        dbg_print(aClosingNet);
+        dbg_print(" * Closing net ...\n");
         NETclose();
         byte_45696C = 1;
       }
-      dbg_print(aShutdownNet);
-      return (HMODULE)NETshutdown();
+      dbg_print(" * Shutdown net ...\n");
+      return NETshutdown();
     }
   }
   return result;

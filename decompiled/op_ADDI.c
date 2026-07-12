@@ -1,8 +1,8 @@
 #include "pch.h"
-unsigned int op_ADDI()
+int op_ADDI()
 {
   unsigned int v0; // esi
-  unsigned int result; // eax
+  int result; // eax
 
   v0 = (unsigned __int16)cpu_opcode;
   op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;

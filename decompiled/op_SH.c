@@ -1,5 +1,5 @@
 #include "pch.h"
-char op_SH()
+void op_SH()
 {
   unsigned int v0; // esi
 
@@ -12,5 +12,5 @@ char op_SH()
     v0 = cpu_opcode | 0xFFFF0000;
     dword_576DA8 = v0;
   }
-  return mem_write_half(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F], cpu_gpr[BYTE2(cpu_opcode) & 0x1F]);
+  mem_write_half(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F], cpu_gpr[BYTE2(cpu_opcode) & 0x1F]);
 }

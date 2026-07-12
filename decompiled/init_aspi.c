@@ -29,7 +29,7 @@ char init_aspi()
       memset(v12, 0, sizeof(v12));
       v12[0] = 0;
       v12[2] = v2;
-      dword_4FFF68(v12);
+      SendASPI32Command_cb(v12);
       if ( v12[1] == 1 )
       {
         v3 = v12[45];
@@ -54,7 +54,7 @@ char init_aspi()
               BYTE2(v8[0]) = i;
               v9 = v5;
               v10 = v4;
-              dword_4FFF68(v8);
+              SendASPI32Command_cb(v8);
               if ( BYTE1(v8[0]) == 1 && (_BYTE)v11 == 5 )
                 sub_430E40(i, v5, v7);
               v7 = ++v4;

@@ -1,5 +1,5 @@
 #include "pch.h"
-char cdrom_precache_subchannel()
+char W2k_cdrom_subchannel_read()
 {
   char result; // al
   int v1; // ebp
@@ -7,7 +7,7 @@ char cdrom_precache_subchannel()
   int v3; // esi
   int v4; // ebx
   int v5; // edi
-  _QWORD *v6; // eax
+  _DWORD *v6; // eax
   int v7; // ecx
   int v8; // edi
   int v9; // esi
@@ -46,45 +46,45 @@ char cdrom_precache_subchannel()
   unsigned __int8 v42; // [esp+10h] [ebp-5208h]
   unsigned __int8 v43; // [esp+10h] [ebp-5208h]
   char v44; // [esp+14h] [ebp-5204h]
-  _QWORD v45[128]; // [esp+18h] [ebp-5200h] BYREF
+  _DWORD v45[256]; // [esp+18h] [ebp-5200h] BYREF
   char Buffer[1024]; // [esp+418h] [ebp-4E00h] BYREF
   _WORD v47[9472]; // [esp+818h] [ebp-4A00h] BYREF
 
-  result = byte_456D70;
+  result = cd_savefake_flag;
   dword_4FFF80 = -1;
-  if ( byte_456D70 && dword_50C37C != 3 )
+  if ( cd_savefake_flag && loaded_file_type != 3 )
   {
     v1 = 1;
     if ( dword_504C8C != 7 && dword_504C8C != 1 )
     {
-      result = dbg_print(aWarningCdromRe);
+      result = dbg_print(" * Warning: cdrom read mode unknown. \n");
       dword_504C8C = 1;
       return result;
     }
     result = use_subchannel;
     if ( use_subchannel )
     {
-      sprintf(Buffer, "%s%s.SUB", aPatches, byte_8B3D80);
-      Stream = fopen(Buffer, Mode);
+      sprintf(Buffer, "%s%s.SUB", "patches\\", byte_8B3D80);
+      Stream = fopen(Buffer, "rb");
       if ( Stream )
       {
         if ( dword_504C8C == 1 )
         {
           dword_504C8C = 5;
-          result = dbg_print(aSubchannelSupp);
+          result = dbg_print(" * Subchannel support from clonecd .sub file. \n");
           BYTE1(dword_455945) = 0;
         }
         else
         {
           if ( dword_504C8C == 7 )
             dword_504C8C = 9;
-          result = dbg_print(aSubchannelSupp);
+          result = dbg_print(" * Subchannel support from clonecd .sub file. \n");
           BYTE1(dword_455945) = 0;
         }
         return result;
       }
-      sprintf(Buffer, "%s%s.M3S", aPatches, byte_8B3D80);
-      v2 = fopen(Buffer, Mode);
+      sprintf(Buffer, "%s%s.M3S", "patches\\", byte_8B3D80);
+      v2 = fopen(Buffer, "rb");
       if ( v2 )
       {
         dword_504C84 = malloc(0x11940u);
@@ -93,21 +93,21 @@ char cdrom_precache_subchannel()
         if ( dword_504C8C == 1 )
         {
           dword_504C8C = 6;
-          result = dbg_print(aSubchannelSupp_0);
+          result = dbg_print(" * Subchannel support from .m3s file. \n");
           BYTE1(dword_455945) = 0;
         }
         else
         {
           if ( dword_504C8C == 7 )
             dword_504C8C = 10;
-          result = dbg_print(aSubchannelSupp_0);
+          result = dbg_print(" * Subchannel support from .m3s file. \n");
           BYTE1(dword_455945) = 0;
         }
         return result;
       }
       if ( SubchannelW2kCaching )
       {
-        dbg_print(aCheckingSubcha);
+        dbg_print(" * Checking subchannel read standard ... \n");
         dword_504C84 = malloc(0x11940u);
         v39 = 2;
         do
@@ -122,11 +122,15 @@ char cdrom_precache_subchannel()
             do
             {
               sub_4350E0(v45);
-              if ( BYTE1(v45[1]) % 10 + 16 * (BYTE1(v45[1]) / 10) == 3 && BYTE2(v45[1]) < 0x3Cu && BYTE3(v45[1]) < 0x4Bu )
+              if ( BYTE1(v45[2]) % 10 + 16 * (BYTE1(v45[2]) / 10) == 3
+                && BYTE2(v45[2]) < 0x3Cu
+                && HIBYTE(v45[2]) < 0x4Bu )
               {
-                v6 = (char *)dword_504C84 + 1200 * BYTE2(v45[1]) + 16 * BYTE3(v45[1]);
+                v6 = (char *)dword_504C84 + 1200 * BYTE2(v45[2]) + 16 * HIBYTE(v45[2]);
                 *v6 = v45[0];
                 v6[1] = v45[1];
+                v6[2] = v45[2];
+                v6[3] = v45[3];
               }
               --v5;
             }
@@ -135,12 +139,12 @@ char cdrom_precache_subchannel()
             --v4;
           }
           while ( v4 );
-          dbg_print(aOk_0);
+          dbg_print("ok\n");
           ++v1;
           --v39;
         }
         while ( v39 );
-        dbg_print(aFixatingSubcha);
+        dbg_print(" * Fixating subchanel ... ");
         v7 = 0;
         v8 = 60;
         do
@@ -149,30 +153,32 @@ char cdrom_precache_subchannel()
           do
           {
             v10 = (char *)dword_504C84 + v7;
-            v45[0] = *(_QWORD *)((char *)dword_504C84 + v7);
-            v45[1] = *(_QWORD *)((char *)dword_504C84 + v7 + 8);
+            v45[0] = *(_DWORD *)((char *)dword_504C84 + v7);
+            v45[1] = *(_DWORD *)((char *)dword_504C84 + v7 + 4);
+            v45[2] = *(_DWORD *)((char *)dword_504C84 + v7 + 8);
+            v45[3] = *(_DWORD *)((char *)dword_504C84 + v7 + 12);
             *v10 = 0;
             v10[1] = 0;
             v10[2] = 0;
             v10[3] = 0;
             *((_BYTE *)dword_504C84 + v7) = 65;
-            *(_WORD *)((char *)dword_504C84 + v7 + 1) = HIWORD(v45[0]);
+            *(_WORD *)((char *)dword_504C84 + v7 + 1) = HIWORD(v45[1]);
             v7 += 16;
-            *((char *)dword_504C84 + v7 - 13) = BYTE5(v45[1]) % 10 + 16 * (BYTE5(v45[1]) / 10);
-            *((char *)dword_504C84 + v7 - 12) = BYTE6(v45[1]) % 10 + 16 * (BYTE6(v45[1]) / 10);
-            *((char *)dword_504C84 + v7 - 11) = HIBYTE(v45[1]) % 10 + 16 * (HIBYTE(v45[1]) / 10);
-            *((char *)dword_504C84 + v7 - 9) = BYTE1(v45[1]) % 10 + 16 * (BYTE1(v45[1]) / 10);
-            *((char *)dword_504C84 + v7 - 8) = BYTE2(v45[1]) % 10 + 16 * (BYTE2(v45[1]) / 10);
+            *((char *)dword_504C84 + v7 - 13) = BYTE1(v45[3]) % 10 + 16 * (BYTE1(v45[3]) / 10);
+            *((char *)dword_504C84 + v7 - 12) = BYTE2(v45[3]) % 10 + 16 * (BYTE2(v45[3]) / 10);
+            *((char *)dword_504C84 + v7 - 11) = HIBYTE(v45[3]) % 10 + 16 * (HIBYTE(v45[3]) / 10);
+            *((char *)dword_504C84 + v7 - 9) = BYTE1(v45[2]) % 10 + 16 * (BYTE1(v45[2]) / 10);
+            *((char *)dword_504C84 + v7 - 8) = BYTE2(v45[2]) % 10 + 16 * (BYTE2(v45[2]) / 10);
             --v9;
-            *((char *)dword_504C84 + v7 - 7) = BYTE3(v45[1]) % 10 + 16 * (BYTE3(v45[1]) / 10);
+            *((char *)dword_504C84 + v7 - 7) = HIBYTE(v45[2]) % 10 + 16 * (HIBYTE(v45[2]) / 10);
           }
           while ( v9 );
           --v8;
         }
         while ( v8 );
         dword_504C8C = 6;
-        sprintf(Buffer, "%s%s.M3S", aPatches, byte_8B3D80);
-        v11 = fopen(Buffer, aWb);
+        sprintf(Buffer, "%s%s.M3S", "patches\\", byte_8B3D80);
+        v11 = fopen(Buffer, "wb");
         v12 = v11;
         if ( v11 )
         {
@@ -184,26 +190,26 @@ char cdrom_precache_subchannel()
       result = SubchannelW2kCdromEnabled;
       if ( !SubchannelW2kCdromEnabled )
         return result;
-      dbg_print(aCheckingSubcha_0);
+      dbg_print(" * Checking subchannel read from cdrom ... ");
       if ( dword_504C8C == 7 )
       {
         sub_434DF0(0, 2u, 0x10u, 2u, (DWORD)v47, v45);
-        result = HIBYTE(v45[0]);
-        if ( HIBYTE(v45[0]) )
+        result = HIBYTE(v45[1]);
+        if ( HIBYTE(v45[1]) )
           return result;
-        result = v45[1];
-        if ( LOWORD(v45[1]) != 5634 )
+        result = v45[2];
+        if ( LOWORD(v45[2]) != 5634 )
           return result;
-        result = HIBYTE(v45[2]);
-        if ( *(_WORD *)((char *)&v45[2] + 7) != 512 || BYTE1(v45[3]) != 23 )
+        result = HIBYTE(v45[5]);
+        if ( *(_WORD *)((char *)&v45[5] + 3) != 512 || BYTE1(v45[6]) != 23 )
           return result;
         dword_504C8C = 8;
         dword_504C88 = 2352;
         if ( SubchannelW2kCaching )
         {
           dword_504C84 = malloc(0x11940u);
-          dbg_print(aYes);
-          dbg_print(aCdromPrecachin_0);
+          dbg_print(" YES.\n");
+          dbg_print(" * Cdrom precaching subchannel ... ");
           v40 = 0;
           v13 = 0;
           do
@@ -218,8 +224,8 @@ char cdrom_precache_subchannel()
             ++v40;
           }
           while ( v40 < 0x3Cu );
-          sprintf(Buffer, "%s%s.M3S", aPatches, byte_8B3D80);
-          v16 = fopen(Buffer, aWb);
+          sprintf(Buffer, "%s%s.M3S", "patches\\", byte_8B3D80);
+          v16 = fopen(Buffer, "wb");
           v17 = v16;
           if ( v16 )
           {
@@ -230,7 +236,7 @@ char cdrom_precache_subchannel()
           goto LABEL_36;
         }
 LABEL_101:
-        result = dbg_print(aYes);
+        result = dbg_print(" YES.\n");
         BYTE1(dword_455945) = 0;
         return result;
       }
@@ -252,8 +258,8 @@ LABEL_101:
           if ( !SubchannelW2kCaching )
             goto LABEL_101;
           dword_504C84 = malloc(0x11940u);
-          dbg_print(aYes);
-          dbg_print(aCdromPrecachin_0);
+          dbg_print(" YES.\n");
+          dbg_print(" * Cdrom precaching subchannel ... ");
           v41 = 0;
           v18 = 0;
           do
@@ -299,8 +305,8 @@ LABEL_101:
             ++v41;
           }
           while ( v41 < 0x3Cu );
-          sprintf(Buffer, "%s%s.M3S", aPatches, byte_8B3D80);
-          v26 = fopen(Buffer, aWb);
+          sprintf(Buffer, "%s%s.M3S", "patches\\", byte_8B3D80);
+          v26 = fopen(Buffer, "wb");
           if ( !v26 )
             goto LABEL_88;
           fwrite(dword_504C84, 1u, 0x11940u, v26);
@@ -320,8 +326,8 @@ LABEL_101:
           if ( !SubchannelW2kCaching )
             goto LABEL_101;
           dword_504C84 = malloc(0x11940u);
-          dbg_print(aYes);
-          dbg_print(aCdromPrecachin_0);
+          dbg_print(" YES.\n");
+          dbg_print(" * Cdrom precaching subchannel ... ");
           v42 = 0;
           v27 = 0;
           do
@@ -350,8 +356,8 @@ LABEL_101:
             ++v42;
           }
           while ( v42 < 0x3Cu );
-          sprintf(Buffer, "%s%s.M3S", aPatches, byte_8B3D80);
-          v34 = fopen(Buffer, aWb);
+          sprintf(Buffer, "%s%s.M3S", "patches\\", byte_8B3D80);
+          v34 = fopen(Buffer, "wb");
           v26 = v34;
           if ( !v34 )
             goto LABEL_88;
@@ -370,7 +376,7 @@ LABEL_88:
         || *(_WORD *)((char *)&v47[11] + 1) != 512
         || HIBYTE(v47[12]) != 23 )
       {
-        return dbg_print(aNo);
+        return dbg_print(" NO.\n");
       }
       dword_504C8C = 4;
       dword_504C88 = 2352;
@@ -378,8 +384,8 @@ LABEL_88:
       if ( !SubchannelW2kCaching )
         goto LABEL_101;
       dword_504C84 = malloc(0x11940u);
-      dbg_print(aYes);
-      dbg_print(aCdromPrecachin_0);
+      dbg_print(" YES.\n");
+      dbg_print(" * Cdrom precaching subchannel ... ");
       v43 = 0;
       v35 = 0;
       do
@@ -394,8 +400,8 @@ LABEL_88:
         ++v43;
       }
       while ( v43 < 0x3Cu );
-      sprintf(Buffer, "%s%s.M3S", aPatches, byte_8B3D80);
-      v38 = fopen(Buffer, aWb);
+      sprintf(Buffer, "%s%s.M3S", "patches\\", byte_8B3D80);
+      v38 = fopen(Buffer, "wb");
       if ( v38 )
       {
         fwrite(dword_504C84, 1u, 0x11940u, v38);
@@ -404,7 +410,7 @@ LABEL_88:
 LABEL_100:
       dword_504C8C = 6;
 LABEL_36:
-      result = dbg_print(aOk_0);
+      result = dbg_print("ok\n");
       BYTE1(dword_455945) = 0;
     }
   }

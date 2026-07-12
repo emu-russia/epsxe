@@ -1601,6 +1601,96 @@
     <ClCompile Include="..\decompiled\memcard12_save.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\decompiled\cdr_unfreeze.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\cdrom_create_fake_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\cdrom_load_fake_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\clear_cpu_regs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\clear_hw_regs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\close_output_window.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\controller_set_joypad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\controller_set_keyboard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\controller_setup_callback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\create_output_window.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\free_winaspi_dll.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\load_win_aspi_silent.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_freeze.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_freeze2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_sse_m_empty.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_unfreeze.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_unfreeze2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\output_win_callback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\ppf_free.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\register_output_win_class.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\save_temp_memcard1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\save_temp_memcard2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\setup_wizard_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\xa_clear_adpcm_state.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\xa_decode_adpcm_block.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\xa_decode_mono_blocks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\xa_decode_stereo_blocks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\xa_decode_wrapper.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\xa_get_audio_mode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\xa_setup_adpcm_decoder.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\resources\BITMAP140_1.bmp">

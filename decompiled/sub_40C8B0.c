@@ -120,7 +120,7 @@ unsigned int sub_40C8B0()
   }
   else
   {
-    memset(&unk_4F7150, 0, 0x200u);
+    memset(&byte_4F7150, 0, 0x200u);
   }
   v30 = 0;
   v32 = 0;

@@ -21,13 +21,13 @@ char __cdecl sub_42FCB0(unsigned __int8 a1, unsigned __int8 a2, char a3, int a4)
     *(_DWORD *)a4 = dword_50568D;
     *(_BYTE *)(a4 + 4) = byte_505691;
     *(_WORD *)(a4 + 5) = word_505693;
-    *(_BYTE *)(a4 + 7) = byte_505695;
+    *(_BYTE *)(a4 + 7) = byte_505695[0];
     if ( (unsigned __int8)byte_50A1A5 - 2 < 0 )
     {
       v13 = (unsigned __int8)byte_50A1A4 % 10 + 16 * ((unsigned __int8)byte_50A1A4 / 10) != (unsigned __int8)word_505693;
       if ( ((unsigned __int8)byte_50A1A4 - 1) % 10 + 16 * (((unsigned __int8)byte_50A1A4 - 1) / 10) != BYTE2(dword_50568D) )
         ++v13;
-      v5 = byte_505695;
+      v5 = byte_505695[0];
       if ( (unsigned __int8)byte_50A1A5 % 10 + 16 * ((unsigned __int8)byte_50A1A5 / 10) != HIBYTE(word_505693) )
         ++v13;
       v6 = (unsigned __int8)byte_50A1A5 + 58;
@@ -38,7 +38,7 @@ char __cdecl sub_42FCB0(unsigned __int8 a1, unsigned __int8 a2, char a3, int a4)
       v13 = v4 != (unsigned __int8)word_505693;
       if ( v4 != BYTE2(dword_50568D) )
         ++v13;
-      v5 = byte_505695;
+      v5 = byte_505695[0];
       if ( (unsigned __int8)byte_50A1A5 % 10 + 16 * ((unsigned __int8)byte_50A1A5 / 10) != HIBYTE(word_505693) )
         ++v13;
       v6 = (unsigned __int8)byte_50A1A5 - 2;

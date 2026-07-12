@@ -4,9 +4,9 @@ int (*__cdecl spu_async_update(int a1))(void)
   int (*result)(void); // eax
 
   if ( SPUasync )
-    return (int (*)(void))SPUasync(a1);
-  result = SPUupdate;
+    return SPUasync(a1);
+  result = (int (*)(void))SPUupdate;
   if ( SPUupdate )
-    return (int (*)(void))SPUupdate();
+    return SPUupdate();
   return result;
 }

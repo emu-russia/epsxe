@@ -76,5 +76,5 @@ HWND gpu_load_plugin()
   net_load_plugin();
   net_open();
   netplay_handler();
-  return create_save_load_window();
+  return create_output_window();
 }

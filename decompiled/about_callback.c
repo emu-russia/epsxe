@@ -1,5 +1,5 @@
 #include "pch.h"
-int __stdcall sub_405D70(HWND hDlg, int a2, __int16 a3, int a4)
+int __stdcall about_callback(HWND hDlg, int a2, __int16 a3, int a4)
 {
   if ( a2 == 272 )
     return 1;

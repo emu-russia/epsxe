@@ -9,8 +9,8 @@ char *__cdecl sub_429A70(char *a1, int a2)
   _WORD *v8; // [esp+10h] [ebp-8h]
   int v9; // [esp+20h] [ebp+8h]
 
-  v8 = &unk_50C3E0;
-  memset(&unk_50C3E0, 0, 4 * ((unsigned int)(768 * a2) >> 2));
+  v8 = (_WORD *)byte_50C3E0;
+  memset(byte_50C3E0, 0, 4 * ((unsigned int)(768 * a2) >> 2));
   v2 = 6 * a2;
   v9 = 0;
   if ( v2 <= 0 )

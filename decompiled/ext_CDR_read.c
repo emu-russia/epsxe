@@ -7,12 +7,12 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
   int v8; // eax
   _BYTE v9[16]; // [esp+14h] [ebp-10h] BYREF
 
-  if ( !byte_456D70 )
+  if ( !cd_savefake_flag )
   {
     sub_42F990(a1, a2, a3, Buffer);
     return 0;
   }
-  if ( dword_50C37C == 3 )
+  if ( loaded_file_type == 3 )
   {
     sub_42FF60(a1, a2, a3, (int)Buffer);
     if ( auto_ppf_load )
@@ -20,7 +20,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
       v5 = sub_42C6D0(a1, a2, a3);
       sub_436F60(v5, (int)Buffer);
     }
-    if ( byte_456D70 == 1 )
+    if ( cd_savefake_flag == 1 )
     {
       sub_42F8F0(a1, a2, a3, Buffer);
       return 0;
@@ -41,7 +41,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
       sub_436F60(v8, (int)Buffer);
       v7 = Buffer;
     }
-    if ( byte_456D70 == 1 )
+    if ( cd_savefake_flag == 1 )
       sub_42F8F0(a1, a2, a3, v7);
   }
   return 0;

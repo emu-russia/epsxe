@@ -6,7 +6,7 @@ int cdrom_detect_region()
   const char *v2; // [esp-4h] [ebp-404h] BYREF
   char Buffer[1024]; // [esp+0h] [ebp-400h] BYREF
 
-  if ( dword_50C37C != 3 && dword_50C37C != 1 )
+  if ( loaded_file_type != 3 && loaded_file_type != 1 )
   {
     sprintf(Buffer, "DEMO_999.99");
     result = sprintf(byte_8B3D80, "%s", Buffer);

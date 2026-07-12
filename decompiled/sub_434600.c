@@ -21,12 +21,12 @@ char __cdecl sub_434600(
      * ((a2 & 0xF) % 10 + 10 * ((a2 >> 4) + 6 * ((unsigned __int8)(a1 & 0xF) % 10 + 10 * ((unsigned __int8)a1 >> 4))))
      + 10 * (a3 >> 4)
      - 150;
-  sub_431110(&a1, 8 * (unsigned __int8)byte_4FD9E3 + 5241928);
+  sub_431110(&a1, (unsigned __int8 *)(8 * (unsigned __int8)byte_4FD9E3 + 5241928));
   if ( a1 > v8 && byte_4FD9E3 )
   {
     while ( 1 )
     {
-      sub_431110(&a1, 8 * v11 + 5241936);
+      sub_431110(&a1, (unsigned __int8 *)(8 * v11 + 5241936));
       if ( v11 + 1 < (unsigned __int8)byte_4FD9E3 )
         a1 -= a1 % 0x4B;
       if ( a1 > v8 )
@@ -35,7 +35,7 @@ char __cdecl sub_434600(
       if ( v7 >= (unsigned __int8)byte_4FD9E3 )
         goto LABEL_7;
     }
-    sub_431110(&a1, 8 * v11 + 5241928);
+    sub_431110(&a1, (unsigned __int8 *)(8 * v11 + 5241928));
     v10 = v8 + a1 % 0x4B - a1;
     *a4 = (v11 + 1) % 10 + 16 * ((v11 + 1) / 10);
     *a5 = v10 / 0x4B / 0x3C % 0xA + 16 * (v10 / 0x4B / 0x3C / 0xA);

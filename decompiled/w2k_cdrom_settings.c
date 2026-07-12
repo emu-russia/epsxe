@@ -9,7 +9,7 @@ INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 
   if ( a2 == 272 )
   {
-    sprintf(lParam, aFirstcdrom);
+    sprintf(lParam, "FirstCdrom");
     v6 = SendDlgItemMessageA(hDlg, 1133, CB_ADDSTRING, 0, (LPARAM)lParam);
     if ( !cdrom_letter )
       SendDlgItemMessageA(hDlg, 1133, CB_SETCURSEL, v6, 0);
@@ -38,8 +38,8 @@ INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       v5 = SendDlgItemMessageA(hDlg, 1133, CB_GETCURSEL, 0, 0);
       if ( v5 != -1 )
       {
-        SendDlgItemMessageA(hDlg, 1133, 0x148u, v5, (LPARAM)lParam);
-        if ( !strncmp(lParam, aFirstcdrom, 4u) )
+        SendDlgItemMessageA(hDlg, 1133, CB_GETLBTEXT, v5, (LPARAM)lParam);
+        if ( !strncmp(lParam, "FirstCdrom", 4u) )
           cdrom_letter = 0;
         else
           sscanf(lParam, "--%c:--", &cdrom_letter);

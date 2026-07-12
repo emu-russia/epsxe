@@ -32,11 +32,13 @@
     <ClCompile Include="..\decompiled\bios_dialog_callback.c" />
     <ClCompile Include="..\decompiled\calc_bios_checksum.c" />
     <ClCompile Include="..\decompiled\cdrom_assert_int.c" />
+    <ClCompile Include="..\decompiled\cdrom_create_fake_file.c" />
     <ClCompile Include="..\decompiled\cdrom_detect_region.c" />
     <ClCompile Include="..\decompiled\cdrom_dma.c" />
     <ClCompile Include="..\decompiled\cdrom_gettrackinfo.c" />
     <ClCompile Include="..\decompiled\cdrom_gettrackinfo_0.c" />
     <ClCompile Include="..\decompiled\cdrom_iso_set_path.c" />
+    <ClCompile Include="..\decompiled\cdrom_load_fake_file.c" />
     <ClCompile Include="..\decompiled\cdrom_reg0_write.c" />
     <ClCompile Include="..\decompiled\cdrom_reg1_write.c" />
     <ClCompile Include="..\decompiled\cdrom_reg2_write.c" />
@@ -44,14 +46,22 @@
     <ClCompile Include="..\decompiled\cdrom_set_hain_target_lun.c" />
     <ClCompile Include="..\decompiled\cdrom_set_letter.c" />
     <ClCompile Include="..\decompiled\cdr_freeze.c" />
+    <ClCompile Include="..\decompiled\cdr_unfreeze.c" />
     <ClCompile Include="..\decompiled\cheat_dialog_callback.c" />
     <ClCompile Include="..\decompiled\check_state_exists.c" />
+    <ClCompile Include="..\decompiled\clear_cpu_regs.c" />
+    <ClCompile Include="..\decompiled\clear_hw_regs.c" />
     <ClCompile Include="..\decompiled\clear_memory.c" />
     <ClCompile Include="..\decompiled\clear_regs.c" />
+    <ClCompile Include="..\decompiled\close_output_window.c" />
     <ClCompile Include="..\decompiled\close_save_load_window.c" />
     <ClCompile Include="..\decompiled\cmdline_set_bios_name.c" />
+    <ClCompile Include="..\decompiled\controller_setup_callback.c" />
+    <ClCompile Include="..\decompiled\controller_set_joypad.c" />
+    <ClCompile Include="..\decompiled\controller_set_keyboard.c" />
     <ClCompile Include="..\decompiled\cpu_interrupt.c" />
     <ClCompile Include="..\decompiled\create_main_window.c" />
+    <ClCompile Include="..\decompiled\create_output_window.c" />
     <ClCompile Include="..\decompiled\create_save_load_window.c" />
     <ClCompile Include="..\decompiled\dbg_print.c" />
     <ClCompile Include="..\decompiled\dbg_print_no_flush.c" />
@@ -73,6 +83,7 @@
     <ClCompile Include="..\decompiled\fatal_error_with_message_box.c" />
     <ClCompile Include="..\decompiled\frame_update.c" />
     <ClCompile Include="..\decompiled\free_console.c" />
+    <ClCompile Include="..\decompiled\free_winaspi_dll.c" />
     <ClCompile Include="..\decompiled\get_gpu_freeze_counter.c" />
     <ClCompile Include="..\decompiled\get_tick_count.c" />
     <ClCompile Include="..\decompiled\gpu_close.c" />
@@ -119,9 +130,15 @@
     <ClCompile Include="..\decompiled\load_cheat_file.c" />
     <ClCompile Include="..\decompiled\load_settings.c" />
     <ClCompile Include="..\decompiled\load_winaspi_dll.c" />
+    <ClCompile Include="..\decompiled\load_win_aspi_silent.c" />
     <ClCompile Include="..\decompiled\main_window_callback.c" />
     <ClCompile Include="..\decompiled\mdec_decode.c" />
+    <ClCompile Include="..\decompiled\mdec_freeze.c" />
+    <ClCompile Include="..\decompiled\mdec_freeze2.c" />
     <ClCompile Include="..\decompiled\mdec_idct_sse.c" />
+    <ClCompile Include="..\decompiled\mdec_sse_m_empty.c" />
+    <ClCompile Include="..\decompiled\mdec_unfreeze.c" />
+    <ClCompile Include="..\decompiled\mdec_unfreeze2.c" />
     <ClCompile Include="..\decompiled\memcard12_save.c" />
     <ClCompile Include="..\decompiled\memcard1_save.c" />
     <ClCompile Include="..\decompiled\memcard2_save.c" />
@@ -205,6 +222,7 @@
     <ClCompile Include="..\decompiled\op_UNKNOWN.c" />
     <ClCompile Include="..\decompiled\op_XOR.c" />
     <ClCompile Include="..\decompiled\op_XORI.c" />
+    <ClCompile Include="..\decompiled\output_win_callback.c" />
     <ClCompile Include="..\decompiled\parse_command_line_options.c" />
     <ClCompile Include="..\decompiled\patch_game.c" />
     <ClCompile Include="..\decompiled\pch.c">
@@ -213,11 +231,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\decompiled\ppf_free.c" />
     <ClCompile Include="..\decompiled\print_develop_options.c" />
     <ClCompile Include="..\decompiled\print_usage.c" />
     <ClCompile Include="..\decompiled\print_version.c" />
     <ClCompile Include="..\decompiled\process_input.c" />
     <ClCompile Include="..\decompiled\rcnt_write_reg.c" />
+    <ClCompile Include="..\decompiled\register_output_win_class.c" />
     <ClCompile Include="..\decompiled\register_save_load_win_class.c" />
     <ClCompile Include="..\decompiled\register_win_class.c" />
     <ClCompile Include="..\decompiled\reg_get_value.c" />
@@ -226,6 +246,8 @@
     <ClCompile Include="..\decompiled\save_load_state.c" />
     <ClCompile Include="..\decompiled\save_load_win_callback.c" />
     <ClCompile Include="..\decompiled\save_settings.c" />
+    <ClCompile Include="..\decompiled\save_temp_memcard1.c" />
+    <ClCompile Include="..\decompiled\save_temp_memcard2.c" />
     <ClCompile Include="..\decompiled\search_cdrom_plugin.c" />
     <ClCompile Include="..\decompiled\search_net_plugin.c" />
     <ClCompile Include="..\decompiled\search_spu_plugin.c" />
@@ -236,6 +258,7 @@
     <ClCompile Include="..\decompiled\setup_wizard_callback.c" />
     <ClCompile Include="..\decompiled\setup_wizard_controllers.c" />
     <ClCompile Include="..\decompiled\setup_wizard_end.c" />
+    <ClCompile Include="..\decompiled\setup_wizard_init.c" />
     <ClCompile Include="..\decompiled\setup_wizard_search_bios.c" />
     <ClCompile Include="..\decompiled\setup_wizard_search_cdrom_plugin.c" />
     <ClCompile Include="..\decompiled\setup_wizard_search_spu_plugin.c" />
@@ -552,6 +575,13 @@
     <ClCompile Include="..\decompiled\W9x_cdrom_subchannel_read.c" />
     <ClCompile Include="..\decompiled\W9x_play_cdda.c" />
     <ClCompile Include="..\decompiled\WinMain.c" />
+    <ClCompile Include="..\decompiled\xa_clear_adpcm_state.c" />
+    <ClCompile Include="..\decompiled\xa_decode_adpcm_block.c" />
+    <ClCompile Include="..\decompiled\xa_decode_mono_blocks.c" />
+    <ClCompile Include="..\decompiled\xa_decode_stereo_blocks.c" />
+    <ClCompile Include="..\decompiled\xa_decode_wrapper.c" />
+    <ClCompile Include="..\decompiled\xa_get_audio_mode.c" />
+    <ClCompile Include="..\decompiled\xa_setup_adpcm_decoder.c" />
     <ClCompile Include="..\decompiled\zip_inflate.c" />
     <ClCompile Include="..\vars.c" />
   </ItemGroup>

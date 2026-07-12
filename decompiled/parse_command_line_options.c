@@ -182,8 +182,8 @@ LABEL_146:
             }
             if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-savefake") )
             {
-              byte_456D70 = 1;
-              strcpy(byte_505420, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+              cd_savefake_flag = 1;
+              strcpy(cdrom_fake_filename, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
               v3 += 2;
             }
             else
@@ -210,8 +210,8 @@ LABEL_146:
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadfake") )
               {
-                byte_456D70 = 0;
-                strcpy(byte_505420, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                cd_savefake_flag = 0;
+                strcpy(cdrom_fake_filename, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
                 v3 += 2;
               }
               else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadppf") )
@@ -233,7 +233,7 @@ LABEL_146:
                      || !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadiso") )
               {
                 strcpy(bin_iso_file, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
-                dword_50C37C = 3;
+                loaded_file_type = 3;
                 v3 += 2;
               }
               else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadcheat") )
@@ -385,7 +385,7 @@ LABEL_146:
                     if ( *v4 == '-' )
                       fatal_error_with_message_box(" * ePSXe error: %s param incorrect \n", v4);
                     sub_41C010(v4);
-                    dword_50C37C = 4;
+                    loaded_file_type = 4;
                     goto LABEL_146;
                   }
                   print_usage();

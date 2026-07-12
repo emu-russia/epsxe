@@ -182,5 +182,5 @@ void __cdecl sub_42A950(unsigned int *a1, __m64 *a2, int a3)
     --a3;
   }
   while ( a3 );
-  sse_m_empty();
+  mdec_sse_m_empty();
 }

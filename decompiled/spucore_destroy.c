@@ -1,5 +1,5 @@
 #include "pch.h"
-int spu_close_core()
+int spucore_destroy()
 {
   int result; // eax
 
@@ -11,7 +11,7 @@ int spu_close_core()
       ;
     while ( ppDS->lpVtbl->Release(ppDS) )
       ;
-    return dbg_print(aClosingCoreSpu);
+    return dbg_print(" * Closing core spu...\n");
   }
   return result;
 }

@@ -15,7 +15,7 @@ int spu_init_internal_core()
   dword_465530 = dword_44F714;
   if ( DirectSoundCreate(nullptr, &ppDS, nullptr) )
     return 0;
-  ppDS->lpVtbl->SetCooperativeLevel(ppDS, hSaveLoadWnd, 1);
+  ppDS->lpVtbl->SetCooperativeLevel(ppDS, hOutputWnd, 1);
   v3 = 1;
   switch ( dword_44F710 )
   {

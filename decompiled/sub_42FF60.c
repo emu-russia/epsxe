@@ -21,7 +21,7 @@ char __cdecl sub_42FF60(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 
   if ( dword_505400 )
   {
     fseek(dword_505400, 96 * v4, 0);
-    fread(&unk_505680, 1u, 0x60u, dword_505400);
+    fread(byte_505680, 1u, 0x60u, dword_505400);
     byte_50A1A4 = a1;
     byte_50A1A5 = a2;
     byte_50A1A6 = a3;
@@ -35,18 +35,18 @@ char __cdecl sub_42FF60(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 
       && (v14 < dword_4FD9A8 - v15 ? (v16 = 8 * dword_456D78) : (v16 = dword_4FD9A8 - v14), v16) )
     {
       fseek(dword_50A098, dword_4FD9AC + v14, 0);
-      fread(&unk_505700, 1u, v16, dword_50A098);
+      fread(byte_505700, 1u, v16, dword_50A098);
       v13 = dword_456D78;
     }
     else
     {
-      memset(&unk_505700, 0, 4 * (v15 >> 2));
+      memset(byte_505700, 0, 4 * (v15 >> 2));
     }
     v5 = a4;
     dword_456D74 = v4;
     v17 = (char *)(a4 - v13 + 2352);
-    qmemcpy(v17, &unk_505700, 4 * (v13 >> 2));
-    v11 = (char *)&unk_505700 + 4 * (v13 >> 2);
+    qmemcpy(v17, byte_505700, 4 * (v13 >> 2));
+    v11 = &byte_505700[4 * (v13 >> 2)];
     v10 = &v17[4 * (v13 >> 2)];
     v12 = v13;
   }
@@ -54,7 +54,7 @@ char __cdecl sub_42FF60(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 
   {
     v5 = a4;
     v6 = dword_456D78;
-    v7 = (char *)&unk_505700 + dword_456D78 * (v4 - dword_456D74);
+    v7 = &byte_505700[dword_456D78 * (v4 - dword_456D74)];
     v8 = (char *)(a4 - dword_456D78 + 2352);
     v9 = (unsigned int)dword_456D78 >> 2;
     qmemcpy(v8, v7, 4 * ((unsigned int)dword_456D78 >> 2));

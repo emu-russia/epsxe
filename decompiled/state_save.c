@@ -32,9 +32,9 @@ _DWORD *state_save()
     cdr_freeze("CDR", (int)v1);
     sio_freeze("SIO", (int)v1);
     if ( save_state_ver == -1 )
-      sub_42A0D0("MDE", (int)v1);
+      mdec_freeze("MDE", (int)v1);
     else
-      sub_42A160("MDE", (int)v1);
+      mdec_freeze2("MDE", (int)v1);
     gpu_freeze("GPU", (int)v1, Buffer);
     spu_freeze_cb("SPU", v1);
     return (_DWORD *)gzclose(v1);

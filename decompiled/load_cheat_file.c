@@ -10,7 +10,7 @@ FILE *__cdecl load_cheat_file(char *FileName)
   char Buffer[1024]; // [esp+Ch] [ebp-400h] BYREF
 
   LOBYTE(dword_4F831C) = 0;
-  result = fopen(FileName, aR);
+  result = fopen(FileName, "r");
   v2 = result;
   if ( result )
   {

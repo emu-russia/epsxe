@@ -9,11 +9,11 @@ void sub_429380()
   {
     if ( mdec_disable )
       LOBYTE(dword_4FD888[0]) = 1;
-    v1 = dword_4FC4F0;
-    if ( dword_4FC4F0 == 0x40000001 )
+    v1 = *(_DWORD *)dword_4FC4F0;
+    if ( *(_DWORD *)dword_4FC4F0 == 0x40000001 )
     {
       sub_429540((int)ram + (dword_5164E0[0] & 0x1FFFFF));
-      v1 = dword_4FC4F0;
+      v1 = *(_DWORD *)dword_4FC4F0;
     }
     if ( (v1 & 0xF5FF0000) == 0x30000000 )
     {

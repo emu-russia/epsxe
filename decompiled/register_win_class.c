@@ -13,7 +13,7 @@ BOOL register_win_class()
   v1.hInstance = g_hInstance;
   v1.lpfnWndProc = main_window_callback;
   v1.hbrBackground = (HBRUSH)GetStockObject(0);
-  v1.lpszMenuName = aEpsxmenu;
-  v1.lpszClassName = ClassName;
+  v1.lpszMenuName = "EPSXMENU";
+  v1.lpszClassName = "EPSXGUI";
   return RegisterClassExA(&v1) != 0;
 }

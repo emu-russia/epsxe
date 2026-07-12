@@ -1,5 +1,5 @@
 #include "pch.h"
-_WORD *__cdecl sub_429D20(char *a1, _WORD *a2, int a3)
+_WORD *__cdecl sub_429D20(char *a1, _WORD *a2, _WORD *a3)
 {
   _WORD *result; // eax
   char *v4; // esi
@@ -17,17 +17,17 @@ _WORD *__cdecl sub_429D20(char *a1, _WORD *a2, int a3)
   bool v16; // cc
   int v17; // [esp+Ch] [ebp-Ch]
   int v18; // [esp+10h] [ebp-8h]
-  int v19; // [esp+14h] [ebp-4h]
+  _WORD *v19; // [esp+14h] [ebp-4h]
   int v20; // [esp+20h] [ebp+8h]
   int v21; // [esp+20h] [ebp+8h]
   int v22; // [esp+24h] [ebp+Ch]
   int v23; // [esp+24h] [ebp+Ch]
 
-  result = (_WORD *)a3;
+  result = a3;
   v4 = a1;
   v5 = a1 + 128;
   v6 = a1 + 192;
-  if ( a3 > 0 )
+  if ( (int)a3 > 0 )
   {
     v19 = a3;
     result = a2;
@@ -50,16 +50,16 @@ _WORD *__cdecl sub_429D20(char *a1, _WORD *a2, int a3)
           v20 = ((-1408 * v9) >> 12) + ((-2925 * v8) >> 12);
           v22 = (7258 * v9) >> 12;
           v10 = (5743 * v8) >> 12;
-          *result = byte_4FC510
+          *result = word_4FC510
                   | ((unsigned __int8)byte_4FC6D0[*v5 + v22] >> 3)
                   | (4 * (byte_4FC6D0[*v5 + v20] & 0xF8 | (32 * (byte_4FC6D0[*v5 + v10] & 0xF8))));
-          result[1] = byte_4FC510
+          result[1] = word_4FC510
                     | ((unsigned __int8)byte_4FC6D0[v5[1] + v22] >> 3)
                     | (4 * (byte_4FC6D0[v5[1] + v20] & 0xF8 | (32 * (byte_4FC6D0[v5[1] + v10] & 0xF8))));
-          result[16] = byte_4FC510
+          result[16] = word_4FC510
                      | ((unsigned __int8)byte_4FC6D0[v5[8] + v22] >> 3)
                      | (4 * (byte_4FC6D0[v5[8] + v20] & 0xF8 | (32 * (byte_4FC6D0[v5[8] + v10] & 0xF8))));
-          result[17] = byte_4FC510
+          result[17] = word_4FC510
                      | ((unsigned __int8)byte_4FC6D0[v5[9] + v22] >> 3)
                      | (4 * (byte_4FC6D0[v5[9] + v20] & 0xF8 | (32 * (byte_4FC6D0[v5[9] + v10] & 0xF8))));
           v11 = a1[68];
@@ -67,20 +67,20 @@ _WORD *__cdecl sub_429D20(char *a1, _WORD *a2, int a3)
           v21 = ((-1408 * v12) >> 12) + ((-2925 * v11) >> 12);
           v23 = (7258 * v12) >> 12;
           v13 = (5743 * v11) >> 12;
-          result[8] = byte_4FC510
+          result[8] = word_4FC510
                     | ((unsigned __int8)byte_4FC6D0[*v6 + v23] >> 3)
                     | (4 * (byte_4FC6D0[*v6 + v21] & 0xF8 | (32 * (byte_4FC6D0[*v6 + v13] & 0xF8))));
-          result[9] = byte_4FC510
+          result[9] = word_4FC510
                     | ((unsigned __int8)byte_4FC6D0[v6[1] + v23] >> 3)
                     | (4 * (byte_4FC6D0[v6[1] + v21] & 0xF8 | (32 * (byte_4FC6D0[v6[1] + v13] & 0xF8))));
-          result[24] = byte_4FC510
+          result[24] = word_4FC510
                      | ((unsigned __int8)byte_4FC6D0[v6[8] + v23] >> 3)
                      | (4 * (byte_4FC6D0[v6[8] + v21] & 0xF8 | (32 * (byte_4FC6D0[v6[8] + v13] & 0xF8))));
           v14 = v6[9];
           v5 += 2;
           v6 += 2;
           result += 2;
-          result[23] = byte_4FC510
+          result[23] = word_4FC510
                      | ((unsigned __int8)byte_4FC6D0[v14 + v23] >> 3)
                      | (4 * (byte_4FC6D0[v14 + v21] & 0xF8 | (32 * (byte_4FC6D0[v14 + v13] & 0xF8))));
           v4 = a1 + 1;
@@ -101,9 +101,9 @@ _WORD *__cdecl sub_429D20(char *a1, _WORD *a2, int a3)
       v4 += 320;
       v5 += 192;
       v6 += 192;
-      v15 = v19 == 1;
+      v15 = v19 == (_WORD *)1;
       a1 = v4;
-      --v19;
+      v19 = (_WORD *)((char *)v19 - 1);
     }
     while ( !v15 );
   }

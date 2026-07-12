@@ -15,7 +15,7 @@ int sub_40FAB0()
       (*(void (__stdcall **)(int))(*(_DWORD *)*v0 + 8))(*v0);
     *v0++ = 0;
   }
-  while ( (int)v0 < (int)&unk_4F777C );
+  while ( (int)v0 < (int)&byte_4F777C );
   result = (*(int (__stdcall **)(int))(*(_DWORD *)dword_4F7768 + 8))(dword_4F7768);
   dword_4F7768 = 0;
   dword_4F82E8 = 0;

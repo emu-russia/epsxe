@@ -20,7 +20,7 @@ char cdrom_gettrackinfo_0()
     if ( v4 )
       break;
     memset(BytesReturned, 0, sizeof(BytesReturned));
-    memset(&unk_4FFC40, 0, 0x324u);
+    memset(&byte_4FFC40, 0, 0x324u);
     EventA = CreateEventA(nullptr, 1, 0, nullptr);
     LOBYTE(BytesReturned[0]) = 2;
     BYTE2(BytesReturned[0]) = byte_457338;
@@ -28,7 +28,7 @@ char cdrom_gettrackinfo_0()
     BYTE1(BytesReturned[2]) = byte_4FD9D4;
     HIBYTE(BytesReturned[0]) = 72;
     BytesReturned[3] = 804;
-    BytesReturned[4] = (DWORD)&unk_4FFC40;
+    BytesReturned[4] = (DWORD)&byte_4FFC40;
     LOWORD(BytesReturned[5]) = 2574;
     BytesReturned[6] = (DWORD)EventA;
     LOWORD(BytesReturned[12]) = 67;

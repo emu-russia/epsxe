@@ -1,11 +1,10 @@
 #include "pch.h"
-int op_SWR()
+void op_SWR()
 {
   unsigned int v0; // ecx
   unsigned int v1; // esi
   unsigned int v2; // edi
   int word; // eax
-  int result; // eax
 
   v0 = (unsigned __int16)cpu_opcode;
   op_rs = ((unsigned int)cpu_opcode >> 21) & 0x1F;
@@ -22,17 +21,16 @@ int op_SWR()
   switch ( v1 & 3 )
   {
     case 0u:
-      result = mem_write_word(v2, cpu_gpr[(unsigned __int8)op_rt]);
+      mem_write_word(v2, cpu_gpr[(unsigned __int8)op_rt]);
       break;
     case 1u:
-      result = mem_write_word(v2, (cpu_gpr[(unsigned __int8)op_rt] << 8) | (unsigned __int8)word);
+      mem_write_word(v2, (cpu_gpr[(unsigned __int8)op_rt] << 8) | (unsigned __int8)word);
       break;
     case 2u:
-      result = mem_write_word(v2, (cpu_gpr[(unsigned __int8)op_rt] << 16) | (unsigned __int16)word);
+      mem_write_word(v2, (cpu_gpr[(unsigned __int8)op_rt] << 16) | (unsigned __int16)word);
       break;
     case 3u:
-      result = mem_write_word(v2, (cpu_gpr[(unsigned __int8)op_rt] << 24) | word & 0xFFFFFF);
+      mem_write_word(v2, (cpu_gpr[(unsigned __int8)op_rt] << 24) | word & 0xFFFFFF);
       break;
   }
-  return result;
 }

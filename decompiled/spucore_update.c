@@ -1,6 +1,6 @@
 #include "pch.h"
 // attributes: thunk
-int sub_40D8E0()
+int spucore_update()
 {
   return sub_40C390();
 }

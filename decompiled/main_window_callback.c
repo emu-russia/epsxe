@@ -50,7 +50,7 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
       case 0x111u:
         switch ( (unsigned __int16)wParam )
         {
-          case 0x9C41u:
+          case 40001u:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
               goto LABEL_26;
             if ( !strcmp((const char *)CdromPlugin, "NULL") )
@@ -62,10 +62,10 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
               fastboot = 0;
             nocd = 1;
             sub_41C010("NULL");
-            dword_50C37C = 1;
+            loaded_file_type = 1;
             byte_44DD19 = 0;
             return 1;
-          case 0x9C42u:
+          case 40002u:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
               goto LABEL_26;
             if ( !strcmp((const char *)CdromPlugin, "NULL") )
@@ -76,38 +76,45 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
             fastboot = 0;
             nocd = 0;
             sub_41C010("NULL");
-            dword_50C37C = 2;
+            loaded_file_type = 2;
             byte_44DD19 = 0;
             return 1;
-          case 0x9C43u:
+          case 40003u:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
             {
 LABEL_26:
-              MessageBoxA(nullptr, aEpsxeIsNotComp, aEpsxeNotConfig, 0x10u);
+              MessageBoxA(
+                nullptr,
+                "ePSXe is NOT completely configurated go to config->video to configure it",
+                "ePSXe not configurated",
+                0x10u);
               return 1;
             }
             if ( !strcmp((const char *)CdromPlugin, "NULL") )
             {
 LABEL_28:
-              MessageBoxA(nullptr, aEpsxeIsNotComp_0, aEpsxeNotConfig, 0x10u);
+              MessageBoxA(
+                nullptr,
+                "ePSXe is NOT completely configurated go to config->cdrom to configure it",
+                "ePSXe not configurated",
+                0x10u);
               return 1;
             }
             if ( sub_41C0B0() )
             {
 LABEL_30:
-              MessageBoxA(nullptr, aEpsxeIsNotComp_1, aEpsxeNotConfig, 0x10u);
+              MessageBoxA(
+                nullptr,
+                "ePSXe is NOT completely configurated go to config->bios to configure it",
+                "ePSXe not configurated",
+                0x10u);
               return 1;
             }
-            if ( !open_file_dialog(
-                    (int)"Open PSX ISO",
-                    (int)"PSX ISOs (*.BIN, *.ISO, *.IMG)",
-                    (int)temp_path,
-                    (int)byte_8B3980,
-                    (int)"ISO") )
+            if ( !open_file_dialog("Open PSX ISO", "PSX ISOs (*.BIN, *.ISO, *.IMG)", temp_path, IsoDirectory, "ISO") )
               return 1;
             GetFullPathNameA(temp_path, 0x400u, Buffer, &FilePart);
             *FilePart = 0;
-            sprintf((char *const)byte_8B3980, "%s", temp_path);
+            sprintf(IsoDirectory, "%s", temp_path);
             cdrom_iso_set_path();
             PostQuitMessage(0);
             if ( byte_45B8E8 )
@@ -120,63 +127,58 @@ LABEL_30:
             }
             while ( v8 );
             sub_41C010("NULL");
-            dword_50C37C = 3;
+            loaded_file_type = 3;
             byte_44DD19 = 0;
             return 1;
-          case 0x9C44u:
-            if ( !open_file_dialog(
-                    (int)"Open PSX EXE",
-                    (int)"PSX EXEs (*.ZIP, *.EXE)",
-                    (int)temp_path,
-                    (int)asc_44B034,
-                    (int)"EXE") )
+          case 40004u:
+            if ( !open_file_dialog("Open PSX EXE", "PSX EXEs (*.ZIP, *.EXE)", temp_path, ".", "EXE") )
               return 1;
             PostQuitMessage(0);
             sub_41C010(temp_path);
-            dword_50C37C = 4;
+            loaded_file_type = 4;
             byte_44DD19 = 0;
             return 1;
-          case 0x9C45u:
+          case 40005u:
             ui_error(" * Going out from gui. (exit)\n");
-          case 0x9C46u:
+          case 40006u:
             DialogBoxParamA(g_hInstance, "IDD_VIDEO", hWnd, search_video_plugin, 0);
             return 1;
-          case 0x9C47u:
+          case 40007u:
             DialogBoxParamA(g_hInstance, "IDD_SOUND", hWnd, search_spu_plugin, 0);
             return 1;
-          case 0x9C48u:
+          case 40008u:
             DialogBoxParamA(g_hInstance, "IDD_CDROM", hWnd, search_cdrom_plugin, 0);
             return 1;
-          case 0x9C49u:
+          case 40009u:
             DialogBoxParamA(g_hInstance, "IDD_BIOS", hWnd, bios_dialog_callback, 0);
             return 1;
-          case 0x9C4Cu:
+          case 40012u:
             DialogBoxParamA(g_hInstance, "IDD_CHEAT", hWnd, (DLGPROC)cheat_dialog_callback, 0);
             goto LABEL_68;
-          case 0x9C4Du:
+          case 40013u:
             DialogBoxParamA(g_hInstance, "IDD_ABOUT", hWnd, (DLGPROC)about_callback, 0);
             goto LABEL_68;
-          case 0x9C4Fu:
+          case 40015u:
             ShellExecuteA(hWnd, "open", "http://www.epsxe.com", nullptr, nullptr, 3);
             return 1;
-          case 0x9C50u:
-            if ( dword_50C37C )
+          case 40016u:
+            if ( loaded_file_type )
               goto LABEL_41;
             return 1;
-          case 0x9C51u:
-            if ( !dword_50C37C )
+          case 40017u:
+            if ( !loaded_file_type )
               return 1;
-            dword_50C380 = 1;
+            reset_flag = 1;
             goto LABEL_41;
-          case 0x9C52u:
-            byte_44DD1A = 1;
+          case 40018u:
+            pad_number_menu_selection = 1;
             DC = GetDC(hWnd);
             DeviceCaps = GetDeviceCaps(DC, 88);
             ReleaseDC(hWnd, DC);
             v31 = hWnd;
             goto LABEL_65;
-          case 0x9C53u:
-            byte_44DD1A = 2;
+          case 40019u:
+            pad_number_menu_selection = 2;
             v15 = GetDC(hWnd);
             v16 = GetDeviceCaps(v15, 88);
             ReleaseDC(hWnd, v15);
@@ -184,27 +186,22 @@ LABEL_30:
             if ( v16 <= 96 )
               goto LABEL_70;
             goto LABEL_71;
-          case 0x9C56u:
+          case 40022u:
             DialogBoxParamA(g_hInstance, "IDD_MEMCARD", hWnd, memcard_settings, 0);
             return 1;
-          case 0x9C58u:
+          case 40024u:
             cdrom_deinit_cb(Msg - 256);
             MessageBoxA(nullptr, "Insert a new cdrom and hit the button to continue", "Change Disc Option", 0x40u);
             nocd = 1;
             sub_41C010("NULL");
-            dword_50C37C = 1;
+            loaded_file_type = 1;
             goto LABEL_40;
-          case 0x9C59u:
-            if ( !open_file_dialog(
-                    (int)"Open PSX ISO",
-                    (int)"PSX ISOs (*.BIN, *.ISO, *.IMG)",
-                    (int)temp_path,
-                    (int)byte_8B3980,
-                    (int)"ISO") )
+          case 40025u:
+            if ( !open_file_dialog("Open PSX ISO", "PSX ISOs (*.BIN, *.ISO, *.IMG)", temp_path, IsoDirectory, "ISO") )
               return 1;
             GetFullPathNameA(temp_path, 0x400u, Buffer, &FilePart);
             *FilePart = 0;
-            sprintf((char *const)byte_8B3980, "%s", temp_path);
+            sprintf(IsoDirectory, "%s", temp_path);
             cdrom_iso_set_path();
             cdrom_deinit_cb(v9);
             v10 = 0;
@@ -215,7 +212,7 @@ LABEL_30:
             }
             while ( v11 );
             sub_41C010("NULL");
-            dword_50C37C = 3;
+            loaded_file_type = 3;
 LABEL_40:
             byte_44DD19 = 0;
             country_setting = 255;
@@ -226,7 +223,7 @@ LABEL_40:
 LABEL_41:
             PostQuitMessage(0);
             return 1;
-          case 0x9C5Au:
+          case 40026u:
             Menu = GetMenu(hWnd);
             CheckMenuItem(Menu, 0x9C5Au, 8u);
             CheckMenuItem(Menu, 0x9C5Bu, 0);
@@ -234,7 +231,7 @@ LABEL_41:
             country_setting = 255;
             save_settings();
             return 1;
-          case 0x9C5Bu:
+          case 40027u:
             v23 = GetMenu(hWnd);
             CheckMenuItem(v23, 0x9C5Au, 0);
             CheckMenuItem(v23, 0x9C5Bu, 0);
@@ -242,7 +239,7 @@ LABEL_41:
             country_setting = 0;
             save_settings();
             return 1;
-          case 0x9C5Cu:
+          case 40028u:
             v24 = GetMenu(hWnd);
             CheckMenuItem(v24, 0x9C5Au, 0);
             CheckMenuItem(v24, 0x9C5Bu, 0);
@@ -250,50 +247,50 @@ LABEL_41:
             country_setting = 1;
             save_settings();
             return 1;
-          case 0x9C5Eu:
+          case 40030u:
             *(_DWORD *)dword_44DF24 = 10;
             goto LABEL_41;
-          case 0x9C5Fu:
+          case 40031u:
             *(_DWORD *)dword_44DF24 = 11;
             goto LABEL_41;
-          case 0x9C60u:
+          case 40032u:
             *(_DWORD *)dword_44DF24 = 12;
             goto LABEL_41;
-          case 0x9C61u:
+          case 40033u:
             *(_DWORD *)dword_44DF24 = 13;
             goto LABEL_41;
-          case 0x9C62u:
+          case 40034u:
             *(_DWORD *)dword_44DF24 = 14;
             goto LABEL_41;
-          case 0x9C63u:
+          case 40035u:
             *(_DWORD *)dword_44DF24 = 0;
             goto LABEL_41;
-          case 0x9C64u:
+          case 40036u:
             *(_DWORD *)dword_44DF24 = 1;
             goto LABEL_41;
-          case 0x9C65u:
+          case 40037u:
             *(_DWORD *)dword_44DF24 = 2;
             goto LABEL_41;
-          case 0x9C66u:
+          case 40038u:
             *(_DWORD *)dword_44DF24 = 3;
             goto LABEL_41;
-          case 0x9C67u:
+          case 40039u:
             *(_DWORD *)dword_44DF24 = 4;
             goto LABEL_41;
-          case 0x9C69u:
+          case 40041u:
             ShellExecuteA(hWnd, "open", "http://www.epsxe.com/step/step.html", nullptr, nullptr, 3);
             return 1;
-          case 0x9C6Au:
+          case 40042u:
             ShellExecuteA(hWnd, "open", "http://www.epsxe.com/step/step_sp.html", nullptr, nullptr, 3);
             return 1;
-          case 0x9C6Fu:
-            DialogBoxParamA(g_hInstance, "IDD_NET", hWnd, (DLGPROC)search_net_plugin, 0);
+          case 40047u:
+            DialogBoxParamA(g_hInstance, "IDD_NET", hWnd, search_net_plugin, 0);
             return 1;
-          case 0x9C70u:
+          case 40048u:
             setup_wizard_step = 0;
             setup_wizard_callback(hWnd);
             return 1;
-          case 0x9C71u:
+          case 40049u:
             auto_ppf_load ^= 1u;
             v21 = GetMenu(hWnd);
             if ( auto_ppf_load )
@@ -301,10 +298,10 @@ LABEL_41:
             else
               CheckMenuItem(v21, 0x9C71u, 0);
             goto LABEL_83;
-          case 0x9C72u:
+          case 40050u:
             ShellExecuteA(hWnd, "open", "epsxe.chm", nullptr, nullptr, 3);
             return 1;
-          case 0x9C73u:
+          case 40051u:
             console_allocated ^= 1u;
             v12 = GetMenu(hWnd);
             if ( console_allocated )
@@ -314,8 +311,8 @@ LABEL_41:
             if ( (unsigned __int8)console_allocated > 1u )
               console_allocated = 1;
             goto LABEL_83;
-          case 0x9C74u:
-            byte_44DD1A = 3;
+          case 40052u:
+            pad_number_menu_selection = 3;
             if ( !multitap_1 )
               return 1;
             v17 = GetDC(hWnd);
@@ -325,15 +322,15 @@ LABEL_41:
             if ( v18 <= 96 )
             {
 LABEL_70:
-              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", hWnd, (DLGPROC)sub_4043B0, 0);
+              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", hWnd, controller_setup_callback, 0);
               goto LABEL_68;
             }
 LABEL_71:
-            DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", v32, (DLGPROC)sub_4043B0, 0);
+            DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", v32, controller_setup_callback, 0);
             result = 1;
             break;
-          case 0x9C75u:
-            byte_44DD1A = 4;
+          case 40053u:
+            pad_number_menu_selection = 4;
             if ( !multitap_1 )
               return 1;
             v19 = GetDC(hWnd);
@@ -343,17 +340,17 @@ LABEL_71:
 LABEL_65:
             if ( DeviceCaps > 96 )
             {
-              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", v31, (DLGPROC)sub_4043B0, 0);
+              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", v31, controller_setup_callback, 0);
 LABEL_68:
               result = 1;
             }
             else
             {
-              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", v31, (DLGPROC)sub_4043B0, 0);
+              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", v31, controller_setup_callback, 0);
               result = 1;
             }
             break;
-          case 0x9C76u:
+          case 40054u:
             multitap_1 ^= 1u;
             v20 = GetMenu(hWnd);
             if ( multitap_1 )
@@ -579,7 +576,7 @@ LABEL_178:
         result = 1;
         break;
       case 2u:
-        ui_error(aGoingOutFromGu);
+        ui_error(" * Going out from gui (destroy). \n");
       case 6u:
       case 8u:
         return 1;

@@ -13,9 +13,9 @@ unsigned int __cdecl sub_41BB00(unsigned __int8 a1, unsigned int a2)
       dword_8A7F3C = a2;
       break;
     case 0xFu:
-      word_8A7F30 = word_8A7F34;
-      word_8A7F34 = word_8A7F38;
-      word_8A7F38 = a2;
+      *(_DWORD *)&word_8A7F30 = *(_DWORD *)&word_8A7F34;
+      *(_DWORD *)&word_8A7F34 = *(_DWORD *)&word_8A7F38;
+      *(_DWORD *)&word_8A7F38 = a2;
       break;
     case 0x1Cu:
       result = ((a2 >> 10) & 0x1F) << 7;

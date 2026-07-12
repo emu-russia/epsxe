@@ -1,8 +1,8 @@
 #include "pch.h"
-char __cdecl sub_436A00(int a1, int a2, char *Buffer, int *a4, int *a5)
+unsigned __int8 __cdecl sub_436A00(int a1, int a2, char *Buffer, int *a4, int **a5)
 {
   int v5; // esi
-  char result; // al
+  unsigned __int8 result; // al
   int v7; // edx
   int v8; // ecx
   _DWORD v9[3]; // [esp+4h] [ebp-100h] BYREF
@@ -41,7 +41,7 @@ char __cdecl sub_436A00(int a1, int a2, char *Buffer, int *a4, int *a5)
     v10 = v7;
     v11 = 0;
     sprintf(Buffer, "%s", (const char *)v9);
-    return sub_436960((const char *)v9, a4, a5);
+    return (unsigned __int8)sub_436960((const char *)v9, a4, a5);
   }
   return result;
 }

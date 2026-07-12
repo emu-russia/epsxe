@@ -3,8 +3,8 @@ int (*gpu_make_snapshot())(void)
 {
   int (*result)(void); // eax
 
-  result = GPUmakeSnapshot;
+  result = (int (*)(void))GPUmakeSnapshot;
   if ( GPUmakeSnapshot )
-    return (int (*)(void))GPUmakeSnapshot();
+    return GPUmakeSnapshot();
   return result;
 }

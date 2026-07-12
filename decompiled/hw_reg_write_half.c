@@ -39,18 +39,25 @@ void __cdecl hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
                 HIWORD(sio0_control_reg) = a2;
                 break;
               case 0x1F801070u:
-                if ( dword_4FD878 && hw_update_counter < (unsigned int)dword_4FD870 )
+                if ( *(_DWORD *)dword_4FD878 && (unsigned int)hw_update_counter < *(_DWORD *)dword_4FD870 )
                 {
-                  int_reg |= dword_4FD878;
-                  dword_4FD878 = 0;
+                  *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
+                  *(_DWORD *)dword_4FD878 = 0;
                 }
-                int_reg = (unsigned __int16)(int_mask & a2 & int_reg);
+                *(_DWORD *)int_reg = (unsigned __int16)(int_mask & a2 & *(_WORD *)int_reg);
                 break;
               case 0x1F801074u:
                 int_mask = a2;
                 break;
               default:
-                dump_log(console_log_handle, "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n", "UNK", a1, a2, 2, reg_pc);
+                dump_log(
+                  console_log_handle,
+                  "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n",
+                  "UNK",
+                  a1,
+                  a2,
+                  2,
+                  *(_DWORD *)reg_pc);
                 break;
             }
           }

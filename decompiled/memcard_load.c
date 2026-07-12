@@ -23,7 +23,7 @@ char memcard_load()
     }
     byte_546860[0] = 77;
     byte_526860[0] = 77;
-    byte_546861 = 67;
+    byte_546861[0] = 67;
     byte_526861 = 67;
     byte_5468DF = 14;
     byte_5268DF = 14;

@@ -11,7 +11,7 @@ int __cdecl sub_420240(char *FileName)
   int v9[13]; // [esp+1Ch] [ebp-34h] BYREF
 
   *(_DWORD *)ArgList = sub_4201C0(FileName);
-  v1 = fopen(FileName, Mode);
+  v1 = fopen(FileName, "rb");
   v2 = v1;
   if ( v1 )
   {

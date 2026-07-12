@@ -8,7 +8,7 @@ int __cdecl sub_4208D0(const char *a1, const char *a2)
   unsigned __int8 v6; // bl
   char *v8; // eax
   char *v9; // edi
-  char *v10; // eax
+  const char *v10; // eax
   unsigned __int8 v11; // dl
   unsigned __int8 v12; // bl
   char String[256]; // [esp+Ch] [ebp-100h] BYREF
@@ -38,19 +38,19 @@ int __cdecl sub_4208D0(const char *a1, const char *a2)
     if ( a1[strlen(a1) - 1] == 47 )
       return 1;
     strcpy(String, a1);
-    v8 = strtok(String, asc_4556F8);
+    v8 = strtok(String, "/");
     if ( !v8 )
       return 1;
     do
     {
       v9 = v8;
-      v8 = strtok(nullptr, asc_4556F8);
+      v8 = strtok(nullptr, "/");
     }
     while ( v8 );
     v10 = v9;
     while ( 1 )
     {
-      v4 = (unsigned __int8)*v10 < (unsigned int)*v2;
+      v4 = *v10 < (unsigned int)*v2;
       if ( *v10 != *v2 )
         break;
       if ( *v10 )

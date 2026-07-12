@@ -1,5 +1,5 @@
 #include "pch.h"
-int op_LWC2()
+unsigned int op_LWC2()
 {
   unsigned int v0; // ecx
   unsigned int word; // eax

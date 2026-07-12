@@ -16,11 +16,11 @@ char ext_cdrom_load_plugin()
   int v13; // [esp+404h] [ebp-4h]
 
   sprintf(LibFileName, "%s%s", "plugins\\", (const char *)CdromPlugin);
-  if ( byte_456D70 )
+  if ( cd_savefake_flag )
   {
-    if ( byte_456D70 == 1 )
-      sub_42F7E0(byte_505420);
-    if ( dword_50C37C == 3 )
+    if ( cd_savefake_flag == 1 )
+      cdrom_create_fake_file(cdrom_fake_filename);
+    if ( loaded_file_type == 3 )
     {
       iso_load(bin_iso_file);
       sound_use_cdda = 0;
@@ -150,7 +150,7 @@ char ext_cdrom_load_plugin()
   }
   else
   {
-    LOBYTE(CDRconfigure) = sub_42F870(byte_505420);
+    LOBYTE(CDRconfigure) = cdrom_load_fake_file(cdrom_fake_filename);
   }
   return (char)CDRconfigure;
 }

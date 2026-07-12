@@ -10,7 +10,7 @@ int sub_40F340()
   int v6; // eax
   unsigned int v7; // edi
   char *v8; // ecx
-  _BYTE *v9; // [esp+2Ch] [ebp-104h]
+  char *v9; // [esp+2Ch] [ebp-104h]
   _BYTE v10[256]; // [esp+30h] [ebp-100h] BYREF
 
   memset(word_50AE00, 0, 0x40u);
@@ -42,7 +42,7 @@ int sub_40F340()
           result = 0;
           if ( v3 )
           {
-            v4 = (char *)&unk_50AD40 + 32 * j;
+            v4 = &byte_50AD40[32 * j];
             v9 = v4;
             do
             {
@@ -51,7 +51,7 @@ int sub_40F340()
             }
             while ( result < 32 );
             (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 100))(v3);
-            v5 = (int *)((char *)&unk_4F7788 + 80 * j);
+            v5 = (int *)&byte_4F7788[80 * j];
             result = (*(int (__stdcall **)(int, int, int *))(*(_DWORD *)dword_4F776C[j] + 36))(dword_4F776C[j], 80, v5);
             if ( result == -2147024866 )
             {
@@ -61,7 +61,7 @@ int sub_40F340()
               result = (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)dword_4F776C[j] + 36))(
                          dword_4F776C[j],
                          80,
-                         (char *)&unk_4F7788 + 80 * j);
+                         &byte_4F7788[80 * j]);
               if ( result < 0 )
                 return result;
             }
@@ -294,7 +294,7 @@ int sub_40F340()
             {
               if ( v7 == 4500 )
               {
-                result = (int)&unk_50AD40 + 32 * j;
+                result = (int)&byte_50AD40[32 * j];
                 *v9 = 1;
                 byte_50AD41[32 * j] = 1;
               }
@@ -306,7 +306,7 @@ int sub_40F340()
           }
           else
           {
-            v8 = (char *)&unk_50AD40 + 32 * j;
+            v8 = &byte_50AD40[32 * j];
             do
             {
               v8[result - 128] = 0;

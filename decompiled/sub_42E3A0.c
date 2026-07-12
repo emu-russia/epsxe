@@ -3,15 +3,15 @@ int (__stdcall *sub_42E3A0())(_DWORD, _DWORD)
 {
   int v0; // eax
 
-  v0 = GPUopen(hSaveLoadWnd);
+  v0 = GPUopen(hOutputWnd);
   dbg_print(" * Gpu open[%d]... \n", v0);
   gpu_closed = 0;
-  hDlgInput = (int)hSaveLoadWnd;
+  hDlgInput = (int)hOutputWnd;
   hInst_For_DInput = (int)dword_50AE4C;
   if ( init_direct_input() == 1 )
-    dbg_print_no_flush(aDirectInputIni);
+    dbg_print_no_flush(" * Direct input init ok. \n");
   else
-    dbg_print_no_flush(aDirectInputIni_0);
+    dbg_print_no_flush(" * Direct input init error. \n");
   sub_40F010();
   return do_GPUfreeze(0);
 }

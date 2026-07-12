@@ -11,7 +11,7 @@ _DWORD *state_load()
   char Buffer[1024]; // [esp+50h] [ebp-400h] BYREF
 
   v0 = dword_50C36C;
-  v1 = dword_50C37C;
+  v1 = loaded_file_type;
   if ( !strcmp(state_file_from_cmdline, "NULL") )
   {
     sprintf(Buffer, "%s%s.%03d", "sstates\\", byte_8B3D80, (unsigned __int8)gpu_freeze_counter);
@@ -30,21 +30,21 @@ _DWORD *state_load()
     gzread(v3, v5, 7);
     gzread(v3, reg_pc, 364);
     dword_50C36C = v0;
-    dword_50C37C = v1;
-    mem_unfreeze((int)"MEM", (int)v3);
+    loaded_file_type = v1;
+    mem_unfreeze((int)"MEM", v3);
     hw_reg_unfreeze((int)"REG", v3);
-    irq_unfreeze((int)"IRQ", (int)v3);
-    gte_unfreeze((int)"GTE", (int)v3);
+    irq_unfreeze((int)"IRQ", v3);
+    gte_unfreeze((int)"GTE", v3);
     if ( v4 >= 2u )
-      sub_42CED0((int)"CDR", (int)v3);
+      sub_42CED0((int)"CDR", v3);
     else
-      sub_42CF40("CDR", v3);
-    sio_unfreeze((int)"SIO", (int)v3);
+      cdr_unfreeze((int)"CDR", v3);
+    sio_unfreeze((int)"SIO", v3);
     if ( v4 )
-      sub_42A1B0((int)"MDE", (int)v3);
+      mdec_unfreeze((int)"MDE", v3);
     else
-      sub_42A210((int)"MDE", (int)v3);
-    gpu_unfreeze((int)"GPU", (int)v3);
+      mdec_unfreeze2((int)"MDE", v3);
+    gpu_unfreeze((int)"GPU", v3);
     spu_unfreeze_cb("SPU", v3);
     return (_DWORD *)gzclose(v3);
   }

@@ -1,14 +1,14 @@
 #include "pch.h"
-int sub_42F200()
+int net_open()
 {
   int result; // eax
 
-  result = dword_4FD99C;
-  if ( dword_4FD99C )
+  result = network_enabled;
+  if ( network_enabled )
   {
-    dbg_print(aNetpluginOpen);
-    NETopen(hSaveLoadWnd);
-    result = dbg_print(aOk);
+    dbg_print(" * Netplugin open... ");
+    NETopen(hOutputWnd);
+    result = dbg_print(" ok \n");
     byte_45696C = 0;
   }
   return result;

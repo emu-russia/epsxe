@@ -10,7 +10,7 @@ char __cdecl sub_433220(unsigned int a1, char a2)
   v2 = a1;
   while ( 1 )
   {
-    sub_431110(&a1, 8 * v4 + 5262504);
+    sub_431110(&a1, (unsigned __int8 *)(8 * v4 + 5262504));
     a1 += 150;
     if ( (unsigned __int8)(a1 / 0x4B / 0x3C) == v2 && a1 / 0x4B % 0x3C == a2 )
       break;

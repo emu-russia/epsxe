@@ -13,15 +13,15 @@ void __noreturn epsxe_main_loop_runner()
     clear_memory();
     load_cheats();
     load_bios();
-    clear_regs();
+    clear_cpu_regs();
     select_plugins_backend();
-    sub_42ACC0();
-    if ( !dword_50C380 )
+    clear_hw_regs();
+    if ( !reset_flag )
     {
-      if ( dword_50C37C == 3 || dword_50C37C == 1 )
+      if ( loaded_file_type == 3 || loaded_file_type == 1 )
         cdrom_init_cb();
       cdrom_detect_region();
-      if ( dword_50C37C == 1 )
+      if ( loaded_file_type == 1 )
         cdrom_subchannel_read_cb();
       gpu_load_plugin();
       sub_42E3A0();
@@ -37,16 +37,16 @@ void __noreturn epsxe_main_loop_runner()
     sub_429240();
     if ( dword_50C36C == 1 )
       sub_428270();
-    dword_50C380 = 0;
+    reset_flag = 0;
     auto_ppf_load = old_auto_ppf_load;
     patch_game();
     sub_42B1E0();
-    if ( dword_50C37C == 1 || dword_50C37C == 3 )
+    if ( loaded_file_type == 1 || loaded_file_type == 3 )
     {
       if ( fastboot )
-        reg_pc = dword_50C35C;
+        *(_DWORD *)reg_pc = dword_50C35C;
     }
-    else if ( dword_50C37C == 4 )
+    else if ( loaded_file_type == 4 )
     {
       if ( BYTE1(dword_4F831C) )
         epsxe_load_demo("libps.exe");

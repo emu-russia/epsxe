@@ -29,7 +29,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
     if ( a1 == 0x1F8010B8 )
     {
       dword_51650C = a2;
-      if ( (dword_5164D0 & 0x8000) != 0 )
+      if ( dword_5164D0[1] < 0 )
       {
         cdrom_dma();
         dword_51650C = a2 & 0xFEFFFFFF;
@@ -50,15 +50,15 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           *(_DWORD *)&byte_516600[(unsigned __int16)a1] = a2;
           break;
         case 0x1F801070u:
-          if ( dword_4FD878 )
+          if ( *(_DWORD *)dword_4FD878 )
           {
-            if ( hw_update_counter < (unsigned int)dword_4FD870 )
+            if ( (unsigned int)hw_update_counter < *(_DWORD *)dword_4FD870 )
             {
-              int_reg |= dword_4FD878;
-              dword_4FD878 = 0;
+              *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
+              *(_DWORD *)dword_4FD878 = 0;
             }
           }
-          int_reg &= a2 & int_mask;
+          *(_DWORD *)int_reg &= a2 & int_mask;
           break;
         case 0x1F801074u:
           int_mask = a2;
@@ -75,7 +75,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           goto LABEL_37;
         case 0x1F801088u:
           dword_5164E8[0] = a2;
-          if ( (dword_5164D0 & 8) != 0 )
+          if ( (dword_5164D0[0] & 8) != 0 )
           {
             sub_429380();
             dword_5164E8[0] = a2 & 0xFEFFFFFF;
@@ -84,7 +84,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           break;
         case 0x1F801098u:
           dword_5164F4 = a2;
-          if ( (dword_5164D0 & 0x80u) != 0 )
+          if ( dword_5164D0[0] < 0 )
           {
             mdec_decode();
             if ( !mdectiming )
@@ -96,7 +96,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           break;
         case 0x1F8010A8u:
           *(_DWORD *)dword_516500 = a2;
-          if ( (dword_5164D0 & 0x800) != 0 )
+          if ( (dword_5164D0[1] & 8) != 0 )
             gpu_dma();
           break;
         default:
@@ -127,7 +127,7 @@ LABEL_32:
           goto LABEL_37;
         case 0x1F8010C8u:
           *(_DWORD *)dword_516518 = a2;
-          if ( (dword_5164D0 & 0x80000) != 0 )
+          if ( (*(_DWORD *)dword_5164D0 & 0x80000) != 0 )
           {
             spu_dma_cb();
             *(_DWORD *)dword_516518 = a2 & 0xFEFFFFFF;
@@ -136,7 +136,7 @@ LABEL_32:
           break;
         case 0x1F8010D8u:
           dword_516524 = a2;
-          if ( ((unsigned int)&MEMORY[0x800000] & dword_5164D0) != 0 )
+          if ( ((unsigned int)&bios_image[37248] & *(_DWORD *)dword_5164D0) != 0 )
           {
             dword_516524 = a2 & 0xFEFFFFFF;
             dma_assert_int(5u);
@@ -163,7 +163,7 @@ LABEL_32:
         return;
     }
 LABEL_51:
-    dump_log(console_log_handle, "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n", "UNK", a1, a2, 4, reg_pc);
+    dump_log(console_log_handle, "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n", "UNK", a1, a2, 4, *(_DWORD *)reg_pc);
     return;
   }
   if ( a1 == 528488464 )
@@ -175,7 +175,7 @@ LABEL_51:
   {
     if ( a1 == 528486640 )
     {
-      dword_5164D0 = a2;
+      *(_DWORD *)dword_5164D0 = a2;
       return;
     }
     if ( a1 == 528486644 )
@@ -186,7 +186,7 @@ LABEL_51:
     goto LABEL_51;
   }
   *(_DWORD *)dword_516530 = a2;
-  if ( (dword_5164D0 & 0x8000000) != 0 )
+  if ( (*(_DWORD *)dword_5164D0 & 0x8000000) != 0 )
   {
     v2 = dword_516528;
     v3 = dword_51652C;

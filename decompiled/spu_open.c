@@ -12,7 +12,7 @@ char spu_open()
       result = (char)hSpuModule;
       if ( hSpuModule )
       {
-        result = SPUopen(hSaveLoadWnd);
+        result = SPUopen(hOutputWnd);
         byte_45B8F0 = 0;
       }
     }

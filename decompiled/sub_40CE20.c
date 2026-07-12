@@ -77,7 +77,7 @@ int __cdecl sub_40CE20(int a1, int a2, unsigned __int16 a3)
       *(int *)((char *)&dword_46558C + v3) = HIDWORD(v3);
       *(int *)((char *)&dword_465594 + v3) = (a3 >> 5) & 1;
       v13 = HIDWORD(v3) == 0;
-      HIDWORD(v3) = *(&dword_44F448 + v11);
+      HIDWORD(v3) = dword_44F448[v11];
       *(int *)((char *)&dword_465590 + v3) = v11;
       *(int *)((char *)&dword_465598 + v3) = v12;
       if ( !v13 )

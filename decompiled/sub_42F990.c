@@ -3,7 +3,7 @@ size_t __cdecl sub_42F990(unsigned __int8 a1, unsigned __int8 a2, unsigned __int
 {
   int v4; // eax
 
-  v4 = *((_DWORD *)dword_50A1A0 + sub_42C6D0(a1, a2, a3));
+  v4 = *((_DWORD *)cdrom_fake_data + sub_42C6D0(a1, a2, a3));
   if ( v4 == -1 )
   {
     _close((int)FileHandle);

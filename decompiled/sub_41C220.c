@@ -10,22 +10,22 @@ int __cdecl sub_41C220(int a1, unsigned int *a2, unsigned int a3, const char *a4
   unsigned int v12; // edx
   unsigned int v13; // edx
 
-  if ( strncmp((const char *)(a1 + *a2), aData, 4u) )
+  if ( strncmp((const char *)(a1 + *a2), "DATA", 4u) )
   {
     do
     {
-      if ( !strncmp((const char *)(a1 + *a2), aLoad, 4u) )
+      if ( !strncmp((const char *)(a1 + *a2), "LOAD", 4u) )
         break;
       if ( *a2 >= a3 )
         return 0;
       v5 = *a2 + 1;
       *a2 = v5;
     }
-    while ( strncmp((const char *)(a1 + v5), aData, 4u) );
+    while ( strncmp((const char *)(a1 + v5), "DATA", 4u) );
   }
   if ( *a2 >= a3 )
     return 0;
-  v6 = strncmp((const char *)(a1 + *a2), aData, 4u);
+  v6 = strncmp((const char *)(a1 + *a2), "DATA", 4u);
   v7 = *a2;
   if ( !v6 )
   {
@@ -54,7 +54,7 @@ int __cdecl sub_41C220(int a1, unsigned int *a2, unsigned int a3, const char *a4
     sscanf((const char *const)(a1 + *a2), "%x", a5);
     return 1;
   }
-  if ( strncmp((const char *)(a1 + v7), aLoad, 4u) )
+  if ( strncmp((const char *)(a1 + v7), "LOAD", 4u) )
     return 0;
   v12 = *a2 + 5;
   *a2 = v12;

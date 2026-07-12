@@ -71,7 +71,7 @@ int save_settings()
     (unsigned __int16)word_45601A,
     (unsigned __int16)dword_45601C,
     HIWORD(dword_45601C),
-    unk_456020,
+    (unsigned __int16)word_456020,
     (unsigned __int16)word_456022,
     (unsigned __int16)dword_456024,
     HIWORD(dword_456024));
@@ -81,7 +81,7 @@ int save_settings()
     "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
     (unsigned __int16)word_456028,
     (unsigned __int16)word_45602A,
-    unk_45602C,
+    (unsigned __int16)word_45602C,
     (unsigned __int16)word_45602E,
     (unsigned __int16)word_456030,
     (unsigned __int16)word_456032,

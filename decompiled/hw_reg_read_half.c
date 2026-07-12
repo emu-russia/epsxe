@@ -97,12 +97,12 @@ LABEL_34:
           LOWORD(v1) = HIWORD(sio0_control_reg);
           break;
         case 0x1F801070u:
-          if ( dword_4FD878 && hw_update_counter < (unsigned int)dword_4FD870 )
+          if ( *(_DWORD *)dword_4FD878 && (unsigned int)hw_update_counter < *(_DWORD *)dword_4FD870 )
           {
-            int_reg |= dword_4FD878;
-            dword_4FD878 = 0;
+            *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
+            *(_DWORD *)dword_4FD878 = 0;
           }
-          LOWORD(v1) = int_reg | forcepad;
+          LOWORD(v1) = *(_WORD *)int_reg | forcepad;
           break;
         case 0x1F801074u:
           LOWORD(v1) = int_mask;

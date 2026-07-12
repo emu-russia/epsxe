@@ -51,13 +51,13 @@ char spu_load_plugin()
     SPUstopChannels2 = (char (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUstopChannels2");
     if ( !SPUstopChannels2 )
       ui_error(" * GetProcAddress error %s\n", "SPUstopChannels2");
-    SPUputOne = (int)GetProcAddress(hSpuModule, "SPUputOne");
+    SPUputOne = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUputOne");
     if ( !SPUputOne )
       ui_error(" * GetProcAddress error %s\n", "SPUputOne");
-    SPUgetOne = (int)GetProcAddress(hSpuModule, "SPUgetOne");
+    SPUgetOne = (int (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUgetOne");
     if ( !SPUgetOne )
       ui_error(" * GetProcAddress error %s\n", "SPUgetOne");
-    SPUsetAddr = (int)GetProcAddress(hSpuModule, "SPUsetAddr");
+    SPUsetAddr = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUsetAddr");
     if ( !SPUsetAddr )
       ui_error(" * GetProcAddress error %s\n", "SPUsetAddr");
     SPUsetPitch = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUsetPitch");
@@ -75,10 +75,10 @@ char spu_load_plugin()
     SPUwriteRegister = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUwriteRegister");
     if ( !SPUwriteRegister )
       spu_use_external_plugin = 0;
-    SPUreadRegister = (int)GetProcAddress(hSpuModule, "SPUreadRegister");
+    SPUreadRegister = (__int16 (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUreadRegister");
     if ( !SPUreadRegister )
       spu_use_external_plugin = 0;
-    SPUwriteDMA = (int)GetProcAddress(hSpuModule, "SPUwriteDMA");
+    SPUwriteDMA = (int (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUwriteDMA");
     if ( !SPUwriteDMA )
       spu_use_external_plugin = 0;
     SPUreadDMA = GetProcAddress(hSpuModule, "SPUreadDMA");
@@ -86,14 +86,14 @@ char spu_load_plugin()
       spu_use_external_plugin = 0;
     SPUregisterCallback = (char (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUregisterCallback");
     SPUfreeze = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUfreeze");
-    SPUupdate = (int)GetProcAddress(hSpuModule, "SPUupdate");
-    SPUasync = (int)GetProcAddress(hSpuModule, "SPUasync");
-    SPUreadDMAMem = (int)GetProcAddress(hSpuModule, "SPUreadDMAMem");
+    SPUupdate = (int (*(*)(void))(void))GetProcAddress(hSpuModule, "SPUupdate");
+    SPUasync = (int (*(__stdcall *)(_DWORD))(void))GetProcAddress(hSpuModule, "SPUasync");
+    SPUreadDMAMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUreadDMAMem");
     SPUwriteDMAMem = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUwriteDMAMem");
     dbg_print(" * Doing spu init... \n");
     SPUinit();
     dbg_print(" * Spu open... \n");
-    SPUopen(hSaveLoadWnd);
+    SPUopen(hOutputWnd);
     result = (char)SPUregisterCallback;
     if ( SPUregisterCallback )
       return SPUregisterCallback(spu_registered_callback);

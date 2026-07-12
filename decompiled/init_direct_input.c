@@ -7,24 +7,24 @@ int init_direct_input()
   hr = DirectInputCreateA(hInst_For_DInput, 0x700, (int)&dword_4F7768, 0);
   if ( hr >= 0 )
   {
-    if ( (*(int (__stdcall **)(int, void *, int *, _DWORD))(*(_DWORD *)dword_4F7768 + 12))(
+    if ( (*(int (__stdcall **)(int, char *, int *, _DWORD))(*(_DWORD *)dword_4F7768 + 12))(
            dword_4F7768,
-           &unk_4485E0,
+           &byte_4485E0,
            &dword_4F7A5C,
            0) < 0 )
       return 0;
-    if ( (*(int (__stdcall **)(int, void *))(*(_DWORD *)dword_4F7A5C + 44))(dword_4F7A5C, &unk_448758) < 0 )
+    if ( (*(int (__stdcall **)(int, char *))(*(_DWORD *)dword_4F7A5C + 44))(dword_4F7A5C, &byte_448758) < 0 )
       return 0;
     (*(void (__stdcall **)(int, int, int))(*(_DWORD *)dword_4F7A5C + 52))(dword_4F7A5C, hDlgInput, 6);
     if ( !point_device_enabled || byte_44DD19 )
       goto LABEL_25;
-    if ( (*(int (__stdcall **)(int, void *, int *, _DWORD))(*(_DWORD *)dword_4F7768 + 12))(
+    if ( (*(int (__stdcall **)(int, char *, int *, _DWORD))(*(_DWORD *)dword_4F7768 + 12))(
            dword_4F7768,
-           &unk_4485D0,
+           &byte_4485D0,
            &dword_4F75C8,
            0) < 0 )
       return 0;
-    if ( (*(int (__stdcall **)(int, void *))(*(_DWORD *)dword_4F75C8 + 44))(dword_4F75C8, &unk_448740) < 0 )
+    if ( (*(int (__stdcall **)(int, char *))(*(_DWORD *)dword_4F75C8 + 44))(dword_4F75C8, &byte_448740) < 0 )
       return 0;
     if ( (*(int (__stdcall **)(int, int, int))(*(_DWORD *)dword_4F75C8 + 52))(dword_4F75C8, hDlgInput, 5) >= 0 )
     {
