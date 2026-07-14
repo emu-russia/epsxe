@@ -31,7 +31,7 @@ int sub_434B80()
   LOBYTE(BytesReturned[12]) = 21;
   LOBYTE(BytesReturned[13]) = 12;
   ResetEvent(EventA);
-  if ( !sub_433CF0((DWORD)BytesReturned) )
+  if ( !scsi_pass_through_direct((DWORD)BytesReturned) )
     WaitForSingleObject(EventA, 0xFFFFFFFF);
   return BYTE1(BytesReturned[0]) != 1 ? 4 : 1;
 }

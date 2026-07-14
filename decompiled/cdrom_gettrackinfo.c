@@ -19,7 +19,7 @@ _DWORD *cdrom_gettrackinfo()
   while ( v1 )
   {
     memset(&byte_504CA0, 0, 0x324u);
-    v1 = sub_430D70(v9, 0xAu, (int)&byte_504CA0, 804) != 0;
+    v1 = exec_scsi_cmd(v9, 0xAu, (int)&byte_504CA0, 804) != 0;
     if ( !++v0 )
     {
       if ( v1 )

@@ -23,7 +23,7 @@ char __cdecl sub_433630(
      * ((a2 & 0xF) % 10 + 10 * ((a2 >> 4) + 6 * ((unsigned __int8)(a1 & 0xF) % 10 + 10 * ((unsigned __int8)a1 >> 4))))
      + 10 * (a3 >> 4)
      - 150;
-  sub_431110(&a1, 8 * (unsigned __int8)dword_4FD9BC + 5262504);
+  sub_431110(&a1, (unsigned __int8 *)(8 * (unsigned __int8)dword_4FD9BC + 5262504));
   result = a1;
   if ( a1 > v9 )
   {
@@ -31,7 +31,7 @@ char __cdecl sub_433630(
     {
       while ( 1 )
       {
-        sub_431110(&a1, 8 * v12 + 5262512);
+        sub_431110(&a1, (unsigned __int8 *)(8 * v12 + 5262512));
         if ( v12 + 1 < v8 )
           a1 -= a1 % 0x4B;
         if ( a1 > v9 )
@@ -39,7 +39,7 @@ char __cdecl sub_433630(
         if ( ++v12 >= (unsigned __int8)dword_4FD9BC )
           goto LABEL_8;
       }
-      sub_431110(&a1, 8 * v12 + 5262504);
+      sub_431110(&a1, (unsigned __int8 *)(8 * v12 + 5262504));
       v11 = v9 + a1 % 0x4B - a1;
       *a4 = (v12 + 1) % 10 + 16 * ((v12 + 1) / 10);
       *a5 = v11 / 0x4B / 0x3C % 0xA + 16 * (v11 / 0x4B / 0x3C / 0xA);

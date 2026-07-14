@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_4208D0(const char *a1, const char *a2)
+int __cdecl zip_find_file(const char *a1, const char *a2)
 {
   const char *v2; // esi
   const char *i; // eax

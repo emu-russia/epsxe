@@ -32,7 +32,7 @@ char __cdecl sub_41BEA0(const char *a1, char *Buffer)
   if ( byte_450CC2[81 * v2] != -1 )
     BYTE1(dword_455945) = byte_450CC2[81 * v2];
   if ( byte_450CC3[81 * v2] != -1 )
-    byte_4FD860 = byte_450CC3[81 * v2];
+    parasite_eve_cheat = byte_450CC3[81 * v2];
   if ( byte_450CC4[81 * v2] != -1 )
     byte_455FA4 = byte_450CC4[81 * v2];
   if ( byte_450CC5[81 * v2] != -1 )

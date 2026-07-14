@@ -18,8 +18,8 @@ _DWORD *state_save()
     else
       *(_WORD *)&v2[5] = save_state_ver;
     *(_DWORD *)&v2[7] = *(_DWORD *)byte_8B3D80;
-    *(_DWORD *)&v2[11] = dword_8B3D84;
-    *(_DWORD *)&v2[15] = dword_8B3D88;
+    *(_DWORD *)&v2[11] = *(_DWORD *)&byte_8B3D80[4];
+    *(_DWORD *)&v2[15] = *(_DWORD *)&byte_8B3D80[8];
     gzwrite((int)v1, (unsigned __int8 *)v2, 0x40u);
     sprintf(v2, "PSX");
     *(_DWORD *)&v2[3] = 364;

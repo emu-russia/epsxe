@@ -35,7 +35,7 @@ char cdrom_gettrackinfo_0()
     HIBYTE(BytesReturned[13]) = 3;
     LOBYTE(BytesReturned[14]) = 36;
     ResetEvent(EventA);
-    if ( !sub_433CF0((DWORD)BytesReturned) )
+    if ( !scsi_pass_through_direct((DWORD)BytesReturned) )
       WaitForSingleObject(EventA, 0xFFFFFFFF);
     CloseHandle(EventA);
     if ( BYTE1(BytesReturned[0]) == 1 )

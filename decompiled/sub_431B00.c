@@ -12,5 +12,5 @@ char __cdecl sub_431B00(_DWORD *a1)
   a1[3] = 0;
   v2[0] = 20972098;
   v3[0] = 16;
-  return sub_430D70(v2, 0xAu, (int)a1, 16);
+  return exec_scsi_cmd(v2, 0xAu, (int)a1, 16);
 }

@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_41FE40(int a1)
+int __cdecl zip_free(int a1)
 {
   int v1; // eax
   int v2; // esi

@@ -7,8 +7,8 @@ HMODULE free_winaspi_dll()
   if ( hCdrModule )
   {
     FreeLibrary(hCdrModule);
-    if ( GetASPI32SupportInfo )
-      GetASPI32SupportInfo = nullptr;
+    if ( *(_DWORD *)GetASPI32SupportInfo )
+      *(_DWORD *)GetASPI32SupportInfo = 0;
     result = (HMODULE)SendASPI32Command_cb;
     if ( SendASPI32Command_cb )
       SendASPI32Command_cb = nullptr;

@@ -18,7 +18,7 @@ void epsxe_load_zip()
     {
       v1 = malloc(0x2000u);
       memset(v1, 0, 0x2000u);
-      if ( sub_420240(FileName) )
+      if ( zip_load_file(FileName) )
         fatal_error_with_message_box(" * EPSX: error loading .zip file.");
       free(v1);
       if ( !dword_4FC458 )
@@ -31,7 +31,7 @@ void epsxe_load_zip()
           fatal_error_with_message_box("* EPSX: DEMO not found [%s]. \n", byte_566980);
         }
         Str2 = (char *)malloc(Size[0]);
-        if ( sub_41FEB0(FileName, byte_566980, (LPVOID *)&Str2, (size_t *)&v8) )
+        if ( zip_open_file(FileName, byte_566980, (LPVOID *)&Str2, (size_t *)&v8) )
           fatal_error_with_message_box(" * EPSX: error loading .zip file.");
         v2 = Str2;
         if ( strncmp("PS-X EXE", Str2, 8u) )

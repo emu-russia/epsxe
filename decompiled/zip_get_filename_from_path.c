@@ -1,5 +1,5 @@
 #include "pch.h"
-char *__cdecl sub_4201C0(const char *a1)
+char *__cdecl zip_get_filename_from_path(const char *a1)
 {
   char *result; // eax
   char *v2; // esi

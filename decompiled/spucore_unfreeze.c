@@ -157,8 +157,8 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
     --v34;
   }
   while ( v34 );
-  v27 = dword_4F7558;
-  v28 = dword_463900;
+  v27 = spucore_pitchmod_enable;
+  v28 = spucore_noise_mode;
   v29 = dword_4E7100;
   v30 = dword_4EF138;
   v31 = (__int16 *)&v40;
@@ -169,16 +169,16 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
     switch ( v32 )
     {
       case 0:
-        word_4F7586 = *v31;
+        spucore_mainvol_left = *v31;
         break;
       case 2:
-        LOWORD(dword_4F7588) = *v31;
+        LOWORD(spucore_mainvol_right) = *v31;
         break;
       case 4:
-        word_4EF130 = *v31;
+        spucore_reverb_vol_left = *v31;
         break;
       case 6:
-        word_4EF132 = *v31;
+        spucore_reverb_vol_right = *v31;
         break;
       case 16:
         v27 = (unsigned __int16)*v31;
@@ -241,8 +241,8 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
   while ( v35 );
   dword_4E7100 = v29;
   dword_4EF138 = v30;
-  dword_463900 = v28;
-  dword_4F7558 = v27;
+  spucore_noise_mode = v28;
+  spucore_pitchmod_enable = v27;
   gzread(a2, (char *)spu_ram, 0x80000);
   gzread(a2, dword_4E7108, 32800);
   dword_44F7A0 = *(_DWORD *)dword_4E7108;

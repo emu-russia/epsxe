@@ -98,9 +98,9 @@ int __cdecl spucore_freeze(const char *a1, int a2)
     --v5;
   }
   while ( v5 );
-  v13 = word_4F7586;
-  v14 = dword_4F7588;
-  v15 = BYTE2(dword_4F7558);
+  v13 = spucore_mainvol_left;
+  v14 = spucore_mainvol_right;
+  v15 = BYTE2(spucore_pitchmod_enable);
   v16 = (__int16 *)&v22;
   v17 = 0;
   v18 = 64;
@@ -117,22 +117,22 @@ int __cdecl spucore_freeze(const char *a1, int a2)
         *v16 = v14;
         break;
       case 4:
-        LOWORD(v4) = word_4EF130;
+        LOWORD(v4) = spucore_reverb_vol_left;
         goto LABEL_37;
       case 6:
-        LOWORD(v4) = word_4EF132;
+        LOWORD(v4) = spucore_reverb_vol_right;
         goto LABEL_37;
       case 16:
-        LOWORD(v4) = dword_4F7558;
+        LOWORD(v4) = spucore_pitchmod_enable;
         goto LABEL_37;
       case 18:
         v4 = (int *)v15;
         goto LABEL_37;
       case 20:
-        LOWORD(v4) = dword_463900;
+        LOWORD(v4) = spucore_noise_mode;
         goto LABEL_37;
       case 22:
-        v4 = (int *)BYTE2(dword_463900);
+        v4 = (int *)BYTE2(spucore_noise_mode);
         goto LABEL_37;
       case 24:
         LOWORD(v4) = dword_4E7100;

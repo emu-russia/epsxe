@@ -37,7 +37,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
         goto LABEL_7;
     }
 LABEL_16:
-    sprintf(Buffer, "NULL");
+    sprintf(ppf_filename, "NULL");
     sprintf((char *const)Memcard1, "NULL");
     sprintf((char *const)Memcard2, "NULL");
     sprintf(byte_8B2580, "INTERNAL");

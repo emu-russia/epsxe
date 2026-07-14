@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_420500(FILE *Stream, const char *a2, int a3, int a4)
+int __cdecl zip_load_central_directory(FILE *Stream, const char *a2, int a3, int a4)
 {
   int v4; // ebp
   size_t v5; // esi
@@ -17,7 +17,7 @@ int __cdecl sub_420500(FILE *Stream, const char *a2, int a3, int a4)
     v5 = *(_DWORD *)(a3 + 12);
   if ( fseek(Stream, *(_DWORD *)(a3 + 16), 0) )
   {
-    sub_420210("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)ArgList);
+    zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)zip_filename);
     return -1;
   }
   else if ( fread(byte_4F8350, 1u, v5, Stream) == v5 )
@@ -26,7 +26,7 @@ int __cdecl sub_420500(FILE *Stream, const char *a2, int a3, int a4)
     v12 = (unsigned __int8 *)byte_4F8350;
     while ( v11 < *(unsigned __int16 *)(a3 + 10) )
     {
-      sub_420A00(v12, a4);
+      zip_parse_cd_entry(v12, a4);
       v7 = 0;
       if ( *(_WORD *)(a4 + 28) )
       {
@@ -41,32 +41,35 @@ int __cdecl sub_420500(FILE *Stream, const char *a2, int a3, int a4)
         while ( v7 < v9 );
       }
       v13[v7] = 0;
-      if ( !sub_4208D0(v13, a2) )
+      if ( !zip_find_file(v13, a2) )
       {
         v10 = *(_WORD *)(a4 + 10);
         v4 = 1;
         if ( v10 && v10 != 8 )
         {
           v4 = 0;
-          sub_420210("Error in zipfile %s: compression method for file %s unsupported.\n", *(const char **)ArgList, a2);
-          sub_420210("Method: $%04x  must be $0000 (Stored) or $0008 (Deflated)\n", *(unsigned __int16 *)(a4 + 10));
+          zip_print(
+            "Error in zipfile %s: compression method for file %s unsupported.\n",
+            *(const char **)zip_filename,
+            a2);
+          zip_print("Method: $%04x  must be $0000 (Stored) or $0008 (Deflated)\n", *(unsigned __int16 *)(a4 + 10));
         }
         if ( *(_BYTE *)(a4 + 6) > 0x14u )
         {
           v4 = 0;
-          sub_420210("Error in zipfile %s: version for file %s too new.\n", *(const char **)ArgList, a2);
-          sub_420210("Version: $%02x must be $14 or less\n", *(unsigned __int8 *)(a4 + 6));
+          zip_print("Error in zipfile %s: version for file %s too new.\n", *(const char **)zip_filename, a2);
+          zip_print("Version: $%02x must be $14 or less\n", *(unsigned __int8 *)(a4 + 6));
         }
         if ( *(_BYTE *)(a4 + 7) )
         {
           v4 = 0;
-          sub_420210("Error in zipfile %s: OS for file %s not supported.\n", *(const char **)ArgList, a2);
-          sub_420210("OS: $%02x must be $00\n", *(unsigned __int8 *)(a4 + 7));
+          zip_print("Error in zipfile %s: OS for file %s not supported.\n", *(const char **)zip_filename, a2);
+          zip_print("OS: $%02x must be $00\n", *(unsigned __int8 *)(a4 + 7));
         }
         if ( *(_WORD *)(a4 + 34) != *(_WORD *)(a3 + 4) )
         {
           v4 = 0;
-          sub_420210("Error in zipfile %s: zipfile cannot span disks\n", *(const char **)ArgList);
+          zip_print("Error in zipfile %s: zipfile cannot span disks\n", *(const char **)zip_filename);
         }
       }
       v12 += *(unsigned __int16 *)(a4 + 28) + *(unsigned __int16 *)(a4 + 30) + *(unsigned __int16 *)(a4 + 32) + 46;
@@ -78,7 +81,7 @@ int __cdecl sub_420500(FILE *Stream, const char *a2, int a3, int a4)
   }
   else
   {
-    sub_420210("Error in zipfile %s: couldn't read %ld bytes from central directory\n", *(const char **)ArgList, v5);
+    zip_print("Error in zipfile %s: couldn't read %ld bytes from central directory\n", *(const char **)zip_filename, v5);
     return -1;
   }
 }

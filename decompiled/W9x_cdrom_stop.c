@@ -15,7 +15,7 @@ char W9x_cdrom_stop()
       dword_4FD9C0 = 0;
       EventA = CreateEventA(nullptr, 1, 0, nullptr);
       memset(v2, 0, sizeof(v2));
-      BYTE2(v2[0]) = cdrom_hain;
+      BYTE2(v2[0]) = cdrom_haid;
       LOBYTE(v2[2]) = cdrom_target;
       BYTE1(v2[2]) = cdrom_lun;
       LOBYTE(v2[0]) = 2;

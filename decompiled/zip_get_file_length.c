@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_420C70(FILE *Stream, _DWORD *a2)
+int __cdecl zip_get_file_length(FILE *Stream, _DWORD *a2)
 {
   int v2; // esi
   int result; // eax

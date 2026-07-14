@@ -20,7 +20,7 @@ int sub_431680()
   byte_4FD9C8 = 0;
   EventA = CreateEventA(nullptr, 1, 0, nullptr);
   memset(v4, 0, sizeof(v4));
-  BYTE2(v4[0]) = cdrom_hain;
+  BYTE2(v4[0]) = cdrom_haid;
   LOBYTE(v4[2]) = cdrom_target;
   LOBYTE(v4[0]) = 2;
   BYTE1(v4[2]) = cdrom_lun;

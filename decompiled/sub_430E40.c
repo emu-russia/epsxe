@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_430E40(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3)
+int __cdecl sub_430E40(BYTE a1, BYTE a2, BYTE a3)
 {
   HANDLE EventA; // esi
   int result; // eax
@@ -7,28 +7,28 @@ int __cdecl sub_430E40(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a
   int v6; // esi
   char *v7; // ecx
   int v8; // ecx
-  _DWORD v9[20]; // [esp+Ch] [ebp-B4h] BYREF
+  SRB_ExecSCSICmd v9; // [esp+Ch] [ebp-B4h] BYREF
   _DWORD v10[25]; // [esp+5Ch] [ebp-64h] BYREF
 
   EventA = CreateEventA(nullptr, 1, 0, nullptr);
-  memset(v9, 0, sizeof(v9));
+  memset(&v9, 0, sizeof(v9));
   memset(v10, 0, sizeof(v10));
-  LOBYTE(v9[2]) = a2;
-  LOBYTE(v9[0]) = 2;
-  BYTE2(v9[0]) = a1;
-  BYTE1(v9[2]) = a3;
-  HIBYTE(v9[0]) = 72;
-  v9[3] = 100;
-  v9[4] = v10;
-  LOWORD(v9[5]) = 1550;
-  v9[6] = EventA;
-  LOBYTE(v9[12]) = 18;
-  LOBYTE(v9[13]) = 100;
+  v9.SRB_Target = a2;
+  v9.SRB_Cmd = 2;
+  v9.SRB_HaId = a1;
+  v9.SRB_Lun = a3;
+  v9.SRB_Flags = 72;
+  v9.SRB_BufLen = 100;
+  v9.SRB_BufPointer = (BYTE *)v10;
+  *(_WORD *)&v9.SRB_SenseLen = 1550;
+  v9.SRB_PostProc = EventA;
+  v9.CDBByte[0] = 18;
+  v9.CDBByte[4] = 100;
   ResetEvent(EventA);
-  if ( !SendASPI32Command_cb(v9) )
+  if ( !SendASPI32Command_cb(&v9) )
     WaitForSingleObject(EventA, 0xFFFFFFFF);
   result = CloseHandle(EventA);
-  if ( BYTE1(v9[0]) == 1 )
+  if ( v9.SRB_Status == 1 )
   {
     v5 = HIBYTE(dword_4FD9BC);
     v6 = v10[4];

@@ -6,7 +6,7 @@ int sub_40F010()
   int result; // eax
   int v3; // eax
 
-  v0 = &byte_4F7788;
+  v0 = byte_4F7788;
   for ( i = 0; ; ++i )
   {
     result = dword_4F776C[i];

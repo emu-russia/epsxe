@@ -35,7 +35,7 @@ int cdrom_detect_region()
       dword_455940 = old_timing != 0 ? 1916 : 2154;
       return dbg_print(" * Force NTSC cdrom detected. \n");
     }
-    if ( byte_8B3D82 != 'E' && byte_8B3D82 != 'e' )
+    if ( byte_8B3D80[2] != 'E' && byte_8B3D80[2] != 'e' )
     {
       country_setting = 0;
       dword_45593C = 262;

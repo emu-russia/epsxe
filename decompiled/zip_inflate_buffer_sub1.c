@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_41EE40(int a1, int a2, unsigned int a3, unsigned int a4)
+int __cdecl zip_inflate_buffer_sub1(int a1, int a2, unsigned int a3, unsigned int a4)
 {
   unsigned int v4; // edx
   unsigned int v5; // ebx
@@ -44,7 +44,7 @@ LABEL_2:
   {
     while ( 1 )
     {
-      for ( i = (unsigned __int8 *)dword_576980; v5 < a3; dword_576980 = (int)i )
+      for ( i = (unsigned __int8 *)zipfile_input_buffer; v5 < a3; zipfile_input_buffer = (int)i )
       {
         v8 = v5;
         v5 += 8;
@@ -67,7 +67,7 @@ LABEL_2:
               v13 = *i << v5;
               v5 += 8;
               v6 |= v13;
-              dword_576980 = (int)++i;
+              zipfile_input_buffer = (int)++i;
             }
             while ( v5 < v12 );
             v4 = v32;
@@ -85,11 +85,11 @@ LABEL_11:
       v5 -= v14;
       if ( v10 != 16 )
         break;
-      *((_BYTE *)lpMem + v4++) = v9[4];
+      *((_BYTE *)zip_sliding_window + v4++) = v9[4];
       v32 = v4;
       if ( v4 == 0x8000 )
       {
-        sub_41FE70(lpMem, 0x8000u);
+        zip_move_window(zip_sliding_window, 0x8000u);
         v4 = 0;
         goto LABEL_2;
       }
@@ -103,14 +103,14 @@ LABEL_11:
         v15 = v5;
         v5 += 8;
         v6 |= *i++ << v15;
-        dword_576980 = (int)i;
+        zipfile_input_buffer = (int)i;
       }
       while ( v5 < v10 );
       v4 = v32;
     }
     v16 = v5 - v10;
     v33 = *((unsigned __int16 *)v9 + 2) + (v6 & (unsigned __int16)word_448700[v10]);
-    for ( j = v6 >> v10; v16 < a4; dword_576980 = (int)i )
+    for ( j = v6 >> v10; v16 < a4; zipfile_input_buffer = (int)i )
     {
       v18 = v16;
       v16 += 8;
@@ -133,7 +133,7 @@ LABEL_11:
             v23 = *i << v16;
             v16 += 8;
             j |= v23;
-            dword_576980 = (int)++i;
+            zipfile_input_buffer = (int)++i;
           }
           while ( v16 < v22 );
           v4 = v32;
@@ -156,7 +156,7 @@ LABEL_26:
         v27 = *i << v26;
         v26 += 8;
         v25 |= v27;
-        dword_576980 = (int)++i;
+        zipfile_input_buffer = (int)++i;
       }
       while ( v26 < v20 );
       v4 = v32;
@@ -178,21 +178,21 @@ LABEL_26:
       {
         do
         {
-          *((_BYTE *)lpMem + v4++) = *((_BYTE *)lpMem + v28++);
+          *((_BYTE *)zip_sliding_window + v4++) = *((_BYTE *)zip_sliding_window + v28++);
           --v30;
         }
         while ( v30 );
       }
       else
       {
-        qmemcpy((char *)lpMem + v4, (char *)lpMem + v28, v30);
+        qmemcpy((char *)zip_sliding_window + v4, (char *)zip_sliding_window + v28, v30);
         v4 = v30 + v32;
         LOWORD(v28) = v30 + v28;
       }
       v32 = v4;
       if ( v4 == 0x8000 )
       {
-        sub_41FE70(lpMem, 0x8000u);
+        zip_move_window(zip_sliding_window, 0x8000u);
         v4 = 0;
         v32 = 0;
       }

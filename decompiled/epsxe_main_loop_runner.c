@@ -29,7 +29,7 @@ void __noreturn epsxe_main_loop_runner()
       nullsub_1();
     }
     sub_42C830();
-    sub_41BB90();
+    gte_clear_regs();
     sio_reset();
     reopen_console_log();
     nullsub_1();

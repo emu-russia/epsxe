@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int __cdecl sub_41F1F0(int *a1)
+int __cdecl zip_inflate_buffer(int *a1)
 {
   int v1; // ecx
   unsigned int v2; // eax
@@ -11,7 +11,7 @@ unsigned int __cdecl sub_41F1F0(int *a1)
   unsigned int v8; // ecx
   int v9; // edx
   int v10; // edx
-  unsigned int result; // eax
+  int result; // eax
   unsigned __int8 *v12; // eax
   int v13; // ebp
   int v14; // ecx
@@ -82,13 +82,13 @@ unsigned int __cdecl sub_41F1F0(int *a1)
   v2 = dword_4F8328;
   if ( !dword_4F832C )
   {
-    v3 = (unsigned __int8 *)dword_576980;
+    v3 = (unsigned __int8 *)zipfile_input_buffer;
     do
     {
       v4 = *v3 << v1;
       v1 += 8;
       v2 |= v4;
-      dword_576980 = (int)++v3;
+      zipfile_input_buffer = (int)++v3;
     }
     while ( !v1 );
   }
@@ -99,14 +99,14 @@ unsigned int __cdecl sub_41F1F0(int *a1)
   *a1 = v6;
   if ( v8 < 2 )
   {
-    v5 = (int *)dword_576980;
+    v5 = (int *)zipfile_input_buffer;
     do
     {
       v9 = *(unsigned __int8 *)v5 << v8;
       v8 += 8;
       v7 |= v9;
       v5 = (int *)((char *)v5 + 1);
-      dword_576980 = (int)v5;
+      zipfile_input_buffer = (int)v5;
     }
     while ( v8 < 2 );
   }
@@ -115,9 +115,9 @@ unsigned int __cdecl sub_41F1F0(int *a1)
   dword_4F832C = v8 - 2;
   if ( v10 == 2 )
   {
-    v26 = (unsigned __int8 *)dword_576980;
+    v26 = (unsigned __int8 *)zipfile_input_buffer;
     v27 = dword_4F8328;
-    for ( i = dword_4F832C; i < 5; dword_576980 = (int)v26 )
+    for ( i = dword_4F832C; i < 5; zipfile_input_buffer = (int)v26 )
     {
       v29 = *v26 << i;
       i += 8;
@@ -127,7 +127,7 @@ unsigned int __cdecl sub_41F1F0(int *a1)
     v30 = (v27 & 0x1F) + 257;
     v31 = i - 5;
     v32 = v27 >> 5;
-    for ( j = v30; v31 < 5; dword_576980 = (int)v26 )
+    for ( j = v30; v31 < 5; zipfile_input_buffer = (int)v26 )
     {
       v33 = *v26 << v31;
       v31 += 8;
@@ -137,7 +137,7 @@ unsigned int __cdecl sub_41F1F0(int *a1)
     v34 = (v32 & 0x1F) + 1;
     v35 = v31 - 5;
     v36 = v32 >> 5;
-    for ( k = v34; v35 < 4; dword_576980 = (int)v26 )
+    for ( k = v34; v35 < 4; zipfile_input_buffer = (int)v26 )
     {
       v37 = *v26 << v35;
       v35 += 8;
@@ -154,7 +154,7 @@ unsigned int __cdecl sub_41F1F0(int *a1)
         goto LABEL_94;
       do
       {
-        for ( ; v40 < 3; dword_576980 = (int)v26 )
+        for ( ; v40 < 3; zipfile_input_buffer = (int)v26 )
         {
           v42 = v40;
           v40 += 8;
@@ -179,18 +179,18 @@ LABEL_94:
         while ( v41 < 0x13 );
       }
       v64 = 7;
-      v46 = sub_41F960(v72, 0x13u, 0x13u, 0, 0, &v63, &v64);
+      v46 = zip_inflate_buffer_sub2(v72, 0x13u, 0x13u, 0, 0, &v63, &v64);
       v47 = v64;
       v48 = v46;
       if ( !v64 )
       {
-        sub_41FE40(v63);
+        zip_free(v63);
         return 1;
       }
       if ( v46 )
       {
         if ( v46 == 1 )
-          sub_41FE40(v63);
+          zip_free(v63);
         return v48;
       }
       v49 = j;
@@ -201,7 +201,7 @@ LABEL_94:
       v71 = v50;
       if ( j + k )
       {
-        v52 = (unsigned __int8 *)dword_576980;
+        v52 = (unsigned __int8 *)zipfile_input_buffer;
         while ( 1 )
         {
           if ( v40 < v47 )
@@ -211,7 +211,7 @@ LABEL_94:
               v53 = *v52 << v40;
               v40 += 8;
               v39 |= v53;
-              dword_576980 = (int)++v52;
+              zipfile_input_buffer = (int)++v52;
             }
             while ( v40 < v64 );
           }
@@ -224,7 +224,7 @@ LABEL_94:
           {
             if ( (unsigned __int16)v55 == 16 )
             {
-              for ( ; v40 < 2; dword_576980 = (int)v52 )
+              for ( ; v40 < 2; zipfile_input_buffer = (int)v52 )
               {
                 v56 = *v52 << v40;
                 v40 += 8;
@@ -246,7 +246,7 @@ LABEL_94:
             {
               if ( v55 == 17 )
               {
-                for ( ; v40 < 3; dword_576980 = (int)v52 )
+                for ( ; v40 < 3; zipfile_input_buffer = (int)v52 )
                 {
                   v58 = *v52 << v40;
                   v40 += 8;
@@ -259,7 +259,7 @@ LABEL_94:
               }
               else
               {
-                for ( ; v40 < 7; dword_576980 = (int)v52 )
+                for ( ; v40 < 7; zipfile_input_buffer = (int)v52 )
                 {
                   v60 = *v52 << v40;
                   v40 += 8;
@@ -292,11 +292,11 @@ LABEL_94:
         }
         v49 = j;
       }
-      sub_41FE40(v63);
+      zip_free(v63);
       v64 = dword_45516C;
       dword_4F8328 = v39;
       dword_4F832C = v40;
-      v61 = sub_41F960(v72, v49, 0x101u, (int)byte_455074, (int)byte_4550B4, &v63, &v64);
+      v61 = zip_inflate_buffer_sub2(v72, v49, 0x101u, (int)byte_455074, (int)byte_4550B4, &v63, &v64);
       if ( !v64 )
       {
         v61 = 1;
@@ -308,29 +308,29 @@ LABEL_94:
           return v61;
 LABEL_82:
         printf("%s", "(incomplete l-tree)  ");
-        sub_41FE40(v63);
+        zip_free(v63);
         return v61;
       }
       v68 = dword_455170;
-      v62 = sub_41F960(&v72[v49], k, 0, (int)byte_4550F4, (int)byte_455130, &v67, &v68);
+      v62 = zip_inflate_buffer_sub2(&v72[v49], k, 0, (int)byte_4550F4, (int)byte_455130, &v67, &v68);
       if ( v68 || v49 <= 0x101 )
       {
         if ( v62 >= 2 )
         {
-          sub_41FE40(v63);
+          zip_free(v63);
           return v62;
         }
-        if ( !sub_41EE40(v63, v67, v64, v68) )
+        if ( !zip_inflate_buffer_sub1(v63, v67, v64, v68) )
         {
-          sub_41FE40(v63);
-          sub_41FE40(v67);
+          zip_free(v63);
+          zip_free(v67);
           return 0;
         }
       }
       else
       {
         printf("%s", "(incomplete d-tree)  ");
-        sub_41FE40(v63);
+        zip_free(v63);
       }
     }
     return 1;
@@ -341,13 +341,13 @@ LABEL_82:
       return 2;
     v72[31] = v5;
     if ( dword_4F8330 )
-      return sub_41EE40(dword_4F8330, dword_4F8334, dword_4F8338, dword_4F833C) != 0;
+      return zip_inflate_buffer_sub1(dword_4F8330, dword_4F8334, dword_4F8338, dword_4F833C) != 0;
     memset32(v73, 8, 0x90u);
     memset32(v74, 9, 0x70u);
     memset32(v75, 7, 0x18u);
     memset32(v76, 8, 8u);
     dword_4F8338 = 7;
-    result = sub_41F960(
+    result = zip_inflate_buffer_sub2(
                v73,
                0x120u,
                0x101u,
@@ -362,26 +362,33 @@ LABEL_82:
     }
     memset32(v73, 5, 0x1Eu);
     dword_4F833C = 5;
-    v25 = sub_41F960(v73, 0x1Eu, 0, (int)byte_4550F4, (int)byte_455130, &dword_4F8334, (unsigned int *)&dword_4F833C);
+    v25 = zip_inflate_buffer_sub2(
+            v73,
+            0x1Eu,
+            0,
+            (int)byte_4550F4,
+            (int)byte_455130,
+            &dword_4F8334,
+            (unsigned int *)&dword_4F833C);
     if ( v25 <= 1 )
     {
-      return sub_41EE40(dword_4F8330, dword_4F8334, dword_4F8338, dword_4F833C) != 0;
+      return zip_inflate_buffer_sub1(dword_4F8330, dword_4F8334, dword_4F8338, dword_4F833C) != 0;
     }
     else
     {
-      sub_41FE40(dword_4F8330);
+      zip_free(dword_4F8330);
       dword_4F8330 = 0;
       return v25;
     }
   }
   else
   {
-    v12 = (unsigned __int8 *)dword_576980;
+    v12 = (unsigned __int8 *)zipfile_input_buffer;
     v13 = dword_4F8324;
     v76[5] = v5;
     v14 = dword_4F832C & 7;
     v15 = dword_4F832C - v14;
-    for ( m = (unsigned int)dword_4F8328 >> v14; v15 < 0x10; dword_576980 = (int)v12 )
+    for ( m = (unsigned int)dword_4F8328 >> v14; v15 < 0x10; zipfile_input_buffer = (int)v12 )
     {
       v17 = *v12 << v15;
       v15 += 8;
@@ -390,7 +397,7 @@ LABEL_82:
     }
     v18 = v15 - 16;
     v19 = (unsigned __int16)m;
-    for ( n = HIWORD(m); v18 < 0x10; dword_576980 = (int)v12 )
+    for ( n = HIWORD(m); v18 < 0x10; zipfile_input_buffer = (int)v12 )
     {
       v21 = *v12 << v18;
       v18 += 8;
@@ -405,23 +412,23 @@ LABEL_82:
       {
         while ( 1 )
         {
-          for ( ; v23 < 8; dword_576980 = (int)v12 )
+          for ( ; v23 < 8; zipfile_input_buffer = (int)v12 )
           {
             v24 = v23;
             v23 += 8;
             v22 |= *v12++ << v24;
           }
-          *((_BYTE *)lpMem + v13++) = v22;
+          *((_BYTE *)zip_sliding_window + v13++) = v22;
           if ( v13 == 0x8000 )
           {
-            sub_41FE70(lpMem, 0x8000u);
+            zip_move_window(zip_sliding_window, 0x8000u);
             v13 = 0;
           }
           v22 >>= 8;
           v23 -= 8;
           if ( !--v19 )
             break;
-          v12 = (unsigned __int8 *)dword_576980;
+          v12 = (unsigned __int8 *)zipfile_input_buffer;
         }
       }
       dword_4F832C = v23;

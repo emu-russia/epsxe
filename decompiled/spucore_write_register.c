@@ -12,43 +12,43 @@ __int16 __cdecl spucore_write_register(__int16 a1, unsigned __int16 a2)
   switch ( a1 & 0xFFF )
   {
     case 0xD80:
-      word_4F7586 = a2 & 0x3FFF;
+      spucore_mainvol_left = a2 & 0x3FFF;
       break;
     case 0xD82:
-      LOWORD(dword_4F7588) = a2 & 0x3FFF;
+      LOWORD(spucore_mainvol_right) = a2 & 0x3FFF;
       result = a2 & 0x3FFF;
       break;
     case 0xD84:
-      word_4EF130 = a2;
+      spucore_reverb_vol_left = a2;
       break;
     case 0xD86:
-      word_4EF132 = a2;
+      spucore_reverb_vol_right = a2;
       break;
     case 0xD88:
-      result = sub_40CCF0(a2);
+      result = spucore_set_voiceon(a2);
       break;
     case 0xD8A:
-      result = sub_40CCF0(a2 << 16);
+      result = spucore_set_voiceon(a2 << 16);
       break;
     case 0xD8C:
-      result = sub_40CD20(a2);
+      result = spucore_set_pitchmod(a2);
       break;
     case 0xD8E:
-      result = sub_40CD20(a2 << 16);
+      result = spucore_set_pitchmod(a2 << 16);
       break;
     case 0xD90:
-      dword_4F7558 = a2 + (dword_4F7558 & 0xFF0000);
+      spucore_pitchmod_enable = a2 + (spucore_pitchmod_enable & 0xFF0000);
       break;
     case 0xD92:
-      result = dword_4F7558;
-      dword_4F7558 = (unsigned __int16)dword_4F7558 + (a2 << 16);
+      result = spucore_pitchmod_enable;
+      spucore_pitchmod_enable = (unsigned __int16)spucore_pitchmod_enable + (a2 << 16);
       break;
     case 0xD94:
-      dword_463900 = a2 + (dword_463900 & 0xFF0000);
+      spucore_noise_mode = a2 + (spucore_noise_mode & 0xFF0000);
       result = a2;
       break;
     case 0xD96:
-      dword_463900 = (unsigned __int16)dword_463900 + (a2 << 16);
+      spucore_noise_mode = (unsigned __int16)spucore_noise_mode + (a2 << 16);
       break;
     case 0xD98:
       dword_4E7100 = a2 + (dword_4E7100 & 0xFF0000);

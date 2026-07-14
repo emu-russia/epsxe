@@ -1,5 +1,5 @@
 #include "pch.h"
-int gte_optimized_sub1()
+int gte_rtps()
 {
   int v0; // edi
   __int64 v1; // mm1

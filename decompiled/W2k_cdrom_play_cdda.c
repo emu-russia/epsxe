@@ -33,7 +33,7 @@ char __cdecl W2k_cdrom_play_cdda(unsigned int a1, int a2, unsigned __int8 a3)
     BytesReturned[13] = dword_457350;
     LOWORD(BytesReturned[14]) = word_457354;
     ResetEvent(EventA);
-    if ( !sub_433CF0((DWORD)BytesReturned) )
+    if ( !scsi_pass_through_direct((DWORD)BytesReturned) )
       WaitForSingleObject(EventA, 0xFFFFFFFF);
     result = CloseHandle(EventA);
     if ( BYTE1(BytesReturned[0]) == 1 )

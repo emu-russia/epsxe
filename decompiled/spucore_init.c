@@ -5,7 +5,7 @@ int spucore_init()
   int result; // eax
 
   dbg_print(" * Init core spu ... ");
-  dword_4EF12C = (int)spu_ram;
+  spu_ram_ptr = (int)spu_ram;
   sub_40C560();
   inited = spu_init_internal_core();
   if ( forcespu == 1 )
@@ -17,6 +17,6 @@ int spucore_init()
     fatal_error_with_message_box(" * Error can't open sound handler. (try -nosound)\n");
   }
   result = dbg_print(" ok \n");
-  dword_4F75C0 = 1;
+  spucore_init_flag = 1;
   return result;
 }

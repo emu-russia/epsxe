@@ -28,7 +28,7 @@ char W2k_cdrom_stop()
       BytesReturned[13] = dword_45735C;
       LOWORD(BytesReturned[14]) = word_457360;
       ResetEvent(EventA);
-      if ( !sub_433CF0((DWORD)BytesReturned) )
+      if ( !scsi_pass_through_direct((DWORD)BytesReturned) )
         WaitForSingleObject(EventA, 0xFFFFFFFF);
       if ( BYTE1(BytesReturned[0]) != 1 )
         printf(" * W2k stop cdrom error. \n");

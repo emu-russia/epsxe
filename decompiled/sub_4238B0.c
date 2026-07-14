@@ -83,7 +83,7 @@ char *sub_4238B0()
       if ( (dword_50BFE4 & 0x50) == 0x50 )
         *(_DWORD *)int_reg |= 0x20u;
     }
-    if ( (dword_50BFF4 & 1) == 0 && byte_455944 )
+    if ( (dword_50BFF4 & 1) == 0 && xenogears_trick_enabled )
     {
       if ( (dword_50BFF4 & 0x200) != 0 )
         v2 = (unsigned int)dword_455940 >> 3;

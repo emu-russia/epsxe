@@ -127,10 +127,10 @@ unsigned int sub_40C8B0()
   for ( i = (_WORD *)(dword_46559C + 2); (int)i < 4616542; i += 148 )
   {
     result = *(_DWORD *)(i + 3);
-    if ( result && (((unsigned int)dword_4F7558 >> (v30 + 1)) & 1) == 0 )
+    if ( result && (((unsigned int)spucore_pitchmod_enable >> (v30 + 1)) & 1) == 0 )
     {
-      v11 = ((unsigned int)(unsigned __int16)word_4F7586 * *(_DWORD *)(i - 47)) >> 20;
-      v12 = ((unsigned int)(unsigned __int16)dword_4F7588 * *(_DWORD *)(i - 45)) >> 20;
+      v11 = ((unsigned int)(unsigned __int16)spucore_mainvol_left * *(_DWORD *)(i - 47)) >> 20;
+      v12 = ((unsigned int)(unsigned __int16)spucore_mainvol_right * *(_DWORD *)(i - 45)) >> 20;
       switch ( result )
       {
         case 1u:

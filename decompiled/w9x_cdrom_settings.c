@@ -30,7 +30,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           v10,
           v10 + 17);
         SendDlgItemMessageA(hDlg, 1081, CB_ADDSTRING, 0, (LPARAM)lParam);
-        if ( *(_DWORD *)(v10 + 43) == cdrom_hain
+        if ( *(_DWORD *)(v10 + 43) == cdrom_haid
           && *(_DWORD *)(v10 + 47) == cdrom_target
           && *(_DWORD *)(v10 + 51) == cdrom_lun )
         {
@@ -57,7 +57,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       {
         v6 = v5 << 6;
         v7 = *(int *)((char *)&dword_505018 + v6);
-        cdrom_hain = *(int *)((char *)&dword_505014 + v6);
+        cdrom_haid = *(int *)((char *)&dword_505014 + v6);
         v8 = *(int *)((char *)dword_50501C + v6);
         cdrom_target = v7;
         cdrom_lun = v8;

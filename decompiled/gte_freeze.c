@@ -7,5 +7,5 @@ int __cdecl gte_freeze(const char *a1, int a2)
   sprintf(Buffer, "%s", a1);
   v4 = 256;
   gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-  return gzwrite(a2, (unsigned __int8 *)word_8A7F00, 0x100u);
+  return gzwrite(a2, (unsigned __int8 *)&gte_regs, 0x100u);
 }

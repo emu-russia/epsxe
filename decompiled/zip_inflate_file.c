@@ -1,8 +1,8 @@
 #include "pch.h"
-int zip_inflate()
+unsigned int zip_inflate_file()
 {
   unsigned int v0; // esi
-  int result; // eax
+  unsigned int result; // eax
   int v2; // [esp+8h] [ebp-4h] BYREF
 
   dword_4F8324 = 0;
@@ -12,14 +12,14 @@ int zip_inflate()
   while ( 1 )
   {
     dword_4F8340 = 0;
-    result = sub_41F1F0(&v2);
+    result = zip_inflate_buffer(&v2);
     if ( result )
       break;
     if ( dword_4F8340 > v0 )
       v0 = dword_4F8340;
     if ( v2 )
     {
-      sub_41FE70(lpMem, dword_4F8324);
+      zip_move_window(zip_sliding_window, dword_4F8324);
       return 0;
     }
   }

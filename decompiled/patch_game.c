@@ -8,9 +8,9 @@ char patch_game()
   LOBYTE(v0) = auto_ppf_load;
   if ( auto_ppf_load )
   {
-    if ( !strcmp(Buffer, "NULL") )
-      sprintf(Buffer, "%s%s", "patches\\", byte_8B3D80);
-    v0 = fopen(Buffer, "rb");
+    if ( !strcmp(ppf_filename, "NULL") )
+      sprintf(ppf_filename, "%s%s", "patches\\", byte_8B3D80);
+    v0 = fopen(ppf_filename, "rb");
     v1 = v0;
     if ( v0 )
     {

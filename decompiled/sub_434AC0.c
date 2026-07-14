@@ -17,7 +17,7 @@ bool __cdecl sub_434AC0(const void *a1, unsigned int a2, DWORD a3, DWORD a4)
   BytesReturned[6] = (DWORD)EventA;
   qmemcpy(&BytesReturned[12], a1, a2);
   ResetEvent(EventA);
-  if ( !sub_433CF0((DWORD)BytesReturned) )
+  if ( !scsi_pass_through_direct((DWORD)BytesReturned) )
     WaitForSingleObject(EventA, 0xFFFFFFFF);
   CloseHandle(EventA);
   return BYTE1(BytesReturned[0]) != 1;

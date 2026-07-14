@@ -20,7 +20,7 @@ char __cdecl W9x_play_cdda(unsigned int a1, int a2, unsigned __int8 a3)
     HIBYTE(dword_456FB8) = (a2 + 150) / 0x4Bu % 0x3C;
     EventA = CreateEventA(nullptr, 1, 0, nullptr);
     memset(v6, 0, sizeof(v6));
-    BYTE2(v6[0]) = cdrom_hain;
+    BYTE2(v6[0]) = cdrom_haid;
     LOBYTE(v6[2]) = cdrom_target;
     BYTE1(v6[2]) = cdrom_lun;
     LOBYTE(v6[0]) = 2;

@@ -3,14 +3,14 @@ char init_aspi()
 {
   char result; // al
   __int16 ASPI32SupportInfo; // ax
-  unsigned __int8 v2; // bl
+  BYTE v2; // bl
   char v3; // al
   unsigned __int8 v4; // bl
-  unsigned __int8 v5; // [esp+4h] [ebp-54h]
-  unsigned __int8 i; // [esp+8h] [ebp-50h]
-  unsigned __int8 v7; // [esp+Ch] [ebp-4Ch]
+  BYTE v5; // [esp+4h] [ebp-54h]
+  BYTE i; // [esp+8h] [ebp-50h]
+  BYTE v7; // [esp+Ch] [ebp-4Ch]
   _DWORD v8[2]; // [esp+10h] [ebp-48h] BYREF
-  unsigned __int8 v9; // [esp+18h] [ebp-40h]
+  BYTE v9; // [esp+18h] [ebp-40h]
   unsigned __int8 v10; // [esp+19h] [ebp-3Fh]
   __int16 v11; // [esp+1Ah] [ebp-3Eh]
   _BYTE v12[60]; // [esp+1Ch] [ebp-3Ch] BYREF

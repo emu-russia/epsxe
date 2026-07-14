@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_40FE00()
+int gte_rtpt()
 {
   int v0; // edi
   __m64 v1; // mm0

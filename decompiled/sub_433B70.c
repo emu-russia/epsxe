@@ -11,7 +11,7 @@ HANDLE __cdecl sub_433B70(unsigned __int8 a1)
   GetVersionExA(&VersionInformation);
   v1 = 0x80000000;
   if ( VersionInformation.dwPlatformId == 2 && VersionInformation.dwMajorVersion > 4 )
-    v1 = -1073741824;
+    v1 = 0xC0000000;
   wsprintfA(FileName, "\\\\.\\%c:", a1);
   result = CreateFileA(FileName, v1, 1u, nullptr, 3u, 0, nullptr);
   if ( result == (HANDLE)-1 )

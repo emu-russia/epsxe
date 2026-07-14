@@ -18,7 +18,15 @@ int __cdecl sub_433CF0(DWORD BytesReturned)
   InBuffer[4] = 5;
   InBuffer[6] = 48;
   qmemcpy(&InBuffer[7], (const void *)(BytesReturned + 48), BYTE2(InBuffer[1]));
-  if ( DeviceIoControl(hObject, 0x4D014u, InBuffer, 0x50u, InBuffer, 0x50u, &BytesReturned, nullptr) )
+  if ( DeviceIoControl(
+         hObject,
+         IOCTL_SCSI_PASS_THROUGH_DIRECT,
+         InBuffer,
+         0x50u,
+         InBuffer,
+         0x50u,
+         &BytesReturned,
+         nullptr) )
   {
     *(_BYTE *)(v1 + 1) = 1;
   }

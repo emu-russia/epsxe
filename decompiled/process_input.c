@@ -128,8 +128,8 @@ LABEL_42:
   }
   if ( byte_50AAD6 )
   {
-    byte_455944 ^= 1u;
-    if ( byte_455944 )
+    xenogears_trick_enabled ^= 1u;
+    if ( xenogears_trick_enabled )
       dbg_print(" * Xenogears trick disabled. \n");
     else
       dbg_print(" * Xenogears trick enabled. \n");
@@ -197,7 +197,7 @@ LABEL_51:
   result = network_enabled;
   if ( network_enabled )
   {
-    result = sub_42F630();
+    result = net_fill_input();
     if ( result )
     {
       dword_4FD9A0 = 0;

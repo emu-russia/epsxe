@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_420730(FILE *Stream, int a2, int a3)
+int __cdecl zip_load_local_file_header(FILE *Stream, int a2, int a3)
 {
   size_t v3; // esi
   int v5; // ebx
@@ -19,7 +19,7 @@ int __cdecl sub_420730(FILE *Stream, int a2, int a3)
     v3 = 0x2000;
   if ( fseek(Stream, *(_DWORD *)(a2 + 16), 0) )
   {
-    sub_420210("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)ArgList);
+    zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)zip_filename);
     return -1;
   }
   else if ( fread(byte_4F8350, 1u, v3, Stream) == v3 )
@@ -28,7 +28,7 @@ int __cdecl sub_420730(FILE *Stream, int a2, int a3)
     v6 = (unsigned __int8 *)byte_4F8350;
     while ( v5 < *(unsigned __int16 *)(a2 + 10) )
     {
-      sub_420A00(v6, a3);
+      zip_parse_cd_entry(v6, a3);
       v7 = 0;
       if ( *(_WORD *)(a3 + 28) )
       {
@@ -43,8 +43,8 @@ int __cdecl sub_420730(FILE *Stream, int a2, int a3)
         while ( v7 < v9 );
       }
       v15[v7] = 0;
-      if ( sub_4203E0(Stream, a3, (int)v14, (unsigned __int8 *)&byte_4F8350[0x2000]) )
-        sub_420210("Error reading 'local file header' in zipfile %s\n", *(const char **)ArgList);
+      if ( zip_read_local_file_header(Stream, a3, (int)v14, (unsigned __int8 *)&byte_4F8350[0x2000]) )
+        zip_print("Error reading 'local file header' in zipfile %s\n", *(const char **)zip_filename);
       if ( v5 < 256 )
       {
         v10 = dword_4FC458;
@@ -67,7 +67,7 @@ int __cdecl sub_420730(FILE *Stream, int a2, int a3)
   }
   else
   {
-    sub_420210("Error in zipfile %s: couldn't read %ld bytes from central directory\n", *(const char **)ArgList, v3);
+    zip_print("Error in zipfile %s: couldn't read %ld bytes from central directory\n", *(const char **)zip_filename, v3);
     return -1;
   }
 }

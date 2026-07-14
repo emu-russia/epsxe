@@ -12,19 +12,19 @@ __int16 __cdecl spu_read_register(unsigned int a1)
     }
     if ( a1 > 0x1F801DA8 )
     {
-      if ( a1 != 528489902 )
+      if ( a1 != 0x1F801DAE )
         goto LABEL_15;
     }
     else
     {
-      if ( a1 != 528489896 )
+      if ( a1 != 0x1F801DA8 )
       {
-        if ( a1 == 528489484 )
+        if ( a1 == 0x1F801C0C )
         {
           LOWORD(v1) = hw_update_counter;
           return v1;
         }
-        if ( a1 == 528489894 )
+        if ( a1 == 0x1F801DA6 )
           return (unsigned int)dword_8A8080 >> 3;
 LABEL_15:
         LOWORD(v1) = *(__int16 *)((char *)word_8A8084 + (a1 & 0x1FF));

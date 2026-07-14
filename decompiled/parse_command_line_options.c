@@ -200,7 +200,7 @@ LABEL_146:
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-pe2") )
               {
-                byte_4FD860 = 1;
+                parasite_eve_cheat = 1;
                 goto LABEL_146;
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocputrick") )
@@ -216,7 +216,7 @@ LABEL_146:
               }
               else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadppf") )
               {
-                strcpy(Buffer, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                strcpy(ppf_filename, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
                 v3 += 2;
               }
               else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadmemc0") )

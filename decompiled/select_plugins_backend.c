@@ -10,10 +10,10 @@ int select_plugins_backend()
     spu_destroy_cb = (int (__cdecl *)(_DWORD))spucore_destroy;
     spu_play_adpcm_cb = (int (__cdecl *)(_DWORD))spucore_play_adpcm;
     spu_set_adpcm_flag_cb = (int (*)(void))spu_set_adpcm_flag;
-    spu_update_cb = spucore_update;
+    spu_update_cb = spucore_update_thunk;
     spu_freeze_cb = (int (__cdecl *)(_DWORD, _DWORD))spucore_freeze;
     spu_unfreeze_cb = (int (__cdecl *)(_DWORD, _DWORD))spucore_unfreeze;
-    spu_async_update_cb = (int (__cdecl *)(_DWORD))spucore_update;
+    spu_async_update_cb = (int (__cdecl *)(_DWORD))spucore_update_thunk;
   }
   else
   {

@@ -49,8 +49,8 @@ char __cdecl rcnt_write_reg(unsigned __int16 a1, int a2)
 LABEL_13:
       if ( v3 )
       {
-        LOBYTE(v2) = byte_4FD860;
-        if ( byte_4FD860 )
+        LOBYTE(v2) = parasite_eve_cheat;
+        if ( parasite_eve_cheat )
           dword_50BFFC = (unsigned int)dword_50BFFC >> 2;
       }
       break;

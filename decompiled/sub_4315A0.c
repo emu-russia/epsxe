@@ -19,7 +19,7 @@ int sub_4315A0()
   qmemcpy(v3, "\t0", sizeof(v3));
   EventA = CreateEventA(nullptr, 1, 0, nullptr);
   memset(v4, 0, sizeof(v4));
-  BYTE2(v4[0]) = cdrom_hain;
+  BYTE2(v4[0]) = cdrom_haid;
   LOBYTE(v4[2]) = cdrom_target;
   LOBYTE(v4[0]) = 2;
   BYTE1(v4[2]) = cdrom_lun;

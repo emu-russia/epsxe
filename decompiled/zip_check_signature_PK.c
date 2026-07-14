@@ -1,5 +1,5 @@
 #include "pch.h"
-BOOL __cdecl sub_420C20(int a1, int a2, _DWORD *a3)
+BOOL __cdecl zip_check_signature_PK(int a1, int a2, _DWORD *a3)
 {
   int v3; // esi
   int v4; // ebx
@@ -8,7 +8,7 @@ BOOL __cdecl sub_420C20(int a1, int a2, _DWORD *a3)
   v4 = 0;
   if ( a2 - 22 >= 0 )
   {
-    while ( strncmp((const char *)(v3 + a1), aPk, 4u) )
+    while ( strncmp((const char *)(v3 + a1), zip_signature, 4u) )
     {
       if ( --v3 < 0 )
         return 1;

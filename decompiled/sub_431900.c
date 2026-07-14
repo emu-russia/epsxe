@@ -20,5 +20,5 @@ char __cdecl sub_431900(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 
   v6 = -66;
   v9 = (unsigned __int16)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
   v13 = -8;
-  return sub_430D70(&v6, 0xCu, a5, 2352 * a4);
+  return exec_scsi_cmd(&v6, 0xCu, a5, 2352 * a4);
 }

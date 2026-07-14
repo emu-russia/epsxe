@@ -1,27 +1,27 @@
 #include "pch.h"
-unsigned int __cdecl sub_41BB00(unsigned __int8 a1, unsigned int a2)
+GTE_REG __cdecl sub_41BB00(unsigned __int8 a1, GTE_REG a2)
 {
-  unsigned int result; // eax
+  GTE_REG result; // eax
 
   result = a2;
-  *(_DWORD *)&word_8A7F00[4 * a1] = a2;
+  gte_regs.data[a1] = a2;
   if ( a1 >= 0x10u && a1 <= 0x13u )
-    *(_DWORD *)&word_8A7F00[4 * a1] = (unsigned __int16)a2;
+    gte_regs.data[a1].u32 = a2.u16.hi;
   switch ( a1 )
   {
     case 0xEu:
-      dword_8A7F3C = a2;
+      gte_regs.data[15] = a2;
       break;
     case 0xFu:
-      *(_DWORD *)&word_8A7F30 = *(_DWORD *)&word_8A7F34;
-      *(_DWORD *)&word_8A7F34 = *(_DWORD *)&word_8A7F38;
-      *(_DWORD *)&word_8A7F38 = a2;
+      gte_regs.data[12].u32 = gte_regs.data[13].u32;
+      gte_regs.data[13].u32 = gte_regs.data[14].u32;
+      gte_regs.data[14] = a2;
       break;
     case 0x1Cu:
-      result = ((a2 >> 10) & 0x1F) << 7;
-      *(_DWORD *)word_8A7F24 = (a2 & 0x1F) << 7;
-      *(_DWORD *)word_8A7F28 = ((a2 >> 5) & 0x1F) << 7;
-      *(_DWORD *)word_8A7F2C = result;
+      result.u32 = ((a2.u32 >> 10) & 0x1F) << 7;
+      gte_regs.data[9].u32 = (a2.u16.hi & 0x1F) << 7;
+      gte_regs.data[10].u32 = ((a2.u32 >> 5) & 0x1F) << 7;
+      gte_regs.data[11] = result;
       break;
   }
   return result;

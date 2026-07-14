@@ -275,7 +275,7 @@ LABEL_30:
             {
               if ( dword_4FD8AC[BYTE1(dword_4FC480)] == 5 )
               {
-                issue_small_motor();
+                joy_issue_small_motor();
                 v26 = dword_4FC480;
               }
               v28 = dword_4FD8AC[BYTE1(dword_4FC480)];
@@ -290,7 +290,7 @@ LABEL_30:
             if ( byte_4FC464[v27] == 66 && *a1 && (unsigned __int8)byte_516560[65 * v27 + 2] == v26 + 4 )
             {
               if ( dword_4FD8AC[BYTE1(dword_4FC480)] == 5 )
-                issue_big_motor();
+                joy_issue_big_motor();
               v29 = dword_4FD8AC[BYTE1(dword_4FC480)];
               if ( v29 && v29 <= 4 )
                 sub_40E750(1, (unsigned __int8)*a1, 2, BYTE1(dword_4FC480));

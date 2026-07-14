@@ -171,7 +171,7 @@ int load_settings()
       multitap_1 = 1;
   }
   if ( !reg_get_value("Software\\epsxe\\config\\cdrom9x", "CdromHain", (LPBYTE)Buffer) )
-    sscanf(Buffer, "%d", &cdrom_hain);
+    sscanf(Buffer, "%d", &cdrom_haid);
   if ( !reg_get_value("Software\\epsxe\\config\\cdrom9x", "CdromTarget", (LPBYTE)Buffer) )
     sscanf(Buffer, "%d", &cdrom_target);
   if ( !reg_get_value("Software\\epsxe\\config\\cdrom9x", "CdromLun", (LPBYTE)Buffer) )

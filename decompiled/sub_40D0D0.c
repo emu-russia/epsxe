@@ -8,7 +8,7 @@ __int16 __cdecl sub_40D0D0(int a1, int a2)
   switch ( a2 )
   {
     case 4:
-      LOWORD(v2) = (__int64)(*((float *)&unk_4655B0 + 74 * a1) * 4096.0) & 0x3FFF;
+      LOWORD(v2) = (__int64)(*(float *)&dword_4655B0[74 * a1] * 4096.0) & 0x3FFF;
       break;
     case 6:
       LOWORD(v2) = dword_465574[74 * a1];

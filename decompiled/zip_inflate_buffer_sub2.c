@@ -1,5 +1,12 @@
 #include "pch.h"
-int __cdecl sub_41F960(_DWORD *a1, unsigned int a2, unsigned int a3, int a4, int a5, _DWORD *a6, unsigned int *a7)
+int __cdecl zip_inflate_buffer_sub2(
+        _DWORD *a1,
+        unsigned int a2,
+        unsigned int a3,
+        int a4,
+        int a5,
+        _DWORD *a6,
+        unsigned int *a7)
 {
   _DWORD *v7; // ecx
   unsigned int v8; // edx
@@ -309,7 +316,7 @@ LABEL_49:
       }
     }
     if ( v28 )
-      sub_41FE40(v67[0]);
+      zip_free(v67[0]);
     return 3;
   }
   return result;

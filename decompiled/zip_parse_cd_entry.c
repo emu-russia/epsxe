@@ -1,0 +1,28 @@
+#include "pch.h"
+int __cdecl zip_parse_cd_entry(unsigned __int8 *a1, int a2)
+{
+  int result; // eax
+
+  *(_DWORD *)a2 = zip_read_uint32_le(a1);
+  *(_BYTE *)(a2 + 4) = a1[4];
+  *(_BYTE *)(a2 + 5) = a1[5];
+  *(_BYTE *)(a2 + 6) = a1[6];
+  *(_BYTE *)(a2 + 7) = a1[7];
+  *(_WORD *)(a2 + 8) = zip_read_uint16_le((int)(a1 + 8));
+  *(_WORD *)(a2 + 10) = zip_read_uint16_le((int)(a1 + 10));
+  *(_WORD *)(a2 + 12) = zip_read_uint16_le((int)(a1 + 12));
+  *(_WORD *)(a2 + 14) = zip_read_uint16_le((int)(a1 + 14));
+  *(_DWORD *)(a2 + 16) = zip_read_uint32_le(a1 + 16);
+  *(_DWORD *)(a2 + 20) = zip_read_uint32_le(a1 + 20);
+  *(_DWORD *)(a2 + 24) = zip_read_uint32_le(a1 + 24);
+  *(_WORD *)(a2 + 28) = zip_read_uint16_le((int)(a1 + 28));
+  *(_WORD *)(a2 + 30) = zip_read_uint16_le((int)(a1 + 30));
+  *(_WORD *)(a2 + 32) = zip_read_uint16_le((int)(a1 + 32));
+  *(_WORD *)(a2 + 34) = zip_read_uint16_le((int)(a1 + 34));
+  *(_WORD *)(a2 + 36) = zip_read_uint16_le((int)(a1 + 36));
+  *(_DWORD *)(a2 + 40) = zip_read_uint32_le(a1 + 38);
+  result = zip_read_uint32_le(a1 + 42);
+  *(_DWORD *)(a2 + 48) = a1 + 46;
+  *(_DWORD *)(a2 + 44) = result;
+  return result;
+}

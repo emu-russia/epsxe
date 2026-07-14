@@ -11,28 +11,28 @@ __int16 __cdecl spucore_read_register(__int16 a1)
     switch ( a1 & 0xFFF )
     {
       case 0xD80:
-        LOWORD(v2) = word_4F7586;
+        LOWORD(v2) = spucore_mainvol_left;
         break;
       case 0xD82:
-        LOWORD(v2) = dword_4F7588;
+        LOWORD(v2) = spucore_mainvol_right;
         break;
       case 0xD84:
-        LOWORD(v2) = word_4EF130;
+        LOWORD(v2) = spucore_reverb_vol_left;
         break;
       case 0xD86:
-        LOWORD(v2) = word_4EF132;
+        LOWORD(v2) = spucore_reverb_vol_right;
         break;
       case 0xD90:
-        LOWORD(v2) = dword_4F7558;
+        LOWORD(v2) = spucore_pitchmod_enable;
         break;
       case 0xD92:
-        LOWORD(v2) = HIWORD(dword_4F7558);
+        LOWORD(v2) = HIWORD(spucore_pitchmod_enable);
         break;
       case 0xD94:
-        LOWORD(v2) = dword_463900;
+        LOWORD(v2) = spucore_noise_mode;
         break;
       case 0xD96:
-        LOWORD(v2) = HIWORD(dword_463900);
+        LOWORD(v2) = HIWORD(spucore_noise_mode);
         break;
       case 0xD98:
         LOWORD(v2) = dword_4E7100;

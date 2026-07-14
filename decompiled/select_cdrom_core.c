@@ -24,7 +24,7 @@ char select_cdrom_core()
         LOBYTE(win_aspi_silent) = HIBYTE(dword_4FD9BC);
         if ( HIBYTE(dword_4FD9BC) )
         {
-          cdrom_hain = dword_505014;
+          cdrom_haid = dword_505014;
           cdrom_target = dword_505018;
           cdrom_lun = dword_50501C[0];
           LOBYTE(win_aspi_silent) = sprintf((char *const)CdromPlugin, "W9XCDRCORE");
