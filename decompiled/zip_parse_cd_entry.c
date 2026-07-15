@@ -1,28 +1,26 @@
 #include "pch.h"
-int __cdecl zip_parse_cd_entry(unsigned __int8 *a1, int a2)
+int __cdecl zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectoryEntryInMem *a2)
 {
   int result; // eax
 
-  *(_DWORD *)a2 = zip_read_uint32_le(a1);
-  *(_BYTE *)(a2 + 4) = a1[4];
-  *(_BYTE *)(a2 + 5) = a1[5];
-  *(_BYTE *)(a2 + 6) = a1[6];
-  *(_BYTE *)(a2 + 7) = a1[7];
-  *(_WORD *)(a2 + 8) = zip_read_uint16_le((int)(a1 + 8));
-  *(_WORD *)(a2 + 10) = zip_read_uint16_le((int)(a1 + 10));
-  *(_WORD *)(a2 + 12) = zip_read_uint16_le((int)(a1 + 12));
-  *(_WORD *)(a2 + 14) = zip_read_uint16_le((int)(a1 + 14));
-  *(_DWORD *)(a2 + 16) = zip_read_uint32_le(a1 + 16);
-  *(_DWORD *)(a2 + 20) = zip_read_uint32_le(a1 + 20);
-  *(_DWORD *)(a2 + 24) = zip_read_uint32_le(a1 + 24);
-  *(_WORD *)(a2 + 28) = zip_read_uint16_le((int)(a1 + 28));
-  *(_WORD *)(a2 + 30) = zip_read_uint16_le((int)(a1 + 30));
-  *(_WORD *)(a2 + 32) = zip_read_uint16_le((int)(a1 + 32));
-  *(_WORD *)(a2 + 34) = zip_read_uint16_le((int)(a1 + 34));
-  *(_WORD *)(a2 + 36) = zip_read_uint16_le((int)(a1 + 36));
-  *(_DWORD *)(a2 + 40) = zip_read_uint32_le(a1 + 38);
-  result = zip_read_uint32_le(a1 + 42);
-  *(_DWORD *)(a2 + 48) = a1 + 46;
-  *(_DWORD *)(a2 + 44) = result;
+  a2->signature = zip_read_uint32_le((unsigned __int8 *)a1);
+  a2->version_made_by = a1->version_made_by;
+  a2->version_needed = a1->version_needed;
+  a2->general_purpose_bit_flag = zip_read_uint16_le((int)&a1->general_purpose_bit_flag);
+  a2->compression_method = zip_read_uint16_le((int)&a1->compression_method);
+  a2->last_mod_time = zip_read_uint16_le((int)&a1->last_mod_time);
+  a2->last_mod_date = zip_read_uint16_le((int)&a1->last_mod_date);
+  a2->crc32 = zip_read_uint32_le((unsigned __int8 *)&a1->crc32);
+  a2->compressed_size = zip_read_uint32_le((unsigned __int8 *)&a1->compressed_size);
+  a2->uncompressed_size = zip_read_uint32_le((unsigned __int8 *)&a1->uncompressed_size);
+  a2->filename_length = zip_read_uint16_le((int)&a1->filename_length);
+  a2->extra_field_length = zip_read_uint16_le((int)&a1->extra_field_length);
+  a2->file_comment_length = zip_read_uint16_le((int)&a1->file_comment_length);
+  a2->disk_number_start = zip_read_uint16_le((int)&a1->disk_number_start);
+  a2->internal_attributes = zip_read_uint16_le((int)&a1->internal_attributes);
+  a2->external_attributes = zip_read_uint32_le((unsigned __int8 *)&a1->external_attributes);
+  result = zip_read_uint32_le((unsigned __int8 *)&a1->local_header_offset);
+  a2->filename = (char *)&a1[1];
+  a2->local_header_offset = result;
   return result;
 }

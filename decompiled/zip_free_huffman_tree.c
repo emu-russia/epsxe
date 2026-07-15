@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl zip_free(int a1)
+int __cdecl zip_free_huffman_tree(int a1)
 {
   int v1; // eax
   int v2; // esi

@@ -1,5 +1,5 @@
 #include "pch.h"
-BOOL __cdecl zip_check_signature_PK(int a1, int a2, _DWORD *a3)
+BOOL __cdecl zip_find_end_of_central_dir_signature(int a1, int a2, _DWORD *a3)
 {
   int v3; // esi
   int v4; // ebx

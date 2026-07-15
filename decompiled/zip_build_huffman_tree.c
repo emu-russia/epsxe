@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl zip_inflate_buffer_sub2(
+int __cdecl zip_build_huffman_tree(
         _DWORD *a1,
         unsigned int a2,
         unsigned int a3,
@@ -283,7 +283,7 @@ LABEL_49:
       v40 = malloc(8 * (1 << v34) + 8);
       if ( !v40 )
         break;
-      dword_4F8340 += v30 + 1;
+      zip_inflate_max_memory_used += v30 + 1;
       v41 = (char *)(v40 + 2);
       *a6 = v40 + 2;
       a6 = v40 + 1;
@@ -316,7 +316,7 @@ LABEL_49:
       }
     }
     if ( v28 )
-      zip_free(v67[0]);
+      zip_free_huffman_tree(v67[0]);
     return 3;
   }
   return result;

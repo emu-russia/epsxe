@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl zip_find_file(const char *a1, const char *a2)
+int __cdecl zip_compare_filename_case_insensitive(const char *a1, const char *a2)
 {
   const char *v2; // esi
   const char *i; // eax

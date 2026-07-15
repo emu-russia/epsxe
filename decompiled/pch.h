@@ -16,3 +16,4 @@ typedef DWORD _DWORD;
 #include "../zlib-1.1.3/zlib.h"
 #include "../psxdefs.h"
 #include "../gte.h"
+#include "../zip.h"

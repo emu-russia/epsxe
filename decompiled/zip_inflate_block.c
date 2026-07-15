@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl zip_inflate_buffer(int *a1)
+unsigned int __cdecl zip_inflate_block(int *a1)
 {
   int v1; // ecx
   unsigned int v2; // eax
@@ -11,7 +11,7 @@ int __cdecl zip_inflate_buffer(int *a1)
   unsigned int v8; // ecx
   int v9; // edx
   int v10; // edx
-  int result; // eax
+  unsigned int result; // eax
   unsigned __int8 *v12; // eax
   int v13; // ebp
   int v14; // ecx
@@ -78,9 +78,9 @@ int __cdecl zip_inflate_buffer(int *a1)
   _DWORD v75[24]; // [esp+4A4h] [ebp-80h] BYREF
   _DWORD v76[8]; // [esp+504h] [ebp-20h] BYREF
 
-  v1 = dword_4F832C;
-  v2 = dword_4F8328;
-  if ( !dword_4F832C )
+  v1 = zip_inflate_bit_count;
+  v2 = zip_inflate_bit_buffer;
+  if ( !zip_inflate_bit_count )
   {
     v3 = (unsigned __int8 *)zipfile_input_buffer;
     do
@@ -111,13 +111,13 @@ int __cdecl zip_inflate_buffer(int *a1)
     while ( v8 < 2 );
   }
   v10 = v7 & 3;
-  dword_4F8328 = v7 >> 2;
-  dword_4F832C = v8 - 2;
+  zip_inflate_bit_buffer = v7 >> 2;
+  zip_inflate_bit_count = v8 - 2;
   if ( v10 == 2 )
   {
     v26 = (unsigned __int8 *)zipfile_input_buffer;
-    v27 = dword_4F8328;
-    for ( i = dword_4F832C; i < 5; zipfile_input_buffer = (int)v26 )
+    v27 = zip_inflate_bit_buffer;
+    for ( i = zip_inflate_bit_count; i < 5; zipfile_input_buffer = (int)v26 )
     {
       v29 = *v26 << i;
       i += 8;
@@ -160,7 +160,7 @@ int __cdecl zip_inflate_buffer(int *a1)
           v40 += 8;
           v39 |= *v26++ << v42;
         }
-        v43 = dword_455028[v41];
+        v43 = zip_code_length_order[v41];
         v44 = v39 & 7;
         v39 >>= 3;
         v40 -= 3;
@@ -173,28 +173,28 @@ int __cdecl zip_inflate_buffer(int *a1)
 LABEL_94:
         do
         {
-          v45 = dword_455028[v41++];
+          v45 = zip_code_length_order[v41++];
           v72[v45] = 0;
         }
         while ( v41 < 0x13 );
       }
       v64 = 7;
-      v46 = zip_inflate_buffer_sub2(v72, 0x13u, 0x13u, 0, 0, &v63, &v64);
+      v46 = zip_build_huffman_tree(v72, 0x13u, 0x13u, 0, 0, &v63, &v64);
       v47 = v64;
       v48 = v46;
       if ( !v64 )
       {
-        zip_free(v63);
+        zip_free_huffman_tree(v63);
         return 1;
       }
       if ( v46 )
       {
         if ( v46 == 1 )
-          zip_free(v63);
+          zip_free_huffman_tree(v63);
         return v48;
       }
       v49 = j;
-      v50 = word_448700[v64];
+      v50 = zip_bit_masks[v64];
       v51 = 0;
       v66 = j + k;
       v65 = 0;
@@ -292,11 +292,11 @@ LABEL_94:
         }
         v49 = j;
       }
-      zip_free(v63);
-      v64 = dword_45516C;
-      dword_4F8328 = v39;
-      dword_4F832C = v40;
-      v61 = zip_inflate_buffer_sub2(v72, v49, 0x101u, (int)byte_455074, (int)byte_4550B4, &v63, &v64);
+      zip_free_huffman_tree(v63);
+      v64 = zip_static_ltree_max_bits;
+      zip_inflate_bit_buffer = v39;
+      zip_inflate_bit_count = v40;
+      v61 = zip_build_huffman_tree(v72, v49, 0x101u, (int)zip_length_base, (int)zip_length_extra_bits, &v63, &v64);
       if ( !v64 )
       {
         v61 = 1;
@@ -308,29 +308,29 @@ LABEL_94:
           return v61;
 LABEL_82:
         printf("%s", "(incomplete l-tree)  ");
-        zip_free(v63);
+        zip_free_huffman_tree(v63);
         return v61;
       }
-      v68 = dword_455170;
-      v62 = zip_inflate_buffer_sub2(&v72[v49], k, 0, (int)byte_4550F4, (int)byte_455130, &v67, &v68);
+      v68 = zip_static_dtree_max_bits;
+      v62 = zip_build_huffman_tree(&v72[v49], k, 0, (int)zip_distance_base, (int)zip_distance_extra_bits, &v67, &v68);
       if ( v68 || v49 <= 0x101 )
       {
         if ( v62 >= 2 )
         {
-          zip_free(v63);
+          zip_free_huffman_tree(v63);
           return v62;
         }
-        if ( !zip_inflate_buffer_sub1(v63, v67, v64, v68) )
+        if ( !zip_inflate_data_with_trees(v63, v67, v64, v68) )
         {
-          zip_free(v63);
-          zip_free(v67);
+          zip_free_huffman_tree(v63);
+          zip_free_huffman_tree(v67);
           return 0;
         }
       }
       else
       {
         printf("%s", "(incomplete d-tree)  ");
-        zip_free(v63);
+        zip_free_huffman_tree(v63);
       }
     }
     return 1;
@@ -340,55 +340,63 @@ LABEL_82:
     if ( v10 != 1 )
       return 2;
     v72[31] = v5;
-    if ( dword_4F8330 )
-      return zip_inflate_buffer_sub1(dword_4F8330, dword_4F8334, dword_4F8338, dword_4F833C) != 0;
+    if ( zip_inflate_ltree )
+      return zip_inflate_data_with_trees(
+               zip_inflate_ltree,
+               zip_inflate_dtree,
+               zip_inflate_ltree_bits,
+               zip_inflate_dtree_bits) != 0;
     memset32(v73, 8, 0x90u);
     memset32(v74, 9, 0x70u);
     memset32(v75, 7, 0x18u);
     memset32(v76, 8, 8u);
-    dword_4F8338 = 7;
-    result = zip_inflate_buffer_sub2(
+    zip_inflate_ltree_bits = 7;
+    result = zip_build_huffman_tree(
                v73,
                0x120u,
                0x101u,
-               (int)byte_455074,
-               (int)byte_4550B4,
-               &dword_4F8330,
-               (unsigned int *)&dword_4F8338);
+               (int)zip_length_base,
+               (int)zip_length_extra_bits,
+               &zip_inflate_ltree,
+               (unsigned int *)&zip_inflate_ltree_bits);
     if ( result )
     {
-      dword_4F8330 = 0;
+      zip_inflate_ltree = 0;
       return result;
     }
     memset32(v73, 5, 0x1Eu);
-    dword_4F833C = 5;
-    v25 = zip_inflate_buffer_sub2(
+    zip_inflate_dtree_bits = 5;
+    v25 = zip_build_huffman_tree(
             v73,
             0x1Eu,
             0,
-            (int)byte_4550F4,
-            (int)byte_455130,
-            &dword_4F8334,
-            (unsigned int *)&dword_4F833C);
+            (int)zip_distance_base,
+            (int)zip_distance_extra_bits,
+            &zip_inflate_dtree,
+            (unsigned int *)&zip_inflate_dtree_bits);
     if ( v25 <= 1 )
     {
-      return zip_inflate_buffer_sub1(dword_4F8330, dword_4F8334, dword_4F8338, dword_4F833C) != 0;
+      return zip_inflate_data_with_trees(
+               zip_inflate_ltree,
+               zip_inflate_dtree,
+               zip_inflate_ltree_bits,
+               zip_inflate_dtree_bits) != 0;
     }
     else
     {
-      zip_free(dword_4F8330);
-      dword_4F8330 = 0;
+      zip_free_huffman_tree(zip_inflate_ltree);
+      zip_inflate_ltree = 0;
       return v25;
     }
   }
   else
   {
     v12 = (unsigned __int8 *)zipfile_input_buffer;
-    v13 = dword_4F8324;
+    v13 = zip_inflate_window_pos;
     v76[5] = v5;
-    v14 = dword_4F832C & 7;
-    v15 = dword_4F832C - v14;
-    for ( m = (unsigned int)dword_4F8328 >> v14; v15 < 0x10; zipfile_input_buffer = (int)v12 )
+    v14 = zip_inflate_bit_count & 7;
+    v15 = zip_inflate_bit_count - v14;
+    for ( m = (unsigned int)zip_inflate_bit_buffer >> v14; v15 < 0x10; zipfile_input_buffer = (int)v12 )
     {
       v17 = *v12 << v15;
       v15 += 8;
@@ -421,7 +429,7 @@ LABEL_82:
           *((_BYTE *)zip_sliding_window + v13++) = v22;
           if ( v13 == 0x8000 )
           {
-            zip_move_window(zip_sliding_window, 0x8000u);
+            zip_copy_sliding_window_to_output(zip_sliding_window, 0x8000u);
             v13 = 0;
           }
           v22 >>= 8;
@@ -431,9 +439,9 @@ LABEL_82:
           v12 = (unsigned __int8 *)zipfile_input_buffer;
         }
       }
-      dword_4F832C = v23;
-      dword_4F8324 = v13;
-      dword_4F8328 = v22;
+      zip_inflate_bit_count = v23;
+      zip_inflate_window_pos = v13;
+      zip_inflate_bit_buffer = v22;
       return 0;
     }
     else

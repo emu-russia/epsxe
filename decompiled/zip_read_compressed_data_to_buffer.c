@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl zip_allocate_and_read(FILE *Stream, int a2, int a3, LPVOID *a4)
+int __cdecl zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int a3, LPVOID *a4)
 {
   size_t v4; // esi
   void *v5; // eax

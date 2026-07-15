@@ -21,9 +21,9 @@ void epsxe_load_zip()
       if ( zip_load_file(FileName) )
         fatal_error_with_message_box(" * EPSX: error loading .zip file.");
       free(v1);
-      if ( !dword_4FC458 )
+      if ( !zip_num_entries_loaded )
         fatal_error_with_message_box(" * EPSX: error loading .zip file.");
-      if ( dword_4FC458 == 1 )
+      if ( zip_num_entries_loaded == 1 )
       {
         if ( strncmp(&byte_566980[strlen(byte_566980) - 3], "exe", 3u)
           && strncmp(&byte_566980[strlen(byte_566980) - 3], "EXE", 3u) )
@@ -31,7 +31,7 @@ void epsxe_load_zip()
           fatal_error_with_message_box("* EPSX: DEMO not found [%s]. \n", byte_566980);
         }
         Str2 = (char *)malloc(Size[0]);
-        if ( zip_open_file(FileName, byte_566980, (LPVOID *)&Str2, (size_t *)&v8) )
+        if ( zip_extract_file(FileName, byte_566980, (LPVOID *)&Str2, (size_t *)&v8) )
           fatal_error_with_message_box(" * EPSX: error loading .zip file.");
         v2 = Str2;
         if ( strncmp("PS-X EXE", Str2, 8u) )
@@ -49,7 +49,7 @@ void epsxe_load_zip()
       {
         v4 = 0;
         LOBYTE(Str2) = -1;
-        if ( dword_4FC458 <= 0 )
+        if ( zip_num_entries_loaded <= 0 )
           goto LABEL_26;
         v5 = 0;
         do
@@ -60,7 +60,7 @@ void epsxe_load_zip()
           LOBYTE(v8) = ++v4;
           v5 = v4;
         }
-        while ( v4 < dword_4FC458 );
+        while ( v4 < zip_num_entries_loaded );
         if ( (_BYTE)Str2 == 0xFF )
 LABEL_26:
           fatal_error_with_message_box("* EPSX: DEMO .pll not found. \n");

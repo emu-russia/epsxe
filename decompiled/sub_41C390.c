@@ -9,7 +9,7 @@ size_t __cdecl sub_41C390(const char *a1)
   result = 0x100000;
   v2 = 0;
   v4 = 0x100000;
-  if ( dword_4FC458 )
+  if ( zip_num_entries_loaded )
   {
     v3 = byte_566980;
     do
@@ -19,7 +19,7 @@ size_t __cdecl sub_41C390(const char *a1)
       ++v2;
       v3 += 256;
     }
-    while ( v2 < dword_4FC458 );
+    while ( v2 < zip_num_entries_loaded );
     return v4;
   }
   return result;

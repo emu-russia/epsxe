@@ -17,7 +17,7 @@ void __cdecl epsxe_load(char *a1, size_t Size)
 
   lpMem = malloc(Size);
   v12 = 0;
-  if ( zip_open_file(FileName, a1, &lpMem, (size_t *)&v11) )
+  if ( zip_extract_file(FileName, a1, &lpMem, (size_t *)&v11) )
     fatal_error_with_message_box(" * EPSX: error loading .pll file.");
   v2 = sub_41C220((int)lpMem, &v12, v11, ArgList, (int)&v10);
   if ( v2 )
@@ -31,7 +31,7 @@ void __cdecl epsxe_load(char *a1, size_t Size)
       {
         v4 = sub_41C390(ArgList);
         Str2 = (char *)malloc(v4);
-        if ( zip_open_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
+        if ( zip_extract_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
           fatal_error_with_message_box(" * EPSX: error loading .exe file in pll/zip.");
         v5 = Str2;
         if ( strncmp("PS-X EXE", Str2, 8u) )
@@ -52,7 +52,7 @@ LABEL_14:
     }
     v7 = sub_41C390(ArgList);
     Str2 = (char *)malloc(v7);
-    if ( zip_open_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
+    if ( zip_extract_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
       fatal_error_with_message_box(" * EPSX: error loading %s.", ArgList);
     v6 = Str2;
     qmemcpy((char *)ram + (v10 & 0x1FFFFF), Str2, v13);

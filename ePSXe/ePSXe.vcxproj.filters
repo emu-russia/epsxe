@@ -30,6 +30,12 @@
     <ClInclude Include="..\psxdefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\gte.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\decompiled\about_callback.c">
@@ -1520,31 +1526,7 @@
     <ClCompile Include="..\decompiled\spucore_update_thunk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\zip_allocate_and_read.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\zip_check_signature_PK.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\zip_find_file.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\zip_free.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\zip_get_file_length.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\zip_get_filename_from_path.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\zip_inflate_buffer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\zip_inflate_buffer_sub1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\zip_inflate_buffer_sub2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\zip_inflate_file.c">
@@ -1556,16 +1538,7 @@
     <ClCompile Include="..\decompiled\zip_load_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\zip_load_local_file_header.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\zip_locate_central_dir.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\zip_move_window.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\zip_open_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\zip_parse_cd_entry.c">
@@ -1599,6 +1572,39 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\joy_issue_big_motor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_build_huffman_tree.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_compare_filename_case_insensitive.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_copy_sliding_window_to_output.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_extract_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_find_end_of_central_dir_signature.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_free_huffman_tree.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_get_file_size.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_inflate_block.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_inflate_data_with_trees.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_load_local_file_headers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\zip_read_compressed_data_to_buffer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl zip_inflate_buffer_sub1(int a1, int a2, unsigned int a3, unsigned int a4)
+int __cdecl zip_inflate_data_with_trees(int a1, int a2, unsigned int a3, unsigned int a4)
 {
   unsigned int v4; // edx
   unsigned int v5; // ebx
@@ -33,11 +33,11 @@ int __cdecl zip_inflate_buffer_sub1(int a1, int a2, unsigned int a3, unsigned in
   int v34; // [esp+1Ch] [ebp-8h]
   int v35; // [esp+20h] [ebp-4h]
 
-  v4 = dword_4F8324;
-  v5 = dword_4F832C;
-  v6 = dword_4F8328;
-  v34 = (unsigned __int16)word_448700[a3];
-  v35 = (unsigned __int16)word_448700[a4];
+  v4 = zip_inflate_window_pos;
+  v5 = zip_inflate_bit_count;
+  v6 = zip_inflate_bit_buffer;
+  v34 = (unsigned __int16)zip_bit_masks[a3];
+  v35 = (unsigned __int16)zip_bit_masks[a4];
 LABEL_2:
   v32 = v4;
   while ( 1 )
@@ -72,7 +72,7 @@ LABEL_2:
             while ( v5 < v12 );
             v4 = v32;
           }
-          v9 = (unsigned __int8 *)(*((_DWORD *)v9 + 1) + 8 * (v6 & (unsigned __int16)word_448700[v12]));
+          v9 = (unsigned __int8 *)(*((_DWORD *)v9 + 1) + 8 * (v6 & (unsigned __int16)zip_bit_masks[v12]));
           v10 = *v9;
           if ( v10 <= 0x10 )
             goto LABEL_11;
@@ -89,7 +89,7 @@ LABEL_11:
       v32 = v4;
       if ( v4 == 0x8000 )
       {
-        zip_move_window(zip_sliding_window, 0x8000u);
+        zip_copy_sliding_window_to_output(zip_sliding_window, 0x8000u);
         v4 = 0;
         goto LABEL_2;
       }
@@ -109,7 +109,7 @@ LABEL_11:
       v4 = v32;
     }
     v16 = v5 - v10;
-    v33 = *((unsigned __int16 *)v9 + 2) + (v6 & (unsigned __int16)word_448700[v10]);
+    v33 = *((unsigned __int16 *)v9 + 2) + (v6 & (unsigned __int16)zip_bit_masks[v10]);
     for ( j = v6 >> v10; v16 < a4; zipfile_input_buffer = (int)i )
     {
       v18 = v16;
@@ -138,7 +138,7 @@ LABEL_11:
           while ( v16 < v22 );
           v4 = v32;
         }
-        v19 = (unsigned __int8 *)(*((_DWORD *)v19 + 1) + 8 * (j & (unsigned __int16)word_448700[v22]));
+        v19 = (unsigned __int8 *)(*((_DWORD *)v19 + 1) + 8 * (j & (unsigned __int16)zip_bit_masks[v22]));
         v20 = *v19;
         if ( v20 <= 0x10 )
           goto LABEL_26;
@@ -161,7 +161,7 @@ LABEL_26:
       while ( v26 < v20 );
       v4 = v32;
     }
-    LOWORD(v28) = v4 - (v25 & word_448700[v20]) - *((_WORD *)v19 + 2);
+    LOWORD(v28) = v4 - (v25 & zip_bit_masks[v20]) - *((_WORD *)v19 + 2);
     v6 = v25 >> v20;
     v5 = v26 - v20;
     do
@@ -192,15 +192,15 @@ LABEL_26:
       v32 = v4;
       if ( v4 == 0x8000 )
       {
-        zip_move_window(zip_sliding_window, 0x8000u);
+        zip_copy_sliding_window_to_output(zip_sliding_window, 0x8000u);
         v4 = 0;
         v32 = 0;
       }
     }
     while ( v33 );
   }
-  dword_4F8328 = v6;
-  dword_4F832C = v5;
-  dword_4F8324 = v4;
+  zip_inflate_bit_buffer = v6;
+  zip_inflate_bit_count = v5;
+  zip_inflate_window_pos = v4;
   return 0;
 }

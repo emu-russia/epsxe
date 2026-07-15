@@ -15,7 +15,7 @@ int __cdecl zip_load_file(char *FileName)
   v2 = v1;
   if ( v1 )
   {
-    if ( zip_get_file_length(v1, &ElementCount) )
+    if ( zip_get_file_size(v1, &zip_file_size) )
     {
       zip_print("Error in zipfile %s: get_file_length() failed\n", *(_DWORD *)zip_filename);
     }
@@ -27,7 +27,7 @@ int __cdecl zip_load_file(char *FileName)
     {
       if ( v5 == v6 && v7 == v8 && v8 )
       {
-        zip_load_local_file_header(v2, (int)&v4, (int)v9);
+        zip_load_local_file_headers(v2, (int)&v4, (int)v9);
         fclose(v2);
         return 0;
       }
