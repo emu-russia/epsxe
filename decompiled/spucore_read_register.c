@@ -56,16 +56,16 @@ __int16 __cdecl spucore_read_register(__int16 a1)
         v2 = (unsigned int)dword_4F7554 >> 3;
         break;
       case 0xDA8:
-        LOWORD(v2) = sub_40CDD0();
+        LOWORD(v2) = spucore_dma_read_fifo();
         break;
       case 0xDAA:
-        LOWORD(v2) = sub_40CDF0();
+        LOWORD(v2) = spucore_read_cnt();
         break;
       case 0xDAC:
-        LOWORD(v2) = sub_40CE00();
+        LOWORD(v2) = spucore_read_dma_ctrl();
         break;
       case 0xDAE:
-        LOWORD(v2) = sub_40CE10();
+        LOWORD(v2) = spucore_read_status_hi();
         break;
       case 0xDB0:
         LOWORD(v2) = word_4E7104;
@@ -86,7 +86,7 @@ __int16 __cdecl spucore_read_register(__int16 a1)
   }
   else
   {
-    LOWORD(v2) = sub_40D0D0(v1 >> 4, a1 & 0xF);
+    LOWORD(v2) = spucore_read_voice_reg(v1 >> 4, a1 & 0xF);
   }
   return v2;
 }

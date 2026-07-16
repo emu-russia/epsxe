@@ -10,7 +10,7 @@ void spucore_dma()
   unsigned int v6; // ebx
   int v7; // edi
   int v8; // ebx
-  unsigned __int16 v9; // ax
+  unsigned __int16 fifo; // ax
 
   v0 = dword_516510;
   v1 = HIWORD(dword_516514);
@@ -26,8 +26,8 @@ void spucore_dma()
         v8 = 2 * v7;
         do
         {
-          v9 = sub_40CDD0();
-          hw_reg_write_half(v0, v9);
+          fifo = spucore_dma_read_fifo();
+          hw_reg_write_half(v0, fifo);
           v0 += 2;
           --v8;
         }

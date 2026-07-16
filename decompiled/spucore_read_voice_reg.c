@@ -1,5 +1,5 @@
 #include "pch.h"
-__int16 __cdecl sub_40D0D0(int a1, int a2)
+__int16 __cdecl spucore_read_voice_reg(int a1, int a2)
 {
   int v2; // eax
   int v3; // ecx

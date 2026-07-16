@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_40CE20(int a1, int a2, unsigned __int16 a3)
+int __cdecl spucore_write_voice_reg(int a1, int a2, unsigned __int16 a3)
 {
   __int64 v3; // rax
   int v4; // ecx

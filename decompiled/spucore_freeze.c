@@ -153,13 +153,13 @@ int __cdecl spucore_freeze(const char *a1, int a2)
         LOWORD(v4) = dword_463904;
         goto LABEL_37;
       case 42:
-        LOWORD(v4) = sub_40CDF0();
+        LOWORD(v4) = spucore_read_cnt();
         goto LABEL_37;
       case 44:
-        LOWORD(v4) = sub_40CE00();
+        LOWORD(v4) = spucore_read_dma_ctrl();
         goto LABEL_37;
       case 46:
-        LOWORD(v4) = sub_40CE10();
+        LOWORD(v4) = spucore_read_status_hi();
         goto LABEL_37;
       case 48:
         LOWORD(v4) = word_4E7104;

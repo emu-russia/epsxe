@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_40C560()
+int spucore_init_gauss_table()
 {
   int v0; // ecx
   int result; // eax

@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_40C5F0(int a1)
+int __cdecl spucore_voice_key_off(int a1)
 {
   int result; // eax
 

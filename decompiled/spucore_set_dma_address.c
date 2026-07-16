@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_40CD80(unsigned __int16 a1)
+int __cdecl spucore_set_dma_address(unsigned __int16 a1)
 {
   int result; // eax
 

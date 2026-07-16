@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_40CDA0(__int16 a1)
+int __cdecl spucore_dma_write_fifo(__int16 a1)
 {
   int v1; // eax
   int result; // eax

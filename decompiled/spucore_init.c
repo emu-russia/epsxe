@@ -6,8 +6,8 @@ int spucore_init()
 
   dbg_print(" * Init core spu ... ");
   spu_ram_ptr = (int)spu_ram;
-  sub_40C560();
-  inited = spu_init_internal_core();
+  spucore_init_gauss_table();
+  inited = spucore_init_dsound();
   if ( forcespu == 1 )
     forcespu = 0;
   dword_4E7114 = 0;

@@ -1,5 +1,5 @@
 #include "pch.h"
-__int16 sub_40CDD0()
+__int16 spucore_dma_read_fifo()
 {
   __int16 result; // ax
 

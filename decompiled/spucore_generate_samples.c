@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int sub_40C8B0()
+unsigned int spucore_generate_samples()
 {
   int v0; // ebp
   __int16 v1; // di
@@ -120,7 +120,7 @@ unsigned int sub_40C8B0()
   }
   else
   {
-    memset(&byte_4F7150, 0, 0x200u);
+    memset(&spucore_output_buffer, 0, 0x200u);
   }
   v30 = 0;
   v32 = 0;
@@ -212,7 +212,7 @@ LABEL_41:
               *(_DWORD *)(i + 77) = 0;
               *(_DWORD *)(i + 7) = v24;
             }
-            sub_40C620(v30);
+            spucore_decode_adpcm_block(v30);
             v25 = *(_DWORD *)(i + 77);
             if ( v25 == 2 )
               *(_DWORD *)(i + 3) = 0;

@@ -2,5 +2,5 @@
 // attributes: thunk
 int spucore_update_thunk()
 {
-  return spucore_update();
+  return spucore_update_dsound();
 }

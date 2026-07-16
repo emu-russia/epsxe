@@ -211,13 +211,13 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
         LOWORD(dword_463904) = *v31;
         break;
       case 42:
-        sub_40CD50(*v31);
+        spucore_write_cnt(*v31);
         break;
       case 44:
-        sub_40CD60(*v31);
+        spucore_write_dma_ctrl(*v31);
         break;
       case 46:
-        sub_40CD70(*v31);
+        spucore_write_status_hi(*v31);
         break;
       case 48:
         word_4E7104 = *v31;

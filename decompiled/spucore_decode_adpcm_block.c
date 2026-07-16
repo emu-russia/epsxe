@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned __int8 __cdecl sub_40C620(int a1)
+unsigned __int8 __cdecl spucore_decode_adpcm_block(int a1)
 {
   unsigned __int16 v1; // cx
   int v2; // edi
