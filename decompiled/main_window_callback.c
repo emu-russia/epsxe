@@ -63,7 +63,7 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
             nocd = 1;
             sub_41C010("NULL");
             loaded_file_type = 1;
-            byte_44DD19 = 0;
+            g_bDisableMouse = 0;
             return 1;
           case 40002u:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
@@ -77,7 +77,7 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
             nocd = 0;
             sub_41C010("NULL");
             loaded_file_type = 2;
-            byte_44DD19 = 0;
+            g_bDisableMouse = 0;
             return 1;
           case 40003u:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
@@ -128,7 +128,7 @@ LABEL_30:
             while ( v8 );
             sub_41C010("NULL");
             loaded_file_type = 3;
-            byte_44DD19 = 0;
+            g_bDisableMouse = 0;
             return 1;
           case 40004u:
             if ( !open_file_dialog("Open PSX EXE", "PSX EXEs (*.ZIP, *.EXE)", temp_path, ".", "EXE") )
@@ -136,7 +136,7 @@ LABEL_30:
             PostQuitMessage(0);
             sub_41C010(temp_path);
             loaded_file_type = 4;
-            byte_44DD19 = 0;
+            g_bDisableMouse = 0;
             return 1;
           case 40005u:
             ui_error(" * Going out from gui. (exit)\n");
@@ -214,7 +214,7 @@ LABEL_30:
             sub_41C010("NULL");
             loaded_file_type = 3;
 LABEL_40:
-            byte_44DD19 = 0;
+            g_bDisableMouse = 0;
             country_setting = 255;
             dword_4FC4CC();
             cdrom_init_cb();
@@ -379,38 +379,38 @@ LABEL_83:
           EnableMenuItem(v25, 0x9C74u, 3u);
           EnableMenuItem(v25, 0x9C75u, 3u);
         }
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           goto LABEL_122;
         EnableMenuItem(v25, 0x9C46u, 3u);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           goto LABEL_122;
         EnableMenuItem(v25, 0x9C47u, 3u);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           goto LABEL_122;
         EnableMenuItem(v25, 0x9C48u, 3u);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           goto LABEL_122;
         EnableMenuItem(v25, 0x9C70u, 3u);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           goto LABEL_122;
         EnableMenuItem(v25, 0x9C6Fu, 3u);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           goto LABEL_122;
         EnableMenuItem(v25, 0x9C49u, 3u);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           goto LABEL_122;
         EnableMenuItem(v25, 0x9C52u, 3u);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           goto LABEL_122;
         EnableMenuItem(v25, 0x9C53u, 3u);
-        if ( byte_44DD19
-          || (EnableMenuItem(v25, 0x9C74u, 3u), byte_44DD19)
-          || (EnableMenuItem(v25, 0x9C75u, 3u), byte_44DD19)
-          || (EnableMenuItem(v25, 0x9C76u, 3u), byte_44DD19)
-          || (EnableMenuItem(v25, 0x9C41u, 3u), byte_44DD19)
-          || (EnableMenuItem(v25, 0x9C42u, 3u), byte_44DD19)
-          || (EnableMenuItem(v25, 0x9C43u, 3u), byte_44DD19)
-          || (EnableMenuItem(v25, 0x9C44u, 3u), byte_44DD19) )
+        if ( g_bDisableMouse
+          || (EnableMenuItem(v25, 0x9C74u, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, 0x9C75u, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, 0x9C76u, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, 0x9C41u, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, 0x9C42u, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, 0x9C43u, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, 0x9C44u, 3u), g_bDisableMouse) )
         {
 LABEL_122:
           EnableMenuItem(v25, 0x9C58u, 3u);
@@ -419,19 +419,19 @@ LABEL_122:
         {
           EnableMenuItem(v25, 0x9C58u, 0);
         }
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           EnableMenuItem(v25, 0x9C59u, 3u);
         else
           EnableMenuItem(v25, 0x9C59u, 0);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           EnableMenuItem(v25, 0x9C50u, 3u);
         else
           EnableMenuItem(v25, 0x9C50u, 0);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
           EnableMenuItem(v25, 0x9C51u, 3u);
         else
           EnableMenuItem(v25, 0x9C51u, 0);
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
         {
           EnableMenuItem(v25, 0x9C71u, 0);
           if ( auto_ppf_load )
@@ -443,7 +443,7 @@ LABEL_122:
         {
           EnableMenuItem(v25, 0x9C71u, 3u);
         }
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
         {
           EnableMenuItem(v25, 0x9C76u, 0);
           if ( multitap_1 )
@@ -455,7 +455,7 @@ LABEL_122:
         {
           EnableMenuItem(v25, 0x9C76u, 3u);
         }
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
         {
           EnableMenuItem(v25, 0x9C73u, 0);
           if ( console_allocated )
@@ -467,7 +467,7 @@ LABEL_122:
         {
           EnableMenuItem(v25, 0x9C73u, 3u);
         }
-        if ( byte_44DD19 )
+        if ( g_bDisableMouse )
         {
           EnableMenuItem(v25, 0x9C5Eu, 3u);
           EnableMenuItem(v25, 0x9C5Fu, 3u);

@@ -15,8 +15,8 @@ int cdrom_detect_region()
     country_setting = 0;
     return result;
   }
-  sub_436AF0(Buffer);
-  if ( Buffer[strlen(Buffer) - 2] == 59 )
+  cdfs_load_executable(Buffer);
+  if ( Buffer[strlen(Buffer) - 2] == ';' )
     Buffer[strlen(Buffer) - 2] = 0;
   sprintf(byte_8B3D80, "%s", Buffer);
   for ( i = 0; i < strlen(byte_8B3D80); ++i )

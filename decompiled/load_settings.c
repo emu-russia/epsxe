@@ -249,11 +249,11 @@ int load_settings()
       word_4FD8A8,
       &word_4FD8AA);
   if ( !reg_get_value("Software\\epsxe\\config", "GamepadMotorType", (LPBYTE)Buffer) )
-    sscanf(Buffer, "%d,%d,%d,%d", dword_4FD8AC, &dword_4FD8B0, &dword_4FD8B4, dword_4FD8B8);
+    sscanf(Buffer, "%d,%d,%d,%d", g_PlayerDeviceMap1, &g_PlayerDeviceMap2, &g_PlayerDeviceMap3, g_PlayerDeviceMap4);
   if ( !reg_get_value("Software\\epsxe\\config", "GamepadSMotorType", (LPBYTE)Buffer) )
-    sscanf(Buffer, "%d,%d,%d,%d", dword_4FD8BC, &dword_4FD8C0, &dword_4FD8C4, dword_4FD8C8);
+    sscanf(Buffer, "%d,%d,%d,%d", g_EffectType2, &dword_4FD8C0, &dword_4FD8C4, dword_4FD8C8);
   if ( !reg_get_value("Software\\epsxe\\config", "GamepadBMotorType", (LPBYTE)Buffer) )
-    sscanf(Buffer, "%d,%d,%d,%d", dword_4FD8CC, &dword_4FD8D0, &dword_4FD8D4, &dword_4FD8D8);
+    sscanf(Buffer, "%d,%d,%d,%d", g_EffectType1, &dword_4FD8D0, &dword_4FD8D4, &dword_4FD8D8);
   if ( reg_get_value("Software\\epsxe\\config", "IsoDirectory", (LPBYTE)Buffer) )
     return sprintf(IsoDirectory, ".");
   else

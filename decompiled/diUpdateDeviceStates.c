@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_40F340()
+int diUpdateDeviceStates()
 {
   int result; // eax
   int i; // eax
@@ -13,36 +13,39 @@ int sub_40F340()
   char *v9; // [esp+2Ch] [ebp-104h]
   _BYTE v10[256]; // [esp+30h] [ebp-100h] BYREF
 
-  memset(word_50AE00, 0, 0x40u);
+  memset(g_KeyboardState, 0, 0x40u);
   memset(v10, 0, sizeof(v10));
-  result = dword_4F7A5C;
-  if ( dword_4F7A5C )
+  result = g_pKeyboardDevice;
+  if ( g_pKeyboardDevice )
   {
-    if ( dword_4F82EC == 1 )
+    if ( g_bDevicesAcquired == 1 )
     {
-      result = (*(int (__stdcall **)(int, int, _BYTE *))(*(_DWORD *)dword_4F7A5C + 36))(dword_4F7A5C, 256, v10);
+      result = (*(int (__stdcall **)(int, int, _BYTE *))(*(_DWORD *)g_pKeyboardDevice + 36))(
+                 g_pKeyboardDevice,
+                 256,
+                 v10);
       if ( result >= 0 )
       {
         for ( i = 0; i < 256; ++i )
         {
           if ( v10[i] )
           {
-            if ( !byte_50ABC0[i] )
-              byte_50ABC0[i] = 1;
+            if ( !g_KeyboardStatePrev[i] )
+              g_KeyboardStatePrev[i] = 1;
           }
           else
           {
-            byte_50ABC0[i] = 0;
+            g_KeyboardStatePrev[i] = 0;
           }
         }
-        byte_50ABC0[0] = 0;
+        g_KeyboardStatePrev[0] = 0;
         for ( j = 0; j < 4; ++j )
         {
-          v3 = dword_4F776C[j];
+          v3 = g_pJoystickDevices[j];
           result = 0;
           if ( v3 )
           {
-            v4 = &byte_50AD40[32 * j];
+            v4 = &g_JoystickButtonState[32 * j];
             v9 = v4;
             do
             {
@@ -51,21 +54,24 @@ int sub_40F340()
             }
             while ( result < 32 );
             (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 100))(v3);
-            v5 = (int *)&byte_4F7788[80 * j];
-            result = (*(int (__stdcall **)(int, int, int *))(*(_DWORD *)dword_4F776C[j] + 36))(dword_4F776C[j], 80, v5);
+            v5 = (int *)&g_JoystickStateBuffer[80 * j];
+            result = (*(int (__stdcall **)(int, int, int *))(*(_DWORD *)g_pJoystickDevices[j] + 36))(
+                       g_pJoystickDevices[j],
+                       80,
+                       v5);
             if ( result == -2147024866 )
             {
-              v6 = dword_4F776C[j];
+              v6 = g_pJoystickDevices[j];
               if ( v6 )
-                (*(void (__stdcall **)(int))(*(_DWORD *)v6 + 28))(dword_4F776C[j]);
-              result = (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)dword_4F776C[j] + 36))(
-                         dword_4F776C[j],
+                (*(void (__stdcall **)(int))(*(_DWORD *)v6 + 28))(g_pJoystickDevices[j]);
+              result = (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)g_pJoystickDevices[j] + 36))(
+                         g_pJoystickDevices[j],
                          80,
-                         &byte_4F7788[80 * j]);
+                         &g_JoystickStateBuffer[80 * j]);
               if ( result < 0 )
                 return result;
             }
-            if ( !dword_4F7A68[j] )
+            if ( !g_JoystickStateFlags[j] )
             {
               result = *v5;
               if ( *v5 > 0 )
@@ -258,7 +264,7 @@ int sub_40F340()
               switch ( v7 )
               {
                 case 0x57E4u:
-                  result = (int)&byte_50ABC0[32 * j];
+                  result = (int)&g_KeyboardStatePrev[32 * j];
                   *(_BYTE *)(result + 386) = 1;
                   *(_BYTE *)(result + 387) = 1;
                   break;
@@ -280,7 +286,7 @@ int sub_40F340()
             {
               if ( v7 == 13500 )
               {
-                result = (int)&byte_50ABC0[32 * j];
+                result = (int)&g_KeyboardStatePrev[32 * j];
                 *(_BYTE *)(result + 385) = 1;
                 *(_BYTE *)(result + 386) = 1;
               }
@@ -294,7 +300,7 @@ int sub_40F340()
             {
               if ( v7 == 4500 )
               {
-                result = (int)&byte_50AD40[32 * j];
+                result = (int)&g_JoystickButtonState[32 * j];
                 *v9 = 1;
                 byte_50AD41[32 * j] = 1;
               }
@@ -306,7 +312,7 @@ int sub_40F340()
           }
           else
           {
-            v8 = &byte_50AD40[32 * j];
+            v8 = &g_JoystickButtonState[32 * j];
             do
             {
               v8[result - 128] = 0;

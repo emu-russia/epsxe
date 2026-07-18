@@ -12,18 +12,18 @@ int process_input()
   unsigned __int16 v8; // dx
   int result; // eax
 
-  sub_40F340();
-  dword_4FD8F0 = sub_40FA30();
-  dword_4FD8F4 = sub_40FA70();
-  dword_50AB60 = dword_4F7784;
+  diUpdateDeviceStates();
+  dword_4FD8F0 = diGetClampedMouseX();
+  dword_4FD8F4 = diGetClampedMouseY();
+  dword_50AB60 = g_MouseButtons;
   v0 = 0;
   v1 = 2;
   do
   {
-    dword_4FD900[v0] = sub_40FB20(v0);
-    dword_4FD910[v0] = sub_40FB40(v0);
-    dword_4FD920[v0] = sub_40FB60(v0);
-    dword_4FD930[v0] = sub_40FB80(v0);
+    dword_4FD900[v0] = diGetJoystickButtonState1(v0);
+    dword_4FD910[v0] = diGetJoystickButtonState2(v0);
+    dword_4FD920[v0] = diGetJoystickButtonState3(v0);
+    dword_4FD930[v0] = diGetJoystickButtonState4(v0);
     ++v0;
     --v1;
   }
@@ -151,37 +151,37 @@ LABEL_51:
     *v5 = -1;
     if ( v8 )
     {
-      if ( byte_50ABC0[v6[1]] )
+      if ( g_KeyboardStatePrev[v6[1]] )
         *v5 = -65;
-      if ( byte_50ABC0[*v6] )
+      if ( g_KeyboardStatePrev[*v6] )
         *v5 &= ~0x20u;
-      if ( byte_50ABC0[v6[2]] )
+      if ( g_KeyboardStatePrev[v6[2]] )
         *v5 &= ~0x80u;
-      if ( byte_50ABC0[*(v6 - 1)] )
+      if ( g_KeyboardStatePrev[*(v6 - 1)] )
         *v5 &= ~0x10u;
-      if ( byte_50ABC0[v6[7]] )
+      if ( g_KeyboardStatePrev[v6[7]] )
         *v5 &= ~0x800u;
-      if ( byte_50ABC0[v6[8]] )
+      if ( g_KeyboardStatePrev[v6[8]] )
         *v5 &= ~0x100u;
-      if ( byte_50ABC0[*(v6 - 3)] )
+      if ( g_KeyboardStatePrev[*(v6 - 3)] )
         *v5 &= ~0x1000u;
-      if ( byte_50ABC0[*(v6 - 2)] )
+      if ( g_KeyboardStatePrev[*(v6 - 2)] )
         *v5 &= ~0x4000u;
-      if ( byte_50ABC0[v8] )
+      if ( g_KeyboardStatePrev[v8] )
         *v5 &= ~0x8000u;
-      if ( byte_50ABC0[*(v6 - 4)] )
+      if ( g_KeyboardStatePrev[*(v6 - 4)] )
         *v5 &= ~0x2000u;
-      if ( byte_50ABC0[v6[3]] )
+      if ( g_KeyboardStatePrev[v6[3]] )
         *v5 &= ~4u;
-      if ( byte_50ABC0[v6[4]] )
+      if ( g_KeyboardStatePrev[v6[4]] )
         *v5 &= ~1u;
-      if ( byte_50ABC0[v6[5]] )
+      if ( g_KeyboardStatePrev[v6[5]] )
         *v5 &= ~8u;
-      if ( byte_50ABC0[v6[6]] )
+      if ( g_KeyboardStatePrev[v6[6]] )
         *v5 &= ~2u;
-      if ( byte_50ABC0[v6[9]] )
+      if ( g_KeyboardStatePrev[v6[9]] )
         *v5 &= ~0x200u;
-      if ( byte_50ABC0[v6[10]] )
+      if ( g_KeyboardStatePrev[v6[10]] )
         *v5 &= ~0x400u;
     }
     v6 += 16;

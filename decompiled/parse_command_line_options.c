@@ -93,7 +93,7 @@ LABEL_146:
         if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nogui") )
         {
           create_window_flag = 0;
-          byte_44DD19 = 0;
+          g_bDisableMouse = 0;
           goto LABEL_146;
         }
         if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-p", 3u) )

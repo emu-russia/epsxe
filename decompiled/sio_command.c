@@ -273,15 +273,15 @@ LABEL_30:
           {
             if ( (*a1 & 1) != 0 && (unsigned __int8)byte_516560[65 * (unsigned __int8)byte_516560[0] + 2] == v26 + 3 )
             {
-              if ( dword_4FD8AC[BYTE1(dword_4FC480)] == 5 )
+              if ( g_PlayerDeviceMap1[BYTE1(dword_4FC480)] == 5 )
               {
                 joy_issue_small_motor();
                 v26 = dword_4FC480;
               }
-              v28 = dword_4FD8AC[BYTE1(dword_4FC480)];
+              v28 = g_PlayerDeviceMap1[BYTE1(dword_4FC480)];
               if ( v28 && v28 <= 4 )
               {
-                sub_40E750(0, 1, 2, BYTE1(dword_4FC480));
+                diSetEffectMagnitude(0, 1, 2, BYTE1(dword_4FC480));
                 v26 = dword_4FC480;
               }
               v27 = (unsigned __int8)byte_516560[0];
@@ -289,11 +289,11 @@ LABEL_30:
             }
             if ( byte_4FC464[v27] == 66 && *a1 && (unsigned __int8)byte_516560[65 * v27 + 2] == v26 + 4 )
             {
-              if ( dword_4FD8AC[BYTE1(dword_4FC480)] == 5 )
+              if ( g_PlayerDeviceMap1[BYTE1(dword_4FC480)] == 5 )
                 joy_issue_big_motor();
-              v29 = dword_4FD8AC[BYTE1(dword_4FC480)];
+              v29 = g_PlayerDeviceMap1[BYTE1(dword_4FC480)];
               if ( v29 && v29 <= 4 )
-                sub_40E750(1, (unsigned __int8)*a1, 2, BYTE1(dword_4FC480));
+                diSetEffectMagnitude(1, (unsigned __int8)*a1, 2, BYTE1(dword_4FC480));
               byte_4FC469[2 * (unsigned __int8)byte_516560[0]] = *a1;
             }
           }

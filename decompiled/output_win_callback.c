@@ -14,7 +14,7 @@ int __stdcall output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
         byte_50AA60[a3] = 0;
         return 0;
       case 0x200u:
-        sub_40E2C0();
+        diAcquireMouseDevice();
         return 1;
       default:
         return DefWindowProcA(hWnd, a2, a3, a4);
@@ -37,7 +37,7 @@ int __stdcall output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
         result = 1;
         break;
       case 6u:
-        sub_40E1D0();
+        diAcquireAllDevices();
         result = 1;
         break;
       case 7u:
@@ -45,7 +45,7 @@ int __stdcall output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
         result = 1;
         break;
       case 8u:
-        sub_40E240();
+        diUnacquireAllDevices();
         result = 1;
         break;
       default:

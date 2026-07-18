@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_40E5E0(int a1, int a2)
+int __cdecl diSetConstantForceMagnitude(int a1, int a2)
 {
   _DWORD *v2; // ebx
   int v3; // esi

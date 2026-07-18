@@ -38,10 +38,10 @@ void __cdecl epsxe_load(char *a1, size_t Size)
           fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", ArgList);
         v6 = Str2;
         qmemcpy((char *)ram + (*((_DWORD *)v5 + 6) & 0x1FFFFF), Str2 + 2048, *((_DWORD *)v5 + 7));
-        dword_50C350 = *((_DWORD *)v5 + 5);
-        dword_50C354 = -2145386752;
-        dword_50C358 = -2145386752;
-        dword_50C35C = 0;
+        MEMORY[0x50C350] = *((_DWORD *)v5 + 5);
+        MEMORY[0x50C354] = -2145386752;
+        MEMORY[0x50C358] = -2145386752;
+        MEMORY[0x50C35C] = 0;
         *(_DWORD *)reg_pc = *((_DWORD *)v5 + 4);
 LABEL_14:
         free(v6);

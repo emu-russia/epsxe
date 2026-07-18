@@ -21,7 +21,7 @@ int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
     }
     else
     {
-      v4 = &aNone_0[13 * (unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2]];
+      v4 = &stru_44C148[13 * (unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2]];
     }
     SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, v4);
     ++v2;
@@ -42,7 +42,7 @@ int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
       return SetDlgItemTextA(
                hDlg,
                *((unsigned __int16 *)&word_44DD1C + a2),
-               &aNone_0[13 * (unsigned __int16)word_455FA8[v6]]);
+               &stru_44C148[13 * (unsigned __int16)word_455FA8[v6]]);
     }
   }
   return result;

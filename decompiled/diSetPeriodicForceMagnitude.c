@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_40E670(_DWORD *a1, int a2)
+int __cdecl diSetPeriodicForceMagnitude(_DWORD *a1, int a2)
 {
   int v2; // esi
   int v4; // [esp+8h] [ebp-48h] BYREF

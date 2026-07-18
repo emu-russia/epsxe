@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
+int __cdecl dynarec_compile(unsigned int ArgList, int a2)
 {
   char *v2; // ebx
   unsigned int v3; // esi
@@ -96,7 +96,7 @@ int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
   int v95; // eax
   char v96; // cl
   unsigned __int8 v97; // al
-  char *v98; // eax
+  GTE_REG *v98; // eax
   unsigned __int8 v99; // al
   int v100; // eax
   int (*v101)(); // edx
@@ -387,7 +387,7 @@ LABEL_130:
             *(_DWORD *)(dword_4FC4E0 + 5) = (char *)dword_5164C0 - dword_4FC4E0 + 119;
             *(_BYTE *)(dword_4FC4E0 + 9) = 80;
             dword_4FC4E0 += 10;
-            dynarec_compile(ArgList, 1);
+            dynarec_compile(ArgList, 1u);
             *(_BYTE *)dword_4FC4E0 = 88;
             *(_WORD *)(dword_4FC4E0 + 1) = 8447;
             dword_4FC4E0 += 3;
@@ -450,7 +450,7 @@ LABEL_130:
               v30 = dword_4FC4E0 + 10;
             }
             dword_4FC4E0 = v30;
-            dynarec_compile(ArgList, 1);
+            dynarec_compile(ArgList, 1u);
             *(_BYTE *)dword_4FC4E0 = 88;
             *(_WORD *)(dword_4FC4E0 + 1) = 8447;
             dword_4FC4E0 += 3;
@@ -947,7 +947,7 @@ LABEL_151:
             dword_4FC4E0 += 11;
             dword_5164CC = v52;
             *(_BYTE *)dword_4FC4E0++ = 79;
-            dynarec_compile(ArgList, 1);
+            dynarec_compile(ArgList, 1u);
             *(_BYTE *)dword_4FC4E0 = -72;
             if ( (v51 & 0xFFF00000 | ArgList & 0xF0000000) == 0xBFC00000 )
               v53 = (v51 & 0x7FFFF) + 0x200000;
@@ -998,7 +998,7 @@ LABEL_151:
           else
             *(_DWORD *)(dword_4FC4E0 + 4) = (ArgList + 4) | 0x80000000;
           dword_4FC4E0 += 8;
-          dynarec_compile(ArgList, 1);
+          dynarec_compile(ArgList, 1u);
           *(_BYTE *)dword_4FC4E0 = -72;
           if ( (v54 & 0xFFF00000 | ArgList & 0xF0000000) == 0xBFC00000 )
             v55 = (v54 & 0x7FFFF) + 0x200000;
@@ -1116,7 +1116,7 @@ LABEL_436:
         *(_DWORD *)(dword_4FC4E0 + 7) = (char *)dword_5164C4 + v154;
         *(_WORD *)(dword_4FC4E0 + 11) = 8447;
         dword_4FC4E0 += 13;
-        dynarec_compile(ArgList, 1);
+        dynarec_compile(ArgList, 1u);
         if ( !v7 )
           v7 = 1;
         *(_BYTE *)dword_4FC4E0 = -72;
@@ -1179,7 +1179,7 @@ LABEL_141:
         v151 = dword_4FC4E0 + 15;
 LABEL_428:
         dword_4FC4E0 = v151;
-        dynarec_compile(ArgList, 1);
+        dynarec_compile(ArgList, 1u);
         if ( !v7 )
           v7 = 1;
         *(_BYTE *)dword_4FC4E0 = -72;
@@ -1571,7 +1571,7 @@ LABEL_253:
                                                                                                  + 2) )
             {
               v2[18] = -95;
-              *(_DWORD *)(dword_4FC4E0 + 19) = &gte_regs[(unsigned __int8)(4 * ((v7 >> 11) & 0x1F))];
+              *(_DWORD *)(dword_4FC4E0 + 19) = (char *)&gte_regs + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
               *(_WORD *)(dword_4FC4E0 + 23) = 18057;
               *(_BYTE *)(dword_4FC4E0 + 25) = 4 * (BYTE2(v7) & 0x1F);
               *(_BYTE *)(dword_4FC4E0 + 26) = 79;
@@ -1606,7 +1606,7 @@ LABEL_265:
                 if ( v96 != 124 && v96 != 116 )
                 {
                   *v2 = -95;
-                  *(_DWORD *)(dword_4FC4E0 + 1) = &gte_regs[(unsigned __int8)(4 * ((v7 >> 11) & 0x1F))];
+                  *(_DWORD *)(dword_4FC4E0 + 1) = (char *)&gte_regs + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
                   goto LABEL_203;
                 }
                 *(_WORD *)v2 = 32393;
@@ -1629,7 +1629,7 @@ LABEL_265:
             if ( v13 )
             {
               *v2 = -95;
-              *(_DWORD *)(dword_4FC4E0 + 1) = (char *)MEMORY[0x8A7F80] + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
+              *(_DWORD *)(dword_4FC4E0 + 1) = (char *)gte_regs.ctrl + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));
               goto LABEL_273;
             }
 LABEL_33:
@@ -1637,31 +1637,31 @@ LABEL_33:
             ++dword_4FC4E0;
             goto LABEL_422;
           case 4u:
-            v97 = 4 * ((v7 >> 11) & 0x1F);
-            if ( v97 >= 0x38u && v97 <= 0x4Cu || v97 == 112 )
+            v97 = (v7 >> 11) & 0x1F;
+            if ( v97 >= 0xEu && v97 <= 0x13u || v97 == 28 )
               goto LABEL_304;
             *v2 = 79;
             *(_WORD *)(dword_4FC4E0 + 1) = 18059;
             *(_BYTE *)(dword_4FC4E0 + 3) = 4 * (BYTE2(v7) & 0x1F);
-            if ( v97 == 4 || v97 == 12 || v97 == 20 || v97 == 32 || v97 == 36 || v97 == 40 || v97 == 44 )
+            if ( v97 == 1 || v97 == 3 || v97 == 5 || v97 == 8 || v97 == 9 || v97 == 10 || v97 == 11 )
             {
               *(_WORD *)(dword_4FC4E0 + 4) = -16625;
-              v98 = &gte_regs[v97];
+              v98 = &gte_regs.data[v97];
               goto LABEL_286;
             }
             *(_BYTE *)(dword_4FC4E0 + 4) = -93;
-            *(_DWORD *)(dword_4FC4E0 + 5) = &gte_regs[v97];
+            *(_DWORD *)(dword_4FC4E0 + 5) = (char *)&gte_regs + v97 * 4;
             dword_4FC4E0 += 9;
             goto LABEL_422;
           case 6u:
             *v2 = 79;
-            v99 = 2 * ((v7 >> 11) & 0x1F);
+            v99 = (v7 >> 11) & 0x1F;
             *(_WORD *)(dword_4FC4E0 + 1) = 18059;
             *(_BYTE *)(dword_4FC4E0 + 3) = 4 * (BYTE2(v7) & 0x1F);
-            if ( v99 == 8 || v99 == 24 || v99 == 40 || v99 == 52 || v99 == 54 || v99 == 58 || v99 == 60 )
+            if ( v99 == 4 || v99 == 12 || v99 == 20 || v99 == 26 || v99 == 27 || v99 == 29 || v99 == 30 )
             {
               *(_WORD *)(dword_4FC4E0 + 4) = -16625;
-              v98 = (char *)&MEMORY[0x8A7F80][v99];
+              v98 = &gte_regs.ctrl[v99];
 LABEL_286:
               *(_BYTE *)(dword_4FC4E0 + 6) = -64;
               *(_BYTE *)(dword_4FC4E0 + 7) = -93;
@@ -1671,7 +1671,7 @@ LABEL_286:
             else
             {
               *(_BYTE *)(dword_4FC4E0 + 4) = -93;
-              *(_DWORD *)(dword_4FC4E0 + 5) = &MEMORY[0x8A7F80][v99];
+              *(_DWORD *)(dword_4FC4E0 + 5) = &gte_regs.ctrl[v99];
               dword_4FC4E0 += 9;
             }
             goto LABEL_422;
@@ -1682,44 +1682,44 @@ LABEL_286:
               if ( v100 != 20971526 )
                 goto LABEL_304;
               *(_WORD *)v2 = 1479;
-              *(_DWORD *)(dword_4FC4E0 + 2) = &MEMORY[0x8A7FFC];
+              *(_DWORD *)(dword_4FC4E0 + 2) = &gte_regs.ctrl[31];
               *(_DWORD *)(dword_4FC4E0 + 6) = 0;
               *(_WORD *)(dword_4FC4E0 + 10) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 12) = 5;
-              *(_DWORD *)(dword_4FC4E0 + 13) = &MEMORY[0x8A7F36];
+              *(_DWORD *)(dword_4FC4E0 + 13) = &gte_regs.data[13].s16.lo;
               *(_WORD *)(dword_4FC4E0 + 17) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 19) = 13;
-              *(_DWORD *)(dword_4FC4E0 + 20) = &MEMORY[0x8A7F3A];
+              *(_DWORD *)(dword_4FC4E0 + 20) = &gte_regs.data[14].s16.lo;
               *(_WORD *)(dword_4FC4E0 + 24) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 26) = 21;
-              *(_DWORD *)(dword_4FC4E0 + 27) = &MEMORY[0x8A7F30];
+              *(_DWORD *)(dword_4FC4E0 + 27) = &gte_regs.data[12];
               *(_WORD *)(dword_4FC4E0 + 31) = -16085;
               *(_WORD *)(dword_4FC4E0 + 33) = -20721;
               *(_BYTE *)(dword_4FC4E0 + 35) = -62;
               *(_WORD *)(dword_4FC4E0 + 36) = -10101;
               *(_WORD *)(dword_4FC4E0 + 38) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 40) = 5;
-              *(_DWORD *)(dword_4FC4E0 + 41) = &MEMORY[0x8A7F32];
+              *(_DWORD *)(dword_4FC4E0 + 41) = &gte_regs.data[12].s16.lo;
               *(_WORD *)(dword_4FC4E0 + 45) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 47) = 21;
-              *(_DWORD *)(dword_4FC4E0 + 48) = &MEMORY[0x8A7F34];
+              *(_DWORD *)(dword_4FC4E0 + 48) = &gte_regs.data[13];
               *(_WORD *)(dword_4FC4E0 + 52) = -14293;
               *(_WORD *)(dword_4FC4E0 + 54) = -20721;
               *(_BYTE *)(dword_4FC4E0 + 56) = -54;
               *(_WORD *)(dword_4FC4E0 + 57) = -9981;
               *(_WORD *)(dword_4FC4E0 + 59) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 61) = 13;
-              *(_DWORD *)(dword_4FC4E0 + 62) = &MEMORY[0x8A7F36];
+              *(_DWORD *)(dword_4FC4E0 + 62) = &gte_regs.data[13].s16.lo;
               *(_WORD *)(dword_4FC4E0 + 66) = -16625;
               *(_BYTE *)(dword_4FC4E0 + 68) = 21;
-              *(_DWORD *)(dword_4FC4E0 + 69) = &MEMORY[0x8A7F38];
+              *(_DWORD *)(dword_4FC4E0 + 69) = &gte_regs.data[14];
               *(_WORD *)(dword_4FC4E0 + 73) = -16085;
               *(_WORD *)(dword_4FC4E0 + 75) = -20721;
               *(_BYTE *)(dword_4FC4E0 + 77) = -62;
               *(_WORD *)(dword_4FC4E0 + 78) = -10237;
               *(_WORD *)(dword_4FC4E0 + 80) = -15477;
               *(_BYTE *)(dword_4FC4E0 + 82) = -93;
-              *(_DWORD *)(dword_4FC4E0 + 83) = &MEMORY[0x8A7F60];
+              *(_DWORD *)(dword_4FC4E0 + 83) = &gte_regs.data[24];
               *(_WORD *)(dword_4FC4E0 + 87) = 32653;
               *(_BYTE *)(dword_4FC4E0 + 89) = -4;
               dword_4FC4E0 += 90;
@@ -2254,13 +2254,13 @@ LABEL_355:
           *(_WORD *)(dword_4FC4E0 + 13) = -16625;
           *(_BYTE *)(dword_4FC4E0 + 15) = -64;
           *(_BYTE *)(dword_4FC4E0 + 16) = -93;
-          *(_DWORD *)(dword_4FC4E0 + 17) = &gte_regs[v146];
+          *(_DWORD *)(dword_4FC4E0 + 17) = (char *)&gte_regs + v146;
           dword_4FC4E0 += 21;
         }
         else
         {
           *(_BYTE *)(dword_4FC4E0 + 13) = -93;
-          *(_DWORD *)(dword_4FC4E0 + 14) = &gte_regs[v146];
+          *(_DWORD *)(dword_4FC4E0 + 14) = (char *)&gte_regs + v146;
           dword_4FC4E0 += 18;
         }
         goto LABEL_422;
@@ -2293,7 +2293,7 @@ LABEL_414:
           *v2 = -72;
           *(_DWORD *)(dword_4FC4E0 + 1) = v150;
           *(_WORD *)(dword_4FC4E0 + 5) = 7563;
-          *(_DWORD *)(dword_4FC4E0 + 7) = &gte_regs[(unsigned __int8)(4 * (BYTE2(v7) & 0x1F))];
+          *(_DWORD *)(dword_4FC4E0 + 7) = (char *)&gte_regs + (unsigned __int8)(4 * (BYTE2(v7) & 0x1F));
           *(_WORD *)(dword_4FC4E0 + 11) = 17923;
           *(_BYTE *)(dword_4FC4E0 + 13) = 4 * ((v7 >> 21) & 0x1F);
           *(_BYTE *)(dword_4FC4E0 + 14) = -24;

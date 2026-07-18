@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_42FF60(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
+char __cdecl iso_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
 {
   unsigned int v4; // esi
   int v5; // ebx

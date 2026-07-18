@@ -44,7 +44,7 @@ void __noreturn epsxe_main_loop_runner()
     if ( loaded_file_type == 1 || loaded_file_type == 3 )
     {
       if ( fastboot )
-        *(_DWORD *)reg_pc = dword_50C35C;
+        *(_DWORD *)reg_pc = MEMORY[0x50C35C];
     }
     else if ( loaded_file_type == 4 )
     {

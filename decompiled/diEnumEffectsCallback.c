@@ -1,5 +1,5 @@
 #include "pch.h"
-int __stdcall sub_40E3C0(_DWORD *a1, _DWORD *a2)
+int __stdcall diEnumEffectsCallback(_DWORD *a1, _DWORD *a2)
 {
   if ( a2 )
   {

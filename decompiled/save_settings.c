@@ -124,11 +124,11 @@ int save_settings()
     LOWORD(word_4FD8A8[0]),
     (unsigned __int16)word_4FD8AA);
   reg_set_value("Software\\epsxe\\config", "GamepadAxis", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", dword_4FD8AC[0], dword_4FD8B0, dword_4FD8B4, dword_4FD8B8[0]);
+  sprintf(Buffer, "%d,%d,%d,%d", g_PlayerDeviceMap1[0], g_PlayerDeviceMap2, g_PlayerDeviceMap3, g_PlayerDeviceMap4[0]);
   reg_set_value("Software\\epsxe\\config", "GamepadMotorType", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", dword_4FD8BC[0], dword_4FD8C0, dword_4FD8C4, dword_4FD8C8[0]);
+  sprintf(Buffer, "%d,%d,%d,%d", g_EffectType2[0], dword_4FD8C0, dword_4FD8C4, dword_4FD8C8[0]);
   reg_set_value("Software\\epsxe\\config", "GamepadSMotorType", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", dword_4FD8CC[0], dword_4FD8D0, dword_4FD8D4, dword_4FD8D8);
+  sprintf(Buffer, "%d,%d,%d,%d", g_EffectType1[0], dword_4FD8D0, dword_4FD8D4, dword_4FD8D8);
   reg_set_value("Software\\epsxe\\config", "GamepadBMotorType", (BYTE *)Buffer);
   sprintf(Buffer, "%d", (unsigned __int8)auto_ppf_load);
   reg_set_value("Software\\epsxe\\config", "AutoPpfLoad", (BYTE *)Buffer);

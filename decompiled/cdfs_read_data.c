@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int __cdecl sub_436830(int a1, int a2, unsigned int a3, void *a4)
+unsigned int __cdecl cdfs_read_data(int a1, int a2, unsigned int a3, void *a4)
 {
   unsigned __int8 v5; // [esp+8h] [ebp-126Ch]
   unsigned __int8 v6; // [esp+Ch] [ebp-1268h]
@@ -11,7 +11,7 @@ unsigned int __cdecl sub_436830(int a1, int a2, unsigned int a3, void *a4)
   v5 = (a1 + 150) / 0x4Bu % 0x3C;
   if ( loaded_file_type == 3 )
   {
-    sub_42FF60(v6, v5, v7, (int)v8);
+    iso_read_data(v6, v5, v7, (int)v8);
   }
   else if ( loaded_file_type == 1 )
   {

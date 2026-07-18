@@ -1,5 +1,5 @@
 #include "pch.h"
-_DWORD *__cdecl sub_40E700(_DWORD *a1)
+_DWORD *__cdecl diInitEffectStruct(_DWORD *a1)
 {
   memset(a1 + 2, 0, 0x38u);
   a1[2] = 56;

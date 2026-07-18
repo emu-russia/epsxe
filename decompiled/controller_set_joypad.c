@@ -21,7 +21,7 @@ BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
     }
     else
     {
-      SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, &aJ1None[14 * *((unsigned __int16 *)dword_4FD884 + v4)]);
+      SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, &joy_names[14 * *((unsigned __int16 *)dword_4FD884 + v4)]);
     }
     ++v2;
     v3 = (int *)((char *)v3 + 2);
@@ -33,7 +33,7 @@ BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
     return SetDlgItemTextA(
              hDlg,
              *((unsigned __int16 *)&nIDDlgItem + a2),
-             &aJ1None[14 * *((unsigned __int16 *)dword_4FD884 + v5)]);
+             &joy_names[14 * *((unsigned __int16 *)dword_4FD884 + v5)]);
   sprintf(String, "%d", *((unsigned __int16 *)dword_4FD884 + v5));
   return SetDlgItemTextA(hDlg, *((unsigned __int16 *)&nIDDlgItem + a2), String);
 }

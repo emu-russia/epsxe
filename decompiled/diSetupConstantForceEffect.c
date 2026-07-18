@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int __cdecl sub_40E460(int a1, int a2)
+unsigned int __cdecl diSetupConstantForceEffect(int a1, int a2)
 {
   _DWORD *v2; // eax
   int v3; // edx
@@ -29,5 +29,5 @@ unsigned int __cdecl sub_40E460(int a1, int a2)
   v2[13] = 4;
   v2[14] = &a1;
   v2[1] = 1;
-  return (sub_40E3F0(v3, v2) & 0x80000000) == 0 ? 0 : 0x80004005;
+  return (diCreateEffectHelper(v3, v2) & 0x80000000) == 0 ? 0 : 0x80004005;
 }

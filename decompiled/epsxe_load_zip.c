@@ -38,10 +38,10 @@ void epsxe_load_zip()
           fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", byte_566980);
         v3 = Str2;
         qmemcpy((char *)ram + (*((_DWORD *)v2 + 6) & 0x1FFFFF), Str2 + 2048, *((_DWORD *)v2 + 7));
-        dword_50C350 = *((_DWORD *)v2 + 5);
-        dword_50C354 = -2145386752;
-        dword_50C358 = -2145386752;
-        dword_50C35C = 0;
+        MEMORY[0x50C350] = *((_DWORD *)v2 + 5);
+        MEMORY[0x50C354] = -2145386752;
+        MEMORY[0x50C358] = -2145386752;
+        MEMORY[0x50C35C] = 0;
         *(_DWORD *)reg_pc = *((_DWORD *)v2 + 4);
         free(v3);
       }

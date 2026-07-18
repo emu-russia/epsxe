@@ -43,7 +43,7 @@ int __cdecl W2k_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
   {
     if ( loaded_file_type == 3 )
     {
-      sub_42FF60(a1, a2, v7, (int)Buffer);
+      iso_read_data(a1, a2, v7, (int)Buffer);
       if ( auto_ppf_load )
       {
         v9 = sub_42C6D0(a1, a2, v7);

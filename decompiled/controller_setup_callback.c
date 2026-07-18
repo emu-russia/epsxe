@@ -46,12 +46,12 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
     {
       if ( a2 == 6 )
       {
-        sub_40E1D0();
+        diAcquireAllDevices();
         return 0;
       }
       if ( a2 == 8 )
       {
-        sub_40E240();
+        diUnacquireAllDevices();
         return 0;
       }
       return 0;
@@ -111,7 +111,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Constant");
       SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"None");
       SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Sine");
-      v7 = dword_4FD8B8[(unsigned __int8)pad_number_menu_selection];
+      v7 = g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection];
       if ( v7 )
       {
         v8 = v7 - 1;
@@ -194,7 +194,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
         SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
         SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
         SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"None");
-        switch ( dword_4FD8AC[0] )
+        switch ( g_PlayerDeviceMap1[0] )
         {
           case 0:
             SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 5u, 0);
@@ -220,13 +220,13 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
         SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Constant");
         SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"None");
         SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Sine");
-        if ( dword_4FD8BC[0] )
+        if ( g_EffectType2[0] )
         {
-          if ( dword_4FD8BC[0] == 1 )
+          if ( g_EffectType2[0] == 1 )
           {
             SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 0, 0);
           }
-          else if ( dword_4FD8BC[0] == 2 )
+          else if ( g_EffectType2[0] == 2 )
           {
             SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 2u, 0);
           }
@@ -238,7 +238,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
         SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Constant");
         SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"None");
         SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Sine");
-        v11 = dword_4FD8CC[0];
+        v11 = g_EffectType1[0];
 LABEL_78:
         if ( v11 )
         {
@@ -288,7 +288,7 @@ LABEL_78:
       SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
       SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
       SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"None");
-      switch ( dword_4FD8B0 )
+      switch ( g_PlayerDeviceMap2 )
       {
         case 0:
           SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 5u, 0);
@@ -349,9 +349,9 @@ LABEL_78:
     SetTimer(hDlg, 0, 0x21u, nullptr);
     hDlgInput = (int)hDlg;
     hInst_For_DInput = (int)g_hInstance;
-    if ( init_direct_input() == 1 )
+    if ( diInitDirectInput() == 1 )
       dbg_print_no_flush(" * Direct input init ok. \n");
-    sub_40F010();
+    diUpdateJoystickStates();
     return 1;
   }
   if ( a2 == 273 )
@@ -432,7 +432,7 @@ LABEL_78:
         dword_4FD888[2 * v27] = v28;
         KillTimer(hDlg, 0);
         EndDialog(hDlg, 1);
-        sub_40FAB0();
+        diShutdownDirectInput();
         return 1;
       case 1048:
         v22 = SendDlgItemMessageA(hDlg, 1086, 0x147u, 0, 0);
@@ -533,16 +533,16 @@ LABEL_78:
           {
             if ( v25 == 1 )
             {
-              dword_4FD8B8[(unsigned __int8)pad_number_menu_selection] = 0;
+              g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection] = 0;
             }
             else if ( v25 == 2 )
             {
-              dword_4FD8B8[(unsigned __int8)pad_number_menu_selection] = 2;
+              g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection] = 2;
             }
           }
           else
           {
-            dword_4FD8B8[(unsigned __int8)pad_number_menu_selection] = 1;
+            g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection] = 1;
           }
         }
         v26 = SendDlgItemMessageA(hDlg, 1089, 0x147u, 0, 0);
@@ -567,7 +567,7 @@ LABEL_78:
         save_settings();
         KillTimer(hDlg, 0);
         EndDialog(hDlg, 1);
-        sub_40FAB0();
+        diShutdownDirectInput();
         return 1;
       case 1049:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: NONE");
@@ -618,10 +618,10 @@ LABEL_203:
       return 1;
     v19 = 0;
     v32 = 0;
-    sub_40F340();
+    diUpdateDeviceStates();
     v20 = 0;
     v31 = 0;
-    v21 = word_50AE00;
+    v21 = g_KeyboardState;
     do
     {
       if ( v31 % 8 && *v21 )
@@ -646,11 +646,11 @@ LABEL_203:
     byte_44DD44 = v15;
     return 1;
   }
-  memset(byte_50ABC0, 0, 0x200u);
-  sub_40F340();
+  memset(g_KeyboardStatePrev, 0, 0x200u);
+  diUpdateDeviceStates();
   for ( i = 0; i < 0x100u; ++i )
   {
-    if ( byte_50ABC0[i] && v15 != 0xFF )
+    if ( g_KeyboardStatePrev[i] && v15 != 0xFF )
     {
       v30 = i;
       goto LABEL_138;
@@ -659,7 +659,7 @@ LABEL_203:
   v17 = 272;
   while ( 1 )
   {
-    if ( byte_50ABC0[v17] && v15 != 0xFF )
+    if ( g_KeyboardStatePrev[v17] && v15 != 0xFF )
       goto LABEL_107;
     if ( byte_50ABE0[v17] && v15 != 0xFF )
     {
@@ -679,7 +679,7 @@ LABEL_107:
     if ( ++v17 >= 0x120u )
     {
       v17 = 256;
-      while ( !byte_50ABC0[v17] || v15 == 0xFF )
+      while ( !g_KeyboardStatePrev[v17] || v15 == 0xFF )
       {
         if ( byte_50ABE0[v17] && v15 != 0xFF )
         {
@@ -699,7 +699,7 @@ LABEL_107:
         if ( ++v17 >= 0x110u )
         {
           v18 = 384;
-          while ( !byte_50ABC0[v18] || v15 == 0xFF )
+          while ( !g_KeyboardStatePrev[v18] || v15 == 0xFF )
           {
             if ( byte_50ABE0[v18] && v15 != 0xFF )
             {

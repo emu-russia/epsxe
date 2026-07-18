@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned __int8 __cdecl sub_436A00(int a1, int a2, char *Buffer, int *a4, int **a5)
+unsigned __int8 __cdecl cdfs_parse_system_cnf_for_exec(int a1, int a2, char *Buffer, int *a4, int **a5)
 {
   int v5; // esi
   unsigned __int8 result; // al
@@ -10,17 +10,17 @@ unsigned __int8 __cdecl sub_436A00(int a1, int a2, char *Buffer, int *a4, int **
   char v11; // [esp+11h] [ebp-F3h]
 
   v5 = 0;
-  result = sub_436830(a1, 24, 0x800u, byte_4FD9E8);
+  result = cdfs_read_data(a1, 24, 0x800u, byte_4FD9E8);
   if ( a2 > 8 )
   {
     do
     {
       result = byte_4FD9E8[v5];
-      if ( result == 83 )
+      if ( result == 'S' )
         break;
-      if ( result == 115 )
+      if ( result == 's' )
         break;
-      if ( byte_4FD9F0[v5] == 46 )
+      if ( byte_4FD9F0[v5] == '.' )
         break;
       result = ++v5 + 8;
     }
@@ -41,7 +41,7 @@ unsigned __int8 __cdecl sub_436A00(int a1, int a2, char *Buffer, int *a4, int **
     v10 = v7;
     v11 = 0;
     sprintf(Buffer, "%s", (const char *)v9);
-    return (unsigned __int8)sub_436960((const char *)v9, a4, a5);
+    return (unsigned __int8)cdfs_find_file((const char *)v9, a4, a5);
   }
   return result;
 }

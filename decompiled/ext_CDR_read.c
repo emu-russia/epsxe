@@ -14,7 +14,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
   }
   if ( loaded_file_type == 3 )
   {
-    sub_42FF60(a1, a2, a3, (int)Buffer);
+    iso_read_data(a1, a2, a3, (int)Buffer);
     if ( auto_ppf_load )
     {
       v5 = sub_42C6D0(a1, a2, a3);

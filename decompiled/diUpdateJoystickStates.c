@@ -1,34 +1,37 @@
 #include "pch.h"
-int sub_40F010()
+int diUpdateJoystickStates()
 {
   char *v0; // edi
   int i; // esi
   int result; // eax
   int v3; // eax
 
-  v0 = byte_4F7788;
+  v0 = g_JoystickStateBuffer;
   for ( i = 0; ; ++i )
   {
-    result = dword_4F776C[i];
+    result = g_pJoystickDevices[i];
     if ( result )
       break;
 LABEL_97:
     v0 += 80;
-    if ( (int)v0 >= (int)dword_4F78C8 )
+    if ( (int)v0 >= (int)g_EffectBuffer2 )
       return result;
   }
-  (*(void (__stdcall **)(int))(*(_DWORD *)result + 100))(dword_4F776C[i]);
-  if ( (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)dword_4F776C[i] + 36))(dword_4F776C[i], 80, v0) != -2147024866 )
+  (*(void (__stdcall **)(int))(*(_DWORD *)result + 100))(g_pJoystickDevices[i]);
+  if ( (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)g_pJoystickDevices[i] + 36))(g_pJoystickDevices[i], 80, v0) != -2147024866 )
     goto LABEL_8;
-  v3 = dword_4F776C[i];
+  v3 = g_pJoystickDevices[i];
   if ( v3 )
-    (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 28))(dword_4F776C[i]);
-  result = (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)dword_4F776C[i] + 36))(dword_4F776C[i], 80, v0);
+    (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 28))(g_pJoystickDevices[i]);
+  result = (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)g_pJoystickDevices[i] + 36))(
+             g_pJoystickDevices[i],
+             80,
+             v0);
   if ( result >= 0 )
   {
 LABEL_8:
-    if ( !dword_4F7A68[i] && *(int *)v0 > 0 )
-      dword_4F7A68[i] = 1;
+    if ( !g_JoystickStateFlags[i] && *(int *)v0 > 0 )
+      g_JoystickStateFlags[i] = 1;
     if ( !dword_4F7AA8[i] && *(int *)v0 < 0 )
       dword_4F7AA8[i] = 1;
     if ( !dword_4F7AE8[i] && *((int *)v0 + 1) > 0 )

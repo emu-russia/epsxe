@@ -19,10 +19,10 @@ int __cdecl epsxe_load_demo(char *FileName)
   sub_41C100(v2, ElementCount);
   fseek(v2, 2048, 0);
   fread((char *)ram + (v7 & 0x1FFFFF), 1u, ElementCount, v2);
-  dword_50C354 = 0x801FFF00;
-  dword_50C358 = 0x801FFF00;
-  dword_50C350 = v6;
-  dword_50C35C = 0;
+  MEMORY[0x50C354] = 0x801FFF00;
+  MEMORY[0x50C358] = 0x801FFF00;
+  MEMORY[0x50C350] = v6;
+  MEMORY[0x50C35C] = 0;
   *(_DWORD *)reg_pc = v5;
   return fclose(v2);
 }
