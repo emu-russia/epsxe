@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_410400(int a1)
+char __cdecl gte_convert_to_5bit(int a1)
 {
   int v1; // eax
 

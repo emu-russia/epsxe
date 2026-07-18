@@ -16,7 +16,7 @@ char __cdecl sub_430B60(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 
   *(_DWORD *)(a4 + 4) = 0;
   v8 = 0;
   if ( CDRgetBufferSub
-    && ((v4 = CDRgetBufferSub(), !extsubchanhle) || (dword_50C280 & 0x1F000000) != 0x1F000000 || a1 == 3)
+    && ((v4 = CDRgetBufferSub(), !extsubchanhle) || (dword_50C280[0] & 0x1F000000) != 0x1F000000 || a1 == 3)
     && v4 )
   {
     if ( a3 )

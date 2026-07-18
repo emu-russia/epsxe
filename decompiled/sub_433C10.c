@@ -17,7 +17,7 @@ int __cdecl sub_433C10(unsigned __int8 a1, _DWORD *a2, _DWORD *a3, _DWORD *a4)
   {
     memset(OutBuffer, 0, sizeof(OutBuffer));
     OutBuffer[0] = 8;
-    if ( DeviceIoControl(v4, 0x41018u, nullptr, 0, OutBuffer, 8u, &BytesReturned, nullptr) )
+    if ( DeviceIoControl(v4, IOCTL_SCSI_GET_ADDRESS, nullptr, 0, OutBuffer, 8u, &BytesReturned, nullptr) )
     {
       v6 = BYTE2(OutBuffer[1]);
       *a2 = LOBYTE(OutBuffer[1]);

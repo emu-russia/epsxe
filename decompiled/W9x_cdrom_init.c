@@ -17,10 +17,10 @@ char W9x_cdrom_init()
   else
   {
     dbg_print(" * Init Core W9x cdrom ... ");
-    load_winaspi_dll();
+    W9x_load_winaspi_dll();
     dbg_print("ok\n");
     init_aspi();
-    cdrom_gettrackinfo();
+    W9x_cdrom_gettrackinfo();
     v1 = alloca(8092);
     memset(v2, 0xAAu, sizeof(v2));
     dword_504C8C = 0;

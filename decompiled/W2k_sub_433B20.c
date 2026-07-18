@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_433B20()
+char W2k_sub_433B20()
 {
   int v0; // ebx
   CHAR RootPathName[4]; // [esp+8h] [ebp-4h] BYREF

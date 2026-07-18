@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_414030()
+char gte_cc()
 {
   signed int v0; // eax
   GTE_REG v1; // ecx

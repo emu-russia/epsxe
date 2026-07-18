@@ -1,5 +1,5 @@
 #include "pch.h"
-HMODULE free_winaspi_dll()
+HMODULE W9x_free_winaspi_dll()
 {
   HMODULE result; // eax
 

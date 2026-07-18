@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_410D20()
+char gte_ncs()
 {
   int v0; // edi
   int v1; // eax

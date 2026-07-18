@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned __int8 __cdecl spucore_decode_adpcm_block(int a1)
+char __cdecl spucore_decode_adpcm_block(int a1)
 {
   unsigned __int16 v1; // cx
   int v2; // edi
@@ -8,7 +8,7 @@ unsigned __int8 __cdecl spucore_decode_adpcm_block(int a1)
   int v5; // eax
   unsigned __int8 v6; // cl
   int v7; // eax
-  unsigned __int8 result; // al
+  char result; // al
   __int16 v9; // di
   int v10; // eax
   int v11; // ebp

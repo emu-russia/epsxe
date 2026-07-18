@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_433CF0(DWORD BytesReturned)
+int __cdecl W2k_scsi_pass_through_direct(DWORD BytesReturned)
 {
   DWORD v1; // ebp
   int v2; // edx

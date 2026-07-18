@@ -1,5 +1,5 @@
 #include "pch.h"
-GTE_REG __cdecl sub_41BB00(unsigned __int8 a1, GTE_REG a2)
+GTE_REG __cdecl gte_write_data_register(unsigned __int8 a1, GTE_REG a2)
 {
   GTE_REG result; // eax
 

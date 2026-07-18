@@ -1,5 +1,5 @@
 #include "pch.h"
-_DWORD *cdrom_gettrackinfo()
+_DWORD *W9x_cdrom_gettrackinfo()
 {
   char v0; // bl
   bool v1; // al

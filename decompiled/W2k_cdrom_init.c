@@ -7,7 +7,7 @@ char W2k_cdrom_init()
 
   if ( !cdrom_letter )
   {
-    cdrom_letter = sub_433B20();
+    cdrom_letter = W2k_sub_433B20();
     if ( !cdrom_letter )
       fatal_error_with_message_box(" * cdrom not found \n");
   }
@@ -27,7 +27,7 @@ char W2k_cdrom_init()
     hObject = sub_433B70(cdrom_letter);
     if ( !hObject )
       sound_use_cdda = 0;
-    cdrom_gettrackinfo_0();
+    W2k_cdrom_gettrackinfo();
     dbg_print("[%c] ok\n", cdrom_letter);
     v1 = alloca(8092);
     memset(v2, 0xAAu, sizeof(v2));

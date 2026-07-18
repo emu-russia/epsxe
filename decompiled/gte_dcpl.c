@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_410420()
+char gte_dcpl()
 {
   int v0; // esi
   int v1; // edi

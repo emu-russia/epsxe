@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_4144A0()
+int gte_op()
 {
   int result; // eax
   GTE_REG v1; // ecx

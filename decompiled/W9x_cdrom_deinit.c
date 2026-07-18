@@ -12,5 +12,5 @@ HMODULE W9x_cdrom_deinit()
   if ( Stream )
     fclose(Stream);
   W9x_cdrom_stop();
-  return free_winaspi_dll();
+  return W9x_free_winaspi_dll();
 }

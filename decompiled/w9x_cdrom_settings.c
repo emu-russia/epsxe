@@ -11,9 +11,9 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 
   if ( a2 == 272 )
   {
-    load_winaspi_dll();
+    W9x_load_winaspi_dll();
     init_aspi();
-    free_winaspi_dll();
+    W9x_free_winaspi_dll();
     v9 = 0;
     if ( HIBYTE(dword_4FD9BC) )
     {

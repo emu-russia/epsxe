@@ -1,5 +1,5 @@
 #include "pch.h"
-char cdrom_gettrackinfo_0()
+char W2k_cdrom_gettrackinfo()
 {
   HANDLE EventA; // esi
   char result; // al
@@ -35,7 +35,7 @@ char cdrom_gettrackinfo_0()
     HIBYTE(BytesReturned[13]) = 3;
     LOBYTE(BytesReturned[14]) = 36;
     ResetEvent(EventA);
-    if ( !scsi_pass_through_direct((DWORD)BytesReturned) )
+    if ( !W2k_scsi_pass_through_direct((DWORD)BytesReturned) )
       WaitForSingleObject(EventA, 0xFFFFFFFF);
     CloseHandle(EventA);
     if ( BYTE1(BytesReturned[0]) == 1 )

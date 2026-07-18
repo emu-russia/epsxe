@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_414EE0(int a1)
+int __cdecl gte_count_leading_bits(int a1)
 {
   int v1; // eax
   int v2; // ecx

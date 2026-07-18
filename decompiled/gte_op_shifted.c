@@ -1,5 +1,5 @@
 #include "pch.h"
-GTE_REG sub_4145C0()
+GTE_REG gte_op_shifted()
 {
   GTE_REG result; // eax
   int v1; // edx

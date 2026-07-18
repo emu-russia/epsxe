@@ -1,8 +1,8 @@
 #include "pch.h"
-unsigned int op_LWC2()
+GTE_REG op_LWC2()
 {
   unsigned int v0; // ecx
-  unsigned int word; // eax
+  int word; // eax
 
   v0 = (unsigned __int16)cpu_opcode;
   op_rs = ((unsigned int)cpu_opcode >> 21) & 0x1F;
@@ -14,5 +14,5 @@ unsigned int op_LWC2()
     dword_576DA8 = v0;
   }
   word = mem_read_word(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
-  return sub_41BB00(op_rt, word);
+  return gte_write_data_register(op_rt, (GTE_REG)word);
 }

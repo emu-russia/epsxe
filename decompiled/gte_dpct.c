@@ -1,5 +1,5 @@
 #include "pch.h"
-GTE_REG sub_412B10()
+GTE_REG gte_dpct()
 {
   GTE_REG v0; // esi
   int v1; // esi

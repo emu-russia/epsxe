@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl dynarec_compile(unsigned int ArgList, int a2)
+int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
 {
   char *v2; // ebx
   unsigned int v3; // esi
@@ -387,7 +387,7 @@ LABEL_130:
             *(_DWORD *)(dword_4FC4E0 + 5) = (char *)dword_5164C0 - dword_4FC4E0 + 119;
             *(_BYTE *)(dword_4FC4E0 + 9) = 80;
             dword_4FC4E0 += 10;
-            dynarec_compile(ArgList, 1u);
+            dynarec_compile(ArgList, 1);
             *(_BYTE *)dword_4FC4E0 = 88;
             *(_WORD *)(dword_4FC4E0 + 1) = 8447;
             dword_4FC4E0 += 3;
@@ -423,7 +423,7 @@ LABEL_130:
             dword_5164CC = dword_4FC4E0 + 10;
             dword_4FC4E0 += 11;
             if ( v27 == v26 )
-              dword_4FF9E8 |= (unsigned int)&bios_image[37248];
+              dword_4FF9E8 |= 0x800000u;
             *v28 = 79;
             if ( v27 )
             {
@@ -450,7 +450,7 @@ LABEL_130:
               v30 = dword_4FC4E0 + 10;
             }
             dword_4FC4E0 = v30;
-            dynarec_compile(ArgList, 1u);
+            dynarec_compile(ArgList, 1);
             *(_BYTE *)dword_4FC4E0 = 88;
             *(_WORD *)(dword_4FC4E0 + 1) = 8447;
             dword_4FC4E0 += 3;
@@ -947,7 +947,7 @@ LABEL_151:
             dword_4FC4E0 += 11;
             dword_5164CC = v52;
             *(_BYTE *)dword_4FC4E0++ = 79;
-            dynarec_compile(ArgList, 1u);
+            dynarec_compile(ArgList, 1);
             *(_BYTE *)dword_4FC4E0 = -72;
             if ( (v51 & 0xFFF00000 | ArgList & 0xF0000000) == 0xBFC00000 )
               v53 = (v51 & 0x7FFFF) + 0x200000;
@@ -998,7 +998,7 @@ LABEL_151:
           else
             *(_DWORD *)(dword_4FC4E0 + 4) = (ArgList + 4) | 0x80000000;
           dword_4FC4E0 += 8;
-          dynarec_compile(ArgList, 1u);
+          dynarec_compile(ArgList, 1);
           *(_BYTE *)dword_4FC4E0 = -72;
           if ( (v54 & 0xFFF00000 | ArgList & 0xF0000000) == 0xBFC00000 )
             v55 = (v54 & 0x7FFFF) + 0x200000;
@@ -1116,7 +1116,7 @@ LABEL_436:
         *(_DWORD *)(dword_4FC4E0 + 7) = (char *)dword_5164C4 + v154;
         *(_WORD *)(dword_4FC4E0 + 11) = 8447;
         dword_4FC4E0 += 13;
-        dynarec_compile(ArgList, 1u);
+        dynarec_compile(ArgList, 1);
         if ( !v7 )
           v7 = 1;
         *(_BYTE *)dword_4FC4E0 = -72;
@@ -1179,7 +1179,7 @@ LABEL_141:
         v151 = dword_4FC4E0 + 15;
 LABEL_428:
         dword_4FC4E0 = v151;
-        dynarec_compile(ArgList, 1u);
+        dynarec_compile(ArgList, 1);
         if ( !v7 )
           v7 = 1;
         *(_BYTE *)dword_4FC4E0 = -72;
@@ -1567,8 +1567,7 @@ LABEL_253:
         {
           case 0u:
             if ( (v7 == 1208125440 || v7 == 1208127488 || v7 == 1208129536)
-              && *(int **)((unsigned __int16)ArgList + mem_read_hooks[HIWORD(ArgList)]) == (int *)((char *)&ram[43642]
-                                                                                                 + 2) )
+              && *(_DWORD *)((unsigned __int16)ArgList + mem_read_hooks[HIWORD(ArgList)]) == 6166570 )
             {
               v2[18] = -95;
               *(_DWORD *)(dword_4FC4E0 + 19) = (char *)&gte_regs + (unsigned __int8)(4 * ((v7 >> 11) & 0x1F));

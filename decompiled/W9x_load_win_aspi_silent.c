@@ -1,5 +1,5 @@
 #include "pch.h"
-int load_win_aspi_silent()
+int W9x_load_win_aspi_silent()
 {
   HMODULE LibraryA; // eax
   int (__cdecl *SendASPI32Command)(LPSRB); // eax

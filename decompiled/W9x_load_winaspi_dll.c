@@ -1,5 +1,5 @@
 #include "pch.h"
-int (__cdecl *load_winaspi_dll())(LPSRB)
+int (__cdecl *W9x_load_winaspi_dll())(LPSRB)
 {
   HMODULE LibraryA; // eax
   int (__cdecl *result)(LPSRB); // eax

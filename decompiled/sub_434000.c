@@ -20,7 +20,7 @@ BOOL sub_434000()
   BytesReturned[13] = dword_457340;
   LOWORD(BytesReturned[14]) = word_457344;
   ResetEvent(EventA);
-  if ( !scsi_pass_through_direct((DWORD)BytesReturned) )
+  if ( !W2k_scsi_pass_through_direct((DWORD)BytesReturned) )
     WaitForSingleObject(EventA, 0xFFFFFFFF);
   if ( BYTE1(BytesReturned[0]) != 1 )
     printf(" * Resume cdrom error. \n");
