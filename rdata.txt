@@ -17,8 +17,11 @@
 .rdata:00448500                                         ; DATA XREF: sub_40E800+67↑o
 .rdata:00448500                       0AEh>>
 
+;IID_IDirectInputA
 .rdata:004485D0 stru_4485D0     GUID <6F1D2B60h, 0D5A0h, 11CFh, <0BFh, 0C7h, 44h, 45h, 53h, 54h, 0, 0>>
 .rdata:004485D0                                         ; DATA XREF: init_direct_input+1B5↑o
+
+;IID_IDirectInputW 
 .rdata:004485E0 stru_4485E0     GUID <6F1D2B61h, 0D5A0h, 11CFh, <0BFh, 0C7h, 44h, 45h, 53h, 54h, 0, 0>>
 .rdata:004485E0                                         ; DATA XREF: init_direct_input+14D↑o
 
