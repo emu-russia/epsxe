@@ -37,7 +37,7 @@ typedef struct _GTE_REGS {
  * Data Register Index Enum (0..31)
  * -------------------------------------------------------------------------- */
 
-typedef enum {
+typedef enum _GTEDataReg {
     GTE_DATA_VXY0   = 0,   /* V0 X (lo), Y (hi) */
     GTE_DATA_VZ0    = 1,   /* V0 Z */
     GTE_DATA_VXY1   = 2,   /* V1 X (lo), Y (hi) */
@@ -76,7 +76,7 @@ typedef enum {
  * Control Register Index Enum (0..31) – these map directly to the ctrl[] array
  * -------------------------------------------------------------------------- */
 
-typedef enum {
+typedef enum _GTECtrlReg {
     GTE_CTRL_RT11_RT12 = 0,   /* RT11 (lo), RT12 (hi) */
     GTE_CTRL_RT13_RT21 = 1,   /* RT13 (lo), RT21 (hi) */
     GTE_CTRL_RT22_RT23 = 2,   /* RT22 (lo), RT23 (hi) */
@@ -115,7 +115,7 @@ typedef enum {
  * Fake Command Enum (bits 20-24) – ignored by hardware, used for SDK ordering
  * -------------------------------------------------------------------------- */
 
-typedef enum {
+typedef enum _GTEFakeCommand {
     GTE_FAKE_UNUSED_00   = 0x00,   /* Reserved */
     GTE_FAKE_RTPS        = 0x01,   /* RTPS */
     GTE_FAKE_RTPT        = 0x02,   /* RTPT */
@@ -192,7 +192,7 @@ typedef enum {
  * GTE Real Commands (bits 0-5 of instruction)
  * -------------------------------------------------------------------------- */
 
-typedef enum {
+typedef enum _GTERealCommand {
     GTE_CMD_RTPS   = 0x01,   /* 15 cycles */
     GTE_CMD_NCLIP  = 0x06,   /* 8 cycles */
     GTE_CMD_OP     = 0x0C,   /* 6 cycles */
@@ -555,5 +555,3 @@ typedef enum {
 #define GTE_INSTR_OP(sf) (GTE_BUILD_CMD(GTE_CMD_OP, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_OP))
 #define GTE_INSTR_GPF(sf) (GTE_BUILD_CMD(GTE_CMD_GPF, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_GPF))
 #define GTE_INSTR_GPL(sf) (GTE_BUILD_CMD(GTE_CMD_GPL, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_GPL))
-
-#endif /* GTE_H */
