@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <intrin.h>
+#include <windef.h>
 
 #define __noreturn
 
@@ -15,13 +16,10 @@ typedef uint64_t _QWORD;
 typedef uint16_t _WORD;
 typedef BOOLEAN bool;
 
-#define BYTE2(n) (((n)>>16)&0xff)
-
-// Pointer-based variants that can be used on both sides of an assignment (=)
-#define LOWORD(x) (*((uint16_t*)&(x)))
-#define HIWORD(x) (*((uint16_t*)&(x) + 1))
-#define LODWORD(x) (*((uint32_t*)&(x)))
-#define HIDWORD(x) (*((uint32_t*)&(x) + 1))
+#define BYTEn(x, n) (*((unsigned char*)&(x) + n))
+#define BYTE0(x) BYTEn(x, 0)
+#define BYTE1(x) BYTEn(x, 1)
+#define BYTE2(x) BYTEn(x, 2)
 
 #include "../zlib-1.1.3/zlib.h"
 #include "../psxdefs.h"
