@@ -28,6 +28,10 @@ ePSXe releases for PC (Source: https://en.wikipedia.org/wiki/EPSXe)
 
 ## Burutter
 
-![248319075.1.jpg](248319075.1.jpg)
+![248319075.1.jpg](/imgstore/248319075.1.jpg)
+
+![m84828513527_6.jpg](/imgstore/m84828513527_6.jpg)
+
+![burutter_3.jpg](/imgstore/burutter_3.jpg)
 
 Переходник для подключения контроллеров PlayStation по USB. В настоящее время даже нет в продаже (не нашёл), только картинка как это выглядело (переходник и комплект ПО).
