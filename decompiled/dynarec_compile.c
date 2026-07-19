@@ -1616,7 +1616,7 @@ LABEL_265:
                 *(_BYTE *)(dword_4FC4E0 + 7) = -116;
                 *(_DWORD *)(dword_4FC4E0 + 8) = v7;
                 *(_BYTE *)(dword_4FC4E0 + 12) = -24;
-                v92 = (char *)op_GTE_opcode;
+                v92 = (char *)gte_exec_opcode;
                 goto LABEL_243;
               }
               *v2 = 79;
@@ -1741,7 +1741,7 @@ LABEL_304:
                   *(_WORD *)(dword_4FC4E0 + 5) = 18119;
                   *(_BYTE *)(dword_4FC4E0 + 7) = -116;
                   *(_DWORD *)(dword_4FC4E0 + 8) = v7;
-                  v92 = (char *)op_GTE_opcode;
+                  v92 = (char *)gte_exec_opcode;
                   goto LABEL_242;
                 }
                 v101 = gte_rtps;

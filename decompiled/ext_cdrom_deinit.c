@@ -4,7 +4,7 @@ int (*ext_cdrom_deinit())(void)
   int (*result)(void); // eax
 
   if ( cd_savefake_flag >= 0 )
-    sub_42FA10();
+    cdrom_fake_write();
   if ( loaded_file_type == 3 )
     iso_close();
   ext_CDRstop();

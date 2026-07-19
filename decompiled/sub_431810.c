@@ -4,7 +4,7 @@ char __cdecl sub_431810(
         unsigned __int8 a2,
         unsigned __int8 a3,
         unsigned __int8 a4,
-        int a5,
+        BYTE *a5,
         _DWORD *a6)
 {
   char result; // al
@@ -35,10 +35,10 @@ char __cdecl sub_431810(
   v12 = -40;
   v15 = (unsigned __int16)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
   BYTE1(v18) = a4;
-  result = exec_scsi_cmd(&v12, 0xCu, a5, 2368 * a4);
+  result = W9x_exec_scsi_cmd(&v12, 0xCu, a5, 2368 * a4);
   if ( a4 )
   {
-    v9 = (_DWORD *)(a5 + 2352);
+    v9 = a5 + 2352;
     do
     {
       v10 = a6;

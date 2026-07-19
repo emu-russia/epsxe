@@ -117,7 +117,7 @@ char *sub_4238B0()
       *(_DWORD *)int_reg |= 1u;
       if ( (v6 & 1) != 0 )
         cpu_interrupt();
-      frame_update();
+      gpu_frame_update();
       if ( reset_flag )
       {
         if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0xBFC00000 )

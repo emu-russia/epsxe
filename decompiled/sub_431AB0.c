@@ -16,5 +16,5 @@ char __cdecl sub_431AB0(int a1)
   v2 = 43;
   v5 = BYTE1(a1);
   v6 = a1;
-  return exec_scsi_cmd(&v2, 0xAu, 0, 0);
+  return W9x_exec_scsi_cmd(&v2, 0xAu, nullptr, 0);
 }

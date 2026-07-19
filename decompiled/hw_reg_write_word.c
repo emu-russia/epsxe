@@ -31,7 +31,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
       dword_51650C = a2;
       if ( dword_5164D0[1] < 0 )
       {
-        cdrom_dma();
+        cdr_dma();
         dword_51650C = a2 & 0xFEFFFFFF;
         dma_assert_int(3u);
       }
@@ -153,7 +153,7 @@ LABEL_32:
     switch ( a1 )
     {
       case 0x1F801814u:
-        j_GPUwriteStatus(a2);
+        gpu_writeStatus(a2);
         return;
       case 0x1F801820u:
         sub_429280(a2);
@@ -168,7 +168,7 @@ LABEL_51:
   }
   if ( a1 == 528488464 )
   {
-    j_GPUwriteData(a2);
+    gpu_writeData(a2);
     return;
   }
   if ( a1 != 528486632 )

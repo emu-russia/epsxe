@@ -360,7 +360,7 @@ LABEL_78:
     {
       case 1023:
         byte_44DD44 = -1;
-        sub_42DC00(pad_number_menu_selection);
+        cont_set_default(pad_number_menu_selection);
         v29 = hDlg;
         controller_set_keyboard(hDlg, (unsigned __int8)byte_44DD44);
         goto LABEL_203;
@@ -564,7 +564,7 @@ LABEL_78:
             dword_4FD8C8[(unsigned __int8)pad_number_menu_selection] = 1;
           }
         }
-        save_settings();
+        cfg_save_settings();
         KillTimer(hDlg, 0);
         EndDialog(hDlg, 1);
         diShutdownDirectInput();
@@ -595,7 +595,7 @@ LABEL_78:
         return 0;
       case 1055:
         byte_44DD44 = -1;
-        sub_42DCC0(pad_number_menu_selection);
+        cont_sub_42DCC0(pad_number_menu_selection);
         v29 = hDlg;
         controller_set_keyboard(hDlg, (unsigned __int8)byte_44DD44);
         controller_set_joypad(hDlg, (unsigned __int8)byte_44DD44);

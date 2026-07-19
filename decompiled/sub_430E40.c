@@ -20,7 +20,8 @@ int __cdecl sub_430E40(BYTE a1, BYTE a2, BYTE a3)
   v9.SRB_Flags = 72;
   v9.SRB_BufLen = 100;
   v9.SRB_BufPointer = (BYTE *)v10;
-  *(_WORD *)&v9.SRB_SenseLen = 1550;
+  v9.SRB_SenseLen = 14;
+  v9.SRB_CDBLen = 6;
   v9.SRB_PostProc = EventA;
   v9.CDBByte[0] = 18;
   v9.CDBByte[4] = 100;

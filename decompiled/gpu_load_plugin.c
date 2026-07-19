@@ -59,7 +59,7 @@ HWND gpu_load_plugin()
   GPUupdateLace = (int (__fastcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUupdateLace");
   if ( !GPUupdateLace )
     ui_error(" * GetProcAddress error %s\n", "GPUupdateLace");
-  GPUmakeSnapshot = GetProcAddress(hGpuModule, "GPUmakeSnapshot");
+  GPUmakeSnapshot = (int (*(*)(void))(void))GetProcAddress(hGpuModule, "GPUmakeSnapshot");
   GPUwriteDataMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUwriteDataMem");
   GPUreadDataMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUreadDataMem");
   GPUdisplayFlags = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUdisplayFlags");

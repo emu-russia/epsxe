@@ -33,7 +33,7 @@ void __noreturn epsxe_main_loop_runner()
     sio_reset();
     reopen_console_log();
     nullsub_1();
-    sub_42DCF0();
+    init_performance_counter();
     sub_429240();
     if ( dword_50C36C == 1 )
       sub_428270();

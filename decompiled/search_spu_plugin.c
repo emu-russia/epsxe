@@ -216,7 +216,7 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         sound_use_cdda = SendDlgItemMessageA(hDlg, 1009, 0xF0u, 0, 0);
         forcespu = SendDlgItemMessageA(hDlg, 1030, 0xF0u, 0, 0);
         EndDialog(hDlg, 1);
-        save_settings();
+        cfg_save_settings();
         result = 1;
         break;
       case 1015:

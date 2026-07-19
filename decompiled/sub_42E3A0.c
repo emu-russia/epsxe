@@ -13,5 +13,5 @@ int (__stdcall *sub_42E3A0())(_DWORD, _DWORD)
   else
     dbg_print_no_flush(" * Direct input init error. \n");
   diUpdateJoystickStates();
-  return do_GPUfreeze(0);
+  return gpu_do_freeze(0);
 }

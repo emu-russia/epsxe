@@ -161,7 +161,7 @@ int sub_42B2A0()
     dword_50C364 = 0;
     ++dword_50C360;
     ++dword_50C000;
-    frame_update();
+    gpu_frame_update();
     result = reset_flag;
     if ( reset_flag )
       break;

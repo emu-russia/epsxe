@@ -9,7 +9,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
 
   if ( !cd_savefake_flag )
   {
-    sub_42F990(a1, a2, a3, Buffer);
+    cdrom_fake_read_portion(a1, a2, a3, Buffer);
     return 0;
   }
   if ( loaded_file_type == 3 )
@@ -22,7 +22,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
     }
     if ( cd_savefake_flag == 1 )
     {
-      sub_42F8F0(a1, a2, a3, Buffer);
+      cdrom_fake_write_portion(a1, a2, a3, Buffer);
       return 0;
     }
   }
@@ -42,7 +42,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
       v7 = Buffer;
     }
     if ( cd_savefake_flag == 1 )
-      sub_42F8F0(a1, a2, a3, v7);
+      cdrom_fake_write_portion(a1, a2, a3, v7);
   }
   return 0;
 }

@@ -53,7 +53,7 @@ LABEL_16:
     dword_45593C = 312;
     dword_455940 = 2171;
     cheat_file_from_cmdline = 0;
-    load_settings();
+    cfg_load_settings();
     parse_command_line_options(v14, (int)v15);
     sub_437030();
     select_cdrom_core();

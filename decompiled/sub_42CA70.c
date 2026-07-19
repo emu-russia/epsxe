@@ -33,11 +33,11 @@ void sub_42CA70()
             dword_50AE80[1] = 1;
             dword_50AE80[2] = 0x80;
             if ( byte_455FA5 )
-              dword_50AE80[3] = sub_42B680(dword_50AF50);
+              dword_50AE80[3] = cdr_sub_42B680(dword_50AF50);
             else
               dword_50AE80[3] = 0;
-            LOBYTE(dword_50AE84) = sub_42B680(BYTE1(dword_50AF50));
-            BYTE1(dword_50AE84) = sub_42B680(BYTE2(dword_50AF50));
+            LOBYTE(dword_50AE84) = cdr_sub_42B680(BYTE1(dword_50AF50));
+            BYTE1(dword_50AE84) = cdr_sub_42B680(BYTE2(dword_50AF50));
             byte_50AEC0 = 6;
           }
           byte_50AEC1 = 0;

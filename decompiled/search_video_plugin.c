@@ -207,14 +207,14 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           if ( v7 != -1 && v7 < dword_45B8E4 )
             sprintf((char *const)VideoPlugin, "%s", &byte_8A9540[1024 * v7]);
           EndDialog(hDlg, 1);
-          save_settings();
+          cfg_save_settings();
           result = 1;
         }
         else
         {
           sprintf((char *const)VideoPlugin, "NULL");
           EndDialog(hDlg, 1);
-          save_settings();
+          cfg_save_settings();
           result = 1;
         }
         break;
@@ -227,7 +227,7 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         {
           sprintf((char *const)VideoPlugin, "NULL");
           EndDialog(hDlg, 1);
-          save_settings();
+          cfg_save_settings();
         }
         result = 1;
         break;

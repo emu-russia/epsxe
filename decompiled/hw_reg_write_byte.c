@@ -1,5 +1,5 @@
 #include "pch.h"
-void __cdecl hw_reg_write_byte(unsigned int a1, char a2)
+void __cdecl hw_reg_write_byte(unsigned int a1, unsigned __int8 a2)
 {
   unsigned int v2; // eax
   int v3; // ecx
@@ -18,16 +18,16 @@ void __cdecl hw_reg_write_byte(unsigned int a1, char a2)
       switch ( a1 )
       {
         case 0x1F801801u:
-          cdrom_reg1_write(a2);
+          cdr_reg1_write(a2);
           return;
         case 0x1F801040u:
           sio_data_write(0x1F801040, a2);
           return;
         case 0x1F8010F6u:
-          dword_50BFC8 = dword_50BFC8 & 0xFF00FFFF | ((unsigned __int8)a2 << 16);
+          dword_50BFC8 = dword_50BFC8 & 0xFF00FFFF | (a2 << 16);
           return;
         case 0x1F801800u:
-          cdrom_reg0_write(a2);
+          cdr_reg0_write(a2);
           return;
       }
       goto LABEL_27;
@@ -35,24 +35,17 @@ void __cdecl hw_reg_write_byte(unsigned int a1, char a2)
     switch ( a1 )
     {
       case 0x1F801802u:
-        cdrom_reg2_write(a2);
+        cdr_reg2_write(a2);
         break;
       case 0x1F801803u:
-        cdrom_reg3_write(a2);
+        cdr_reg3_write(a2);
         break;
       case 0x1F802041u:
         byte_516600[8257] = a2;
         break;
       default:
 LABEL_27:
-        dump_log(
-          console_log_handle,
-          "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n",
-          "UNK",
-          a1,
-          (unsigned __int8)a2,
-          1,
-          *(_DWORD *)reg_pc);
+        dump_log(console_log_handle, "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n", "UNK", a1, a2, 1, *(_DWORD *)reg_pc);
         return;
     }
   }

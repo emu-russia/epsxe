@@ -19,7 +19,7 @@ char ext_cdrom_load_plugin()
   if ( cd_savefake_flag )
   {
     if ( cd_savefake_flag == 1 )
-      cdrom_create_fake_file(cdrom_fake_filename);
+      cdrom_fake_create_file(cdrom_fake_filename);
     if ( loaded_file_type == 3 )
     {
       iso_load(bin_iso_file);
@@ -150,7 +150,7 @@ char ext_cdrom_load_plugin()
   }
   else
   {
-    LOBYTE(CDRconfigure) = cdrom_load_fake_file(cdrom_fake_filename);
+    LOBYTE(CDRconfigure) = cdrom_fake_load_file(cdrom_fake_filename);
   }
   return (char)CDRconfigure;
 }

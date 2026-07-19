@@ -23,7 +23,7 @@ INT_PTR __stdcall bios_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       case 1028:
         GetDlgItemTextA(hDlg, 1025, (LPSTR)bios_name, 1024);
         EndDialog(hDlg, 1);
-        save_settings();
+        cfg_save_settings();
         result = 1;
         break;
       case 1029:

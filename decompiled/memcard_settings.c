@@ -47,7 +47,7 @@ INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           memcard_load();
         }
         EndDialog(hDlg, 1);
-        save_settings();
+        cfg_save_settings();
         result = 1;
         break;
       case 1085:

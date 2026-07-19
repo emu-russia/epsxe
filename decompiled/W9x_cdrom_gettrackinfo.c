@@ -11,15 +11,15 @@ _DWORD *W9x_cdrom_gettrackinfo()
   int v8; // [esp+14h] [ebp-10h] BYREF
   _DWORD v9[3]; // [esp+18h] [ebp-Ch] BYREF
 
-  v9[0] = 67;
-  v9[1] = 50331648;
-  v9[2] = 36;
+  v9[0] = 0x43;
+  v9[1] = 0x3000000;
+  v9[2] = 0x24;
   v0 = 10;
   v1 = 1;
   while ( v1 )
   {
-    memset(&byte_504CA0, 0, 0x324u);
-    v1 = exec_scsi_cmd(v9, 0xAu, (int)&byte_504CA0, 804) != 0;
+    memset(byte_504CA0, 0, 0x324u);
+    v1 = W9x_exec_scsi_cmd(v9, 0xAu, byte_504CA0, 0x324u) != 0;
     if ( !++v0 )
     {
       if ( v1 )

@@ -16,7 +16,7 @@ int __cdecl epsxe_load_demo(char *FileName)
   fread(Str2, 1u, 0x4Cu, v1);
   if ( strncmp("PS-X EXE", Str2, 8u) )
     fatal_error_with_message_box(" * ePSXe: [%s] is not a EXE file. \n", FileName);
-  sub_41C100(v2, ElementCount);
+  check_demo_header(v2, ElementCount);
   fseek(v2, 2048, 0);
   fread((char *)ram + (v7 & 0x1FFFFF), 1u, ElementCount, v2);
   MEMORY[0x50C354] = 0x801FFF00;

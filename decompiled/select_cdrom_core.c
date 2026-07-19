@@ -19,7 +19,7 @@ char select_cdrom_core()
       win_aspi_silent = W9x_load_win_aspi_silent();
       if ( !win_aspi_silent )
       {
-        init_aspi();
+        W9x_init_aspi();
         W9x_free_winaspi_dll();
         LOBYTE(win_aspi_silent) = HIBYTE(dword_4FD9BC);
         if ( HIBYTE(dword_4FD9BC) )

@@ -234,7 +234,7 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         if ( v6 != -1 && v6 < dword_45B8E4 )
           sprintf((char *const)CdromPlugin, "%s", &byte_8A9540[1024 * v6]);
         EndDialog(hDlg, 1);
-        save_settings();
+        cfg_save_settings();
         result = 1;
         break;
       case 1024:

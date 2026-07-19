@@ -6,9 +6,9 @@ char W9x_cdrom_init()
   _BYTE v2[8092]; // [esp+0h] [ebp-1F9Ch] BYREF
 
   if ( !cd_savefake_flag )
-    return cdrom_load_fake_file(cdrom_fake_filename);
+    return cdrom_fake_load_file(cdrom_fake_filename);
   if ( cd_savefake_flag == 1 )
-    cdrom_create_fake_file(cdrom_fake_filename);
+    cdrom_fake_create_file(cdrom_fake_filename);
   if ( loaded_file_type == 3 )
   {
     result = iso_load(bin_iso_file);
@@ -19,7 +19,7 @@ char W9x_cdrom_init()
     dbg_print(" * Init Core W9x cdrom ... ");
     W9x_load_winaspi_dll();
     dbg_print("ok\n");
-    init_aspi();
+    W9x_init_aspi();
     W9x_cdrom_gettrackinfo();
     v1 = alloca(8092);
     memset(v2, 0xAAu, sizeof(v2));

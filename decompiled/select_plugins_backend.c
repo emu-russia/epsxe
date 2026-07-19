@@ -41,7 +41,7 @@ int select_plugins_backend()
     dword_4FC4CC = (int (*)(void))sub_433610;
     dword_4FC4D0 = (int)nullsub_1;
     dword_4FC4D4 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_4337F0;
-    dword_4FC4D8 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_433930;
+    dword_4FC4D8 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W9x_sub_433930;
     cdrom_subchannel_read_cb = (int (*)(void))W9x_cdrom_subchannel_read;
   }
   else if ( !strcmp((const char *)CdromPlugin, "W2KCDRCORE") )
@@ -53,7 +53,7 @@ int select_plugins_backend()
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W2k_cdrom_read_data;
     cdrom_play_cdda_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))W2k_cdrom_play_cdda;
     cdrom_stop_cb = (int (*)(void))W2k_cdrom_stop;
-    dword_4FC4CC = sub_4345E0;
+    dword_4FC4CC = (int (*)(void))sub_4345E0;
     dword_4FC4D0 = (int)nullsub_1;
     dword_4FC4D4 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_4347A0;
     dword_4FC4D8 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_4348D0;
@@ -71,7 +71,7 @@ int select_plugins_backend()
     dword_4FC4CC = (int (*)(void))sub_430810;
     dword_4FC4D0 = (int)nullsub_1;
     dword_4FC4D4 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_430A00;
-    dword_4FC4D8 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_430B60;
+    dword_4FC4D8 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CD_sub_430B60;
     cdrom_subchannel_read_cb = (int (*)(void))nullsub_1;
   }
   *(_DWORD *)dword_5164D0 = 0;

@@ -50,7 +50,7 @@ int __cdecl W2k_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
         sub_436F60(v9, (int)Buffer);
       }
       if ( cd_savefake_flag == 1 )
-        sub_42F8F0(a1, a2, v7, Buffer);
+        cdrom_fake_write_portion(a1, a2, v7, Buffer);
     }
     else
     {
@@ -302,13 +302,13 @@ LABEL_66:
         sub_436F60(v35, (int)v10);
       }
       if ( cd_savefake_flag == 1 )
-        sub_42F8F0(a1, v6, v7, v10);
+        cdrom_fake_write_portion(a1, v6, v7, v10);
     }
     return 0;
   }
   else
   {
-    sub_42F990(a1, a2, v7, Buffer);
+    cdrom_fake_read_portion(a1, a2, v7, Buffer);
     return 0;
   }
 }

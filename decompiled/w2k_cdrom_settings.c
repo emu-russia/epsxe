@@ -48,7 +48,7 @@ INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       SubchannelW2kCaching = SendDlgItemMessageA(hDlg, 1140, BM_GETCHECK, 0, 0);
       SubchannelW2kCachingLG = SendDlgItemMessageA(hDlg, 1141, BM_GETCHECK, 0, 0);
       EndDialog(hDlg, 1);
-      cdrom_set_letter();
+      cfg_cdrom_set_letter();
       return 1;
     }
     else

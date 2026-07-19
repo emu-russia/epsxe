@@ -36,7 +36,7 @@ int __cdecl setup_wizard_callback(HWND hWndParent)
         sprintf((char *const)SoundPlugin, "%s", byte_8A88C0);
         sprintf((char *const)CdromPlugin, "%s", byte_8A8CC0);
         sprintf((char *const)bios_name, "%s", byte_8A90C0);
-        result = save_settings();
+        result = cfg_save_settings();
         break;
       default:
         return result;

@@ -21,7 +21,7 @@ void spu_dma()
   v3 = dma_mem_read(dword_516510);
   if ( sound_enabled )
   {
-    if ( *(_DWORD *)dword_516518 == 16777728 )
+    if ( *(_DWORD *)dword_516518 == 0x1000200 )
     {
       v8 = v1 * v2;
       if ( spu_use_external_plugin == 1 )
@@ -56,7 +56,7 @@ void spu_dma()
         }
       }
     }
-    else if ( *(_DWORD *)dword_516518 == 16777729 )
+    else if ( *(_DWORD *)dword_516518 == 0x1000201 )
     {
       if ( spu_use_external_plugin == 1 )
       {

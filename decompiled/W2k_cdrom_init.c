@@ -12,9 +12,9 @@ char W2k_cdrom_init()
       fatal_error_with_message_box(" * cdrom not found \n");
   }
   if ( !cd_savefake_flag )
-    return cdrom_load_fake_file(cdrom_fake_filename);
+    return cdrom_fake_load_file(cdrom_fake_filename);
   if ( cd_savefake_flag == 1 )
-    cdrom_create_fake_file(cdrom_fake_filename);
+    cdrom_fake_create_file(cdrom_fake_filename);
   if ( loaded_file_type == 3 )
   {
     result = iso_load(bin_iso_file);

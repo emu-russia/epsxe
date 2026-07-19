@@ -12,7 +12,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   if ( a2 == 272 )
   {
     W9x_load_winaspi_dll();
-    init_aspi();
+    W9x_init_aspi();
     W9x_free_winaspi_dll();
     v9 = 0;
     if ( HIBYTE(dword_4FD9BC) )
@@ -66,7 +66,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       SubchannelW9xCaching = SendDlgItemMessageA(hDlg, 1137, BM_GETCHECK, 0, 0);
       SubchannelW9xCachingLG = SendDlgItemMessageA(hDlg, 1138, BM_GETCHECK, 0, 0);
       EndDialog(hDlg, 1);
-      cdrom_set_hain_target_lun();
+      cfg_cdrom_set_hain_target_lun();
       return 1;
     }
     else

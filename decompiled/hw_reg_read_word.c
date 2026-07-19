@@ -28,7 +28,7 @@ unsigned int __cdecl hw_reg_read_word(unsigned int a1)
           switch ( a1 )
           {
             case 0x1F801814u:
-              return j_GPUreadStatus();
+              return gpu_readStatus();
             case 0x1F801820u:
               return 0;
             case 0x1F801824u:
@@ -43,7 +43,7 @@ LABEL_44:
         }
         else if ( a1 == 0x1F801810 )
         {
-          return j_GPUreadData();
+          return gpu_readData();
         }
         else
         {

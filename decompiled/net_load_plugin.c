@@ -23,7 +23,7 @@ int net_load_plugin()
   NETinit = GetProcAddress(LibraryA, "NETinit");
   if ( !NETinit )
     ui_error(" * GetProcAddress error NETinit\n");
-  NETshutdown = GetProcAddress(hNetModule, "NETshutdown");
+  NETshutdown = (HMODULE (*)(void))GetProcAddress(hNetModule, "NETshutdown");
   if ( !NETshutdown )
     ui_error(" * GetProcAddress error NETshutdoww\n");
   NETopen = (int (__stdcall *)(_DWORD))GetProcAddress(hNetModule, "NETopen");

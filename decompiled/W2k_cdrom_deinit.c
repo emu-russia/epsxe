@@ -4,7 +4,7 @@ HANDLE W2k_cdrom_deinit()
   HANDLE result; // eax
 
   if ( cd_savefake_flag >= 0 )
-    sub_42FA10();
+    cdrom_fake_write();
   if ( loaded_file_type == 3 )
     iso_close();
   if ( dword_504C84 )

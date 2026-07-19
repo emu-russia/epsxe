@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_431990(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, unsigned __int8 a4, int a5)
+char __cdecl sub_431990(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, unsigned __int8 a4, BYTE *a5)
 {
   char v6; // [esp+0h] [ebp-Ch] BYREF
   __int16 v7; // [esp+1h] [ebp-Bh]
@@ -20,5 +20,5 @@ char __cdecl sub_431990(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 
   v9 = (unsigned __int16)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
   v13 = -8;
   v14 = 2;
-  return exec_scsi_cmd(&v6, 0xCu, a5, 2368 * a4);
+  return W9x_exec_scsi_cmd(&v6, 0xCu, a5, 2368 * a4);
 }

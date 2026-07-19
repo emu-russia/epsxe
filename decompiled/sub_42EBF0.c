@@ -18,7 +18,7 @@ _BYTE *__cdecl sub_42EBF0(char *a1, int a2)
   _BYTE *v16; // eax
 
   v2 = a1 + 309;
-  draw_text_on_screen("FREE SLOT", a1);
+  gpu_draw_text_on_screen("FREE SLOT", a1);
   v3 = &byte_4560D0[120 * a2];
   v4 = 20;
   do

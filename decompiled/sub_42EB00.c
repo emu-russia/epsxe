@@ -18,7 +18,7 @@ _BYTE *__cdecl sub_42EB00(char *a1, int a2)
   _BYTE *v16; // eax
 
   v2 = a1 + 309;
-  draw_text_on_screen("NO SAVE PIC", a1);
+  gpu_draw_text_on_screen("NO SAVE PIC", a1);
   v3 = &byte_4560D0[120 * a2];
   v4 = 20;
   do

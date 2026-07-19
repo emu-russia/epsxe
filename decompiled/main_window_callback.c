@@ -55,7 +55,7 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
               goto LABEL_26;
             if ( !strcmp((const char *)CdromPlugin, "NULL") )
               goto LABEL_28;
-            if ( sub_41C0B0() )
+            if ( check_bios_file_exists() )
               goto LABEL_30;
             PostQuitMessage(0);
             if ( byte_45B8E8 )
@@ -70,7 +70,7 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
               goto LABEL_26;
             if ( !strcmp((const char *)CdromPlugin, "NULL") )
               goto LABEL_28;
-            if ( sub_41C0B0() )
+            if ( check_bios_file_exists() )
               goto LABEL_30;
             PostQuitMessage(0);
             fastboot = 0;
@@ -100,7 +100,7 @@ LABEL_28:
                 0x10u);
               return 1;
             }
-            if ( sub_41C0B0() )
+            if ( check_bios_file_exists() )
             {
 LABEL_30:
               MessageBoxA(
@@ -115,7 +115,7 @@ LABEL_30:
             GetFullPathNameA(temp_path, 0x400u, Buffer, &FilePart);
             *FilePart = 0;
             sprintf(IsoDirectory, "%s", temp_path);
-            cdrom_iso_set_path();
+            cfg_cdrom_iso_set_path();
             PostQuitMessage(0);
             if ( byte_45B8E8 )
               fastboot = 0;
@@ -202,7 +202,7 @@ LABEL_30:
             GetFullPathNameA(temp_path, 0x400u, Buffer, &FilePart);
             *FilePart = 0;
             sprintf(IsoDirectory, "%s", temp_path);
-            cdrom_iso_set_path();
+            cfg_cdrom_iso_set_path();
             cdrom_deinit_cb(v9);
             v10 = 0;
             do
@@ -229,7 +229,7 @@ LABEL_41:
             CheckMenuItem(Menu, 0x9C5Bu, 0);
             CheckMenuItem(Menu, 0x9C5Cu, 0);
             country_setting = 255;
-            save_settings();
+            cfg_save_settings();
             return 1;
           case 40027u:
             v23 = GetMenu(hWnd);
@@ -237,7 +237,7 @@ LABEL_41:
             CheckMenuItem(v23, 0x9C5Bu, 0);
             CheckMenuItem(v23, 0x9C5Cu, 8u);
             country_setting = 0;
-            save_settings();
+            cfg_save_settings();
             return 1;
           case 40028u:
             v24 = GetMenu(hWnd);
@@ -245,7 +245,7 @@ LABEL_41:
             CheckMenuItem(v24, 0x9C5Bu, 0);
             CheckMenuItem(v24, 0x9C5Cu, 8u);
             country_setting = 1;
-            save_settings();
+            cfg_save_settings();
             return 1;
           case 40030u:
             *(_DWORD *)dword_44DF24 = 10;
@@ -366,7 +366,7 @@ LABEL_68:
               EnableMenuItem(v20, 0x9C75u, 3u);
             }
 LABEL_83:
-            save_settings();
+            cfg_save_settings();
             return 1;
           default:
             return 1;
