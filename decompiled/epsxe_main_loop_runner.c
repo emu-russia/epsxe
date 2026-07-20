@@ -30,7 +30,7 @@ void __noreturn epsxe_main_loop_runner()
     }
     sub_42C830();
     gte_clear_regs();
-    sio_reset();
+    sio_reset_all();
     reopen_console_log();
     nullsub_1();
     init_performance_counter();
@@ -44,7 +44,7 @@ void __noreturn epsxe_main_loop_runner()
     if ( loaded_file_type == 1 || loaded_file_type == 3 )
     {
       if ( fastboot )
-        *(_DWORD *)reg_pc = MEMORY[0x50C35C];
+        *(_DWORD *)reg_pc = cpu_gpr[31];
     }
     else if ( loaded_file_type == 4 )
     {

@@ -1,5 +1,5 @@
 #include "pch.h"
-char memcard_load()
+char sio_memcard_load()
 {
   FILE *v0; // eax
   unsigned int i; // eax
@@ -9,8 +9,8 @@ char memcard_load()
   FILE *v5; // esi
   FILE *v6; // esi
 
-  LOBYTE(v0) = byte_4FC460;
-  if ( !byte_4FC460 )
+  LOBYTE(v0) = sio_memcard_loaded;
+  if ( !sio_memcard_loaded )
   {
     if ( !strcmp((const char *)Memcard1, "NULL") )
       sprintf((char *const)Memcard1, "%s", "memcards\\epsxe000.mcr");
@@ -18,11 +18,11 @@ char memcard_load()
       sprintf((char *const)Memcard2, "%s", "memcards\\epsxe001.mcr");
     for ( i = 0; i < 0x20000; ++i )
     {
-      byte_546860[i] = 0;
-      byte_526860[i] = 0;
+      sio_memcard_data_slot2[i] = 0;
+      sio_memcard_data_slot1[i] = 0;
     }
-    byte_546860[0] = 77;
-    byte_526860[0] = 77;
+    sio_memcard_data_slot2[0] = 77;
+    sio_memcard_data_slot1[0] = 77;
     byte_546861[0] = 67;
     byte_526861 = 67;
     byte_5468DF = 14;
@@ -58,30 +58,30 @@ char memcard_load()
     if ( v4 )
     {
       fseek(v4, 0, 2);
-      Offset = ftell(v5) - 0x20000;
-      fseek(v5, Offset, 0);
-      fread(byte_526860, 1u, 0x20000u, v5);
+      sio_memcard1_file_offset = ftell(v5) - 0x20000;
+      fseek(v5, sio_memcard1_file_offset, 0);
+      fread(sio_memcard_data_slot1, 1u, 0x20000u, v5);
       fclose(v5);
     }
     else
     {
-      Offset = 0;
+      sio_memcard1_file_offset = 0;
     }
     v0 = fopen((const char *)Memcard2, "rb");
     v6 = v0;
     if ( v0 )
     {
       fseek(v0, 0, 2);
-      dword_4FC474 = ftell(v6) - 0x20000;
-      fseek(v6, dword_4FC474, 0);
-      fread(byte_546860, 1u, 0x20000u, v6);
+      sio_memcard2_file_offset = ftell(v6) - 0x20000;
+      fseek(v6, sio_memcard2_file_offset, 0);
+      fread(sio_memcard_data_slot2, 1u, 0x20000u, v6);
       LOBYTE(v0) = fclose(v6);
     }
     else
     {
-      dword_4FC474 = 0;
+      sio_memcard2_file_offset = 0;
     }
-    byte_4FC460 = 1;
+    sio_memcard_loaded = 1;
   }
   return (char)v0;
 }

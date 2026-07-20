@@ -47,8 +47,8 @@ void sub_42CA70()
         }
       }
       if ( (v0 & 2) == 2
-        && unk_50BF7A == (_BYTE)dword_50AF50
-        && word_50BF7B == *(_WORD *)((char *)&dword_50AF50 + 1)
+        && word_50BF7A == (_BYTE)dword_50AF50
+        && MEMORY[0x50BF7B] == *(_WORD *)((char *)&dword_50AF50 + 1)
         && loaded_file_type != 3 )
       {
         byte_50AF07[62] = 4;

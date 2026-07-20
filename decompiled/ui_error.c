@@ -10,7 +10,7 @@ void __noreturn ui_error(char *Format, ...)
 
   va_start(ArgList, Format);
   NumberOfCharsWritten = v1;
-  memcard12_save();
+  sio_memcard_both_save();
   net_close();
   nullsub_1();
   if ( spu_destroy_cb )

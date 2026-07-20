@@ -103,15 +103,15 @@ int sub_42B2A0()
           *(_DWORD *)dword_4FD870 = *(_DWORD *)dword_4FD874;
           *(_DWORD *)dword_4FD874 = 0;
         }
-        if ( dword_4FD86C )
+        if ( sio_transfer_pending )
         {
-          dword_4FD86C = 0;
-          sub_421FD0();
+          sio_transfer_pending = 0;
+          sio_trigger_rx_ready_irq();
         }
         else if ( dword_4FD868 )
         {
-          dword_4FD86C = 128;
-          dword_4FD864 = dword_4FD868;
+          sio_transfer_pending = 128;
+          sio_transfer_timeout = dword_4FD868;
           dword_4FD868 = 0;
         }
         v10 = dword_455940;
@@ -167,7 +167,7 @@ int sub_42B2A0()
       break;
     if ( (dword_50C360 & 0x3F) == 0 )
       sub_42CE40();
-    memcard_all_save();
+    sio_memcard_auto_save();
   }
   return result;
 }

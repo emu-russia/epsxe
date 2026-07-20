@@ -41,10 +41,10 @@ INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       case 1084:
         GetDlgItemTextA(hDlg, 1082, (LPSTR)Memcard1, 1024);
         GetDlgItemTextA(hDlg, 1026, (LPSTR)Memcard2, 1024);
-        if ( byte_4FC460 )
+        if ( sio_memcard_loaded )
         {
-          byte_4FC460 = 0;
-          memcard_load();
+          sio_memcard_loaded = 0;
+          sio_memcard_load();
         }
         EndDialog(hDlg, 1);
         cfg_save_settings();

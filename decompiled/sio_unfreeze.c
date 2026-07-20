@@ -10,13 +10,13 @@ void __cdecl sio_unfreeze(int a1, _DWORD *a2)
   v2 = (char *)malloc(0x40104u);
   gzread(a2, v3, 7);
   gzread(a2, byte_526600, 532);
-  gzread(a2, byte_516560, 132);
-  memcard12_save();
+  gzread(a2, sio_controller_state, 132);
+  sio_memcard_both_save();
   gzread(a2, v2, 262404);
   gzread(a2, v3, 64);
-  dword_516540 = v4;
-  dword_4557AC = *(_DWORD *)v3;
-  LOWORD(dword_4FC480) = v5;
+  sio_multitap_state = v4;
+  sio_transfer_length = *(_DWORD *)v3;
+  LOWORD(sio_multitap_slot_counter) = v5;
   multitap_1 = v6 & 1;
   free(v2);
 }

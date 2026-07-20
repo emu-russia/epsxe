@@ -19,8 +19,8 @@ void __cdecl hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
                 *(_WORD *)&byte_516600[(unsigned __int16)a1] = a2;
                 break;
               case 0x1F801040u:
-                sio_data_write(a1, a2);
-                sio_data_write(a1, SHIBYTE(a2));
+                sio_write_data_byte(a1, a2);
+                sio_write_data_byte(a1, SHIBYTE(a2));
                 break;
               case 0x1F801048u:
                 HIWORD(sio0_mode_reg) = a2;
@@ -29,11 +29,11 @@ void __cdecl hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
                 LOWORD(sio0_control_reg) = a2 & 0xFFEF;
                 if ( (a2 & 0x10) != 0 )
                   BYTE1(sio0_mode_reg) &= ~2u;
-                sub_421B10(a2);
+                sio_controller_init(a2);
                 if ( (v2 & 1) != 0 )
                   LOWORD(sio0_mode_reg) = sio0_mode_reg | 1;
-                byte_52670C[0] = 1 << (BYTE1(sio0_control_reg) & 3);
-                byte_52670C[2] = 1 << (BYTE1(sio0_control_reg) & 3);
+                sio_tx_fifo[0] = 1 << (BYTE1(sio0_control_reg) & 3);
+                sio_tx_fifo[2] = 1 << (BYTE1(sio0_control_reg) & 3);
                 break;
               case 0x1F80104Eu:
                 HIWORD(sio0_control_reg) = a2;

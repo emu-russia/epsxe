@@ -1,6 +1,6 @@
 #include "pch.h"
 // attributes: thunk
-int gpu_readData(void)
+int gpu_readData()
 {
   return GPUreadData();
 }

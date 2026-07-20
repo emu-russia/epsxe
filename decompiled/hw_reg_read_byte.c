@@ -36,7 +36,7 @@ LABEL_19:
   }
   if ( a1 == 528486464 )
   {
-    sio_data_read();
+    sio_read_data_byte();
     return;
   }
   if ( a1 != 528486646 && a1 != 528488448 )

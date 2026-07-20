@@ -142,7 +142,7 @@ LABEL_15:
           break;
         case 0x1F801040u:
         case 0x1F801044u:
-          result = sio_read(a1, 4);
+          result = sio_read_register(a1, 4);
           break;
         case 0x1F801070u:
           if ( *(_DWORD *)dword_4FD878 )

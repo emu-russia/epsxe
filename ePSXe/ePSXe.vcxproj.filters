@@ -242,19 +242,7 @@
     <ClCompile Include="..\decompiled\mem_write_word.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\memcard_all_save.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\memcard_load.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\memcard_settings.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\memcard1_save.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\memcard2_save.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\net_close.c">
@@ -542,25 +530,10 @@
     <ClCompile Include="..\decompiled\sio_command.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sio_data_read.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sio_data_write.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sio_freeze.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sio_read.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sio_read_half.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sio_read_word.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sio_reset.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sio_unfreeze.c">
@@ -788,24 +761,6 @@
     <ClCompile Include="..\decompiled\sub_407FA0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sub_420D60.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_420DB0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_420F90.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_421B10.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_421B40.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_421FD0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sub_430A00.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -939,9 +894,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\irq_unfreeze.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\memcard12_save.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\cdr_unfreeze.c">
@@ -1611,6 +1563,54 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\mdec_yuv_to_rgb.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_build_multitap_response.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_controller_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_handle_config_command.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_memcard_auto_save.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_memcard_both_save.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_memcard_load.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_memcard1_save.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_memcard2_save.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_read_data_byte.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_read_halfword.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_read_register.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_reset_all.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_reset_controller_state.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_schedule_transfer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_trigger_rx_ready_irq.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_write_data_byte.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

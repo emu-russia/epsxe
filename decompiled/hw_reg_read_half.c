@@ -73,17 +73,17 @@ LABEL_34:
           LOWORD(v1) = *(_WORD *)&byte_516600[(unsigned __int16)a1];
           break;
         case 0x1F801040u:
-          sio_data_read();
+          sio_read_data_byte();
           HIBYTE(v4) = v3;
-          sio_data_read();
+          sio_read_data_byte();
           LOBYTE(v4) = v1;
           LOWORD(v1) = v4;
           break;
         case 0x1F801044u:
-          if ( dword_4FD86C && hw_update_counter < (unsigned int)dword_4FD864 )
+          if ( sio_transfer_pending && hw_update_counter < (unsigned int)sio_transfer_timeout )
           {
-            dword_4FD86C = 0;
-            sub_421FD0();
+            sio_transfer_pending = 0;
+            sio_trigger_rx_ready_irq();
           }
           LOWORD(v1) = sio0_mode_reg;
           break;

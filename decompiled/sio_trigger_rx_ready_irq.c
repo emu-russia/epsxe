@@ -1,5 +1,5 @@
 #include "pch.h"
-void sub_421FD0()
+void sio_trigger_rx_ready_irq()
 {
   LOWORD(sio0_mode_reg) = sio0_mode_reg | 0x202;
 }

@@ -21,7 +21,7 @@ void __cdecl hw_reg_write_byte(unsigned int a1, unsigned __int8 a2)
           cdr_reg1_write(a2);
           return;
         case 0x1F801040u:
-          sio_data_write(0x1F801040, a2);
+          sio_write_data_byte(0x1F801040, a2);
           return;
         case 0x1F8010F6u:
           dword_50BFC8 = dword_50BFC8 & 0xFF00FFFF | (a2 << 16);

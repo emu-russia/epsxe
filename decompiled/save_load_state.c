@@ -17,7 +17,7 @@ void save_load_state()
   }
   while ( v0 );
   spu_update_cb();
-  memcard12_save();
+  sio_memcard_both_save();
   spu_close();
   net_pause();
   gpu_close();

@@ -28,9 +28,9 @@ char clear_hw_regs()
   dword_50C210 = 0;
   byte_50C214 = -1;
   byte_50C215 = -1;
-  dword_4FD864 = 0;
+  sio_transfer_timeout = 0;
   dword_4FD868 = 0;
-  dword_4FD86C = 0;
+  sio_transfer_pending = 0;
   *(_DWORD *)dword_4FD870 = 0;
   *(_DWORD *)dword_4FD874 = 0;
   *(_DWORD *)dword_4FD878 = 0;

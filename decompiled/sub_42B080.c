@@ -10,8 +10,8 @@ int __cdecl sub_42B080(const char *a1, int a2)
   gzwrite(a2, (unsigned __int8 *)dword_4FD870, 4u);
   gzwrite(a2, (unsigned __int8 *)dword_4FD874, 4u);
   gzwrite(a2, (unsigned __int8 *)dword_4FD878, 4u);
-  dword_50C218 = dword_4FD864;
+  dword_50C218 = sio_transfer_timeout;
   dword_50C21C = dword_4FD868;
-  dword_50C220[0] = dword_4FD86C;
+  dword_50C220[0] = sio_transfer_pending;
   return gzwrite(a2, (unsigned __int8 *)int_reg, 0x290u);
 }

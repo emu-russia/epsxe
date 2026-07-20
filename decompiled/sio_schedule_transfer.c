@@ -1,13 +1,13 @@
 #include "pch.h"
-char __cdecl sub_420D60(char a1, char *a2)
+char __cdecl sio_schedule_transfer(char a1, char *a2)
 {
   int v2; // eax
 
   LOBYTE(v2) = a1;
   if ( !a1 )
     LOBYTE(sio0_mode_reg) = sio0_mode_reg | 2;
-  byte_52670C[(unsigned __int8)dword_526810 + 3] = *a2;
-  LOBYTE(dword_526810) = dword_526810 + 1;
+  sio_tx_fifo[(unsigned __int8)sio_rx_fifo_count + 3] = *a2;
+  LOBYTE(sio_rx_fifo_count) = sio_rx_fifo_count + 1;
   if ( a1 )
   {
     LOBYTE(v2) = sio0_control_reg;
@@ -19,8 +19,8 @@ char __cdecl sub_420D60(char a1, char *a2)
       {
         if ( (unsigned int)hw_update_counter > 0x1F9 )
         {
-          dword_4FD864 = hw_update_counter - 505;
-          dword_4FD86C = 128;
+          sio_transfer_timeout = hw_update_counter - 505;
+          sio_transfer_pending = 128;
           LOBYTE(v2) = hw_update_counter + 7;
           return v2;
         }
@@ -31,7 +31,7 @@ char __cdecl sub_420D60(char a1, char *a2)
         hw_update_counter = 0;
       }
       dword_4FD868 = dword_455940 + v2 - 505;
-      dword_4FD86C = 0;
+      sio_transfer_pending = 0;
     }
   }
   return v2;

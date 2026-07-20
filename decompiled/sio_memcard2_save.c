@@ -1,17 +1,17 @@
 #include "pch.h"
-char memcard2_save()
+char sio_memcard2_save()
 {
   char result; // al
   FILE *v1; // esi
 
-  result = byte_4FC460;
-  if ( byte_4FC460 )
+  result = sio_memcard_loaded;
+  if ( sio_memcard_loaded )
   {
     v1 = fopen((const char *)Memcard2, "wb");
     if ( v1 )
     {
-      fseek(v1, dword_4FC474, 0);
-      fwrite(byte_546860, 1u, 0x20000u, v1);
+      fseek(v1, sio_memcard2_file_offset, 0);
+      fwrite(sio_memcard_data_slot2, 1u, 0x20000u, v1);
       return fclose(v1);
     }
     else

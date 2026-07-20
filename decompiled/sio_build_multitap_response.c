@@ -1,14 +1,14 @@
 #include "pch.h"
-unsigned int __cdecl sub_420F90(_BYTE *a1, _DWORD *a2)
+unsigned int __cdecl sio_build_multitap_response(_BYTE *a1, _DWORD *a2)
 {
   int *v2; // ecx
   int *v3; // esi
   int v4; // edi
   unsigned int result; // eax
 
-  dword_516540 = 0;
+  sio_multitap_state = 0;
   *a2 = 3;
-  v2 = &dword_516540;
+  v2 = &sio_multitap_state;
   v3 = dword_456048;
   v4 = 4;
   do

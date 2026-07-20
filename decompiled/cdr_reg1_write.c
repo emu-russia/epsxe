@@ -73,9 +73,9 @@ LABEL_8:
         {
           v10 = (unsigned __int8)cdr_sub_42B680(BYTE1(dword_50AF50));
           v4 = cdr_sub_42B680(dword_50AF50);
-          dword_4FC4D4(v4, v10, 0, &unk_50BF7A, (char *)&unk_50BF7A + 1, &MEMORY[0x50BF7C]);
+          cdrom_lba_to_msf_cb(v4, v10, 0, &word_50BF7A, (char *)&word_50BF7A + 1, &unk_50BF7C);
           v5 = BYTE1(dword_50AF50);
-          if ( unk_50BF7A == (_WORD)dword_50AF50 )
+          if ( word_50BF7A == (_WORD)dword_50AF50 )
           {
             v6 = BYTE1(dword_50AF50) + 2;
             BYTE1(dword_50AF50) = v6;
@@ -87,7 +87,7 @@ LABEL_8:
             }
             v11 = (unsigned __int8)cdr_sub_42B680(v6);
             v7 = cdr_sub_42B680(dword_50AF50);
-            dword_4FC4D4(v7, v11, 0, &unk_50BF7A, (char *)&unk_50BF7A + 1, &MEMORY[0x50BF7C]);
+            cdrom_lba_to_msf_cb(v7, v11, 0, &word_50BF7A, (char *)&word_50BF7A + 1, &unk_50BF7C);
             v5 = BYTE1(dword_50AF50);
           }
           cdrom_play_cdda_cb((unsigned __int8)dword_50AF50, v5, BYTE2(dword_50AF50));
@@ -277,7 +277,7 @@ LABEL_8:
           }
           else
           {
-            dword_4FC4D8((unsigned __int8)dword_50AF50, BYTE1(dword_50AF50), BYTE2(dword_50AF50), dword_50AE80);
+            cdrom_verify_sub_cb((unsigned __int8)dword_50AF50, BYTE1(dword_50AF50), BYTE2(dword_50AF50), dword_50AE80);
             dword_50AE80[1] = byte_50AF07[70] != 0;
           }
           byte_50AEC0 = 8;
@@ -295,7 +295,7 @@ LABEL_8:
           }
           else
           {
-            dword_4FC4D8((unsigned __int8)dword_50AF50, BYTE1(dword_50AF50), v8, &dword_50BF6C);
+            cdrom_verify_sub_cb((unsigned __int8)dword_50AF50, BYTE1(dword_50AF50), v8, &dword_50BF6C);
             BYTE1(dword_50BF6C) = byte_50AF07[70] != 0;
           }
           byte_50BF6B = 8;
@@ -310,7 +310,7 @@ LABEL_8:
           }
           else
           {
-            dword_4FC4D8((unsigned __int8)dword_50AF50, v8, BYTE2(dword_50AF50), &dword_50AF03);
+            cdrom_verify_sub_cb((unsigned __int8)dword_50AF50, v8, BYTE2(dword_50AF50), &dword_50AF03);
             BYTE1(dword_50AF03) = byte_50AF07[70] != 0;
           }
           byte_50AF07[60] = 8;
@@ -318,7 +318,7 @@ LABEL_8:
         }
         goto LABEL_9;
       case 0x13u:
-        dword_4FC4B8(&a1, &v12);
+        cdrom_get_first_last_TN_cb(&a1, &v12);
         if ( loaded_file_type == 3 )
         {
           a1 = 1;
@@ -334,7 +334,7 @@ LABEL_8:
         goto LABEL_9;
       case 0x14u:
         v9 = sub_42B6A0(word_50AEC3);
-        dword_4FC4BC(v9, &a1, &v12, &v13);
+        cdrom_track_to_msf(v9, &a1, &v12, &v13);
         byte_50AF07[68] = 1;
         byte_50AF07[66] = byte_50AF07[67] | 2;
         byte_50AF07[63] = 3;

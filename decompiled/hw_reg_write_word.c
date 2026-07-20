@@ -41,10 +41,10 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
       switch ( a1 )
       {
         case 0x1F801040u:
-          sio_data_write(a1, a2);
-          sio_data_write(a1, SBYTE1(a2));
-          sio_data_write(a1, SBYTE2(a2));
-          sio_data_write(a1, SHIBYTE(a2));
+          sio_write_data_byte(a1, a2);
+          sio_write_data_byte(a1, SBYTE1(a2));
+          sio_write_data_byte(a1, SBYTE2(a2));
+          sio_write_data_byte(a1, SHIBYTE(a2));
           break;
         case 0x1F801060u:
           *(_DWORD *)&byte_516600[(unsigned __int16)a1] = a2;
