@@ -80,7 +80,7 @@ int sub_42B2A0()
         if ( v9 )
           spu_async_update_cb(32 * dword_455940);
         if ( mdectiming )
-          sub_429310();
+          mdec_timer_handler();
         sub_42E450();
         sub_42E650();
         sub_42CA70();

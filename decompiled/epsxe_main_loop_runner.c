@@ -34,7 +34,7 @@ void __noreturn epsxe_main_loop_runner()
     reopen_console_log();
     nullsub_1();
     init_performance_counter();
-    sub_429240();
+    mdec_init();
     if ( dword_50C36C == 1 )
       sub_428270();
     reset_flag = 0;

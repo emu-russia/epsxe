@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_429540(int a1)
+int __cdecl mdec_set_scale_table(int a1)
 {
   int result; // eax
   __int16 *v2; // ecx
@@ -136,12 +136,12 @@ int __cdecl sub_429540(int a1)
   v4[61] = 58;
   v4[62] = 62;
   v5[0] = 63;
-  v2 = dword_5120C0;
+  v2 = mdec_scale_table;
   do
   {
     v3 = v4[result];
     *v2++ = (v5[++result] * *(unsigned __int8 *)(v3 + a1) + 2048) >> 12;
   }
-  while ( (int)v2 < (int)dword_512140 );
+  while ( (int)v2 < (int)mdec_idct_buffer );
   return result * 4;
 }

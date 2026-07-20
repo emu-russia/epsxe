@@ -9,7 +9,7 @@ int __cdecl mdec_freeze(const char *a1, int a2)
   sprintf(Buffer, "%s", a1);
   v4 = 1248;
   gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-  gzwrite(a2, (unsigned __int8 *)dword_4FC4F0, 0x60u);
-  gzwrite(a2, (unsigned __int8 *)dword_5120C0, 0x80u);
+  gzwrite(a2, (unsigned __int8 *)mdec_command, 0x60u);
+  gzwrite(a2, (unsigned __int8 *)mdec_scale_table, 0x80u);
   return gzwrite(a2, v5, 0x400u);
 }

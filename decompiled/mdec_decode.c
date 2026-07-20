@@ -11,21 +11,21 @@ int mdec_decode()
   bool v7; // cc
   int v8; // [esp+0h] [ebp-4h]
 
-  result = HIWORD(dword_5164F0) * (unsigned __int16)dword_5164F0;
-  if ( dword_5164F4 == 0x1000200 )
+  result = HIWORD(mdec_image_size) * (unsigned __int16)mdec_image_size;
+  if ( mdec_dma_status == 0x1000200 )
   {
-    v1 = (char *)dword_4FC4FC;
-    if ( dword_4FC4FC )
+    v1 = (char *)mdec_in_ptr;
+    if ( mdec_in_ptr )
     {
       if ( mdec_disable )
       {
-        LOBYTE(dword_4FD888[0]) = 1;
+        LOBYTE(mdec_disable_flag[0]) = 1;
         return result;
       }
-      v2 = (__m64 *)((char *)ram + (dword_5164EC & 0x1FFFFF));
-      v3 = *(_DWORD *)dword_4FC4F0 & 0x8000000;
+      v2 = (__m64 *)((char *)ram + (mdec_dma_dest & 0x1FFFFF));
+      v3 = *(_DWORD *)mdec_command & 0x8000000;
       v4 = 3 * result;
-      if ( (*(_DWORD *)dword_4FC4F0 & 0x8000000) == 0 )
+      if ( (*(_DWORD *)mdec_command & 0x8000000) == 0 )
         v4 = 2 * result;
       v5 = v4 / 384;
       if ( v4 / 384 < 31 )
@@ -38,19 +38,19 @@ int mdec_decode()
         v8 = v6;
         do
         {
-          dword_4FC4FC = (int)sub_429A70(v1, 30);
-          sub_429B90(30);
+          mdec_in_ptr = (int)mdec_rl_decode(v1, 30);
+          mdec_idct_blocks(30);
           if ( v3 )
           {
-            sub_429D20((char *)dword_512140, v2, 30);
+            mdec_yuv_to_rgb((char *)mdec_idct_buffer, v2, (_WORD *)0x1E);
             v2 += 1920;
           }
           else
           {
-            sub_42A950((unsigned int *)dword_512140, v2, 30);
+            mdec_y_to_mono((unsigned int *)mdec_idct_buffer, v2, 30);
             v2 += 2880;
           }
-          v1 = (char *)dword_4FC4FC;
+          v1 = (char *)mdec_in_ptr;
           --v8;
         }
         while ( v8 );
@@ -58,20 +58,20 @@ int mdec_decode()
       if ( v5 )
       {
 LABEL_15:
-        dword_4FC4FC = (int)sub_429A70(v1, v5);
-        sub_429B90(v5);
+        mdec_in_ptr = (int)mdec_rl_decode(v1, v5);
+        mdec_idct_blocks(v5);
         if ( v3 )
-          sub_429D20((char *)dword_512140, v2, v5);
+          mdec_yuv_to_rgb((char *)mdec_idct_buffer, v2, (_WORD *)v5);
         else
-          sub_42A950((unsigned int *)dword_512140, v2, v5);
+          mdec_y_to_mono((unsigned int *)mdec_idct_buffer, v2, v5);
       }
     }
     result = mdectiming;
     if ( mdectiming )
     {
-      dword_4FC504 = 0x44000000;
-      dword_4FC4F8 = -65536;
-      byte_4FC508 = 1;
+      mdec_status = 0x44000000;
+      mdec_timer_count = -65536;
+      mdec_timer = 1;
     }
   }
   return result;

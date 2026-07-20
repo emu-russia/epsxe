@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_429C30()
+int mdec_init_color_tables()
 {
   int v0; // edi
   int v1; // esi
@@ -20,10 +20,10 @@ int sub_429C30()
   v4 = 0;
   do
   {
-    dword_4FD050[v4] = v3 >> 12;
-    dword_4FCC50[v4] = v2 >> 12;
-    dword_4FD450[v4] = v1 >> 12;
-    dword_4FC850[v4] = v0 >> 12;
+    mdec_color_table_0[v4] = v3 >> 12;
+    mdec_color_table_1[v4] = v2 >> 12;
+    mdec_color_table_2[v4] = v1 >> 12;
+    mdec_color_table_3[v4] = v0 >> 12;
     v3 += 5743;
     v2 -= 1408;
     v1 -= 2925;
@@ -38,10 +38,10 @@ int sub_429C30()
   v9 = 0;
   do
   {
-    dword_4FD250[v9] = v6 >> 12;
-    dword_4FCE50[v9] = v8 >> 12;
-    dword_4FD650[v9] = v7 >> 12;
-    dword_4FCA50[v9] = v5 >> 12;
+    mdec_color_table_4[v9] = v6 >> 12;
+    mdec_color_table_5[v9] = v8 >> 12;
+    mdec_color_table_6[v9] = v7 >> 12;
+    mdec_color_table_7[v9] = v5 >> 12;
     v8 -= 1408;
     v6 += 5743;
     v5 += 7258;
@@ -51,9 +51,9 @@ int sub_429C30()
   while ( v8 > 0 );
   for ( result = 0; result < 256; ++result )
   {
-    byte_4FC550[result] = 0;
-    byte_4FC650[result] = result;
-    byte_4FC750[result] = -1;
+    mdec_mono_table_0[result] = 0;
+    mdec_mono_table_1[result] = result;
+    mdec_mono_table_2[result] = -1;
   }
   return result;
 }

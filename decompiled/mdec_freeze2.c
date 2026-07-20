@@ -7,5 +7,5 @@ int __cdecl mdec_freeze2(const char *a1, int a2)
   sprintf(Buffer, "%s", a1);
   v4 = 96;
   gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-  return gzwrite(a2, (unsigned __int8 *)dword_4FC4F0, 0x60u);
+  return gzwrite(a2, (unsigned __int8 *)mdec_command, 0x60u);
 }

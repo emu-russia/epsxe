@@ -1,5 +1,5 @@
 #include "pch.h"
-char *__cdecl sub_429A70(char *a1, int a2)
+char *__cdecl mdec_rl_decode(char *a1, int a2)
 {
   int v2; // edx
   char *v3; // edi
@@ -9,8 +9,8 @@ char *__cdecl sub_429A70(char *a1, int a2)
   _WORD *v8; // [esp+10h] [ebp-8h]
   int v9; // [esp+20h] [ebp+8h]
 
-  v8 = (_WORD *)byte_50C3E0;
-  memset(byte_50C3E0, 0, 4 * ((unsigned int)(768 * a2) >> 2));
+  v8 = (_WORD *)mdec_rle_buffer;
+  memset(mdec_rle_buffer, 0, 4 * ((unsigned int)(768 * a2) >> 2));
   v2 = 6 * a2;
   v9 = 0;
   if ( v2 <= 0 )
@@ -23,16 +23,16 @@ char *__cdecl sub_429A70(char *a1, int a2)
     v4 = *(_WORD *)v3;
     v5 = 0;
     v3 += 4;
-    *v8 = dword_5120C0[0] * ((__int16)(v4 << 6) >> 6);
+    *v8 = mdec_scale_table[0] * ((__int16)(v4 << 6) >> 6);
     for ( i = *((_WORD *)v3 - 1); i != 0xFE00; v3 += 2 )
     {
       v5 += (i >> 10) + 1;
       if ( v5 > 63 )
         break;
-      v8[dword_455B20[v5]] = (v4 >> 10) * (i << 22 >> 22) * dword_5120C0[dword_455B20[v5]] / 8;
+      v8[mdec_zigzag[v5]] = (v4 >> 10) * (i << 22 >> 22) * mdec_scale_table[mdec_zigzag[v5]] / 8;
       i = *(_WORD *)v3;
     }
-    dword_511DE0[v9] = v5;
+    mdec_nonzero_counts[v9] = v5;
     v8 += 64;
     ++v9;
   }

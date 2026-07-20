@@ -32,8 +32,8 @@ unsigned int __cdecl hw_reg_read_word(unsigned int a1)
             case 0x1F801820u:
               return 0;
             case 0x1F801824u:
-              result = dword_4FC4F4 | dword_4FC504 | dword_4FC4F8;
-              dword_4FC4F8 = 0;
+              result = mdec_param_count | mdec_status | mdec_timer_count;
+              mdec_timer_count = 0;
               break;
             default:
 LABEL_44:
@@ -123,7 +123,7 @@ LABEL_39:
     {
 LABEL_15:
       v3 = (unsigned __int8)a1 >> 4;
-      result = dword_5164E8[3 * v3 - 24];
+      result = mdec_dma_control[3 * v3 - 24];
       if ( v3 == 10 && byte_50C216 <= 0 )
       {
         v4 = *(_DWORD *)dword_516500 & 0xFEFFFFFF;
@@ -165,7 +165,7 @@ LABEL_15:
         case 0x1F8010C0u:
         case 0x1F8010D0u:
         case 0x1F8010E0u:
-          result = dword_5164E0[3 * ((unsigned __int8)a1 >> 4) - 24];
+          result = mdec_dma_src[3 * ((unsigned __int8)a1 >> 4) - 24];
           break;
         case 0x1F801088u:
         case 0x1F801098u:

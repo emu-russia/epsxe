@@ -337,7 +337,7 @@ LABEL_78:
     }
     byte_44DD44 = -1;
     v13 = dword_4FD884[2 * (unsigned __int8)pad_number_menu_selection];
-    v14 = dword_4FD888[2 * (unsigned __int8)pad_number_menu_selection];
+    v14 = mdec_disable_flag[2 * (unsigned __int8)pad_number_menu_selection];
     qmemcpy(byte_8A9500, &word_455FA8[16 * (unsigned __int8)pad_number_menu_selection], sizeof(byte_8A9500));
     dword_8B1548 = v13;
     dword_8B154C = v14;
@@ -429,7 +429,7 @@ LABEL_78:
         v28 = dword_8B154C;
         qmemcpy(&word_455FA8[16 * (unsigned __int8)pad_number_menu_selection], byte_8A9500, 0x20u);
         dword_4FD884[2 * v27] = dword_8B1548;
-        dword_4FD888[2 * v27] = v28;
+        mdec_disable_flag[2 * v27] = v28;
         KillTimer(hDlg, 0);
         EndDialog(hDlg, 1);
         diShutdownDirectInput();

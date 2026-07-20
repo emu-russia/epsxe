@@ -26,7 +26,7 @@ char *sub_4238B0()
   {
     if ( (++dword_4FC4EC & 0x1F) == 0 )
       spu_async_update_cb(32 * dword_455940);
-    sub_429310();
+    mdec_timer_handler();
     sub_42E450();
     sub_42E650();
     hw_update_counter = dword_455940;

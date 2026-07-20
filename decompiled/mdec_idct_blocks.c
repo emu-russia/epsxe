@@ -1,5 +1,5 @@
 #include "pch.h"
-void __cdecl sub_429B90(int a1)
+void __cdecl mdec_idct_blocks(int a1)
 {
   int *v1; // edi
   int v2; // esi
@@ -9,13 +9,13 @@ void __cdecl sub_429B90(int a1)
   char *v6; // [esp+10h] [ebp-8h]
   int *v7; // [esp+14h] [ebp-4h]
 
-  v1 = dword_512140;
+  v1 = mdec_idct_buffer;
   v2 = 0;
-  v6 = byte_514E40;
-  v7 = dword_512140;
-  for ( i = (__m64 *)byte_50C3E0; v2 < 6 * a1; v6 += 32 )
+  v6 = mdec_idct_buffer_end;
+  v7 = mdec_idct_buffer;
+  for ( i = (__m64 *)mdec_rle_buffer; v2 < 6 * a1; v6 += 32 )
   {
-    if ( dword_511DE0[v2] )
+    if ( mdec_nonzero_counts[v2] )
     {
       mdec_idct_sse(i, (int)v6);
     }

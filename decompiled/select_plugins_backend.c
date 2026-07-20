@@ -76,7 +76,7 @@ int select_plugins_backend()
   }
   *(_DWORD *)dword_5164D0 = 0;
   *(_DWORD *)dword_566964 = 0;
-  memset(dword_5164E0, 0, 0x60u);
+  memset(mdec_dma_src, 0, 0x60u);
   memset(byte_516600, 0, 0x10000u);
   return 0;
 }

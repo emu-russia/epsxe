@@ -74,22 +74,22 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
         case 0x1F8010B4u:
           goto LABEL_37;
         case 0x1F801088u:
-          dword_5164E8[0] = a2;
+          mdec_dma_control[0] = a2;
           if ( (dword_5164D0[0] & 8) != 0 )
           {
-            sub_429380();
-            dword_5164E8[0] = a2 & 0xFEFFFFFF;
+            mdec_dma_in_handler();
+            mdec_dma_control[0] = a2 & 0xFEFFFFFF;
             dma_assert_int(0);
           }
           break;
         case 0x1F801098u:
-          dword_5164F4 = a2;
+          mdec_dma_status = a2;
           if ( dword_5164D0[0] < 0 )
           {
             mdec_decode();
             if ( !mdectiming )
             {
-              dword_5164F4 = a2 & 0xFEFFFFFF;
+              mdec_dma_status = a2 & 0xFEFFFFFF;
               dma_assert_int(1u);
             }
           }
@@ -120,7 +120,7 @@ LABEL_37:
         case 0x1F8010D0u:
         case 0x1F8010E0u:
 LABEL_32:
-          dword_5164E0[3 * ((unsigned __int8)a1 >> 4) - 24] = a2;
+          mdec_dma_src[3 * ((unsigned __int8)a1 >> 4) - 24] = a2;
           break;
         case 0x1F8010C4u:
         case 0x1F8010D4u:
@@ -156,10 +156,10 @@ LABEL_32:
         gpu_writeStatus(a2);
         return;
       case 0x1F801820u:
-        sub_429280(a2);
+        mdec_write_command(a2);
         return;
       case 0x1F801824u:
-        sub_4292C0(a2);
+        mdec_handle_special_command(a2);
         return;
     }
 LABEL_51:

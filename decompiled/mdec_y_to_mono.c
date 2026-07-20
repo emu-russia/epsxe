@@ -1,5 +1,5 @@
 #include "pch.h"
-void __cdecl sub_42A950(unsigned int *a1, __m64 *a2, int a3)
+void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
 {
   unsigned int *v3; // esi
   unsigned int *v4; // eax

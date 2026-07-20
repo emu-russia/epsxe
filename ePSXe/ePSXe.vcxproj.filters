@@ -662,9 +662,6 @@
     <ClCompile Include="..\decompiled\sub_41C390.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sub_42A950.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sub_42AFD0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -809,18 +806,6 @@
     <ClCompile Include="..\decompiled\sub_421FD0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429A70.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429B90.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429C30.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429D20.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sub_430A00.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -839,9 +824,6 @@
     <ClCompile Include="..\decompiled\sub_4291E0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sub_4292C0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sub_4304E0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -858,24 +840,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sub_429140.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429220.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429240.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429280.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429310.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429380.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429540.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sub_430500.c">
@@ -1611,6 +1575,42 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\W9x_verify_subchannel_data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_dma_in_handler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_handle_special_command.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_idct_blocks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_init_color_tables.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_init_pointers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_rl_decode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_set_scale_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_timer_handler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_write_command.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_y_to_mono.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mdec_yuv_to_rgb.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

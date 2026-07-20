@@ -189,9 +189,9 @@ LABEL_51:
     --v7;
   }
   while ( v7 );
-  if ( LOBYTE(dword_4FD888[0]) )
+  if ( LOBYTE(mdec_disable_flag[0]) )
   {
-    LOBYTE(dword_4FD888[0]) = 0;
+    LOBYTE(mdec_disable_flag[0]) = 0;
     dword_455FB0 &= 0xFFFFF7BF;
   }
   result = network_enabled;
