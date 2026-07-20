@@ -33,45 +33,45 @@ int select_plugins_backend()
   {
     cdrom_init_cb = (int (*)(void))W9x_cdrom_init;
     cdrom_deinit_cb = (int (__fastcall *)(_DWORD))W9x_cdrom_deinit;
-    dword_4FC4B8 = (int (__cdecl *)(_DWORD, _DWORD))sub_4314A0;
-    dword_4FC4BC = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_4314C0;
+    cdrom_get_first_last_TN_cb = (int (__cdecl *)(_DWORD, _DWORD))W9x_get_first_last_track;
+    cdrom_track_to_msf = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W9x_track_to_msf;
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W9x_cdrom_read_data;
     cdrom_play_cdda_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))W9x_play_cdda;
     cdrom_stop_cb = (int (*)(void))W9x_cdrom_stop;
-    dword_4FC4CC = (int (*)(void))sub_433610;
-    dword_4FC4D0 = (int)nullsub_1;
-    dword_4FC4D4 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_4337F0;
-    dword_4FC4D8 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W9x_sub_433930;
+    cdrom_reset_cb = (int (*)(void))W9x_reset_cdrom_state;
+    cdrom_unused_cb = (int)nullsub_1;
+    cdrom_lba_to_msf_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))W9x_get_track_start_lba;
+    cdrom_verify_sub_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W9x_verify_subchannel_data;
     cdrom_subchannel_read_cb = (int (*)(void))W9x_cdrom_subchannel_read;
   }
   else if ( !strcmp((const char *)CdromPlugin, "W2KCDRCORE") )
   {
     cdrom_init_cb = (int (*)(void))W2k_cdrom_init;
     cdrom_deinit_cb = (int (__fastcall *)(_DWORD))W2k_cdrom_deinit;
-    dword_4FC4B8 = (int (__cdecl *)(_DWORD, _DWORD))sub_4341C0;
-    dword_4FC4BC = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_4341E0;
+    cdrom_get_first_last_TN_cb = (int (__cdecl *)(_DWORD, _DWORD))W2k_get_first_last_track;
+    cdrom_track_to_msf = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W2k_track_to_msf;
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W2k_cdrom_read_data;
     cdrom_play_cdda_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))W2k_cdrom_play_cdda;
     cdrom_stop_cb = (int (*)(void))W2k_cdrom_stop;
-    dword_4FC4CC = (int (*)(void))sub_4345E0;
-    dword_4FC4D0 = (int)nullsub_1;
-    dword_4FC4D4 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_4347A0;
-    dword_4FC4D8 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_4348D0;
+    cdrom_reset_cb = (int (*)(void))W2k_reset_cdda_state;
+    cdrom_unused_cb = (int)nullsub_1;
+    cdrom_lba_to_msf_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))W2k_lba_to_msf;
+    cdrom_verify_sub_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W2k_check_subchannel_data;
     cdrom_subchannel_read_cb = (int (*)(void))W2k_cdrom_subchannel_read;
   }
   else
   {
     cdrom_init_cb = (int (*)(void))ext_cdrom_load_plugin;
     cdrom_deinit_cb = (int (__fastcall *)(_DWORD))ext_cdrom_deinit;
-    dword_4FC4B8 = (int (__cdecl *)(_DWORD, _DWORD))sub_4304E0;
-    dword_4FC4BC = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_430500;
+    cdrom_get_first_last_TN_cb = (int (__cdecl *)(_DWORD, _DWORD))sub_4304E0;
+    cdrom_track_to_msf = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_430500;
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CDR_read;
     cdrom_play_cdda_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))ext_CDRplay;
     cdrom_stop_cb = (int (*)(void))ext_CDRstop;
-    dword_4FC4CC = (int (*)(void))sub_430810;
-    dword_4FC4D0 = (int)nullsub_1;
-    dword_4FC4D4 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_430A00;
-    dword_4FC4D8 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CD_sub_430B60;
+    cdrom_reset_cb = (int (*)(void))sub_430810;
+    cdrom_unused_cb = (int)nullsub_1;
+    cdrom_lba_to_msf_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_430A00;
+    cdrom_verify_sub_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CD_sub_430B60;
     cdrom_subchannel_read_cb = (int (*)(void))nullsub_1;
   }
   *(_DWORD *)dword_5164D0 = 0;

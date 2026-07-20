@@ -216,7 +216,7 @@ LABEL_30:
 LABEL_40:
             g_bDisableMouse = 0;
             country_setting = 255;
-            dword_4FC4CC();
+            cdrom_reset_cb();
             cdrom_init_cb();
             cdrom_detect_region();
             cdrom_subchannel_read_cb();

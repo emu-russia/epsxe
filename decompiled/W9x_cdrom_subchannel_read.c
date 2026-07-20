@@ -117,11 +117,11 @@ char W9x_cdrom_subchannel_read()
           v4 = 70;
           do
           {
-            sub_431AB0(v3);
+            W9x_seek_cd(v3);
             v5 = 75;
             do
             {
-              sub_431B00((BYTE *)v45);
+              W9x_read_subchannel_status((BYTE *)v45);
               if ( BYTE1(v45[2]) % 10 + 16 * (BYTE1(v45[2]) / 10) == 3
                 && BYTE2(v45[2]) < 0x3Cu
                 && HIBYTE(v45[2]) < 0x4Bu )
@@ -193,7 +193,7 @@ char W9x_cdrom_subchannel_read()
       dbg_print(" * Checking subchannel read from cdrom ... ");
       if ( dword_504C8C == 7 )
       {
-        sub_431810(0, 2u, 0x10u, 2u, (BYTE *)v47, v45);
+        W9x_read_cd_with_subchannel(0, 2u, 0x10u, 2u, (BYTE *)v47, v45);
         result = HIBYTE(v45[1]);
         if ( HIBYTE(v45[1]) )
           return result;
@@ -216,7 +216,7 @@ char W9x_cdrom_subchannel_read()
           {
             for ( i = 0; i < 0x4Bu; i += 5 )
             {
-              sub_431810(3u, v40, i, 5u, (BYTE *)v47, v45);
+              W9x_read_cd_with_subchannel(3u, v40, i, 5u, (BYTE *)v47, v45);
               v15 = (char *)dword_504C84 + v13;
               v13 += 80;
               qmemcpy(v15, v45, 0x50u);
@@ -241,7 +241,7 @@ LABEL_101:
         return result;
       }
       memset(v47, 0xAAu, 0x1F9Cu);
-      sub_431990(0, 2u, 0x10u, 2u, (BYTE *)v47);
+      W9x_read_cd_subchannel(0, 2u, 0x10u, 2u, (BYTE *)v47);
       if ( !LOBYTE(v47[6]) && *(_WORD *)((char *)&v47[6] + 1) == 5634 )
       {
         if ( !(HIBYTE(v47[1179]) % 10 + 16 * (HIBYTE(v47[1179]) / 10))
@@ -268,7 +268,7 @@ LABEL_101:
             v44 = 0;
             do
             {
-              sub_431990(3u, v41, v19, 5u, (BYTE *)v47);
+              W9x_read_cd_subchannel(3u, v41, v19, 5u, (BYTE *)v47);
               v20 = v18;
               v21 = &v47[1176];
               v22 = 5;
@@ -334,7 +334,7 @@ LABEL_101:
           {
             for ( j = 0; j < 0x4Bu; j += 5 )
             {
-              sub_431990(3u, v42, j, 5u, (BYTE *)v47);
+              W9x_read_cd_subchannel(3u, v42, j, 5u, (BYTE *)v47);
               v29 = v27;
               v30 = &v47[1176];
               v31 = 5;
@@ -370,7 +370,7 @@ LABEL_88:
         }
       }
       memset(v47, 0xAAu, 0x1F9Cu);
-      sub_431A20(0, 2u, 0x10u, 2u, (BYTE *)v47);
+      W9x_read_cd_subchannel2(0, 2u, 0x10u, 2u, (BYTE *)v47);
       if ( *(_WORD *)((char *)&v47[3] + 1) != 512
         || HIBYTE(v47[4]) != 22
         || *(_WORD *)((char *)&v47[11] + 1) != 512
@@ -392,7 +392,7 @@ LABEL_88:
       {
         for ( k = 0; k < 0x4Bu; k += 15 )
         {
-          sub_431A20(3u, v43, k, 0xFu, (BYTE *)v47);
+          W9x_read_cd_subchannel2(3u, v43, k, 0xFu, (BYTE *)v47);
           v37 = (char *)dword_504C84 + v35;
           v35 += 240;
           qmemcpy(v37, v47, 0xF0u);

@@ -58,14 +58,14 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
       {
         if ( dword_4FD9C4 )
         {
-          sub_433530();
+          W9x_resume_cdda();
           v4 = a1;
           dword_4FD9C4 = 0;
         }
         switch ( dword_504C8C )
         {
           case 1:
-            if ( sub_431900(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( W9x_read_cd_data_only(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             v28 = 0;
             dword_5053E0 = 0;
@@ -73,7 +73,7 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
             dword_5053E8 = 0;
             goto LABEL_65;
           case 2:
-            if ( sub_431990(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( W9x_read_cd_subchannel(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             dword_5053EC = dword_5008C0[0];
             dword_5053E0 = *(_DWORD *)byte_5008B4;
@@ -87,7 +87,7 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
             BYTE1(dword_5053E8) = BYTE1(dword_5008BC) % 10 + 16 * (BYTE1(dword_5008BC) / 10);
             goto LABEL_66;
           case 3:
-            if ( sub_431990(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( W9x_read_cd_subchannel(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             dword_5053E0 = *(_DWORD *)byte_5008B4;
             dword_5053E4 = dword_5008B8;
@@ -95,12 +95,12 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
             dword_5053EC = dword_5008C0[0];
             goto LABEL_66;
           case 4:
-            if ( sub_431900(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( W9x_read_cd_data_only(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             memset(dword_504C04, 0, 0x80u);
             if ( a1 == 3
               && (dword_50C280[0] & 0x1F000000) == 0x1F000000
-              && sub_431A20(3u, a2, a3, 8u, (BYTE *)dword_504C04) )
+              && W9x_read_cd_subchannel2(3u, a2, a3, 8u, (BYTE *)dword_504C04) )
             {
               dbg_print(" * Error sub reading CD: %d,%d,%d\n", 3, a2, v7);
             }
@@ -123,7 +123,7 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
             }
             while ( v36 );
             v6 = a2;
-            if ( !sub_431900(a1, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( !W9x_read_cd_data_only(a1, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               goto LABEL_56;
             dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             dword_5053E0 = dword_504C04[0];
@@ -132,7 +132,7 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
             dword_5053EC = dword_504C10[0];
             goto LABEL_66;
           case 6:
-            if ( sub_431900(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( W9x_read_cd_data_only(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             if ( a1 != 3 )
               goto LABEL_46;
@@ -143,7 +143,7 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
             dword_5053EC = v29[3];
             goto LABEL_66;
           case 7:
-            if ( sub_431760(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( W9x_read_cd_sectors(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
 LABEL_46:
             dword_5053E0 = 0;
@@ -155,11 +155,11 @@ LABEL_46:
             memset(dword_504C04, 0, 0x80u);
             if ( v4 == 3 && (dword_50C280[0] & 0x1F000000) == 0x1F000000 )
             {
-              if ( sub_431810(3u, a2, a3, 8u, (BYTE *)byte_4FFF84, dword_504C04) )
+              if ( W9x_read_cd_with_subchannel(3u, a2, a3, 8u, (BYTE *)byte_4FFF84, dword_504C04) )
                 dbg_print(" * Error sub reading CD: %d,%d,%d\n", 3, a2, v7);
               v4 = a1;
             }
-            if ( sub_431760(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( W9x_read_cd_sectors(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
 LABEL_64:
             dword_5053E0 = dword_504C04[0];
@@ -185,7 +185,7 @@ LABEL_64:
             }
             while ( v37 );
             v6 = a2;
-            if ( sub_431760(a1, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( W9x_read_cd_sectors(a1, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
 LABEL_56:
             dword_5053E0 = dword_504C04[0];
@@ -194,7 +194,7 @@ LABEL_56:
             dword_5053EC = dword_504C10[0];
             goto LABEL_66;
           case 10:
-            if ( sub_431760(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
+            if ( W9x_read_cd_sectors(v4, a2, a3, 8u, (BYTE *)byte_4FFF84) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             if ( a1 == 3 )
             {

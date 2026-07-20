@@ -3,7 +3,7 @@ char W9x_cdrom_init()
 {
   char result; // al
   void *v1; // esp
-  _BYTE v2[8092]; // [esp+0h] [ebp-1F9Ch] BYREF
+  BYTE v2[8092]; // [esp+0h] [ebp-1F9Ch] BYREF
 
   if ( !cd_savefake_flag )
     return cdrom_fake_load_file(cdrom_fake_filename);
@@ -25,7 +25,7 @@ char W9x_cdrom_init()
     memset(v2, 0xAAu, sizeof(v2));
     dword_504C8C = 0;
     dword_4FFF80 = -1;
-    sub_431900(0, 2u, 0x10u, 2u, (int)v2);
+    W9x_read_cd_data_only(0, 2u, 0x10u, 2u, v2);
     result = v2[12];
     if ( !v2[12] && v2[13] == 2 && v2[14] == 22 && (result = v2[2364]) == 0 && v2[2365] == 2 && v2[2366] == 23 )
     {
@@ -35,7 +35,7 @@ char W9x_cdrom_init()
     else if ( dword_504C8C != 1 )
     {
       memset(v2, 0xAAu, sizeof(v2));
-      sub_431760(0, 2u, 0x10u, 2u, (int)v2);
+      W9x_read_cd_sectors(0, 2u, 0x10u, 2u, v2);
       result = v2[12];
       if ( !v2[12] && v2[13] == 2 && v2[14] == 22 )
       {

@@ -10,7 +10,7 @@ HANDLE W2k_cdrom_deinit()
   if ( dword_504C84 )
     free(dword_504C84);
   if ( byte_4FD9C8 && hObject )
-    sub_434C60();
+    W2k_send_read_subchannel_command();
   if ( Stream )
     fclose(Stream);
   result = hObject;

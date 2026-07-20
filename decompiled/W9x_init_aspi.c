@@ -56,7 +56,7 @@ char W9x_init_aspi()
               v10 = v4;
               SendASPI32Command_cb(v8);
               if ( BYTE1(v8[0]) == 1 && (_BYTE)v11 == 5 )
-                sub_430E40(i, v5, v7);
+                W9x_add_cdrom_device_info(i, v5, v7);
               v7 = ++v4;
             }
             while ( v4 < 8u );

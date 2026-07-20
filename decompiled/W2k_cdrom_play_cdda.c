@@ -10,11 +10,11 @@ char __cdecl W2k_cdrom_play_cdda(unsigned int a1, int a2, unsigned __int8 a3)
   if ( sound_use_cdda )
   {
     v4 = a2;
-    a3 = sub_4342D0(a1, a2);
+    a3 = W2k_find_track_by_min_sec(a1, a2);
     BYTE1(dword_457350) = a3;
     HIBYTE(dword_45734C) = a1;
     LOBYTE(dword_457350) = v4;
-    sub_431110(&a2, (unsigned __int8 *)(8 * (unsigned __int8)byte_4FD9E3 + 5241928));
+    W9x_bcd_to_dword(&a2, (unsigned __int8 *)(8 * (unsigned __int8)byte_4FD9E3 + 5241928));
     LOBYTE(word_457354) = (a2 + 150) % 0x4Bu;
     BYTE2(dword_457350) = (a2 + 150) / 0x4Bu / 0x3C;
     HIBYTE(dword_457350) = (a2 + 150) / 0x4Bu % 0x3C;

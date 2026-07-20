@@ -10,11 +10,11 @@ char __cdecl W9x_play_cdda(unsigned int a1, int a2, unsigned __int8 a3)
   if ( sound_use_cdda )
   {
     v4 = a2;
-    a3 = sub_433220(a1, a2);
+    a3 = W9x_find_track_by_msf(a1, a2);
     BYTE1(dword_456FB8) = a3;
     HIBYTE(dword_456FB4) = a1;
     LOBYTE(dword_456FB8) = v4;
-    sub_431110(&a2, (unsigned __int8 *)(8 * (unsigned __int8)dword_4FD9BC + 5262504));
+    W9x_bcd_to_dword(&a2, (unsigned __int8 *)(8 * (unsigned __int8)dword_4FD9BC + 5262504));
     LOBYTE(word_456FBC) = (a2 + 150) % 0x4Bu;
     BYTE2(dword_456FB8) = (a2 + 150) / 0x4Bu / 0x3C;
     HIBYTE(dword_456FB8) = (a2 + 150) / 0x4Bu % 0x3C;

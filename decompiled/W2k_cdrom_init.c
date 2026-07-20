@@ -7,7 +7,7 @@ char W2k_cdrom_init()
 
   if ( !cdrom_letter )
   {
-    cdrom_letter = W2k_sub_433B20();
+    cdrom_letter = W2k_find_cdrom_drive_letter();
     if ( !cdrom_letter )
       fatal_error_with_message_box(" * cdrom not found \n");
   }
@@ -23,8 +23,8 @@ char W2k_cdrom_init()
   else
   {
     dbg_print(" * Init Core W2k cdrom ... ");
-    sub_433C10(cdrom_letter, &byte_457338, &byte_4FD9D0, &byte_4FD9D4);
-    hObject = sub_433B70(cdrom_letter);
+    W2k_get_scsi_address(cdrom_letter, &byte_457338, &byte_4FD9D0, &byte_4FD9D4);
+    hObject = W2k_open_cdrom_device(cdrom_letter);
     if ( !hObject )
       sound_use_cdda = 0;
     W2k_cdrom_gettrackinfo();
@@ -33,7 +33,7 @@ char W2k_cdrom_init()
     memset(v2, 0xAAu, sizeof(v2));
     dword_504C8C = 0;
     dword_4FFF80 = -1;
-    sub_434EE0(0, 2u, 0x10u, 2u, (DWORD)v2);
+    W2k_read_sector_mode1(0, 2u, 0x10u, 2u, (DWORD)v2);
     result = v2[12];
     if ( !v2[12] && v2[13] == 2 && v2[14] == 22 && (result = v2[2364]) == 0 && v2[2365] == 2 && v2[2366] == 23 )
     {
@@ -43,7 +43,7 @@ char W2k_cdrom_init()
     else if ( dword_504C8C != 1 )
     {
       memset(v2, 0xAAu, sizeof(v2));
-      sub_434D40(0, 2u, 0x10u, 2u, (DWORD)v2);
+      W2k_read_raw_sector(0, 2u, 0x10u, 2u, (DWORD)v2);
       result = v2[12];
       if ( !v2[12] && v2[13] == 2 && v2[14] == 22 )
       {

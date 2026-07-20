@@ -8,7 +8,7 @@ HMODULE W9x_cdrom_deinit()
   if ( dword_504C84 )
     free(dword_504C84);
   if ( byte_4FD9C8 )
-    sub_431680();
+    W9x_disable_subchannel_mode();
   if ( Stream )
     fclose(Stream);
   W9x_cdrom_stop();

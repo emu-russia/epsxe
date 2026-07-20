@@ -48,15 +48,15 @@ _DWORD *W9x_cdrom_gettrackinfo()
         if ( !v3 )
           nocd = 2;
       }
-      sub_431110(&v5, (unsigned __int8 *)(8 * v4 + 5262504));
+      W9x_bcd_to_dword(&v5, (unsigned __int8 *)(8 * v4 + 5262504));
       v5 += 150;
       dbg_print(" Start %d: (%02d,%02d,%02d) - ", v4, (unsigned __int8)(v5 / 0x4B / 0x3C), v5 / 0x4B % 0x3C, v5 % 0x4B);
-      sub_431110(&v5, (unsigned __int8 *)(8 * v4 + 5262504));
-      sub_431110(&v8, (unsigned __int8 *)(8 * v4 + 5262512));
+      W9x_bcd_to_dword(&v5, (unsigned __int8 *)(8 * v4 + 5262504));
+      W9x_bcd_to_dword(&v8, (unsigned __int8 *)(8 * v4 + 5262512));
       dbg_print(" Length %02d:%02d\n", (v8 - v5) / 0x4B / 0x3C, (v8 - v5) / 0x4B % 0x3C);
       LOBYTE(v6) = ++v3;
     }
     while ( v3 < (unsigned __int8)v7 );
   }
-  return sub_431110(&v8, (unsigned __int8 *)(8 * (unsigned __int8)v7 + 5262504));
+  return W9x_bcd_to_dword(&v8, (unsigned __int8 *)(8 * (unsigned __int8)v7 + 5262504));
 }

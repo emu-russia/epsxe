@@ -22,5 +22,7 @@ typedef BOOLEAN bool;
 #define BYTE2(x) BYTEn(x, 2)
 
 #include "../zlib-1.1.3/zlib.h"
+#include "../psemu.h"
 #include "../psxdefs.h"
 #include "../gte.h"
+#include "../zip.h"
