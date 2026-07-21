@@ -1,5 +1,5 @@
 #include "pch.h"
-void __cdecl gpu_dma_write(unsigned int a1, unsigned int a2)
+void __cdecl mem_gpu_dma_write(unsigned int a1, unsigned int a2)
 {
   if ( (dword_50C2A4 & 0x10000) == 0 )
   {

@@ -15,11 +15,11 @@ void op_LBU()
   }
   if ( (cpu_opcode & 0x1F0000) != 0 )
   {
-    hw_reg_read_byte(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
+    mem_hw_reg_read_byte(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
     cpu_gpr[(unsigned __int8)op_rt] = v1;
   }
   else
   {
-    hw_reg_read_byte(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
+    mem_hw_reg_read_byte(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
   }
 }

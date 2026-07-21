@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl gpu_dma_read(unsigned int a1)
+unsigned int __cdecl mem_gpu_dma_read(unsigned int a1)
 {
   if ( (a1 & 0xFF800000) != 0x1F800000 )
     return *(_DWORD *)((unsigned __int16)a1 + mem_read_hooks[HIWORD(a1)]);

@@ -1,5 +1,5 @@
 #include "pch.h"
-int touch_demo_file()
+int loader_touch_demo_file()
 {
   FILE *v0; // eax
 

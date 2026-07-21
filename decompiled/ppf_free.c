@@ -1,9 +1,9 @@
 #include "pch.h"
 void ppf_free()
 {
-  if ( auto_ppf_load )
+  if ( ppf_enabled )
   {
-    free(dword_4FFC28);
-    free(dword_4FFC24);
+    free(ppf_file_data);
+    free(ppf_sector_lists);
   }
 }

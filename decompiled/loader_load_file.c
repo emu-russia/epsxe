@@ -1,5 +1,5 @@
 #include "pch.h"
-void __cdecl epsxe_load(char *a1, size_t Size)
+void __cdecl loader_load_file(char *a1, size_t Size)
 {
   char v2; // al
   int v3; // eax

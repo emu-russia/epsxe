@@ -1,5 +1,5 @@
 #include "pch.h"
-FILE *load_cheats()
+FILE *loader_load_cheats()
 {
   FILE *v0; // eax
   FILE *v1; // edi

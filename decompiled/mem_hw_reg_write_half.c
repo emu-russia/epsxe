@@ -1,5 +1,5 @@
 #include "pch.h"
-void __cdecl hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
+void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
 {
   char v2; // cl
 

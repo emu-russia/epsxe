@@ -39,6 +39,9 @@
     <ClInclude Include="..\psemu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\ppf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\decompiled\about_callback.c">
@@ -59,19 +62,10 @@
     <ClCompile Include="..\decompiled\cdrom_assert_int.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\cdrom_detect_region.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\cheat_dialog_callback.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\check_state_exists.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\clear_memory.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\cmdline_set_bios_name.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\cpu_interrupt.c">
@@ -89,19 +83,7 @@
     <ClCompile Include="..\decompiled\dma_assert_int.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\dma_mem_read.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\dynarec_compile.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\epsxe_load.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\epsxe_load_demo.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\epsxe_load_zip.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\epsxe_main_loop_runner.c">
@@ -146,12 +128,6 @@
     <ClCompile Include="..\decompiled\gpu_dma.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\gpu_dma_read.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\gpu_dma_write.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\gpu_freeze.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -182,37 +158,16 @@
     <ClCompile Include="..\decompiled\gte_unfreeze.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\hw_reg_read_byte.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\hw_reg_read_half.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\hw_reg_read_word.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\hw_reg_write_byte.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\hw_reg_write_half.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\hw_reg_write_word.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\init_memory_handlers.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\iso_close.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\load_bios.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\load_cheat_file.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\load_cheats.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\main_window_callback.c">
@@ -452,9 +407,6 @@
     <ClCompile Include="..\decompiled\parse_command_line_options.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\patch_game.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\pch.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -626,9 +578,6 @@
     <ClCompile Include="..\decompiled\sub_41BEA0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sub_41C010.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sub_41C220.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -764,12 +713,6 @@
     <ClCompile Include="..\decompiled\sub_430A00.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sub_436B50.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_436F60.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sub_4238B0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -813,9 +756,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sub_437040.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\touch_demo_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\ui_error.c">
@@ -1337,12 +1277,6 @@
     <ClCompile Include="..\decompiled\cfg_set_value.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\check_bios_file_exists.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\check_demo_header.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\cont_process_input.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1611,6 +1545,75 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sio_write_data_byte.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_cdrom_detect_region.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_check_bios_file_exists.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_check_demo_header.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_load_bios.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_load_cheat_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_load_cheats.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_load_demo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_load_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_load_zip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_set_bios_name.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_set_filename.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_touch_demo_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mem_clear_memory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mem_dma_read.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mem_gpu_dma_read.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mem_gpu_dma_write.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mem_hw_reg_read_byte.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mem_hw_reg_write_byte.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mem_hw_reg_write_half.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\mem_init_memory_handlers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\ppf_apply_patch_to_sector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\ppf_load_patch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\ppf_parse_and_build.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

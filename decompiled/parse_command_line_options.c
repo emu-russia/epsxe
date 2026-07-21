@@ -13,7 +13,7 @@ int __cdecl parse_command_line_options(int a1, int a2)
     {
       if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-bios") )
       {
-        cmdline_set_bios_name(*(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+        loader_set_bios_name(*(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
         v3 += 2;
       }
       else
@@ -274,7 +274,7 @@ LABEL_146:
                 {
                   if ( dword_456048[0] == 2 )
                     dword_456048[0] = 1;
-                  dword_45604C = 2;
+                  dword_456048[1] = 2;
                   point_device_enabled = 1;
                   goto LABEL_146;
                 }
@@ -310,19 +310,19 @@ LABEL_146:
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog2") )
                 {
-                  dword_45604C = 4;
+                  dword_456048[1] = 4;
                   dword_4FD8E4 = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog3") )
                 {
-                  dword_456050 = 4;
+                  dword_456048[2] = 4;
                   dword_4FD8E8 = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog4") )
                 {
-                  dword_456054 = 4;
+                  dword_456048[3] = 4;
                   dword_4FD8EC = 0;
                   goto LABEL_146;
                 }
@@ -338,12 +338,12 @@ LABEL_146:
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noppf") )
                 {
-                  auto_ppf_load = 0;
+                  ppf_enabled = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-ppf") )
                 {
-                  auto_ppf_load = 1;
+                  ppf_enabled = 1;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nolog") )
@@ -384,7 +384,7 @@ LABEL_146:
                     v4 = *(const char **)(a2 + 4 * (unsigned __int16)v3);
                     if ( *v4 == '-' )
                       fatal_error_with_message_box(" * ePSXe error: %s param incorrect \n", v4);
-                    sub_41C010(v4);
+                    loader_set_filename(v4);
                     loaded_file_type = 4;
                     goto LABEL_146;
                   }

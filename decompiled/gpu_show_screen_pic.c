@@ -10,7 +10,7 @@ void __cdecl gpu_show_screen_pic(unsigned __int8 a1)
   if ( GPUshowScreenPic )
   {
     v1 = malloc(0x9000u);
-    sprintf(Buffer, "%s%s.%03d.pic", "sstates\\", byte_8B3D80, a1);
+    sprintf(Buffer, "%s%s.%03d.pic", "sstates\\", ppf_default_filename, a1);
     v2 = fopen(Buffer, "rb");
     v3 = v2;
     if ( v2 )
@@ -20,7 +20,7 @@ void __cdecl gpu_show_screen_pic(unsigned __int8 a1)
     }
     else
     {
-      sprintf(Buffer, "%s%s.%03d", "sstates\\", byte_8B3D80, a1);
+      sprintf(Buffer, "%s%s.%03d", "sstates\\", ppf_default_filename, a1);
       v4 = fopen(Buffer, "rb");
       if ( v4 )
       {

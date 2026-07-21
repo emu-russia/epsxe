@@ -265,7 +265,7 @@ LABEL_78:
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Mouse  (F5)");
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Disabled");
-      switch ( dword_45604C )
+      switch ( dword_456048[1] )
       {
         case 0:
           SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 3u, 0);
@@ -458,9 +458,9 @@ LABEL_78:
               v34 = 4;
               v35 = 2;
               v36 = 0;
-              dword_45604C = *(&v33 + v22);
+              dword_456048[1] = *(&v33 + v22);
               point_device_enabled = 0;
-              if ( dword_45604C == 2 )
+              if ( dword_456048[1] == 2 )
               {
                 point_device_enabled = 1;
                 if ( dword_456048[0] == 5 || dword_456048[0] == 6 || dword_456048[0] == 2 || dword_456048[0] == 3 )
@@ -489,9 +489,9 @@ LABEL_78:
             if ( dword_456048[0] == 5 || dword_456048[0] == 6 || dword_456048[0] == 2 || dword_456048[0] == 3 )
             {
               point_device_enabled = 1;
-              if ( dword_45604C == 2 )
+              if ( dword_456048[1] == 2 )
               {
-                dword_45604C = 1;
+                dword_456048[1] = 1;
                 MessageBoxA(
                   nullptr,
                   "Sorry only 1 mouse supported, \n the other pad will be set to Digital Joypad",

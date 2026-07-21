@@ -1,5 +1,5 @@
 #include "pch.h"
-void load_bios()
+void loader_load_bios()
 {
   FILE *v0; // eax
   FILE *v1; // esi

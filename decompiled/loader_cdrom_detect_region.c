@@ -1,5 +1,5 @@
 #include "pch.h"
-int cdrom_detect_region()
+int loader_cdrom_detect_region()
 {
   int result; // eax
   unsigned int i; // esi
@@ -9,7 +9,7 @@ int cdrom_detect_region()
   if ( loaded_file_type != 3 && loaded_file_type != 1 )
   {
     sprintf(Buffer, "DEMO_999.99");
-    result = sprintf(byte_8B3D80, "%s", Buffer);
+    result = sprintf(ppf_default_filename, "%s", Buffer);
     dword_45593C = 262;
     dword_455940 = 2154;
     country_setting = 0;
@@ -18,11 +18,11 @@ int cdrom_detect_region()
   cdfs_load_executable(Buffer);
   if ( Buffer[strlen(Buffer) - 2] == ';' )
     Buffer[strlen(Buffer) - 2] = 0;
-  sprintf(byte_8B3D80, "%s", Buffer);
-  for ( i = 0; i < strlen(byte_8B3D80); ++i )
-    byte_8B3D80[i] = towupper(byte_8B3D80[i]);
-  sub_41BEA0(byte_8B3D80, Buffer);
-  sub_41BDC0(byte_8B3D80);
+  sprintf(ppf_default_filename, "%s", Buffer);
+  for ( i = 0; i < strlen(ppf_default_filename); ++i )
+    ppf_default_filename[i] = towupper(ppf_default_filename[i]);
+  sub_41BEA0(ppf_default_filename, Buffer);
+  sub_41BDC0(ppf_default_filename);
   if ( country_setting == 1 )
   {
     v2 = " * Force PAL cdrom detected. \n";
@@ -35,7 +35,7 @@ int cdrom_detect_region()
       dword_455940 = old_timing != 0 ? 1916 : 2154;
       return dbg_print(" * Force NTSC cdrom detected. \n");
     }
-    if ( byte_8B3D80[2] != 'E' && byte_8B3D80[2] != 'e' )
+    if ( ppf_default_filename[2] != 'E' && ppf_default_filename[2] != 'e' )
     {
       country_setting = 0;
       dword_45593C = 262;

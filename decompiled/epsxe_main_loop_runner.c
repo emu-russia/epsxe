@@ -5,14 +5,14 @@ void __noreturn epsxe_main_loop_runner()
     create_main_window();
   alloc_console();
   dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &byte_45B8CC);
-  old_auto_ppf_load = auto_ppf_load;
+  old_auto_ppf_load = ppf_enabled;
   while ( 1 )
   {
-    auto_ppf_load = 0;
-    init_memory_handlers();
-    clear_memory();
-    load_cheats();
-    load_bios();
+    ppf_enabled = 0;
+    mem_init_memory_handlers();
+    mem_clear_memory();
+    loader_load_cheats();
+    loader_load_bios();
     clear_cpu_regs();
     select_plugins_backend();
     clear_hw_regs();
@@ -20,7 +20,7 @@ void __noreturn epsxe_main_loop_runner()
     {
       if ( loaded_file_type == 3 || loaded_file_type == 1 )
         cdrom_init_cb();
-      cdrom_detect_region();
+      loader_cdrom_detect_region();
       if ( loaded_file_type == 1 )
         cdrom_subchannel_read_cb();
       gpu_load_plugin();
@@ -38,8 +38,8 @@ void __noreturn epsxe_main_loop_runner()
     if ( dword_50C36C == 1 )
       sub_428270();
     reset_flag = 0;
-    auto_ppf_load = old_auto_ppf_load;
-    patch_game();
+    ppf_enabled = old_auto_ppf_load;
+    ppf_load_patch();
     sub_42B1E0();
     if ( loaded_file_type == 1 || loaded_file_type == 3 )
     {
@@ -49,9 +49,9 @@ void __noreturn epsxe_main_loop_runner()
     else if ( loaded_file_type == 4 )
     {
       if ( BYTE1(dword_4F831C) )
-        epsxe_load_demo("libps.exe");
-      if ( touch_demo_file() )
-        epsxe_load_zip();
+        loader_load_demo("libps.exe");
+      if ( loader_touch_demo_file() )
+        loader_load_zip();
     }
     get_tick_count();
     if ( dword_50C36C )

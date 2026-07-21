@@ -18,7 +18,7 @@ char gpu_dma()
   v0 = dword_5164F8;
   v1 = HIWORD(dword_5164FC);
   v2 = (unsigned __int16)dword_5164FC;
-  v3 = (_DWORD *)dma_mem_read(dword_5164F8);
+  v3 = (_DWORD *)mem_dma_read(dword_5164F8);
   v12 = 0;
   if ( *(_DWORD *)dword_516500 == 0x1000200 )
   {
@@ -36,7 +36,7 @@ char gpu_dma()
       for ( i = v1 * v2; i; --i )
       {
         v11 = GPUreadData();
-        gpu_dma_write(v0, v11);
+        mem_gpu_dma_write(v0, v11);
         v0 += 4;
       }
     }
@@ -65,7 +65,7 @@ LABEL_27:
     GPUdmaChain(ram, v0 & 0x1FFFFF);
     while ( 1 )
     {
-      v5 = gpu_dma_read(v0);
+      v5 = mem_gpu_dma_read(v0);
       v6 = HIBYTE(v5) + v12;
       v7 = v5 & 0xFFFFFF;
       v12 = v6;

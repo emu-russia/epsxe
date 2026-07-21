@@ -59,7 +59,7 @@ LABEL_16:
     select_cdrom_core();
     dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &byte_45B8CC);
     if ( strlen(&cheat_file_from_cmdline) )
-      load_cheat_file(&cheat_file_from_cmdline);
+      loader_load_cheat_file(&cheat_file_from_cmdline);
     epsxe_main_loop_runner();
   }
 LABEL_7:

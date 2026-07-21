@@ -100,7 +100,7 @@ int cfg_save_settings()
   cfg_set_value("Software\\epsxe\\config", "Country", (BYTE *)Buffer);
   sprintf(Buffer, "%d", version_setting);
   cfg_set_value("Software\\epsxe\\config", "Version", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", dword_456048[0], dword_45604C, dword_456050, dword_456054);
+  sprintf(Buffer, "%d,%d,%d,%d", dword_456048[0], dword_456048[1], dword_456048[2], dword_456048[3]);
   cfg_set_value("Software\\epsxe\\config", "GamepadType", (BYTE *)Buffer);
   sprintf(Buffer, "%d,%d,%d,%d", dword_4FD8E0[0], dword_4FD8E4, dword_4FD8E8, dword_4FD8EC);
   cfg_set_value("Software\\epsxe\\config", "GamepadSubType", (BYTE *)Buffer);
@@ -130,7 +130,7 @@ int cfg_save_settings()
   cfg_set_value("Software\\epsxe\\config", "GamepadSMotorType", (BYTE *)Buffer);
   sprintf(Buffer, "%d,%d,%d,%d", g_EffectType1[0], dword_4FD8D0, dword_4FD8D4, dword_4FD8D8);
   cfg_set_value("Software\\epsxe\\config", "GamepadBMotorType", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)auto_ppf_load);
+  sprintf(Buffer, "%d", (unsigned __int8)ppf_enabled);
   cfg_set_value("Software\\epsxe\\config", "AutoPpfLoad", (BYTE *)Buffer);
   sprintf(Buffer, "%d", (unsigned __int8)multitap_1);
   cfg_set_value("Software\\epsxe\\config", "Multitap1", (BYTE *)Buffer);

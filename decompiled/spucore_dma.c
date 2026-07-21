@@ -27,7 +27,7 @@ void spucore_dma()
         do
         {
           fifo = spucore_dma_read_fifo();
-          hw_reg_write_half(v0, fifo);
+          mem_hw_reg_write_half(v0, fifo);
           v0 += 2;
           --v8;
         }
@@ -38,7 +38,7 @@ void spucore_dma()
     }
     else if ( *(_DWORD *)dword_516518 == 0x1000201 )
     {
-      v3 = (int *)dma_mem_read(dword_516510);
+      v3 = (int *)mem_dma_read(dword_516510);
       v4 = v1 * v2;
       v5 = dword_4F7554;
       v6 = 4 * v4 + dword_4F7554;

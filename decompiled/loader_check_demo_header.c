@@ -1,5 +1,5 @@
 #include "pch.h"
-void __cdecl check_demo_header(FILE *Stream, int a2)
+void __cdecl loader_check_demo_header(FILE *Stream, int a2)
 {
   int v2; // eax
 

@@ -18,7 +18,7 @@ void spu_dma()
   v0 = dword_516510;
   v1 = HIWORD(dword_516514);
   v2 = (unsigned __int16)dword_516514;
-  v3 = dma_mem_read(dword_516510);
+  v3 = mem_dma_read(dword_516510);
   if ( sound_enabled )
   {
     if ( *(_DWORD *)dword_516518 == 0x1000200 )
@@ -36,7 +36,7 @@ void spu_dma()
           do
           {
             v10 = SPUreadDMA();
-            hw_reg_write_half(v0, v10);
+            mem_hw_reg_write_half(v0, v10);
             v0 += 2;
             --v9;
           }
@@ -50,7 +50,7 @@ void spu_dma()
         for ( i = 2 * v8; i; dword_8A8080 += 2 )
         {
           v12 = SPUgetOne(dword_8A8080);
-          hw_reg_write_half(v0, v12);
+          mem_hw_reg_write_half(v0, v12);
           v0 += 2;
           --i;
         }
@@ -67,14 +67,14 @@ void spu_dma()
         else
         {
           v4 = 2 * v1 * v2;
-          for ( j = (unsigned __int16 *)dma_mem_read(v0); v4; --v4 )
+          for ( j = (unsigned __int16 *)mem_dma_read(v0); v4; --v4 )
             SPUwriteDMA(*j++);
         }
       }
       else
       {
         v6 = 2 * v1 * v2;
-        for ( k = (unsigned __int16 *)dma_mem_read(v0); v6; dword_8A8080 += 2 )
+        for ( k = (unsigned __int16 *)mem_dma_read(v0); v6; dword_8A8080 += 2 )
         {
           SPUputOne(dword_8A8080, *k++);
           --v6;

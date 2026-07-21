@@ -55,13 +55,13 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
               goto LABEL_26;
             if ( !strcmp((const char *)CdromPlugin, "NULL") )
               goto LABEL_28;
-            if ( check_bios_file_exists() )
+            if ( loader_check_bios_file_exists() )
               goto LABEL_30;
             PostQuitMessage(0);
             if ( byte_45B8E8 )
               fastboot = 0;
             nocd = 1;
-            sub_41C010("NULL");
+            loader_set_filename("NULL");
             loaded_file_type = 1;
             g_bDisableMouse = 0;
             return 1;
@@ -70,12 +70,12 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
               goto LABEL_26;
             if ( !strcmp((const char *)CdromPlugin, "NULL") )
               goto LABEL_28;
-            if ( check_bios_file_exists() )
+            if ( loader_check_bios_file_exists() )
               goto LABEL_30;
             PostQuitMessage(0);
             fastboot = 0;
             nocd = 0;
-            sub_41C010("NULL");
+            loader_set_filename("NULL");
             loaded_file_type = 2;
             g_bDisableMouse = 0;
             return 1;
@@ -100,7 +100,7 @@ LABEL_28:
                 0x10u);
               return 1;
             }
-            if ( check_bios_file_exists() )
+            if ( loader_check_bios_file_exists() )
             {
 LABEL_30:
               MessageBoxA(
@@ -126,7 +126,7 @@ LABEL_30:
               bin_iso_file[v7++] = v8;
             }
             while ( v8 );
-            sub_41C010("NULL");
+            loader_set_filename("NULL");
             loaded_file_type = 3;
             g_bDisableMouse = 0;
             return 1;
@@ -134,7 +134,7 @@ LABEL_30:
             if ( !open_file_dialog("Open PSX EXE", "PSX EXEs (*.ZIP, *.EXE)", temp_path, ".", "EXE") )
               return 1;
             PostQuitMessage(0);
-            sub_41C010(temp_path);
+            loader_set_filename(temp_path);
             loaded_file_type = 4;
             g_bDisableMouse = 0;
             return 1;
@@ -193,7 +193,7 @@ LABEL_30:
             cdrom_deinit_cb(Msg - 256);
             MessageBoxA(nullptr, "Insert a new cdrom and hit the button to continue", "Change Disc Option", 0x40u);
             nocd = 1;
-            sub_41C010("NULL");
+            loader_set_filename("NULL");
             loaded_file_type = 1;
             goto LABEL_40;
           case 40025u:
@@ -211,14 +211,14 @@ LABEL_30:
               bin_iso_file[v10++] = v11;
             }
             while ( v11 );
-            sub_41C010("NULL");
+            loader_set_filename("NULL");
             loaded_file_type = 3;
 LABEL_40:
             g_bDisableMouse = 0;
             country_setting = 255;
             cdrom_reset_cb();
             cdrom_init_cb();
-            cdrom_detect_region();
+            loader_cdrom_detect_region();
             cdrom_subchannel_read_cb();
 LABEL_41:
             PostQuitMessage(0);
@@ -291,9 +291,9 @@ LABEL_41:
             setup_wizard_callback(hWnd);
             return 1;
           case 40049u:
-            auto_ppf_load ^= 1u;
+            ppf_enabled ^= 1u;
             v21 = GetMenu(hWnd);
-            if ( auto_ppf_load )
+            if ( ppf_enabled )
               CheckMenuItem(v21, 0x9C71u, 8u);
             else
               CheckMenuItem(v21, 0x9C71u, 0);
@@ -434,7 +434,7 @@ LABEL_122:
         if ( g_bDisableMouse )
         {
           EnableMenuItem(v25, 0x9C71u, 0);
-          if ( auto_ppf_load )
+          if ( ppf_enabled )
             CheckMenuItem(v25, 0x9C71u, 8u);
           else
             CheckMenuItem(v25, 0x9C71u, 0);

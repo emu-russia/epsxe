@@ -16,7 +16,7 @@ char netplay_handler()
   if ( network_enabled )
   {
     dword_50A1E0 = NETqueryPlayer();
-    if ( (unsigned __int8)NETcompareData(byte_8B3D80, 12) )
+    if ( (unsigned __int8)NETcompareData(ppf_default_filename, 12) )
       fatal_error_with_message_box(" * NETPLAY: Error psx game is different in every site. \n");
     byte_50A201[0] = fastboot;
     byte_50A200 = sound_enabled;
@@ -75,7 +75,7 @@ char netplay_handler()
         save_temp_memcard2();
     }
     LOBYTE(dword_50A620) = dword_456048[0];
-    BYTE1(dword_50A620) = dword_45604C;
+    BYTE1(dword_50A620) = dword_456048[1];
     LOBYTE(dword_50A624) = forcepad;
     BYTE1(dword_50A624) = dword_50C374;
     BYTE2(dword_50A624) = nocdstatus;
@@ -88,7 +88,7 @@ char netplay_handler()
     dword_456048[0] = (unsigned __int8)dword_50A620;
     forcepad = (unsigned __int8)dword_50A624;
     dword_50C374 = BYTE1(dword_50A624);
-    dword_45604C = BYTE1(dword_50A620);
+    dword_456048[1] = BYTE1(dword_50A620);
     nocdstatus = BYTE2(dword_50A624);
     country_setting = HIBYTE(dword_50A624);
     mdectiming = (unsigned __int8)byte_50A628;

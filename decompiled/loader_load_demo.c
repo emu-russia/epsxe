@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl epsxe_load_demo(char *FileName)
+int __cdecl loader_load_demo(char *FileName)
 {
   FILE *v1; // eax
   FILE *v2; // esi
@@ -16,13 +16,13 @@ int __cdecl epsxe_load_demo(char *FileName)
   fread(Str2, 1u, 0x4Cu, v1);
   if ( strncmp("PS-X EXE", Str2, 8u) )
     fatal_error_with_message_box(" * ePSXe: [%s] is not a EXE file. \n", FileName);
-  check_demo_header(v2, ElementCount);
+  loader_check_demo_header(v2, ElementCount);
   fseek(v2, 2048, 0);
   fread((char *)ram + (v7 & 0x1FFFFF), 1u, ElementCount, v2);
-  MEMORY[0x50C354] = 0x801FFF00;
-  MEMORY[0x50C358] = 0x801FFF00;
-  MEMORY[0x50C350] = v6;
-  MEMORY[0x50C35C] = 0;
+  cpu_gpr[29] = 0x801FFF00;
+  cpu_gpr[30] = 0x801FFF00;
+  cpu_gpr[28] = v6;
+  cpu_gpr[31] = 0;
   *(_DWORD *)reg_pc = v5;
   return fclose(v2);
 }

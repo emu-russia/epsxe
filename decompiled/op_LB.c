@@ -14,7 +14,7 @@ int op_LB()
     v0 = cpu_opcode | 0xFFFF0000;
     dword_576DA8 = v0;
   }
-  hw_reg_read_byte(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
+  mem_hw_reg_read_byte(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
   v1 = (unsigned __int8)op_rt;
   result = (unsigned __int8)result;
   cpu_gpr[(unsigned __int8)op_rt] = (unsigned __int8)result;

@@ -1,5 +1,5 @@
 #include "pch.h"
-void epsxe_load_zip()
+void loader_load_zip()
 {
   char *v0; // esi
   void *v1; // esi
@@ -38,10 +38,10 @@ void epsxe_load_zip()
           fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", byte_566980);
         v3 = Str2;
         qmemcpy((char *)ram + (*((_DWORD *)v2 + 6) & 0x1FFFFF), Str2 + 2048, *((_DWORD *)v2 + 7));
-        MEMORY[0x50C350] = *((_DWORD *)v2 + 5);
-        MEMORY[0x50C354] = -2145386752;
-        MEMORY[0x50C358] = -2145386752;
-        MEMORY[0x50C35C] = 0;
+        cpu_gpr[28] = *((_DWORD *)v2 + 5);
+        cpu_gpr[29] = -2145386752;
+        cpu_gpr[30] = -2145386752;
+        cpu_gpr[31] = 0;
         *(_DWORD *)reg_pc = *((_DWORD *)v2 + 4);
         free(v3);
       }
@@ -64,12 +64,12 @@ void epsxe_load_zip()
         if ( (_BYTE)Str2 == 0xFF )
 LABEL_26:
           fatal_error_with_message_box("* EPSX: DEMO .pll not found. \n");
-        epsxe_load(&byte_566980[256 * (unsigned __int8)Str2], Size[(unsigned __int8)Str2]);
+        loader_load_file(&byte_566980[256 * (unsigned __int8)Str2], Size[(unsigned __int8)Str2]);
       }
     }
   }
   else
   {
-    epsxe_load_demo(FileName);
+    loader_load_demo(FileName);
   }
 }

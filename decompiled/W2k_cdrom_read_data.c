@@ -44,10 +44,10 @@ int __cdecl W2k_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
     if ( loaded_file_type == 3 )
     {
       iso_read_data(a1, a2, v7, (int)Buffer);
-      if ( auto_ppf_load )
+      if ( ppf_enabled )
       {
         v9 = sub_42C6D0(a1, a2, v7);
-        sub_436F60(v9, (int)Buffer);
+        ppf_apply_patch_to_sector(v9, (int)Buffer);
       }
       if ( cd_savefake_flag == 1 )
         cdrom_fake_write_portion(a1, a2, v7, Buffer);
@@ -300,10 +300,10 @@ LABEL_66:
             break;
         }
       }
-      if ( auto_ppf_load )
+      if ( ppf_enabled )
       {
         v35 = sub_42C6D0(a1, v6, v7);
-        sub_436F60(v35, (int)v10);
+        ppf_apply_patch_to_sector(v35, (int)v10);
       }
       if ( cd_savefake_flag == 1 )
         cdrom_fake_write_portion(a1, v6, v7, v10);

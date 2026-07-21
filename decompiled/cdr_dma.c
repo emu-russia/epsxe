@@ -24,7 +24,7 @@ unsigned int cdr_dma()
       result = sub_4281B0(dword_516504, v3 >> 2);
     if ( v3 + (v2 & 0x1FFFFF) <= 0x200000 )
     {
-      result = dma_mem_read(v2);
+      result = mem_dma_read(v2);
       qmemcpy((void *)result, &byte_50AF56[v4], v3);
     }
     byte_50BF64 = 1;

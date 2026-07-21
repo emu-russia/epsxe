@@ -1,5 +1,5 @@
 #include "pch.h"
-void __cdecl hw_reg_read_byte(unsigned int a1)
+void __cdecl mem_hw_reg_read_byte(unsigned int a1)
 {
   hw_update_counter -= 4;
   if ( (a1 & 0x1FC00000) != 0x1F800000 || (unsigned __int16)a1 < 0x1000u )

@@ -15,10 +15,10 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
   if ( loaded_file_type == 3 )
   {
     iso_read_data(a1, a2, a3, (int)Buffer);
-    if ( auto_ppf_load )
+    if ( ppf_enabled )
     {
       v5 = sub_42C6D0(a1, a2, a3);
-      sub_436F60(v5, (int)Buffer);
+      ppf_apply_patch_to_sector(v5, (int)Buffer);
     }
     if ( cd_savefake_flag == 1 )
     {
@@ -35,10 +35,10 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
     v6 = (const void *)CDRgetBuffer();
     v7 = Buffer;
     qmemcpy(Buffer + 12, v6, 0x930u);
-    if ( auto_ppf_load )
+    if ( ppf_enabled )
     {
       v8 = sub_42C6D0(a1, a2, a3);
-      sub_436F60(v8, (int)Buffer);
+      ppf_apply_patch_to_sector(v8, (int)Buffer);
       v7 = Buffer;
     }
     if ( cd_savefake_flag == 1 )

@@ -162,7 +162,7 @@ int cfg_load_settings()
   {
     sscanf(Buffer, "%d", &v1);
     if ( (_BYTE)v1 )
-      auto_ppf_load = 1;
+      ppf_enabled = 1;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "Multitap1", (LPBYTE)Buffer) )
   {
@@ -216,12 +216,12 @@ int cfg_load_settings()
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadType", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d,%d,%d,%d", dword_456048, &dword_45604C, &dword_456050, &dword_456054);
+    sscanf(Buffer, "%d,%d,%d,%d", dword_456048, &dword_456048[1], &dword_456048[2], &dword_456048[3]);
     if ( dword_456048[0] == 5
       || dword_456048[0] == 6
       || dword_456048[0] == 3
       || dword_456048[0] == 2
-      || dword_45604C == 2 )
+      || dword_456048[1] == 2 )
     {
       point_device_enabled = 1;
     }

@@ -1,5 +1,5 @@
 #include "pch.h"
-FILE *__cdecl load_cheat_file(char *FileName)
+FILE *__cdecl loader_load_cheat_file(char *FileName)
 {
   FILE *result; // eax
   FILE *v2; // esi
