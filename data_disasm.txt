@@ -1,0 +1,2550 @@
+0044B000: dword_44B000 dd 0
+0044B004: dword_44B004 dd 0
+0044B008: First dd 0
+0044B00C: dword_44B00C dd offset ___initstdio
+0044B010: dword_44B010 dd offset ___initmbctable
+0044B014: Last dd 0
+0044B018: dword_44B018 dd 0
+0044B01C: dword_44B01C dd offset ___endstdio
+0044B020: dword_44B020 dd offset ___termcon
+0044B024: dword_44B024 dd 0
+0044B028: dword_44B028 dd 0
+0044B02C: dword_44B02C dd 0
+0044B030: fastboot db 1
+0044B031: create_window_flag db 1
+0044B032: word_44B032 align 4
+0044B034: asc_44B034 db '.',0
+0044B036: word_44B036 align 4
+0044B038: aIsodirectory db 'IsoDirectory',0
+0044B045: data3_44B045 align 4
+0044B048: aGamepadbmotort db 'GamepadBMotorType',0
+0044B05A: word_44B05A align 4
+0044B05C: aGamepadsmotort db 'GamepadSMotorType',0
+0044B06E: word_44B06E align 10h
+0044B070: aGamepadmotorty db 'GamepadMotorType',0
+0044B081: data3_44B081 align 4
+0044B084: aGamepadaxis db 'GamepadAxis',0
+0044B090: aGamepadsubtype db 'GamepadSubType',0
+0044B09F: byte_44B09F align 10h
+0044B0A0: aDDDD db '%d,%d,%d,%d',0
+0044B0AC: aGamepadtype db 'GamepadType',0
+0044B0B8: aVersion db 'Version',0
+0044B0C0: aCountry db 'Country',0
+0044B0C8: aMemcardsEpsxe0_0 db 'memcards\epsxe001.mcr',0
+0044B0DE: word_44B0DE align 10h
+0044B0E0: aMemcard2 db 'Memcard2',0
+0044B0E9: data3_44B0E9 align 4
+0044B0EC: aMemcardsEpsxe0 db 'memcards\epsxe000.mcr',0
+0044B102: word_44B102 align 4
+0044B104: aMemcard1 db 'Memcard1',0
+0044B10D: data3_44B10D align 10h
+0044B110: aCdromlun db 'CdromLun',0
+0044B119: data3_44B119 align 4
+0044B11C: aCdromtarget db 'CdromTarget',0
+0044B128: aSoftwareEpsxeC_0 db 'Software\epsxe\config\cdrom9x',0
+0044B146: word_44B146 align 4
+0044B148: aCdromhain db 'CdromHain',0
+0044B152: word_44B152 align 4
+0044B154: aMultitap1 db 'Multitap1',0
+0044B15E: word_44B15E align 10h
+0044B160: aAutoppfload db 'AutoPpfLoad',0
+0044B16C: aLogswindow db 'Logswindow',0
+0044B177: byte_44B177 align 4
+0044B178: aCdromletter db 'CdromLetter',0
+0044B184: aKeys4 db 'Keys4',0
+0044B18A: word_44B18A align 4
+0044B18C: aKeys3 db 'Keys3',0
+0044B192: word_44B192 align 4
+0044B194: aKeys2 db 'Keys2',0
+0044B19A: word_44B19A align 4
+0044B19C: aDDDDDDDDDDDDDD db '%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d',0
+0044B1CC: aKeys1 db 'Keys1',0
+0044B1D2: word_44B1D2 align 4
+0044B1D4: aSoundcdda db 'SoundCDDA',0
+0044B1DE: word_44B1DE align 10h
+0044B1E0: aSoundxa db 'SoundXA',0
+0044B1E8: aSoundenabled db 'SoundEnabled',0
+0044B1F5: data3_44B1F5 align 4
+0044B1F8: aSubchannelw2kc_1 db 'SubchannelW2kCachingLG',0
+0044B20F: byte_44B20F align 10h
+0044B210: aSubchannelw2kc_0 db 'SubchannelW2kCaching',0
+0044B225: data3_44B225 align 4
+0044B228: aSubchannelw2kc db 'SubchannelW2kCdromEnabled',0
+0044B242: word_44B242 align 4
+0044B244: aSubchannelw9xc_1 db 'SubchannelW9xCachingLG',0
+0044B25B: byte_44B25B align 4
+0044B25C: aSubchannelw9xc_0 db 'SubchannelW9xCaching',0
+0044B271: data3_44B271 align 4
+0044B274: Format db '%d',0
+0044B277: byte_44B277 align 4
+0044B278: aSubchannelw9xc db 'SubchannelW9xCdromEnabled',0
+0044B292: word_44B292 align 4
+0044B294: aBiosScph1001Bi db 'bios\scph1001.bin',0
+0044B2A6: word_44B2A6 align 4
+0044B2A8: aBiosname db 'BiosName',0
+0044B2B1: data3_44B2B1 align 4
+0044B2B4: aDisabled db 'DISABLED',0
+0044B2BD: data3_44B2BD align 10h
+0044B2C0: aNetplugin db 'NetPlugin',0
+0044B2CA: word_44B2CA align 4
+0044B2CC: aCdromplugin db 'CdromPlugin',0
+0044B2D8: aSpucore db 'SPUCORE',0
+0044B2E0: ValueName db 'SoundPlugin',0
+0044B2EC: aNull db 'NULL',0
+0044B2F1: data3_44B2F1 align 4
+0044B2F4: aS db '%s',0
+0044B2F7: byte_44B2F7 align 4
+0044B2F8: SubKey db 'Software\epsxe\config',0
+0044B30E: word_44B30E align 10h
+0044B310: aVideoPlugin db 'VideoPlugin',0
+0044B31C: aLibpsExe db 'libps.exe',0
+0044B326: word_44B326 align 4
+0044B328: aRunningSEmulat db ' * Running %s emulator version %1.1f.%d. %s',0Ah,0
+0044B355: data3_44B355 align 4
+0044B358: aEpsxe db 'ePSXe',0
+0044B35E: word_44B35E align 10h
+0044B360: aHelpWhereAreYo db '        -help                      -   Where are you now? ;-)',0Ah
+0044B39F: byte_44B39F align 10h
+0044B3A0: aPe2ParasiteEve db '        -pe2                       -   Parasite eve 2 cheat.',0Ah
+0044B3DE: word_44B3DE align 10h
+0044B3E0: aPNumMemAccessP db '        -p <num>                   -   Mem access penalty (d.5).',0Ah
+0044B422: data6_44B422 align 8
+0044B428: aAnalognEnableD db '        -analogN                   -   Enable dualshock emulation'
+0044B475: data3_44B475 align 4
+0044B478: aMouseEnableMou db '        -mouse                     -   Enable mouse emulation.',0Ah
+0044B4B8: aGunEnableNamco db '        -gun                       -   Enable namco gun emulation'
+0044B4FB: data5_44B4FB align 10h
+0044B500: aSsv0SaveSstate db '        -ssv0                      -   Save sstate version v.0',0Ah
+0044B540: aLoadmemc1FileM db '        -loadmemc1 <file>          -   Map file to memcard 1.',0Ah
+0044B57F: byte_44B57F align 10h
+0044B580: aLoadmemc0FileM db '        -loadmemc0 <file>          -   Map file to memcard 0.',0Ah
+0044B5BF: byte_44B5BF align 10h
+0044B5C0: aPpfNoppfEnable db '        -ppf/-noppf                -   Enable/Disable ppf patches'
+0044B604: aLoadppfFileLoa db '        -loadppf <file>            -   Load ppf file.',0Ah,0
+0044B63B: data5_44B63B align 10h
+0044B640: aLoadcheatFileL db '        -loadcheat <file>          -   Load internal cheat file.',0Ah
+0044B682: data6_44B682 align 8
+0044B688: aLoadisoFileLoa db '        -loadiso <file>            -   Load iso file. (Cdrwin/Clo'
+0044B6D0: aNoguiDisableIn db '        -nogui                     -   Disable internal GUI.',0Ah
+0044B70E: word_44B70E align 10h
+0044B710: aFastbootSlowbo db '        -fastboot/slowboot         -   Fast/Slow boot cdrom (psx '
+0044B759: data3_44B759 align 4
+0044B75C: aOldtimingUsePr db '        -oldtiming                 -   Use pre-1.5.1 timing. ',0Ah
+0044B79B: byte_44B79B align 4
+0044B79C: aPressAKeyToCon db '    [Press a key to continue] ',0Ah,0
+0044B7BC: dword_44B7BC align 10h
+0044B7C0: aAdjusttimingOn db '        -adjusttiming              -   On the fly re-adjust timin'
+0044B805: data3_44B805 align 4
+0044B808: aMdectimingNomd db '        -mdectiming/-nomdectiming  -   Enable/Disable MDEC accura'
+0044B855: data3_44B855 align 4
+0044B858: aMdecNomdecEnab db '        -mdec/-nomdec              -   Enable/Disable MDEC emulat'
+0044B89F: byte_44B89F align 10h
+0044B8A0: aMemcardNomemca db '        -memcard/-nomemcard        -   Enable/Disable memcard emu'
+0044B8EA: data6_44B8EA align 10h
+0044B8F0: aForcepadNoforc db '        -forcepad/-noforcepad      -   Enable/Disable SIO irq alw'
+0044B93A: data6_44B93A align 10h
+0044B940: aNosubchanSubch db '        -nosubchan/-subchan        -   Enable/Disable subchannel '
+0044B98B: data5_44B98B align 10h
+0044B990: aForcespuNoforc db '        -forcespu/-noforcespu      -   Enable/Disable SPU irq alw'
+0044B9DA: data6_44B9DA align 10h
+0044B9E0: aAudiocdNoaudio db '        -audiocd/noaudiocd         -   Enable/Disable CDDA audio.'
+0044BA23: data5_44BA23 align 8
+0044BA28: aXasoundNoxasou db '        -xasound/-noxasound        -   Enable/Disable XA sound.',0Ah
+0044BA69: data3_44BA69 align 4
+0044BA6C: aSoundNosoundEn db '        -sound/-nosound            -   Enable/Disable sound.',0Ah
+0044BAAA: word_44BAAA align 4
+0044BAAC: aNocdDisableCdr db '        -nocd                      -   Disable CDR emulation.',0Ah
+0044BAEB: byte_44BAEB align 4
+0044BAEC: aPslibLoadLibps db '        -pslib                     -   Load libpsx.exe.',0Ah,0
+0044BB25: data3_44BB25 align 4
+0044BB28: aOptions db '      options: ',0Ah
+0044BB3A: word_44BB3A align 4
+0044BB3C: aEpsxeOptionsPs db '      epsxe [options] [PS-EXE] ',0Ah,0
+0044BB5D: data3_44BB5D align 10h
+0044BB60: aSV11fDEmulator db ' %s v.%1.1f.%d emulator by ePSXe team. Copyright 2000/2002. ',0Ah
+0044BB9F: byte_44BB9F align 10h
+0044BBA0: aExtsubchanhleE db '        -extsubchanhle             -   Enable subchannel hle (ext'
+0044BBE9: data7_44BBE9 align 10h
+0044BBF0: aNocputrickDisa db '        -nocputrick                -   Disable a old cpu trick.',0Ah
+0044BC31: data3_44BC31 align 4
+0044BC34: aFrc1FasterRoot db '        -frc1                      -   Faster rootcounter1.',0Ah,0
+0044BC71: data7_44BC71 align 8
+0044BC78: aNoignorecmdNoI db '        -noignorecmd               -   No Ignore cdrom commands.',0Ah
+0044BCBA: data6_44BCBA align 10h
+0044BCC0: aNoautoDisableA db '        -noauto                    -   Disable autoconf/patch.',0Ah
+0044BD00: aNocdstatusNoRe db '        -nocdstatus                -   No return cdstatus.',0Ah,0
+0044BD3C: aDevelopOptions db '      develop options: ',0Ah
+0044BD56: word_44BD56 align 4
+0044BD58: aSEmulatorVersi db ' * %s emulator version %1.1f.%d. %s',0Ah,0
+0044BD7D: data3_44BD7D align 10h
+0044BD80: aEpsxeErrorSPar db ' * ePSXe error: %s param incorrect ',0Ah,0
+0044BDA5: data3_44BDA5 align 4
+0044BDA8: asc_44BDA8 db '-h',0
+0044BDAB: byte_44BDAB align 4
+0044BDAC: aHdev db '-hdev',0
+0044BDB2: word_44BDB2 align 4
+0044BDB4: aDisablereportm db '-disablereportmode',0
+0044BDC7: byte_44BDC7 align 4
+0044BDC8: aNoadjusttiming db '-noadjusttiming',0
+0044BDD8: aOldtiming db '-oldtiming',0
+0044BDE3: byte_44BDE3 align 4
+0044BDE4: aAdjusttiming db '-adjusttiming',0
+0044BDF2: word_44BDF2 align 4
+0044BDF4: aGtrace db '-gtrace',0
+0044BDFC: aNolog db '-nolog',0
+0044BE03: byte_44BE03 align 4
+0044BE04: aPpf db '-ppf',0
+0044BE09: data3_44BE09 align 4
+0044BE0C: aNoppf db '-noppf',0
+0044BE13: byte_44BE13 align 4
+0044BE14: aNocdinc db '-nocdinc',0
+0044BE1D: data3_44BE1D align 10h
+0044BE20: aNoignorecmd db '-noignorecmd',0
+0044BE2D: data3_44BE2D align 10h
+0044BE30: aAnalog4 db '-analog4',0
+0044BE39: data3_44BE39 align 4
+0044BE3C: aAnalog3 db '-analog3',0
+0044BE45: data3_44BE45 align 4
+0044BE48: aAnalog2 db '-analog2',0
+0044BE51: data3_44BE51 align 4
+0044BE54: aAnalog1 db '-analog1',0
+0044BE5D: data3_44BE5D align 10h
+0044BE60: aAnalog db '-analog',0
+0044BE68: aMultitap db '-multitap',0
+0044BE72: word_44BE72 align 4
+0044BE74: aGun db '-gun',0
+0044BE79: data3_44BE79 align 4
+0044BE7C: aAnamouse db '-anamouse',0
+0044BE86: word_44BE86 align 4
+0044BE88: aMouse2 db '-mouse2',0
+0044BE90: aMouse db '-mouse',0
+0044BE97: byte_44BE97 align 4
+0044BE98: aNoauto db '-noauto',0
+0044BEA0: aNocdstatus db '-nocdstatus',0
+0044BEAC: aSsv0 db '-ssv0',0
+0044BEB2: word_44BEB2 align 4
+0044BEB4: aLoadstate db '-loadstate',0
+0044BEBF: byte_44BEBF align 10h
+0044BEC0: aLoadcheat db '-loadcheat',0
+0044BECB: byte_44BECB align 4
+0044BECC: aLoadiso db '-loadiso',0
+0044BED5: data3_44BED5 align 4
+0044BED8: aLoadbin db '-loadbin',0
+0044BEE1: data3_44BEE1 align 4
+0044BEE4: aLoadmemc1 db '-loadmemc1',0
+0044BEEF: byte_44BEEF align 10h
+0044BEF0: aLoadmemc0 db '-loadmemc0',0
+0044BEFB: byte_44BEFB align 4
+0044BEFC: aLoadppf db '-loadppf',0
+0044BF05: data3_44BF05 align 4
+0044BF08: aLoadfake db '-loadfake',0
+0044BF12: word_44BF12 align 4
+0044BF14: aNocputrick db '-nocputrick',0
+0044BF20: aPe2 db '-pe2',0
+0044BF25: data3_44BF25 align 4
+0044BF28: aFf9pal db '-ff9pal',0
+0044BF30: aLegaia db '-legaia',0
+0044BF38: aSavefake db '-savefake',0
+0044BF42: word_44BF42 align 4
+0044BF44: aNoxaread db '-noxaread',0
+0044BF4E: word_44BF4E align 10h
+0044BF50: aXaread db '-xaread',0
+0044BF58: aNoxasound db '-noxasound',0
+0044BF63: byte_44BF63 align 4
+0044BF64: aXasound db '-xasound',0
+0044BF6D: data3_44BF6D align 10h
+0044BF70: aMemcard db '-memcard',0
+0044BF79: data3_44BF79 align 4
+0044BF7C: aNomemcard db '-nomemcard',0
+0044BF87: byte_44BF87 align 4
+0044BF88: aMdec db '-mdec',0
+0044BF8E: word_44BF8E align 10h
+0044BF90: aNomdec db '-nomdec',0
+0044BF98: aSound db '-sound',0
+0044BF9F: byte_44BF9F align 10h
+0044BFA0: aNosound db '-nosound',0
+0044BFA9: data3_44BFA9 align 4
+0044BFAC: aFl db '-fl',0
+0044BFB0: aSlowboot db '-slowboot',0
+0044BFBA: word_44BFBA align 4
+0044BFBC: aFastboot db '-fastboot',0
+0044BFC6: word_44BFC6 align 4
+0044BFC8: asc_44BFC8 db '-f',0
+0044BFCB: byte_44BFCB align 4
+0044BFCC: aV db '-v',0
+0044BFCF: byte_44BFCF align 10h
+0044BFD0: aI db '-i',0
+0044BFD3: byte_44BFD3 align 4
+0044BFD4: Str2 db '-p',0
+0044BFD7: byte_44BFD7 align 4
+0044BFD8: aNogui db '-nogui',0
+0044BFDF: byte_44BFDF align 10h
+0044BFE0: aAudiocd db '-audiocd',0
+0044BFE9: data3_44BFE9 align 4
+0044BFEC: aNoaudiocd db '-noaudiocd',0
+0044BFF7: byte_44BFF7 align 4
+0044BFF8: aNocd db '-nocd',0
+0044BFFE: word_44BFFE align 10h
+0044C000: aNoforcespu db '-noforcespu',0
+0044C00C: aForcespu db '-forcespu',0
+0044C016: word_44C016 align 4
+0044C018: aNoforcepad db '-noforcepad',0
+0044C024: aForcepad db '-forcepad',0
+0044C02E: word_44C02E align 10h
+0044C030: aMdectiming db '-mdectiming',0
+0044C03C: aNomdectiming db '-nomdectiming',0
+0044C04A: word_44C04A align 4
+0044C04C: aNocdoverwrite db '-nocdoverwrite',0
+0044C05B: byte_44C05B align 4
+0044C05C: aPslib db '-pslib',0
+0044C063: byte_44C063 align 4
+0044C064: aExtsubchanhle db '-extsubchanhle',0
+0044C073: byte_44C073 align 4
+0044C074: aSubchan db '-subchan',0
+0044C07D: data3_44C07D align 10h
+0044C080: aNosubchan db '-nosubchan',0
+0044C08B: byte_44C08B align 4
+0044C08C: aBios db '-bios',0
+0044C092: word_44C092 align 4
+0044C094: aByeBye db ' Bye Bye. ',0Ah,0
+0044C0A0: aInternal db 'INTERNAL',0
+0044C0A9: data3_44C0A9 align 4
+0044C0AC: save_state_ver db 0FFh
+0044C0AD: data3_44C0AD align 10h
+0044C0B0: aSpu db 'SPU',0
+0044C0B4: aGpu db 'GPU',0
+0044C0B8: aMde db 'MDE',0
+0044C0BC: aSio db 'SIO',0
+0044C0C0: aCdr db 'CDR',0
+0044C0C4: aGte db 'GTE',0
+0044C0C8: aIrq db 'IRQ',0
+0044C0CC: aReg db 'REG',0
+0044C0D0: aMem db 'MEM',0
+0044C0D4: aPsx db 'PSX',0
+0044C0D8: aWb1 db 'wb1',0
+0044C0DC: aSS03d db '%s%s.%03d',0
+0044C0E6: word_44C0E6 align 4
+0044C0E8: aSstates db 'sstates\',0
+0044C0F1: data3_44C0F1 align 4
+0044C0F4: aRb1 db 'rb1',0
+0044C0F8: Mode db 'rb',0
+0044C124: byte_44C124 db 0
+0044C134: dword_44C134 dd 0, 2, 8, 0Ah
+0044C144: dword_44C144 dd 0
+0044C148: stru_44C148 KBD_NAME <'NONE'>
+0044DB48: joy_names JOY_NAME <'J1_NONE'>
+0044DD08: ClassName db 'EPSXGUI',0
+0044DD10: aEpsxmenu db 'EPSXMENU',0
+0044DD19: g_bDisableMouse db 1
+0044DD1A: pad_number_menu_selection db 1
+0044DD1B: byte_44DD1B align 4
+0044DD1C: word_44DD1C dw 40Ah
+0044DD3C: nIDDlgItem dw 41Ch
+0044DD44: byte_44DD44 db 0FFh
+0044DD45: data3_44DD45 align 4
+0044DD48: setup_wizard_step dd 0FFFFFFFFh
+0044DD4C: debug_bios _BIOS_DESCR <0Dh, 'dtlh3002 - PAL'>
+0044DD70: retail_bioses _BIOS_DESCR <0C8EC73C0h, 'scph1000 - JAP'>
+0044DF24: dword_44DF24 dd 0FFFFFFFFh
+0044DF28: aEditAxisY2 db 'EDIT AXIS: Y2',0
+0044DF36: word_44DF36 align 4
+0044DF38: aEditAxisX2 db 'EDIT AXIS: X2',0
+0044DF46: word_44DF46 align 4
+0044DF48: aEditAxisY1 db 'EDIT AXIS: Y1',0
+0044DF56: word_44DF56 align 4
+0044DF58: aEditAxisX1 db 'EDIT AXIS: X1',0
+0044DF66: word_44DF66 align 4
+0044DF68: aEditButtonR3 db 'EDIT BUTTON: R3',0
+0044DF78: aEditButtonL3 db 'EDIT BUTTON: L3',0
+0044DF88: aEditButtonSele db 'EDIT BUTTON: SELECT',0
+0044DF9C: aEditButtonStar db 'EDIT BUTTON: START',0
+0044DFAF: byte_44DFAF align 10h
+0044DFB0: aEditButtonR2 db 'EDIT BUTTON: R2',0
+0044DFC0: aEditButtonR1 db 'EDIT BUTTON: R1',0
+0044DFD0: aEditButtonL2 db 'EDIT BUTTON: L2',0
+0044DFE0: aEditButtonL1 db 'EDIT BUTTON: L1',0
+0044DFF0: aEditButtonSqua db 'EDIT BUTTON: SQUARE',0
+0044E004: aEditButtonX db 'EDIT BUTTON: X',0
+0044E013: byte_44E013 align 4
+0044E014: aEditButtonCirc db 'EDIT BUTTON: CIRCLE',0
+0044E028: aEditButtonTria db 'EDIT BUTTON: TRIANGLE',0
+0044E03E: word_44E03E align 10h
+0044E040: aEditButtonDown db 'EDIT BUTTON: DOWN',0
+0044E052: word_44E052 align 4
+0044E054: aEditButtonUp db 'EDIT BUTTON: UP',0
+0044E064: aEditButtonRigh db 'EDIT BUTTON: RIGHT',0
+0044E077: byte_44E077 align 4
+0044E078: aEditButtonLeft db 'EDIT BUTTON: LEFT',0
+0044E08A: data6_44E08A align 10h
+0044E090: Text db 'Sorry only 1 mouse supported, ',0Ah
+0044E0DC: Caption db 'Only 1 mouse supported',0
+0044E0F3: byte_44E0F3 align 4
+0044E0F4: aDirectInputIni db ' * Direct input init ok. ',0Ah,0
+0044E10F: byte_44E10F align 10h
+0044E110: String db 'EDIT BUTTON: NONE',0
+0044E122: word_44E122 align 4
+0044E124: aPadNumberD db 'PAD NUMBER %d',0
+0044E132: word_44E132 align 4
+0044E134: aDigitalMouseF5 db 'Digital/Mouse  (F5)',0
+0044E148: aDigitalGunF5 db 'Digital/Gun    (F5)',0
+0044E15C: aDigitalAnalogM_0 db 'Digital/Analog Mouse T1 (F5)',0
+0044E179: data3_44E179 align 4
+0044E17C: aDigitalAnalogM db 'Digital/Analog Mouse T0 (F5)',0
+0044E199: data3_44E199 align 4
+0044E19C: aSine db 'Sine',0
+0044E1A1: data3_44E1A1 align 4
+0044E1A4: aConstant db 'Constant',0
+0044E1AD: data3_44E1AD align 10h
+0044E1B0: aNone db 'None',0
+0044E1B5: data3_44E1B5 align 4
+0044E1B8: aDxJoy4 db 'DX Joy4',0
+0044E1C0: aDxJoy3 db 'DX Joy3',0
+0044E1C8: aDxJoy2 db 'DX Joy2',0
+0044E1D0: aDxJoy1 db 'DX Joy1',0
+0044E1D8: aBurutter db 'Burutter',0
+0044E1E1: data3_44E1E1 align 4
+0044E1E4: aDisabled_0 db 'Disabled',0
+0044E1ED: data3_44E1ED align 10h
+0044E1F0: aDigitalAnalogF db 'Digital/Analog (F5)',0
+0044E204: aDigitalOnly db 'Digital Only',0
+0044E211: data3_44E211 align 4
+0044E214: aXX_0 db '%x %x',0Ah,0
+0044E21B: byte_44E21B align 4
+0044E21C: aW db 'w',0
+0044E21E: word_44E21E align 10h
+0044E220: aSavePsxCheat db 'Save PSX CHEAT',0
+0044E22F: byte_44E22F align 10h
+0044E230: aPsxCheatsCht_0 db 'PSX CHEATs (*.CHT)',0
+0044E243: byte_44E243 align 4
+0044E244: aXX db '%x %x',0
+0044E24A: word_44E24A align 4
+0044E24C: asc_44E24C db ' ',0
+0044E24E: word_44E24E align 10h
+0044E250: aR db 'r',0
+0044E252: word_44E252 align 4
+0044E254: aOpenPsxCheat db 'Open PSX CHEAT',0
+0044E263: byte_44E263 align 4
+0044E264: aPsxCheatsCht db 'PSX CHEATs (*.CHT)',0
+0044E277: aCht db '*.cht',0
+0044E27D: aAllFiles db 'All files',0
+0044E287: dword_44E287 db '*.*',0
+0044E28B: byte_44E28B align 4
+0044E28C: aCheats db 'cheats\',0
+0044E294: aCht_0 db 'CHT',0
+0044E298: asc_44E298 db '%x',0
+0044E29B: byte_44E29B align 4
+0044E29C: a06x08x db '  %06x    %08x',0
+0044E2AB: byte_44E2AB align 4
+0044E2AC: aSelectPsxBios db 'Select PSX BIOS',0
+0044E2BC: aPsxBiosBin db 'PSX BIOS (*.BIN)',0
+0044E2CD: aBin db '*.bin',0
+0044E2D3: aAllFiles_0 db 'All files',0
+0044E2DD: dword_44E2DD db '*.*',0
+0044E2E1: data3_44E2E1 align 4
+0044E2E4: aBios_0 db 'bios\',0
+0044E2EA: word_44E2EA align 4
+0044E2EC: aBin_1 db 'BIN',0
+0044E2F0: aSDD db '%s %d.%d',0
+0044E2F9: data3_44E2F9 align 4
+0044E2FC: aPsegetlibversi db 'PSEgetLibVersion',0
+0044E30D: data3_44E30D align 10h
+0044E310: aPsegetlibname db 'PSEgetLibName',0
+0044E31E: word_44E31E align 10h
+0044E320: aPsegetlibtype db 'PSEgetLibType',0
+0044E32E: word_44E32E align 10h
+0044E330: aNotVideoPlugin db 'not video plugins found',0Ah,0
+0044E349: data3_44E349 align 4
+0044E34C: aGpuabout db 'GPUabout',0
+0044E355: data3_44E355 align 4
+0044E358: aGpuconfigure db 'GPUconfigure',0
+0044E365: data3_44E365 align 4
+0044E368: aUnkValue db 'UNK value',0
+0044E372: word_44E372 align 4
+0044E374: aPluginNotWorki db '   Plugin NOT working, try configuring it.  ',0
+0044E3A1: data3_44E3A1 align 4
+0044E3A4: aPluginWorkingC db '   Plugin working correctly.  ',0
+0044E3C3: byte_44E3C3 align 4
+0044E3C4: aTestingGpuPlug db 'Testing GPU Plugin',0
+0044E3D7: byte_44E3D7 align 4
+0044E3D8: aGpushutdown db 'GPUshutdown',0
+0044E3E4: aGputest db 'GPUtest',0
+0044E3EC: ProcName db 'GPUinit',0
+0044E3F4: aSS_0 db '%s%s',0
+0044E3F9: data3_44E3F9 align 4
+0044E3FC: aDll db '*.dll',0
+0044E402: word_44E402 align 4
+0044E404: aPlugins db 'plugins\',0
+0044E40D: data3_44E40D align 10h
+0044E410: aDisabledNetpla db 'Disabled Netplay',0
+0044E421: data3_44E421 align 4
+0044E424: aNotNetPluginsF db 'not net plugins found',0Ah,0
+0044E43B: byte_44E43B align 4
+0044E43C: aNetabout db 'NETabout',0
+0044E445: data3_44E445 align 4
+0044E448: aNetconfigure db 'NETconfigure',0
+0044E455: data3_44E455 align 4
+0044E458: aTestingNetPlug db 'Testing NET Plugin',0
+0044E46B: byte_44E46B align 4
+0044E46C: aNettest db 'NETtest',0
+0044E474: aDDD08s016s04s db '%d:%d:%d %08s  %016s  %04s',0
+0044E48F: byte_44E48F align 10h
+0044E490: aC_0 db '%c:\',0
+0044E495: data3_44E495 align 4
+0044E498: aC db '--%c:--',0
+0044E4A0: aFirstcdrom db 'FirstCdrom',0
+0044E4AB: byte_44E4AB align 4
+0044E4AC: aEpsxeCdrWntW2k db 'ePSXe CDR WNT/W2K core 1.5.2.',0
+0044E4CA: word_44E4CA align 4
+0044E4CC: aEpsxeCdrAspiCo db 'ePSXe CDR ASPI core 1.5.2.',0
+0044E4E7: byte_44E4E7 align 4
+0044E4E8: aCdrabout db 'CDRabout',0
+0044E4F1: data3_44E4F1 align 4
+0044E4F4: aCdrconfigure db 'CDRconfigure',0
+0044E501: data3_44E501 align 4
+0044E504: aCdrinit db 'CDRinit',0
+0044E50C: aIddCdromcore2k db 'IDD_CDROMCORE2K',0
+0044E51C: TemplateName db 'IDD_CDROMCORE9X',0
+0044E52C: aCdrtest db 'CDRtest',0
+0044E534: aW2kcdrcore db 'W2KCDRCORE',0
+0044E53F: byte_44E53F align 10h
+0044E540: aW9xcdrcore db 'W9XCDRCORE',0
+0044E54B: byte_44E54B align 4
+0044E54C: aEpsxeSpuCore15 db 'ePSXe SPU core 1.5.2.',0
+0044E562: word_44E562 align 4
+0044E564: aSpuabout db 'SPUabout',0
+0044E56D: data3_44E56D align 10h
+0044E570: aSpuconfigure db 'SPUconfigure',0
+0044E57D: data3_44E57D align 10h
+0044E580: aIddSound9x db 'IDD_SOUND9X',0
+0044E58C: aSputest db 'SPUtest',0
+0044E594: aSelectMemcardF_0 db 'Select Memcard FILE 2',0
+0044E5AA: word_44E5AA align 4
+0044E5AC: aSelectMemcardF db 'Select Memcard FILE 1',0
+0044E5C2: data6_44E5C2 align 8
+0044E5C8: aMemcardFileMcr db 'MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)',0
+0044E5F2: aMcrMemMcdGme db '*.mcr;*.mem;*.mcd;*.gme',0
+0044E60A: aAllFiles_1 db 'All files',0
+0044E614: dword_44E614 db '*.*',0
+0044E61C: aMemcards db 'memcards\',0
+0044E626: word_44E626 align 4
+0044E628: aMcr db 'MCR',0
+0044E62C: aCdrDll db 'cdr*.dll',0
+0044E635: data3_44E635 align 4
+0044E638: aSpuDll db 'spu*.dll',0
+0044E641: data3_44E641 align 4
+0044E644: aGpuDll db 'gpu*.dll',0
+0044E64D: data3_44E64D align 10h
+0044E650: aEpsxeWasnTAble db 'ePSXe wasn',27h,'t able to find a psx bios in your epsxe\bios dir'
+0044E75D: data3_44E75D align 10h
+0044E760: aPsxBiosNotFoun db 'psx bios not found',0
+0044E773: data5_44E773 align 8
+0044E778: aEpsxeDetectedT db 'ePSXe detected that you haven',27h,'t selected a psx BIOS. Please'
+0044E7F1: data3_44E7F1 align 4
+0044E7F4: aBiosNotSelecte db 'BIOS not selected',0
+0044E806: word_44E806 align 4
+0044E808: aBin_0 db '*.bin',0
+0044E80E: word_44E80E align 10h
+0044E810: aEpsxeWasnTAble_0 db 'ePSXe wasn',27h,'t able to find a GPU plugin in your epsxe\plugin'
+0044E8DD: data3_44E8DD align 10h
+0044E8E0: aGpuPluginNotFo db 'GPU plugin not found',0
+0044E8F5: data3_44E8F5 align 4
+0044E8F8: aEpsxeDetectedT_0 db 'ePSXe detected that you haven',27h,'t selected a GPU plugin. Plea'
+0044E96D: data3_44E96D align 10h
+0044E970: aGpuPluginNotSe db 'GPU plugin not selected',0
+0044E988: aEpsxeDetectedT_1 db 'ePSXe detected that you haven',27h,'t selected a SPU plugin. Plea'
+0044E9FD: data3_44E9FD align 10h
+0044EA00: aSpuPluginNotSe db 'SPU plugin not selected',0
+0044EA18: aEpsxeDetectedT_3 db 'ePSXe detected that you haven',27h,'t selected a CDROM plugin. Pl'
+0044EA8F: byte_44EA8F align 10h
+0044EA90: aCdromPluginNot_0 db 'CDROM plugin not selected',0
+0044EAAA: data6_44EAAA align 10h
+0044EAB0: aEpsxeDetectedT_2 db 'ePSXe detected that CDROM plugin hasn',27h,'t been configured. Pl'
+0044EB27: byte_44EB27 align 4
+0044EB28: aCdromPluginNot db 'CDROM plugin not configured',0
+0044EB44: aIddControllerL db 'IDD_CONTROLLER_LARGE',0
+0044EB59: data3_44EB59 align 4
+0044EB5C: aIddController db 'IDD_CONTROLLER',0
+0044EB6B: byte_44EB6B align 4
+0044EB6C: aIddInstallEnd db 'IDD_INSTALL_END',0
+0044EB7C: aIddInstallPad db 'IDD_INSTALL_PAD',0
+0044EB8C: aIddInstallCdro db 'IDD_INSTALL_CDROM',0
+0044EB9E: word_44EB9E align 10h
+0044EBA0: aIddInstallSpu db 'IDD_INSTALL_SPU',0
+0044EBB0: aIddInstallGpu db 'IDD_INSTALL_GPU',0
+0044EBC0: aIddInstallBios db 'IDD_INSTALL_BIOS',0
+0044EBD1: data3_44EBD1 align 4
+0044EBD4: aIddInstall db 'IDD_INSTALL',0
+0044EBE0: aIddAbout db 'IDD_ABOUT',0
+0044EBEA: word_44EBEA align 4
+0044EBEC: aHttpWwwEpsxeCo_1 db 'http://www.epsxe.com/step/step_sp.html',0
+0044EC13: byte_44EC13 align 4
+0044EC14: aHttpWwwEpsxeCo_0 db 'http://www.epsxe.com/step/step.html',0
+0044EC38: aHttpWwwEpsxeCo db 'http://www.epsxe.com',0
+0044EC4D: data3_44EC4D align 10h
+0044EC50: Operation db 'open',0
+0044EC55: data3_44EC55 align 4
+0044EC58: File db 'epsxe.chm',0
+0044EC62: word_44EC62 align 4
+0044EC64: aIddCheat db 'IDD_CHEAT',0
+0044EC6E: word_44EC6E align 10h
+0044EC70: aIddMemcard db 'IDD_MEMCARD',0
+0044EC7C: aIddBios db 'IDD_BIOS',0
+0044EC85: data3_44EC85 align 4
+0044EC88: aIddNet db 'IDD_NET',0
+0044EC90: aIddCdrom db 'IDD_CDROM',0
+0044EC9A: word_44EC9A align 4
+0044EC9C: aIddSound db 'IDD_SOUND',0
+0044ECA6: word_44ECA6 align 4
+0044ECA8: aIddVideo db 'IDD_VIDEO',0
+0044ECB2: word_44ECB2 align 4
+0044ECB4: aGoingOutFromGu_0 db ' * Going out from gui. (exit)',0Ah,0
+0044ECD3: byte_44ECD3 align 4
+0044ECD4: aInsertANewCdro db 'Insert a new cdrom and hit the button to continue',0
+0044ED06: word_44ED06 align 4
+0044ED08: aChangeDiscOpti db 'Change Disc Option',0
+0044ED1B: byte_44ED1B align 4
+0044ED1C: aOpenPsxExe db 'Open PSX EXE',0
+0044ED29: data3_44ED29 align 4
+0044ED2C: aPsxExesZipExe db 'PSX EXEs (*.ZIP, *.EXE)',0
+0044ED44: aExeZip db '*.exe;*.zip',0
+0044ED50: aAllFiles_2 db 'All files',0
+0044ED5A: dword_44ED5A db '*.*',0
+0044ED5E: word_44ED5E align 10h
+0044ED60: aExe db 'EXE',0
+0044ED64: aOpenPsxIso db 'Open PSX ISO',0
+0044ED71: data7_44ED71 align 8
+0044ED78: aPsxIsosBinIsoI db 'PSX ISOs (*.BIN, *.ISO, *.IMG)',0
+0044ED97: aBinIsoImgNrgCd db '*.bin;*.iso;*.img;*.nrg;*.cdi',0
+0044EDB5: aAllFiles_3 db 'All files',0
+0044EDBF: dword_44EDBF db '*.*',0
+0044EDC3: byte_44EDC3 align 4
+0044EDC4: aIso db 'ISO',0
+0044EDC8: aEpsxeIsNotComp_1 db 'ePSXe is NOT completely configurated go to config->bios to config'
+0044EE10: aEpsxeIsNotComp_0 db 'ePSXe is NOT completely configurated go to config->cdrom to confi'
+0044EE59: data7_44EE59 align 10h
+0044EE60: aEpsxeIsNotComp db 'ePSXe is NOT completely configurated go to config->video to confi'
+0044EEA9: data3_44EEA9 align 4
+0044EEAC: aEpsxeNotConfig db 'ePSXe not configurated',0
+0044EEC3: byte_44EEC3 align 4
+0044EEC4: aGoingOutFromGu db ' * Going out from gui (destroy). ',0Ah,0
+0044EEE7: byte_44EEE7 align 4
+0044EEE8: aErrorCreatingW db ' * Error creating window.',0Ah,0
+0044EF03: byte_44EF03 align 4
+0044EF04: WindowName db ' ePSXe - Enhanced PSX emulator',0
+0044EF23: byte_44EF23 align 4
+0044EF24: aErrorRegisteri db ' * Error registering window.',0Ah,0
+0044EF42: word_44EF42 align 4
+0044EF44: aSavestateDoneD db ' * SaveState Done! (%d)',0Ah,0
+0044EF5D: data3_44EF5D align 10h
+0044EF60: aLoadstateDoneD db ' * LoadState Done! (%d)',0Ah,0
+0044EF79: data3_44EF79 align 4
+0044EF7C: aShutdownError db 'SHUTDOWN ERROR',0
+0044EF8B: byte_44EF8B align 4
+0044EF8C: spu_use_external_plugin db 1
+0044EF8D: data3_44EF8D align 10h
+0044EF90: aSpuOpen db ' * Spu open... ',0Ah,0
+0044EFA1: data3_44EFA1 align 4
+0044EFA4: aDoingSpuInit db ' * Doing spu init... ',0Ah,0
+0044EFBB: byte_44EFBB align 4
+0044EFBC: aSpuwritedmamem db 'SPUwriteDMAMem',0
+0044EFCB: byte_44EFCB align 4
+0044EFCC: aSpureaddmamem db 'SPUreadDMAMem',0
+0044EFDA: word_44EFDA align 4
+0044EFDC: aSpuasync db 'SPUasync',0
+0044EFE5: data3_44EFE5 align 4
+0044EFE8: aSpuupdate db 'SPUupdate',0
+0044EFF2: word_44EFF2 align 4
+0044EFF4: aSpufreeze db 'SPUfreeze',0
+0044EFFE: word_44EFFE align 10h
+0044F000: aSpuregistercal db 'SPUregisterCallback',0
+0044F014: aSpureaddma db 'SPUreadDMA',0
+0044F01F: byte_44F01F align 10h
+0044F020: aSpuwritedma db 'SPUwriteDMA',0
+0044F02C: aSpureadregiste db 'SPUreadRegister',0
+0044F03C: aSpuwriteregist db 'SPUwriteRegister',0
+0044F04D: data3_44F04D align 10h
+0044F050: aSpuplayadpcmch db 'SPUplayADPCMchannel',0
+0044F064: aSpusetvolumer db 'SPUsetVolumeR',0
+0044F072: word_44F072 align 4
+0044F074: aSpusetvolumel db 'SPUsetVolumeL',0
+0044F082: word_44F082 align 4
+0044F084: aSpusetpitch db 'SPUsetPitch',0
+0044F090: aSpusetaddr db 'SPUsetAddr',0
+0044F09B: byte_44F09B align 4
+0044F09C: aSpugetone db 'SPUgetOne',0
+0044F0A6: word_44F0A6 align 4
+0044F0A8: aSpuputone db 'SPUputOne',0
+0044F0B2: word_44F0B2 align 4
+0044F0B4: aSpustopchannel_0 db 'SPUstopChannels2',0
+0044F0C5: data3_44F0C5 align 4
+0044F0C8: aSpustopchannel db 'SPUstopChannels1',0
+0044F0D9: data3_44F0D9 align 4
+0044F0DC: aSpustartchanne_0 db 'SPUstartChannels2',0
+0044F0EE: word_44F0EE align 10h
+0044F0F0: aSpustartchanne db 'SPUstartChannels1',0
+0044F102: word_44F102 align 4
+0044F104: aSpuplaysample db 'SPUplaySample',0
+0044F112: word_44F112 align 4
+0044F114: aSpuclose db 'SPUclose',0
+0044F11D: data3_44F11D align 10h
+0044F120: aSpuopen db 'SPUopen',0
+0044F128: aSpushutdown db 'SPUshutdown',0
+0044F134: aGetprocaddress db ' * GetProcAddress error %s',0Ah,0
+0044F150: aSpuinit db 'SPUinit',0
+0044F158: aErrorLoadingS db ' * Error loading [%s] ',0Ah,0
+0044F170: aSS db '%s%s',0
+0044F175: data3_44F175 align 4
+0044F178: aClosingSpu db ' * Closing spu ... ',0Ah,0
+0044F18D: data3_44F18D align 10h
+0044F190: aDma4ModeNotImp db 'DMA[4] mode NOT implemented (%08x)',0Ah
+0044F1D8: aSpuPluginDoesn db ' * SPU plugin doesn',27h,'t support savestates. ',0Ah,0
+0044F204: dword_44F204 align 8
+0044F208: dword_44F208 dd 5 dup(1C3C00h), 17BE00h, 13F6F8h, 10C9CBh, 0E1E00h
+0044F408: dword_44F408 dd 31B343h, 1DDACEh, 11EF00h, 0AC5CBh, 67898h, 3E31Bh
+0044F448: dword_44F448 dd 5F8E2Ch
+0044F44C: byte_44F44C db 27h
+0044F450: byte_44F450 db 5Eh
+0044F648: dword_44F648 dd 0FFFFFh, 1FFFFFh, 2FFFFFh, 3FFFFFh, 4FFFFFh, 5FFFFFh
+0044F688: dword_44F688 dd 2 dup(6666h), 3333h, 2222h, 1999h, 147Ah, 1111h, 0EA0h
+0044F708: audio_buffer_size_bytes dd 4800h
+0044F70C: audio_buffer_delay dd 1
+0044F710: audio_sample_rate_mode dd 3
+0044F714: audio_stereo_flag dd 1
+0044F71C: sound_enabled db 1
+0044F71D: data3_44F71D align 10h
+0044F720: byte_44F720 db 1Bh, 0E8h, 0EAh, 8Ah, 0BBh, 0F6h, 0B0h, 51h, 19h, 0F1h
+0044F7A0: dword_44F7A0 dd 1
+0044F7A4: dword_44F7A4 dd 0
+0044F7A8: dword_44F7A8 dd 0, 3Ch, 0, 73h, 0FFFFFFCCh, 62h, 0FFFFFFC9h, 7Ah, 0FFFFFFC4h
+0044F7CC: spu_adpcm_flag dd 1
+0044F7D0: aOk db ' ok ',0Ah,0
+0044F7D6: word_44F7D6 align 4
+0044F7D8: aErrorCanTOpenS_0 db ' * Error can',27h,'t open sound handler. (try -nosound)',0Ah,0
+0044F80B: byte_44F80B align 4
+0044F80C: aErrorCanTOpenS db 'Error: can',27h,'t open sound handler.',0Ah,0
+0044F82E: word_44F82E align 10h
+0044F830: aInitCoreSpu db ' * Init core spu ... ',0
+0044F846: word_44F846 align 4
+0044F848: aClosingCoreSpu db ' * Closing core spu...',0Ah,0
+0044F860: aIspu db 'ISPU',0
+0044F878: g_MouseMinX dd 0FFFFFF80h
+0044F87C: g_MouseMaxX dd 7Fh
+0044F880: g_MouseMinY dd 0FFFFFF80h
+0044F884: g_MouseMaxY dd 7Fh
+0044F888: g_EffectScaleFactor dd 4Bh
+0044F88C: aNoForceFeedbac db ' * No force-feedback joysticks available. ',0Ah,0
+0044F8B8: aBetaX db 'Beta %X',0Ah,0
+0044F8C1: data3_44F8C1 align 4
+0044F8C4: aUnknownX db 'UNKNOWN %X',0Ah,0
+0044F8D4: aOlddirectinput db 'OLDDIRECTINPUTVERSION %X',0Ah,0
+0044F8EE: word_44F8EE align 10h
+0044F8F0: aOutofmemoryX db 'OUTOFMEMORY %X',0Ah,0
+0044F904: aInit db 'Init',0
+0044F909: data3_44F909 align 4
+0044F90C: aInvalidX db 'Invalid %X',0Ah,0
+0044F91C: aInitError db 'Init Error',0
+0044F927: byte_44F927 align 4
+0044F928: aErrorInitializ db 'Error initializing DirectInput',0Ah,0
+0044F948: qword_44F948 align 10h
+0044F950: dword_44F950 dd 8A7F00h
+0044F954: dword_44F954 align 8
+0044F958: qword_44F958 dq 8080000081000000h
+0044F960: qword_44F960 dq 400000h
+0044F968: aCode07x db 'CODE [%07x]',0Ah,0
+0044F975: data3_44F975 align 4
+0044F9A8: dword_44F9A8 dd 4
+0044F9AC: dword_44F9AC align 10h
+0044F9B0: aSlus00845 db 'SLUS_008.45',0
+0044F9BC: dword_44F9BC align 10h
+0044F9C0: dword_44F9C0 dd 10023458h
+0044F9C4: dword_44F9C4 dd 0
+0044F9C8: aSles00627 db 'SLES_006.27',0
+0044F9D4: byte_44F9D4 db 0
+0044F9E0: aSles03342 db 'SLES_033.42',0
+0044F9F8: aSles03344 db 'SLES_033.44',0
+00450C70: cheat_entries_count dd 39
+00450C74: dword_450C74 align 8
+00450C78: cheat_db CHEAT_DB_ENTRY <'SCES_021.05', 'NULL', 1, 0FFh, 2, 0FFh, 0FFh, 0, 0, \
+00454BC0: FileName db 'NULL',0
+00454CC0: byte_454CC0 db 1
+00454CC1: data3_454CC1 align 4
+00454CC4: aCheatsDataconf db 'cheats\dataconf.dat',0
+00454CD8: aCheatsDatabase db 'cheats\database.dat',0
+00454CEC: aErrorPsxBiosNo db ' * !Error: PSX BIOS not found [%s]. ',0Ah,0
+00454D12: word_454D12 align 4
+00454D14: aEpsxePsxBiosLo db ' * ePSXe: PSX BIOS loaded [%s]. ',0Ah,0
+00454D36: word_454D36 align 4
+00454D38: aEpsxeDemoBugge db ' ePSXe: (Demo bugged header) Real: %x Load: %x ',0Ah,0
+00454D69: data3_454D69 align 4
+00454D6C: aEpsxeDemoNotFo db ' * ePSXe: DEMO not found [%s]. ',0Ah,0
+00454D8D: data3_454D8D align 10h
+00454D90: aEpsxeSIsNotAEx db ' * ePSXe: [%s] is not a EXE file. ',0Ah,0
+00454DB4: Str1 db 'PS-X EXE',0
+00454DBD: data3_454DBD align 10h
+00454DC0: aS_0 db '%s',0Ah,0
+00454DC4: aS_1 db '%s ',0
+00454DC8: aLoad db 'LOAD',0
+00454DCD: data3_454DCD align 10h
+00454DD0: aData db 'DATA',0
+00454DD5: data3_454DD5 align 4
+00454DD8: aEpsxErrorLoadi_2 db ' * EPSX: error loading %s.',0
+00454DF3: byte_454DF3 align 4
+00454DF4: aEpsxSIsNotAExe db ' * EPSX: [%s] is not a EXE file. ',0Ah,0
+00454E17: byte_454E17 align 4
+00454E18: aEpsxErrorLoadi_1 db ' * EPSX: error loading .exe file in pll/zip.',0
+00454E45: data3_454E45 align 4
+00454E48: aEpsxErrorLoadi_0 db ' * EPSX: error loading .pll file.',0
+00454E6A: word_454E6A align 4
+00454E6C: aEpsxDemoPllNot db '* EPSX: DEMO .pll not found. ',0Ah,0
+00454E8B: byte_454E8B align 4
+00454E8C: aPll db 'PLL',0
+00454E90: aPll_0 db 'pll',0
+00454E94: aEpsxDemoNotFou db '* EPSX: DEMO not found [%s]. ',0Ah,0
+00454EB3: byte_454EB3 align 4
+00454EB4: aExe_0 db 'exe',0
+00454EB8: aEpsxErrorLoadi db ' * EPSX: error loading .zip file.',0
+00454EDA: word_454EDA align 4
+00454EDC: aZip db 'ZIP',0
+00454EE0: aZip_0 db 'zip',0
+00454EE4: aEpsxDemoNotFou_0 db ' * EPSX: DEMO not found [%s]. ',0Ah,0
+00454F04: aPalCdromDetect db ' * PAL cdrom detected. ',0Ah,0
+00454F1D: data3_454F1D align 10h
+00454F20: aNtscCdromDetec db ' * NTSC cdrom detected. ',0Ah,0
+00454F3A: word_454F3A align 4
+00454F3C: aForceNtscCdrom db ' * Force NTSC cdrom detected. ',0Ah,0
+00454F5C: aForcePalCdromD db ' * Force PAL cdrom detected. ',0Ah,0
+00454F7B: byte_454F7B align 4
+00454F7C: aDemo99999 db 'DEMO_999.99',0
+00454F88: aMemoryHandlers db ' * Memory handlers init. ',0Ah,0
+00454FA3: data5_454FA3 align 8
+00454FA8: aEpsxeOpcode02x db 0Ah
+00454FE8: aDivisionSignBy db ' division sign by 0 ',0Ah,0
+00454FFE: word_454FFE align 10h
+00455000: aDivisionBy0 db ' division by 0 ',0Ah,0
+00455011: data3_455011 align 4
+00455014: aDOnlyRead db '[%d] only read!!!',0Ah,0
+00455027: byte_455027 align 4
+00455028: zip_code_length_order dd 10h, 11h, 12h, 0, 8, 7, 9, 6, 0Ah, 5, 0Bh, 4, 0Ch, 3
+00455074: zip_length_base db 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 0Ah, 0, 0Bh
+004550B4: zip_length_extra_bits db 10h dup(0), 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 2, 0, 2, 0
+004550F4: zip_distance_base db 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 7, 0, 9, 0, 0Dh, 0, 11h
+00455130: zip_distance_extra_bits db 8 dup(0), 1, 0, 1, 0, 2, 0, 2, 0, 3, 0, 3, 0, 4, 0
+0045516C: zip_static_ltree_max_bits dd 9
+00455170: zip_static_dtree_max_bits dd 6
+00455174: aIncompleteDTre db '(incomplete d-tree)  ',0
+0045518A: word_45518A align 4
+0045518C: aIncompleteLTre db '(incomplete l-tree)  ',0
+004551A2: word_4551A2 align 4
+004551A8: zip_signature db 50h
+004551AC: aCouldNotOpenZi db 'Could not open zipfile %s',0Ah,0
+004551C7: byte_4551C7 align 4
+004551C8: aUnsupportedZip db 'Unsupported zipfile %s: zipfile cannot span disks',0Ah,0
+004551FB: byte_4551FB align 4
+004551FC: aErrorDInflatin db 'Error %d inflating compressed file from zipfile %s',0Ah,0
+00455230: aCouldNotCreate_0 db 'Could not create input buffer for zipfile %s',0Ah,0
+0045525E: word_45525E align 10h
+00455260: aCouldnTAllocat db 'Couldn',27h,'t allocate %d bytes for zipfile %s output buffer',0Ah
+00455299: data3_455299 align 4
+0045529C: aCouldNotCreate db 'Could not create 32K sliding window for zipfile %s',0Ah,0
+004552D0: aCouldnTExtract db 'Couldn',27h,'t extract uncompressed file from zipfile %s',0Ah,0
+00455304: aErrorReadingLo db 'Error reading ',27h,'local file header',27h,' in zipfile %s',0Ah,0
+00455335: data3_455335 align 4
+00455338: aCouldNotFindSI db 'Could not find %s in zipfile %s',0Ah,0
+00455359: data3_455359 align 4
+0045535C: aErrorReadingEn db 'Error reading ',27h,'end of central directory',27h,' in zipfile %'
+00455394: aErrorInZipfile db 'Error in zipfile %s: get_file_length() failed',0Ah,0
+004553C3: byte_4553C3 align 4
+004553C4: Delimiter db '/\:',0
+004553C8: aErrorReadingZi db 'Error reading zipfile %s: fseek to compressed data failed',0Ah,0
+00455403: data5_455403 align 8
+00455408: aErrorInZipfile_0 db 'Error in zipfile %s: couldn',27h,'t read %ld bytes of compressed '
+00455449: data3_455449 align 4
+0045544C: aCouldnTAllocat_0 db 'Couldn',27h,'t allocate %ld bytes for input buffer for zipfile %s'
+00455489: data3_455489 align 4
+0045548C: aErrorInZipfile_2 db 'Error in zipfile %s: couldn',27h,'t fseek to local file header',0Ah
+004554C6: word_4554C6 align 4
+004554C8: aErrorInZipfile_1 db 'Error in zipfile %s: couldn',27h,'t read %ld bytes from local fil'
+0045550C: aErrorInZipfile_8 db 'Error in zipfile %s: zipfile cannot span disks',0Ah,0
+0045553C: aOs02xMustBe00 db 'OS: $%02x must be $00',0Ah,0
+00455553: byte_455553 align 4
+00455554: aErrorInZipfile_7 db 'Error in zipfile %s: OS for file %s not supported.',0Ah,0
+00455588: aVersion02xMust db 'Version: $%02x must be $14 or less',0Ah,0
+004555AC: aErrorInZipfile_6 db 'Error in zipfile %s: version for file %s too new.',0Ah,0
+004555DF: byte_4555DF align 10h
+004555E0: aMethod04xMustB db 'Method: $%04x  must be $0000 (Stored) or $0008 (Deflated)',0Ah,0
+0045561B: data5_45561B align 10h
+00455620: aErrorInZipfile_5 db 'Error in zipfile %s: compression method for file %s unsupported.',0Ah
+00455662: data6_455662 align 8
+00455668: aErrorInZipfile_4 db 'Error in zipfile %s: couldn',27h,'t fseek to start of central dir'
+004556AB: data5_4556AB align 10h
+004556B0: aErrorInZipfile_3 db 'Error in zipfile %s: couldn',27h,'t read %ld bytes from central d'
+004556F5: data3_4556F5 align 4
+004556F8: asc_4556F8 db '/',0
+004556FA: word_4556FA align 4
+004556FC: aErrorInZipfile_11 db 'Error in zipfile %s: couldn',27h,'t read %ld bytes from end of fi'
+0045573B: data5_45573B align 10h
+00455740: aErrorInZipfile_10 db 'Error in zipfile %s: couldn',27h,'t find ',27h,'end of central di'
+00455783: byte_455783 align 4
+00455784: aErrorInZipfile_9 db 'Error in zipfile %s: fseek failed',0Ah,0
+004557A7: byte_4557A7 align 4
+004557A8: byte_4557A8 db 1
+004557A9: data3_4557A9 align 4
+004557AC: sio_transfer_length dd 5
+004557B0: sio_config_data db 1, 0F3h, 5Ah, 9 dup(0), 0FFh, 0F3h, 5Ah, 1, 2, 0, 2
+004557FC: byte_4557FC db 0
+004557FD: data3_4557FD align 10h
+00455800: aWarningTheMemc db ' * Warning: The memcard [%s] has NOT been saved to disk',0Ah,0
+00455839: data3_455839 align 4
+0045583C: aWb db 'wb',0
+0045583F: byte_45583F align 10h
+00455840: aMemcardsTemp00 db 'memcards\temp.000',0
+00455852: word_455852 align 4
+00455854: aMemcardsTemp00_0 db 'memcards\temp.001',0
+00455866: word_455866 align 4
+00455868: aRegS08x08xSize db 'REG %s [%08x] <- %08x sizeof(%d) (%08x)',0Ah,0
+00455891: data3_455891 align 4
+00455894: aUnk db 'UNK',0
+00455898: aRegS08x08xSize_0 db 'REG %s [%08x] -> %08x sizeof(%d)',0Ah,0
+004558BA: word_4558BA align 4
+004558BC: byte_4558BC db 3 dup(0FFh), 0, 2 dup(0FFh), 2 dup(0), 0FFh, 7 dup(0)
+004558CC: byte_4558CC db 18h, 3 dup(0), 10h, 3 dup(0), 8, 7 dup(0)
+004558DC: byte_4558DC db 7 dup(0), 0FFh, 2 dup(0), 2 dup(0FFh), 0, 3 dup(0FFh)
+004558EC: byte_4558EC db 4 dup(0), 8, 3 dup(0), 10h, 3 dup(0), 18h, 3 dup(0)
+004558FC: byte_4558FC db 0, 3 dup(0FFh), 2 dup(0), 2 dup(0FFh), 3 dup(0), 0FFh
+0045590C: byte_45590C db 18h, 3 dup(0), 10h, 3 dup(0), 8, 7 dup(0)
+0045591C: byte_45591C db 4 dup(0), 0FFh, 3 dup(0), 2 dup(0FFh), 2 dup(0), 3 dup(0FFh)
+0045592C: byte_45592C db 4 dup(0), 8, 3 dup(0), 10h, 3 dup(0), 18h, 3 dup(0)
+0045593C: dword_45593C dd 106h
+00455940: dword_455940 dd 86Ah
+00455944: xenogears_trick_enabled db 1
+00455945: byte_455945 db 5
+00455946: byte_455946 db 1
+00455948: byte_455948 db 81h
+0045594F: dword_45594F dd 0
+00455958: dword_455958 dd 0
+00455960: dword_455960 dd 0
+00455968: dword_455968 dd 0
+00455972: dword_455972 dd 0
+00455984: word_455984 dw 7503h
+00455986: byte_455986 db 0F1h
+00455988: a1CompiledAndPc db ' 1 compiled and??? pc %04x n:%d t:%d',0Ah,0
+004559AE: word_4559AE align 10h
+004559B0: aDynarecProblem db 'dynarec problem (slot_in and recompiled) [%08x] [%d]',0Ah,0
+004559E6: word_4559E6 align 4
+004559E8: aOpcode02xUnkPc db ' Opcode %02x UNK (PC %08x) (%d,%d)',0Ah,0
+00455A0C: aWarningSkullmo db ' * warning: skullmonkeys trick enabled. ',0Ah,0
+00455A36: word_455A36 align 4
+00455A38: aByePie db 'bye pie',0Ah,0
+00455A41: data3_455A41 align 4
+00455A44: aCop0Opcode02xU db ' COP0 Opcode %02x UNK ',0Ah,0
+00455A5C: aRegimOpcode02x db ' REGIM Opcode %02x UNK PC[%08x]',0Ah,0
+00455A7D: data3_455A7D align 10h
+00455A80: aSpecOpcode02xU db 'SPEC Opcode %02x UNK (PC %08x) (%08x) (%d,%d)',0Ah,0
+00455AAF: byte_455AAF align 10h
+00455AB0: aEpsxeErrorReco db ' ePSXe (error) recompile block too large ',0Ah,0
+00455ADB: byte_455ADB align 4
+00455ADC: aDohhZeroReg0 db ' dohh zero reg != 0',0Ah,0
+00455AF1: data3_455AF1 align 4
+00455AF4: aEpsxeErrorDoin db 'ePSXe error doing malloc!!!! ',0Ah,0
+00455B13: data5_455B13 align 8
+00455B18: mdectiming dd 1
+00455B1C: dword_455B1C align 10h
+00455B20: mdec_zigzag dd 0, 1, 8, 10h, 9, 2, 3, 0Ah, 11h, 18h, 20h, 19h, 12h
+00455C20: qword_455C20 dq 5A825A825A825A82h
+00455C28: qword_455C28 dq 0CF04CF04CF04CF04h
+00455C30: qword_455C30 dq 7641764176417641h
+00455C38: qword_455C38 dq 896F896F896F896Fh
+00455C40: qword_455C40 dq 0CF04CF04CF04CF04h
+00455C48: byte_455C48 db 80h
+00455C4C: byte_455C4C db 80h
+00455C50: qword_455C50 dq 59BA0000D24E59BAh
+00455C58: qword_455C58 dq 7168EA0C0000h
+00455C60: qword_455C60 dq 0D24E59BA0000h
+00455C68: qword_455C68 dq 7168EA0C00007168h
+00455C70: qword_455C70 dq 80808080h
+00455C78: qword_455C78 dq 0FFFFFFFF0000h
+00455C80: cpu_special_opcode_table dd offset op_SLL, offset op_UNKNOWN, offset op_SRL, offset op_SRA
+00455D80: cpu_cop0_table dd offset op_MFC0
+00455E00: cpu_bcond_opcode_table dd offset op_BLTZ
+00455E80: cpu_main_table dd offset op_SPECIAL, offset op_BCONDZ, offset op_J, offset op_JAL
+00455F88: aOutOfLine db 'out of line',0Ah,0
+00455F95: data3_455F95 align 4
+00455F98: aForScea db 'for SCEA',0
+00455FA1: nocd db 1
+00455FA2: xa_read_enable db 1
+00455FA3: byte_455FA3 db 1
+00455FA4: byte_455FA4 db 1
+00455FA5: byte_455FA5 db 1
+00455FA6: word_455FA6 dw 0Ah
+00455FA8: word_455FA8 dw 1
+00455FAA: data6_455FAA align 10h
+00455FB0: dword_455FB0 dd 0FFFFFFFFh
+00455FB4: dword_455FB4 dd 0FFFFFFFFh
+00455FB8: byte_455FB8 db 0FFh
+00455FB9: byte_455FB9 db 0FFh
+00455FBC: byte_455FBC db 0FFh
+00455FBD: byte_455FBD db 0FFh
+00455FC8: word_455FC8 dw 0CBh
+00455FCA: word_455FCA dw 0CDh
+00455FCC: word_455FCC dw 0C8h
+00455FCE: word_455FCE dw 0D0h
+00455FD0: word_455FD0 dw 20h
+00455FD2: word_455FD2 dw 2Dh
+00455FD4: word_455FD4 dw 2Ch
+00455FD6: word_455FD6 dw 1Fh
+00455FD8: word_455FD8 dw 11h
+00455FDA: word_455FDA dw 12h
+00455FDC: word_455FDC dw 13h
+00455FDE: word_455FDE dw 14h
+00455FE0: word_455FE0 dw 2Fh
+00455FE2: word_455FE2 dw 2Eh
+00455FE4: word_455FE4 dw 10h
+00455FE6: word_455FE6 dw 15h
+00455FE8: word_455FE8 dw 0
+00455FEA: word_455FEA dw 0
+00455FEC: word_455FEC dw 0
+00455FEE: word_455FEE dw 0
+00455FF0: word_455FF0 dw 0
+00455FF2: word_455FF2 dw 0
+00455FF4: word_455FF4 dw 0
+00455FF6: word_455FF6 dw 0
+00455FF8: word_455FF8 dw 0
+00455FFA: word_455FFA dw 0
+00455FFC: dword_455FFC dd 0
+00456000: word_456000 dw 0
+00456002: word_456002 dw 0
+00456004: dword_456004 dd 0
+00456008: word_456008 dw 0
+0045600A: word_45600A dw 0
+0045600C: word_45600C dw 0
+0045600E: word_45600E dw 0
+00456010: word_456010 dw 0
+00456012: word_456012 dw 0
+00456014: word_456014 dw 0
+00456016: word_456016 dw 0
+00456018: word_456018 dw 0
+0045601A: word_45601A dw 0
+0045601C: dword_45601C dd 0
+00456020: word_456020 dw 0
+00456022: word_456022 dw 0
+00456024: dword_456024 dd 0
+00456028: word_456028 dw 0
+0045602A: word_45602A dw 0
+0045602C: word_45602C dw 0
+0045602E: word_45602E dw 0
+00456030: word_456030 dw 0
+00456032: word_456032 dw 0
+00456034: word_456034 dw 0
+00456036: word_456036 dw 0
+00456038: word_456038 dw 0
+0045603A: word_45603A dw 0
+0045603C: word_45603C dw 0
+0045603E: word_45603E dw 0
+00456040: word_456040 dw 0
+00456042: word_456042 dw 0
+00456044: word_456044 dw 0
+00456046: word_456046 dw 0
+00456048: dword_456048 dd 4 dup(1)
+004560D0: byte_4560D0 db 6 dup(0AAh), 80h, 5 dup(0), 80h, 5 dup(0), 80h, 5 dup(0)
+00456508: aPictureDone db ' * Picture done. ',0Ah,0
+0045651B: byte_45651B align 4
+0045651C: aXenogearsTrick_0 db ' * Xenogears trick disabled. ',0Ah,0
+0045653B: byte_45653B align 4
+0045653C: aXenogearsTrick db ' * Xenogears trick enabled. ',0Ah,0
+0045655A: word_45655A align 4
+0045655C: aSioTrickDoesnT db ' * SIO trick doesn',27h,'t implemented yet with Netplay! ',0Ah,0
+00456591: data3_456591 align 4
+00456594: aSioIrqDisabled db ' * SIO irq disabled. ',0Ah,0
+004565AB: byte_4565AB align 4
+004565AC: aSioIrqEnabled db ' * SIO irq enabled. ',0Ah,0
+004565C2: word_4565C2 align 4
+004565C4: aLoadstateDoesn db ' * LoadState doesn',27h,'t implemented yet with Netplay! ',0Ah,0
+004565F9: data3_4565F9 align 4
+004565FC: aLoadstateDone db ' * LoadState Done! ',0Ah,0
+00456611: data3_456611 align 4
+00456614: aIncreasedSlots db ' * Increased SlotState! (%d)',0Ah,0
+00456632: word_456632 align 4
+00456634: aSavestateDone db ' * SaveState Done! ',0Ah,0
+00456649: data3_456649 align 4
+0045664C: aUserHitEsc db ' User   hit ESC ... ',0Ah,0
+00456662: word_456662 align 4
+00456664: aEpsx db 'EPSX',0
+00456669: data3_456669 align 4
+0045666C: ConsoleTitle db 'ePSXe - Enhanced PSX emulator',0
+0045668A: word_45668A align 4
+0045668C: aCouldNotReleas db 'Could Not Release hWnd.',0
+004566A4: aDoingInitGpuD db ' * Doing init gpu[%d]... ',0Ah,0
+004566BF: byte_4566BF align 10h
+004566C0: aGpucleardynare db 'GPUclearDynarec',0
+004566D0: aGpucursor db 'GPUcursor',0
+004566DA: word_4566DA align 4
+004566DC: aGpushowscreenp db 'GPUshowScreenPic',0
+004566ED: data3_4566ED align 10h
+004566F0: aGpugetscreenpi db 'GPUgetScreenPic',0
+00456700: aGpufreeze db 'GPUfreeze',0
+0045670A: word_45670A align 4
+0045670C: aGpudisplayflag db 'GPUdisplayFlags',0
+0045671C: aGpureaddatamem db 'GPUreadDataMem',0
+0045672B: byte_45672B align 4
+0045672C: aGpuwritedatame db 'GPUwriteDataMem',0
+0045673C: aGpumakesnapsho db 'GPUmakeSnapshot',0
+0045674C: aGpuupdatelace db 'GPUupdateLace',0
+0045675A: word_45675A align 4
+0045675C: aGpusetmode db 'GPUsetMode',0
+00456767: byte_456767 align 4
+00456768: aGpugetmode db 'GPUgetMode',0
+00456773: byte_456773 align 4
+00456774: aGpudmachain db 'GPUdmaChain',0
+00456780: aGpureadstatus db 'GPUreadStatus',0
+0045678E: word_45678E align 10h
+00456790: aGpureaddata db 'GPUreadData',0
+0045679C: aGpuwritestatus db 'GPUwriteStatus',0
+004567AB: byte_4567AB align 4
+004567AC: aGpuwritedata db 'GPUwriteData',0
+004567B9: data3_4567B9 align 4
+004567BC: aGpuclose db 'GPUclose',0
+004567C5: data3_4567C5 align 4
+004567C8: aGpuopen db 'GPUopen',0
+004567D0: aErrorVideoDoes db ' * !Error video doesn',27h,'t configurated ',0Ah
+00456822: word_456822 align 4
+00456824: aDirectInputIni_0 db ' * Direct input init error. ',0Ah,0
+00456842: word_456842 align 4
+00456844: aGpuOpenD db ' * Gpu open[%d]... ',0Ah,0
+00456859: data7_456859 align 10h
+00456860: aDma2ModeNotImp db 'DMA[2] mode NOT implemented (%08x)',0Ah
+004568A8: aDma6ModeNotImp db 'DMA[6] mode NOT implemented (%08x)',0Ah,0
+004568CC: aCouldNotReleas_0 db 'Could NOT release hWnd.',0
+004568E4: aShutdownGpu db ' * Shutdown gpu ...',0Ah,0
+004568F9: data3_4568F9 align 4
+004568FC: aClosingGpu db ' * Closing gpu ...',0Ah,0
+00456910: chText db 'NO SAVE PIC',0
+0045691C: aFreeSlot db 'FREE SLOT',0
+00456926: word_456926 align 4
+00456928: aSS03dPic db '%s%s.%03d.pic',0
+00456936: word_456936 align 4
+00456938: aSPic db '%s.pic',0
+0045693F: byte_45693F align 10h
+00456940: aGpuPluginDoesn db ' * GPU plugin doesn',27h,'t support savestates. ',0Ah,0
+0045696C: byte_45696C db 1
+0045696D: data3_45696D align 10h
+00456970: aInitNetplugin db ' * Init netplugin ... ',0
+00456987: byte_456987 align 4
+00456988: aGetprocaddress_9 db ' * GetProcAddress error NETtransferData',0Ah,0
+004569B1: data3_4569B1 align 4
+004569B4: aNettransferdat db 'NETtransferData',0
+004569C4: aGetprocaddress_8 db ' * GetProcAddress error NETqueryPlayer',0Ah,0
+004569EC: aNetqueryplayer db 'NETqueryPlayer',0
+004569FB: byte_4569FB align 4
+004569FC: aGetprocaddress_7 db ' * GetProcAddress error NETcompareData',0Ah,0
+00456A24: aNetcomparedata db 'NETcompareData',0
+00456A33: byte_456A33 align 4
+00456A34: aGetprocaddress_6 db ' * GetProcAddress error NETpadState',0Ah,0
+00456A59: data3_456A59 align 4
+00456A5C: aNetpadstate db 'NETpadState',0
+00456A68: aGetprocaddress_5 db ' * GetProcAddress error NETresume',0Ah,0
+00456A8B: byte_456A8B align 4
+00456A8C: aNetresume db 'NETresume',0
+00456A96: word_456A96 align 4
+00456A98: aGetprocaddress_4 db ' * GetProcAddress error NETpause',0Ah,0
+00456ABA: word_456ABA align 4
+00456ABC: aNetpause db 'NETpause',0
+00456AC5: data3_456AC5 align 4
+00456AC8: aGetprocaddress_3 db ' * GetProcAddress error NETclose',0Ah,0
+00456AEA: word_456AEA align 4
+00456AEC: aNetclose db 'NETclose',0
+00456AF5: data3_456AF5 align 4
+00456AF8: aGetprocaddress_2 db ' * GetProcAddress error NETopen',0Ah,0
+00456B19: data3_456B19 align 4
+00456B1C: aNetopen db 'NETopen',0
+00456B24: aGetprocaddress_1 db ' * GetProcAddress error NETshutdoww',0Ah,0
+00456B49: data3_456B49 align 4
+00456B4C: aNetshutdown db 'NETshutdown',0
+00456B58: aGetprocaddress_0 db ' * GetProcAddress error NETinit',0Ah,0
+00456B79: data3_456B79 align 4
+00456B7C: aNetinit db 'NETinit',0
+00456B84: aNetpluginOpen db ' * Netplugin open... ',0
+00456B9A: word_456B9A align 4
+00456B9C: aTransferConfig db 'Transfer configuration info',0
+00456BB8: aTransferMemcar_0 db 'Transfer Memcard 2',0
+00456BCB: byte_456BCB align 4
+00456BCC: aTransferMemcar db 'Transfer Memcard 1',0
+00456BDF: byte_456BDF align 10h
+00456BE0: aNetplayErrorPs_0 db ' * NETPLAY: Error psx bios is different in every site. ',0Ah,0
+00456C19: data3_456C19 align 4
+00456C1C: aSpucore140 db 'SPUCORE140',0
+00456C27: byte_456C27 align 4
+00456C28: aNetplayErrorSp db ' * NETPLAY: Error spu plugin is different in every site. ',0Ah,0
+00456C63: byte_456C63 align 4
+00456C64: aNetplayErrorRe db ' * NETPLAY: Error reading spu plugin ',0Ah,0
+00456C8B: byte_456C8B align 4
+00456C8C: aNetplaySoundEn db ' * NETPLAY: Sound Enable option is different in every site. ',0Ah
+00456CCA: word_456CCA align 4
+00456CCC: aNetplayStartMo db ' * NETPLAY: Start Mode option is different in every site. ',0Ah,0
+00456D08: aNetplayErrorPs db ' * NETPLAY: Error psx game is different in every site. ',0Ah,0
+00456D41: data3_456D41 align 4
+00456D44: aShutdownNet db ' * Shutdown net ...',0Ah,0
+00456D59: data3_456D59 align 4
+00456D5C: aClosingNet db ' * Closing net ...',0Ah,0
+00456D70: cd_savefake_flag db 0FFh
+00456D71: data3_456D71 align 4
+00456D74: dword_456D74 dd 0FFFFFFFFh
+00456D78: dword_456D78 dd 930h
+00456D7C: sound_use_cdda db 1
+00456D7D: data3_456D7D align 10h
+00456D80: aCreatingFakeFi db ' * Creating fake file ... ',0Ah,0
+00456D9C: aErrorSavingS db ' * Error saving %s',0Ah,0
+00456DB0: aLoadingFakeFil db ' * Loading fake file ... ',0Ah,0
+00456DCB: byte_456DCB align 4
+00456DCC: aErrorLoadingS_0 db ' * Error loading %s',0Ah,0
+00456DE1: data3_456DE1 align 4
+00456DE4: aSaved db 'saved ',0Ah,0
+00456DEC: aFakeSectorDoes db ' * fake sector doesn',27h,'t found ',0Ah,0
+00456E0B: byte_456E0B align 4
+00456E0C: aOk_0 db 'ok',0Ah,0
+00456E10: aSubchannel db '(+subchannel) ',0
+00456E1F: byte_456E1F align 10h
+00456E20: aSub db 'sub',0
+00456E24: aBinImg2352 db '[BIN/IMG2352] ',0
+00456E33: byte_456E33 align 4
+00456E34: aCdi2336 db '[CDI2336] ',0
+00456E3F: byte_456E3F align 10h
+00456E40: aNrg2336 db '[NRG2336] ',0
+00456E4B: byte_456E4B align 4
+00456E4C: aNrg2352 db '[NRG2352] ',0
+00456E57: byte_456E57 align 4
+00456E58: aErrorLoadingCd db ' * Error loading cdrombin [%s]',0Ah,0
+00456E78: aLoadingIsoForm db ' * Loading ISO Format ',0
+00456E8F: byte_456E8F align 10h
+00456E90: aClosingIsoSyst db ' * Closing ISO system. ',0Ah,0
+00456EA9: data3_456EA9 align 4
+00456EAC: aCdromOpen db ' * Cdrom open... ',0
+00456EBE: word_456EBE align 10h
+00456EC0: aInitCdrom db ' * Init cdrom ... ',0
+00456ED3: byte_456ED3 align 4
+00456ED4: aCdrgetbuffersu db 'CDRgetBufferSub',0
+00456EE4: aCdrstop db 'CDRstop',0
+00456EEC: aCdrplay db 'CDRplay',0
+00456EF4: aCdrgetbuffer db 'CDRgetBuffer',0
+00456F01: data3_456F01 align 4
+00456F04: aCdrreadtrack db 'CDRreadTrack',0
+00456F11: data3_456F11 align 4
+00456F14: aCdrgettd db 'CDRgetTD',0
+00456F1D: data3_456F1D align 10h
+00456F20: aCdrgettn db 'CDRgetTN',0
+00456F29: data3_456F29 align 4
+00456F2C: aCdrclose db 'CDRclose',0
+00456F35: data3_456F35 align 4
+00456F38: aCdropen db 'CDRopen',0
+00456F40: aCdrshutdown db 'CDRshutdown',0
+00456F4C: dword_456F4C align 10h
+00456F50: aErrorCdromDoes db ' * !Error cdrom doesn',27h,'t configurated ',0Ah
+00456FA2: word_456FA2 align 4
+00456FA4: cdrom_haid dd 0FFFFFFFFh
+00456FA8: cdrom_target dd 0FFFFFFFFh
+00456FAC: cdrom_lun dd 0FFFFFFFFh
+00456FB1: use_subchannel db 1
+00456FB2: word_456FB2 align 4
+00456FB4: dword_456FB4 dd 47h
+00456FB8: dword_456FB8 dd 0
+00456FBC: word_456FBC dw 0
+00456FBE: word_456FBE align 10h
+00456FC0: dword_456FC0 dd 4Bh
+00456FC4: dword_456FC4 dd 0
+00456FC8: word_456FC8 dw 0
+00456FCA: word_456FCA align 4
+00456FCC: dword_456FCC dd 4Bh
+00456FD0: dword_456FD0 dd 0
+00456FD4: word_456FD4 dw 1
+00456FD6: word_456FD6 align 4
+00456FD8: aErrorInInitAsp db ' * Error in init aspi (%d)',0Ah,0
+00456FF4: aLength02d02d db ' Length %02d:%02d',0Ah,0
+00457007: byte_457007 align 4
+00457008: aStartD02d02d02 db ' Start %d: (%02d,%02d,%02d) - ',0
+00457027: byte_457027 align 4
+00457028: aAudio db '(AUDIO) -',0
+00457032: word_457032 align 4
+00457034: aData_0 db '(DATA)  -',0
+0045703E: word_45703E align 10h
+00457040: aTrackD db ' * Track %d: ',0
+0045704E: word_45704E align 10h
+00457050: aFirstLastTrack db ' * First/Last track: %d %d',0Ah,0
+0045706C: aCdromGettracki db ' * Cdrom gettrackinfo error.',0Ah,0
+0045708A: word_45708A align 4
+0045708C: aErrorLoadingWn_0 db 'Error loading WNASPI32.DLL',0Ah,0
+004570A8: aSendaspi32comm db 'SendASPI32Command',0
+004570BA: word_4570BA align 4
+004570BC: aGetaspi32suppo db 'GetASPI32SupportInfo',0
+004570D1: data3_4570D1 align 4
+004570D4: aErrorLoadingWn db ' * Error loading WNASPI32.DLL',0Ah,0
+004570F3: byte_4570F3 align 4
+004570F4: aWNASPI32DLL db 'WNASPI32.DLL',0
+00457101: data3_457101 align 4
+00457104: aInitCoreW9xCdr db ' * Init Core W9x cdrom ... ',0
+00457120: aNo db ' NO.',0Ah,0
+00457126: word_457126 align 4
+00457128: aCdromPrecachin_0 db ' * Cdrom precaching subchannel ... ',0
+0045714C: aYes db ' YES.',0Ah,0
+00457153: byte_457153 align 4
+00457154: aCheckingSubcha_0 db ' * Checking subchannel read from cdrom ... ',0
+00457180: aFixatingSubcha db ' * Fixating subchanel ... ',0
+0045719B: byte_45719B align 4
+0045719C: aCdromPrecachin db ' * Cdrom precaching subchannel ... (step %d/2) ',0
+004571CC: aCheckingSubcha db ' * Checking subchannel read standard ... ',0Ah,0
+004571F7: byte_4571F7 align 4
+004571F8: aSubchannelSupp_0 db ' * Subchannel support from .m3s file. ',0Ah,0
+00457220: aSSM3s db '%s%s.M3S',0
+00457229: data3_457229 align 4
+0045722C: aSubchannelSupp db ' * Subchannel support from clonecd .sub file. ',0Ah,0
+0045725C: aSSSub db '%s%s.SUB',0
+00457265: data3_457265 align 4
+00457268: aPatches db 'patches\',0
+00457271: data3_457271 align 4
+00457274: aWarningCdromRe db ' * Warning: cdrom read mode unknown. ',0Ah,0
+0045729B: byte_45729B align 4
+0045729C: aErrorSubReadin db ' * Error sub reading CD: %d,%d,%d',0Ah,0
+004572BF: byte_4572BF align 10h
+004572C0: aErrorReadingCd db ' * Error reading CD: %d,%d,%d',0Ah,0
+004572DF: byte_4572DF align 10h
+004572E0: aPlayCddaErrorD db ' * Play cdda error (%d, %d, %d) ',0Ah,0
+00457302: word_457302 align 4
+00457304: aStopCdromError db ' * Stop cdrom error. ',0Ah,0
+0045731B: byte_45731B align 4
+0045731C: aResumeCdromErr db ' * Resume cdrom error. ',0Ah,0
+00457335: data3_457335 align 4
+00457338: byte_457338 db 2
+00457339: data3_457339 align 4
+0045733C: dword_45733C dd 4Bh
+00457340: dword_457340 dd 0
+00457344: word_457344 dw 1
+00457346: word_457346 align 4
+00457348: dword_457348 dd 0FFFFFFFFh
+0045734C: dword_45734C dd 47h
+00457350: dword_457350 dd 0
+00457354: word_457354 dw 0
+00457356: word_457356 align 4
+00457358: dword_457358 dd 4Bh
+0045735C: dword_45735C dd 0
+00457360: word_457360 dw 0
+00457362: word_457362 align 4
+00457364: aC_1 db '\\.\%c:',0
+0045736C: aCError db ' %c: error ',0Ah,0
+00457379: data3_457379 align 4
+0045737C: aCErrorHandle db ' %c error handle ',0Ah,0
+0045738F: byte_45738F align 10h
+00457390: aGettrackinfoEr db ' * gettrackinfo error[%d]',0Ah,0
+004573AB: byte_4573AB align 4
+004573AC: aCOk db '[%c] ok',0Ah,0
+004573B5: data3_4573B5 align 4
+004573B8: aInitCoreW2kCdr db ' * Init Core W2k cdrom ... ',0
+004573D4: aCdromNotFound db ' * cdrom not found ',0Ah,0
+004573E9: data3_4573E9 align 4
+004573EC: aW2kPlayCddaErr db ' * W2k play cdda error (%d, %d, %d) ',0Ah,0
+00457412: word_457412 align 4
+00457414: aW2kStopCdromEr db ' * W2k stop cdrom error. ',0Ah,0
+0045742F: byte_45742F align 10h
+00457430: aSystemCnf1 db 'SYSTEM.CNF;1',0
+0045743D: data3_45743D align 10h
+00457440: aSlus99999 db 'SLUS_999.99',0
+0045744C: ppf_enabled db 1
+0045744D: data3_45744D align 10h
+00457450: aDone db 'done.',0Ah,0
+00457457: byte_457457 align 4
+00457458: aPpfFileV10 db 'ppf file v.1.0 ',0
+00457468: aDiz db '.DIZ',0
+0045746D: data3_45746D align 10h
+00457470: aPpfFileV20 db 'ppf file v.2.0 ',0
+00457480: aUnkPpfFormat db 'unk ppf format.',0Ah,0
+00457491: data3_457491 align 4
+00457494: aNoPpfFile db 'no ppf file.',0Ah,0
+004574A2: word_4574A2 align 4
+004574A4: aPpf_0 db 'PPF',0
+004574A8: aPatchingGame db ' * Patching game ... ',0
+004574BE: word_4574BE align 10h
+004574C0: aErrorRunningEp db 'Error running ePSXe',0
+004574D4: aConsoleLog db 'console.log',0
+004574E0: dword_4574E0 dd 1Fh
+004574E4: dword_4574E4 dd 8Bh
+004574E8: a113 db '1.1.3',0
+004574EE: word_4574EE align 10h
+004574F0: a113_0 db '1.1.3',0
+004574F6: word_4574F6 align 4
+004574F8: aCCCCCCCCCC db '%c%c%c%c%c%c%c%c%c%c',0
+0045750D: data3_45750D align 10h
+00457510: aFdD db '<fd:%d>',0
+00457518: word_457518 dw 203Ah
+0045751A: byte_45751A db 0
+0045751B: byte_45751B align 4
+0045751C: byte_45751C db 31h
+0045751D: a13 db '.1.3',0
+00457522: word_457522 align 4
+00457524: aUnknownCompres db 'unknown compression method',0
+0045753F: byte_45753F align 10h
+00457540: aInvalidWindowS db 'invalid window size',0
+00457554: aIncorrectHeade db 'incorrect header check',0
+0045756B: byte_45756B align 4
+0045756C: aNeedDictionary db 'need dictionary',0
+0045757C: aIncorrectDataC db 'incorrect data check',0
+00457591: data3_457591 align 4
+00457594: off_457594 dd offset a113_1
+00457598: a113_1 db '1.1.3',0
+0045759E: word_45759E align 10h
+004575A0: dword_4575A0 dd offset aNeedDictionary_0
+004575A4: dword_4575A4 dd offset aStreamEnd
+004575A8: off_4575A8 dd offset byte_4FFA00
+004575AC: dword_4575AC dd offset aFileError
+004575B0: off_4575B0 dd offset aStreamError
+004575B4: dword_4575B4 dd offset aDataError
+004575B8: off_4575B8 dd offset aInsufficientMe
+004575BC: off_4575BC dd offset aBufferError
+004575C0: dword_4575C0 dd offset aIncompatibleVe
+004575C4: dword_4575C4 dd offset byte_4FFA04
+004575C8: aNeedDictionary_0 db 'need dictionary',0
+004575D8: aStreamEnd db 'stream end',0
+004575E3: byte_4575E3 align 4
+004575E4: aFileError db 'file error',0
+004575EF: byte_4575EF align 10h
+004575F0: aStreamError db 'stream error',0
+004575FD: data3_4575FD align 10h
+00457600: aDataError db 'data error',0
+0045760B: byte_45760B align 4
+0045760C: aInsufficientMe db 'insufficient memory',0
+00457620: aBufferError db 'buffer error',0
+0045762D: data3_45762D align 10h
+00457630: aIncompatibleVe db 'incompatible version',0
+00457645: data3_457645 align 4
+00457648: a113_2 db '1.1.3',0
+0045764E: word_45764E align 10h
+00457650: aInvalidBlockTy db 'invalid block type',0
+00457663: byte_457663 align 4
+00457664: aInvalidStoredB db 'invalid stored block lengths',0
+00457681: data3_457681 align 4
+00457684: aTooManyLengthO db 'too many length or distance symbols',0
+004576A8: aInvalidBitLeng db 'invalid bit length repeat',0
+004576C2: data6_4576C2 align 8
+004576C8: off_4576C8 dd offset byte_448DC0
+004576CC: dword_4576CC dd offset dword_448C74
+004576E0: off_4576E0 dd offset byte_449240
+004576E4: dword_4576E4 dd offset dword_448CE8
+004576F8: byte_4576F8 db 4 dup(0), 60h, 8Dh, 44h, 5 dup(0), 13h, 3 dup(0), 7
+0045770C: aInvalidLiteral db 'invalid literal/length code',0
+00457728: aInvalidDistanc db 'invalid distance code',0
+0045773E: word_45773E align 10h
+00457740: dword_457740 dd 9
+00457744: dword_457744 dd 5
+00457748: byte_457748 db 60h, 7, 3 dup(0), 1, 3 dup(0), 8, 2 dup(0), 50h, 4 dup(0)
+00458012: off_458012 dd offset ram+0C91C0h
+00458412: off_458412 dd offset ram+0D91C0h
+00458748: byte_458748 db 50h, 5, 2 dup(0), 1, 3 dup(0), 57h, 5, 2 dup(0), 2 dup(1)
+00458848: aOversubscribed db 'oversubscribed dynamic bit lengths tree',0
+00458870: aIncompleteDyna db 'incomplete dynamic bit lengths tree',0
+00458894: aOversubscribed_1 db 'oversubscribed literal/length tree',0
+004588B7: byte_4588B7 align 4
+004588B8: aIncompleteLite db 'incomplete literal/length tree',0
+004588D7: byte_4588D7 align 4
+004588D8: aOversubscribed_0 db 'oversubscribed distance tree',0
+004588F5: data3_4588F5 align 4
+004588F8: aIncompleteDist db 'incomplete distance tree',0
+00458911: data3_458911 align 4
+00458914: aEmptyDistanceT db 'empty distance tree with lengths',0
+00458935: data3_458935 align 4
+00458938: dword_458938 dd 0
+0045897C: aInvalidDistanc_0 db 'invalid distance code',0
+00458992: word_458992 align 4
+00458994: aInvalidLiteral_0 db 'invalid literal/length code',0
+004589B8: off_4589B8 dd offset __fpmath
+004589BC: dword_4589BC dd offset nullsub_7
+004589C0: dword_4589C0 dd offset nullsub_7
+004589C4: data12_4589C4 align 10h
+004589D0: dword_4589D0 dd 1
+004589D4: data12_4589D4 align 10h
+004589E0: off_4589E0 dd offset byte_8B5D20
+004589E4: dword_4589E4 align 8
+004589E8: dword_4589E8 dd offset byte_8B5D20
+004589F0: byte_4589F0 db 9 dup(0), 10h, 6 dup(0)
+00458A00: stru_458A00 FILE <0, 0, 0, 2, 1, 0, 0, 0>
+00458A20: byte_458A20 db 0Ch dup(0), 2, 3 dup(0), 2, 1Fh dup(0)
+00458A50: dword_458A50 dd 84h dup(0)
+00458C60: off_458C60 dd offset __exit
+00458C64: dword_458C64 dd 2
+00458C68: asc_458C68 db ' ',9,'-',0Dh,']',0
+00458C6E: word_458C6E align 10h
+00458C70: asc_458C70 db ']',0
+00458C72: data14_458C72 align 10h
+00458C80: Str dd offset aNull_2
+00458C84: off_458C84 dd offset byte_449928
+00458C88: off_458C88 dd offset __fptrap
+00458C8C: off_458C8C dd offset __fptrap
+00458C90: off_458C90 dd offset __fptrap
+00458C94: off_458C94 dd offset __fptrap
+00458C98: off_458C98 dd offset __fptrap
+00458C9C: off_458C9C dd offset __fptrap
+00458CA0: off_458CA0 dd offset word_458CAA
+00458CA4: off_458CA4 dd offset word_458CAA
+00458CA8: __ctype dw      0
+00458CAA: word_458CAA dw 20h
+00458CAC: byte_458CAC db 20h
+00458EAC: SrcSizeInBytes dd 1
+00458EB0: byte_458EB0 db 2Eh
+00458EB1: data3_458EB1 align 4
+00458EC0: off_458EC0 dd offset off_458EC0
+00458EC4: off_458EC4 dd offset off_458EC0
+00458EC8: dword_458EC8 dd offset byte_458ED8
+00458ECC: dword_458ECC dd offset byte_458ED8
+00458ED0: dword_458ED0 dd 0FFFFFFFFh
+00458ED8: byte_458ED8 db 0F0h, 3 dup(0), 0F1h, 2003h dup(0)
+0045AEE0: off_45AEE0 dd offset off_458EC0
+0045AEE4: dword_45AEE4 dd 1E0h
+0045AEE8: qword_45AEE8 align 10h
+0045AEF0: byte_45AEF0 db 0FFh
+0045AEF8: dword_45AEF8 dd 0C0000005h
+0045AF70: dword_45AF70 dd 3
+0045AF74: dword_45AF74 dd 7
+0045AF78: dword_45AF78 dd 0Ah
+0045AF7C: dword_45AF7C dd 8Ch
+0045AF80: byte_45AF80 db 20h
+0045AF90: dword_45AF90 dd 2
+0045AF94: off_45AF94 dd offset aR6002FloatingP
+0045B020: dword_45B020 dd 400h, 0FFFFFC01h, 35h, 0Bh, 40h, 3FFh
+0045B038: dword_45B038 dd 80h, 0FFFFFF81h, 18h, 8, 20h, 7Fh
+0045B050: dword_45B050 dd 1
+0045B054: dword_45B054 dd 16h, 2 dup(2), 3, 2, 4, 18h, 5, 0Dh, 6, 9, 7, 0Ch, 8
+0045B1B8: dword_45B1B8 dd 2 dup(0)
+0045B1C0: byte_45B1C0 db 1
+0045B1C8: dword_45B1C8 dd 3A4h
+0045B1CC: byte_45B1CC db 60h
+0045B1D1: byte_45B1D1 db 0
+0045B1D8: byte_45B1D8 db 0A6h, 0DFh, 6 dup(0), 0A1h, 0A5h, 6 dup(0), 81h, 9Fh
+0045B2B8: dword_45B2B8 dd 2 dup(0), 4002A000h, 2 dup(0), 4005C800h, 2 dup(0)
+0045B418: dword_45B418 dd 0CCCDCCCDh, 0CCCCCCCCh, 3FFBCCCCh, 0D70A3D71h, 0A3D70A3h
+0045B578: word_45B578 dw 1Ch, 2 dup(0Dh), 0Ah, 0A600h, 35h, 2Fh, 3Fh, 9500h
+0045B5F0: word_45B5F0 dw 4 dup(0), 3 dup(1Bh), 100h, 31h, 21h, 0, 7800h, 32h
+0045B8B8: dword_45B8B8 dd 0FFFFFFFFh
+0045B8BC: hConsoleHandle dd 0FFFFFFFEh
+0045B8C0: dword_45B8C0 dd 0FFFFFFFEh
+0045B8C4: dword_45B8C4 align 8
+0045B8C8: forcespu db 0
+0045B8C9: old_timing db 0
+0045B8CA: noauto db 0
+0045B8CB: byte_45B8CB align 4
+0045B8CC: byte_45B8CC db 0
+0045B8CD: data3_45B8CD align 10h
+0045B8D0: gpu_freeze_counter dd 0
+0045B8D4: g_hWnd dd 0
+0045B8D8: dword_45B8D8 dd 0
+0045B8DC: h dd 0
+0045B8E0: byte_45B8E0 db 0
+0045B8E1: data3_45B8E1 align 4
+0045B8E4: dword_45B8E4 dd 0
+0045B8E8: byte_45B8E8 db 0
+0045B8E9: data3_45B8E9 align 4
+0045B8EC: hSpuModule dd 0
+0045B8F0: byte_45B8F0 db 0
+0045B8FC: pDSBuffer dd 0
+0045B900: byte_45B900 db 700h dup(0), 7900h dup(?)
+00463900: spucore_noise_mode dd ?
+00463904: dword_463904 dd ?
+00463908: lock_ptr1 dd ?
+0046390C: lock_ptr2 dd ?
+00463910: temp_samples db 1C20h dup(?)
+00465530: dword_465530 dd ?
+00465534: dword_465534 dd ?
+00465538: ppDS dd ?
+0046553C: word_46553C dw ?
+0046553E: word_46553E align 10h
+00465540: dword_465540 dd ?
+00465544: dword_465544 dd ?
+00465548: dword_465548 dd ?
+0046554C: dword_46554C dd ?
+00465550: dword_465550 dd ?
+00465554: dword_465554 dd ?
+00465558: dword_465558 dd ?
+0046555C: dword_46555C dd ?
+00465560: dword_465560 dd ?
+00465564: dword_465564 dd ?
+00465568: dword_465568 dd ?
+0046556C: dword_46556C dd ?
+00465570: dword_465570 dd ?
+00465574: dword_465574 dd ?
+00465578: dword_465578 dd ?
+0046557C: dword_46557C dd ?
+00465580: dword_465580 dd ?
+00465584: dword_465584 dd ?
+00465588: dword_465588 dd ?
+0046558C: dword_46558C dd ?
+00465590: dword_465590 dd ?
+00465594: dword_465594 dd ?
+00465598: dword_465598 dd ?
+0046559C: dword_46559C dd ?
+004655A0: dword_4655A0 dd ?
+004655A4: dword_4655A4 dd ?
+004655AC: dword_4655AC dd ?
+004655B0: dword_4655B0 dd ?
+004655B4: dword_4655B4 dd ?
+004655B8: dword_4655B8 dd ?
+004655BC: dword_4655BC dd ?
+004655C0: dword_4655C0 dd ?
+004655C4: dword_4655C4 dd ?
+004655C8: dword_4655C8 dd ?
+004655CC: dword_4655CC dd 1Bh dup(?)
+00465638: dword_465638 dd 7 dup(?)
+00465654: dword_465654 dd ?
+00465658: dword_465658 dd ?
+0046565C: dword_46565C dd ?
+00465660: dword_465660 dd ?
+00465664: dword_465664 dd 6A7h dup(?)
+00467100: spu_ram db 80000h dup(?)
+004E7100: dword_4E7100 dd ?
+004E7104: word_4E7104 dw ?
+004E7106: word_4E7106 dw ?
+004E7108: dword_4E7108 dd ?
+004E710C: dword_4E710C align 10h
+004E7110: dword_4E7110 dd ?
+004E7114: dword_4E7114 dd ?
+004E7128: byte_4E7128 db 8004h dup(?)
+004EF12C: spu_ram_ptr dd ?
+004EF130: spucore_reverb_vol_left dw ?
+004EF132: spucore_reverb_vol_right dw ?
+004EF134: byte_4EF134 db ?
+004EF138: dword_4EF138 dd ?
+004EF13C: dword_4EF13C align 10h
+004EF140: word_4EF140 dw ?
+004EF142: byte_4EF142 db 8000h dup(?)
+004F7142: data6_4F7142 align 8
+004F7148: dword_4F7148 dd ?
+004F714C: dword_4F714C align 10h
+004F7150: spucore_output_buffer dd ?
+004F7154: byte_4F7154 db 200h dup(?)
+004F7354: dword_4F7354 dd 7Fh dup(?)
+004F7550: word_4F7550 dw ?
+004F7552: word_4F7552 align 4
+004F7554: dword_4F7554 dd ?
+004F7558: spucore_pitchmod_enable dd ?
+004F755C: word_4F755C dw ?
+004F755E: word_4F755E align 10h
+004F7560: dword_4F7560 dd ?
+004F7564: dword_4F7564 dd ?
+004F7568: dword_4F7568 dd ?
+004F756C: dword_4F756C align 10h
+004F7570: byte_4F7570 db 14h dup(?)
+004F7584: word_4F7584 dw ?
+004F7586: spucore_mainvol_left dw ?
+004F7588: spucore_mainvol_right dd ?
+004F758C: lock_size2 dd ?
+004F7590: lock_size1 dd ?
+004F7594: dword_4F7594 dd ?
+004F7598: dword_4F7598 dd ?
+004F759C: dword_4F759C align 10h
+004F75A0: dword_4F75A0 dd ?
+004F75A4: dword_4F75A4 dd ?
+004F75A8: sound_use_xa db ?
+004F75A9: byte_4F75A9 align 2
+004F75AA: byte_4F75AA db ?
+004F75AB: byte_4F75AB align 4
+004F75AC: flt_4F75AC dd ?
+004F75B0: dword_4F75B0 dd ?
+004F75B4: word_4F75B4 dw ?
+004F75B6: data10_4F75B6 align 10h
+004F75C0: spucore_init_flag dd ?
+004F75C4: dword_4F75C4 align 8
+004F75C8: g_pMouseDevice dd ?
+004F75CC: dword_4F75CC align 10h
+004F75D0: g_EffectBuffer1 db 190h dup(?)
+004F7768: g_pDirectInput dd ?
+004F776C: g_pJoystickDevices dd 4 dup(?)
+004F777C: byte_4F777C db ?
+004F7784: g_MouseButtons dd ?
+004F7788: g_JoystickStateBuffer db ?
+004F778C: dword_4F778C dd ?
+004F7790: dword_4F7790 dd ?
+004F7794: dword_4F7794 align 8
+004F7798: dword_4F7798 dd ?
+004F779C: dword_4F779C dd ?
+004F77A0: dword_4F77A0 dd ?
+004F77A4: dword_4F77A4 dd ?
+004F77A8: dword_4F77A8 dd 4 dup(?)
+004F77B8: byte_4F77B8 db ?
+004F77B9: byte_4F77B9 db ?
+004F77BA: byte_4F77BA db ?
+004F77BB: byte_4F77BB db ?
+004F77BC: byte_4F77BC db ?
+004F77BD: byte_4F77BD db ?
+004F77BE: byte_4F77BE db ?
+004F77BF: byte_4F77BF db ?
+004F77C0: byte_4F77C0 db ?
+004F77C1: byte_4F77C1 db ?
+004F77C2: byte_4F77C2 db ?
+004F77C3: byte_4F77C3 db ?
+004F77C4: byte_4F77C4 db ?
+004F77C5: byte_4F77C5 db ?
+004F77C6: byte_4F77C6 db ?
+004F77C7: byte_4F77C7 db 101h dup(?)
+004F78C8: g_EffectBuffer2 dd 64h dup(?)
+004F7A58: hInst_For_DInput dd ?
+004F7A5C: g_pKeyboardDevice dd ?
+004F7A60: hDlgInput dd ?
+004F7A64: dword_4F7A64 align 8
+004F7A68: g_JoystickStateFlags dd 10h dup(?)
+004F7AA8: dword_4F7AA8 dd 10h dup(?)
+004F7AE8: dword_4F7AE8 dd 10h dup(?)
+004F7B28: dword_4F7B28 dd 10h dup(?)
+004F7B68: dword_4F7B68 dd 10h dup(?)
+004F7BA8: dword_4F7BA8 dd 10h dup(?)
+004F7BE8: dword_4F7BE8 dd 10h dup(?)
+004F7C28: dword_4F7C28 dd 10h dup(?)
+004F7C68: dword_4F7C68 dd 10h dup(?)
+004F7CA8: dword_4F7CA8 dd 10h dup(?)
+004F7CE8: dword_4F7CE8 dd 10h dup(?)
+004F7D28: dword_4F7D28 dd 10h dup(?)
+004F7D68: dword_4F7D68 dd 10h dup(?)
+004F7DA8: dword_4F7DA8 dd 10h dup(?)
+004F7DE8: dword_4F7DE8 dd 10h dup(?)
+004F7E28: dword_4F7E28 dd 10h dup(?)
+004F7E68: dword_4F7E68 dd 10h dup(?)
+004F7EA8: dword_4F7EA8 dd 10h dup(?)
+004F7EE8: dword_4F7EE8 dd 10h dup(?)
+004F7F28: dword_4F7F28 dd 10h dup(?)
+004F7F68: dword_4F7F68 dd 10h dup(?)
+004F7FA8: dword_4F7FA8 dd 10h dup(?)
+004F7FE8: dword_4F7FE8 dd 10h dup(?)
+004F8028: dword_4F8028 dd 10h dup(?)
+004F8068: dword_4F8068 dd 10h dup(?)
+004F80A8: dword_4F80A8 dd 10h dup(?)
+004F80E8: dword_4F80E8 dd 10h dup(?)
+004F8128: dword_4F8128 dd 10h dup(?)
+004F8168: dword_4F8168 dd 10h dup(?)
+004F81A8: dword_4F81A8 dd 10h dup(?)
+004F81E8: dword_4F81E8 dd 10h dup(?)
+004F8228: dword_4F8228 dd 30h dup(?)
+004F82E8: g_uiNumJoysticks dd ?
+004F82EC: g_bDevicesAcquired dd ?
+004F82F0: g_MouseX dd ?
+004F82F4: g_MouseY dd ?
+004F82F8: g_pEffectStructs dd 3 dup(?)
+004F8304: dword_4F8304 dd ?
+004F8308: g_pEffectStructs2 dd 4 dup(?)
+004F8318: gtrace db ?
+004F8319: data3_4F8319 align 4
+004F831C: dword_4F831C dd ?
+004F8320: byte_4F8320 db ?
+004F8321: data3_4F8321 align 4
+004F8324: zip_inflate_window_pos dd ?
+004F8328: zip_inflate_bit_buffer dd ?
+004F832C: zip_inflate_bit_count dd ?
+004F8330: zip_inflate_ltree dd ?
+004F8334: zip_inflate_dtree dd ?
+004F8338: zip_inflate_ltree_bits dd ?
+004F833C: zip_inflate_dtree_bits dd ?
+004F8340: zip_inflate_max_memory_used dd ?
+004F8344: dword_4F8344 align 8
+004F8348: zip_filename dd ?
+004F834C: dword_4F834C align 10h
+004F8350: zip_central_dir_buffer ZipCentralDirectoryEntry 0B2h dup(<?>)
+004FA350: byte_4FA350 db 2000h dup(?)
+004FC350: byte_4FC350 db 100h dup(?)
+004FC450: zip_file_size dd ?
+004FC454: zip_inflate_output_ptr dd ?
+004FC458: zip_num_entries_loaded dd ?
+004FC45C: dword_4FC45C dd ?
+004FC460: sio_memcard_loaded db ?
+004FC461: data3_4FC461 align 4
+004FC464: sio_last_command_slot db ?
+004FC465: data3_4FC465 align 4
+004FC468: byte_4FC468 db ?
+004FC469: byte_4FC469 db ?
+004FC46A: data6_4FC46A align 10h
+004FC470: sio_memcard1_file_offset dd ?
+004FC474: sio_memcard2_file_offset dd ?
+004FC478: sio_memcard1_dirty_counter dd ?
+004FC47C: sio_memcard2_dirty_counter dd ?
+004FC480: sio_multitap_slot_counter dd ?
+004FC484: spu_dma_cb dd ?
+004FC488: spu_read_register_cb dd ?
+004FC48C: spu_write_register_cb dd ?
+004FC490: spu_init_cb dd ?
+004FC494: spu_destroy_cb dd ?
+004FC498: spu_play_adpcm_cb dd ?
+004FC49C: spu_set_adpcm_flag_cb dd ?
+004FC4A0: spu_update_cb dd ?
+004FC4A4: spu_freeze_cb dd ?
+004FC4A8: spu_unfreeze_cb dd ?
+004FC4AC: spu_async_update_cb dd ?
+004FC4B0: cdrom_init_cb dd ?
+004FC4B4: cdrom_deinit_cb dd ?
+004FC4B8: cdrom_get_first_last_TN_cb dd ?
+004FC4BC: cdrom_track_to_msf dd ?
+004FC4C0: cdrom_read_data_cb dd ?
+004FC4C4: cdrom_play_cdda_cb dd ?
+004FC4C8: cdrom_stop_cb dd ?
+004FC4CC: cdrom_reset_cb dd ?
+004FC4D0: cdrom_unused_cb dd ?
+004FC4D4: cdrom_lba_to_msf_cb dd ?
+004FC4D8: cdrom_verify_sub_cb dd ?
+004FC4DC: cdrom_subchannel_read_cb dd ?
+004FC4E0: dword_4FC4E0 dd ?
+004FC4E4: byte_4FC4E4 db ?
+004FC4E5: adjust_timing db ?
+004FC4E6: byte_4FC4E6 db ?
+004FC4EC: dword_4FC4EC dd ?
+004FC4F0: mdec_command dd ?
+004FC4F4: mdec_param_count dd ?
+004FC4F8: mdec_timer_count dd ?
+004FC4FC: mdec_in_ptr dd ?
+004FC500: mdec_out_addr dd ?
+004FC504: mdec_status dd ?
+004FC508: mdec_timer db ?
+004FC509: data3_4FC509 align 4
+004FC50C: mdec_param_word dd ?
+004FC510: mdec_bit15_flag dw ?
+004FC550: mdec_mono_table_0 db 100h dup(?)
+004FC650: mdec_mono_table_1 db 80h dup(?)
+004FC6D0: mdec_color_lookup db 80h dup(?)
+004FC750: mdec_mono_table_2 db 100h dup(?)
+004FC850: mdec_color_table_3 dd 80h dup(?)
+004FCA50: mdec_color_table_7 dd 80h dup(?)
+004FCC50: mdec_color_table_1 dd 80h dup(?)
+004FCE50: mdec_color_table_5 dd 80h dup(?)
+004FD050: mdec_color_table_0 dd 80h dup(?)
+004FD250: mdec_color_table_4 dd 80h dup(?)
+004FD450: mdec_color_table_2 dd 80h dup(?)
+004FD650: mdec_color_table_6 dd 80h dup(?)
+004FD850: mdec_disable dd ?
+004FD854: dword_4FD854 align 8
+004FD858: dword_4FD858 dd ?
+004FD85C: dword_4FD85C align 10h
+004FD860: parasite_eve_cheat db ?
+004FD861: data3_4FD861 align 4
+004FD864: sio_transfer_timeout dd ?
+004FD868: dword_4FD868 dd ?
+004FD86C: sio_transfer_pending dd ?
+004FD870: dword_4FD870 dd ?
+004FD874: dword_4FD874 dd ?
+004FD878: dword_4FD878 dd ?
+004FD87C: word_4FD87C dw ?
+004FD87E: word_4FD87E align 10h
+004FD880: nocdstatus db ?
+004FD881: byte_4FD881 db ?
+004FD882: word_4FD882 align 4
+004FD884: dword_4FD884 dd ?
+004FD888: mdec_disable_flag dd ?
+004FD88C: word_4FD88C dw ?
+004FD88E: word_4FD88E dw ?
+004FD890: word_4FD890 dw ?
+004FD892: word_4FD892 dw ?
+004FD894: word_4FD894 dw ?
+004FD896: word_4FD896 dw ?
+004FD898: word_4FD898 dw ?
+004FD89A: word_4FD89A dw ?
+004FD89C: word_4FD89C dw ?
+004FD89E: word_4FD89E dw ?
+004FD8A0: word_4FD8A0 dw ?
+004FD8A2: word_4FD8A2 dw ?
+004FD8A4: word_4FD8A4 dw ?
+004FD8A6: word_4FD8A6 dw ?
+004FD8A8: word_4FD8A8 dw ?
+004FD8AA: word_4FD8AA dw ?
+004FD8AC: g_PlayerDeviceMap1 dd ?
+004FD8B0: g_PlayerDeviceMap2 dd ?
+004FD8B4: g_PlayerDeviceMap3 dd ?
+004FD8B8: g_PlayerDeviceMap4 dd ?
+004FD8BC: g_EffectType2 dd ?
+004FD8C0: dword_4FD8C0 dd ?
+004FD8C4: dword_4FD8C4 dd ?
+004FD8C8: dword_4FD8C8 dd ?
+004FD8CC: g_EffectType1 dd ?
+004FD8D0: dword_4FD8D0 dd ?
+004FD8D4: dword_4FD8D4 dd ?
+004FD8D8: dword_4FD8D8 dd ?
+004FD8DC: point_device_enabled dd ?
+004FD8E0: dword_4FD8E0 dd ?
+004FD8E4: dword_4FD8E4 dd ?
+004FD8E8: dword_4FD8E8 dd ?
+004FD8EC: dword_4FD8EC dd ?
+004FD8F0: dword_4FD8F0 dd ?
+004FD8F4: dword_4FD8F4 dd ?
+004FD8F8: multitap_1 db ?
+004FD8F9: byte_4FD8F9 align 2
+004FD8FA: word_4FD8FA dw ?
+004FD8FC: word_4FD8FC dw ?
+004FD8FE: word_4FD8FE align 10h
+004FD900: dword_4FD900 dd ?
+004FD904: byte_4FD904 db ?
+004FD905: data3_4FD905 align 4
+004FD908: byte_4FD908 db ?
+004FD909: data3_4FD909 align 4
+004FD90C: byte_4FD90C db ?
+004FD90D: data3_4FD90D align 10h
+004FD910: dword_4FD910 dd ?
+004FD914: byte_4FD914 db ?
+004FD915: data3_4FD915 align 4
+004FD918: byte_4FD918 db ?
+004FD919: data3_4FD919 align 4
+004FD91C: byte_4FD91C db ?
+004FD91D: data3_4FD91D align 10h
+004FD920: dword_4FD920 dd ?
+004FD924: byte_4FD924 db ?
+004FD925: data3_4FD925 align 4
+004FD928: byte_4FD928 db ?
+004FD929: data3_4FD929 align 4
+004FD92C: byte_4FD92C db ?
+004FD92D: data3_4FD92D align 10h
+004FD930: dword_4FD930 dd ?
+004FD934: byte_4FD934 db ?
+004FD935: data3_4FD935 align 4
+004FD938: byte_4FD938 db ?
+004FD939: data3_4FD939 align 4
+004FD93C: byte_4FD93C db ?
+004FD93D: data67_4FD93D align 80h
+004FD980: dword_4FD980 dd ?
+004FD984: byte_4FD984 db ?
+004FD985: byte_4FD985 align 2
+004FD986: word_4FD986 dw ?
+004FD988: dword_4FD988 dd ?
+004FD98C: hOutputWnd dd ?
+004FD990: hGpuModule dd ?
+004FD994: gpu_closed db ?
+004FD995: use_performance_counters db ?
+004FD996: word_4FD996 align 4
+004FD998: hNetModule dd ?
+004FD99C: network_enabled dd ?
+004FD9A0: dword_4FD9A0 dd ?
+004FD9A4: dword_4FD9A4 align 8
+004FD9A8: dword_4FD9A8 dd ?
+004FD9AC: dword_4FD9AC dd ?
+004FD9B0: hCdrModule dd ?
+004FD9B4: extsubchanhle db ?
+004FD9BC: dword_4FD9BC dd ?
+004FD9C0: dword_4FD9C0 dd ?
+004FD9C4: dword_4FD9C4 dd ?
+004FD9C8: byte_4FD9C8 db ?
+004FD9C9: SubchannelW9xCdromEnabled db ?
+004FD9CA: SubchannelW9xCaching db ?
+004FD9CB: SubchannelW9xCachingLG db ?
+004FD9CC: cdrom_letter db ?
+004FD9CD: data3_4FD9CD align 10h
+004FD9D0: byte_4FD9D0 db ?
+004FD9D1: data3_4FD9D1 align 4
+004FD9D4: byte_4FD9D4 db ?
+004FD9D5: data3_4FD9D5 align 4
+004FD9D8: dword_4FD9D8 dd ?
+004FD9DC: dword_4FD9DC dd ?
+004FD9E0: SubchannelW2kCdromEnabled db ?
+004FD9E1: SubchannelW2kCaching db ?
+004FD9E2: SubchannelW2kCachingLG db ?
+004FD9E3: byte_4FD9E3 db ?
+004FD9E4: dword_4FD9E4 align 8
+004FD9E8: byte_4FD9E8 db ?
+004FD9E9: data7_4FD9E9 align 10h
+004FD9F0: byte_4FD9F0 db 0FF8h dup(?)
+004FE9E8: byte_4FE9E8 db 800h dup(?)
+004FF1E8: byte_4FF1E8 db 800h dup(?)
+004FF9E8: dword_4FF9E8 dd ?
+004FF9EC: dword_4FF9EC align 10h
+004FF9F0: byte_4FF9F0 db ?
+004FF9F1: console_allocated db ?
+004FF9F2: byte_4FF9F2 db ?
+004FF9F3: byte_4FF9F3 align 4
+004FF9F4: console_log_handle dd ?
+004FF9F8: byte_4FF9F8 db ?
+004FF9FC: byte_4FF9FC db ?
+004FFA00: byte_4FFA00 db ?
+004FFA04: byte_4FFA04 db ?
+004FFA0C: dword_4FFA0C dd ?
+004FFA10: dword_4FFA10 dd ?
+004FFA14: dword_4FFA14 dd ?
+004FFA18: dword_4FFA18 dd ?
+004FFA1C: dword_4FFA1C dd ?
+004FFA20: dword_4FFA20 dd ?
+004FFA24: dword_4FFA24 dd ?
+004FFA28: dword_4FFA28 dd ?
+004FFA2C: dword_4FFA2C dd ?
+004FFA30: dword_4FFA30 dd ?
+004FFA34: dword_4FFA34 align 8
+004FFA38: dword_4FFA38 dd ?
+004FFA48: dword_4FFA48 dd ?
+004FFA4C: dword_4FFA4C align 10h
+004FFA50: byte_4FFA50 db ?
+004FFA51: data3_4FFA51 align 4
+004FFA54: dword_4FFA54 dd ?
+004FFA58: dword_4FFA58 dd ?
+004FFA5C: dword_4FFA5C dd ?
+004FFA60: dword_4FFA60 dd ?
+004FFA64: dword_4FFA64 dd ?
+004FFA6C: dword_4FFA6C dd ?
+004FFA70: dword_4FFA70 dd ?
+004FFA74: byte_4FFA74 db ?
+004FFA75: data3_4FFA75 align 4
+004FFA78: dword_4FFA78 dd ?
+004FFA7C: byte_4FFA7C db ?
+004FFA7D: data3_4FFA7D align 10h
+004FFA80: dword_4FFA80 dd ?
+004FFA84: dword_4FFA84 align 8
+004FFA88: dword_4FFA88 dd ?
+004FFA8C: dword_4FFA8C dd ?
+004FFA90: dword_4FFA90 dd ?
+004FFA94: dword_4FFA94 dd ?
+004FFA98: qword_4FFA98 align 10h
+004FFAA0: dword_4FFAA0 dd ?
+004FFAA4: data12_4FFAA4 align 10h
+004FFAB0: CodePage dd ?
+004FFAB4: dword_4FFAB4 align 8
+004FFAB8: dword_4FFAB8 dd ?
+004FFABC: dword_4FFABC dd ?
+004FFAC0: Filename db 104h dup(?)
+004FFBC4: dword_4FFBC4 dd ?
+004FFBC8: dword_4FFBC8 dd ?
+004FFBCC: dword_4FFBCC dd ?
+004FFBD0: word_4FFBD0 dw ?
+004FFBD2: byte_4FFBD2 db ?
+004FFBD3: byte_4FFBD3 align 4
+004FFBD4: byte_4FFBD4 db 1Ch dup(?)
+004FFBF0: dword_4FFBF0 dd ?
+004FFBF4: dword_4FFBF4 dd ?
+004FFBF8: dword_4FFBF8 dd ?
+004FFBFC: dword_4FFBFC dd ?
+004FFC00: dword_4FFC00 dd ?
+004FFC04: dword_4FFC04 dd ?
+004FFC08: dword_4FFC08 dd ?
+004FFC0C: MessageBoxA_0 dd ?
+004FFC10: GetActiveWindow dd ?
+004FFC14: GetLastActivePopup dd ?
+004FFC18: dword_4FFC18 dd ?
+004FFC1C: hConsoleOutput dd ?
+004FFC20: last_tick_count dd ?
+004FFC24: ppf_sector_lists dd ?
+004FFC28: ppf_file_data dd ?
+004FFC2C: data20_4FFC2C align 20h
+004FFC40: byte_4FFC40 db ?
+004FFC42: byte_4FFC42 db ?
+004FFC43: byte_4FFC43 db ?
+004FFC45: byte_4FFC45 db ?
+004FFC46: byte_4FFC46 db 31Eh dup(?)
+004FFF64: hObject dd ?
+004FFF68: SendASPI32Command_cb dd ?
+004FFF6C: data20_4FFF6C align 20h
+004FFF80: dword_4FFF80 dd ?
+004FFF84: byte_4FFF84 db ?
+004FFF90: byte_4FFF90 db 924h dup(?)
+005008B4: byte_5008B4 db ?
+005008B7: byte_5008B7 db ?
+005008B8: dword_5008B8 dd ?
+005008BC: dword_5008BC dd ?
+005008C0: dword_5008C0 dd 10D1h dup(?)
+00504C04: dword_504C04 dd ?
+00504C08: dword_504C08 dd ?
+00504C0C: dword_504C0C dd ?
+00504C10: dword_504C10 dd 1Dh dup(?)
+00504C84: dword_504C84 dd ?
+00504C88: dword_504C88 dd ?
+00504C8C: dword_504C8C dd ?
+00504C90: Stream dd ?
+00504C94: GetASPI32SupportInfo dd ?
+00504C98: qword_504C98 align 10h
+00504CA0: byte_504CA0 db ?
+00504CA2: byte_504CA2 db ?
+00504CA3: byte_504CA3 db ?
+00504CA5: byte_504CA5 db ?
+00504CA6: byte_504CA6 db 33Ah dup(?)
+00504FE0: dword_504FE0 dd ?
+00504FE4: dword_504FE4 dd ?
+00504FE8: byte_504FE8 db ?
+00504FE9: byte_504FE9 db 10h dup(?)
+00504FF9: byte_504FF9 db ?
+00504FFA: dword_504FFA dd ?
+00504FFE: byte_504FFE db ?
+00504FFF: byte_504FFF db 14h dup(?)
+00505013: byte_505013 db ?
+00505014: dword_505014 dd ?
+00505018: dword_505018 dd ?
+0050501C: dword_50501C dd 0F1h dup(?)
+005053E0: dword_5053E0 dd ?
+005053E4: dword_5053E4 dd ?
+005053E8: dword_5053E8 dd ?
+005053EC: dword_5053EC dd ?
+005053F0: CDRgetTD dd ?
+005053F4: CDRplay dd ?
+005053F8: CDRgetTN dd ?
+005053FC: CDRopen dd ?
+00505400: dword_505400 dd ?
+00505404: CDRconfigure dd ?
+00505408: data24_505408 align 20h
+00505420: cdrom_fake_filename db 100h dup(?)
+00505520: CDRgetBufferSub dd ?
+00505524: dword_505524 dd ?
+00505528: dword_505528 dd ?
+0050552C: word_50552C dw ?
+0050552E: word_50552E align 10h
+00505530: CDRgetBuffer dd ?
+00505534: CDRclose dd ?
+0050553F: byte_50553F db ?
+00505540: word_505540 dw ?
+00505542: byte_505542 db ?
+00505543: byte_505543 db ?
+00505544: byte_505544 db ?
+00505545: byte_505545 db ?
+00505546: byte_505546 db ?
+00505547: byte_505547 db 139h dup(?)
+00505680: byte_505680 db 0Dh dup(?)
+0050568D: dword_50568D dd ?
+00505691: byte_505691 db ?
+00505693: word_505693 dw ?
+00505695: byte_505695 db 4Bh dup(?)
+005056E0: dword_5056E0 dd ?
+005056E4: data28_5056E4 align 20h
+00505700: byte_505700 db 1160h dup(?)
+00506860: byte_506860 db 3820h dup(?)
+0050A080: CDRreadTrack dd ?
+0050A084: FileHandle dd ?
+0050A088: CDRinit dd ?
+0050A08C: CDRshutdown dd ?
+0050A090: byte_50A090 db ?
+0050A091: byte_50A091 db ?
+0050A092: word_50A092 align 4
+0050A094: CDRtest dd ?
+0050A098: dword_50A098 dd ?
+0050A09C: CDRstop dd ?
+0050A0A0: bin_iso_file db 100h dup(?)
+0050A1A0: cdrom_fake_data dd ?
+0050A1A4: byte_50A1A4 db ?
+0050A1A5: byte_50A1A5 db ?
+0050A1A6: byte_50A1A6 db ?
+0050A1A7: byte_50A1A7 align 4
+0050A1A8: NETshutdown dd ?
+0050A1AC: NETopen dd ?
+0050A1B0: NETpadState dd ?
+0050A1B4: NETtransferData dd ?
+0050A1B8: qword_50A1B8 align 10h
+0050A1C0: dword_50A1C0 dd ?
+0050A1C4: byte_50A1C4 db ?
+0050A1C5: byte_50A1C5 db ?
+0050A1C6: byte_50A1C6 db ?
+0050A1C7: byte_50A1C7 db ?
+0050A1C8: byte_50A1C8 db ?
+0050A1C9: byte_50A1C9 db ?
+0050A1CA: byte_50A1CA db ?
+0050A1CB: data5_50A1CB align 10h
+0050A1D0: dword_50A1D0 dd ?
+0050A1D4: byte_50A1D4 db ?
+0050A1D5: byte_50A1D5 db ?
+0050A1D6: byte_50A1D6 db ?
+0050A1D7: byte_50A1D7 db ?
+0050A1D8: dword_50A1D8 dd ?
+0050A1DC: NETresume dd ?
+0050A1E0: dword_50A1E0 dd ?
+0050A1E4: NETcompareData dd ?
+0050A1E8: NETqueryPlayer dd ?
+0050A1EC: NETclose dd ?
+0050A1F0: NETpause dd ?
+0050A1F4: NETinit dd ?
+0050A1F8: qword_50A1F8 align 10h
+0050A200: byte_50A200 db ?
+0050A201: byte_50A201 db 41Fh dup(?)
+0050A620: dword_50A620 dd ?
+0050A624: dword_50A624 dd ?
+0050A628: byte_50A628 db ?
+0050A629: byte_50A629 db ?
+0050A62A: byte_50A62A db ?
+0050A62B: byte_50A62B db 405h dup(?)
+0050AA30: Frequency LARGE_INTEGER <?>
+0050AA38: GPUgetScreenPic dd ?
+0050AA3C: GPUopen dd ?
+0050AA40: GPUwriteStatus dd ?
+0050AA44: dword_50AA44 align 8
+0050AA48: stru_50AA48 LARGE_INTEGER <?>
+0050AA50: GPUsetMode dd ?
+0050AA54: data12_50AA54 align 10h
+0050AA60: byte_50AA60 db 1Bh dup(?)
+0050AA7B: byte_50AA7B db 16h dup(?)
+0050AA91: byte_50AA91 db ?
+0050AA92: byte_50AA92 db ?
+0050AA93: byte_50AA93 db ?
+0050AA94: byte_50AA94 db 3Ch dup(?)
+0050AAD0: byte_50AAD0 db ?
+0050AAD1: byte_50AAD1 db ?
+0050AAD2: byte_50AAD2 db ?
+0050AAD3: byte_50AAD3 db ?
+0050AAD4: byte_50AAD4 db ?
+0050AAD5: byte_50AAD5 db ?
+0050AAD6: byte_50AAD6 db ?
+0050AAD7: byte_50AAD7 db 89h dup(?)
+0050AB60: dword_50AB60 dd ?
+0050AB64: GPUgetMode dd ?
+0050AB68: GPUdmaChain dd ?
+0050AB6C: dword_50AB6C align 10h
+0050AB70: PerformanceCount LARGE_INTEGER <?>
+0050AB78: qword_50AB78 align 10h
+0050AB80: g_msg MSG <?>
+0050AB9C: GPUdisplayFlags dd ?
+0050ABA0: GPUtest dd ?
+0050ABA4: GPUconfigure dd ?
+0050ABA8: data24_50ABA8 align 20h
+0050ABC0: g_KeyboardStatePrev db ?
+0050ABC1: data31_50ABC1 align 20h
+0050ABE0: byte_50ABE0 db ?
+0050ABE1: data31_50ABE1 align 20h
+0050AC00: byte_50AC00 db ?
+0050AC01: data31_50AC01 align 20h
+0050AC20: byte_50AC20 db 0A0h dup(?)
+0050ACC0: byte_50ACC0 db ?
+0050ACC1: byte_50ACC1 db ?
+0050ACC2: byte_50ACC2 db ?
+0050ACC3: byte_50ACC3 db ?
+0050ACC4: byte_50ACC4 db ?
+0050ACC5: byte_50ACC5 db ?
+0050ACC6: byte_50ACC6 db ?
+0050ACC7: byte_50ACC7 db ?
+0050ACC8: byte_50ACC8 db ?
+0050ACC9: byte_50ACC9 db ?
+0050ACCA: byte_50ACCA db ?
+0050ACCB: byte_50ACCB db ?
+0050ACCC: byte_50ACCC db ?
+0050ACCD: byte_50ACCD db ?
+0050ACCE: word_50ACCE align 10h
+0050ACD0: byte_50ACD0 db ?
+0050ACD1: byte_50ACD1 db ?
+0050ACD2: byte_50ACD2 db ?
+0050ACD3: byte_50ACD3 db ?
+0050ACD4: byte_50ACD4 db ?
+0050ACD5: byte_50ACD5 db ?
+0050ACD6: byte_50ACD6 db ?
+0050ACD7: byte_50ACD7 db ?
+0050ACD8: byte_50ACD8 db ?
+0050ACD9: byte_50ACD9 db ?
+0050ACDA: byte_50ACDA db ?
+0050ACDB: byte_50ACDB db ?
+0050ACDC: byte_50ACDC db ?
+0050ACDD: byte_50ACDD db ?
+0050ACDE: byte_50ACDE db ?
+0050ACDF: byte_50ACDF db 61h dup(?)
+0050AD40: g_JoystickButtonState db ?
+0050AD41: byte_50AD41 db ?
+0050AD42: byte_50AD42 db ?
+0050AD43: byte_50AD43 db 7Dh dup(?)
+0050ADC0: GPUwriteDataMem dd ?
+0050ADC4: GPUshutdown dd ?
+0050ADC8: GPUcursor dd ?
+0050ADCC: GPUmakeSnapshot dd ?
+0050ADD0: GPUclose dd ?
+0050ADD4: dword_50ADD4 dd ?
+0050ADD8: GPUreadDataMem dd ?
+0050ADDC: GPUfreeze dd ?
+0050ADE0: GPUabout dd ?
+0050ADE4: data28_50ADE4 align 20h
+0050AE00: g_KeyboardState dw ?
+0050AE02: word_50AE02 dw ?
+0050AE04: word_50AE04 dw ?
+0050AE06: word_50AE06 dw ?
+0050AE08: word_50AE08 dw ?
+0050AE0A: word_50AE0A dw ?
+0050AE0C: word_50AE0C dw ?
+0050AE0E: word_50AE0E dw ?
+0050AE10: data48_50AE10 align 40h
+0050AE40: GPUwriteData dd ?
+0050AE44: GPUinit dd ?
+0050AE48: GPUreadStatus dd ?
+0050AE4C: dword_50AE4C dd ?
+0050AE50: GPUupdateLace dd ?
+0050AE54: dword_50AE54 align 8
+0050AE58: qword_50AE58 dq ?
+0050AE60: GPUshowScreenPic dd ?
+0050AE64: GPUreadData dd ?
+0050AE68: dword_50AE68 dd ?
+0050AE6C: data20_50AE6C align 20h
+0050AE80: dword_50AE80 dd ?
+0050AE84: dword_50AE84 dd ?
+0050AE88: data56_50AE88 align 40h
+0050AEC0: byte_50AEC0 db ?
+0050AEC1: byte_50AEC1 db ?
+0050AEC2: byte_50AEC2 db ?
+0050AEC3: word_50AEC3 dw ?
+0050AEC5: byte_50AEC5 db 3Eh dup(?)
+0050AF03: dword_50AF03 dd ?
+0050AF07: byte_50AF07 db 49h dup(?)
+0050AF50: dword_50AF50 dd ?
+0050AF54: word_50AF54 dw ?
+0050AF56: byte_50AF56 db 0Ch dup(?)
+0050AF62: dword_50AF62 dd ?
+0050AF66: byte_50AF66 db 0FF2h dup(?)
+0050BF58: dword_50BF58 dd ?
+0050BF5C: dword_50BF5C dd ?
+0050BF60: dword_50BF60 dd ?
+0050BF64: byte_50BF64 db ?
+0050BF65: byte_50BF65 db ?
+0050BF66: byte_50BF66 db ?
+0050BF67: byte_50BF67 db ?
+0050BF68: byte_50BF68 db ?
+0050BF69: byte_50BF69 db ?
+0050BF6A: byte_50BF6A db ?
+0050BF6B: byte_50BF6B db ?
+0050BF6C: dword_50BF6C dd ?
+0050BF70: dword_50BF70 dd ?
+0050BF7A: word_50BF7A dw ?
+0050BF7D: byte_50BF7D db ?
+0050BF7E: word_50BF7E dw ?
+0050BF80: word_50BF80 dw ?
+0050BF82: word_50BF82 dw ?
+0050BF84: byte_50BF84 db ?
+0050BF85: data59_50BF85 align 40h
+0050BFC0: int_reg dd ?
+0050BFC4: int_mask dd ?
+0050BFC8: dword_50BFC8 dd ?
+0050BFCC: dword_50BFCC align 10h
+0050BFD0: dword_50BFD0 dd ?
+0050BFD4: dword_50BFD4 dd ?
+0050BFD8: dword_50BFD8 dd ?
+0050BFDC: dword_50BFDC dd ?
+0050BFE0: dword_50BFE0 dd ?
+0050BFE4: dword_50BFE4 dd ?
+0050BFEC: dword_50BFEC dd ?
+0050BFF0: dword_50BFF0 dd ?
+0050BFF4: dword_50BFF4 dd ?
+0050BFFC: dword_50BFFC dd ?
+0050C000: dword_50C000 dd ?
+0050C004: data12_50C004 align 10h
+0050C010: dword_50C010 dd ?
+0050C014: dword_50C014 dd ?
+0050C018: dword_50C018 dd ?
+0050C01C: dword_50C01C dd 4Dh dup(?)
+0050C150: dword_50C150 dd ?
+0050C154: dword_50C154 dd ?
+0050C158: dword_50C158 dd 2Eh dup(?)
+0050C210: dword_50C210 dd ?
+0050C214: byte_50C214 db ?
+0050C215: byte_50C215 db ?
+0050C216: byte_50C216 db ?
+0050C217: byte_50C217 align 4
+0050C218: dword_50C218 dd ?
+0050C21C: dword_50C21C dd ?
+0050C220: dword_50C220 dd 10h dup(?)
+0050C260: reg_pc dd ?
+0050C264: cpu_LO dd ?
+0050C268: cpu_HI dd ?
+0050C26C: cpu_opcode dd ?
+0050C270: hw_update_counter dd ?
+0050C274: cop0_regs dd ?
+0050C278: qword_50C278 align 10h
+0050C280: dword_50C280 dd 9 dup(?)
+0050C2A4: dword_50C2A4 dd ?
+0050C2A8: dword_50C2A8 dd ?
+0050C2AC: dword_50C2AC dd ?
+0050C2B4: dword_50C2B4 dd 0Bh dup(?)
+0050C2E0: cpu_gpr dd 20h dup(?)
+0050C360: dword_50C360 dd ?
+0050C364: dword_50C364 dd ?
+0050C36C: dword_50C36C dd ?
+0050C370: dword_50C370 dd ?
+0050C374: dword_50C374 dd ?
+0050C378: forcepad dd ?
+0050C37C: loaded_file_type dd ?
+0050C380: reset_flag dd ?
+0050C384: country_setting dd ?
+0050C388: version_setting dd ?
+0050C38C: unused_arr db 5A54h dup(?)
+00511DE0: mdec_nonzero_counts dd 0B8h dup(?)
+005120C0: mdec_scale_table dd 20h dup(?)
+00512140: mdec_idct_buffer dd 0B40h dup(?)
+00514E40: mdec_idct_buffer_end db 1680h dup(?)
+005164C0: dword_5164C0 dd ?
+005164C4: dword_5164C4 dd ?
+005164C8: dword_5164C8 dd ?
+005164CC: dword_5164CC dd ?
+005164D0: dword_5164D0 dd ?
+005164D4: data12_5164D4 align 10h
+005164E0: mdec_dma_src dd ?
+005164E4: dword_5164E4 dd ?
+005164E8: mdec_dma_control dd ?
+005164EC: mdec_dma_dest dd ?
+005164F0: mdec_image_size dd ?
+005164F4: mdec_dma_status dd ?
+005164F8: dword_5164F8 dd ?
+005164FC: dword_5164FC dd ?
+00516500: dword_516500 dd ?
+00516504: dword_516504 dd ?
+00516508: dword_516508 dd ?
+0051650C: dword_51650C dd ?
+00516510: dword_516510 dd ?
+00516514: dword_516514 dd ?
+00516518: dword_516518 dd ?
+00516524: dword_516524 dd ?
+00516528: dword_516528 dd ?
+0051652C: dword_51652C dd ?
+00516530: dword_516530 dd ?
+00516534: data12_516534 align 10h
+00516540: sio_multitap_state dd ?
+00516544: data28_516544 align 20h
+00516560: sio_controller_state db 4 dup(?)
+00516564: sio_controller_response_buffer db ?
+00516565: byte_516565 db ?
+00516566: byte_516566 db ?
+00516567: byte_516567 db ?
+00516568: byte_516568 db ?
+00516569: byte_516569 db ?
+0051656A: byte_51656A db ?
+0051656B: byte_51656B db 38h dup(?)
+005165A3: sio_controller_slot_index db ?
+005165A4: sio_controller_response_alt db ?
+005165A5: byte_5165A5 db ?
+005165A6: byte_5165A6 db ?
+005165A7: data89_5165A7 align 80h
+00516600: byte_516600 db 10000h dup(?)
+00526600: byte_526600 db 4 dup(?)
+00526604: sio0_mode_reg dd ?
+00526608: sio0_control_reg dd ?
+0052660C: sio_tx_fifo_data db 100h dup(?)
+0052670C: sio_tx_fifo db 104h dup(?)
+00526810: sio_rx_fifo_count dd ?
+00526814: data12_526814 align 10h
+00526820: byte_526820 db ?
+00526821: byte_526821 db 3Fh dup(?)
+00526860: sio_memcard_data_slot1 db ?
+00526861: byte_526861 db 7Eh dup(?)
+005268DF: byte_5268DF db ?
+005268E0: byte_5268E0 db ?
+005268E1: data7_5268E1 align 8
+005268E8: byte_5268E8 db ?
+005268E9: byte_5268E9 db 76h dup(?)
+0052695F: byte_52695F db 701h dup(?)
+00527060: byte_527060 db ?
+00527061: byte_527061 db ?
+00527062: byte_527062 db ?
+00527063: byte_527063 db ?
+00527064: dword_527064 align 8
+00527068: byte_527068 db ?
+00527069: byte_527069 db 1F7F7h dup(?)
+00546860: sio_memcard_data_slot2 db ?
+00546861: byte_546861 db 7Eh dup(?)
+005468DF: byte_5468DF db ?
+005468E0: byte_5468E0 db ?
+005468E1: data7_5468E1 align 8
+005468E8: byte_5468E8 db ?
+005468E9: byte_5468E9 db 76h dup(?)
+0054695F: byte_54695F db 701h dup(?)
+00547060: byte_547060 db 1F902h dup(?)
+00566962: word_566962 dw ?
+00566964: dword_566964 dd ?
+00566968: data24_566968 align 20h
+00566980: byte_566980 db 10000h dup(?)
+00576980: zipfile_input_buffer dd ?
+00576984: zip_sliding_window dd ?
+00576988: data24_576988 align 20h
+005769A0: Size dd 100h dup(?)
+00576DA0: dword_576DA0 dd ?
+00576DA4: dword_576DA4 dd ?
+00576DA8: dword_576DA8 dd ?
+00576DAC: op_rs db ?
+00576DAD: byte_576DAD db ?
+00576DAE: byte_576DAE db ?
+00576DAF: op_rs_0 db ?
+00576DB0: op_rt db ?
+00576DB1: data15_576DB1 align 10h
+00576DC0: mem_write_hooks dd 10000h dup(?)
+005B6DC0: dword_5B6DC0 dd ?
+005B6DC4: dword_5B6DC4 dd 1Fh dup(?)
+005B6E40: ram db 200000h dup(?)
+007B6E60: mem_read_hooks dd 10000h dup(?)
+007F6E80: bios_image db 80000h dup(?)
+00876EA0: pio_mem db 20000h dup(?)
+00896EC0: dummy_page db 10000h dup(?)
+008A6EE0: dcache db 1000h dup(?)
+008A7EE0: byte_8A7EE0 db ?
+008A7F00: gte_regs GTE_REGS <?>
+008A8000: byte_8A8000 db ?
+008A8001: byte_8A8001 db ?
+008A8004: dword_8A8004 dd ?
+008A8008: dword_8A8008 dd ?
+008A800C: dword_8A800C dd ?
+008A8010: SPUupdate dd ?
+008A8014: SPUwriteRegister dd ?
+008A8018: SPUtest dd ?
+008A801C: SPUstartChannels1 dd ?
+008A8020: SPUstartChannels2 dd ?
+008A8024: SPUregisterCallback dd ?
+008A8028: SPUconfigure dd ?
+008A802C: SPUplayADPCMchannel dd ?
+008A8030: SPUplaySample dd ?
+008A8034: SPUasync dd ?
+008A8038: SPUwriteDMAMem dd ?
+008A803C: SPUclose dd ?
+008A8040: SPUstopChannels1 dd ?
+008A8044: SPUstopChannels2 dd ?
+008A8048: SPUinit dd ?
+008A804C: SPUsetPitch dd ?
+008A8050: SPUfreeze dd ?
+008A8054: SPUsetVolumeL dd ?
+008A8058: SPUsetVolumeR dd ?
+008A805C: SPUreadDMA dd ?
+008A8060: SPUabout dd ?
+008A8064: SPUshutdown dd ?
+008A8080: dword_8A8080 dd ?
+008A8084: word_8A8084 dw 200h dup(?)
+008A8484: spu_need_to_be_closed db ?
+008A848C: SPUwriteDMA dd ?
+008A8490: SPUsetAddr dd ?
+008A8494: SPUreadDMAMem dd ?
+008A8498: SPUputOne dd ?
+008A849C: SPUgetOne dd ?
+008A84A0: SPUreadRegister dd ?
+008A84A4: SPUopen dd ?
+008A84A8: GPUshutdown_0 dd ?
+008A84AC: g_hInstance dd ?
+008A84B0: GPUtest_0 dd ?
+008A84C0: byte_8A84C0 db 400h dup(?)
+008A88C0: byte_8A88C0 db 400h dup(?)
+008A8CC0: byte_8A8CC0 db 400h dup(?)
+008A90C0: byte_8A90C0 db 80h dup(?)
+008A9140: byte_8A9140 db 380h dup(?)
+008A94C0: byte_8A94C0 db ?
+008A94C4: PSEgetLibVersion dd ?
+008A94E0: stru_8A94E0 MSG <?>
+008A94FC: GPUabout_0 dd ?
+008A9500: byte_8A9500 db 20h dup(?)
+008A9520: PSEgetLibType dd ?
+008A9540: byte_8A9540 db 4 dup(?)
+008A9544: byte_8A9544 db 7FFCh dup(?)
+008B1540: GPUinit_0 dd ?
+008B1544: PSEgetLibName dd ?
+008B1548: dword_8B1548 dd ?
+008B154C: dword_8B154C dd ?
+008B1550: PSEconfigure dd ?
+008B1560: temp_path db 400h dup(?)
+008B1960: byte_8B1960 db 20h dup(?)
+008B1980: VideoPlugin db 400h dup(?)
+008B1D80: SoundPlugin db 400h dup(?)
+008B2180: CdromPlugin db 400h dup(?)
+008B2580: byte_8B2580 db 400h dup(?)
+008B2980: bios_name db 800h dup(?)
+008B3180: Memcard1 db 400h dup(?)
+008B3580: Memcard2 db 400h dup(?)
+008B3980: IsoDirectory db 400h dup(?)
+008B3D80: ppf_default_filename db 400h dup(?)
+008B4180: NetPlugin db 400h dup(?)
+008B4580: ppf_filename db 0C00h dup(?)
+008B5180: state_file_from_cmdline db 400h dup(?)
+008B55A0: cheat_file_from_cmdline db 400h dup(?)
+008B59A0: byte_8B59A0 db 10h dup(?)
+008B59B0: byte_8B59B0 db ?
+008B59B4: byte_8B59B4 db ?
+008B59BC: byte_8B59BC db ?
+008B59C0: byte_8B59C0 db 100h dup(?)
+008B5AC0: byte_8B5AC0 db ?
+008B5AC1: byte_8B5AC1 db 103h dup(?)
+008B5BC4: byte_8B5BC4 db 1Ch dup(?)
+008B5BE0: dword_8B5BE0 dd ?
+008B5BE4: byte_8B5BE4 db 0FCh dup(?)
+008B5CE0: dword_8B5CE0 dd ?
+008B5CE4: dword_8B5CE4 dd ?
+008B5CE8: byte_8B5CE8 db 4 dup(?)
+008B5CEC: dword_8B5CEC dd ?
+008B5CF0: dword_8B5CF0 dd ?
+008B5CF4: dword_8B5CF4 dd ?
+008B5CF8: dword_8B5CF8 dd ?
+008B5CFC: dword_8B5CFC dd ?
+008B5D00: hHeap dd ?
+008B5D04: dword_8B5D04 dd ?
+008B5D08: dword_8B5D08 dd ?
+008B5D0C: byte_8B5D0C db 14h dup(?)
+008B5D20: byte_8B5D20 db 1000h dup(?)
+008B6D20: dword_8B6D20 dd ?
+008B6D24: dword_8B6D24 dd ?
+008B6D28: dword_8B6D28 dd ?
+008B6D2C: dword_8B6D2C dd ?
+008B6D30: dword_8B6D30 dd ?
