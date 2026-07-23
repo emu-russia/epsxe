@@ -17,6 +17,6 @@ void sub_42CDE0()
     byte_50AEC0 = 1;
     byte_50AEC1 = 0;
     byte_50AEC2 = 1;
-    cdrom_assert_int();
+    irq_cdrom_assert_int();
   }
 }

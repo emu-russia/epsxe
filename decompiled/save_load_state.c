@@ -33,8 +33,8 @@ void save_load_state()
   }
   ShowCursor(0);
   ShowWindow(g_hWnd, 0);
-  close_output_window();
-  create_output_window();
+  gpu_close_output_window();
+  gpu_create_output_window();
   if ( hOutputWnd )
     ShowWindow(hOutputWnd, 5);
   gpu_open();
@@ -58,7 +58,7 @@ void save_load_state()
     v1 = get_gpu_freeze_counter();
     set_gpu_freeze_counter(dword_44DF24[0]);
     state_load();
-    sub_4291E0();
+    dynarec_invalidate();
     dbg_print(" * LoadState Done! (%d)\n", *(_DWORD *)dword_44DF24);
     set_gpu_freeze_counter(v1);
   }

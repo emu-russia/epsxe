@@ -9,7 +9,7 @@ BOOL register_output_win_class()
   WndClass.hIcon = LoadIconA(nullptr, (LPCSTR)0x7F05);
   memset(&WndClass.hCursor, 0, 12);
   WndClass.hInstance = dword_50AE4C;
-  WndClass.lpfnWndProc = output_win_callback;
+  WndClass.lpfnWndProc = gpu_output_win_callback;
   WndClass.lpszClassName = "EPSX";
   return RegisterClassA(&WndClass) != 0;
 }

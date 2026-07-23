@@ -2,7 +2,7 @@
 HWND create_output_window()
 {
   dword_50AE4C = GetModuleHandleA(nullptr);
-  if ( !register_output_win_class() )
+  if ( !gpu_register_output_win_class() )
     ui_error(" * Error registering window.\n");
   hOutputWnd = CreateWindowExA(
                  0x40100u,

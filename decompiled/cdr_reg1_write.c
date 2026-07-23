@@ -164,7 +164,7 @@ LABEL_8:
         LOBYTE(dword_50BF6C) = 2;
         byte_50BF6B = 1;
         if ( adjust_timing )
-          dword_455945 = 5;
+          byte_455945 = 5;
         word_455FA6 = 550;
         return;
       case 0xAu:
@@ -413,7 +413,7 @@ LABEL_9:
 LABEL_10:
           byte_50AEC2 = 1;
           if ( byte_50BF84 != 24 )
-            cdrom_assert_int();
+            irq_cdrom_assert_int();
         }
         break;
       case 0x1Bu:
@@ -430,7 +430,7 @@ LABEL_10:
         byte_50AEC1 = 0;
         byte_50AF07[60] = 1;
         if ( adjust_timing )
-          dword_455945 = 0;
+          byte_455945 = 0;
         byte_50BF7D = 0;
         if ( (byte_50AF07[72] & 0x40) != 0 )
           spu_set_adpcm_flag_cb();

@@ -85,7 +85,7 @@ char ext_cdrom_load_plugin()
                           {
                             CDRgetBufferSub = GetProcAddress(hCdrModule, "CDRgetBufferSub");
                             if ( CDRgetBufferSub )
-                              BYTE1(dword_455945) = 0;
+                              BYTE1(byte_455945) = 0;
                           }
                           else
                           {

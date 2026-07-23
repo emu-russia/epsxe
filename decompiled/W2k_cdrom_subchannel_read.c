@@ -72,14 +72,14 @@ char W2k_cdrom_subchannel_read()
         {
           dword_504C8C = 5;
           result = dbg_print(" * Subchannel support from clonecd .sub file. \n");
-          BYTE1(dword_455945) = 0;
+          BYTE1(byte_455945) = 0;
         }
         else
         {
           if ( dword_504C8C == 7 )
             dword_504C8C = 9;
           result = dbg_print(" * Subchannel support from clonecd .sub file. \n");
-          BYTE1(dword_455945) = 0;
+          BYTE1(byte_455945) = 0;
         }
         return result;
       }
@@ -94,14 +94,14 @@ char W2k_cdrom_subchannel_read()
         {
           dword_504C8C = 6;
           result = dbg_print(" * Subchannel support from .m3s file. \n");
-          BYTE1(dword_455945) = 0;
+          BYTE1(byte_455945) = 0;
         }
         else
         {
           if ( dword_504C8C == 7 )
             dword_504C8C = 10;
           result = dbg_print(" * Subchannel support from .m3s file. \n");
-          BYTE1(dword_455945) = 0;
+          BYTE1(byte_455945) = 0;
         }
         return result;
       }
@@ -237,7 +237,7 @@ char W2k_cdrom_subchannel_read()
         }
 LABEL_101:
         result = dbg_print(" YES.\n");
-        BYTE1(dword_455945) = 0;
+        BYTE1(byte_455945) = 0;
         return result;
       }
       memset(v47, 0xAAu, 0x1F9Cu);
@@ -411,7 +411,7 @@ LABEL_100:
       dword_504C8C = 6;
 LABEL_36:
       result = dbg_print("ok\n");
-      BYTE1(dword_455945) = 0;
+      BYTE1(byte_455945) = 0;
     }
   }
   return result;

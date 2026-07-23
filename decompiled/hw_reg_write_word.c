@@ -15,7 +15,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
   }
   if ( a1 <= 0x1F801138 && a1 >= 0x1F801100 )
   {
-    rcnt_write_reg(a1, a2);
+    irq_rcnt_write_reg(a1, a2);
     return;
   }
   if ( a1 <= 0x1F801E0F && a1 >= 0x1F801C00 )
@@ -33,7 +33,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
       {
         cdr_dma();
         dword_51650C = a2 & 0xFEFFFFFF;
-        dma_assert_int(3u);
+        irq_dma_assert_int(3u);
       }
     }
     else
@@ -79,7 +79,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           {
             mdec_dma_in_handler();
             mdec_dma_control[0] = a2 & 0xFEFFFFFF;
-            dma_assert_int(0);
+            irq_dma_assert_int(0);
           }
           break;
         case 0x1F801098u:
@@ -90,7 +90,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
             if ( !mdectiming )
             {
               mdec_dma_status = a2 & 0xFEFFFFFF;
-              dma_assert_int(1u);
+              irq_dma_assert_int(1u);
             }
           }
           break;
@@ -131,7 +131,7 @@ LABEL_32:
           {
             spu_dma_cb();
             *(_DWORD *)dword_516518 = a2 & 0xFEFFFFFF;
-            dma_assert_int(4u);
+            irq_dma_assert_int(4u);
           }
           break;
         case 0x1F8010D8u:
@@ -139,7 +139,7 @@ LABEL_32:
           if ( ((unsigned int)&bios_image[37248] & *(_DWORD *)dword_5164D0) != 0 )
           {
             dword_516524 = a2 & 0xFEFFFFFF;
-            dma_assert_int(5u);
+            irq_dma_assert_int(5u);
           }
           break;
         default:
@@ -211,7 +211,7 @@ LABEL_51:
       if ( v3 <= 0x40 )
       {
         *(_DWORD *)dword_516530 = 268435458;
-        dma_assert_int(6u);
+        irq_dma_assert_int(6u);
       }
       else
       {

@@ -27,7 +27,7 @@ _DWORD *state_save()
     gzwrite((int)v1, (unsigned __int8 *)reg_pc, 0x16Cu);
     mem_freeze("MEM", (int)v1);
     hw_reg_freeze("REG", (int)v1);
-    sub_42B080("IRQ", (int)v1);
+    irq_freeze("IRQ", (int)v1);
     gte_freeze("GTE", (int)v1);
     cdr_freeze("CDR", (int)v1);
     sio_freeze("SIO", (int)v1);

@@ -21,7 +21,7 @@ unsigned int cdr_dma()
     result = v3 + dword_50BF5C;
     dword_50BF5C += v3;
     if ( dword_50C36C == 1 )
-      result = sub_4281B0(dword_516504, v3 >> 2);
+      result = dynarec_invalidate_range(dword_516504, v3 >> 2);
     if ( v3 + (v2 & 0x1FFFFF) <= 0x200000 )
     {
       result = mem_dma_read(v2);

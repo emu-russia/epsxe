@@ -1,5 +1,5 @@
 #include "pch.h"
-char *sub_4238B0()
+char *dynarec_hw_update()
 {
   int v0; // eax
   unsigned int v2; // ecx
@@ -11,25 +11,25 @@ char *sub_4238B0()
   int v8; // eax
   int v9; // eax
 
-  dword_50C2B4 = 0;
+  dword_50C2B4[0] = 0;
   if ( (hw_update_counter & 0xC0000000) == 0x80000000 )
   {
     if ( (*(_DWORD *)int_reg & int_mask) != 0 )
-      cpu_interrupt();
+      irq_cpu_interrupt();
     if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0xBFC00000 )
       v0 = (*(_DWORD *)reg_pc & 0x7FFFF) + 0x200000;
     else
       v0 = *(_DWORD *)reg_pc & 0x1FFFFF;
-    return (char *)dword_5164C4 + v0;
+    return (char *)recomp_code_base + v0;
   }
   else
   {
     if ( (++dword_4FC4EC & 0x1F) == 0 )
-      spu_async_update_cb(32 * dword_455940);
+      spu_async_update_cb(32 * cpu_speed_scale);
     mdec_timer_handler();
-    sub_42E450();
-    sub_42E650();
-    hw_update_counter = dword_455940;
+    gpu_sub_42E450();
+    gpu_sub_42E650();
+    hw_update_counter = cpu_speed_scale;
     ++dword_50C364;
     sub_42CA70();
     sub_42C9A0();
@@ -62,10 +62,10 @@ char *sub_4238B0()
       sio_transfer_timeout = dword_4FD868;
       dword_4FD868 = 0;
     }
-    v2 = dword_455940;
+    v2 = cpu_speed_scale;
     v3 = 512;
     if ( (dword_50BFD4[0] & 0x100) == 0 )
-      v3 = dword_455940;
+      v3 = cpu_speed_scale;
     dword_50BFD0[0] += v3;
     if ( dword_50BFD0[0] >= (unsigned int)dword_50BFDC[0] )
     {
@@ -75,7 +75,7 @@ char *sub_4238B0()
     }
     v4 = 1;
     if ( (dword_50BFE4 & 0x100) == 0 )
-      v4 = dword_455940;
+      v4 = cpu_speed_scale;
     dword_50BFE0 += v4;
     if ( dword_50BFE0 >= (unsigned int)dword_50BFEC )
     {
@@ -86,7 +86,7 @@ char *sub_4238B0()
     if ( (dword_50BFF4 & 1) == 0 && xenogears_trick_enabled )
     {
       if ( (dword_50BFF4 & 0x200) != 0 )
-        v2 = (unsigned int)dword_455940 >> 3;
+        v2 = (unsigned int)cpu_speed_scale >> 3;
       v5 = v2 + dword_50BFF0;
       dword_50BFF0 = v5;
       if ( v5 >= dword_50BFFC )
@@ -106,7 +106,7 @@ char *sub_4238B0()
     }
     if ( (int_mask & *(_DWORD *)int_reg) != 0 )
     {
-      cpu_interrupt();
+      irq_cpu_interrupt();
       v6 = int_mask;
     }
     if ( dword_50C364 >= (unsigned int)dword_45593C )
@@ -116,7 +116,7 @@ char *sub_4238B0()
       ++dword_50C000;
       *(_DWORD *)int_reg |= 1u;
       if ( (v6 & 1) != 0 )
-        cpu_interrupt();
+        irq_cpu_interrupt();
       gpu_frame_update();
       if ( reset_flag )
       {
@@ -124,12 +124,12 @@ char *sub_4238B0()
           v8 = (*(_DWORD *)reg_pc & 0x7FFFF) + 0x200000;
         else
           v8 = *(_DWORD *)reg_pc & 0x1FFFFF;
-        **(_DWORD **)((char *)dword_5164C4 + v8) = 195;
+        **(_DWORD **)((char *)recomp_code_base + v8) = 195;
       }
       if ( byte_4FC4E4 )
       {
         byte_4FC4E4 = 0;
-        sub_4291E0();
+        dynarec_invalidate();
       }
       if ( (dword_50C360 & 0x3F) == 0 )
         sub_42CE40();
@@ -139,6 +139,6 @@ char *sub_4238B0()
       v9 = (*(_DWORD *)reg_pc & 0x7FFFF) + 0x200000;
     else
       v9 = *(_DWORD *)reg_pc & 0x1FFFFF;
-    return (char *)dword_5164C4 + v9;
+    return (char *)recomp_code_base + v9;
   }
 }

@@ -67,7 +67,7 @@ LABEL_12:
       {
         use_subchannel = 1;
         dbg_print("(+subchannel) ");
-        BYTE1(dword_455945) = 0;
+        BYTE1(byte_455945) = 0;
       }
     }
     return dbg_print("ok\n");

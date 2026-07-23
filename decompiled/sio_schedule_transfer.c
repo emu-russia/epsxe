@@ -30,7 +30,7 @@ char __cdecl sio_schedule_transfer(char a1, char *a2)
         v2 = 0;
         hw_update_counter = 0;
       }
-      dword_4FD868 = dword_455940 + v2 - 505;
+      dword_4FD868 = cpu_speed_scale + v2 - 505;
       sio_transfer_pending = 0;
     }
   }

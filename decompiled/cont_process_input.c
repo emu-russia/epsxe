@@ -49,7 +49,7 @@ int cont_process_input()
   if ( byte_50AA93 )
     cont_sub_42CFE0(3);
   if ( byte_50AA94[0] )
-    sio_assert_int();
+    irq_sio_assert_int();
   if ( word_4FD986 )
   {
     if ( word_4FD986 == 1 )

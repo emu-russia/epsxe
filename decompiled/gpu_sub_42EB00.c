@@ -26,13 +26,13 @@ _BYTE *__cdecl sub_42EB00(char *a1, int a2)
     v5 = 6;
     do
     {
-      sub_42E940(v2, (unsigned __int8)*v3 >> 6);
+      gpu_sub_42E940(v2, (unsigned __int8)*v3 >> 6);
       v7 = v2 + 3;
-      sub_42E940(v7, (v6 >> 4) & 3);
+      gpu_sub_42E940(v7, (v6 >> 4) & 3);
       v7 += 3;
-      sub_42E940(v7, (v8 >> 2) & 3);
+      gpu_sub_42E940(v7, (v8 >> 2) & 3);
       v7 += 3;
-      sub_42E940(v7, v9 & 3);
+      gpu_sub_42E940(v7, v9 & 3);
       v2 = v7 + 3;
       v3 = (char *)(v10 + 1);
       --v5;

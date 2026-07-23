@@ -14,7 +14,7 @@ char mdec_timer_handler()
         mdec_status = 0;
         mdec_dma_status &= ~0x1000000u;
         mdec_timer = -1;
-        dma_assert_int(1u);
+        irq_dma_assert_int(1u);
         result = mdec_timer;
       }
     }

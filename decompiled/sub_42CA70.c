@@ -42,7 +42,7 @@ void sub_42CA70()
           }
           byte_50AEC1 = 0;
           byte_50AEC2 = 1;
-          cdrom_assert_int();
+          irq_cdrom_assert_int();
           v0 = byte_50AF07[72];
         }
       }
@@ -99,7 +99,7 @@ void sub_42CA70()
             byte_50AEC0 = 1;
             byte_50AEC1 = 0;
             byte_50AEC2 = 1;
-            cdrom_assert_int();
+            irq_cdrom_assert_int();
             ++byte_50BF7D;
             return;
           }

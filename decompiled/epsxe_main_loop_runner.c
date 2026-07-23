@@ -24,7 +24,7 @@ void __noreturn epsxe_main_loop_runner()
       if ( loaded_file_type == 1 )
         cdrom_subchannel_read_cb();
       gpu_load_plugin();
-      sub_42E3A0();
+      gpu_sub_42E3A0();
       spu_init_cb();
       nullsub_1();
     }
@@ -33,10 +33,10 @@ void __noreturn epsxe_main_loop_runner()
     sio_reset_all();
     reopen_console_log();
     nullsub_1();
-    init_performance_counter();
+    gpu_init_performance_counter();
     mdec_init();
     if ( dword_50C36C == 1 )
-      sub_428270();
+      dynarec_init();
     reset_flag = 0;
     ppf_enabled = old_auto_ppf_load;
     ppf_load_patch();
@@ -57,7 +57,7 @@ void __noreturn epsxe_main_loop_runner()
     if ( dword_50C36C )
     {
       if ( dword_50C36C == 1 )
-        sub_429140();
+        dynarec_execute();
       else
         nullsub_1();
     }

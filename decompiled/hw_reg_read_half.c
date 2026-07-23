@@ -23,7 +23,7 @@ __int16 __cdecl hw_reg_read_half(unsigned int a1)
       {
         case 0x1F801110u:
           LOWORD(v1) = LOWORD(dword_50BFD0[4 * ((a1 >> 4) & 3)])
-                     + ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : dword_455940)
+                     + ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : cpu_speed_scale)
                      - ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter);
           return v1;
         case 0x1F801114u:
@@ -37,12 +37,12 @@ LABEL_33:
         case 0x1F801138u:
           goto LABEL_34;
         case 0x1F801120u:
-          LOWORD(v9) = dword_455940;
+          LOWORD(v9) = cpu_speed_scale;
           v10 = 4 * ((a1 >> 4) & 3);
           v11 = dword_50BFD0[v10];
           v12 = dword_50BFD4[v10] & 0x200;
           if ( v12 )
-            v9 = (unsigned int)dword_455940 >> 3;
+            v9 = (unsigned int)cpu_speed_scale >> 3;
           v13 = v9 + v11;
           LOWORD(v9) = hw_update_counter;
           if ( v12 )
@@ -113,10 +113,10 @@ LABEL_34:
           v6 = dword_50BFD4[v5] & 0x100;
           v7 = 512;
           if ( !v6 )
-            v7 = dword_455940;
+            v7 = cpu_speed_scale;
           v8 = v7 + v2;
           if ( v6 )
-            v1 = v8 - (hw_update_counter << 9) / (unsigned int)dword_455940;
+            v1 = v8 - (hw_update_counter << 9) / (unsigned int)cpu_speed_scale;
           else
             LOWORD(v1) = v8 - hw_update_counter;
           break;

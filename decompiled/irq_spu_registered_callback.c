@@ -1,5 +1,5 @@
 #include "pch.h"
-void spu_registered_callback()
+void irq_spu_registered_callback()
 {
   ++dword_50C210;
 }

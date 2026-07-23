@@ -25,11 +25,11 @@ void __cdecl gpu_show_screen_pic(unsigned __int8 a1)
       if ( v4 )
       {
         fclose(v4);
-        sub_42EB00((char *)v1, a1);
+        gpu_sub_42EB00((char *)v1, a1);
       }
       else
       {
-        sub_42EBF0((char *)v1, a1);
+        gpu_sub_42EBF0((char *)v1, a1);
       }
     }
     GPUshowScreenPic(v1);

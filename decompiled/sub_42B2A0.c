@@ -69,20 +69,20 @@ int sub_42B2A0()
       cpu_main_table[v0 >> 26]();
       cpu_gpr[0] = 0;
       if ( (*(_DWORD *)int_reg & int_mask & 0x3FB) != 0 && (dword_50C2A4 & 0x401) == 0x401 )
-        cpu_interrupt();
+        irq_cpu_interrupt();
       v8 = --hw_update_counter;
       if ( hw_update_counter < 0 )
       {
         v9 = (((_BYTE)dword_4FC4EC + 1) & 0x1F) == 0;
-        hw_update_counter = dword_455940 + v8;
+        hw_update_counter = cpu_speed_scale + v8;
         ++dword_50C364;
         ++dword_4FC4EC;
         if ( v9 )
-          spu_async_update_cb(32 * dword_455940);
+          spu_async_update_cb(32 * cpu_speed_scale);
         if ( mdectiming )
           mdec_timer_handler();
-        sub_42E450();
-        sub_42E650();
+        gpu_sub_42E450();
+        gpu_sub_42E650();
         sub_42CA70();
         sub_42C9A0();
         if ( (int_reg[0] & 4) == 0 && sub_42C8B0() )
@@ -114,10 +114,10 @@ int sub_42B2A0()
           sio_transfer_timeout = dword_4FD868;
           dword_4FD868 = 0;
         }
-        v10 = dword_455940;
+        v10 = cpu_speed_scale;
         v11 = 512;
         if ( (dword_50BFD4[0] & 0x100) == 0 )
-          v11 = dword_455940;
+          v11 = cpu_speed_scale;
         dword_50BFD0[0] += v11;
         if ( dword_50BFD0[0] >= (unsigned int)dword_50BFDC[0] )
         {
@@ -127,7 +127,7 @@ int sub_42B2A0()
         }
         v12 = 1;
         if ( (dword_50BFE4 & 0x100) == 0 )
-          v12 = dword_455940;
+          v12 = cpu_speed_scale;
         dword_50BFE0 += v12;
         if ( dword_50BFE0 >= (unsigned int)dword_50BFEC )
         {
@@ -136,7 +136,7 @@ int sub_42B2A0()
             *(_DWORD *)int_reg |= 0x20u;
         }
         if ( (dword_50BFF4 & 0x200) != 0 )
-          v10 = (unsigned int)dword_455940 >> 3;
+          v10 = (unsigned int)cpu_speed_scale >> 3;
         dword_50BFF0 += v10;
         if ( dword_50BFF0 >= (unsigned int)dword_50BFFC )
         {
@@ -153,7 +153,7 @@ int sub_42B2A0()
             *(_DWORD *)int_reg = v14 | 0x200;
         }
         if ( (int_mask & *(_DWORD *)int_reg) != 0 )
-          cpu_interrupt();
+          irq_cpu_interrupt();
         if ( dword_50C364 >= v13 )
           break;
       }

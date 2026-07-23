@@ -70,11 +70,11 @@ HWND gpu_load_plugin()
   GPUclearDynarec = GetProcAddress(hGpuModule, "GPUclearDynarec");
   dword_50ADD4 = (int)GPUclearDynarec;
   if ( GPUclearDynarec )
-    ((void (__stdcall *)(void (*)()))GPUclearDynarec)(sub_42DED0);
+    ((void (__stdcall *)(void (*)()))GPUclearDynarec)(gpu_sub_42DED0);
   v2 = GPUinit();
   dbg_print(" * Doing init gpu[%d]... \n", v2);
   net_load_plugin();
   net_open();
-  netplay_handler();
-  return create_output_window();
+  net_netplay_handler();
+  return gpu_create_output_window();
 }

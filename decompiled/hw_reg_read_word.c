@@ -1,8 +1,8 @@
 #include "pch.h"
-unsigned int __cdecl hw_reg_read_word(unsigned int a1)
+int __cdecl hw_reg_read_word(unsigned int a1)
 {
   int register_cb; // edi
-  unsigned int result; // eax
+  int result; // eax
   int v3; // esi
   unsigned int v4; // esi
   unsigned int v5; // esi
@@ -83,10 +83,10 @@ LABEL_39:
             v7 = dword_50BFD4[v5] & 0x100;
             v8 = 512;
             if ( !v7 )
-              v8 = dword_455940;
+              v8 = cpu_speed_scale;
             v9 = v8 + v6;
             if ( v7 )
-              result = v9 - (hw_update_counter << 9) / (unsigned int)dword_455940;
+              result = v9 - (hw_update_counter << 9) / (unsigned int)cpu_speed_scale;
             else
               result = v9 - hw_update_counter;
             break;
@@ -97,17 +97,17 @@ LABEL_39:
           case 0x1F801118u:
             goto LABEL_39;
           case 0x1F801110u:
-            result = ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : dword_455940)
+            result = ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : cpu_speed_scale)
                    - ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter)
                    + dword_50BFD0[4 * ((a1 >> 4) & 3)];
             break;
           case 0x1F801120u:
-            v10 = dword_455940;
+            v10 = cpu_speed_scale;
             v11 = 4 * ((a1 >> 4) & 3);
             v12 = dword_50BFD0[v11];
             v13 = dword_50BFD4[v11] & 0x200;
             if ( v13 )
-              v10 = (unsigned int)dword_455940 >> 3;
+              v10 = (unsigned int)cpu_speed_scale >> 3;
             v14 = v10 + v12;
             v15 = hw_update_counter;
             if ( v13 )

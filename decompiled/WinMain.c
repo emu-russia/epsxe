@@ -51,7 +51,7 @@ LABEL_16:
     loaded_file_type = 1;
     reset_flag = 0;
     dword_45593C = 312;
-    dword_455940 = 2171;
+    cpu_speed_scale = 2171;
     cheat_file_from_cmdline = 0;
     cfg_load_settings();
     parse_command_line_options(v14, (int)v15);

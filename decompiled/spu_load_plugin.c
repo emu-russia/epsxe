@@ -96,7 +96,7 @@ char spu_load_plugin()
     SPUopen(hOutputWnd);
     result = (char)SPUregisterCallback;
     if ( SPUregisterCallback )
-      return SPUregisterCallback(spu_registered_callback);
+      return SPUregisterCallback(irq_spu_registered_callback);
   }
   else
   {

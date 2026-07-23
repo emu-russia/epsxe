@@ -14,7 +14,7 @@ void __cdecl sio_write_data_byte(int a1, char a2)
       if ( (sio0_control_reg & 0x400) != 0 )
       {
         BYTE1(sio0_mode_reg) |= 2u;
-        sio_assert_int();
+        irq_sio_assert_int();
       }
     }
   }

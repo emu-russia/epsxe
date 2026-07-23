@@ -34,13 +34,13 @@ FILE *loader_load_cheats()
   {
     if ( (result->_flag & 0x10) == 0 )
     {
-      v5 = dword_450C70;
+      v5 = cheat_entries_count;
       do
       {
         if ( v5 >= 200 )
           break;
-        fread(&aSces02105[81 * v5], 1u, 0x51u, v4);
-        v5 = ++dword_450C70;
+        fread(&cheat_db[v5], 1u, 81u, v4);
+        v5 = ++cheat_entries_count;
       }
       while ( (v4->_flag & 0x10) == 0 );
     }

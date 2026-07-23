@@ -27,12 +27,12 @@ char gpu_dma()
       v9 = v1 * v2;
       GPUreadDataMem(v3, v9);
       if ( dword_50C36C == 1 && v9 )
-        sub_4281B0(v0, v9);
+        dynarec_invalidate_range(v0, v9);
     }
     else
     {
       if ( dword_50C36C == 1 && v1 * v2 )
-        sub_4281B0(v0, v1 * v2);
+        dynarec_invalidate_range(v0, v1 * v2);
       for ( i = v1 * v2; i; --i )
       {
         v11 = GPUreadData();
@@ -55,7 +55,7 @@ char gpu_dma()
         GPUwriteData(*v3++);
     }
 LABEL_27:
-    result = dma_assert_int(2u);
+    result = irq_dma_assert_int(2u);
     byte_50C216 = 0;
     return result;
   }
@@ -83,7 +83,7 @@ LABEL_10:
       return 1;
     }
     *(_DWORD *)dword_516500 &= ~0x1000000u;
-    result = dma_assert_int(2u);
+    result = irq_dma_assert_int(2u);
     byte_50C216 = -2;
   }
   else if ( (*(_DWORD *)dword_516500 & 0x1000000) != 0 )

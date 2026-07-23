@@ -29,7 +29,7 @@ void __cdecl cdr_reg3_write(char a1)
         byte_50AF07[62] = byte_50AF07[63];
         byte_50AF07[63] = 0;
         if ( byte_50BF84 != 24 )
-          cdrom_assert_int();
+          irq_cdrom_assert_int();
         if ( byte_50BF6A )
         {
           if ( byte_50BF6B )

@@ -34,7 +34,7 @@ void spucore_dma()
         while ( v8 );
       }
       if ( dword_50C36C == 1 && v7 )
-        sub_4281B0(dword_516510, v7);
+        dynarec_invalidate_range(dword_516510, v7);
     }
     else if ( *(_DWORD *)dword_516518 == 0x1000201 )
     {

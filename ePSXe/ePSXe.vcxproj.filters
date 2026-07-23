@@ -59,16 +59,10 @@
     <ClCompile Include="..\decompiled\cdr_freeze.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\cdrom_assert_int.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\cheat_dialog_callback.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\check_state_exists.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\cpu_interrupt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\create_main_window.c">
@@ -78,9 +72,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\dbg_print_no_flush.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\dma_assert_int.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\dynarec_compile.c">
@@ -207,9 +198,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\net_open.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\netplay_handler.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\nullsub_1.c">
@@ -419,9 +407,6 @@
     <ClCompile Include="..\decompiled\print_version.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\rcnt_write_reg.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\register_win_class.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -474,9 +459,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\setup_wizard_search_video_plugin.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sio_assert_int.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sio_command.c">
@@ -575,9 +557,6 @@
     <ClCompile Include="..\decompiled\sub_41BDC0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sub_41BEA0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sub_41C220.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -597,9 +576,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sub_42B070.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_42B080.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sub_42C6D0.c">
@@ -662,28 +638,7 @@
     <ClCompile Include="..\decompiled\sub_42DBE0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sub_42DED0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sub_42DF80.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_42E3A0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_42E450.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_42E650.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_42E940.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_42EB00.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_42EBF0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sub_42EDF0.c">
@@ -713,31 +668,7 @@
     <ClCompile Include="..\decompiled\sub_430A00.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\sub_4238B0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_4281B0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_4291E0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\sub_4304E0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_422340.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_423850.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_428270.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429100.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\sub_429140.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\sub_430500.c">
@@ -827,9 +758,6 @@
     <ClCompile Include="..\decompiled\net_resume.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\spu_registered_callback.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\hw_reg_unfreeze.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -845,9 +773,6 @@
     <ClCompile Include="..\decompiled\clear_hw_regs.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\close_output_window.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\controller_set_joypad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -855,9 +780,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\controller_setup_callback.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\create_output_window.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\mdec_freeze.c">
@@ -875,13 +797,7 @@
     <ClCompile Include="..\decompiled\mdec_unfreeze2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\output_win_callback.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\ppf_free.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\decompiled\register_output_win_class.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\save_temp_memcard1.c">
@@ -1316,9 +1232,6 @@
     <ClCompile Include="..\decompiled\gte_exec_opcode.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\decompiled\init_performance_counter.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\decompiled\op_BGEZ.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1614,6 +1527,93 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\decompiled\ppf_parse_and_build.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\dynarec_deinit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\dynarec_execute.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\dynarec_hw_update.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\dynarec_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\dynarec_invalidate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\dynarec_invalidate_range.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\dynarec_recompile_block.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_close_output_window.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_create_output_window.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_init_performance_counter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_output_win_callback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_register_output_win_class.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_sub_42DED0.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_sub_42E3A0.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_sub_42E450.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_sub_42E650.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_sub_42E940.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_sub_42EB00.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\gpu_sub_42EBF0.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\irq_cdrom_assert_int.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\irq_cpu_interrupt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\irq_dma_assert_int.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\irq_freeze.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\irq_rcnt_write_reg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\irq_sio_assert_int.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\irq_spu_registered_callback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\loader_parse_cheat_entry.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\net_netplay_handler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decompiled\sio_for_netplay.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

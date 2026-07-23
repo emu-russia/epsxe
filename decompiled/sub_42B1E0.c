@@ -14,7 +14,7 @@ unsigned int sub_42B1E0()
     v2 = --hw_update_counter;
     if ( hw_update_counter < 0 )
     {
-      hw_update_counter = dword_455940 + v2;
+      hw_update_counter = cpu_speed_scale + v2;
       if ( ++dword_50C364 >= (unsigned int)dword_45593C )
       {
         dword_50C364 = 0;

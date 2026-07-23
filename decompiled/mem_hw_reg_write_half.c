@@ -68,7 +68,7 @@ void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
         }
         else
         {
-          rcnt_write_reg(a1, a2);
+          irq_rcnt_write_reg(a1, a2);
         }
       }
       else

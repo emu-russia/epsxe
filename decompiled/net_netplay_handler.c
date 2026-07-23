@@ -1,5 +1,5 @@
 #include "pch.h"
-char netplay_handler()
+char net_netplay_handler()
 {
   char result; // al
   FILE *v1; // eax
@@ -58,18 +58,18 @@ char netplay_handler()
     }
     if ( (unsigned __int8)NETcompareData(bios_image, 0x80000) )
       fatal_error_with_message_box(" * NETPLAY: Error psx bios is different in every site. \n");
-    v5 = sub_422340(1u);
+    v5 = sio_for_netplay(1u);
     if ( (unsigned __int8)NETcompareData(v5, 0x20000) )
     {
-      v6 = sub_422340(1u);
+      v6 = sio_for_netplay(1u);
       NETtransferData("Transfer Memcard 1", v6, 0x20000);
       if ( dword_50A1E0 == 2 )
         save_temp_memcard1();
     }
-    v7 = sub_422340(2u);
+    v7 = sio_for_netplay(2u);
     if ( (unsigned __int8)NETcompareData(v7, 0x20000) )
     {
-      v8 = sub_422340(2u);
+      v8 = sio_for_netplay(2u);
       NETtransferData("Transfer Memcard 2", v8, 0x20000);
       if ( dword_50A1E0 == 2 )
         save_temp_memcard2();

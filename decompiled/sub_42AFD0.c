@@ -9,7 +9,7 @@ int sub_42AFD0()
     result = 0;
     hw_update_counter = 0;
 LABEL_3:
-    *(_DWORD *)dword_4FD874 = dword_455940 + result - 535;
+    *(_DWORD *)dword_4FD874 = cpu_speed_scale + result - 535;
     *(_DWORD *)dword_4FD878 = 0;
     return result;
   }

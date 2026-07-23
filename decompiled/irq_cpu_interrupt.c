@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int cpu_interrupt()
+unsigned int irq_cpu_interrupt()
 {
   unsigned int result; // eax
 

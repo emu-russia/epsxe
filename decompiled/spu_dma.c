@@ -43,7 +43,7 @@ void spu_dma()
           while ( v9 );
         }
         if ( dword_50C36C == 1 && v8 )
-          sub_4281B0(dword_516510, v8);
+          dynarec_invalidate_range(dword_516510, v8);
       }
       else
       {
