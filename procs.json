@@ -47,14 +47,9 @@
       ]
     },
     {
-      "name": "open_file_dialog.c",
-      "procs": [
-        "open_file_dialog"
-      ]
-    },
-    {
       "name": "dlg_callbacks.c",
       "procs": [
+        "open_file_dialog",
         "controller_set_joypad",
         "controller_set_keyboard",
         "controller_setup_callback",
