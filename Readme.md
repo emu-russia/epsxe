@@ -25,13 +25,3 @@ ePSXe releases for PC (Source: https://en.wikipedia.org/wiki/EPSXe)
 |2.0.2	|Added support to overclock the PSX CPU	|Apr 14, 2016|
 |2.0.2-1	|Crash fix in Russian language	|Apr 16, 2016|
 |2.0.5	|Fixed the >2GB PBP roms support	|Jun 24, 2016|
-
-## Burutter
-
-![248319075.1.jpg](/imgstore/248319075.1.jpg)
-
-![m84828513527_6.jpg](/imgstore/m84828513527_6.jpg)
-
-![burutter_3.jpg](/imgstore/burutter_3.jpg)
-
-Переходник для подключения контроллеров PlayStation по USB. В настоящее время даже нет в продаже (не нашёл), только картинка как это выглядело (переходник и комплект ПО).
