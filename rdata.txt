@@ -2,28 +2,26 @@
 
 .rdata:00448400 flt_448400      dd 0.0                  ; DATA XREF: spucore_generate_samples:loc_40C950↑r
 .rdata:00448400                                         ; spucore_generate_samples:loc_40CA18↑r
-.rdata:00448404                 align 8
 .rdata:00448408 dbl_448408      dq 0.00002267573696145125
 .rdata:00448408                                         ; DATA XREF: spucore_generate_samples+11↑r
 .rdata:00448410 flt_448410      dd 65536.0              ; DATA XREF: spucore_write_voice_reg+10D↑r
 .rdata:00448410                                         ; spucore_unfreeze+127↑r
-.rdata:00448414                 align 8
 .rdata:00448418 dbl_448418      dq 0.000244140625       ; DATA XREF: spucore_write_voice_reg+101↑r
 .rdata:00448418                                         ; spucore_unfreeze+11E↑r
 .rdata:00448420 dbl_448420      dq 4096.0               ; DATA XREF: spucore_read_voice_reg+88↑r
 .rdata:00448428 dbl_448428      dq 0.000030517578125    ; DATA XREF: spucore_unfreeze+22B↑r
 
 .rdata:00448500 stru_448500     GUID <57D7C6BCh, 2356h, 11D3h, <8Eh, 9Dh, 0, 0C0h, 4Fh, 68h, 44h, \
-.rdata:00448500                                         ; DATA XREF: sub_40E800+67↑o
+.rdata:00448500                                         ; DATA XREF: diEnumDevicesCallback+67↑o
 .rdata:00448500                       0AEh>>
 
 ;IID_IDirectInputA
 .rdata:004485D0 stru_4485D0     GUID <6F1D2B60h, 0D5A0h, 11CFh, <0BFh, 0C7h, 44h, 45h, 53h, 54h, 0, 0>>
-.rdata:004485D0                                         ; DATA XREF: init_direct_input+1B5↑o
+.rdata:004485D0                                         ; DATA XREF: diInitDirectInput+1B5↑o
 
 ;IID_IDirectInputW 
 .rdata:004485E0 stru_4485E0     GUID <6F1D2B61h, 0D5A0h, 11CFh, <0BFh, 0C7h, 44h, 45h, 53h, 54h, 0, 0>>
-.rdata:004485E0                                         ; DATA XREF: init_direct_input+14D↑o
+.rdata:004485E0                                         ; DATA XREF: diInitDirectInput+14D↑o
 
 .rdata:00448700 ; __int16 zip_bit_masks[20]
 .rdata:00448700 zip_bit_masks   dw 0, 1, 3, 7, 0Fh, 1Fh, 3Fh, 7Fh, 0FFh, 1FFh, 3FFh, 7FFh
@@ -31,7 +29,7 @@
 .rdata:00448700                                         ; zip_inflate_data_with_trees+30↑r ...
 .rdata:00448718                 dw 0FFFh, 1FFFh, 3FFFh, 7FFFh, 0FFFFh, 3 dup(0)
 
-.rdata:00448728 byte_448728     db 18h                  ; DATA XREF: sub_40E800+8C↑o
+.rdata:00448728 g_JoystickDataFormat db 18h             ; DATA XREF: diEnumDevicesCallback+8C↑o
 .rdata:00448729                 db    0
 .rdata:0044872A                 db    0
 .rdata:0044872B                 db    0
@@ -55,7 +53,7 @@
 .rdata:0044873D                 db  73h ; s
 .rdata:0044873E                 db  43h ; C
 .rdata:0044873F                 db    0
-.rdata:00448740 byte_448740     db 18h                  ; DATA XREF: init_direct_input+1D4↑o
+.rdata:00448740 g_MouseDataFormat db 18h                ; DATA XREF: diInitDirectInput+1D4↑o
 .rdata:00448741                 db    0
 .rdata:00448742                 db    0
 .rdata:00448743                 db    0
@@ -79,7 +77,7 @@
 .rdata:00448755                 db  76h ; v
 .rdata:00448756                 db  43h ; C
 .rdata:00448757                 db    0
-.rdata:00448758 byte_448758     db 18h                  ; DATA XREF: init_direct_input+16C↑o
+.rdata:00448758 g_KeyboardDataFormat db 18h             ; DATA XREF: diInitDirectInput+16C↑o
 .rdata:00448759                 db    0
 .rdata:0044875A                 db    0
 .rdata:0044875B                 db    0
