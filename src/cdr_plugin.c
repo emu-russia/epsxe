@@ -1,4 +1,5 @@
 #include "pch.h"
+
 char ext_cdrom_load_plugin()
 {
   unsigned __int8 v0; // bl
@@ -521,4 +522,3 @@ char __cdecl ext_CD_sub_430B60(unsigned __int8 a1, unsigned __int8 a2, unsigned 
   }
   return result;
 }
-

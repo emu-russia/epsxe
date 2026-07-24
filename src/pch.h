@@ -29,3 +29,4 @@ typedef BOOLEAN bool;
 #include "zip.h"
 #include "ppf.h"
 #include "main.h"
+#include "cfg.h"

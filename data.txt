@@ -6502,6 +6502,10 @@
 .data:0045744C ppf_enabled     db 1                    ; DATA XREF: cfg_load_settings+60A↑w
 .data:0045744C                                         ; cfg_save_settings+6CD↑r ...
 
+.data:00458A00 ; FILE stru_458A00
+.data:00458A00 stru_458A00     FILE <0, 0, 0, 2, 1, 0, 0, 0>
+.data:00458A00                                         ; DATA XREF: dbg_print_no_flush+24↑o
+
 .data:0045B8C8 forcespu        db 0                    ; DATA XREF: parse_command_line_options+172↑w
 .data:0045B8C8                                         ; parse_command_line_options+190↑w ...
 .data:0045B8C9 old_timing      db 0                    ; DATA XREF: parse_command_line_options+972↑w
@@ -7485,18 +7489,10 @@
 .data:004FF9EC                 align 10h
 .data:004FF9F0 byte_4FF9F0     db ?                    ; DATA XREF: sub_437030↑w
 .data:004FF9F0                                         ; sub_437040↑r ...
-.data:004FF9F1 console_allocated db ?                  ; DATA XREF: cfg_load_settings+5CA↑w
-.data:004FF9F1                                         ; cfg_save_settings+82E↑r ...
-.data:004FF9F2 byte_4FF9F2     db ?                    ; DATA XREF: reopen_console_log↑r
-.data:004FF9F2                                         ; dump_log+28↑r
-.data:004FF9F3                 align 4
 .data:004FF9F4 ; FILE *console_log_handle
 .data:004FF9F4 console_log_handle dd ?                 ; DATA XREF: loader_check_demo_header+28↑r
 .data:004FF9F4                                         ; mem_hw_reg_write_byte+5920↑r ...
 
-.data:004FFC1C ; HANDLE hConsoleOutput
-.data:004FFC1C hConsoleOutput  dd ?                    ; DATA XREF: alloc_console+22↑w
-.data:004FFC1C                                         ; dbg_print_no_flush+44↑r ...
 .data:004FFC20 last_tick_count dd ?                    ; DATA XREF: get_tick_count+6↑w
 .data:004FFC24 ; LPVOID ppf_sector_lists
 .data:004FFC24 ppf_sector_lists dd ?                   ; DATA XREF: ppf_parse_and_build+D↑w

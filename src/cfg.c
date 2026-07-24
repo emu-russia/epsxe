@@ -1,5 +1,7 @@
 #include "pch.h"
 
+uint8_t console_allocated;
+
 char __cdecl cfg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
 {
   char v3; // bl
