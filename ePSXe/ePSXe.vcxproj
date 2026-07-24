@@ -23,9 +23,11 @@
     <ClInclude Include="..\src\bios_descr.h" />
     <ClInclude Include="..\src\cfg.h" />
     <ClInclude Include="..\src\cheat.h" />
+    <ClInclude Include="..\src\cpu.h" />
     <ClInclude Include="..\src\gte.h" />
     <ClInclude Include="..\src\input.h" />
     <ClInclude Include="..\src\main.h" />
+    <ClInclude Include="..\src\ops.h" />
     <ClInclude Include="..\src\pch.h" />
     <ClInclude Include="..\src\ppf.h" />
     <ClInclude Include="..\src\psemu.h" />
@@ -58,6 +60,7 @@
     <ClCompile Include="..\src\cdr_plugin.c" />
     <ClCompile Include="..\src\cfg.c" />
     <ClCompile Include="..\src\cont.c" />
+    <ClCompile Include="..\src\cpu.c" />
     <ClCompile Include="..\src\debug.c" />
     <ClCompile Include="..\src\input.c" />
     <ClCompile Include="..\src\dlg_callbacks.c" />

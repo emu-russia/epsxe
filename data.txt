@@ -8140,15 +8140,7 @@
 .data:0050C21C                                         ; irq_unfreeze+52↑r
 .data:0050C220 dword_50C220    dd 10h dup(?)           ; DATA XREF: irq_freeze+7F↑w
 .data:0050C220                                         ; irq_unfreeze+58↑r
-.data:0050C260 ; char reg_pc[]
-.data:0050C260 reg_pc          dd ?                    ; DATA XREF: epsxe_main_loop_runner+144↑w
-.data:0050C260                                         ; state_save+D5↑o ...
-.data:0050C264 cpu_LO          dd ?                    ; DATA XREF: op_MULT+3F↑w
-.data:0050C264                                         ; op_MULTU+3A↑w ...
-.data:0050C268 cpu_HI          dd ?                    ; DATA XREF: op_MULT+39↑w
-.data:0050C268                                         ; op_MULTU+34↑w ...
-.data:0050C26C cpu_opcode      dd ?                    ; DATA XREF: gte_exec_opcode↑r
-.data:0050C26C                                         ; op_UNKNOWN+1D↑r ...
+
 .data:0050C270 hw_update_counter dd ?                  ; DATA XREF: spu_read_register:loc_40BF94↑r
 .data:0050C270                                         ; mem_hw_reg_read_byte↑w ...
 .data:0050C274 ; int cop0_regs[]
@@ -8168,9 +8160,7 @@
 .data:0050C2B2                 db    ? ;
 .data:0050C2B3                 db    ? ;
 .data:0050C2B4 dword_50C2B4    dd 0Bh dup(?)           ; DATA XREF: dynarec_hw_update+12↑w
-.data:0050C2E0 ; int cpu_gpr[]
-.data:0050C2E0 cpu_gpr         dd 20h dup(?)           ; DATA XREF: gte_exec_opcode+66↑w
-.data:0050C2E0                                         ; gte_exec_opcode+DA↑w ...
+
 .data:0050C360 dword_50C360    dd ?                    ; DATA XREF: op_UNKNOWN+B↑r
 .data:0050C360                                         ; dynarec_hw_update+273↑r ...
 .data:0050C364 dword_50C364    dd ?                    ; DATA XREF: op_UNKNOWN+5↑r

@@ -30,3 +30,5 @@ typedef BOOLEAN bool;
 #include "ppf.h"
 #include "main.h"
 #include "cfg.h"
+#include "ops.h"
+#include "cpu.h"
