@@ -1,28 +1,26 @@
-#include "pch.h"
+﻿#include "pch.h"
+#include "debug.h"
 
-//.data:004FF9F2 byte_4FF9F2     db ?                    ; DATA XREF: reopen_console_log↑r
-//.data:004FF9F2                                         ; dump_log+28↑r
+/** Console output handle, set by alloc_console(). */
+static HANDLE h_console_output;
 
-static HANDLE hConsoleOutput;
-
-int alloc_console()
+int alloc_console(void)
 {
-    HANDLE StdHandle; // eax
+    HANDLE std_handle = INVALID_HANDLE_VALUE;
 
-    LOBYTE(StdHandle) = console_allocated;
     if (console_allocated)
     {
         AllocConsole();
         SetConsoleTitleA("ePSXe - Enhanced PSX emulator");
-        StdHandle = GetStdHandle(0xFFFFFFF5);
-        hConsoleOutput = StdHandle;
+        std_handle = GetStdHandle(0xFFFFFFF5);
+        h_console_output = std_handle;
     }
-    return (char)StdHandle;
+    return (char)std_handle;
 }
 
-int free_console()
+int free_console(void)
 {
-    char result; // al
+    char result;
 
     result = console_allocated;
     if (console_allocated)
@@ -30,164 +28,159 @@ int free_console()
     return result;
 }
 
-DWORD get_tick_count()
+unsigned long get_tick_count(void)
 {
-    DWORD result; // eax
+    unsigned long tick;
 
-    result = GetTickCount();
-    last_tick_count = result;
-    return result;
+    tick = GetTickCount();
+    last_tick_count = tick;
+    return tick;
 }
 
-void sub_437030()
+void set_console_log_flush_pending(void)
 {
-    byte_4FF9F0 = 1;
+    console_log_flush_pending = 1;
 }
 
-char sub_437040()
+char check_and_clear_console_log_flush_pending(void)
 {
-    char result; // al
+    char was_pending;
 
-    result = byte_4FF9F0;
-    if (byte_4FF9F0)
-        byte_4FF9F0 = 0;
-    return result;
+    was_pending = console_log_flush_pending;
+    if (console_log_flush_pending)
+        console_log_flush_pending = 0;
+    return was_pending;
 }
 
-void dbg_print_no_flush(char* Format, ...)
+void dbg_print_no_flush(const char *Format, ...)
 {
-    char* v1; // esi
-    DWORD NumberOfCharsWritten; // [esp+4h] [ebp-4h] BYREF
-    va_list ArgList; // [esp+10h] [ebp+8h] BYREF
+    char *buf;
+    DWORD chars_written;
+    va_list arg_list;
 
-    va_start(ArgList, Format);
-    v1 = (char*)malloc(0x8000u);
-    vsprintf(v1, Format, ArgList);
-    fprintf(&stru_458A00, "%s", v1);
-    if (console_allocated)
-        WriteConsoleA(hConsoleOutput, v1, strlen(v1), &NumberOfCharsWritten, nullptr);
-    free(v1);
+    va_start(arg_list, Format);
+    buf = (char *)malloc(0x8000u);
+    if (buf) {
+        vsprintf(buf, Format, arg_list);
+        fprintf(stdout, "%s", buf);
+        if (console_allocated)
+            WriteConsoleA(h_console_output, buf, (DWORD)strlen(buf), &chars_written, nullptr);
+        free(buf);
+    }
 }
 
-void ui_error(char* Format, ...)
+void ui_error(const char *Format, ...)
 {
-    DWORD v1; // ecx
-    int v2; // ecx
-    char* v3; // esi
-    char* v4; // esi
-    DWORD NumberOfCharsWritten; // [esp+0h] [ebp-4h] BYREF
-    va_list ArgList; // [esp+Ch] [ebp+8h] BYREF
+    char *buf;
+    va_list arg_list;
 
-    va_start(ArgList, Format);
-    NumberOfCharsWritten = v1;
+    va_start(arg_list, Format);
     sio_memcard_both_save();
     net_close();
     nullsub_1();
     if (spu_destroy_cb)
-        spu_destroy_cb(NumberOfCharsWritten);
-    if (dword_50C36C == 1)
+        spu_destroy_cb(0);
+    if (dynarec_active == 1)
         dynarec_deinit();
     gpu_destroy();
     if (cdrom_deinit_cb)
-        cdrom_deinit_cb(v2);
+        cdrom_deinit_cb(0);
     ppf_free();
-    sub_437040();
-    if (byte_4FF9F0)
+    check_and_clear_console_log_flush_pending();
+    if (console_log_flush_pending)
     {
-        v3 = (char*)malloc(0x8000u);
-        vsprintf(v3, Format, ArgList);
-        fprintf(&stru_458A00, "%s", v3);
+        buf = (char *)malloc(0x8000u);
+        vsprintf(buf, Format, arg_list);
+        fprintf(stdout, "%s", buf);
         if (console_allocated)
-            WriteConsoleA(hConsoleOutput, v3, strlen(v3), &NumberOfCharsWritten, nullptr);
-        free(v3);
+            WriteConsoleA(h_console_output, buf, (DWORD)strlen(buf), nullptr, nullptr);
+        free(buf);
     }
     else
     {
-        v4 = (char*)malloc(0x8000u);
-        vsprintf(v4, Format, ArgList);
-        printf("%s", v4);
-        free(v4);
+        buf = (char *)malloc(0x8000u);
+        vsprintf(buf, Format, arg_list);
+        printf("%s", buf);
+        free(buf);
     }
-    sub_437040();
-    if (dword_50AE68)
-        fclose(dword_50AE68);
+    check_and_clear_console_log_flush_pending();
+    if (error_log_file)
+        fclose(error_log_file);
     nullsub_1();
     free_console();
     exit(0);
 }
 
-void fatal_error_with_message_box(char* Format, ...)
+void fatal_error_with_message_box(const char *Format, ...)
 {
-    char* v1; // esi
-    int v2; // ecx
-    va_list ArgList; // [esp+8h] [ebp+8h] BYREF
+    char *buf;
+    va_list arg_list;
 
-    va_start(ArgList, Format);
+    va_start(arg_list, Format);
     sio_memcard_both_save();
     net_close();
     nullsub_1();
     if (spu_destroy_cb)
-        spu_destroy_cb();
-    if (dword_50C36C == 1)
+        spu_destroy_cb(0);
+    if (dynarec_active == 1)
         dynarec_deinit();
-    v1 = (char*)malloc(0x8000u);
-    vsprintf(v1, Format, ArgList);
-    fprintf(&stru_458A00, "%s", v1);
-    MessageBoxA(nullptr, v1, "Error running ePSXe", 0x10u);
-    free(v1);
+    buf = (char *)malloc(0x8000u);
+    vsprintf(buf, Format, arg_list);
+    fprintf(stdout, "%s", buf);
+    MessageBoxA(nullptr, buf, "Error running ePSXe", 0x10u);
+    free(buf);
     gpu_destroy();
     if (cdrom_deinit_cb)
-        cdrom_deinit_cb(v2);
+        cdrom_deinit_cb(0);
     ppf_free();
-    sub_437040();
-    if (dword_50AE68)
-        fclose(dword_50AE68);
+    check_and_clear_console_log_flush_pending();
+    if (error_log_file)
+        fclose(error_log_file);
     free_console();
     exit(1);
 }
 
-int dbg_print(const char* Format, ...)
+int dbg_print(const char *Format, ...)
 {
-    char* v1; // esi
-    DWORD NumberOfCharsWritten; // [esp+4h] [ebp-4h] BYREF
-    va_list ArgList; // [esp+10h] [ebp+8h] BYREF
+    char *buf;
+    DWORD chars_written;
+    va_list arg_list;
 
-    va_start(ArgList, Format);
-    v1 = (char*)malloc(0x8000u);
-    vsprintf(v1, Format, ArgList);
-    fprintf(&stru_458A00, "%s", v1);
-    if (console_allocated)
-        WriteConsoleA(hConsoleOutput, v1, strlen(v1), &NumberOfCharsWritten, nullptr);
-    free(v1);
-    return fflush(&stru_458A00);
+    va_start(arg_list, Format);
+    buf = (char *)malloc(0x8000u);
+    if (buf) {
+        vsprintf(buf, Format, arg_list);
+        fprintf(stdout, "%s", buf);
+        if (console_allocated)
+            WriteConsoleA(h_console_output, buf, (DWORD)strlen(buf), &chars_written, nullptr);
+        free(buf);
+    }
+    return fflush(stdout);
 }
 
-char reopen_console_log()
+char reopen_console_log(void)
 {
-    FILE* v0; // eax
-
-    LOBYTE(v0) = byte_4FF9F2;
-    if (byte_4FF9F2)
+    if (console_log_enabled)
     {
-        LOBYTE(v0) = (_BYTE)console_log_handle;
         if (!console_log_handle)
         {
-            v0 = fopen("console.log", aW);
-            console_log_handle = v0;
+            console_log_handle = fopen("console.log", "a");
         }
     }
-    return (char)v0;
+    return (char)console_log_enabled;
 }
 
-void dump_log(FILE* Stream, char* Format, ...)
+void dump_log(FILE *Stream, const char *Format, ...)
 {
-    char* v2; // esi
-    va_list ArgList; // [esp+10h] [ebp+Ch] BYREF
+    char *buf;
+    va_list arg_list;
 
-    va_start(ArgList, Format);
-    v2 = (char*)malloc(0x8000u);
-    vsprintf(v2, Format, ArgList);
-    if (Stream && byte_4FF9F2)
-        fprintf(Stream, "%s", v2);
-    free(v2);
+    va_start(arg_list, Format);
+    buf = (char *)malloc(0x8000u);
+    if (buf) {
+        vsprintf(buf, Format, arg_list);
+        if (Stream && console_log_enabled)
+            fprintf(Stream, "%s", buf);
+        free(buf);
+    }
 }

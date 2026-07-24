@@ -18,87 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\resources\Resource.h" />
-    <ClInclude Include="..\src\bios_descr.h" />
-    <ClInclude Include="..\src\cfg.h" />
-    <ClInclude Include="..\src\cheat.h" />
-    <ClInclude Include="..\src\cpu.h" />
-    <ClInclude Include="..\src\debug.h" />
-    <ClInclude Include="..\src\gte.h" />
-    <ClInclude Include="..\src\input.h" />
-    <ClInclude Include="..\src\main.h" />
-    <ClInclude Include="..\src\ops.h" />
-    <ClInclude Include="..\src\pch.h" />
-    <ClInclude Include="..\src\ppf.h" />
-    <ClInclude Include="..\src\psemu.h" />
-    <ClInclude Include="..\src\psxdefs.h" />
-    <ClInclude Include="..\src\zip.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\resources\BITMAP140_1.bmp" />
-    <Image Include="..\resources\BITMAP142_1.bmp" />
-    <Image Include="..\resources\BITMAP144_1.bmp" />
-    <Image Include="..\resources\BITMAP145_1.bmp" />
-    <Image Include="..\resources\ICON137_1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\resources\ePSXe.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="zlib.vcxproj">
-      <Project>{e573e340-cf42-4f79-879b-9e8a073f3320}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\burutter.c" />
-    <ClCompile Include="..\src\cdfs.c" />
-    <ClCompile Include="..\src\cdr.c" />
-    <ClCompile Include="..\src\cdrom_fake.c" />
-    <ClCompile Include="..\src\cdrom_iso.c" />
-    <ClCompile Include="..\src\cdrom_w2k.c" />
-    <ClCompile Include="..\src\cdrom_w9x.c" />
-    <ClCompile Include="..\src\cdr_plugin.c" />
-    <ClCompile Include="..\src\cfg.c" />
-    <ClCompile Include="..\src\cont.c" />
-    <ClCompile Include="..\src\cpu.c" />
-    <ClCompile Include="..\src\debug.c" />
-    <ClCompile Include="..\src\input.c" />
-    <ClCompile Include="..\src\dlg_callbacks.c" />
-    <ClCompile Include="..\src\dynarec.c" />
-    <ClCompile Include="..\src\gpu_plugin.c" />
-    <ClCompile Include="..\src\gte.c" />
-    <ClCompile Include="..\src\hw.c" />
-    <ClCompile Include="..\src\intr.c" />
-    <ClCompile Include="..\src\loader.c" />
-    <ClCompile Include="..\src\main.c" />
-    <ClCompile Include="..\src\mainwnd.c" />
-    <ClCompile Include="..\src\mdec.c" />
-    <ClCompile Include="..\src\mem.c" />
-    <ClCompile Include="..\src\net.c" />
-    <ClCompile Include="..\src\ops.c" />
-    <ClCompile Include="..\src\op_tabs.c" />
-    <ClCompile Include="..\src\pch.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\src\ppf.c" />
-    <ClCompile Include="..\src\setup_wizard.c" />
-    <ClCompile Include="..\src\sio.c" />
-    <ClCompile Include="..\src\spucore.c" />
-    <ClCompile Include="..\src\spu_plugin.c" />
-    <ClCompile Include="..\src\sstates.c" />
-    <ClCompile Include="..\src\ui_misc.c" />
-    <ClCompile Include="..\src\zip.c" />
-    <ClCompile Include="..\src\xa.c" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{eb881b2b-0cf4-4d83-8974-12b7bf48dc22}</ProjectGuid>
-    <RootNamespace>ePSXe</RootNamespace>
+    <ProjectGuid>{212fd22b-a2e9-4429-bc06-148e75903075}</ProjectGuid>
+    <RootNamespace>debugdemo</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -152,13 +76,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <EnableSegmentHeap>true</EnableSegmentHeap>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -168,13 +94,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <EnableSegmentHeap>true</EnableSegmentHeap>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -182,13 +110,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <EnableSegmentHeap>true</EnableSegmentHeap>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -198,14 +128,26 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <EnableSegmentHeap>true</EnableSegmentHeap>
+    </Manifest>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\debug.c" />
+    <ClCompile Include="..\debug_demo.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\debug.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
