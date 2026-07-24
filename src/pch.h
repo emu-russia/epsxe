@@ -27,3 +27,4 @@ typedef BOOLEAN bool;
 #include "psxdefs.h"
 #include "gte.h"
 #include "zip.h"
+#include "ppf.h"
