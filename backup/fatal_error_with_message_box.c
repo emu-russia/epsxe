@@ -6,13 +6,13 @@ void __noreturn fatal_error_with_message_box(char *Format, ...)
   va_list ArgList; // [esp+8h] [ebp+8h] BYREF
 
   va_start(ArgList, Format);
-  memcard2_save();
+  sio_memcard_both_save();
   net_close();
   nullsub_1();
   if ( spu_destroy_cb )
     spu_destroy_cb();
   if ( dword_50C36C == 1 )
-    sub_429100();
+    dynarec_deinit();
   v1 = (char *)malloc(0x8000u);
   vsprintf(v1, Format, ArgList);
   fprintf(&stru_458A00, "%s", v1);
@@ -21,7 +21,7 @@ void __noreturn fatal_error_with_message_box(char *Format, ...)
   gpu_destroy();
   if ( cdrom_deinit_cb )
     cdrom_deinit_cb(v2);
-  sub_436F30();
+  ppf_free();
   sub_437040();
   if ( dword_50AE68 )
     fclose(dword_50AE68);

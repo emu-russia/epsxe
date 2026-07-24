@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\resources\Resource.h" />
     <ClInclude Include="..\src\bios_descr.h" />
+    <ClInclude Include="..\src\cfg.h" />
     <ClInclude Include="..\src\cheat.h" />
     <ClInclude Include="..\src\gte.h" />
     <ClInclude Include="..\src\input.h" />

@@ -5,7 +5,7 @@
 
 static HANDLE hConsoleOutput;
 
-void alloc_console()
+int alloc_console()
 {
     HANDLE StdHandle; // eax
 
@@ -20,7 +20,7 @@ void alloc_console()
     return (char)StdHandle;
 }
 
-char free_console()
+int free_console()
 {
     char result; // al
 
@@ -123,7 +123,7 @@ void fatal_error_with_message_box(char* Format, ...)
     va_list ArgList; // [esp+8h] [ebp+8h] BYREF
 
     va_start(ArgList, Format);
-    memcard2_save();
+    sio_memcard_both_save();
     net_close();
     nullsub_1();
     if (spu_destroy_cb)
@@ -138,7 +138,7 @@ void fatal_error_with_message_box(char* Format, ...)
     gpu_destroy();
     if (cdrom_deinit_cb)
         cdrom_deinit_cb(v2);
-    sub_436F30();
+    ppf_free();
     sub_437040();
     if (dword_50AE68)
         fclose(dword_50AE68);
