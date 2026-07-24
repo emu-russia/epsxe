@@ -1,4 +1,5 @@
 #include "pch.h"
+
 char W2k_find_cdrom_drive_letter()
 {
   int v0; // ebx
@@ -1686,4 +1687,3 @@ LABEL_66:
     return 0;
   }
 }
-

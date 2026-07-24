@@ -57,7 +57,7 @@
     <ClCompile Include="..\src\cfg.c" />
     <ClCompile Include="..\src\cont.c" />
     <ClCompile Include="..\src\debug.c" />
-    <ClCompile Include="..\src\dinput.c" />
+    <ClCompile Include="..\src\input.c" />
     <ClCompile Include="..\src\dlg_callbacks.c" />
     <ClCompile Include="..\src\dynarec.c" />
     <ClCompile Include="..\src\gpu_plugin.c" />

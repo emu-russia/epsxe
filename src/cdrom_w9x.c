@@ -1740,4 +1740,3 @@ char __cdecl W9x_verify_subchannel_data(unsigned int a1, unsigned __int8 a2, uns
   }
   return result;
 }
-

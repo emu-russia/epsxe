@@ -675,4 +675,3 @@ int __cdecl cont_sub_42DCC0(unsigned __int8 a1)
   v2[1] = 0;
   return 0;
 }
-

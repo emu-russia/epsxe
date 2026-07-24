@@ -1,4 +1,5 @@
 #include "pch.h"
+
 char alloc_console()
 {
   HANDLE StdHandle; // eax
@@ -185,4 +186,3 @@ void dump_log(FILE *Stream, char *Format, ...)
     fprintf(Stream, "%s", v2);
   free(v2);
 }
-

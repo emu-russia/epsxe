@@ -1,4 +1,5 @@
 #include "pch.h"
+
 char __cdecl iso_load(char *FileName)
 {
   FILE *v1; // eax
@@ -263,4 +264,3 @@ int iso_close()
     _close((int)dword_505400);
   return dbg_print(" * Closing ISO system. \n");
 }
-

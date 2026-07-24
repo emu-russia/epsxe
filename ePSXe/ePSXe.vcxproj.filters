@@ -102,7 +102,7 @@
     <ClCompile Include="..\src\debug.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\dinput.c">
+    <ClCompile Include="..\src\input.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\dlg_callbacks.c">
