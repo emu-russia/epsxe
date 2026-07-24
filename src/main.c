@@ -1,5 +1,7 @@
 #include "pch.h"
 
+uint8_t cd_savefake_flag = 0xff;
+
 void epsxe_main_loop_runner()
 {
   if ( create_window_flag )

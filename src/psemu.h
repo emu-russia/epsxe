@@ -112,6 +112,7 @@ typedef long (CALLBACK* CDRreadCDDA)(unsigned char, unsigned char, unsigned char
 typedef long (CALLBACK* CDRgetTE)(unsigned char, unsigned char *, unsigned char *, unsigned char *);
 
 // SPU Functions
+#if 0
 typedef long (CALLBACK* SPUinit)(void);
 typedef long (CALLBACK* SPUshutdown)(void);
 typedef long (CALLBACK* SPUclose)(void);
@@ -139,8 +140,10 @@ typedef struct {
 typedef long (CALLBACK* SPUfreeze)(uint32_t, SPUFreeze_t *);
 typedef void (CALLBACK* SPUasync)(uint32_t);
 typedef void (CALLBACK* SPUplayCDDAchannel)(short *, int);
+#endif
 
 // PAD Functions
+#if 0
 typedef long (CALLBACK* PADconfigure)(void);
 typedef void (CALLBACK* PADabout)(void);
 typedef long (CALLBACK* PADinit)(long);
@@ -153,6 +156,7 @@ typedef long (CALLBACK* PADreadPort2)(PadDataS*);
 typedef long (CALLBACK* PADkeypressed)(void);
 typedef unsigned char (CALLBACK* PADstartPoll)(int);
 typedef unsigned char (CALLBACK* PADpoll)(unsigned char);
+#endif
 typedef void (CALLBACK* PADsetSensitive)(int);
 typedef void (CALLBACK* PADregisterVibration)(void (CALLBACK *callback)(uint32_t, uint32_t));
 typedef void (CALLBACK* PADregisterCursor)(void (CALLBACK *callback)(int, int, int));

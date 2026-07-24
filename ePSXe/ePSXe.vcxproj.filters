@@ -45,6 +45,9 @@
     <ClInclude Include="..\src\zip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\resources\BITMAP140_1.bmp">
@@ -142,9 +145,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\op_tabs.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\open_file_dialog.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ops.c">

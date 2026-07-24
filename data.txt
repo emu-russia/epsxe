@@ -6450,8 +6450,6 @@
 .data:0045696C byte_45696C     db 1                    ; DATA XREF: net_open+2F↑w
 .data:0045696C                                         ; net_close+12↑r ...
 
-.data:00456D70 cd_savefake_flag db 0FFh                ; DATA XREF: parse_command_line_options+44E↑w
-.data:00456D70                                         ; parse_command_line_options+4FE↑w ...
 .data:00456D74 dword_456D74    dd 0FFFFFFFFh           ; DATA XREF: iso_load+67↑w
 .data:00456D74                                         ; iso_read_data:loc_42FFE2↑r ...
 .data:00456D78 dword_456D78    dd 930h                 ; DATA XREF: iso_load+99↑r
@@ -7689,28 +7687,18 @@
 .data:00505693 word_505693     dw ?                    ; DATA XREF: sub_42FCB0+34↑r
 .data:00505693                                         ; sub_42FCB0+6F↑r ...
 .data:00505695 byte_505695     db 4Bh dup(?)           ; DATA XREF: sub_42FCB0+40↑r
-.data:005056E0 dword_5056E0    dd ?                    ; DATA XREF: cdrom_fake_create_file+6B↑w
-.data:005056E0                                         ; cdrom_fake_write_portion+70↑r ...
-.data:005056E4                 align 20h
 .data:00505700 byte_505700     db 1160h dup(?)         ; DATA XREF: iso_read_data+A7↑o
 .data:00505700                                         ; iso_read_data+113↑o ...
 .data:00506860 byte_506860     db 3820h dup(?)         ; DATA XREF: sio_for_netplay+C↑o
 .data:0050A080 ; int (__stdcall *CDRreadTrack)(_DWORD)
 .data:0050A080 CDRreadTrack    dd ?                    ; DATA XREF: ext_cdrom_load_plugin+1BD↑w
 .data:0050A080                                         ; ext_CDR_read+106↑r
-.data:0050A084 ; FILE *FileHandle
-.data:0050A084 FileHandle      dd ?                    ; DATA XREF: cdrom_fake_create_file+32↑w
-.data:0050A084                                         ; cdrom_fake_create_file+44↑r ...
 .data:0050A088 ; int (*CDRinit)(void)
 .data:0050A088 CDRinit         dd ?                    ; DATA XREF: ext_cdrom_load_plugin+11D↑w
 .data:0050A088                                         ; ext_cdrom_load_plugin+242↑r
 .data:0050A08C ; int (*(*CDRshutdown)(void))(void)
 .data:0050A08C CDRshutdown     dd ?                    ; DATA XREF: ext_cdrom_load_plugin+138↑w
 .data:0050A08C                                         ; ext_cdrom_deinit:loc_43073C↑r
-.data:0050A090 byte_50A090     db ?                    ; DATA XREF: cdrom_fake_create_file+56↑w
-.data:0050A090                                         ; cdrom_fake_load_file+43↑o ...
-.data:0050A091 byte_50A091     db ?                    ; DATA XREF: cdrom_fake_create_file+5C↑w
-.data:0050A092                 align 4
 .data:0050A094 CDRtest         dd ?                    ; DATA XREF: ext_cdrom_load_plugin+103↑w
 .data:0050A098 ; FILE *dword_50A098
 .data:0050A098 dword_50A098    dd ?                    ; DATA XREF: iso_load+28↑w
@@ -7721,9 +7709,6 @@
 .data:0050A0A0 ; char bin_iso_file[256]
 .data:0050A0A0 bin_iso_file    db 100h dup(?)          ; DATA XREF: parse_command_line_options+5CF↑o
 .data:0050A0A0                                         ; parse_command_line_options+60A↑o ...
-.data:0050A1A0 ; void *cdrom_fake_data
-.data:0050A1A0 cdrom_fake_data dd ?                    ; DATA XREF: cdrom_fake_create_file+1A↑w
-.data:0050A1A0                                         ; cdrom_fake_load_file+15↑w ...
 .data:0050A1A4 byte_50A1A4     db ?                    ; DATA XREF: sub_42FCB0+54↑r
 .data:0050A1A4                                         ; sub_42FCB0+18B↑r ...
 .data:0050A1A5 byte_50A1A5     db ?                    ; DATA XREF: sub_42FCB0+4B↑r

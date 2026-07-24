@@ -1,4 +1,10 @@
 #include "pch.h"
+
+static FILE* FileHandle;
+static uint8_t* cdrom_fake_data;
+static uint32_t cdrom_fake_ofs;
+static uint8_t byte_50A090[2];
+
 int __cdecl cdrom_fake_create_file(char *FileName)
 {
   FILE *v1; // eax
@@ -9,10 +15,10 @@ int __cdecl cdrom_fake_create_file(char *FileName)
   FileHandle = v1;
   if ( !v1 )
     fatal_error_with_message_box(" * Error saving %s\n", FileName);
-  byte_50A090 = 1;
-  byte_50A091 = 1;
+  byte_50A090[0] = 1;
+  byte_50A090[1] = 1;
   fseek(v1, 1332002, 0);
-  dword_5056E0 = 0;
+  cdrom_fake_ofs = 0;
   return dbg_print(" * Creating fake file ... \n");
 }
 
@@ -42,9 +48,9 @@ void *__cdecl cdrom_fake_write_portion(unsigned __int8 a1, unsigned __int8 a2, u
   if ( *((_DWORD *)cdrom_fake_data + v4) == -1 )
   {
     fwrite(Buffer, 1u, 0x930u, FileHandle);
-    *((_DWORD *)cdrom_fake_data + v4) = dword_5056E0;
-    result = (void *)(dword_5056E0 + 2352);
-    dword_5056E0 += 2352;
+    *((_DWORD *)cdrom_fake_data + v4) = cdrom_fake_ofs;
+    result = (void *)(cdrom_fake_ofs + 2352);
+    cdrom_fake_ofs += 2352;
   }
   return result;
 }
@@ -81,4 +87,3 @@ FILE *cdrom_fake_write()
     return (FILE *)_close((int)FileHandle);
   return result;
 }
-
