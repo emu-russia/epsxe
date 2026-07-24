@@ -1,26 +1,5 @@
 .data:0044B000 _data           segment para public 'DATA' use32
-.data:0044B000                 assume cs:_data
-.data:0044B000                 ;org 44B000h
-.data:0044B000 ; _PVFV dword_44B000
-.data:0044B000 dword_44B000    dd 0                    ; DATA XREF: __cinit+1F↑o
-.data:0044B004 ; _PVFV dword_44B004
-.data:0044B004 dword_44B004    dd 0                    ; DATA XREF: __cinit+1A↑o
-.data:0044B008 ; _PVFV First
-.data:0044B008 First           dd 0                    ; DATA XREF: __cinit+10↑o
-.data:0044B00C                 dd offset ___initstdio
-.data:0044B010                 dd offset ___initmbctable
-.data:0044B014 ; _PVFV Last
-.data:0044B014 Last            dd 0                    ; DATA XREF: __cinit:loc_43F6C1↑o
-.data:0044B018 ; _PVFV dword_44B018
-.data:0044B018 dword_44B018    dd 0                    ; DATA XREF: _doexit+65↑o
-.data:0044B01C                 dd offset ___endstdio
-.data:0044B020                 dd offset ___termcon
-.data:0044B024 ; _PVFV dword_44B024
-.data:0044B024 dword_44B024    dd 0                    ; DATA XREF: _doexit:loc_43F765↑o
-.data:0044B028 ; _PVFV dword_44B028
-.data:0044B028 dword_44B028    dd 0                    ; DATA XREF: _doexit+76↑o
-.data:0044B02C ; _PVFV dword_44B02C
-.data:0044B02C dword_44B02C    dd 0                    ; DATA XREF: _doexit:loc_43F776↑o
+
 .data:0044B030 fastboot        db 1                    ; DATA XREF: epsxe_main_loop_runner:loc_402686↑r
 .data:0044B030                                         ; parse_command_line_options+2DC↑w ...
 .data:0044B031 create_window_flag db 1                 ; DATA XREF: cfg_load_settings+7FC↑r
@@ -1136,7 +1115,7 @@
 .data:0044DEFC                 _BIOS_DESCR <701BAD89h, 'scph101  - USA'>
 .data:0044DF20                 db 0DDh
 .data:0044DF21                 db  8Eh
-.data:0044DF22                 db  7Fh ; 
+.data:0044DF22                 db  7Fh ; 
 .data:0044DF23                 db  6Eh ; n
 .data:0044DF24 ; char dword_44DF24[]
 .data:0044DF24 dword_44DF24    dd 0FFFFFFFFh           ; DATA XREF: main_window_callback:loc_40AA85↑w
@@ -11299,177 +11278,17 @@
 .data:005B6E40 ; int ram[]
 .data:005B6E40 ram             db 200000h dup(?)       ; DATA XREF: loader_load_demo+7E↑o
 .data:005B6E40                                         ; loader_load_file+112↑o ...
-.data:007B6E40                 db    ? ;
-.data:007B6E41                 db    ? ;
-.data:007B6E42                 db    ? ;
-.data:007B6E43                 db    ? ;
-.data:007B6E44                 db    ? ;
-.data:007B6E45                 db    ? ;
-.data:007B6E46                 db    ? ;
-.data:007B6E47                 db    ? ;
-.data:007B6E48                 db    ? ;
-.data:007B6E49                 db    ? ;
-.data:007B6E4A                 db    ? ;
-.data:007B6E4B                 db    ? ;
-.data:007B6E4C                 db    ? ;
-.data:007B6E4D                 db    ? ;
-.data:007B6E4E                 db    ? ;
-.data:007B6E4F                 db    ? ;
-.data:007B6E50                 db    ? ;
-.data:007B6E51                 db    ? ;
-.data:007B6E52                 db    ? ;
-.data:007B6E53                 db    ? ;
-.data:007B6E54                 db    ? ;
-.data:007B6E55                 db    ? ;
-.data:007B6E56                 db    ? ;
-.data:007B6E57                 db    ? ;
-.data:007B6E58                 db    ? ;
-.data:007B6E59                 db    ? ;
-.data:007B6E5A                 db    ? ;
-.data:007B6E5B                 db    ? ;
-.data:007B6E5C                 db    ? ;
-.data:007B6E5D                 db    ? ;
-.data:007B6E5E                 db    ? ;
-.data:007B6E5F                 db    ? ;
 .data:007B6E60 ; int mem_read_hooks[65544]
 .data:007B6E60 mem_read_hooks  dd 10000h dup(?)        ; DATA XREF: mem_init_memory_handlers+4↑w
 .data:007B6E60                                         ; mem_init_memory_handlers+59↑w ...
-.data:007F6E60                 db    ? ;
-.data:007F6E61                 db    ? ;
-.data:007F6E62                 db    ? ;
-.data:007F6E63                 db    ? ;
-.data:007F6E64                 db    ? ;
-.data:007F6E65                 db    ? ;
-.data:007F6E66                 db    ? ;
-.data:007F6E67                 db    ? ;
-.data:007F6E68                 db    ? ;
-.data:007F6E69                 db    ? ;
-.data:007F6E6A                 db    ? ;
-.data:007F6E6B                 db    ? ;
-.data:007F6E6C                 db    ? ;
-.data:007F6E6D                 db    ? ;
-.data:007F6E6E                 db    ? ;
-.data:007F6E6F                 db    ? ;
-.data:007F6E70                 db    ? ;
-.data:007F6E71                 db    ? ;
-.data:007F6E72                 db    ? ;
-.data:007F6E73                 db    ? ;
-.data:007F6E74                 db    ? ;
-.data:007F6E75                 db    ? ;
-.data:007F6E76                 db    ? ;
-.data:007F6E77                 db    ? ;
-.data:007F6E78                 db    ? ;
-.data:007F6E79                 db    ? ;
-.data:007F6E7A                 db    ? ;
-.data:007F6E7B                 db    ? ;
-.data:007F6E7C                 db    ? ;
-.data:007F6E7D                 db    ? ;
-.data:007F6E7E                 db    ? ;
-.data:007F6E7F                 db    ? ;
 .data:007F6E80 ; uint8_t bios_image[]
 .data:007F6E80 bios_image      db 80000h dup(?)        ; DATA XREF: loader_load_bios+3B↑o
 .data:007F6E80                                         ; mem_init_memory_handlers+C6↑o ...
-.data:00876E80                 db    ? ;
-.data:00876E81                 db    ? ;
-.data:00876E82                 db    ? ;
-.data:00876E83                 db    ? ;
-.data:00876E84                 db    ? ;
-.data:00876E85                 db    ? ;
-.data:00876E86                 db    ? ;
-.data:00876E87                 db    ? ;
-.data:00876E88                 db    ? ;
-.data:00876E89                 db    ? ;
-.data:00876E8A                 db    ? ;
-.data:00876E8B                 db    ? ;
-.data:00876E8C                 db    ? ;
-.data:00876E8D                 db    ? ;
-.data:00876E8E                 db    ? ;
-.data:00876E8F                 db    ? ;
-.data:00876E90                 db    ? ;
-.data:00876E91                 db    ? ;
-.data:00876E92                 db    ? ;
-.data:00876E93                 db    ? ;
-.data:00876E94                 db    ? ;
-.data:00876E95                 db    ? ;
-.data:00876E96                 db    ? ;
-.data:00876E97                 db    ? ;
-.data:00876E98                 db    ? ;
-.data:00876E99                 db    ? ;
-.data:00876E9A                 db    ? ;
-.data:00876E9B                 db    ? ;
-.data:00876E9C                 db    ? ;
-.data:00876E9D                 db    ? ;
-.data:00876E9E                 db    ? ;
-.data:00876E9F                 db    ? ;
 .data:00876EA0 ; char pio_mem[131104]
 .data:00876EA0 pio_mem         db 20000h dup(?)        ; DATA XREF: mem_clear_memory+17↑o
 .data:00876EA0                                         ; mem_init_memory_handlers+80↑o ...
-.data:00896EA0                 db    ? ;
-.data:00896EA1                 db    ? ;
-.data:00896EA2                 db    ? ;
-.data:00896EA3                 db    ? ;
-.data:00896EA4                 db    ? ;
-.data:00896EA5                 db    ? ;
-.data:00896EA6                 db    ? ;
-.data:00896EA7                 db    ? ;
-.data:00896EA8                 db    ? ;
-.data:00896EA9                 db    ? ;
-.data:00896EAA                 db    ? ;
-.data:00896EAB                 db    ? ;
-.data:00896EAC                 db    ? ;
-.data:00896EAD                 db    ? ;
-.data:00896EAE                 db    ? ;
-.data:00896EAF                 db    ? ;
-.data:00896EB0                 db    ? ;
-.data:00896EB1                 db    ? ;
-.data:00896EB2                 db    ? ;
-.data:00896EB3                 db    ? ;
-.data:00896EB4                 db    ? ;
-.data:00896EB5                 db    ? ;
-.data:00896EB6                 db    ? ;
-.data:00896EB7                 db    ? ;
-.data:00896EB8                 db    ? ;
-.data:00896EB9                 db    ? ;
-.data:00896EBA                 db    ? ;
-.data:00896EBB                 db    ? ;
-.data:00896EBC                 db    ? ;
-.data:00896EBD                 db    ? ;
-.data:00896EBE                 db    ? ;
-.data:00896EBF                 db    ? ;
 .data:00896EC0 dummy_page      db 10000h dup(?)        ; DATA XREF: mem_init_memory_handlers+4↑o
 .data:00896EC0                                         ; mem_init_memory_handlers+F↑o ...
-.data:008A6EC0                 db    ? ;
-.data:008A6EC1                 db    ? ;
-.data:008A6EC2                 db    ? ;
-.data:008A6EC3                 db    ? ;
-.data:008A6EC4                 db    ? ;
-.data:008A6EC5                 db    ? ;
-.data:008A6EC6                 db    ? ;
-.data:008A6EC7                 db    ? ;
-.data:008A6EC8                 db    ? ;
-.data:008A6EC9                 db    ? ;
-.data:008A6ECA                 db    ? ;
-.data:008A6ECB                 db    ? ;
-.data:008A6ECC                 db    ? ;
-.data:008A6ECD                 db    ? ;
-.data:008A6ECE                 db    ? ;
-.data:008A6ECF                 db    ? ;
-.data:008A6ED0                 db    ? ;
-.data:008A6ED1                 db    ? ;
-.data:008A6ED2                 db    ? ;
-.data:008A6ED3                 db    ? ;
-.data:008A6ED4                 db    ? ;
-.data:008A6ED5                 db    ? ;
-.data:008A6ED6                 db    ? ;
-.data:008A6ED7                 db    ? ;
-.data:008A6ED8                 db    ? ;
-.data:008A6ED9                 db    ? ;
-.data:008A6EDA                 db    ? ;
-.data:008A6EDB                 db    ? ;
-.data:008A6EDC                 db    ? ;
-.data:008A6EDD                 db    ? ;
-.data:008A6EDE                 db    ? ;
-.data:008A6EDF                 db    ? ;
 .data:008A6EE0 ; char dcache[4096]
 .data:008A6EE0 dcache          db 1000h dup(?)         ; DATA XREF: mem_clear_memory+25↑o
 .data:008A6EE0                                         ; mem_hw_reg_read_byte+30↑r ...
@@ -11578,30 +11397,6 @@
 .data:008A8064 ; int (*SPUshutdown)(void)
 .data:008A8064 SPUshutdown     dd ?                    ; DATA XREF: spu_load_plugin+AD↑w
 .data:008A8064                                         ; spu_destroy:loc_40B95E↑r
-.data:008A8068                 db    ? ;
-.data:008A8069                 db    ? ;
-.data:008A806A                 db    ? ;
-.data:008A806B                 db    ? ;
-.data:008A806C                 db    ? ;
-.data:008A806D                 db    ? ;
-.data:008A806E                 db    ? ;
-.data:008A806F                 db    ? ;
-.data:008A8070                 db    ? ;
-.data:008A8071                 db    ? ;
-.data:008A8072                 db    ? ;
-.data:008A8073                 db    ? ;
-.data:008A8074                 db    ? ;
-.data:008A8075                 db    ? ;
-.data:008A8076                 db    ? ;
-.data:008A8077                 db    ? ;
-.data:008A8078                 db    ? ;
-.data:008A8079                 db    ? ;
-.data:008A807A                 db    ? ;
-.data:008A807B                 db    ? ;
-.data:008A807C                 db    ? ;
-.data:008A807D                 db    ? ;
-.data:008A807E                 db    ? ;
-.data:008A807F                 db    ? ;
 .data:008A8080 dword_8A8080    dd ?                    ; DATA XREF: spu_dma:loc_40BAA7↑r
 .data:008A8080                                         ; spu_dma+EA↑r ...
 .data:008A8084 word_8A8084     dw 200h dup(?)          ; DATA XREF: spu_write_register+1C6↑w
@@ -11645,18 +11440,6 @@
 .data:008A84B0 ; int (*GPUtest_0)(void)
 .data:008A84B0 GPUtest_0       dd ?                    ; DATA XREF: search_video_plugin+22A↑w
 .data:008A84B0                                         ; search_video_plugin+23C↑r ...
-.data:008A84B4                 db    ? ;
-.data:008A84B5                 db    ? ;
-.data:008A84B6                 db    ? ;
-.data:008A84B7                 db    ? ;
-.data:008A84B8                 db    ? ;
-.data:008A84B9                 db    ? ;
-.data:008A84BA                 db    ? ;
-.data:008A84BB                 db    ? ;
-.data:008A84BC                 db    ? ;
-.data:008A84BD                 db    ? ;
-.data:008A84BE                 db    ? ;
-.data:008A84BF                 db    ? ;
 .data:008A84C0 ; char byte_8A84C0[1024]
 .data:008A84C0 byte_8A84C0     db 400h dup(?)          ; DATA XREF: setup_wizard_search_video_plugin+E3↑o
 .data:008A84C0                                         ; setup_wizard_callback:loc_409DCB↑o
@@ -11680,30 +11463,6 @@
 .data:008A94C4 ; int (__cdecl *PSEgetLibVersion)(_DWORD)
 .data:008A94C4 PSEgetLibVersion dd ?                   ; DATA XREF: search_video_plugin+4CD↑w
 .data:008A94C4                                         ; search_video_plugin+4F6↑r ...
-.data:008A94C8                 db    ? ;
-.data:008A94C9                 db    ? ;
-.data:008A94CA                 db    ? ;
-.data:008A94CB                 db    ? ;
-.data:008A94CC                 db    ? ;
-.data:008A94CD                 db    ? ;
-.data:008A94CE                 db    ? ;
-.data:008A94CF                 db    ? ;
-.data:008A94D0                 db    ? ;
-.data:008A94D1                 db    ? ;
-.data:008A94D2                 db    ? ;
-.data:008A94D3                 db    ? ;
-.data:008A94D4                 db    ? ;
-.data:008A94D5                 db    ? ;
-.data:008A94D6                 db    ? ;
-.data:008A94D7                 db    ? ;
-.data:008A94D8                 db    ? ;
-.data:008A94D9                 db    ? ;
-.data:008A94DA                 db    ? ;
-.data:008A94DB                 db    ? ;
-.data:008A94DC                 db    ? ;
-.data:008A94DD                 db    ? ;
-.data:008A94DE                 db    ? ;
-.data:008A94DF                 db    ? ;
 .data:008A94E0 ; MSG stru_8A94E0
 .data:008A94E0 stru_8A94E0     MSG <?>                 ; DATA XREF: create_main_window+C7↑o
 .data:008A94E0                                         ; create_main_window:loc_40B280↑o ...
@@ -11715,34 +11474,6 @@
 .data:008A9520 ; int (*PSEgetLibType)(void)
 .data:008A9520 PSEgetLibType   dd ?                    ; DATA XREF: search_video_plugin+4B1↑w
 .data:008A9520                                         ; search_video_plugin+4C5↑r ...
-.data:008A9524                 db    ? ;
-.data:008A9525                 db    ? ;
-.data:008A9526                 db    ? ;
-.data:008A9527                 db    ? ;
-.data:008A9528                 db    ? ;
-.data:008A9529                 db    ? ;
-.data:008A952A                 db    ? ;
-.data:008A952B                 db    ? ;
-.data:008A952C                 db    ? ;
-.data:008A952D                 db    ? ;
-.data:008A952E                 db    ? ;
-.data:008A952F                 db    ? ;
-.data:008A9530                 db    ? ;
-.data:008A9531                 db    ? ;
-.data:008A9532                 db    ? ;
-.data:008A9533                 db    ? ;
-.data:008A9534                 db    ? ;
-.data:008A9535                 db    ? ;
-.data:008A9536                 db    ? ;
-.data:008A9537                 db    ? ;
-.data:008A9538                 db    ? ;
-.data:008A9539                 db    ? ;
-.data:008A953A                 db    ? ;
-.data:008A953B                 db    ? ;
-.data:008A953C                 db    ? ;
-.data:008A953D                 db    ? ;
-.data:008A953E                 db    ? ;
-.data:008A953F                 db    ? ;
 .data:008A9540 ; char byte_8A9540[4]
 .data:008A9540 byte_8A9540     db 4 dup(?)             ; DATA XREF: search_video_plugin+102↑o
 .data:008A9540                                         ; search_video_plugin+1D9↑o ...
@@ -11762,18 +11493,6 @@
 .data:008B1550 ; int (*PSEconfigure)(void)
 .data:008B1550 PSEconfigure    dd ?                    ; DATA XREF: search_video_plugin+351↑w
 .data:008B1550                                         ; search_video_plugin+363↑r ...
-.data:008B1554                 db    ? ;
-.data:008B1555                 db    ? ;
-.data:008B1556                 db    ? ;
-.data:008B1557                 db    ? ;
-.data:008B1558                 db    ? ;
-.data:008B1559                 db    ? ;
-.data:008B155A                 db    ? ;
-.data:008B155B                 db    ? ;
-.data:008B155C                 db    ? ;
-.data:008B155D                 db    ? ;
-.data:008B155E                 db    ? ;
-.data:008B155F                 db    ? ;
 .data:008B1560 ; CHAR temp_path[1024]
 .data:008B1560 temp_path       db 400h dup(?)          ; DATA XREF: open_file_dialog+BB↑w
 .data:008B1560                                         ; cheat_dialog_callback+247↑o ...
