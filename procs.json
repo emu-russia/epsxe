@@ -312,7 +312,7 @@
       ]
     },
     {
-      "name": "unzip.c",
+      "name": "zip.c",
       "procs": [
         "zip_inflate_data_with_trees",
         "zip_inflate_file",

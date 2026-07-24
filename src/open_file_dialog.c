@@ -1,4 +1,5 @@
 #include "pch.h"
+
 BOOL __cdecl open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CHAR *a4, const CHAR *a5)
 {
   BOOL result; // eax
@@ -37,4 +38,3 @@ BOOL __cdecl open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CH
   }
   return result;
 }
-

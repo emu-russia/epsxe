@@ -1,21 +1,10 @@
 #include "pch.h"
 
-//.data:10005030 ; LPCSTR lpFileName
-//.data:10005030 lpFileName      dd offset a2855         ; DATA XREF: JOY_init+14↑r
-//.data:10005030                                         ; "\\\\.\\2855"
-//.data:10005034 ; const char a2855[9]
-//.data:10005034 a2855           db '\\.\2855',0         ; DATA XREF: .data:lpFileName↑o
-
-//.data:100053A0 dword_100053A0  dd 5 dup(0)             ; DATA XREF: JOY_Close+2↑w
-//.data:100053A0                                         ; JOY_Close+2F↑o ...
-//.data:100053B4 ; HANDLE hDevice
-//.data:100053B4 hDevice         dd 0                    ; DATA XREF: JOY_init+32↑w
-//.data:100053B4                                         ; JOY_Close+28↑r ...
-//.data:100053B8 ; DWORD BytesReturned
-//.data:100053B8 BytesReturned   dd 0                    ; DATA XREF: JOY_Close+D↑o
-//.data:100053B8                                         ; Big_Motor+11↑o ...
-//.data:100053BC dword_100053BC  dd 0                    ; DATA XREF: JOY_init↑r
-//.data:100053BC                                         ; JOY_init+37↑w
+static LPSTR lpFileName = "\\\\.\\2855";
+static HANDLE hDevice;
+static DWORD BytesReturned;
+static uint32_t dword_100053A0[5];
+static int dword_100053BC;
 
 int JOY_init()
 {
@@ -68,8 +57,7 @@ BOOL __cdecl Small_Motor(unsigned int a1, int a2)
     dword_100053A0[1] = 1;
     dword_100053A0[3] = a2;
     return DeviceIoControl(hDevice, 4u, dword_100053A0, 0x14u, nullptr, 0, &BytesReturned, nullptr);
-}`
-
+}
 
 int issue_big_motor()
 {

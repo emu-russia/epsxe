@@ -1,4 +1,5 @@
 #include "pch.h"
+
 BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
 {
   int v2; // ebp
@@ -2252,4 +2253,3 @@ int __cdecl calc_bios_checksum(uint8_t *ptr, int size)
   }
   return v2 ^ (v3 << 16);
 }
-

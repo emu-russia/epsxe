@@ -1,5 +1,6 @@
 #include "pch.h"
-void __noreturn epsxe_main_loop_runner()
+
+void epsxe_main_loop_runner()
 {
   if ( create_window_flag )
     create_main_window();
@@ -653,4 +654,3 @@ LABEL_15:
       goto LABEL_16;
   }
 }
-

@@ -1,4 +1,5 @@
 #include "pch.h"
+
 LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
   LRESULT result; // eax
@@ -709,4 +710,3 @@ void save_load_state()
     set_gpu_freeze_counter(v1);
   }
 }
-

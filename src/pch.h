@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <intrin.h>
+#include <mmintrin.h>
 #include <windef.h>
 
 #define __noreturn

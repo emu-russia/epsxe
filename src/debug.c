@@ -64,7 +64,7 @@ void dbg_print_no_flush(char *Format, ...)
   free(v1);
 }
 
-void __noreturn ui_error(char *Format, ...)
+void ui_error(char *Format, ...)
 {
   DWORD v1; // ecx
   int v2; // ecx
@@ -111,7 +111,7 @@ void __noreturn ui_error(char *Format, ...)
   exit(0);
 }
 
-void __noreturn fatal_error_with_message_box(char *Format, ...)
+void fatal_error_with_message_box(char *Format, ...)
 {
   char *v1; // esi
   int v2; // ecx

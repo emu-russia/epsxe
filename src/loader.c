@@ -1,4 +1,5 @@
 #include "pch.h"
+
 char __cdecl sub_41BC30(int a1, int a2)
 {
   unsigned __int8 v2; // cl
@@ -599,4 +600,3 @@ FILE *__cdecl loader_load_cheat_file(char *FileName)
   }
   return result;
 }
-

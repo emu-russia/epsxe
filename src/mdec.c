@@ -1,4 +1,5 @@
 #include "pch.h"
+
 char *mdec_init_pointers()
 {
   char *v0; // ecx
@@ -1268,4 +1269,3 @@ void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
   while ( a3 );
   mdec_sse_m_empty();
 }
-

@@ -81,7 +81,7 @@
     <ClCompile Include="..\src\spu_plugin.c" />
     <ClCompile Include="..\src\sstates.c" />
     <ClCompile Include="..\src\ui_misc.c" />
-    <ClCompile Include="..\src\unzip.c" />
+    <ClCompile Include="..\src\zip.c" />
     <ClCompile Include="..\src\xa.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

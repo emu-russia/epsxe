@@ -174,7 +174,7 @@
     <ClCompile Include="..\src\ui_misc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\unzip.c">
+    <ClCompile Include="..\src\zip.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\xa.c">
