@@ -4,654 +4,10 @@
 .data:0044B030                                         ; parse_command_line_options+2DC↑w ...
 .data:0044B031 create_window_flag db 1                 ; DATA XREF: cfg_load_settings+7FC↑r
 .data:0044B031                                         ; cfg_load_settings:loc_401965↑r ...
-.data:0044B032                 align 4
-.data:0044B034 ; const char asc_44B034[2]
-.data:0044B034 asc_44B034      db '.',0                ; DATA XREF: cfg_load_settings:loc_401BE5↑o
-.data:0044B034                                         ; main_window_callback+4B4↑o
-.data:0044B036                 align 4
-.data:0044B038 ; const CHAR aIsodirectory[]
-.data:0044B038 aIsodirectory   db 'IsoDirectory',0     ; DATA XREF: cfg_load_settings+A91↑o
-.data:0044B038                                         ; cfg_cdrom_iso_set_path+5↑o
-.data:0044B045                 align 4
-.data:0044B048 ; const CHAR aGamepadbmotort[]
-.data:0044B048 aGamepadbmotort db 'GamepadBMotorType',0
-.data:0044B048                                         ; DATA XREF: cfg_load_settings+A50↑o
-.data:0044B048                                         ; cfg_save_settings+6BC↑o
-.data:0044B05A                 align 4
-.data:0044B05C ; const CHAR aGamepadsmotort[]
-.data:0044B05C aGamepadsmotort db 'GamepadSMotorType',0
-.data:0044B05C                                         ; DATA XREF: cfg_load_settings+A0F↑o
-.data:0044B05C                                         ; cfg_save_settings+67F↑o
-.data:0044B06E                 align 10h
-.data:0044B070 ; const CHAR aGamepadmotorty[]
-.data:0044B070 aGamepadmotorty db 'GamepadMotorType',0 ; DATA XREF: cfg_load_settings+9CE↑o
-.data:0044B070                                         ; cfg_save_settings+63F↑o
-.data:0044B081                 align 4
-.data:0044B084 ; const CHAR aGamepadaxis[]
-.data:0044B084 aGamepadaxis    db 'GamepadAxis',0      ; DATA XREF: cfg_load_settings+951↑o
-.data:0044B084                                         ; cfg_save_settings+602↑o
-.data:0044B090 ; const CHAR aGamepadsubtype[]
-.data:0044B090 aGamepadsubtype db 'GamepadSubType',0   ; DATA XREF: cfg_load_settings+910↑o
-.data:0044B090                                         ; cfg_save_settings+52D↑o
-.data:0044B09F                 align 10h
-.data:0044B0A0 ; char aDDDD[]
-.data:0044B0A0 aDDDD           db '%d,%d,%d,%d',0      ; DATA XREF: cfg_load_settings+8D1↑o
-.data:0044B0A0                                         ; cfg_load_settings+93E↑o ...
-.data:0044B0AC ; const CHAR aGamepadtype[]
-.data:0044B0AC aGamepadtype    db 'GamepadType',0      ; DATA XREF: cfg_load_settings+8A3↑o
-.data:0044B0AC                                         ; cfg_save_settings+4F0↑o
-.data:0044B0B8 ; const CHAR aVersion[]
-.data:0044B0B8 aVersion        db 'Version',0          ; DATA XREF: cfg_load_settings+7BB↑o
-.data:0044B0B8                                         ; cfg_load_settings:loc_4019AC↑o ...
-.data:0044B0C0 ; const CHAR aCountry[]
-.data:0044B0C0 aCountry        db 'Country',0          ; DATA XREF: cfg_load_settings+779↑o
-.data:0044B0C0                                         ; cfg_save_settings+487↑o
-.data:0044B0C8 ; const char aMemcardsEpsxe0_0[]
-.data:0044B0C8 aMemcardsEpsxe0_0 db 'memcards\epsxe001.mcr',0
-.data:0044B0C8                                         ; DATA XREF: cfg_load_settings:loc_401882↑o
-.data:0044B0C8                                         ; sio_memcard_load+53↑o
-.data:0044B0DE                 align 10h
-.data:0044B0E0 ; const CHAR aMemcard2[]
-.data:0044B0E0 aMemcard2       db 'Memcard2',0         ; DATA XREF: cfg_load_settings+733↑o
-.data:0044B0E0                                         ; cfg_save_settings+86↑o
-.data:0044B0E9                 align 4
-.data:0044B0EC ; const char aMemcardsEpsxe0[]
-.data:0044B0EC aMemcardsEpsxe0 db 'memcards\epsxe000.mcr',0
-.data:0044B0EC                                         ; DATA XREF: cfg_load_settings:loc_40183C↑o
-.data:0044B0EC                                         ; sio_memcard_load+27↑o
-.data:0044B102                 align 4
-.data:0044B104 ; const CHAR aMemcard1[]
-.data:0044B104 aMemcard1       db 'Memcard1',0         ; DATA XREF: cfg_load_settings+6ED↑o
-.data:0044B104                                         ; cfg_save_settings+6F↑o
-.data:0044B10D                 align 10h
-.data:0044B110 ; const CHAR aCdromlun[]
-.data:0044B110 aCdromlun       db 'CdromLun',0         ; DATA XREF: cfg_load_settings+6BB↑o
-.data:0044B110                                         ; cfg_cdrom_set_hain_target_lun+72↑o
-.data:0044B119                 align 4
-.data:0044B11C ; const CHAR aCdromtarget[]
-.data:0044B11C aCdromtarget    db 'CdromTarget',0      ; DATA XREF: cfg_load_settings+689↑o
-.data:0044B11C                                         ; cfg_cdrom_set_hain_target_lun+49↑o
-.data:0044B128 ; const CHAR aSoftwareEpsxeC_0[]
-.data:0044B128 aSoftwareEpsxeC_0 db 'Software\epsxe\config\cdrom9x',0
-.data:0044B128                                         ; DATA XREF: cfg_load_settings+65C↑o
-.data:0044B128                                         ; cfg_load_settings+68E↑o ...
-.data:0044B146                 align 4
-.data:0044B148 ; const CHAR aCdromhain[]
-.data:0044B148 aCdromhain      db 'CdromHain',0        ; DATA XREF: cfg_load_settings+657↑o
-.data:0044B148                                         ; cfg_cdrom_set_hain_target_lun+20↑o
-.data:0044B152                 align 4
-.data:0044B154 ; const CHAR aMultitap1[]
-.data:0044B154 aMultitap1      db 'Multitap1',0        ; DATA XREF: cfg_load_settings+616↑o
-.data:0044B154                                         ; cfg_save_settings+715↑o
-.data:0044B15E                 align 10h
-.data:0044B160 ; const CHAR aAutoppfload[]
-.data:0044B160 aAutoppfload    db 'AutoPpfLoad',0      ; DATA XREF: cfg_load_settings+5D5↑o
-.data:0044B160                                         ; cfg_save_settings+6E7↑o
-.data:0044B16C ; const CHAR aLogswindow[]
-.data:0044B16C aLogswindow     db 'Logswindow',0       ; DATA XREF: cfg_load_settings+599↑o
-.data:0044B16C                                         ; cfg_save_settings+848↑o
-.data:0044B177                 align 4
-.data:0044B178 ; const char aCdromletter[]
-.data:0044B178 aCdromletter    db 'CdromLetter',0      ; DATA XREF: cfg_load_settings+55D↑o
-.data:0044B178                                         ; cfg_cdrom_set_letter+22↑o
-.data:0044B184 ; const CHAR aKeys4[]
-.data:0044B184 aKeys4          db 'Keys4',0            ; DATA XREF: cfg_load_settings+4E0↑o
-.data:0044B184                                         ; cfg_save_settings+45E↑o
-.data:0044B18A                 align 4
-.data:0044B18C ; const CHAR aKeys3[]
-.data:0044B18C aKeys3          db 'Keys3',0            ; DATA XREF: cfg_load_settings+463↑o
-.data:0044B18C                                         ; cfg_save_settings+389↑o
-.data:0044B192                 align 4
-.data:0044B194 ; const CHAR aKeys2[]
-.data:0044B194 aKeys2          db 'Keys2',0            ; DATA XREF: cfg_load_settings+3E6↑o
-.data:0044B194                                         ; cfg_save_settings+2B4↑o
-.data:0044B19A                 align 4
-.data:0044B19C ; char aDDDDDDDDDDDDDD[]
-.data:0044B19C aDDDDDDDDDDDDDD db '%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d',0
-.data:0044B19C                                         ; DATA XREF: cfg_load_settings+3D3↑o
-.data:0044B19C                                         ; cfg_load_settings+450↑o ...
-.data:0044B1CC ; const CHAR aKeys1[]
-.data:0044B1CC aKeys1          db 'Keys1',0            ; DATA XREF: cfg_load_settings+369↑o
-.data:0044B1CC                                         ; cfg_save_settings+1DF↑o
-.data:0044B1D2                 align 4
-.data:0044B1D4 ; const CHAR aSoundcdda[]
-.data:0044B1D4 aSoundcdda      db 'SoundCDDA',0        ; DATA XREF: cfg_load_settings+32D↑o
-.data:0044B1D4                                         ; cfg_save_settings+10A↑o
-.data:0044B1DE                 align 10h
-.data:0044B1E0 ; const CHAR aSoundxa[]
-.data:0044B1E0 aSoundxa        db 'SoundXA',0          ; DATA XREF: cfg_load_settings+2F2↑o
-.data:0044B1E0                                         ; cfg_save_settings+DC↑o
-.data:0044B1E8 ; const CHAR aSoundenabled[]
-.data:0044B1E8 aSoundenabled   db 'SoundEnabled',0     ; DATA XREF: cfg_load_settings+2B6↑o
-.data:0044B1E8                                         ; cfg_save_settings+B1↑o
-.data:0044B1F5                 align 4
-.data:0044B1F8 ; const CHAR aSubchannelw2kc_1[]
-.data:0044B1F8 aSubchannelw2kc_1 db 'SubchannelW2kCachingLG',0
-.data:0044B1F8                                         ; DATA XREF: cfg_load_settings+27A↑o
-.data:0044B1F8                                         ; cfg_save_settings+81D↑o
-.data:0044B20F                 align 10h
-.data:0044B210 ; const CHAR aSubchannelw2kc_0[]
-.data:0044B210 aSubchannelw2kc_0 db 'SubchannelW2kCaching',0
-.data:0044B210                                         ; DATA XREF: cfg_load_settings+23F↑o
-.data:0044B210                                         ; cfg_save_settings+7EF↑o
-.data:0044B225                 align 4
-.data:0044B228 ; const CHAR aSubchannelw2kc[]
-.data:0044B228 aSubchannelw2kc db 'SubchannelW2kCdromEnabled',0
-.data:0044B228                                         ; DATA XREF: cfg_load_settings+203↑o
-.data:0044B228                                         ; cfg_save_settings+7C4↑o
-.data:0044B242                 align 4
-.data:0044B244 ; const CHAR aSubchannelw9xc_1[]
-.data:0044B244 aSubchannelw9xc_1 db 'SubchannelW9xCachingLG',0
-.data:0044B244                                         ; DATA XREF: cfg_load_settings+1C7↑o
-.data:0044B244                                         ; cfg_save_settings+799↑o
-.data:0044B25B                 align 4
-.data:0044B25C ; const CHAR aSubchannelw9xc_0[]
-.data:0044B25C aSubchannelw9xc_0 db 'SubchannelW9xCaching',0
-.data:0044B25C                                         ; DATA XREF: cfg_load_settings+18C↑o
-.data:0044B25C                                         ; cfg_save_settings+76B↑o
-.data:0044B271                 align 4
-.data:0044B274 ; const char Format[]
-.data:0044B274 Format          db '%d',0               ; DATA XREF: cfg_load_settings+16F↑o
-.data:0044B274                                         ; cfg_load_settings+1AB↑o ...
-.data:0044B277                 align 4
-.data:0044B278 ; const CHAR aSubchannelw9xc[]
-.data:0044B278 aSubchannelw9xc db 'SubchannelW9xCdromEnabled',0
-.data:0044B278                                         ; DATA XREF: cfg_load_settings+150↑o
-.data:0044B278                                         ; cfg_save_settings+740↑o
-.data:0044B292                 align 4
-.data:0044B294 ; const char aBiosScph1001Bi[]
-.data:0044B294 aBiosScph1001Bi db 'bios\scph1001.bin',0
-.data:0044B294                                         ; DATA XREF: cfg_load_settings+139↑o
-.data:0044B2A6                 align 4
-.data:0044B2A8 ; const CHAR aBiosname[]
-.data:0044B2A8 aBiosname       db 'BiosName',0         ; DATA XREF: cfg_load_settings+123↑o
-.data:0044B2A8                                         ; cfg_save_settings+5B↑o
-.data:0044B2B1                 align 4
-.data:0044B2B4 ; const char aDisabled[]
-.data:0044B2B4 aDisabled       db 'DISABLED',0         ; DATA XREF: cfg_load_settings:loc_40122C↑o
-.data:0044B2B4                                         ; WinMain+EA↑o ...
-.data:0044B2BD                 align 10h
-.data:0044B2C0 ; const CHAR aNetplugin[]
-.data:0044B2C0 aNetplugin      db 'NetPlugin',0        ; DATA XREF: cfg_load_settings+DD↑o
-.data:0044B2C0                                         ; cfg_save_settings+47↑o
-.data:0044B2CA                 align 4
-.data:0044B2CC ; const CHAR aCdromplugin[]
-.data:0044B2CC aCdromplugin    db 'CdromPlugin',0      ; DATA XREF: cfg_load_settings+97↑o
-.data:0044B2CC                                         ; cfg_save_settings+33↑o
-.data:0044B2D8 ; const char aSpucore[]
-.data:0044B2D8 aSpucore        db 'SPUCORE',0          ; DATA XREF: cfg_load_settings:loc_4011A0↑o
-.data:0044B2D8                                         ; search_spu_plugin+1AD↑o ...
-.data:0044B2E0 ; const CHAR ValueName[]
-.data:0044B2E0 ValueName       db 'SoundPlugin',0      ; DATA XREF: cfg_load_settings+51↑o
-.data:0044B2E0                                         ; cfg_save_settings+1F↑o
-.data:0044B2EC ; const char aNull[]
-.data:0044B2EC aNull           db 'NULL',0             ; DATA XREF: cfg_load_settings:loc_40115A↑o
-.data:0044B2EC                                         ; cfg_load_settings:loc_4011E6↑o ...
-.data:0044B2F1                 align 4
-.data:0044B2F4 ; const char aS[]
-.data:0044B2F4 aS              db '%s',0               ; DATA XREF: cfg_load_settings+26↑o
-.data:0044B2F4                                         ; cfg_load_settings+6C↑o ...
-.data:0044B2F7                 align 4
-.data:0044B2F8 ; const CHAR SubKey[]
-.data:0044B2F8 SubKey          db 'Software\epsxe\config',0
-.data:0044B2F8                                         ; DATA XREF: cfg_load_settings+10↑o
-.data:0044B2F8                                         ; cfg_load_settings+56↑o ...
-.data:0044B30E                 align 10h
-.data:0044B310 ; const CHAR aVideoPlugin[]
-.data:0044B310 aVideoPlugin    db 'VideoPlugin',0      ; DATA XREF: cfg_load_settings+B↑o
-.data:0044B310                                         ; cfg_save_settings+B↑o
-.data:0044B31C ; const char aLibpsExe[]
-.data:0044B31C aLibpsExe       db 'libps.exe',0        ; DATA XREF: epsxe_main_loop_runner+119↑o
-.data:0044B326                 align 4
-.data:0044B328 ; const char aRunningSEmulat[]
-.data:0044B328 aRunningSEmulat db ' * Running %s emulator version %1.1f.%d. %s',0Ah,0
-.data:0044B328                                         ; DATA XREF: epsxe_main_loop_runner+2C↑o
-.data:0044B328                                         ; WinMain+177↑o
-.data:0044B355                 align 4
-.data:0044B358 ; const char aEpsxe[]
-.data:0044B358 aEpsxe          db 'ePSXe',0            ; DATA XREF: epsxe_main_loop_runner+27↑o
-.data:0044B358                                         ; print_usage+C↑o ...
-.data:0044B35E                 align 10h
-.data:0044B360 ; const char aHelpWhereAreYo[]
-.data:0044B360 aHelpWhereAreYo db '        -help                      -   Where are you now? ;-)',0Ah
-.data:0044B360                                         ; DATA XREF: print_usage+152↑o
-.data:0044B39E                 db 0
-.data:0044B39F                 align 10h
-.data:0044B3A0 ; const char aPe2ParasiteEve[]
-.data:0044B3A0 aPe2ParasiteEve db '        -pe2                       -   Parasite eve 2 cheat.',0Ah
-.data:0044B3A0                                         ; DATA XREF: print_usage+148↑o
-.data:0044B3DD                 db 0
-.data:0044B3DE                 align 10h
-.data:0044B3E0 ; const char aPNumMemAccessP[]
-.data:0044B3E0 aPNumMemAccessP db '        -p <num>                   -   Mem access penalty (d.5).',0Ah
-.data:0044B3E0                                         ; DATA XREF: print_usage+13E↑o
-.data:0044B421                 db 0
-.data:0044B422                 align 8
-.data:0044B428 ; const char aAnalognEnableD[]
-.data:0044B428 aAnalognEnableD db '        -analogN                   -   Enable dualshock emulation'
-.data:0044B428                                         ; DATA XREF: print_usage+134↑o
-.data:0044B469                 db ' in pad N.',0Ah,0
-.data:0044B475                 align 4
-.data:0044B478 ; const char aMouseEnableMou[]
-.data:0044B478 aMouseEnableMou db '        -mouse                     -   Enable mouse emulation.',0Ah
-.data:0044B478                                         ; DATA XREF: print_usage+127↑o
-.data:0044B4B7                 db 0
-.data:0044B4B8 ; const char aGunEnableNamco[]
-.data:0044B4B8 aGunEnableNamco db '        -gun                       -   Enable namco gun emulation'
-.data:0044B4B8                                         ; DATA XREF: print_usage+11D↑o
-.data:0044B4F9                 db 0Ah,0
-.data:0044B4FB                 align 10h
-.data:0044B500 ; const char aSsv0SaveSstate[]
-.data:0044B500 aSsv0SaveSstate db '        -ssv0                      -   Save sstate version v.0',0Ah
-.data:0044B500                                         ; DATA XREF: print_usage+113↑o
-.data:0044B53F                 db 0
-.data:0044B540 ; const char aLoadmemc1FileM[]
-.data:0044B540 aLoadmemc1FileM db '        -loadmemc1 <file>          -   Map file to memcard 1.',0Ah
-.data:0044B540                                         ; DATA XREF: print_usage+109↑o
-.data:0044B57E                 db 0
-.data:0044B57F                 align 10h
-.data:0044B580 ; const char aLoadmemc0FileM[]
-.data:0044B580 aLoadmemc0FileM db '        -loadmemc0 <file>          -   Map file to memcard 0.',0Ah
-.data:0044B580                                         ; DATA XREF: print_usage+FF↑o
-.data:0044B5BE                 db 0
-.data:0044B5BF                 align 10h
-.data:0044B5C0 ; const char aPpfNoppfEnable[]
-.data:0044B5C0 aPpfNoppfEnable db '        -ppf/-noppf                -   Enable/Disable ppf patches'
-.data:0044B5C0                                         ; DATA XREF: print_usage+F5↑o
-.data:0044B601                 db '.',0Ah,0
-.data:0044B604 ; const char aLoadppfFileLoa[]
-.data:0044B604 aLoadppfFileLoa db '        -loadppf <file>            -   Load ppf file.',0Ah,0
-.data:0044B604                                         ; DATA XREF: print_usage+EB↑o
-.data:0044B63B                 align 10h
-.data:0044B640 ; const char aLoadcheatFileL[]
-.data:0044B640 aLoadcheatFileL db '        -loadcheat <file>          -   Load internal cheat file.',0Ah
-.data:0044B640                                         ; DATA XREF: print_usage+E1↑o
-.data:0044B681                 db 0
-.data:0044B682                 align 8
-.data:0044B688 ; const char aLoadisoFileLoa[]
-.data:0044B688 aLoadisoFileLoa db '        -loadiso <file>            -   Load iso file. (Cdrwin/Clo'
-.data:0044B688                                         ; DATA XREF: print_usage+D7↑o
-.data:0044B6C9                 db 'necd)',0Ah,0
-.data:0044B6D0 ; const char aNoguiDisableIn[]
-.data:0044B6D0 aNoguiDisableIn db '        -nogui                     -   Disable internal GUI.',0Ah
-.data:0044B6D0                                         ; DATA XREF: print_usage+CD↑o
-.data:0044B70D                 db 0
-.data:0044B70E                 align 10h
-.data:0044B710 ; const char aFastbootSlowbo[]
-.data:0044B710 aFastbootSlowbo db '        -fastboot/slowboot         -   Fast/Slow boot cdrom (psx '
-.data:0044B710                                         ; DATA XREF: print_usage+C3↑o
-.data:0044B751                 db 'logo).',0Ah,0
-.data:0044B759                 align 4
-.data:0044B75C ; const char aOldtimingUsePr[]
-.data:0044B75C aOldtimingUsePr db '        -oldtiming                 -   Use pre-1.5.1 timing. ',0Ah
-.data:0044B75C                                         ; DATA XREF: print_usage+B9↑o
-.data:0044B79A                 db 0
-.data:0044B79B                 align 4
-.data:0044B79C ; const char aPressAKeyToCon[]
-.data:0044B79C aPressAKeyToCon db '    [Press a key to continue] ',0Ah,0
-.data:0044B79C                                         ; DATA XREF: print_usage+AA↑o
-.data:0044B7BC                 align 10h
-.data:0044B7C0 ; const char aAdjusttimingOn[]
-.data:0044B7C0 aAdjusttimingOn db '        -adjusttiming              -   On the fly re-adjust timin'
-.data:0044B7C0                                         ; DATA XREF: print_usage+A0↑o
-.data:0044B801                 db 'g.',0Ah,0
-.data:0044B805                 align 4
-.data:0044B808 ; const char aMdectimingNomd[]
-.data:0044B808 aMdectimingNomd db '        -mdectiming/-nomdectiming  -   Enable/Disable MDEC accura'
-.data:0044B808                                         ; DATA XREF: print_usage+96↑o
-.data:0044B849                 db 'te timing.',0Ah,0
-.data:0044B855                 align 4
-.data:0044B858 ; const char aMdecNomdecEnab[]
-.data:0044B858 aMdecNomdecEnab db '        -mdec/-nomdec              -   Enable/Disable MDEC emulat'
-.data:0044B858                                         ; DATA XREF: print_usage+8C↑o
-.data:0044B899                 db 'ion.',0Ah,0
-.data:0044B89F                 align 10h
-.data:0044B8A0 ; const char aMemcardNomemca[]
-.data:0044B8A0 aMemcardNomemca db '        -memcard/-nomemcard        -   Enable/Disable memcard emu'
-.data:0044B8A0                                         ; DATA XREF: print_usage+7F↑o
-.data:0044B8E1                 db 'lation.',0Ah,0
-.data:0044B8EA                 align 10h
-.data:0044B8F0 ; const char aForcepadNoforc[]
-.data:0044B8F0 aForcepadNoforc db '        -forcepad/-noforcepad      -   Enable/Disable SIO irq alw'
-.data:0044B8F0                                         ; DATA XREF: print_usage+75↑o
-.data:0044B931                 db 'ays ON.',0Ah,0
-.data:0044B93A                 align 10h
-.data:0044B940 ; const char aNosubchanSubch[]
-.data:0044B940 aNosubchanSubch db '        -nosubchan/-subchan        -   Enable/Disable subchannel '
-.data:0044B940                                         ; DATA XREF: print_usage+6B↑o
-.data:0044B981                 db 'support.',0Ah,0
-.data:0044B98B                 align 10h
-.data:0044B990 ; const char aForcespuNoforc[]
-.data:0044B990 aForcespuNoforc db '        -forcespu/-noforcespu      -   Enable/Disable SPU irq alw'
-.data:0044B990                                         ; DATA XREF: print_usage+61↑o
-.data:0044B9D1                 db 'ays ON.',0Ah,0
-.data:0044B9DA                 align 10h
-.data:0044B9E0 ; const char aAudiocdNoaudio[]
-.data:0044B9E0 aAudiocdNoaudio db '        -audiocd/noaudiocd         -   Enable/Disable CDDA audio.'
-.data:0044B9E0                                         ; DATA XREF: print_usage+57↑o
-.data:0044BA21                 db 0Ah,0
-.data:0044BA23                 align 8
-.data:0044BA28 ; const char aXasoundNoxasou[]
-.data:0044BA28 aXasoundNoxasou db '        -xasound/-noxasound        -   Enable/Disable XA sound.',0Ah
-.data:0044BA28                                         ; DATA XREF: print_usage+4D↑o
-.data:0044BA68                 db 0
-.data:0044BA69                 align 4
-.data:0044BA6C ; const char aSoundNosoundEn[]
-.data:0044BA6C aSoundNosoundEn db '        -sound/-nosound            -   Enable/Disable sound.',0Ah
-.data:0044BA6C                                         ; DATA XREF: print_usage+43↑o
-.data:0044BAA9                 db 0
-.data:0044BAAA                 align 4
-.data:0044BAAC ; const char aNocdDisableCdr[]
-.data:0044BAAC aNocdDisableCdr db '        -nocd                      -   Disable CDR emulation.',0Ah
-.data:0044BAAC                                         ; DATA XREF: print_usage+39↑o
-.data:0044BAEA                 db 0
-.data:0044BAEB                 align 4
-.data:0044BAEC ; const char aPslibLoadLibps[]
-.data:0044BAEC aPslibLoadLibps db '        -pslib                     -   Load libpsx.exe.',0Ah,0
-.data:0044BAEC                                         ; DATA XREF: print_usage+2F↑o
-.data:0044BB25                 align 4
-.data:0044BB28 ; const char aOptions[]
-.data:0044BB28 aOptions        db '      options: ',0Ah
-.data:0044BB28                                         ; DATA XREF: print_usage+25↑o
-.data:0044BB38                 db 0Ah,0
-.data:0044BB3A                 align 4
-.data:0044BB3C ; const char aEpsxeOptionsPs[]
-.data:0044BB3C aEpsxeOptionsPs db '      epsxe [options] [PS-EXE] ',0Ah,0
-.data:0044BB3C                                         ; DATA XREF: print_usage+1B↑o
-.data:0044BB5D                 align 10h
-.data:0044BB60 ; const char aSV11fDEmulator[]
-.data:0044BB60 aSV11fDEmulator db ' %s v.%1.1f.%d emulator by ePSXe team. Copyright 2000/2002. ',0Ah
-.data:0044BB60                                         ; DATA XREF: print_usage+11↑o
-.data:0044BB9D                 db 0Ah,0
-.data:0044BB9F                 align 10h
-.data:0044BBA0 ; const char aExtsubchanhleE[]
-.data:0044BBA0 aExtsubchanhleE db '        -extsubchanhle             -   Enable subchannel hle (ext'
-.data:0044BBA0                                         ; DATA XREF: print_develop_options+3C↑o
-.data:0044BBE1                 db 'plug).',0Ah,0
-.data:0044BBE9                 align 10h
-.data:0044BBF0 ; const char aNocputrickDisa[]
-.data:0044BBF0 aNocputrickDisa db '        -nocputrick                -   Disable a old cpu trick.',0Ah
-.data:0044BBF0                                         ; DATA XREF: print_develop_options+32↑o
-.data:0044BC30                 db 0
-.data:0044BC31                 align 4
-.data:0044BC34 ; const char aFrc1FasterRoot[]
-.data:0044BC34 aFrc1FasterRoot db '        -frc1                      -   Faster rootcounter1.',0Ah,0
-.data:0044BC34                                         ; DATA XREF: print_develop_options+28↑o
-.data:0044BC71                 align 8
-.data:0044BC78 ; const char aNoignorecmdNoI[]
-.data:0044BC78 aNoignorecmdNoI db '        -noignorecmd               -   No Ignore cdrom commands.',0Ah
-.data:0044BC78                                         ; DATA XREF: print_develop_options+1E↑o
-.data:0044BCB9                 db 0
-.data:0044BCBA                 align 10h
-.data:0044BCC0 ; const char aNoautoDisableA[]
-.data:0044BCC0 aNoautoDisableA db '        -noauto                    -   Disable autoconf/patch.',0Ah
-.data:0044BCC0                                         ; DATA XREF: print_develop_options+14↑o
-.data:0044BCFF                 db 0
-.data:0044BD00 ; const char aNocdstatusNoRe[]
-.data:0044BD00 aNocdstatusNoRe db '        -nocdstatus                -   No return cdstatus.',0Ah,0
-.data:0044BD00                                         ; DATA XREF: print_develop_options+A↑o
-.data:0044BD3C ; const char aDevelopOptions[]
-.data:0044BD3C aDevelopOptions db '      develop options: ',0Ah
-.data:0044BD3C                                         ; DATA XREF: print_develop_options↑o
-.data:0044BD54                 db 0Ah,0
-.data:0044BD56                 align 4
-.data:0044BD58 ; const char aSEmulatorVersi[]
-.data:0044BD58 aSEmulatorVersi db ' * %s emulator version %1.1f.%d. %s',0Ah,0
-.data:0044BD58                                         ; DATA XREF: print_version+16↑o
-.data:0044BD7D                 align 10h
-.data:0044BD80 ; const char aEpsxeErrorSPar[]
-.data:0044BD80 aEpsxeErrorSPar db ' * ePSXe error: %s param incorrect ',0Ah,0
-.data:0044BD80                                         ; DATA XREF: parse_command_line_options:loc_4032CA↑o
-.data:0044BDA5                 align 4
-.data:0044BDA8 ; const char asc_44BDA8[]
-.data:0044BDA8 asc_44BDA8      db '-h',0               ; DATA XREF: parse_command_line_options+9D0↑o
-.data:0044BDAB                 align 4
-.data:0044BDAC ; const char aHdev[6]
-.data:0044BDAC aHdev           db '-hdev',0            ; DATA XREF: parse_command_line_options:loc_403275↑o
-.data:0044BDB2                 align 4
-.data:0044BDB4 ; const char aDisablereportm[19]
-.data:0044BDB4 aDisablereportm db '-disablereportmode',0
-.data:0044BDB4                                         ; DATA XREF: parse_command_line_options:loc_40325B↑o
-.data:0044BDC7                 align 4
-.data:0044BDC8 ; const char aNoadjusttiming[16]
-.data:0044BDC8 aNoadjusttiming db '-noadjusttiming',0  ; DATA XREF: parse_command_line_options:loc_40323E↑o
-.data:0044BDD8 ; const char aOldtiming[11]
-.data:0044BDD8 aOldtiming      db '-oldtiming',0       ; DATA XREF: parse_command_line_options:loc_403220↑o
-.data:0044BDE3                 align 4
-.data:0044BDE4 ; const char aAdjusttiming[14]
-.data:0044BDE4 aAdjusttiming   db '-adjusttiming',0    ; DATA XREF: parse_command_line_options:loc_403202↑o
-.data:0044BDF2                 align 4
-.data:0044BDF4 ; const char aGtrace[8]
-.data:0044BDF4 aGtrace         db '-gtrace',0          ; DATA XREF: parse_command_line_options+924↑o
-.data:0044BDFC ; const char aNolog[7]
-.data:0044BDFC aNolog          db '-nolog',0           ; DATA XREF: parse_command_line_options:loc_4031CE↑o
-.data:0044BE03                 align 4
-.data:0044BE04 ; const char aPpf[5]
-.data:0044BE04 aPpf            db '-ppf',0             ; DATA XREF: parse_command_line_options:loc_4031B0↑o
-.data:0044BE09                 align 4
-.data:0044BE0C ; const char aNoppf[7]
-.data:0044BE0C aNoppf          db '-noppf',0           ; DATA XREF: parse_command_line_options:loc_403193↑o
-.data:0044BE13                 align 4
-.data:0044BE14 ; const char aNocdinc[9]
-.data:0044BE14 aNocdinc        db '-nocdinc',0         ; DATA XREF: parse_command_line_options:loc_403176↑o
-.data:0044BE1D                 align 10h
-.data:0044BE20 ; const char aNoignorecmd[13]
-.data:0044BE20 aNoignorecmd    db '-noignorecmd',0     ; DATA XREF: parse_command_line_options:loc_403159↑o
-.data:0044BE2D                 align 10h
-.data:0044BE30 ; const char aAnalog4[9]
-.data:0044BE30 aAnalog4        db '-analog4',0         ; DATA XREF: parse_command_line_options:loc_403132↑o
-.data:0044BE39                 align 4
-.data:0044BE3C ; const char aAnalog3[9]
-.data:0044BE3C aAnalog3        db '-analog3',0         ; DATA XREF: parse_command_line_options:loc_40310B↑o
-.data:0044BE45                 align 4
-.data:0044BE48 ; const char aAnalog2[9]
-.data:0044BE48 aAnalog2        db '-analog2',0         ; DATA XREF: parse_command_line_options:loc_4030E4↑o
-.data:0044BE51                 align 4
-.data:0044BE54 ; const char aAnalog1[9]
-.data:0044BE54 aAnalog1        db '-analog1',0         ; DATA XREF: parse_command_line_options:loc_4030BD↑o
-.data:0044BE5D                 align 10h
-.data:0044BE60 ; const char aAnalog[8]
-.data:0044BE60 aAnalog         db '-analog',0          ; DATA XREF: parse_command_line_options:loc_403096↑o
-.data:0044BE68 ; const char aMultitap[10]
-.data:0044BE68 aMultitap       db '-multitap',0        ; DATA XREF: parse_command_line_options:loc_403078↑o
-.data:0044BE72                 align 4
-.data:0044BE74 ; const char aGun[5]
-.data:0044BE74 aGun            db '-gun',0             ; DATA XREF: parse_command_line_options:loc_40304D↑o
-.data:0044BE79                 align 4
-.data:0044BE7C ; const char aAnamouse[10]
-.data:0044BE7C aAnamouse       db '-anamouse',0        ; DATA XREF: parse_command_line_options:loc_40301C↑o
-.data:0044BE86                 align 4
-.data:0044BE88 ; const char aMouse2[8]
-.data:0044BE88 aMouse2         db '-mouse2',0          ; DATA XREF: parse_command_line_options:loc_402FDD↑o
-.data:0044BE90 ; const char aMouse[7]
-.data:0044BE90 aMouse          db '-mouse',0           ; DATA XREF: parse_command_line_options:loc_402FB2↑o
-.data:0044BE97                 align 4
-.data:0044BE98 ; const char aNoauto[8]
-.data:0044BE98 aNoauto         db '-noauto',0          ; DATA XREF: parse_command_line_options:loc_402F8E↑o
-.data:0044BEA0 ; const char aNocdstatus[12]
-.data:0044BEA0 aNocdstatus     db '-nocdstatus',0      ; DATA XREF: parse_command_line_options:loc_402F70↑o
-.data:0044BEAC ; const char aSsv0[6]
-.data:0044BEAC aSsv0           db '-ssv0',0            ; DATA XREF: parse_command_line_options:loc_402F53↑o
-.data:0044BEB2                 align 4
-.data:0044BEB4 ; const char aLoadstate[11]
-.data:0044BEB4 aLoadstate      db '-loadstate',0       ; DATA XREF: parse_command_line_options:loc_402F22↑o
-.data:0044BEBF                 align 10h
-.data:0044BEC0 ; const char aLoadcheat[11]
-.data:0044BEC0 aLoadcheat      db '-loadcheat',0       ; DATA XREF: parse_command_line_options:loc_402EEC↑o
-.data:0044BECB                 align 4
-.data:0044BECC ; const char aLoadiso[9]
-.data:0044BECC aLoadiso        db '-loadiso',0         ; DATA XREF: parse_command_line_options:loc_402EB0↑o
-.data:0044BED5                 align 4
-.data:0044BED8 ; const char aLoadbin[9]
-.data:0044BED8 aLoadbin        db '-loadbin',0         ; DATA XREF: parse_command_line_options:loc_402E75↑o
-.data:0044BEE1                 align 4
-.data:0044BEE4 ; const char aLoadmemc1[11]
-.data:0044BEE4 aLoadmemc1      db '-loadmemc1',0       ; DATA XREF: parse_command_line_options:loc_402E44↑o
-.data:0044BEEF                 align 10h
-.data:0044BEF0 ; const char aLoadmemc0[11]
-.data:0044BEF0 aLoadmemc0      db '-loadmemc0',0       ; DATA XREF: parse_command_line_options:loc_402E13↑o
-.data:0044BEFB                 align 4
-.data:0044BEFC ; const char aLoadppf[9]
-.data:0044BEFC aLoadppf        db '-loadppf',0         ; DATA XREF: parse_command_line_options:loc_402DE2↑o
-.data:0044BF05                 align 4
-.data:0044BF08 ; const char aLoadfake[10]
-.data:0044BF08 aLoadfake       db '-loadfake',0        ; DATA XREF: parse_command_line_options:loc_402DA8↑o
-.data:0044BF12                 align 4
-.data:0044BF14 ; const char aNocputrick[12]
-.data:0044BF14 aNocputrick     db '-nocputrick',0      ; DATA XREF: parse_command_line_options:loc_402D8B↑o
-.data:0044BF20 ; const char aPe2[5]
-.data:0044BF20 aPe2            db '-pe2',0             ; DATA XREF: parse_command_line_options:loc_402D6D↑o
-.data:0044BF25                 align 4
-.data:0044BF28 ; const char aFf9pal[8]
-.data:0044BF28 aFf9pal         db '-ff9pal',0          ; DATA XREF: parse_command_line_options:loc_402D50↑o
-.data:0044BF30 ; const char aLegaia[8]
-.data:0044BF30 aLegaia         db '-legaia',0          ; DATA XREF: parse_command_line_options:loc_402D32↑o
-.data:0044BF38 ; const char aSavefake[10]
-.data:0044BF38 aSavefake       db '-savefake',0        ; DATA XREF: parse_command_line_options:loc_402CF8↑o
-.data:0044BF42                 align 4
-.data:0044BF44 ; const char aNoxaread[10]
-.data:0044BF44 aNoxaread       db '-noxaread',0        ; DATA XREF: parse_command_line_options:loc_402CDB↑o
-.data:0044BF4E                 align 10h
-.data:0044BF50 ; const char aXaread[8]
-.data:0044BF50 aXaread         db '-xaread',0          ; DATA XREF: parse_command_line_options:loc_402CBD↑o
-.data:0044BF58 ; const char aNoxasound[11]
-.data:0044BF58 aNoxasound      db '-noxasound',0       ; DATA XREF: parse_command_line_options:loc_402CA0↑o
-.data:0044BF63                 align 4
-.data:0044BF64 ; const char aXasound[9]
-.data:0044BF64 aXasound        db '-xasound',0         ; DATA XREF: parse_command_line_options:loc_402C82↑o
-.data:0044BF6D                 align 10h
-.data:0044BF70 ; const char aMemcard[9]
-.data:0044BF70 aMemcard        db '-memcard',0         ; DATA XREF: parse_command_line_options:loc_402C64↑o
-.data:0044BF79                 align 4
-.data:0044BF7C ; const char aNomemcard[11]
-.data:0044BF7C aNomemcard      db '-nomemcard',0       ; DATA XREF: parse_command_line_options:loc_402C47↑o
-.data:0044BF87                 align 4
-.data:0044BF88 ; const char aMdec[6]
-.data:0044BF88 aMdec           db '-mdec',0            ; DATA XREF: parse_command_line_options:loc_402C2A↑o
-.data:0044BF8E                 align 10h
-.data:0044BF90 ; const char aNomdec[8]
-.data:0044BF90 aNomdec         db '-nomdec',0          ; DATA XREF: parse_command_line_options:loc_402C09↑o
-.data:0044BF98 ; const char aSound[7]
-.data:0044BF98 aSound          db '-sound',0           ; DATA XREF: parse_command_line_options:loc_402BEB↑o
-.data:0044BF9F                 align 10h
-.data:0044BFA0 ; const char aNosound[9]
-.data:0044BFA0 aNosound        db '-nosound',0         ; DATA XREF: parse_command_line_options+30E↑o
-.data:0044BFA9                 align 4
-.data:0044BFAC ; const char aFl[]
-.data:0044BFAC aFl             db '-fl',0              ; DATA XREF: parse_command_line_options+2E9↑o
-.data:0044BFB0 ; const char aSlowboot[10]
-.data:0044BFB0 aSlowboot       db '-slowboot',0        ; DATA XREF: parse_command_line_options+2CA↑o
-.data:0044BFBA                 align 4
-.data:0044BFBC ; const char aFastboot[]
-.data:0044BFBC aFastboot       db '-fastboot',0        ; DATA XREF: parse_command_line_options+2AD↑o
-.data:0044BFC6                 align 4
-.data:0044BFC8 ; const char asc_44BFC8[]
-.data:0044BFC8 asc_44BFC8      db '-f',0               ; DATA XREF: parse_command_line_options+292↑o
-.data:0044BFCB                 align 4
-.data:0044BFCC ; const char aV[]
-.data:0044BFCC aV              db '-v',0               ; DATA XREF: parse_command_line_options+271↑o
-.data:0044BFCF                 align 10h
-.data:0044BFD0 ; const char aI[3]
-.data:0044BFD0 aI              db '-i',0               ; DATA XREF: parse_command_line_options+250↑o
-.data:0044BFD3                 align 4
-.data:0044BFD4 ; const char Str2[3]
-.data:0044BFD4 Str2            db '-p',0               ; DATA XREF: parse_command_line_options+217↑o
-.data:0044BFD7                 align 4
-.data:0044BFD8 ; const char aNogui[7]
-.data:0044BFD8 aNogui          db '-nogui',0           ; DATA XREF: parse_command_line_options:loc_402AB2↑o
-.data:0044BFDF                 align 10h
-.data:0044BFE0 ; const char aAudiocd[9]
-.data:0044BFE0 aAudiocd        db '-audiocd',0         ; DATA XREF: parse_command_line_options:loc_402A95↑o
-.data:0044BFE9                 align 4
-.data:0044BFEC ; const char aNoaudiocd[11]
-.data:0044BFEC aNoaudiocd      db '-noaudiocd',0       ; DATA XREF: parse_command_line_options:loc_402A78↑o
-.data:0044BFF7                 align 4
-.data:0044BFF8 ; const char aNocd[6]
-.data:0044BFF8 aNocd           db '-nocd',0            ; DATA XREF: parse_command_line_options:loc_402A5B↑o
-.data:0044BFFE                 align 10h
-.data:0044C000 ; const char aNoforcespu[12]
-.data:0044C000 aNoforcespu     db '-noforcespu',0      ; DATA XREF: parse_command_line_options:loc_402A3E↑o
-.data:0044C00C ; const char aForcespu[10]
-.data:0044C00C aForcespu       db '-forcespu',0        ; DATA XREF: parse_command_line_options:loc_402A20↑o
-.data:0044C016                 align 4
-.data:0044C018 ; const char aNoforcepad[12]
-.data:0044C018 aNoforcepad     db '-noforcepad',0      ; DATA XREF: parse_command_line_options:loc_402A03↑o
-.data:0044C024 ; const char aForcepad[10]
-.data:0044C024 aForcepad       db '-forcepad',0        ; DATA XREF: parse_command_line_options:loc_4029E2↑o
-.data:0044C02E                 align 10h
-.data:0044C030 ; const char aMdectiming[12]
-.data:0044C030 aMdectiming     db '-mdectiming',0      ; DATA XREF: parse_command_line_options:loc_4029C1↑o
-.data:0044C03C ; const char aNomdectiming[14]
-.data:0044C03C aNomdectiming   db '-nomdectiming',0    ; DATA XREF: parse_command_line_options:loc_4029A4↑o
-.data:0044C04A                 align 4
-.data:0044C04C ; const char aNocdoverwrite[15]
-.data:0044C04C aNocdoverwrite  db '-nocdoverwrite',0   ; DATA XREF: parse_command_line_options:loc_402986↑o
-.data:0044C05B                 align 4
-.data:0044C05C ; const char aPslib[7]
-.data:0044C05C aPslib          db '-pslib',0           ; DATA XREF: parse_command_line_options:loc_402968↑o
-.data:0044C063                 align 4
-.data:0044C064 ; const char aExtsubchanhle[15]
-.data:0044C064 aExtsubchanhle  db '-extsubchanhle',0   ; DATA XREF: parse_command_line_options:loc_40294A↑o
-.data:0044C073                 align 4
-.data:0044C074 ; const char aSubchan[9]
-.data:0044C074 aSubchan        db '-subchan',0         ; DATA XREF: parse_command_line_options:loc_40292C↑o
-.data:0044C07D                 align 10h
-.data:0044C080 ; const char aNosubchan[11]
-.data:0044C080 aNosubchan      db '-nosubchan',0       ; DATA XREF: parse_command_line_options:loc_40290F↑o
-.data:0044C08B                 align 4
-.data:0044C08C ; const char aBios[6]
-.data:0044C08C aBios           db '-bios',0            ; DATA XREF: parse_command_line_options+24↑o
-.data:0044C092                 align 4
-.data:0044C094 ; const char aByeBye[]
-.data:0044C094 aByeBye         db ' Bye Bye. ',0Ah,0   ; DATA XREF: WinMain+1AA↑o
-.data:0044C0A0 ; const char aInternal[]
-.data:0044C0A0 aInternal       db 'INTERNAL',0         ; DATA XREF: WinMain+CC↑o
-.data:0044C0A9                 align 4
+
 .data:0044C0AC save_state_ver  db 0FFh                 ; DATA XREF: parse_command_line_options+6A5↑w
 .data:0044C0AC                                         ; state_save+64↑r ...
-.data:0044C0AD                 align 10h
-.data:0044C0B0 ; const char aSpu[4]
-.data:0044C0B0 aSpu            db 'SPU',0              ; DATA XREF: state_save+157↑o
-.data:0044C0B0                                         ; state_load+149↑o
-.data:0044C0B4 ; const char aGpu[4]
-.data:0044C0B4 aGpu            db 'GPU',0              ; DATA XREF: state_save+14C↑o
-.data:0044C0B4                                         ; state_load+13E↑o
-.data:0044C0B8 ; const char aMde[4]
-.data:0044C0B8 aMde            db 'MDE',0              ; DATA XREF: state_save+130↑o
-.data:0044C0B8                                         ; state_load+127↑o
-.data:0044C0BC ; const char aSio[4]
-.data:0044C0BC aSio            db 'SIO',0              ; DATA XREF: state_save+11B↑o
-.data:0044C0BC                                         ; state_load+115↑o
-.data:0044C0C0 ; const char aCdr[4]
-.data:0044C0C0 aCdr            db 'CDR',0              ; DATA XREF: state_save+110↑o
-.data:0044C0C0                                         ; state_load+FE↑o
-.data:0044C0C4 ; const char aGte[4]
-.data:0044C0C4 aGte            db 'GTE',0              ; DATA XREF: state_save+105↑o
-.data:0044C0C4                                         ; state_load+EC↑o
-.data:0044C0C8 ; const char aIrq[4]
-.data:0044C0C8 aIrq            db 'IRQ',0              ; DATA XREF: state_save+F7↑o
-.data:0044C0C8                                         ; state_load+E1↑o
-.data:0044C0CC ; const char aReg[4]
-.data:0044C0CC aReg            db 'REG',0              ; DATA XREF: state_save+EC↑o
-.data:0044C0CC                                         ; state_load+D6↑o
-.data:0044C0D0 ; const char aMem[4]
-.data:0044C0D0 aMem            db 'MEM',0              ; DATA XREF: state_save+E1↑o
-.data:0044C0D0                                         ; state_load+BF↑o
-.data:0044C0D4 ; const char aPsx[]
-.data:0044C0D4 aPsx            db 'PSX',0              ; DATA XREF: state_save+B0↑o
-.data:0044C0D8 ; const char aWb1[4]
-.data:0044C0D8 aWb1            db 'wb1',0              ; DATA XREF: state_save+32↑o
-.data:0044C0DC ; char aSS03d[]
-.data:0044C0DC aSS03d          db '%s%s.%03d',0        ; DATA XREF: state_save+21↑o
-.data:0044C0DC                                         ; state_load+42↑o ...
-.data:0044C0E6                 align 4
-.data:0044C0E8 ; const char aSstates[9]
-.data:0044C0E8 aSstates        db 'sstates\',0         ; DATA XREF: state_save+18↑o
-.data:0044C0E8                                         ; state_load+3D↑o ...
-.data:0044C0F1                 align 4
-.data:0044C0F4 ; const char aRb1[4]
-.data:0044C0F4 aRb1            db 'rb1',0              ; DATA XREF: state_load+78↑o
-.data:0044C0F8 ; const char Mode[]
+
 .data:0044C0F8 Mode            db 'rb',0               ; DATA XREF: check_state_exists+2D↑o
 .data:0044C0F8                                         ; setup_wizard_search_bios+183↑o ...
 .data:0044C0FB                 db    0
@@ -1041,16 +397,11 @@
 .data:0044DCDE                 JOY_NAME <'J4_LRZ'>
 .data:0044DCEC                 JOY_NAME <'J4_RLGSLIDER0'>
 .data:0044DCFA                 JOY_NAME <'J4_RLGSLIDER1'>
-.data:0044DD08 ; const CHAR ClassName[]
-.data:0044DD08 ClassName       db 'EPSXGUI',0          ; DATA XREF: register_win_class+6C↑o
-.data:0044DD08                                         ; create_main_window+77↑o
-.data:0044DD10 ; const char aEpsxmenu[9]
-.data:0044DD10 aEpsxmenu       db 'EPSXMENU',0         ; DATA XREF: register_win_class+64↑o
+
 .data:0044DD19 g_bDisableMouse db 1                    ; DATA XREF: parse_command_line_options+20A↑w
 .data:0044DD19                                         ; main_window_callback+269↑w ...
 .data:0044DD1A pad_number_menu_selection db 1          ; DATA XREF: controller_set_joypad+28↑r
 .data:0044DD1A                                         ; controller_set_joypad+8F↑r ...
-.data:0044DD1B                 align 4
 .data:0044DD1C ; int word_44DD1C
 .data:0044DD1C word_44DD1C     dw 40Ah                 ; DATA XREF: controller_set_keyboard+19↑o
 .data:0044DD1C                                         ; controller_set_keyboard+E4↑r
@@ -1095,7 +446,6 @@
 .data:0044DD43                 db    4
 .data:0044DD44 byte_44DD44     db 0FFh                 ; DATA XREF: controller_setup_callback+70E↑w
 .data:0044DD44                                         ; controller_setup_callback+745↑r ...
-.data:0044DD45                 align 4
 .data:0044DD48 setup_wizard_step dd 0FFFFFFFFh         ; DATA XREF: setup_wizard_search_bios+CE↑r
 .data:0044DD48                                         ; setup_wizard_search_bios+DA↑w ...
 .data:0044DD4C debug_bios      _BIOS_DESCR <0Dh, 'dtlh3002 - PAL'>
@@ -1120,768 +470,10 @@
 .data:0044DF24 ; char dword_44DF24[]
 .data:0044DF24 dword_44DF24    dd 0FFFFFFFFh           ; DATA XREF: main_window_callback:loc_40AA85↑w
 .data:0044DF24                                         ; main_window_callback:loc_40AA94↑w ...
-.data:0044DF28 ; const CHAR aEditAxisY2[]
-.data:0044DF28 aEditAxisY2     db 'EDIT AXIS: Y2',0    ; DATA XREF: controller_setup_callback+1351↑o
-.data:0044DF36                 align 4
-.data:0044DF38 ; const CHAR aEditAxisX2[]
-.data:0044DF38 aEditAxisX2     db 'EDIT AXIS: X2',0    ; DATA XREF: controller_setup_callback+1323↑o
-.data:0044DF46                 align 4
-.data:0044DF48 ; const CHAR aEditAxisY1[]
-.data:0044DF48 aEditAxisY1     db 'EDIT AXIS: Y1',0    ; DATA XREF: controller_setup_callback+12F5↑o
-.data:0044DF56                 align 4
-.data:0044DF58 ; const CHAR aEditAxisX1[]
-.data:0044DF58 aEditAxisX1     db 'EDIT AXIS: X1',0    ; DATA XREF: controller_setup_callback+12C7↑o
-.data:0044DF66                 align 4
-.data:0044DF68 ; const CHAR aEditButtonR3[]
-.data:0044DF68 aEditButtonR3   db 'EDIT BUTTON: R3',0  ; DATA XREF: controller_setup_callback+1299↑o
-.data:0044DF78 ; const CHAR aEditButtonL3[]
-.data:0044DF78 aEditButtonL3   db 'EDIT BUTTON: L3',0  ; DATA XREF: controller_setup_callback+126B↑o
-.data:0044DF88 ; const CHAR aEditButtonSele[]
-.data:0044DF88 aEditButtonSele db 'EDIT BUTTON: SELECT',0
-.data:0044DF88                                         ; DATA XREF: controller_setup_callback+123D↑o
-.data:0044DF9C ; const CHAR aEditButtonStar[]
-.data:0044DF9C aEditButtonStar db 'EDIT BUTTON: START',0
-.data:0044DF9C                                         ; DATA XREF: controller_setup_callback+120F↑o
-.data:0044DFAF                 align 10h
-.data:0044DFB0 ; const CHAR aEditButtonR2[]
-.data:0044DFB0 aEditButtonR2   db 'EDIT BUTTON: R2',0  ; DATA XREF: controller_setup_callback+11E1↑o
-.data:0044DFC0 ; const CHAR aEditButtonR1[]
-.data:0044DFC0 aEditButtonR1   db 'EDIT BUTTON: R1',0  ; DATA XREF: controller_setup_callback+11B3↑o
-.data:0044DFD0 ; const CHAR aEditButtonL2[]
-.data:0044DFD0 aEditButtonL2   db 'EDIT BUTTON: L2',0  ; DATA XREF: controller_setup_callback+1185↑o
-.data:0044DFE0 ; const CHAR aEditButtonL1[]
-.data:0044DFE0 aEditButtonL1   db 'EDIT BUTTON: L1',0  ; DATA XREF: controller_setup_callback+1157↑o
-.data:0044DFF0 ; const CHAR aEditButtonSqua[]
-.data:0044DFF0 aEditButtonSqua db 'EDIT BUTTON: SQUARE',0
-.data:0044DFF0                                         ; DATA XREF: controller_setup_callback+1129↑o
-.data:0044E004 ; const CHAR aEditButtonX[]
-.data:0044E004 aEditButtonX    db 'EDIT BUTTON: X',0   ; DATA XREF: controller_setup_callback+10FB↑o
-.data:0044E013                 align 4
-.data:0044E014 ; const CHAR aEditButtonCirc[]
-.data:0044E014 aEditButtonCirc db 'EDIT BUTTON: CIRCLE',0
-.data:0044E014                                         ; DATA XREF: controller_setup_callback+10CD↑o
-.data:0044E028 ; const CHAR aEditButtonTria[]
-.data:0044E028 aEditButtonTria db 'EDIT BUTTON: TRIANGLE',0
-.data:0044E028                                         ; DATA XREF: controller_setup_callback+109F↑o
-.data:0044E03E                 align 10h
-.data:0044E040 ; const CHAR aEditButtonDown[]
-.data:0044E040 aEditButtonDown db 'EDIT BUTTON: DOWN',0
-.data:0044E040                                         ; DATA XREF: controller_setup_callback+1071↑o
-.data:0044E052                 align 4
-.data:0044E054 ; const CHAR aEditButtonUp[]
-.data:0044E054 aEditButtonUp   db 'EDIT BUTTON: UP',0  ; DATA XREF: controller_setup_callback+1043↑o
-.data:0044E064 ; const CHAR aEditButtonRigh[]
-.data:0044E064 aEditButtonRigh db 'EDIT BUTTON: RIGHT',0
-.data:0044E064                                         ; DATA XREF: controller_setup_callback+1015↑o
-.data:0044E077                 align 4
-.data:0044E078 ; const CHAR aEditButtonLeft[]
-.data:0044E078 aEditButtonLeft db 'EDIT BUTTON: LEFT',0
-.data:0044E078                                         ; DATA XREF: controller_setup_callback+FE7↑o
-.data:0044E08A                 align 10h
-.data:0044E090 ; const CHAR Text[]
-.data:0044E090 Text            db 'Sorry only 1 mouse supported, ',0Ah
-.data:0044E090                                         ; DATA XREF: controller_setup_callback+C7F↑o
-.data:0044E090                                         ; controller_setup_callback+D07↑o
-.data:0044E0AF                 db ' the other pad will be set to Digital Joypad',0
-.data:0044E0DC ; const CHAR Caption[]
-.data:0044E0DC Caption         db 'Only 1 mouse supported',0
-.data:0044E0DC                                         ; DATA XREF: controller_setup_callback+C7A↑o
-.data:0044E0DC                                         ; controller_setup_callback+D02↑o
-.data:0044E0F3                 align 4
-.data:0044E0F4 ; const char aDirectInputIni[]
-.data:0044E0F4 aDirectInputIni db ' * Direct input init ok. ',0Ah,0
-.data:0044E0F4                                         ; DATA XREF: controller_setup_callback+7B8↑o
-.data:0044E0F4                                         ; gpu_sub_42E3A0+43↑o ...
-.data:0044E10F                 align 10h
-.data:0044E110 ; const CHAR String[]
-.data:0044E110 String          db 'EDIT BUTTON: NONE',0
-.data:0044E110                                         ; DATA XREF: controller_setup_callback+782↑o
-.data:0044E110                                         ; controller_setup_callback:loc_405370↑o ...
-.data:0044E122                 align 4
-.data:0044E124 ; const char aPadNumberD[]
-.data:0044E124 aPadNumberD     db 'PAD NUMBER %d',0    ; DATA XREF: controller_setup_callback+761↑o
-.data:0044E132                 align 4
-.data:0044E134 ; const char aDigitalMouseF5[20]
-.data:0044E134 aDigitalMouseF5 db 'Digital/Mouse  (F5)',0
-.data:0044E134                                         ; DATA XREF: controller_setup_callback+304↑o
-.data:0044E134                                         ; controller_setup_callback+516↑o
-.data:0044E148 ; const char aDigitalGunF5[20]
-.data:0044E148 aDigitalGunF5   db 'Digital/Gun    (F5)',0
-.data:0044E148                                         ; DATA XREF: controller_setup_callback+2F0↑o
-.data:0044E15C ; const char aDigitalAnalogM_0[29]
-.data:0044E15C aDigitalAnalogM_0 db 'Digital/Analog Mouse T1 (F5)',0
-.data:0044E15C                                         ; DATA XREF: controller_setup_callback+2DC↑o
-.data:0044E179                 align 4
-.data:0044E17C ; const char aDigitalAnalogM[29]
-.data:0044E17C aDigitalAnalogM db 'Digital/Analog Mouse T0 (F5)',0
-.data:0044E17C                                         ; DATA XREF: controller_setup_callback+2C8↑o
-.data:0044E199                 align 4
-.data:0044E19C ; const char aSine[5]
-.data:0044E19C aSine           db 'Sine',0             ; DATA XREF: controller_setup_callback+1C9↑o
-.data:0044E19C                                         ; controller_setup_callback+23C↑o ...
-.data:0044E1A1                 align 4
-.data:0044E1A4 ; const char aConstant[9]
-.data:0044E1A4 aConstant       db 'Constant',0         ; DATA XREF: controller_setup_callback:def_40451B↑o
-.data:0044E1A4                                         ; controller_setup_callback:loc_4045C4↑o ...
-.data:0044E1AD                 align 10h
-.data:0044E1B0 ; const char aNone[5]
-.data:0044E1B0 aNone           db 'None',0             ; DATA XREF: controller_setup_callback+143↑o
-.data:0044E1B0                                         ; controller_setup_callback+1B5↑o ...
-.data:0044E1B5                 align 4
-.data:0044E1B8 ; const char aDxJoy4[8]
-.data:0044E1B8 aDxJoy4         db 'DX Joy4',0          ; DATA XREF: controller_setup_callback+12F↑o
-.data:0044E1B8                                         ; controller_setup_callback+3C2↑o ...
-.data:0044E1C0 ; const char aDxJoy3[8]
-.data:0044E1C0 aDxJoy3         db 'DX Joy3',0          ; DATA XREF: controller_setup_callback+11B↑o
-.data:0044E1C0                                         ; controller_setup_callback+3AE↑o ...
-.data:0044E1C8 ; const char aDxJoy2[8]
-.data:0044E1C8 aDxJoy2         db 'DX Joy2',0          ; DATA XREF: controller_setup_callback+107↑o
-.data:0044E1C8                                         ; controller_setup_callback+39A↑o ...
-.data:0044E1D0 ; const char aDxJoy1[8]
-.data:0044E1D0 aDxJoy1         db 'DX Joy1',0          ; DATA XREF: controller_setup_callback+F3↑o
-.data:0044E1D0                                         ; controller_setup_callback+386↑o ...
-.data:0044E1D8 ; const char aBurutter[9]
-.data:0044E1D8 aBurutter       db 'Burutter',0         ; DATA XREF: controller_setup_callback:loc_40448F↑o
-.data:0044E1D8                                         ; controller_setup_callback:def_4046E6↑o ...
-.data:0044E1E1                 align 4
-.data:0044E1E4 ; const char aDisabled_0[9]
-.data:0044E1E4 aDisabled_0     db 'Disabled',0         ; DATA XREF: controller_setup_callback+93↑o
-.data:0044E1E4                                         ; controller_setup_callback+318↑o ...
-.data:0044E1ED                 align 10h
-.data:0044E1F0 ; const char aDigitalAnalogF[20]
-.data:0044E1F0 aDigitalAnalogF db 'Digital/Analog (F5)',0
-.data:0044E1F0                                         ; DATA XREF: controller_setup_callback+7F↑o
-.data:0044E1F0                                         ; controller_setup_callback+2B4↑o ...
-.data:0044E204 ; const char aDigitalOnly[13]
-.data:0044E204 aDigitalOnly    db 'Digital Only',0     ; DATA XREF: controller_setup_callback+6B↑o
-.data:0044E204                                         ; controller_setup_callback+2A0↑o ...
-.data:0044E211                 align 4
-.data:0044E214 ; char aXX_0[]
-.data:0044E214 aXX_0           db '%x %x',0Ah,0        ; DATA XREF: cheat_dialog_callback+3D2↑o
-.data:0044E21B                 align 4
-.data:0044E21C ; char aW[]
-.data:0044E21C aW              db 'w',0                ; DATA XREF: cheat_dialog_callback+35F↑o
-.data:0044E21C                                         ; reopen_console_log+12↑o
-.data:0044E21E                 align 10h
-.data:0044E220 ; const char aSavePsxCheat[15]
-.data:0044E220 aSavePsxCheat   db 'Save PSX CHEAT',0   ; DATA XREF: cheat_dialog_callback+34A↑o
-.data:0044E22F                 align 10h
-.data:0044E230 ; const char aPsxCheatsCht_0[19]
-.data:0044E230 aPsxCheatsCht_0 db 'PSX CHEATs (*.CHT)',0
-.data:0044E230                                         ; DATA XREF: cheat_dialog_callback+345↑o
-.data:0044E243                 align 4
-.data:0044E244 ; char aXX[]
-.data:0044E244 aXX             db '%x %x',0            ; DATA XREF: cheat_dialog_callback+2CC↑o
-.data:0044E244                                         ; loader_load_cheat_file+68↑o
-.data:0044E24A                 align 4
-.data:0044E24C ; char asc_44E24C[]
-.data:0044E24C asc_44E24C      db ' ',0                ; DATA XREF: cheat_dialog_callback+298↑o
-.data:0044E24C                                         ; loader_load_cheat_file+34↑o
-.data:0044E24E                 align 10h
-.data:0044E250 ; const char aR[]
-.data:0044E250 aR              db 'r',0                ; DATA XREF: cheat_dialog_callback+266↑o
-.data:0044E250                                         ; loader_load_cheat_file+B↑o
-.data:0044E252                 align 4
-.data:0044E254 ; const char aOpenPsxCheat[15]
-.data:0044E254 aOpenPsxCheat   db 'Open PSX CHEAT',0   ; DATA XREF: cheat_dialog_callback+251↑o
-.data:0044E263                 align 4
-.data:0044E264 ; const char aPsxCheatsCht[19]
-.data:0044E264 aPsxCheatsCht   db 'PSX CHEATs (*.CHT)',0
-.data:0044E264                                         ; DATA XREF: cheat_dialog_callback+24C↑o
-.data:0044E277 ; const char aCht[6]
-.data:0044E277 aCht            db '*.cht',0
-.data:0044E27D ; const char aAllFiles[10]
-.data:0044E27D aAllFiles       db 'All files',0
-.data:0044E287                 db '*.*',0
-.data:0044E28B                 align 4
-.data:0044E28C ; const char aCheats[8]
-.data:0044E28C aCheats         db 'cheats\',0          ; DATA XREF: cheat_dialog_callback+242↑o
-.data:0044E28C                                         ; cheat_dialog_callback+33B↑o
-.data:0044E294 ; const char aCht_0[4]
-.data:0044E294 aCht_0          db 'CHT',0              ; DATA XREF: cheat_dialog_callback:loc_405AAD↑o
-.data:0044E294                                         ; cheat_dialog_callback:loc_405BA6↑o
-.data:0044E298 ; char asc_44E298[3]
-.data:0044E298 asc_44E298      db '%x',0               ; DATA XREF: cheat_dialog_callback+146↑o
-.data:0044E298                                         ; cheat_dialog_callback+15D↑o ...
-.data:0044E29B                 align 4
-.data:0044E29C ; char a06x08x[]
-.data:0044E29C a06x08x         db '  %06x    %08x',0   ; DATA XREF: cheat_dialog_callback+A4↑o
-.data:0044E29C                                         ; cheat_dialog_callback+176↑o ...
-.data:0044E2AB                 align 4
-.data:0044E2AC ; const char aSelectPsxBios[16]
-.data:0044E2AC aSelectPsxBios  db 'Select PSX BIOS',0  ; DATA XREF: bios_dialog_callback+8F↑o
-.data:0044E2BC ; const char aPsxBiosBin[17]
-.data:0044E2BC aPsxBiosBin     db 'PSX BIOS (*.BIN)',0 ; DATA XREF: bios_dialog_callback+8A↑o
-.data:0044E2CD ; const char aBin[6]
-.data:0044E2CD aBin            db '*.bin',0
-.data:0044E2D3 ; const char aAllFiles_0[10]
-.data:0044E2D3 aAllFiles_0     db 'All files',0
-.data:0044E2DD                 db '*.*',0
-.data:0044E2E1                 align 4
-.data:0044E2E4 ; const char aBios_0[6]
-.data:0044E2E4 aBios_0         db 'bios\',0            ; DATA XREF: bios_dialog_callback+80↑o
-.data:0044E2E4                                         ; setup_wizard_search_bios+6↑r ...
-.data:0044E2EA                 align 4
-.data:0044E2EC ; const char aBin_1[4]
-.data:0044E2EC aBin_1          db 'BIN',0              ; DATA XREF: bios_dialog_callback:loc_405E2B↑o
-.data:0044E2F0 ; char aSDD[]
-.data:0044E2F0 aSDD            db '%s %d.%d',0         ; DATA XREF: search_video_plugin+50F↑o
-.data:0044E2F0                                         ; search_net_plugin+54F↑o ...
-.data:0044E2F9                 align 4
-.data:0044E2FC ; const CHAR aPsegetlibversi[]
-.data:0044E2FC aPsegetlibversi db 'PSEgetLibVersion',0 ; DATA XREF: search_video_plugin+4B8↑o
-.data:0044E2FC                                         ; search_net_plugin+4F8↑o ...
-.data:0044E30D                 align 10h
-.data:0044E310 ; const CHAR aPsegetlibname[]
-.data:0044E310 aPsegetlibname  db 'PSEgetLibName',0    ; DATA XREF: search_video_plugin+4AB↑o
-.data:0044E310                                         ; search_net_plugin+4EB↑o ...
-.data:0044E31E                 align 10h
-.data:0044E320 ; const CHAR aPsegetlibtype[]
-.data:0044E320 aPsegetlibtype  db 'PSEgetLibType',0    ; DATA XREF: search_video_plugin+4A3↑o
-.data:0044E320                                         ; search_net_plugin+4E3↑o ...
-.data:0044E32E                 align 10h
-.data:0044E330 ; const char aNotVideoPlugin[]
-.data:0044E330 aNotVideoPlugin db 'not video plugins found',0Ah,0
-.data:0044E330                                         ; DATA XREF: search_video_plugin+44D↑o
-.data:0044E349                 align 4
-.data:0044E34C ; const CHAR aGpuabout[]
-.data:0044E34C aGpuabout       db 'GPUabout',0         ; DATA XREF: search_video_plugin+3F3↑o
-.data:0044E34C                                         ; setup_wizard_search_video_plugin+39D↑o ...
-.data:0044E355                 align 4
-.data:0044E358 ; const CHAR aGpuconfigure[]
-.data:0044E358 aGpuconfigure   db 'GPUconfigure',0     ; DATA XREF: search_video_plugin+33E↑o
-.data:0044E358                                         ; setup_wizard_search_video_plugin+2E8↑o ...
-.data:0044E365                 align 4
-.data:0044E368 ; const CHAR aUnkValue[]
-.data:0044E368 aUnkValue       db 'UNK value',0        ; DATA XREF: search_video_plugin+29F↑o
-.data:0044E368                                         ; search_net_plugin+282↑o ...
-.data:0044E372                 align 4
-.data:0044E374 ; const CHAR aPluginNotWorki[]
-.data:0044E374 aPluginNotWorki db '   Plugin NOT working, try configuring it.  ',0
-.data:0044E374                                         ; DATA XREF: search_video_plugin+278↑o
-.data:0044E374                                         ; search_net_plugin+261↑o ...
-.data:0044E3A1                 align 4
-.data:0044E3A4 ; const CHAR aPluginWorkingC[]
-.data:0044E3A4 aPluginWorkingC db '   Plugin working correctly.  ',0
-.data:0044E3A4                                         ; DATA XREF: search_video_plugin+24D↑o
-.data:0044E3A4                                         ; search_net_plugin+23C↑o ...
-.data:0044E3C3                 align 4
-.data:0044E3C4 ; const CHAR aTestingGpuPlug[]
-.data:0044E3C4 aTestingGpuPlug db 'Testing GPU Plugin',0
-.data:0044E3C4                                         ; DATA XREF: search_video_plugin+248↑o
-.data:0044E3C4                                         ; search_video_plugin+273↑o ...
-.data:0044E3D7                 align 4
-.data:0044E3D8 ; const CHAR aGpushutdown[]
-.data:0044E3D8 aGpushutdown    db 'GPUshutdown',0      ; DATA XREF: search_video_plugin+224↑o
-.data:0044E3D8                                         ; search_video_plugin+34B↑o ...
-.data:0044E3E4 ; const CHAR aGputest[]
-.data:0044E3E4 aGputest        db 'GPUtest',0          ; DATA XREF: search_video_plugin+217↑o
-.data:0044E3E4                                         ; setup_wizard_search_video_plugin+1C1↑o ...
-.data:0044E3EC ; const CHAR ProcName[]
-.data:0044E3EC ProcName        db 'GPUinit',0          ; DATA XREF: search_video_plugin+20F↑o
-.data:0044E3EC                                         ; search_video_plugin+336↑o ...
-.data:0044E3F4 ; const char aSS_0[]
-.data:0044E3F4 aSS_0           db '%s%s',0             ; DATA XREF: search_video_plugin+1EB↑o
-.data:0044E3F4                                         ; search_video_plugin+312↑o ...
-.data:0044E3F9                 align 4
-.data:0044E3FC ; const char aDll[6]
-.data:0044E3FC aDll            db '*.dll',0            ; DATA XREF: search_video_plugin+47↑r
-.data:0044E3FC                                         ; search_net_plugin+47↑r ...
-.data:0044E402                 align 4
-.data:0044E404 ; const char aPlugins[9]
-.data:0044E404 aPlugins        db 'plugins\',0         ; DATA XREF: search_video_plugin+6↑r
-.data:0044E404                                         ; search_net_plugin+6↑r ...
-.data:0044E40D                 align 10h
-.data:0044E410 ; const char aDisabledNetpla[]
-.data:0044E410 aDisabledNetpla db 'Disabled Netplay',0 ; DATA XREF: search_net_plugin+40E↑o
-.data:0044E421                 align 4
-.data:0044E424 ; const char aNotNetPluginsF[]
-.data:0044E424 aNotNetPluginsF db 'not net plugins found',0Ah,0
-.data:0044E424                                         ; DATA XREF: search_net_plugin+3F8↑o
-.data:0044E43B                 align 4
-.data:0044E43C ; const CHAR aNetabout[]
-.data:0044E43C aNetabout       db 'NETabout',0         ; DATA XREF: search_net_plugin+3BC↑o
-.data:0044E445                 align 4
-.data:0044E448 ; const CHAR aNetconfigure[]
-.data:0044E448 aNetconfigure   db 'NETconfigure',0     ; DATA XREF: search_net_plugin+322↑o
-.data:0044E455                 align 4
-.data:0044E458 ; const CHAR aTestingNetPlug[]
-.data:0044E458 aTestingNetPlug db 'Testing NET Plugin',0
-.data:0044E458                                         ; DATA XREF: search_net_plugin+237↑o
-.data:0044E458                                         ; search_net_plugin+25C↑o ...
-.data:0044E46B                 align 4
-.data:0044E46C ; const CHAR aNettest[]
-.data:0044E46C aNettest        db 'NETtest',0          ; DATA XREF: search_net_plugin+21E↑o
-.data:0044E474 ; const char aDDD08s016s04s[]
-.data:0044E474 aDDD08s016s04s  db '%d:%d:%d %08s  %016s  %04s',0
-.data:0044E474                                         ; DATA XREF: w9x_cdrom_settings+15E↑o
-.data:0044E48F                 align 10h
-.data:0044E490 ; const char aC_0[]
-.data:0044E490 aC_0            db '%c:\',0             ; DATA XREF: w2k_cdrom_settings+18A↑o
-.data:0044E490                                         ; setup_wizard_search_cdrom_plugin+808↑o ...
-.data:0044E495                 align 4
-.data:0044E498 ; const char aC[]
-.data:0044E498 aC              db '--%c:--',0          ; DATA XREF: w2k_cdrom_settings+B4↑o
-.data:0044E498                                         ; w2k_cdrom_settings+1A9↑o ...
-.data:0044E4A0 ; const char aFirstcdrom[]
-.data:0044E4A0 aFirstcdrom     db 'FirstCdrom',0       ; DATA XREF: w2k_cdrom_settings+99↑o
-.data:0044E4A0                                         ; w2k_cdrom_settings+12F↑o ...
-.data:0044E4AB                 align 4
-.data:0044E4AC ; const char aEpsxeCdrWntW2k[]
-.data:0044E4AC aEpsxeCdrWntW2k db 'ePSXe CDR WNT/W2K core 1.5.2.',0
-.data:0044E4AC                                         ; DATA XREF: search_cdrom_plugin+467↑o
-.data:0044E4AC                                         ; setup_wizard_search_cdrom_plugin+531↑o
-.data:0044E4CA                 align 4
-.data:0044E4CC ; const char aEpsxeCdrAspiCo[]
-.data:0044E4CC aEpsxeCdrAspiCo db 'ePSXe CDR ASPI core 1.5.2.',0
-.data:0044E4CC                                         ; DATA XREF: search_cdrom_plugin+396↑o
-.data:0044E4CC                                         ; setup_wizard_search_cdrom_plugin+460↑o
-.data:0044E4E7                 align 4
-.data:0044E4E8 ; const CHAR aCdrabout[]
-.data:0044E4E8 aCdrabout       db 'CDRabout',0         ; DATA XREF: search_cdrom_plugin+357↑o
-.data:0044E4E8                                         ; setup_wizard_search_cdrom_plugin+421↑o
-.data:0044E4F1                 align 4
-.data:0044E4F4 ; const CHAR aCdrconfigure[]
-.data:0044E4F4 aCdrconfigure   db 'CDRconfigure',0     ; DATA XREF: search_cdrom_plugin+2BB↑o
-.data:0044E4F4                                         ; setup_wizard_search_cdrom_plugin+384↑o ...
-.data:0044E501                 align 4
-.data:0044E504 ; const CHAR aCdrinit[]
-.data:0044E504 aCdrinit        db 'CDRinit',0          ; DATA XREF: search_cdrom_plugin+2AC↑o
-.data:0044E504                                         ; setup_wizard_search_cdrom_plugin+375↑o ...
-.data:0044E50C ; const CHAR aIddCdromcore2k[]
-.data:0044E50C aIddCdromcore2k db 'IDD_CDROMCORE2K',0  ; DATA XREF: search_cdrom_plugin+261↑o
-.data:0044E51C ; const CHAR TemplateName[]
-.data:0044E51C TemplateName    db 'IDD_CDROMCORE9X',0  ; DATA XREF: search_cdrom_plugin+229↑o
-.data:0044E51C                                         ; setup_wizard_search_cdrom_plugin+313↑o
-.data:0044E52C ; const CHAR aCdrtest[]
-.data:0044E52C aCdrtest        db 'CDRtest',0          ; DATA XREF: search_cdrom_plugin+1B0↑o
-.data:0044E52C                                         ; setup_wizard_search_cdrom_plugin+292↑o ...
-.data:0044E534 ; const char aW2kcdrcore[11]
-.data:0044E534 aW2kcdrcore     db 'W2KCDRCORE',0       ; DATA XREF: search_cdrom_plugin+171↑o
-.data:0044E534                                         ; search_cdrom_plugin:loc_407263↑o ...
-.data:0044E53F                 align 10h
-.data:0044E540 ; const char aW9xcdrcore[]
-.data:0044E540 aW9xcdrcore     db 'W9XCDRCORE',0       ; DATA XREF: search_cdrom_plugin+15B↑o
-.data:0044E540                                         ; search_cdrom_plugin+20B↑o ...
-.data:0044E54B                 align 4
-.data:0044E54C ; const char aEpsxeSpuCore15[]
-.data:0044E54C aEpsxeSpuCore15 db 'ePSXe SPU core 1.5.2.',0
-.data:0044E54C                                         ; DATA XREF: search_spu_plugin+372↑o
-.data:0044E54C                                         ; setup_wizard_search_spu_plugin+335↑o
-.data:0044E562                 align 4
-.data:0044E564 ; const CHAR aSpuabout[]
-.data:0044E564 aSpuabout       db 'SPUabout',0         ; DATA XREF: search_spu_plugin+336↑o
-.data:0044E564                                         ; setup_wizard_search_spu_plugin+2F9↑o ...
-.data:0044E56D                 align 10h
-.data:0044E570 ; const CHAR aSpuconfigure[]
-.data:0044E570 aSpuconfigure   db 'SPUconfigure',0     ; DATA XREF: search_spu_plugin+2A8↑o
-.data:0044E570                                         ; setup_wizard_search_spu_plugin+26B↑o ...
-.data:0044E57D                 align 10h
-.data:0044E580 ; const CHAR aIddSound9x[]
-.data:0044E580 aIddSound9x     db 'IDD_SOUND9X',0      ; DATA XREF: search_spu_plugin+265↑o
-.data:0044E580                                         ; setup_wizard_search_spu_plugin+228↑o
-.data:0044E58C ; const CHAR aSputest[]
-.data:0044E58C aSputest        db 'SPUtest',0          ; DATA XREF: search_spu_plugin+1EC↑o
-.data:0044E58C                                         ; setup_wizard_search_spu_plugin+1AF↑o ...
-.data:0044E594 ; const char aSelectMemcardF_0[22]
-.data:0044E594 aSelectMemcardF_0 db 'Select Memcard FILE 2',0
-.data:0044E594                                         ; DATA XREF: memcard_settings+10C↑o
-.data:0044E5AA                 align 4
-.data:0044E5AC ; const char aSelectMemcardF[22]
-.data:0044E5AC aSelectMemcardF db 'Select Memcard FILE 1',0
-.data:0044E5AC                                         ; DATA XREF: memcard_settings+C4↑o
-.data:0044E5C2                 align 8
-.data:0044E5C8 ; const char aMemcardFileMcr[42]
-.data:0044E5C8 aMemcardFileMcr db 'MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)',0
-.data:0044E5C8                                         ; DATA XREF: memcard_settings+BF↑o
-.data:0044E5C8                                         ; memcard_settings+107↑o
-.data:0044E5F2 ; const char aMcrMemMcdGme[24]
-.data:0044E5F2 aMcrMemMcdGme   db '*.mcr;*.mem;*.mcd;*.gme',0
-.data:0044E60A ; const char aAllFiles_1[10]
-.data:0044E60A aAllFiles_1     db 'All files',0
-.data:0044E614                 db '*.*',0
-.data:0044E618                 db    0
-.data:0044E619                 db    0
-.data:0044E61A                 db    0
-.data:0044E61B                 db    0
-.data:0044E61C ; const char aMemcards[10]
-.data:0044E61C aMemcards       db 'memcards\',0        ; DATA XREF: memcard_settings+B5↑o
-.data:0044E61C                                         ; memcard_settings+FD↑o
-.data:0044E626                 align 4
-.data:0044E628 ; const char aMcr[4]
-.data:0044E628 aMcr            db 'MCR',0              ; DATA XREF: memcard_settings:loc_407E80↑o
-.data:0044E628                                         ; memcard_settings:loc_407EC8↑o
-.data:0044E62C ; const char aCdrDll[9]
-.data:0044E62C aCdrDll         db 'cdr*.dll',0         ; DATA XREF: setup_wizard_init+161↑r
-.data:0044E62C                                         ; setup_wizard_init+146↑r ...
-.data:0044E635                 align 4
-.data:0044E638 ; const char aSpuDll[9]
-.data:0044E638 aSpuDll         db 'spu*.dll',0         ; DATA XREF: setup_wizard_init+DD↑r
-.data:0044E638                                         ; setup_wizard_init+C2↑r ...
-.data:0044E641                 align 4
-.data:0044E644 ; const char aGpuDll[9]
-.data:0044E644 aGpuDll         db 'gpu*.dll',0         ; DATA XREF: setup_wizard_init+43↑r
-.data:0044E644                                         ; setup_wizard_init+52↑r ...
-.data:0044E64D                 align 10h
-.data:0044E650 ; const CHAR aEpsxeWasnTAble[]
-.data:0044E650 aEpsxeWasnTAble db 'ePSXe wasn',27h,'t able to find a psx bios in your epsxe\bios dir'
-.data:0044E650                                         ; DATA XREF: setup_wizard_search_bios+146↑o
-.data:0044E68B                 db 'ectory. If you don',27h,'t have a psx bios, enter either scph1001'
-.data:0044E6C6                 db '.bin or scph7502 into your favorite internet search engine - but '
-.data:0044E707                 db 'keep in mind that you can only have this file LEGALLY when you ow'
-.data:0044E748                 db 'n a REAL Playstation',0
-.data:0044E75D                 align 10h
-.data:0044E760 ; const CHAR aPsxBiosNotFoun[]
-.data:0044E760 aPsxBiosNotFoun db 'psx bios not found',0
-.data:0044E760                                         ; DATA XREF: setup_wizard_search_bios+141↑o
-.data:0044E773                 align 8
-.data:0044E778 ; const CHAR aEpsxeDetectedT[]
-.data:0044E778 aEpsxeDetectedT db 'ePSXe detected that you haven',27h,'t selected a psx BIOS. Please'
-.data:0044E778                                         ; DATA XREF: setup_wizard_search_bios+ED↑o
-.data:0044E7B3                 db ', select some of the recommended psx BIOS and hit next button',0
-.data:0044E7F1                 align 4
-.data:0044E7F4 ; const CHAR aBiosNotSelecte[]
-.data:0044E7F4 aBiosNotSelecte db 'BIOS not selected',0
-.data:0044E7F4                                         ; DATA XREF: setup_wizard_search_bios+E8↑o
-.data:0044E806                 align 4
-.data:0044E808 ; const char aBin_0[6]
-.data:0044E808 aBin_0          db '*.bin',0            ; DATA XREF: setup_wizard_search_bios+30↑r
-.data:0044E808                                         ; setup_wizard_search_bios+48↑r
-.data:0044E80E                 align 10h
-.data:0044E810 ; const CHAR aEpsxeWasnTAble_0[]
-.data:0044E810 aEpsxeWasnTAble_0 db 'ePSXe wasn',27h,'t able to find a GPU plugin in your epsxe\plugin'
-.data:0044E810                                         ; DATA XREF: setup_wizard_search_video_plugin+3FE↑o
-.data:0044E84B                 db 's directory. Take a look at the list of recommended plugins and d'
-.data:0044E88C                 db 'ownload the latest version from pages like www.psxemu.com or www.'
-.data:0044E8CD                 db 'emulatronia.com',0
-.data:0044E8DD                 align 10h
-.data:0044E8E0 ; const CHAR aGpuPluginNotFo[]
-.data:0044E8E0 aGpuPluginNotFo db 'GPU plugin not found',0
-.data:0044E8E0                                         ; DATA XREF: setup_wizard_search_video_plugin+3F9↑o
-.data:0044E8F5                 align 4
-.data:0044E8F8 ; const CHAR aEpsxeDetectedT_0[]
-.data:0044E8F8 aEpsxeDetectedT_0 db 'ePSXe detected that you haven',27h,'t selected a GPU plugin. Plea'
-.data:0044E8F8                                         ; DATA XREF: setup_wizard_search_video_plugin+10C↑o
-.data:0044E933                 db 'se, select your favourite plugin and hit on config button',0
-.data:0044E96D                 align 10h
-.data:0044E970 ; const CHAR aGpuPluginNotSe[]
-.data:0044E970 aGpuPluginNotSe db 'GPU plugin not selected',0
-.data:0044E970                                         ; DATA XREF: setup_wizard_search_video_plugin+107↑o
-.data:0044E988 ; const CHAR aEpsxeDetectedT_1[]
-.data:0044E988 aEpsxeDetectedT_1 db 'ePSXe detected that you haven',27h,'t selected a SPU plugin. Plea'
-.data:0044E988                                         ; DATA XREF: setup_wizard_search_spu_plugin+106↑o
-.data:0044E9C3                 db 'se, select your favourite plugin and hit on config button',0
-.data:0044E9FD                 align 10h
-.data:0044EA00 ; const CHAR aSpuPluginNotSe[]
-.data:0044EA00 aSpuPluginNotSe db 'SPU plugin not selected',0
-.data:0044EA00                                         ; DATA XREF: setup_wizard_search_spu_plugin+101↑o
-.data:0044EA18 ; const CHAR aEpsxeDetectedT_3[]
-.data:0044EA18 aEpsxeDetectedT_3 db 'ePSXe detected that you haven',27h,'t selected a CDROM plugin. Pl'
-.data:0044EA18                                         ; DATA XREF: setup_wizard_search_cdrom_plugin+1CB↑o
-.data:0044EA53                 db 'ease, select your favourite plugin and hit on config button',0
-.data:0044EA8F                 align 10h
-.data:0044EA90 ; const CHAR aCdromPluginNot_0[]
-.data:0044EA90 aCdromPluginNot_0 db 'CDROM plugin not selected',0
-.data:0044EA90                                         ; DATA XREF: setup_wizard_search_cdrom_plugin+1C6↑o
-.data:0044EAAA                 align 10h
-.data:0044EAB0 ; const CHAR aEpsxeDetectedT_2[]
-.data:0044EAB0 aEpsxeDetectedT_2 db 'ePSXe detected that CDROM plugin hasn',27h,'t been configured. Pl'
-.data:0044EAB0                                         ; DATA XREF: setup_wizard_search_cdrom_plugin+109↑o
-.data:0044EAEB                 db 'ease, select your favourite plugin and hit on config button',0
-.data:0044EB27                 align 4
-.data:0044EB28 ; const CHAR aCdromPluginNot[]
-.data:0044EB28 aCdromPluginNot db 'CDROM plugin not configured',0
-.data:0044EB28                                         ; DATA XREF: setup_wizard_search_cdrom_plugin+104↑o
-.data:0044EB44 ; const CHAR aIddControllerL[]
-.data:0044EB44 aIddControllerL db 'IDD_CONTROLLER_LARGE',0
-.data:0044EB44                                         ; DATA XREF: setup_wizard_controllers+BC↑o
-.data:0044EB44                                         ; setup_wizard_controllers+123↑o ...
-.data:0044EB59                 align 4
-.data:0044EB5C ; const CHAR aIddController[]
-.data:0044EB5C aIddController  db 'IDD_CONTROLLER',0   ; DATA XREF: setup_wizard_controllers+A2↑o
-.data:0044EB5C                                         ; setup_wizard_controllers+10A↑o ...
-.data:0044EB6B                 align 4
-.data:0044EB6C ; const CHAR aIddInstallEnd[]
-.data:0044EB6C aIddInstallEnd  db 'IDD_INSTALL_END',0  ; DATA XREF: setup_wizard_callback+CE↑o
-.data:0044EB7C ; const CHAR aIddInstallPad[]
-.data:0044EB7C aIddInstallPad  db 'IDD_INSTALL_PAD',0  ; DATA XREF: setup_wizard_callback+B4↑o
-.data:0044EB8C ; const CHAR aIddInstallCdro[]
-.data:0044EB8C aIddInstallCdro db 'IDD_INSTALL_CDROM',0
-.data:0044EB8C                                         ; DATA XREF: setup_wizard_callback+99↑o
-.data:0044EB9E                 align 10h
-.data:0044EBA0 ; const CHAR aIddInstallSpu[]
-.data:0044EBA0 aIddInstallSpu  db 'IDD_INSTALL_SPU',0  ; DATA XREF: setup_wizard_callback+81↑o
-.data:0044EBB0 ; const CHAR aIddInstallGpu[]
-.data:0044EBB0 aIddInstallGpu  db 'IDD_INSTALL_GPU',0  ; DATA XREF: setup_wizard_callback+6A↑o
-.data:0044EBC0 ; const CHAR aIddInstallBios[]
-.data:0044EBC0 aIddInstallBios db 'IDD_INSTALL_BIOS',0 ; DATA XREF: setup_wizard_callback+52↑o
-.data:0044EBD1                 align 4
-.data:0044EBD4 ; const CHAR aIddInstall[]
-.data:0044EBD4 aIddInstall     db 'IDD_INSTALL',0      ; DATA XREF: setup_wizard_callback+3A↑o
-.data:0044EBE0 ; const char aIddAbout[10]
-.data:0044EBE0 aIddAbout       db 'IDD_ABOUT',0        ; DATA XREF: main_window_callback+C2A↑o
-.data:0044EBEA                 align 4
-.data:0044EBEC ; const char aHttpWwwEpsxeCo_1[39]
-.data:0044EBEC aHttpWwwEpsxeCo_1 db 'http://www.epsxe.com/step/step_sp.html',0
-.data:0044EBEC                                         ; DATA XREF: main_window_callback+C0B↑o
-.data:0044EC13                 align 4
-.data:0044EC14 ; const CHAR aHttpWwwEpsxeCo_0[]
-.data:0044EC14 aHttpWwwEpsxeCo_0 db 'http://www.epsxe.com/step/step.html',0
-.data:0044EC14                                         ; DATA XREF: main_window_callback+BE5↑o
-.data:0044EC38 ; const CHAR aHttpWwwEpsxeCo[]
-.data:0044EC38 aHttpWwwEpsxeCo db 'http://www.epsxe.com',0
-.data:0044EC38                                         ; DATA XREF: main_window_callback+BB8↑o
-.data:0044EC4D                 align 10h
-.data:0044EC50 ; const CHAR Operation[]
-.data:0044EC50 Operation       db 'open',0             ; DATA XREF: main_window_callback+B90↑o
-.data:0044EC50                                         ; main_window_callback+BBD↑o ...
-.data:0044EC55                 align 4
-.data:0044EC58 ; const CHAR File[]
-.data:0044EC58 File            db 'epsxe.chm',0        ; DATA XREF: main_window_callback+B84↑o
-.data:0044EC62                 align 4
-.data:0044EC64 ; const char aIddCheat[10]
-.data:0044EC64 aIddCheat       db 'IDD_CHEAT',0        ; DATA XREF: main_window_callback+B73↑o
-.data:0044EC6E                 align 10h
-.data:0044EC70 ; const CHAR aIddMemcard[]
-.data:0044EC70 aIddMemcard     db 'IDD_MEMCARD',0      ; DATA XREF: main_window_callback+7BD↑o
-.data:0044EC7C ; const CHAR aIddBios[]
-.data:0044EC7C aIddBios        db 'IDD_BIOS',0         ; DATA XREF: main_window_callback+78D↑o
-.data:0044EC85                 align 4
-.data:0044EC88 ; const CHAR aIddNet[]
-.data:0044EC88 aIddNet         db 'IDD_NET',0          ; DATA XREF: main_window_callback+75D↑o
-.data:0044EC90 ; const CHAR aIddCdrom[]
-.data:0044EC90 aIddCdrom       db 'IDD_CDROM',0        ; DATA XREF: main_window_callback+72E↑o
-.data:0044EC9A                 align 4
-.data:0044EC9C ; const CHAR aIddSound[]
-.data:0044EC9C aIddSound       db 'IDD_SOUND',0        ; DATA XREF: main_window_callback+6FE↑o
-.data:0044ECA6                 align 4
-.data:0044ECA8 ; const CHAR aIddVideo[]
-.data:0044ECA8 aIddVideo       db 'IDD_VIDEO',0        ; DATA XREF: main_window_callback+6CE↑o
-.data:0044ECB2                 align 4
-.data:0044ECB4 ; const char aGoingOutFromGu_0[]
-.data:0044ECB4 aGoingOutFromGu_0 db ' * Going out from gui. (exit)',0Ah,0
-.data:0044ECB4                                         ; DATA XREF: main_window_callback:loc_40A46A↑o
-.data:0044ECD3                 align 4
-.data:0044ECD4 ; const CHAR aInsertANewCdro[]
-.data:0044ECD4 aInsertANewCdro db 'Insert a new cdrom and hit the button to continue',0
-.data:0044ECD4                                         ; DATA XREF: main_window_callback+51A↑o
-.data:0044ED06                 align 4
-.data:0044ED08 ; const CHAR aChangeDiscOpti[]
-.data:0044ED08 aChangeDiscOpti db 'Change Disc Option',0
-.data:0044ED08                                         ; DATA XREF: main_window_callback+515↑o
-.data:0044ED1B                 align 4
-.data:0044ED1C ; const char aOpenPsxExe[13]
-.data:0044ED1C aOpenPsxExe     db 'Open PSX EXE',0     ; DATA XREF: main_window_callback+4C3↑o
-.data:0044ED29                 align 4
-.data:0044ED2C ; const char aPsxExesZipExe[24]
-.data:0044ED2C aPsxExesZipExe  db 'PSX EXEs (*.ZIP, *.EXE)',0
-.data:0044ED2C                                         ; DATA XREF: main_window_callback+4BE↑o
-.data:0044ED44 ; const char aExeZip[12]
-.data:0044ED44 aExeZip         db '*.exe;*.zip',0
-.data:0044ED50 ; const char aAllFiles_2[10]
-.data:0044ED50 aAllFiles_2     db 'All files',0
-.data:0044ED5A                 db '*.*',0
-.data:0044ED5E                 align 10h
-.data:0044ED60 ; const char aExe[]
-.data:0044ED60 aExe            db 'EXE',0              ; DATA XREF: main_window_callback:loc_40A2FF↑o
-.data:0044ED60                                         ; loader_load_zip+15D↑o
-.data:0044ED64 ; const char aOpenPsxIso[13]
-.data:0044ED64 aOpenPsxIso     db 'Open PSX ISO',0     ; DATA XREF: main_window_callback+405↑o
-.data:0044ED64                                         ; main_window_callback+594↑o
-.data:0044ED71                 align 8
-.data:0044ED78 ; const char aPsxIsosBinIsoI[31]
-.data:0044ED78 aPsxIsosBinIsoI db 'PSX ISOs (*.BIN, *.ISO, *.IMG)',0
-.data:0044ED78                                         ; DATA XREF: main_window_callback+400↑o
-.data:0044ED78                                         ; main_window_callback+58F↑o
-.data:0044ED97 ; const char aBinIsoImgNrgCd[30]
-.data:0044ED97 aBinIsoImgNrgCd db '*.bin;*.iso;*.img;*.nrg;*.cdi',0
-.data:0044EDB5 ; const char aAllFiles_3[10]
-.data:0044EDB5 aAllFiles_3     db 'All files',0
-.data:0044EDBF                 db '*.*',0
-.data:0044EDC3                 align 4
-.data:0044EDC4 ; const char aIso[4]
-.data:0044EDC4 aIso            db 'ISO',0              ; DATA XREF: main_window_callback:loc_40A241↑o
-.data:0044EDC4                                         ; main_window_callback:loc_40A3D0↑o
-.data:0044EDC8 ; const CHAR aEpsxeIsNotComp_1[]
-.data:0044EDC8 aEpsxeIsNotComp_1 db 'ePSXe is NOT completely configurated go to config->bios to config'
-.data:0044EDC8                                         ; DATA XREF: main_window_callback+216↑o
-.data:0044EDC8                                         ; main_window_callback+2F8↑o ...
-.data:0044EE09                 db 'ure it',0
-.data:0044EE10 ; const CHAR aEpsxeIsNotComp_0[]
-.data:0044EE10 aEpsxeIsNotComp_0 db 'ePSXe is NOT completely configurated go to config->cdrom to confi'
-.data:0044EE10                                         ; DATA XREF: main_window_callback+1EB↑o
-.data:0044EE10                                         ; main_window_callback+2CD↑o ...
-.data:0044EE51                 db 'gure it',0
-.data:0044EE59                 align 10h
-.data:0044EE60 ; const CHAR aEpsxeIsNotComp[]
-.data:0044EE60 aEpsxeIsNotComp db 'ePSXe is NOT completely configurated go to config->video to confi'
-.data:0044EE60                                         ; DATA XREF: main_window_callback+1B4↑o
-.data:0044EE60                                         ; main_window_callback+296↑o ...
-.data:0044EEA1                 db 'gure it',0
-.data:0044EEA9                 align 4
-.data:0044EEAC ; const CHAR aEpsxeNotConfig[]
-.data:0044EEAC aEpsxeNotConfig db 'ePSXe not configurated',0
-.data:0044EEAC                                         ; DATA XREF: main_window_callback+1AF↑o
-.data:0044EEAC                                         ; main_window_callback+1E6↑o ...
-.data:0044EEC3                 align 4
-.data:0044EEC4 ; const char aGoingOutFromGu[]
-.data:0044EEC4 aGoingOutFromGu db ' * Going out from gui (destroy). ',0Ah,0
-.data:0044EEC4                                         ; DATA XREF: main_window_callback:loc_409EA3↑o
-.data:0044EEE7                 align 4
-.data:0044EEE8 ; const char aErrorCreatingW[]
-.data:0044EEE8 aErrorCreatingW db ' * Error creating window.',0Ah,0
-.data:0044EEE8                                         ; DATA XREF: create_main_window+92↑o
-.data:0044EEE8                                         ; gpu_create_output_window+60↑o
-.data:0044EF03                 align 4
-.data:0044EF04 ; const CHAR WindowName[]
-.data:0044EF04 WindowName      db ' ePSXe - Enhanced PSX emulator',0
-.data:0044EF04                                         ; DATA XREF: create_main_window+72↑o
-.data:0044EF23                 align 4
-.data:0044EF24 ; const char aErrorRegisteri[]
-.data:0044EF24 aErrorRegisteri db ' * Error registering window.',0Ah,0
-.data:0044EF24                                         ; DATA XREF: create_main_window+1D↑o
-.data:0044EF24                                         ; gpu_create_output_window+16↑o
-.data:0044EF42                 align 4
-.data:0044EF44 ; const char aSavestateDoneD[]
-.data:0044EF44 aSavestateDoneD db ' * SaveState Done! (%d)',0Ah,0
-.data:0044EF44                                         ; DATA XREF: save_load_state+190↑o
-.data:0044EF5D                 align 10h
-.data:0044EF60 ; const char aLoadstateDoneD[]
-.data:0044EF60 aLoadstateDoneD db ' * LoadState Done! (%d)',0Ah,0
-.data:0044EF60                                         ; DATA XREF: save_load_state+146↑o
-.data:0044EF79                 align 4
-.data:0044EF7C ; const CHAR aShutdownError[]
-.data:0044EF7C aShutdownError  db 'SHUTDOWN ERROR',0   ; DATA XREF: gpu_close_output_window+28↑o
-.data:0044EF7C                                         ; gpu_destroy+67↑o
-.data:0044EF8B                 align 4
+
 .data:0044EF8C spu_use_external_plugin db 1            ; DATA XREF: spu_load_plugin+34↑w
 .data:0044EF8C                                         ; spu_load_plugin+390↑w ...
-.data:0044EF8D                 align 10h
-.data:0044EF90 ; const char aSpuOpen[]
-.data:0044EF90 aSpuOpen        db ' * Spu open... ',0Ah,0
-.data:0044EF90                                         ; DATA XREF: spu_load_plugin+46F↑o
-.data:0044EFA1                 align 4
-.data:0044EFA4 ; const char aDoingSpuInit[]
-.data:0044EFA4 aDoingSpuInit   db ' * Doing spu init... ',0Ah,0
-.data:0044EFA4                                         ; DATA XREF: spu_load_plugin+457↑o
-.data:0044EFBB                 align 4
-.data:0044EFBC ; const CHAR aSpuwritedmamem[]
-.data:0044EFBC aSpuwritedmamem db 'SPUwriteDMAMem',0   ; DATA XREF: spu_load_plugin+44F↑o
-.data:0044EFCB                 align 4
-.data:0044EFCC ; const CHAR aSpureaddmamem[]
-.data:0044EFCC aSpureaddmamem  db 'SPUreadDMAMem',0    ; DATA XREF: spu_load_plugin+438↑o
-.data:0044EFDA                 align 4
-.data:0044EFDC ; const CHAR aSpuasync[]
-.data:0044EFDC aSpuasync       db 'SPUasync',0         ; DATA XREF: spu_load_plugin+425↑o
-.data:0044EFE5                 align 4
-.data:0044EFE8 ; const CHAR aSpuupdate[]
-.data:0044EFE8 aSpuupdate      db 'SPUupdate',0        ; DATA XREF: spu_load_plugin+417↑o
-.data:0044EFF2                 align 4
-.data:0044EFF4 ; const CHAR aSpufreeze[]
-.data:0044EFF4 aSpufreeze      db 'SPUfreeze',0        ; DATA XREF: spu_load_plugin+400↑o
-.data:0044EFFE                 align 10h
-.data:0044F000 ; const CHAR aSpuregistercal[]
-.data:0044F000 aSpuregistercal db 'SPUregisterCallback',0
-.data:0044F000                                         ; DATA XREF: spu_load_plugin+3F2↑o
-.data:0044F014 ; const CHAR aSpureaddma[]
-.data:0044F014 aSpureaddma     db 'SPUreadDMA',0       ; DATA XREF: spu_load_plugin+3D5↑o
-.data:0044F01F                 align 10h
-.data:0044F020 ; const CHAR aSpuwritedma[]
-.data:0044F020 aSpuwritedma    db 'SPUwriteDMA',0      ; DATA XREF: spu_load_plugin+3B9↑o
-.data:0044F02C ; const CHAR aSpureadregiste[]
-.data:0044F02C aSpureadregiste db 'SPUreadRegister',0  ; DATA XREF: spu_load_plugin+39C↑o
-.data:0044F03C ; const CHAR aSpuwriteregist[]
-.data:0044F03C aSpuwriteregist db 'SPUwriteRegister',0 ; DATA XREF: spu_load_plugin+37F↑o
-.data:0044F04D                 align 10h
-.data:0044F050 ; const CHAR aSpuplayadpcmch[]
-.data:0044F050 aSpuplayadpcmch db 'SPUplayADPCMchannel',0
-.data:0044F050                                         ; DATA XREF: spu_load_plugin+357↑o
-.data:0044F050                                         ; spu_load_plugin+368↑o
-.data:0044F064 ; const CHAR aSpusetvolumer[]
-.data:0044F064 aSpusetvolumer  db 'SPUsetVolumeR',0    ; DATA XREF: spu_load_plugin+32E↑o
-.data:0044F064                                         ; spu_load_plugin+33F↑o
-.data:0044F072                 align 4
-.data:0044F074 ; const CHAR aSpusetvolumel[]
-.data:0044F074 aSpusetvolumel  db 'SPUsetVolumeL',0    ; DATA XREF: spu_load_plugin+305↑o
-.data:0044F074                                         ; spu_load_plugin+316↑o
-.data:0044F082                 align 4
-.data:0044F084 ; const CHAR aSpusetpitch[]
-.data:0044F084 aSpusetpitch    db 'SPUsetPitch',0      ; DATA XREF: spu_load_plugin+2DD↑o
-.data:0044F084                                         ; spu_load_plugin+2EE↑o
-.data:0044F090 ; const CHAR aSpusetaddr[]
-.data:0044F090 aSpusetaddr     db 'SPUsetAddr',0       ; DATA XREF: spu_load_plugin+2B4↑o
-.data:0044F090                                         ; spu_load_plugin+2C5↑o
-.data:0044F09B                 align 4
-.data:0044F09C ; const CHAR aSpugetone[]
-.data:0044F09C aSpugetone      db 'SPUgetOne',0        ; DATA XREF: spu_load_plugin+28B↑o
-.data:0044F09C                                         ; spu_load_plugin+29C↑o
-.data:0044F0A6                 align 4
-.data:0044F0A8 ; const CHAR aSpuputone[]
-.data:0044F0A8 aSpuputone      db 'SPUputOne',0        ; DATA XREF: spu_load_plugin+263↑o
-.data:0044F0A8                                         ; spu_load_plugin+274↑o
-.data:0044F0B2                 align 4
-.data:0044F0B4 ; const CHAR aSpustopchannel_0[]
-.data:0044F0B4 aSpustopchannel_0 db 'SPUstopChannels2',0
-.data:0044F0B4                                         ; DATA XREF: spu_load_plugin+23A↑o
-.data:0044F0B4                                         ; spu_load_plugin+24B↑o
-.data:0044F0C5                 align 4
-.data:0044F0C8 ; const CHAR aSpustopchannel[]
-.data:0044F0C8 aSpustopchannel db 'SPUstopChannels1',0 ; DATA XREF: spu_load_plugin+211↑o
-.data:0044F0C8                                         ; spu_load_plugin+222↑o
-.data:0044F0D9                 align 4
-.data:0044F0DC ; const CHAR aSpustartchanne_0[]
-.data:0044F0DC aSpustartchanne_0 db 'SPUstartChannels2',0
-.data:0044F0DC                                         ; DATA XREF: spu_load_plugin+1E9↑o
-.data:0044F0DC                                         ; spu_load_plugin+1FA↑o
-.data:0044F0EE                 align 10h
-.data:0044F0F0 ; const CHAR aSpustartchanne[]
-.data:0044F0F0 aSpustartchanne db 'SPUstartChannels1',0
-.data:0044F0F0                                         ; DATA XREF: spu_load_plugin+1C0↑o
-.data:0044F0F0                                         ; spu_load_plugin+1D1↑o
-.data:0044F102                 align 4
-.data:0044F104 ; const CHAR aSpuplaysample[]
-.data:0044F104 aSpuplaysample  db 'SPUplaySample',0    ; DATA XREF: spu_load_plugin+197↑o
-.data:0044F104                                         ; spu_load_plugin+1A8↑o
-.data:0044F112                 align 4
-.data:0044F114 ; const CHAR aSpuclose[]
-.data:0044F114 aSpuclose       db 'SPUclose',0         ; DATA XREF: spu_load_plugin+F5↑o
-.data:0044F114                                         ; spu_load_plugin+106↑o
-.data:0044F11D                 align 10h
-.data:0044F120 ; const CHAR aSpuopen[]
-.data:0044F120 aSpuopen        db 'SPUopen',0          ; DATA XREF: spu_load_plugin+CC↑o
-.data:0044F120                                         ; spu_load_plugin+DD↑o
-.data:0044F128 ; const CHAR aSpushutdown[]
-.data:0044F128 aSpushutdown    db 'SPUshutdown',0      ; DATA XREF: spu_load_plugin+A3↑o
-.data:0044F128                                         ; spu_load_plugin+B4↑o
-.data:0044F134 ; const char aGetprocaddress[]
-.data:0044F134 aGetprocaddress db ' * GetProcAddress error %s',0Ah,0
-.data:0044F134                                         ; DATA XREF: spu_load_plugin+91↑o
-.data:0044F134                                         ; spu_load_plugin+B9↑o ...
-.data:0044F150 ; const CHAR aSpuinit[]
-.data:0044F150 aSpuinit        db 'SPUinit',0          ; DATA XREF: spu_load_plugin+7B↑o
-.data:0044F150                                         ; spu_load_plugin+8C↑o
-.data:0044F158 ; const char aErrorLoadingS[]
-.data:0044F158 aErrorLoadingS  db ' * Error loading [%s] ',0Ah,0
-.data:0044F158                                         ; DATA XREF: spu_load_plugin+62↑o
-.data:0044F158                                         ; gpu_load_plugin+5F↑o ...
-.data:0044F170 ; const char aSS[]
-.data:0044F170 aSS             db '%s%s',0             ; DATA XREF: spu_load_plugin+15↑o
-.data:0044F170                                         ; gpu_load_plugin+38↑o ...
-.data:0044F175                 align 4
-.data:0044F178 ; const char aClosingSpu[]
-.data:0044F178 aClosingSpu     db ' * Closing spu ... ',0Ah,0
-.data:0044F178                                         ; DATA XREF: spu_destroy+1B↑o
-.data:0044F18D                 align 10h
-.data:0044F190 ; const char aDma4ModeNotImp[]
-.data:0044F190 aDma4ModeNotImp db 'DMA[4] mode NOT implemented (%08x)',0Ah
-.data:0044F190                                         ; DATA XREF: spu_dma+5D↑o
-.data:0044F190                                         ; spucore_dma+5B↑o
-.data:0044F1B3                 db ' addr (%08x) num (%04x) size (%04x)',0Ah,0
-.data:0044F1D8 ; const char aSpuPluginDoesn[]
-.data:0044F1D8 aSpuPluginDoesn db ' * SPU plugin doesn',27h,'t support savestates. ',0Ah,0
-.data:0044F1D8                                         ; DATA XREF: spu_freeze+3E↑o
-.data:0044F1D8                                         ; spu_unfreeze+22↑o
-.data:0044F204                 align 8
+
 .data:0044F208 ; int dword_44F208[128]
 .data:0044F208 dword_44F208    dd 5 dup(1C3C00h), 17BE00h, 13F6F8h, 10C9CBh, 0E1E00h
 .data:0044F208                                         ; DATA XREF: spucore_write_voice_reg+170↑r
@@ -2438,7 +1030,6 @@
 .data:0044F71B                 db    0
 .data:0044F71C sound_enabled   db 1                    ; DATA XREF: cfg_load_settings+2E7↑w
 .data:0044F71C                                         ; cfg_save_settings+97↑r ...
-.data:0044F71D                 align 10h
 .data:0044F720 ; char byte_44F720[128]
 .data:0044F720 byte_44F720     db 1Bh, 0E8h, 0EAh, 8Ah, 0BBh, 0F6h, 0B0h, 51h, 19h, 0F1h
 .data:0044F720                                         ; DATA XREF: spucore_init_gauss_table+1F↑r
@@ -2464,25 +1055,7 @@
 .data:0044F7A8                                         ; DATA XREF: spucore_decode_adpcm_block+EF↑r
 .data:0044F7CC spu_adpcm_flag  dd 1                    ; DATA XREF: xa_setup_adpcm_decoder:loc_403D8D↑r
 .data:0044F7CC                                         ; spu_play_adpcm+12↑r ...
-.data:0044F7D0 ; const char aOk[]
-.data:0044F7D0 aOk             db ' ok ',0Ah,0         ; DATA XREF: spucore_init:loc_40D1D0↑o
-.data:0044F7D0                                         ; net_load_plugin+1F5↑o ...
-.data:0044F7D6                 align 4
-.data:0044F7D8 ; const char aErrorCanTOpenS_0[]
-.data:0044F7D8 aErrorCanTOpenS_0 db ' * Error can',27h,'t open sound handler. (try -nosound)',0Ah,0
-.data:0044F7D8                                         ; DATA XREF: spucore_init+48↑o
-.data:0044F80B                 align 4
-.data:0044F80C ; const char aErrorCanTOpenS[]
-.data:0044F80C aErrorCanTOpenS db 'Error: can',27h,'t open sound handler.',0Ah,0
-.data:0044F80C                                         ; DATA XREF: spucore_init+3E↑o
-.data:0044F82E                 align 10h
-.data:0044F830 ; const char aInitCoreSpu[]
-.data:0044F830 aInitCoreSpu    db ' * Init core spu ... ',0
-.data:0044F830                                         ; DATA XREF: spucore_init↑o
-.data:0044F846                 align 4
-.data:0044F848 ; const char aClosingCoreSpu[]
-.data:0044F848 aClosingCoreSpu db ' * Closing core spu...',0Ah,0
-.data:0044F848                                         ; DATA XREF: spucore_destroy:loc_40D240↑o
+
 .data:0044F860 ; const char aIspu[]
 .data:0044F860 aIspu           db 'ISPU',0             ; DATA XREF: spucore_freeze+41↑o
 .data:0044F860                                         ; spucore_unfreeze+44A↑o
@@ -2511,49 +1084,9 @@
 .data:0044F884 g_MouseMaxY     dd 7Fh                  ; DATA XREF: diGetClampedMouseY:loc_40FA92↑r
 .data:0044F888 g_EffectScaleFactor dd 4Bh              ; DATA XREF: diEnumDevicesCallback+472↑r
 .data:0044F888                                         ; diEnumDevicesCallback+48A↑r
-.data:0044F88C ; const char aNoForceFeedbac[]
-.data:0044F88C aNoForceFeedbac db ' * No force-feedback joysticks available. ',0Ah,0
-.data:0044F88C                                         ; DATA XREF: diInitDirectInput+294↑o
-.data:0044F8B8 ; const char aBetaX[]
-.data:0044F8B8 aBetaX          db 'Beta %X',0Ah,0      ; DATA XREF: diInitDirectInput+113↑o
-.data:0044F8C1                 align 4
-.data:0044F8C4 ; const char aUnknownX[]
-.data:0044F8C4 aUnknownX       db 'UNKNOWN %X',0Ah,0   ; DATA XREF: diInitDirectInput+E5↑o
-.data:0044F8D0                 db    0
-.data:0044F8D1                 db    0
-.data:0044F8D2                 db    0
-.data:0044F8D3                 db    0
-.data:0044F8D4 ; const char aOlddirectinput[]
-.data:0044F8D4 aOlddirectinput db 'OLDDIRECTINPUTVERSION %X',0Ah,0
-.data:0044F8D4                                         ; DATA XREF: diInitDirectInput+AF↑o
-.data:0044F8EE                 align 10h
-.data:0044F8F0 ; const char aOutofmemoryX[16]
-.data:0044F8F0 aOutofmemoryX   db 'OUTOFMEMORY %X',0Ah,0
-.data:0044F8F0                                         ; DATA XREF: diInitDirectInput+9F↑o
-.data:0044F900                 db    0
-.data:0044F901                 db    0
-.data:0044F902                 db    0
-.data:0044F903                 db    0
-.data:0044F904 ; const CHAR aInit[]
-.data:0044F904 aInit           db 'Init',0             ; DATA XREF: diInitDirectInput+81↑o
-.data:0044F904                                         ; diInitDirectInput+BF↑o ...
-.data:0044F909                 align 4
-.data:0044F90C ; const char aInvalidX[]
-.data:0044F90C aInvalidX       db 'Invalid %X',0Ah,0   ; DATA XREF: diInitDirectInput+71↑o
-.data:0044F918                 db    0
-.data:0044F919                 db    0
-.data:0044F91A                 db    0
-.data:0044F91B                 db    0
-.data:0044F91C ; const CHAR aInitError[]
-.data:0044F91C aInitError      db 'Init Error',0       ; DATA XREF: diInitDirectInput+45↑o
-.data:0044F927                 align 4
-.data:0044F928 ; const char aErrorInitializ[]
-.data:0044F928 aErrorInitializ db 'Error initializing DirectInput',0Ah,0
-.data:0044F928                                         ; DATA XREF: diInitDirectInput+2F↑o
-.data:0044F948                 align 10h
+
 .data:0044F950 dword_44F950    dd 8A7F00h              ; DATA XREF: gte_rtps+3↑r
 .data:0044F950                                         ; gte_rtpt+3↑r
-.data:0044F954                 align 8
 .data:0044F958 qword_44F958    dq 8080000081000000h    ; DATA XREF: gte_rtps+98↑r
 .data:0044F958                                         ; gte_rtpt+89↑r ...
 .data:0044F960 qword_44F960    dq 400000h              ; DATA XREF: gte_rtps+9F↑r
@@ -7364,9 +5897,9 @@
 .data:00450C6D                 db    0
 .data:00450C6E                 db    0
 .data:00450C6F                 db    0
+
 .data:00450C70 cheat_entries_count dd 39               ; DATA XREF: loader_load_cheats+9D↑r
 .data:00450C70                                         ; loader_load_cheats+BC↑r ...
-.data:00450C74                 align 8
 .data:00450C78 cheat_db        CHEAT_DB_ENTRY <'SCES_021.05', 'NULL', 1, 0FFh, 2, 0FFh, 0FFh, 0, 0, \
 .data:00450C78                                         ; DATA XREF: loader_load_cheats+AF↑o
 .data:00450C78                                         ; loader_parse_cheat_entry+19↑o ...
@@ -7700,131 +6233,9 @@
 .data:00454CBD                 db    0
 .data:00454CBE                 db    0
 .data:00454CBF                 db    0
+
 .data:00454CC0 byte_454CC0     db 1                    ; DATA XREF: mem_init_memory_handlers+EF↑w
-.data:00454CC1                 align 4
-.data:00454CC4 ; const char aCheatsDataconf[]
-.data:00454CC4 aCheatsDataconf db 'cheats\dataconf.dat',0
-.data:00454CC4                                         ; DATA XREF: loader_load_cheats+85↑o
-.data:00454CD8 ; const char aCheatsDatabase[]
-.data:00454CD8 aCheatsDatabase db 'cheats\database.dat',0
-.data:00454CD8                                         ; DATA XREF: loader_load_cheats+8↑o
-.data:00454CEC ; const char aErrorPsxBiosNo[]
-.data:00454CEC aErrorPsxBiosNo db ' * !Error: PSX BIOS not found [%s]. ',0Ah,0
-.data:00454CEC                                         ; DATA XREF: loader_load_bios+6A↑o
-.data:00454D12                 align 4
-.data:00454D14 ; const char aEpsxePsxBiosLo[]
-.data:00454D14 aEpsxePsxBiosLo db ' * ePSXe: PSX BIOS loaded [%s]. ',0Ah,0
-.data:00454D14                                         ; DATA XREF: loader_load_bios+50↑o
-.data:00454D36                 align 4
-.data:00454D38 ; const char aEpsxeDemoBugge[]
-.data:00454D38 aEpsxeDemoBugge db ' ePSXe: (Demo bugged header) Real: %x Load: %x ',0Ah,0
-.data:00454D38                                         ; DATA XREF: loader_check_demo_header+2D↑o
-.data:00454D69                 align 4
-.data:00454D6C ; const char aEpsxeDemoNotFo[]
-.data:00454D6C aEpsxeDemoNotFo db ' * ePSXe: DEMO not found [%s]. ',0Ah,0
-.data:00454D6C                                         ; DATA XREF: loader_load_demo+C8↑o
-.data:00454D8D                 align 10h
-.data:00454D90 ; const char aEpsxeSIsNotAEx[]
-.data:00454D90 aEpsxeSIsNotAEx db ' * ePSXe: [%s] is not a EXE file. ',0Ah,0
-.data:00454D90                                         ; DATA XREF: loader_load_demo+49↑o
-.data:00454DB4 ; const char Str1[]
-.data:00454DB4 Str1            db 'PS-X EXE',0         ; DATA XREF: loader_load_demo+37↑o
-.data:00454DB4                                         ; loader_load_file+DA↑o ...
-.data:00454DBD                 align 10h
-.data:00454DC0 ; char aS_0[]
-.data:00454DC0 aS_0            db '%s',0Ah,0           ; DATA XREF: sub_41C220+139↑o
-.data:00454DC4 ; char aS_1[]
-.data:00454DC4 aS_1            db '%s ',0              ; DATA XREF: sub_41C220+AB↑o
-.data:00454DC8 ; const char aLoad[]
-.data:00454DC8 aLoad           db 'LOAD',0             ; DATA XREF: sub_41C220+2D↑o
-.data:00454DC8                                         ; sub_41C220+102↑o
-.data:00454DCD                 align 10h
-.data:00454DD0 ; const char aData[]
-.data:00454DD0 aData           db 'DATA',0             ; DATA XREF: sub_41C220+11↑o
-.data:00454DD0                                         ; sub_41C220+50↑o ...
-.data:00454DD5                 align 4
-.data:00454DD8 ; const char aEpsxErrorLoadi_2[]
-.data:00454DD8 aEpsxErrorLoadi_2 db ' * EPSX: error loading %s.',0
-.data:00454DD8                                         ; DATA XREF: loader_load_file+18A↑o
-.data:00454DF3                 align 4
-.data:00454DF4 ; const char aEpsxSIsNotAExe[]
-.data:00454DF4 aEpsxSIsNotAExe db ' * EPSX: [%s] is not a EXE file. ',0Ah,0
-.data:00454DF4                                         ; DATA XREF: loader_load_file+F0↑o
-.data:00454DF4                                         ; loader_load_zip+1E1↑o
-.data:00454E17                 align 4
-.data:00454E18 ; const char aEpsxErrorLoadi_1[]
-.data:00454E18 aEpsxErrorLoadi_1 db ' * EPSX: error loading .exe file in pll/zip.',0
-.data:00454E18                                         ; DATA XREF: loader_load_file+C6↑o
-.data:00454E45                 align 4
-.data:00454E48 ; const char aEpsxErrorLoadi_0[]
-.data:00454E48 aEpsxErrorLoadi_0 db ' * EPSX: error loading .pll file.',0
-.data:00454E48                                         ; DATA XREF: loader_load_file+42↑o
-.data:00454E6A                 align 4
-.data:00454E6C ; const char aEpsxDemoPllNot[]
-.data:00454E6C aEpsxDemoPllNot db '* EPSX: DEMO .pll not found. ',0Ah,0
-.data:00454E6C                                         ; DATA XREF: loader_load_zip:loc_41C8F8↑o
-.data:00454E8B                 align 4
-.data:00454E8C ; const char aPll[]
-.data:00454E8C aPll            db 'PLL',0              ; DATA XREF: loader_load_zip+2A1↑o
-.data:00454E90 ; const char aPll_0[]
-.data:00454E90 aPll_0          db 'pll',0              ; DATA XREF: loader_load_zip+27F↑o
-.data:00454E94 ; const char aEpsxDemoNotFou[]
-.data:00454E94 aEpsxDemoNotFou db '* EPSX: DEMO not found [%s]. ',0Ah,0
-.data:00454E94                                         ; DATA XREF: loader_load_zip+174↑o
-.data:00454EB3                 align 4
-.data:00454EB4 ; const char aExe_0[]
-.data:00454EB4 aExe_0          db 'exe',0              ; DATA XREF: loader_load_zip+138↑o
-.data:00454EB8 ; const char aEpsxErrorLoadi[]
-.data:00454EB8 aEpsxErrorLoadi db ' * EPSX: error loading .zip file.',0
-.data:00454EB8                                         ; DATA XREF: loader_load_zip+E3↑o
-.data:00454EB8                                         ; loader_load_zip+102↑o ...
-.data:00454EDA                 align 4
-.data:00454EDC ; const char aZip[]
-.data:00454EDC aZip            db 'ZIP',0              ; DATA XREF: loader_load_zip+46↑o
-.data:00454EDC                                         ; loader_load_zip+A4↑o
-.data:00454EE0 ; const char aZip_0[]
-.data:00454EE0 aZip_0          db 'zip',0              ; DATA XREF: loader_load_zip+21↑o
-.data:00454EE0                                         ; loader_load_zip+7F↑o
-.data:00454EE4 ; const char aEpsxDemoNotFou_0[]
-.data:00454EE4 aEpsxDemoNotFou_0 db ' * EPSX: DEMO not found [%s]. ',0Ah,0
-.data:00454EE4                                         ; DATA XREF: loader_touch_demo_file+36↑o
-.data:00454F04 ; const char aPalCdromDetect[]
-.data:00454F04 aPalCdromDetect db ' * PAL cdrom detected. ',0Ah,0
-.data:00454F04                                         ; DATA XREF: loader_cdrom_detect_region+1BD↑o
-.data:00454F1D                 align 10h
-.data:00454F20 ; const char aNtscCdromDetec[]
-.data:00454F20 aNtscCdromDetec db ' * NTSC cdrom detected. ',0Ah,0
-.data:00454F20                                         ; DATA XREF: loader_cdrom_detect_region+177↑o
-.data:00454F3A                 align 4
-.data:00454F3C ; const char aForceNtscCdrom[]
-.data:00454F3C aForceNtscCdrom db ' * Force NTSC cdrom detected. ',0Ah,0
-.data:00454F3C                                         ; DATA XREF: loader_cdrom_detect_region+130↑o
-.data:00454F5C ; const char aForcePalCdromD[31]
-.data:00454F5C aForcePalCdromD db ' * Force PAL cdrom detected. ',0Ah,0
-.data:00454F5C                                         ; DATA XREF: loader_cdrom_detect_region+11A↑o
-.data:00454F7B                 align 4
-.data:00454F7C ; const char aDemo99999[]
-.data:00454F7C aDemo99999      db 'DEMO_999.99',0      ; DATA XREF: loader_cdrom_detect_region+19↑o
-.data:00454F88 ; const char aMemoryHandlers[]
-.data:00454F88 aMemoryHandlers db ' * Memory handlers init. ',0Ah,0
-.data:00454F88                                         ; DATA XREF: mem_init_memory_handlers+EA↑o
-.data:00454FA3                 align 8
-.data:00454FA8 ; const char aEpsxeOpcode02x[]
-.data:00454FA8 aEpsxeOpcode02x db 0Ah                  ; DATA XREF: op_UNKNOWN+27↑o
-.data:00454FA9                 db 'ePSXe: Opcode [%02x-%08x] in PC [%08x] UNKNOWN [%08x:%03d:%d]',0Ah
-.data:00454FE7                 db 0
-.data:00454FE8 ; const char aDivisionSignBy[]
-.data:00454FE8 aDivisionSignBy db ' division sign by 0 ',0Ah,0
-.data:00454FE8                                         ; DATA XREF: op_DIV+62↑o
-.data:00454FFE                 align 10h
-.data:00455000 ; const char aDivisionBy0[]
-.data:00455000 aDivisionBy0    db ' division by 0 ',0Ah,0
-.data:00455000                                         ; DATA XREF: op_DIVU+64↑o
-.data:00455011                 align 4
-.data:00455014 ; const char aDOnlyRead[]
-.data:00455014 aDOnlyRead      db '[%d] only read!!!',0Ah,0
-.data:00455014                                         ; DATA XREF: op_MTC0+112↑o
-.data:00455027                 align 4
+
 .data:00455028 ; int zip_code_length_order[19]
 .data:00455028 zip_code_length_order dd 10h, 11h, 12h, 0, 8, 7, 9, 6, 0Ah, 5, 0Bh, 4, 0Ch, 3
 .data:00455028                                         ; DATA XREF: zip_inflate_block:loc_41F5C8↑r
@@ -7857,154 +6268,14 @@
 .data:00455166                 db 0Ch, 0, 0Dh, 0, 0Dh, 0
 .data:0045516C zip_static_ltree_max_bits dd 9          ; DATA XREF: zip_inflate_block+616↑r
 .data:00455170 zip_static_dtree_max_bits dd 6          ; DATA XREF: zip_inflate_block:loc_41F886↑r
-.data:00455174 ; const char aIncompleteDTre[22]
-.data:00455174 aIncompleteDTre db '(incomplete d-tree)  ',0
-.data:00455174                                         ; DATA XREF: zip_inflate_block+6DA↑o
-.data:0045518A                 align 4
-.data:0045518C ; const char aIncompleteLTre[22]
-.data:0045518C aIncompleteLTre db '(incomplete l-tree)  ',0
-.data:0045518C                                         ; DATA XREF: zip_inflate_block:loc_41F85D↑o
-.data:004551A2                 align 4
-.data:004551A4                 db    1
-.data:004551A5                 db    0
-.data:004551A6                 db    0
-.data:004551A7                 db    0
 .data:004551A8 ; const char zip_signature[2]
 .data:004551A8 zip_signature   db 50h                  ; DATA XREF: zip_find_end_of_central_dir_signature+19↑o
 .data:004551A9                 db  4Bh ; K
 .data:004551AA                 db    5
 .data:004551AB                 db    6
-.data:004551AC ; const char aCouldNotOpenZi[]
-.data:004551AC aCouldNotOpenZi db 'Could not open zipfile %s',0Ah,0
-.data:004551AC                                         ; DATA XREF: zip_extract_file+2F9↑o
-.data:004551C7                 align 4
-.data:004551C8 ; const char aUnsupportedZip[]
-.data:004551C8 aUnsupportedZip db 'Unsupported zipfile %s: zipfile cannot span disks',0Ah,0
-.data:004551C8                                         ; DATA XREF: zip_extract_file+2E3↑o
-.data:004551C8                                         ; zip_load_file+B1↑o
-.data:004551FB                 align 4
-.data:004551FC ; const char aErrorDInflatin[52]
-.data:004551FC aErrorDInflatin db 'Error %d inflating compressed file from zipfile %s',0Ah,0
-.data:004551FC                                         ; DATA XREF: zip_extract_file+2B0↑o
-.data:00455230 ; const char aCouldNotCreate_0[]
-.data:00455230 aCouldNotCreate_0 db 'Could not create input buffer for zipfile %s',0Ah,0
-.data:00455230                                         ; DATA XREF: zip_extract_file+28B↑o
-.data:0045525E                 align 10h
-.data:00455260 ; const char aCouldnTAllocat[]
-.data:00455260 aCouldnTAllocat db 'Couldn',27h,'t allocate %d bytes for zipfile %s output buffer',0Ah
-.data:00455260                                         ; DATA XREF: zip_extract_file+26F↑o
-.data:00455298                 db 0
-.data:00455299                 align 4
-.data:0045529C ; const char aCouldNotCreate[]
-.data:0045529C aCouldNotCreate db 'Could not create 32K sliding window for zipfile %s',0Ah,0
-.data:0045529C                                         ; DATA XREF: zip_extract_file+24E↑o
-.data:004552D0 ; const char aCouldnTExtract[]
-.data:004552D0 aCouldnTExtract db 'Couldn',27h,'t extract uncompressed file from zipfile %s',0Ah,0
-.data:004552D0                                         ; DATA XREF: zip_extract_file+1D4↑o
-.data:00455304 ; const char aErrorReadingLo[]
-.data:00455304 aErrorReadingLo db 'Error reading ',27h,'local file header',27h,' in zipfile %s',0Ah,0
-.data:00455304                                         ; DATA XREF: zip_extract_file+190↑o
-.data:00455304                                         ; zip_load_local_file_headers+119↑o
-.data:00455335                 align 4
-.data:00455338 ; const char aCouldNotFindSI[]
-.data:00455338 aCouldNotFindSI db 'Could not find %s in zipfile %s',0Ah,0
-.data:00455338                                         ; DATA XREF: zip_extract_file+10F↑o
-.data:00455359                 align 4
-.data:0045535C ; const char aErrorReadingEn[]
-.data:0045535C aErrorReadingEn db 'Error reading ',27h,'end of central directory',27h,' in zipfile %'
-.data:0045535C                                         ; DATA XREF: zip_extract_file+84↑o
-.data:0045535C                                         ; zip_load_file+63↑o
-.data:00455391                 db 's',0Ah,0
-.data:00455394 ; const char aErrorInZipfile[]
-.data:00455394 aErrorInZipfile db 'Error in zipfile %s: get_file_length() failed',0Ah,0
-.data:00455394                                         ; DATA XREF: zip_extract_file+57↑o
-.data:00455394                                         ; zip_load_file+43↑o
-.data:004553C3                 align 4
-.data:004553C4 ; const char Delimiter[]
-.data:004553C4 Delimiter       db '/\:',0              ; DATA XREF: zip_get_filename_from_path+1A↑o
-.data:004553C4                                         ; zip_get_filename_from_path:loc_4201F1↑o
-.data:004553C8 ; const char aErrorReadingZi[]
-.data:004553C8 aErrorReadingZi db 'Error reading zipfile %s: fseek to compressed data failed',0Ah,0
-.data:004553C8                                         ; DATA XREF: zip_read_compressed_data_to_buffer+9C↑o
-.data:00455403                 align 8
-.data:00455408 ; const char aErrorInZipfile_0[]
-.data:00455408 aErrorInZipfile_0 db 'Error in zipfile %s: couldn',27h,'t read %ld bytes of compressed '
-.data:00455408                                         ; DATA XREF: zip_read_compressed_data_to_buffer+83↑o
-.data:00455443                 db 'data',0Ah,0
-.data:00455449                 align 4
-.data:0045544C ; const char aCouldnTAllocat_0[]
-.data:0045544C aCouldnTAllocat_0 db 'Couldn',27h,'t allocate %ld bytes for input buffer for zipfile %s'
-.data:0045544C                                         ; DATA XREF: zip_read_compressed_data_to_buffer+24↑o
-.data:00455487                 db 0Ah,0
-.data:00455489                 align 4
-.data:0045548C ; const char aErrorInZipfile_2[]
-.data:0045548C aErrorInZipfile_2 db 'Error in zipfile %s: couldn',27h,'t fseek to local file header',0Ah
-.data:0045548C                                         ; DATA XREF: zip_read_local_file_header+6F↑o
-.data:004554C5                 db 0
-.data:004554C6                 align 4
-.data:004554C8 ; const char aErrorInZipfile_1[]
-.data:004554C8 aErrorInZipfile_1 db 'Error in zipfile %s: couldn',27h,'t read %ld bytes from local fil'
-.data:004554C8                                         ; DATA XREF: zip_read_local_file_header+52↑o
-.data:00455503                 db 'e header',0
-.data:0045550C ; const char aErrorInZipfile_8[]
-.data:0045550C aErrorInZipfile_8 db 'Error in zipfile %s: zipfile cannot span disks',0Ah,0
-.data:0045550C                                         ; DATA XREF: zip_load_central_directory+1CF↑o
-.data:0045553C ; const char aOs02xMustBe00[]
-.data:0045553C aOs02xMustBe00  db 'OS: $%02x must be $00',0Ah,0
-.data:0045553C                                         ; DATA XREF: zip_load_central_directory+1AB↑o
-.data:00455553                 align 4
-.data:00455554 ; const char aErrorInZipfile_7[]
-.data:00455554 aErrorInZipfile_7 db 'Error in zipfile %s: OS for file %s not supported.',0Ah,0
-.data:00455554                                         ; DATA XREF: zip_load_central_directory+199↑o
-.data:00455588 ; const char aVersion02xMust[]
-.data:00455588 aVersion02xMust db 'Version: $%02x must be $14 or less',0Ah,0
-.data:00455588                                         ; DATA XREF: zip_load_central_directory+17D↑o
-.data:004555AC ; const char aErrorInZipfile_6[]
-.data:004555AC aErrorInZipfile_6 db 'Error in zipfile %s: version for file %s too new.',0Ah,0
-.data:004555AC                                         ; DATA XREF: zip_load_central_directory+16B↑o
-.data:004555DF                 align 10h
-.data:004555E0 ; const char aMethod04xMustB[]
-.data:004555E0 aMethod04xMustB db 'Method: $%04x  must be $0000 (Stored) or $0008 (Deflated)',0Ah,0
-.data:004555E0                                         ; DATA XREF: zip_load_central_directory+151↑o
-.data:0045561B                 align 10h
-.data:00455620 ; const char aErrorInZipfile_5[]
-.data:00455620 aErrorInZipfile_5 db 'Error in zipfile %s: compression method for file %s unsupported.',0Ah
-.data:00455620                                         ; DATA XREF: zip_load_central_directory+13E↑o
-.data:00455661                 db 0
-.data:00455662                 align 8
-.data:00455668 ; const char aErrorInZipfile_4[]
-.data:00455668 aErrorInZipfile_4 db 'Error in zipfile %s: couldn',27h,'t fseek to start of central dir'
-.data:00455668                                         ; DATA XREF: zip_load_central_directory+7D↑o
-.data:00455668                                         ; zip_load_local_file_headers+73↑o
-.data:004556A3                 db 'ectory',0Ah,0
-.data:004556AB                 align 10h
-.data:004556B0 ; const char aErrorInZipfile_3[]
-.data:004556B0 aErrorInZipfile_3 db 'Error in zipfile %s: couldn',27h,'t read %ld bytes from central d'
-.data:004556B0                                         ; DATA XREF: zip_load_central_directory+5B↑o
-.data:004556B0                                         ; zip_load_local_file_headers+53↑o
-.data:004556EB                 db 'irectory',0Ah,0
-.data:004556F5                 align 4
-.data:004556F8 ; const char asc_4556F8[]
-.data:004556F8 asc_4556F8      db '/',0                ; DATA XREF: zip_compare_filename_case_insensitive+AE↑o
-.data:004556F8                                         ; zip_compare_filename_case_insensitive:loc_420990↑o
-.data:004556FA                 align 4
-.data:004556FC ; const char aErrorInZipfile_11[]
-.data:004556FC aErrorInZipfile_11 db 'Error in zipfile %s: couldn',27h,'t read %ld bytes from end of fi'
-.data:004556FC                                         ; DATA XREF: zip_locate_central_dir+116↑o
-.data:00455737                 db 'le',0Ah,0
-.data:0045573B                 align 10h
-.data:00455740 ; const char aErrorInZipfile_10[]
-.data:00455740 aErrorInZipfile_10 db 'Error in zipfile %s: couldn',27h,'t find ',27h,'end of central di'
-.data:00455740                                         ; DATA XREF: zip_locate_central_dir+FB↑o
-.data:00455775                 db 'r',27h,' signature',0Ah,0
-.data:00455783                 align 4
-.data:00455784 ; const char aErrorInZipfile_9[]
-.data:00455784 aErrorInZipfile_9 db 'Error in zipfile %s: fseek failed',0Ah,0
-.data:00455784                                         ; DATA XREF: zip_locate_central_dir+37↑o
-.data:004557A7                 align 4
+
 .data:004557A8 byte_4557A8     db 1                    ; DATA XREF: parse_command_line_options+399↑w
 .data:004557A8                                         ; parse_command_line_options+3B6↑w ...
-.data:004557A9                 align 4
 .data:004557AC sio_transfer_length dd 5                ; DATA XREF: sio_command:loc_421161↑w
 .data:004557AC                                         ; sio_command:loc_421219↑w ...
 .data:004557B0 sio_config_data db 1, 0F3h, 5Ah, 9 dup(0), 0FFh, 0F3h, 5Ah, 1, 2, 0, 2
@@ -8015,37 +6286,7 @@
 .data:004557E2                 db 5Ah, 3 dup(0), 4, 5 dup(0), 1, 0F3h, 5Ah, 6 dup(0FFh)
 .data:004557F5                 db 3 dup(0), 1, 0F3h, 5Ah, 0
 .data:004557FC byte_4557FC     db 0                    ; DATA XREF: sio_handle_config_command+16B↑r
-.data:004557FD                 align 10h
-.data:00455800 ; const char aWarningTheMemc[]
-.data:00455800 aWarningTheMemc db ' * Warning: The memcard [%s] has NOT been saved to disk',0Ah,0
-.data:00455800                                         ; DATA XREF: sio_memcard1_save+52↑o
-.data:00455800                                         ; sio_memcard2_save+52↑o
-.data:00455839                 align 4
-.data:0045583C ; const char aWb[]
-.data:0045583C aWb             db 'wb',0               ; DATA XREF: sio_memcard1_save+A↑o
-.data:0045583C                                         ; sio_memcard2_save+A↑o ...
-.data:0045583F                 align 10h
-.data:00455840 ; const char aMemcardsTemp00[]
-.data:00455840 aMemcardsTemp00 db 'memcards\temp.000',0
-.data:00455840                                         ; DATA XREF: save_temp_memcard1↑o
-.data:00455852                 align 4
-.data:00455854 ; const char aMemcardsTemp00_0[]
-.data:00455854 aMemcardsTemp00_0 db 'memcards\temp.001',0
-.data:00455854                                         ; DATA XREF: save_temp_memcard2↑o
-.data:00455866                 align 4
-.data:00455868 ; const char aRegS08x08xSize[]
-.data:00455868 aRegS08x08xSize db 'REG %s [%08x] <- %08x sizeof(%d) (%08x)',0Ah,0
-.data:00455868                                         ; DATA XREF: mem_hw_reg_write_byte+5935↑o
-.data:00455868                                         ; mem_hw_reg_write_half+57BA↑o ...
-.data:00455891                 align 4
-.data:00455894 ; const char aUnk[4]
-.data:00455894 aUnk            db 'UNK',0              ; DATA XREF: mem_hw_reg_write_byte+5930↑o
-.data:00455894                                         ; mem_hw_reg_write_half+57B5↑o ...
-.data:00455898 ; const char aRegS08x08xSize_0[]
-.data:00455898 aRegS08x08xSize_0 db 'REG %s [%08x] -> %08x sizeof(%d)',0Ah,0
-.data:00455898                                         ; DATA XREF: mem_hw_reg_read_byte+61E3↑o
-.data:00455898                                         ; hw_reg_read_half+232↑o ...
-.data:004558BA                 align 4
+
 .data:004558BC byte_4558BC     db 3 dup(0FFh), 0, 2 dup(0FFh), 2 dup(0), 0FFh, 7 dup(0)
 .data:004558BC                                         ; DATA XREF: dynarec_compile+30DD↑o
 .data:004558CC byte_4558CC     db 18h, 3 dup(0), 10h, 3 dup(0), 8, 7 dup(0)
@@ -8129,51 +6370,9 @@
 .data:00455984 word_455984     dw 7503h
 .data:00455986 byte_455986     db 0F1h
 .data:00455987                 db    0
-.data:00455988 ; const char a1CompiledAndPc[]
-.data:00455988 a1CompiledAndPc db ' 1 compiled and??? pc %04x n:%d t:%d',0Ah,0
-.data:00455988                                         ; DATA XREF: dynarec_compile+43A6↑o
-.data:004559AE                 align 10h
-.data:004559B0 ; const char aDynarecProblem[]
-.data:004559B0 aDynarecProblem db 'dynarec problem (slot_in and recompiled) [%08x] [%d]',0Ah,0
-.data:004559B0                                         ; DATA XREF: dynarec_compile+432F↑o
-.data:004559E6                 align 4
-.data:004559E8 ; const char aOpcode02xUnkPc[]
-.data:004559E8 aOpcode02xUnkPc db ' Opcode %02x UNK (PC %08x) (%d,%d)',0Ah,0
-.data:004559E8                                         ; DATA XREF: dynarec_compile+3E6B↑o
-.data:00455A0C ; const char aWarningSkullmo[]
-.data:00455A0C aWarningSkullmo db ' * warning: skullmonkeys trick enabled. ',0Ah,0
-.data:00455A0C                                         ; DATA XREF: dynarec_compile+33C9↑o
-.data:00455A36                 align 4
-.data:00455A38 ; const char aByePie[]
-.data:00455A38 aByePie         db 'bye pie',0Ah,0      ; DATA XREF: dynarec_compile+23E3↑o
-.data:00455A41                 align 4
-.data:00455A44 ; const char aCop0Opcode02xU[]
-.data:00455A44 aCop0Opcode02xU db ' COP0 Opcode %02x UNK ',0Ah,0
-.data:00455A44                                         ; DATA XREF: dynarec_compile+2251↑o
-.data:00455A5C ; const char aRegimOpcode02x[]
-.data:00455A5C aRegimOpcode02x db ' REGIM Opcode %02x UNK PC[%08x]',0Ah,0
-.data:00455A5C                                         ; DATA XREF: dynarec_compile+16E2↑o
-.data:00455A7D                 align 10h
-.data:00455A80 ; const char aSpecOpcode02xU[]
-.data:00455A80 aSpecOpcode02xU db 'SPEC Opcode %02x UNK (PC %08x) (%08x) (%d,%d)',0Ah,0
-.data:00455A80                                         ; DATA XREF: dynarec_compile+1374↑o
-.data:00455AAF                 align 10h
-.data:00455AB0 ; const char aEpsxeErrorReco[]
-.data:00455AB0 aEpsxeErrorReco db ' ePSXe (error) recompile block too large ',0Ah,0
-.data:00455AB0                                         ; DATA XREF: dynarec_compile+A7↑o
-.data:00455ADB                 align 4
-.data:00455ADC ; const char aDohhZeroReg0[]
-.data:00455ADC aDohhZeroReg0   db ' dohh zero reg != 0',0Ah,0
-.data:00455ADC                                         ; DATA XREF: dynarec_compile+70↑o
-.data:00455AF1                 align 4
-.data:00455AF4 ; const char aEpsxeErrorDoin[]
-.data:00455AF4 aEpsxeErrorDoin db 'ePSXe error doing malloc!!!! ',0Ah,0
-.data:00455AF4                                         ; DATA XREF: dynarec_init+1F↑o
-.data:00455AF4                                         ; dynarec_init+56↑o ...
-.data:00455B13                 align 8
+
 .data:00455B18 mdectiming      dd 1                    ; DATA XREF: cfg_load_settings+81B↑w
 .data:00455B18                                         ; cfg_load_settings+84C↑w ...
-.data:00455B1C                 align 10h
 .data:00455B20 ; int mdec_zigzag[64]
 .data:00455B20 mdec_zigzag     dd 0, 1, 8, 10h, 9, 2, 3, 0Ah, 11h, 18h, 20h, 19h, 12h
 .data:00455B20                                         ; DATA XREF: mdec_rl_decode+A5↑r
@@ -8325,12 +6524,7 @@
 .data:00455F85                 db    0
 .data:00455F86                 db    0
 .data:00455F87                 db    0
-.data:00455F88 ; const char aOutOfLine[]
-.data:00455F88 aOutOfLine      db 'out of line',0Ah,0  ; DATA XREF: sub_42B2A0+F6↑o
-.data:00455F95                 align 4
-.data:00455F98 ; const char aForScea[9]
-.data:00455F98 aForScea        db 'for SCEA',0         ; DATA XREF: cdr_reg1_write+B02↑r
-.data:00455F98                                         ; cdr_reg1_write:loc_42C21D↑r ...
+
 .data:00455FA1 nocd            db 1                    ; DATA XREF: parse_command_line_options+1AD↑w
 .data:00455FA1                                         ; main_window_callback+24F↑w ...
 .data:00455FA2 xa_read_enable  db 1                    ; DATA XREF: parse_command_line_options+40F↑w
@@ -8345,7 +6539,6 @@
 .data:00455FA8 ; __int16 word_455FA8[]
 .data:00455FA8 word_455FA8     dw 1                    ; DATA XREF: parse_command_line_options+D8↑w
 .data:00455FA8                                         ; controller_set_keyboard+32↑r ...
-.data:00455FAA                 align 10h
 .data:00455FB0 dword_455FB0    dd 0FFFFFFFFh           ; DATA XREF: sub_42D010+33↑r
 .data:00455FB0                                         ; sub_42D0E0+32↑r ...
 .data:00455FB4 dword_455FB4    dd 0FFFFFFFFh           ; DATA XREF: sub_42D010+55↑r
@@ -8365,7 +6558,7 @@
 .data:00455FC0                 db 0FFh
 .data:00455FC1                 db 0FFh
 .data:00455FC2                 db 0FFh
-.data:00455FC3                 db  7Fh ; 
+.data:00455FC3                 db  7Fh ; 
 .data:00455FC4                 db    1
 .data:00455FC5                 db    0
 .data:00455FC6                 db    0
@@ -8682,392 +6875,19 @@
 .data:004564D5                 db 5, 2 dup(0), 80h, 2 dup(0), 5, 2 dup(0), 80h, 2 dup(0)
 .data:004564E1                 db 14h, 2 dup(0), 80h, 0, 5, 50h, 2 dup(0), 80h, 5 dup(0)
 .data:004564F0                 db 80h, 5 dup(0), 80h, 5 dup(0), 80h, 5 dup(0), 6 dup(0AAh)
-.data:00456508 ; const char aPictureDone[]
-.data:00456508 aPictureDone    db ' * Picture done. ',0Ah,0
-.data:00456508                                         ; DATA XREF: cont_process_input+2F0↑o
-.data:0045651B                 align 4
-.data:0045651C ; const char aXenogearsTrick_0[]
-.data:0045651C aXenogearsTrick_0 db ' * Xenogears trick disabled. ',0Ah,0
-.data:0045651C                                         ; DATA XREF: cont_process_input:loc_42D9B1↑o
-.data:0045653B                 align 4
-.data:0045653C ; const char aXenogearsTrick[]
-.data:0045653C aXenogearsTrick db ' * Xenogears trick enabled. ',0Ah,0
-.data:0045653C                                         ; DATA XREF: cont_process_input+2BB↑o
-.data:0045655A                 align 4
-.data:0045655C ; const char aSioTrickDoesnT[]
-.data:0045655C aSioTrickDoesnT db ' * SIO trick doesn',27h,'t implemented yet with Netplay! ',0Ah,0
-.data:0045655C                                         ; DATA XREF: cont_process_input:loc_42D900↑o
-.data:00456591                 align 4
-.data:00456594 ; const char aSioIrqDisabled[]
-.data:00456594 aSioIrqDisabled db ' * SIO irq disabled. ',0Ah,0
-.data:00456594                                         ; DATA XREF: cont_process_input:loc_42D8E7↑o
-.data:004565AB                 align 4
-.data:004565AC ; const char aSioIrqEnabled[]
-.data:004565AC aSioIrqEnabled  db ' * SIO irq enabled. ',0Ah,0
-.data:004565AC                                         ; DATA XREF: cont_process_input+1EE↑o
-.data:004565C2                 align 4
-.data:004565C4 ; const char aLoadstateDoesn[]
-.data:004565C4 aLoadstateDoesn db ' * LoadState doesn',27h,'t implemented yet with Netplay! ',0Ah,0
-.data:004565C4                                         ; DATA XREF: cont_process_input:loc_42D897↑o
-.data:004565F9                 align 4
-.data:004565FC ; const char aLoadstateDone[]
-.data:004565FC aLoadstateDone  db ' * LoadState Done! ',0Ah,0
-.data:004565FC                                         ; DATA XREF: cont_process_input+198↑o
-.data:00456611                 align 4
-.data:00456614 ; const char aIncreasedSlots[]
-.data:00456614 aIncreasedSlots db ' * Increased SlotState! (%d)',0Ah,0
-.data:00456614                                         ; DATA XREF: cont_process_input+159↑o
-.data:00456632                 align 4
-.data:00456634 ; const char aSavestateDone[]
-.data:00456634 aSavestateDone  db ' * SaveState Done! ',0Ah,0
-.data:00456634                                         ; DATA XREF: cont_process_input+12F↑o
-.data:00456649                 align 4
-.data:0045664C ; const char aUserHitEsc[]
-.data:0045664C aUserHitEsc     db ' User   hit ESC ... ',0Ah,0
-.data:0045664C                                         ; DATA XREF: cont_process_input:loc_42D788↑o
-.data:00456662                 align 4
-.data:00456664 ; const CHAR aEpsx[]
-.data:00456664 aEpsx           db 'EPSX',0             ; DATA XREF: gpu_register_output_win_class+48↑o
-.data:00456664                                         ; gpu_create_output_window+47↑o ...
-.data:00456669                 align 4
-.data:0045666C ; const CHAR ConsoleTitle[]
-.data:0045666C ConsoleTitle    db 'ePSXe - Enhanced PSX emulator',0
-.data:0045666C                                         ; DATA XREF: gpu_create_output_window+42↑o
-.data:0045666C                                         ; alloc_console+F↑o
-.data:0045668A                 align 4
-.data:0045668C ; const CHAR aCouldNotReleas[]
-.data:0045668C aCouldNotReleas db 'Could Not Release hWnd.',0
-.data:0045668C                                         ; DATA XREF: gpu_close_output_window+2D↑o
-.data:004566A4 ; const char aDoingInitGpuD[]
-.data:004566A4 aDoingInitGpuD  db ' * Doing init gpu[%d]... ',0Ah,0
-.data:004566A4                                         ; DATA XREF: gpu_load_plugin+397↑o
-.data:004566BF                 align 10h
-.data:004566C0 ; const CHAR aGpucleardynare[]
-.data:004566C0 aGpucleardynare db 'GPUclearDynarec',0  ; DATA XREF: gpu_load_plugin+371↑o
-.data:004566D0 ; const CHAR aGpucursor[]
-.data:004566D0 aGpucursor      db 'GPUcursor',0        ; DATA XREF: gpu_load_plugin+35E↑o
-.data:004566DA                 align 4
-.data:004566DC ; const CHAR aGpushowscreenp[]
-.data:004566DC aGpushowscreenp db 'GPUshowScreenPic',0 ; DATA XREF: gpu_load_plugin+350↑o
-.data:004566ED                 align 10h
-.data:004566F0 ; const CHAR aGpugetscreenpi[]
-.data:004566F0 aGpugetscreenpi db 'GPUgetScreenPic',0  ; DATA XREF: gpu_load_plugin+339↑o
-.data:00456700 ; const CHAR aGpufreeze[]
-.data:00456700 aGpufreeze      db 'GPUfreeze',0        ; DATA XREF: gpu_load_plugin+326↑o
-.data:0045670A                 align 4
-.data:0045670C ; const CHAR aGpudisplayflag[]
-.data:0045670C aGpudisplayflag db 'GPUdisplayFlags',0  ; DATA XREF: gpu_load_plugin+318↑o
-.data:0045671C ; const CHAR aGpureaddatamem[]
-.data:0045671C aGpureaddatamem db 'GPUreadDataMem',0   ; DATA XREF: gpu_load_plugin+301↑o
-.data:0045672B                 align 4
-.data:0045672C ; const CHAR aGpuwritedatame[]
-.data:0045672C aGpuwritedatame db 'GPUwriteDataMem',0  ; DATA XREF: gpu_load_plugin+2EE↑o
-.data:0045673C ; const CHAR aGpumakesnapsho[]
-.data:0045673C aGpumakesnapsho db 'GPUmakeSnapshot',0  ; DATA XREF: gpu_load_plugin+2E0↑o
-.data:0045674C ; const CHAR aGpuupdatelace[]
-.data:0045674C aGpuupdatelace  db 'GPUupdateLace',0    ; DATA XREF: gpu_load_plugin+2B8↑o
-.data:0045674C                                         ; gpu_load_plugin+2C9↑o
-.data:0045675A                 align 4
-.data:0045675C ; const CHAR aGpusetmode[]
-.data:0045675C aGpusetmode     db 'GPUsetMode',0       ; DATA XREF: gpu_load_plugin+28F↑o
-.data:0045675C                                         ; gpu_load_plugin+2A0↑o
-.data:00456767                 align 4
-.data:00456768 ; const CHAR aGpugetmode[]
-.data:00456768 aGpugetmode     db 'GPUgetMode',0       ; DATA XREF: gpu_load_plugin+266↑o
-.data:00456768                                         ; gpu_load_plugin+277↑o
-.data:00456773                 align 4
-.data:00456774 ; const CHAR aGpudmachain[]
-.data:00456774 aGpudmachain    db 'GPUdmaChain',0      ; DATA XREF: gpu_load_plugin+23E↑o
-.data:00456774                                         ; gpu_load_plugin+24F↑o
-.data:00456780 ; const CHAR aGpureadstatus[]
-.data:00456780 aGpureadstatus  db 'GPUreadStatus',0    ; DATA XREF: gpu_load_plugin+215↑o
-.data:00456780                                         ; gpu_load_plugin+226↑o
-.data:0045678E                 align 10h
-.data:00456790 ; const CHAR aGpureaddata[]
-.data:00456790 aGpureaddata    db 'GPUreadData',0      ; DATA XREF: gpu_load_plugin+1EC↑o
-.data:00456790                                         ; gpu_load_plugin+1FD↑o
-.data:0045679C ; const CHAR aGpuwritestatus[]
-.data:0045679C aGpuwritestatus db 'GPUwriteStatus',0   ; DATA XREF: gpu_load_plugin+1C4↑o
-.data:0045679C                                         ; gpu_load_plugin+1D5↑o
-.data:004567AB                 align 4
-.data:004567AC ; const CHAR aGpuwritedata[]
-.data:004567AC aGpuwritedata   db 'GPUwriteData',0     ; DATA XREF: gpu_load_plugin+19B↑o
-.data:004567AC                                         ; gpu_load_plugin+1AC↑o
-.data:004567B9                 align 4
-.data:004567BC ; const CHAR aGpuclose[]
-.data:004567BC aGpuclose       db 'GPUclose',0         ; DATA XREF: gpu_load_plugin+F8↑o
-.data:004567BC                                         ; gpu_load_plugin+109↑o
-.data:004567C5                 align 4
-.data:004567C8 ; const CHAR aGpuopen[]
-.data:004567C8 aGpuopen        db 'GPUopen',0          ; DATA XREF: gpu_load_plugin+D0↑o
-.data:004567C8                                         ; gpu_load_plugin+E1↑o
-.data:004567D0 ; const char aErrorVideoDoes[]
-.data:004567D0 aErrorVideoDoes db ' * !Error video doesn',27h,'t configurated ',0Ah
-.data:004567D0                                         ; DATA XREF: gpu_load_plugin+1D↑o
-.data:004567F6                 db ' * !Go Config->Video and choose a plugin. ',0Ah,0
-.data:00456822                 align 4
-.data:00456824 ; const char aDirectInputIni_0[]
-.data:00456824 aDirectInputIni_0 db ' * Direct input init error. ',0Ah,0
-.data:00456824                                         ; DATA XREF: gpu_sub_42E3A0:loc_42E3EA↑o
-.data:00456824                                         ; gpu_open:loc_42E92C↑o
-.data:00456842                 align 4
-.data:00456844 ; const char aGpuOpenD[]
-.data:00456844 aGpuOpenD       db ' * Gpu open[%d]... ',0Ah,0
-.data:00456844                                         ; DATA XREF: gpu_sub_42E3A0+D↑o
-.data:00456859                 align 10h
-.data:00456860 ; const char aDma2ModeNotImp[]
-.data:00456860 aDma2ModeNotImp db 'DMA[2] mode NOT implemented (%08x)',0Ah
-.data:00456860                                         ; DATA XREF: gpu_dma+64↑o
-.data:00456883                 db ' addr (%08x) num (%04x) size (%04x)',0Ah,0
-.data:004568A8 ; const char aDma6ModeNotImp[]
-.data:004568A8 aDma6ModeNotImp db 'DMA[6] mode NOT implemented (%08x)',0Ah,0
-.data:004568A8                                         ; DATA XREF: hw_reg_write_word+BC63↑o
-.data:004568CC ; const CHAR aCouldNotReleas_0[]
-.data:004568CC aCouldNotReleas_0 db 'Could NOT release hWnd.',0
-.data:004568CC                                         ; DATA XREF: gpu_destroy+6C↑o
-.data:004568E4 ; const char aShutdownGpu[]
-.data:004568E4 aShutdownGpu    db ' * Shutdown gpu ...',0Ah,0
-.data:004568E4                                         ; DATA XREF: gpu_destroy:loc_42E86C↑o
-.data:004568F9                 align 4
-.data:004568FC ; const char aClosingGpu[]
-.data:004568FC aClosingGpu     db ' * Closing gpu ...',0Ah,0
-.data:004568FC                                         ; DATA XREF: gpu_destroy+12↑o
-.data:00456910 ; const CHAR chText[]
-.data:00456910 chText          db 'NO SAVE PIC',0      ; DATA XREF: gpu_sub_42EB00+8↑o
-.data:0045691C ; const CHAR aFreeSlot[]
-.data:0045691C aFreeSlot       db 'FREE SLOT',0        ; DATA XREF: gpu_sub_42EBF0+8↑o
-.data:00456926                 align 4
-.data:00456928 ; char aSS03dPic[]
-.data:00456928 aSS03dPic       db '%s%s.%03d.pic',0    ; DATA XREF: gpu_show_screen_pic+3E↑o
-.data:00456936                 align 4
-.data:00456938 ; const char aSPic[]
-.data:00456938 aSPic           db '%s.pic',0           ; DATA XREF: gpu_freeze+DF↑o
-.data:0045693F                 align 10h
-.data:00456940 ; const char aGpuPluginDoesn[]
-.data:00456940 aGpuPluginDoesn db ' * GPU plugin doesn',27h,'t support savestates. ',0Ah,0
-.data:00456940                                         ; DATA XREF: gpu_freeze+44↑o
-.data:00456940                                         ; gpu_unfreeze+1D↑o
+
 .data:0045696C byte_45696C     db 1                    ; DATA XREF: net_open+2F↑w
 .data:0045696C                                         ; net_close+12↑r ...
-.data:0045696D                 align 10h
-.data:00456970 ; const char aInitNetplugin[]
-.data:00456970 aInitNetplugin  db ' * Init netplugin ... ',0
-.data:00456970                                         ; DATA XREF: net_load_plugin:loc_42F1D2↑o
-.data:00456987                 align 4
-.data:00456988 ; const char aGetprocaddress_9[]
-.data:00456988 aGetprocaddress_9 db ' * GetProcAddress error NETtransferData',0Ah,0
-.data:00456988                                         ; DATA XREF: net_load_plugin+1D5↑o
-.data:004569B1                 align 4
-.data:004569B4 ; const CHAR aNettransferdat[]
-.data:004569B4 aNettransferdat db 'NETtransferData',0  ; DATA XREF: net_load_plugin+1C4↑o
-.data:004569C4 ; const char aGetprocaddress_8[]
-.data:004569C4 aGetprocaddress_8 db ' * GetProcAddress error NETqueryPlayer',0Ah,0
-.data:004569C4                                         ; DATA XREF: net_load_plugin+1B1↑o
-.data:004569EC ; const CHAR aNetqueryplayer[]
-.data:004569EC aNetqueryplayer db 'NETqueryPlayer',0   ; DATA XREF: net_load_plugin+1A0↑o
-.data:004569FB                 align 4
-.data:004569FC ; const char aGetprocaddress_7[]
-.data:004569FC aGetprocaddress_7 db ' * GetProcAddress error NETcompareData',0Ah,0
-.data:004569FC                                         ; DATA XREF: net_load_plugin+18E↑o
-.data:00456A24 ; const CHAR aNetcomparedata[]
-.data:00456A24 aNetcomparedata db 'NETcompareData',0   ; DATA XREF: net_load_plugin+17D↑o
-.data:00456A33                 align 4
-.data:00456A34 ; const char aGetprocaddress_6[]
-.data:00456A34 aGetprocaddress_6 db ' * GetProcAddress error NETpadState',0Ah,0
-.data:00456A34                                         ; DATA XREF: net_load_plugin+16A↑o
-.data:00456A59                 align 4
-.data:00456A5C ; const CHAR aNetpadstate[]
-.data:00456A5C aNetpadstate    db 'NETpadState',0      ; DATA XREF: net_load_plugin+159↑o
-.data:00456A68 ; const char aGetprocaddress_5[]
-.data:00456A68 aGetprocaddress_5 db ' * GetProcAddress error NETresume',0Ah,0
-.data:00456A68                                         ; DATA XREF: net_load_plugin+146↑o
-.data:00456A8B                 align 4
-.data:00456A8C ; const CHAR aNetresume[]
-.data:00456A8C aNetresume      db 'NETresume',0        ; DATA XREF: net_load_plugin+135↑o
-.data:00456A96                 align 4
-.data:00456A98 ; const char aGetprocaddress_4[]
-.data:00456A98 aGetprocaddress_4 db ' * GetProcAddress error NETpause',0Ah,0
-.data:00456A98                                         ; DATA XREF: net_load_plugin+123↑o
-.data:00456ABA                 align 4
-.data:00456ABC ; const CHAR aNetpause[]
-.data:00456ABC aNetpause       db 'NETpause',0         ; DATA XREF: net_load_plugin+112↑o
-.data:00456AC5                 align 4
-.data:00456AC8 ; const char aGetprocaddress_3[]
-.data:00456AC8 aGetprocaddress_3 db ' * GetProcAddress error NETclose',0Ah,0
-.data:00456AC8                                         ; DATA XREF: net_load_plugin+FF↑o
-.data:00456AEA                 align 4
-.data:00456AEC ; const CHAR aNetclose[]
-.data:00456AEC aNetclose       db 'NETclose',0         ; DATA XREF: net_load_plugin+EE↑o
-.data:00456AF5                 align 4
-.data:00456AF8 ; const char aGetprocaddress_2[]
-.data:00456AF8 aGetprocaddress_2 db ' * GetProcAddress error NETopen',0Ah,0
-.data:00456AF8                                         ; DATA XREF: net_load_plugin+DB↑o
-.data:00456B19                 align 4
-.data:00456B1C ; const CHAR aNetopen[]
-.data:00456B1C aNetopen        db 'NETopen',0          ; DATA XREF: net_load_plugin+CA↑o
-.data:00456B24 ; const char aGetprocaddress_1[]
-.data:00456B24 aGetprocaddress_1 db ' * GetProcAddress error NETshutdoww',0Ah,0
-.data:00456B24                                         ; DATA XREF: net_load_plugin+B8↑o
-.data:00456B49                 align 4
-.data:00456B4C ; const CHAR aNetshutdown[]
-.data:00456B4C aNetshutdown    db 'NETshutdown',0      ; DATA XREF: net_load_plugin+A7↑o
-.data:00456B58 ; const char aGetprocaddress_0[]
-.data:00456B58 aGetprocaddress_0 db ' * GetProcAddress error NETinit',0Ah,0
-.data:00456B58                                         ; DATA XREF: net_load_plugin+94↑o
-.data:00456B79                 align 4
-.data:00456B7C ; const CHAR aNetinit[]
-.data:00456B7C aNetinit        db 'NETinit',0          ; DATA XREF: net_load_plugin+83↑o
-.data:00456B84 ; const char aNetpluginOpen[]
-.data:00456B84 aNetpluginOpen  db ' * Netplugin open... ',0
-.data:00456B84                                         ; DATA XREF: net_open+9↑o
-.data:00456B9A                 align 4
-.data:00456B9C ; const char aTransferConfig[28]
-.data:00456B9C aTransferConfig db 'Transfer configuration info',0
-.data:00456B9C                                         ; DATA XREF: net_netplay_handler+2A7↑o
-.data:00456BB8 ; const char aTransferMemcar_0[19]
-.data:00456BB8 aTransferMemcar_0 db 'Transfer Memcard 2',0
-.data:00456BB8                                         ; DATA XREF: net_netplay_handler+225↑o
-.data:00456BCB                 align 4
-.data:00456BCC ; const char aTransferMemcar[19]
-.data:00456BCC aTransferMemcar db 'Transfer Memcard 1',0
-.data:00456BCC                                         ; DATA XREF: net_netplay_handler+1E2↑o
-.data:00456BDF                 align 10h
-.data:00456BE0 ; const char aNetplayErrorPs_0[]
-.data:00456BE0 aNetplayErrorPs_0 db ' * NETPLAY: Error psx bios is different in every site. ',0Ah,0
-.data:00456BE0                                         ; DATA XREF: net_netplay_handler+1AB↑o
-.data:00456C19                 align 4
-.data:00456C1C ; const char aSpucore140[]
-.data:00456C1C aSpucore140     db 'SPUCORE140',0       ; DATA XREF: net_netplay_handler+16A↑o
-.data:00456C27                 align 4
-.data:00456C28 ; const char aNetplayErrorSp[]
-.data:00456C28 aNetplayErrorSp db ' * NETPLAY: Error spu plugin is different in every site. ',0Ah,0
-.data:00456C28                                         ; DATA XREF: net_netplay_handler+14C↑o
-.data:00456C28                                         ; net_netplay_handler+189↑o
-.data:00456C63                 align 4
-.data:00456C64 ; const char aNetplayErrorRe[]
-.data:00456C64 aNetplayErrorRe db ' * NETPLAY: Error reading spu plugin ',0Ah,0
-.data:00456C64                                         ; DATA XREF: net_netplay_handler+108↑o
-.data:00456C8B                 align 4
-.data:00456C8C ; const char aNetplaySoundEn[]
-.data:00456C8C aNetplaySoundEn db ' * NETPLAY: Sound Enable option is different in every site. ',0Ah
-.data:00456C8C                                         ; DATA XREF: net_netplay_handler+81↑o
-.data:00456CC9                 db 0
-.data:00456CCA                 align 4
-.data:00456CCC ; const char aNetplayStartMo[]
-.data:00456CCC aNetplayStartMo db ' * NETPLAY: Start Mode option is different in every site. ',0Ah,0
-.data:00456CCC                                         ; DATA XREF: net_netplay_handler+63↑o
-.data:00456D08 ; const char aNetplayErrorPs[]
-.data:00456D08 aNetplayErrorPs db ' * NETPLAY: Error psx game is different in every site. ',0Ah,0
-.data:00456D08                                         ; DATA XREF: net_netplay_handler+2F↑o
-.data:00456D41                 align 4
-.data:00456D44 ; const char aShutdownNet[]
-.data:00456D44 aShutdownNet    db ' * Shutdown net ...',0Ah,0
-.data:00456D44                                         ; DATA XREF: net_close:loc_42F5D5↑o
-.data:00456D59                 align 4
-.data:00456D5C ; const char aClosingNet[]
-.data:00456D5C aClosingNet     db ' * Closing net ...',0Ah,0
-.data:00456D5C                                         ; DATA XREF: net_close+1B↑o
+
 .data:00456D70 cd_savefake_flag db 0FFh                ; DATA XREF: parse_command_line_options+44E↑w
 .data:00456D70                                         ; parse_command_line_options+4FE↑w ...
-.data:00456D71                 align 4
 .data:00456D74 dword_456D74    dd 0FFFFFFFFh           ; DATA XREF: iso_load+67↑w
 .data:00456D74                                         ; iso_read_data:loc_42FFE2↑r ...
 .data:00456D78 dword_456D78    dd 930h                 ; DATA XREF: iso_load+99↑r
 .data:00456D78                                         ; iso_load+DD↑r ...
 .data:00456D7C sound_use_cdda  db 1                    ; DATA XREF: cfg_load_settings+35E↑w
 .data:00456D7C                                         ; cfg_save_settings+ED↑r ...
-.data:00456D7D                 align 10h
-.data:00456D80 ; const char aCreatingFakeFi[]
-.data:00456D80 aCreatingFakeFi db ' * Creating fake file ... ',0Ah,0
-.data:00456D80                                         ; DATA XREF: cdrom_fake_create_file+76↑o
-.data:00456D9C ; const char aErrorSavingS[]
-.data:00456D9C aErrorSavingS   db ' * Error saving %s',0Ah,0
-.data:00456D9C                                         ; DATA XREF: cdrom_fake_create_file+3A↑o
-.data:00456DB0 ; const char aLoadingFakeFil[]
-.data:00456DB0 aLoadingFakeFil db ' * Loading fake file ... ',0Ah,0
-.data:00456DB0                                         ; DATA XREF: cdrom_fake_load_file+6A↑o
-.data:00456DCB                 align 4
-.data:00456DCC ; const char aErrorLoadingS_0[]
-.data:00456DCC aErrorLoadingS_0 db ' * Error loading %s',0Ah,0
-.data:00456DCC                                         ; DATA XREF: cdrom_fake_load_file+2C↑o
-.data:00456DE1                 align 4
-.data:00456DE4 ; const char aSaved[]
-.data:00456DE4 aSaved          db 'saved ',0Ah,0       ; DATA XREF: cdrom_fake_write_portion+40↑o
-.data:00456DEC ; const char aFakeSectorDoes[]
-.data:00456DEC aFakeSectorDoes db ' * fake sector doesn',27h,'t found ',0Ah,0
-.data:00456DEC                                         ; DATA XREF: cdrom_fake_read_portion+42↑o
-.data:00456E0B                 align 4
-.data:00456E0C ; const char aOk_0[]
-.data:00456E0C aOk_0           db 'ok',0Ah,0           ; DATA XREF: iso_load:loc_42FC93↑o
-.data:00456E0C                                         ; ext_cdrom_load_plugin+248↑o ...
-.data:00456E10 ; const char aSubchannel[]
-.data:00456E10 aSubchannel     db '(+subchannel) ',0   ; DATA XREF: iso_load+208↑o
-.data:00456E1F                 align 10h
-.data:00456E20 ; const char aSub[4]
-.data:00456E20 aSub            db 'sub',0              ; DATA XREF: iso_load+1C4↑r
-.data:00456E20                                         ; iso_load+1E2↑r
-.data:00456E24 ; const char aBinImg2352[]
-.data:00456E24 aBinImg2352     db '[BIN/IMG2352] ',0   ; DATA XREF: iso_load:loc_42FBD2↑o
-.data:00456E33                 align 4
-.data:00456E34 ; const char aCdi2336[]
-.data:00456E34 aCdi2336        db '[CDI2336] ',0       ; DATA XREF: iso_load+142↑o
-.data:00456E3F                 align 10h
-.data:00456E40 ; const char aNrg2336[11]
-.data:00456E40 aNrg2336        db '[NRG2336] ',0       ; DATA XREF: iso_load+134↑o
-.data:00456E4B                 align 4
-.data:00456E4C ; const char aNrg2352[11]
-.data:00456E4C aNrg2352        db '[NRG2352] ',0       ; DATA XREF: iso_load+EF↑o
-.data:00456E57                 align 4
-.data:00456E58 ; const char aErrorLoadingCd[]
-.data:00456E58 aErrorLoadingCd db ' * Error loading cdrombin [%s]',0Ah,0
-.data:00456E58                                         ; DATA XREF: iso_load+30↑o
-.data:00456E78 ; const char aLoadingIsoForm[]
-.data:00456E78 aLoadingIsoForm db ' * Loading ISO Format ',0
-.data:00456E78                                         ; DATA XREF: iso_load+7↑o
-.data:00456E8F                 align 10h
-.data:00456E90 ; const char aClosingIsoSyst[]
-.data:00456E90 aClosingIsoSyst db ' * Closing ISO system. ',0Ah,0
-.data:00456E90                                         ; DATA XREF: iso_close:loc_430134↑o
-.data:00456EA9                 align 4
-.data:00456EAC ; const char aCdromOpen[]
-.data:00456EAC aCdromOpen      db ' * Cdrom open... ',0
-.data:00456EAC                                         ; DATA XREF: ext_cdrom_load_plugin+25E↑o
-.data:00456EBE                 align 10h
-.data:00456EC0 ; const char aInitCdrom[]
-.data:00456EC0 aInitCdrom      db ' * Init cdrom ... ',0
-.data:00456EC0                                         ; DATA XREF: ext_cdrom_load_plugin:loc_430465↑o
-.data:00456ED3                 align 4
-.data:00456ED4 ; const CHAR aCdrgetbuffersu[]
-.data:00456ED4 aCdrgetbuffersu db 'CDRgetBufferSub',0  ; DATA XREF: ext_cdrom_load_plugin+216↑o
-.data:00456EE4 ; const CHAR aCdrstop[]
-.data:00456EE4 aCdrstop        db 'CDRstop',0          ; DATA XREF: ext_cdrom_load_plugin+1FB↑o
-.data:00456EEC ; const CHAR aCdrplay[]
-.data:00456EEC aCdrplay        db 'CDRplay',0          ; DATA XREF: ext_cdrom_load_plugin+1E9↑o
-.data:00456EF4 ; const CHAR aCdrgetbuffer[]
-.data:00456EF4 aCdrgetbuffer   db 'CDRgetBuffer',0     ; DATA XREF: ext_cdrom_load_plugin+1CE↑o
-.data:00456F01                 align 4
-.data:00456F04 ; const CHAR aCdrreadtrack[]
-.data:00456F04 aCdrreadtrack   db 'CDRreadTrack',0     ; DATA XREF: ext_cdrom_load_plugin+1B3↑o
-.data:00456F11                 align 4
-.data:00456F14 ; const CHAR aCdrgettd[]
-.data:00456F14 aCdrgettd       db 'CDRgetTD',0         ; DATA XREF: ext_cdrom_load_plugin+199↑o
-.data:00456F1D                 align 10h
-.data:00456F20 ; const CHAR aCdrgettn[]
-.data:00456F20 aCdrgettn       db 'CDRgetTN',0         ; DATA XREF: ext_cdrom_load_plugin+17E↑o
-.data:00456F29                 align 4
-.data:00456F2C ; const CHAR aCdrclose[]
-.data:00456F2C aCdrclose       db 'CDRclose',0         ; DATA XREF: ext_cdrom_load_plugin+163↑o
-.data:00456F35                 align 4
-.data:00456F38 ; const CHAR aCdropen[]
-.data:00456F38 aCdropen        db 'CDRopen',0          ; DATA XREF: ext_cdrom_load_plugin+149↑o
-.data:00456F40 ; const CHAR aCdrshutdown[]
-.data:00456F40 aCdrshutdown    db 'CDRshutdown',0      ; DATA XREF: ext_cdrom_load_plugin+12E↑o
-.data:00456F4C                 align 10h
-.data:00456F50 ; const char aErrorCdromDoes[]
-.data:00456F50 aErrorCdromDoes db ' * !Error cdrom doesn',27h,'t configurated ',0Ah
-.data:00456F50                                         ; DATA XREF: ext_cdrom_load_plugin+A0↑o
-.data:00456F76                 db ' * !Go Config->Cdrom and choose a plugin. ',0Ah,0
-.data:00456FA2                 align 4
+
 .data:00456FA4 cdrom_haid      dd 0FFFFFFFFh           ; DATA XREF: cfg_load_settings+66D↑o
 .data:00456FA4                                         ; cfg_cdrom_set_hain_target_lun↑r ...
 .data:00456FA8 cdrom_target    dd 0FFFFFFFFh           ; DATA XREF: cfg_load_settings+69F↑o
@@ -9077,167 +6897,27 @@
 .data:00456FB0                 db 0F8h
 .data:00456FB1 use_subchannel  db 1                    ; DATA XREF: parse_command_line_options+61↑w
 .data:00456FB1                                         ; parse_command_line_options+7E↑w ...
-.data:00456FB2                 align 4
 .data:00456FB4 dword_456FB4    dd 47h                  ; DATA XREF: W9x_play_cdda+BC↑r
 .data:00456FB4                                         ; W9x_play_cdda+42↑w
 .data:00456FB8 dword_456FB8    dd 0                    ; DATA XREF: W9x_play_cdda+4E↑w
 .data:00456FB8                                         ; W9x_play_cdda+C6↑r ...
 .data:00456FBC word_456FBC     dw 0                    ; DATA XREF: W9x_play_cdda+81↑w
 .data:00456FBC                                         ; W9x_play_cdda+CF↑r
-.data:00456FBE                 align 10h
 .data:00456FC0 dword_456FC0    dd 4Bh                  ; DATA XREF: W9x_cdrom_stop+6A↑r
 .data:00456FC0                                         ; W9x_cdrom_stop+A↑w
 .data:00456FC4 dword_456FC4    dd 0                    ; DATA XREF: W9x_cdrom_stop+74↑r
 .data:00456FC8 word_456FC8     dw 0                    ; DATA XREF: W9x_cdrom_stop+7E↑r
-.data:00456FCA                 align 4
 .data:00456FCC dword_456FCC    dd 4Bh                  ; DATA XREF: W9x_resume_cdda+46↑r
 .data:00456FCC                                         ; W9x_resume_cdda+17↑w
 .data:00456FD0 dword_456FD0    dd 0                    ; DATA XREF: W9x_resume_cdda+50↑r
 .data:00456FD4 word_456FD4     dw 1                    ; DATA XREF: W9x_resume_cdda+5A↑r
-.data:00456FD6                 align 4
-.data:00456FD8 ; const char aErrorInInitAsp[]
-.data:00456FD8 aErrorInInitAsp db ' * Error in init aspi (%d)',0Ah,0
-.data:00456FD8                                         ; DATA XREF: W9x_init_aspi+38↑o
-.data:00456FF4 ; const char aLength02d02d[]
-.data:00456FF4 aLength02d02d   db ' Length %02d:%02d',0Ah,0
-.data:00456FF4                                         ; DATA XREF: W9x_cdrom_gettrackinfo+191↑o
-.data:00456FF4                                         ; W2k_cdrom_gettrackinfo+226↑o
-.data:00457007                 align 4
-.data:00457008 ; const char aStartD02d02d02[]
-.data:00457008 aStartD02d02d02 db ' Start %d: (%02d,%02d,%02d) - ',0
-.data:00457008                                         ; DATA XREF: W9x_cdrom_gettrackinfo+14E↑o
-.data:00457008                                         ; W2k_cdrom_gettrackinfo+1E3↑o
-.data:00457027                 align 4
-.data:00457028 ; const char aAudio[]
-.data:00457028 aAudio          db '(AUDIO) -',0        ; DATA XREF: W9x_cdrom_gettrackinfo:loc_43122E↑o
-.data:00457028                                         ; W2k_cdrom_gettrackinfo:loc_433F33↑o
-.data:00457032                 align 4
-.data:00457034 ; const char aData_0[]
-.data:00457034 aData_0         db '(DATA)  -',0        ; DATA XREF: W9x_cdrom_gettrackinfo+DF↑o
-.data:00457034                                         ; W2k_cdrom_gettrackinfo+174↑o
-.data:0045703E                 align 10h
-.data:00457040 ; const char aTrackD[]
-.data:00457040 aTrackD         db ' * Track %d: ',0    ; DATA XREF: W9x_cdrom_gettrackinfo+C7↑o
-.data:00457040                                         ; W2k_cdrom_gettrackinfo+15C↑o
-.data:0045704E                 align 10h
-.data:00457050 ; const char aFirstLastTrack[]
-.data:00457050 aFirstLastTrack db ' * First/Last track: %d %d',0Ah,0
-.data:00457050                                         ; DATA XREF: W9x_cdrom_gettrackinfo+82↑o
-.data:00457050                                         ; W2k_cdrom_gettrackinfo+119↑o
-.data:0045706C ; const char aCdromGettracki[]
-.data:0045706C aCdromGettracki db ' * Cdrom gettrackinfo error.',0Ah,0
-.data:0045706C                                         ; DATA XREF: W9x_cdrom_gettrackinfo+5E↑o
-.data:0045708A                 align 4
-.data:0045708C ; const char aErrorLoadingWn_0[]
-.data:0045708C aErrorLoadingWn_0 db 'Error loading WNASPI32.DLL',0Ah,0
-.data:0045708C                                         ; DATA XREF: W9x_load_winaspi_dll:loc_43137B↑o
-.data:004570A8 ; const CHAR aSendaspi32comm[]
-.data:004570A8 aSendaspi32comm db 'SendASPI32Command',0
-.data:004570A8                                         ; DATA XREF: W9x_load_winaspi_dll+3F↑o
-.data:004570A8                                         ; W9x_load_win_aspi_silent+2D↑o
-.data:004570BA                 align 4
-.data:004570BC ; const CHAR aGetaspi32suppo[]
-.data:004570BC aGetaspi32suppo db 'GetASPI32SupportInfo',0
-.data:004570BC                                         ; DATA XREF: W9x_load_winaspi_dll+2D↑o
-.data:004570BC                                         ; W9x_load_win_aspi_silent+1B↑o
-.data:004570D1                 align 4
-.data:004570D4 ; const char aErrorLoadingWn[]
-.data:004570D4 aErrorLoadingWn db ' * Error loading WNASPI32.DLL',0Ah,0
-.data:004570D4                                         ; DATA XREF: W9x_load_winaspi_dll+14↑o
-.data:004570F3                 align 4
-.data:004570F4 ; const CHAR aWNASPI32DLL[]
-.data:004570F4 aWNASPI32DLL    db 'WNASPI32.DLL',0     ; DATA XREF: W9x_load_winaspi_dll↑o
-.data:004570F4                                         ; W9x_load_win_aspi_silent↑o
-.data:00457101                 align 4
-.data:00457104 ; const char aInitCoreW9xCdr[]
-.data:00457104 aInitCoreW9xCdr db ' * Init Core W9x cdrom ... ',0
-.data:00457104                                         ; DATA XREF: W9x_cdrom_init:loc_43145A↑o
-.data:00457120 ; const char aNo[]
-.data:00457120 aNo             db ' NO.',0Ah,0         ; DATA XREF: W9x_cdrom_subchannel_read:loc_4328B7↑o
-.data:00457120                                         ; W2k_cdrom_subchannel_read:loc_435E97↑o
-.data:00457126                 align 4
-.data:00457128 ; const char aCdromPrecachin_0[]
-.data:00457128 aCdromPrecachin_0 db ' * Cdrom precaching subchannel ... ',0
-.data:00457128                                         ; DATA XREF: W9x_cdrom_subchannel_read+51B↑o
-.data:00457128                                         ; W9x_cdrom_subchannel_read+74D↑o ...
-.data:0045714C ; const char aYes[]
-.data:0045714C aYes            db ' YES.',0Ah,0        ; DATA XREF: W9x_cdrom_subchannel_read+50C↑o
-.data:0045714C                                         ; W9x_cdrom_subchannel_read+73E↑o ...
-.data:00457153                 align 4
-.data:00457154 ; const char aCheckingSubcha_0[]
-.data:00457154 aCheckingSubcha_0 db ' * Checking subchannel read from cdrom ... ',0
-.data:00457154                                         ; DATA XREF: W9x_cdrom_subchannel_read+466↑o
-.data:00457154                                         ; W2k_cdrom_subchannel_read+466↑o
-.data:00457180 ; const char aFixatingSubcha[]
-.data:00457180 aFixatingSubcha db ' * Fixating subchanel ... ',0
-.data:00457180                                         ; DATA XREF: W9x_cdrom_subchannel_read+2BF↑o
-.data:00457180                                         ; W2k_cdrom_subchannel_read+2BF↑o
-.data:0045719B                 align 4
-.data:0045719C ; const char aCdromPrecachin[]
-.data:0045719C aCdromPrecachin db ' * Cdrom precaching subchannel ... (step %d/2) ',0
-.data:0045719C                                         ; DATA XREF: W9x_cdrom_subchannel_read+201↑o
-.data:0045719C                                         ; W2k_cdrom_subchannel_read+201↑o
-.data:004571CC ; const char aCheckingSubcha[]
-.data:004571CC aCheckingSubcha db ' * Checking subchannel read standard ... ',0Ah,0
-.data:004571CC                                         ; DATA XREF: W9x_cdrom_subchannel_read+1D7↑o
-.data:004571CC                                         ; W2k_cdrom_subchannel_read+1D7↑o
-.data:004571F7                 align 4
-.data:004571F8 ; const char aSubchannelSupp_0[]
-.data:004571F8 aSubchannelSupp_0 db ' * Subchannel support from .m3s file. ',0Ah,0
-.data:004571F8                                         ; DATA XREF: W9x_cdrom_subchannel_read+173↑o
-.data:004571F8                                         ; W9x_cdrom_subchannel_read:loc_431E2B↑o ...
-.data:00457220 ; const char aSSM3s[]
-.data:00457220 aSSM3s          db '%s%s.M3S',0         ; DATA XREF: W9x_cdrom_subchannel_read+11B↑o
-.data:00457220                                         ; W9x_cdrom_subchannel_read+3ED↑o ...
-.data:00457229                 align 4
-.data:0045722C ; const char aSubchannelSupp[]
-.data:0045722C aSubchannelSupp db ' * Subchannel support from clonecd .sub file. ',0Ah,0
-.data:0045722C                                         ; DATA XREF: W9x_cdrom_subchannel_read+B3↑o
-.data:0045722C                                         ; W9x_cdrom_subchannel_read:loc_431D6B↑o ...
-.data:0045725C ; const char aSSSub[]
-.data:0045725C aSSSub          db '%s%s.SUB',0         ; DATA XREF: W9x_cdrom_subchannel_read+81↑o
-.data:0045725C                                         ; W2k_cdrom_subchannel_read+81↑o
-.data:00457265                 align 4
-.data:00457268 ; const char aPatches[9]
-.data:00457268 aPatches        db 'patches\',0         ; DATA XREF: W9x_cdrom_subchannel_read+75↑o
-.data:00457268                                         ; W9x_cdrom_subchannel_read+10F↑o ...
-.data:00457271                 align 4
-.data:00457274 ; const char aWarningCdromRe[]
-.data:00457274 aWarningCdromRe db ' * Warning: cdrom read mode unknown. ',0Ah,0
-.data:00457274                                         ; DATA XREF: W9x_cdrom_subchannel_read+45↑o
-.data:00457274                                         ; W2k_cdrom_subchannel_read+45↑o
-.data:0045729B                 align 4
-.data:0045729C ; const char aErrorSubReadin[]
-.data:0045729C aErrorSubReadin db ' * Error sub reading CD: %d,%d,%d',0Ah,0
-.data:0045729C                                         ; DATA XREF: W9x_cdrom_read_data+62C↑o
-.data:0045729C                                         ; W9x_cdrom_read_data+821↑o ...
-.data:004572BF                 align 10h
-.data:004572C0 ; const char aErrorReadingCd[]
-.data:004572C0 aErrorReadingCd db ' * Error reading CD: %d,%d,%d',0Ah,0
-.data:004572C0                                         ; DATA XREF: W9x_cdrom_read_data+309↑o
-.data:004572C0                                         ; W9x_cdrom_read_data+34C↑o ...
-.data:004572DF                 align 10h
-.data:004572E0 ; const char aPlayCddaErrorD[]
-.data:004572E0 aPlayCddaErrorD db ' * Play cdda error (%d, %d, %d) ',0Ah,0
-.data:004572E0                                         ; DATA XREF: W9x_play_cdda+158↑o
-.data:00457302                 align 4
-.data:00457304 ; const char aStopCdromError[]
-.data:00457304 aStopCdromError db ' * Stop cdrom error. ',0Ah,0
-.data:00457304                                         ; DATA XREF: W9x_cdrom_stop+E2↑o
-.data:0045731B                 align 4
-.data:0045731C ; const char aResumeCdromErr[]
-.data:0045731C aResumeCdromErr db ' * Resume cdrom error. ',0Ah,0
-.data:0045731C                                         ; DATA XREF: W9x_resume_cdda+BE↑o
-.data:0045731C                                         ; W2k_resume_cdrom+BD↑o
-.data:00457335                 align 4
+
 .data:00457338 byte_457338     db 2                    ; DATA XREF: W2k_cdrom_gettrackinfo+5A↑r
 .data:00457338                                         ; W2k_resume_cdrom+37↑r ...
-.data:00457339                 align 4
 .data:0045733C dword_45733C    dd 4Bh                  ; DATA XREF: W2k_resume_cdrom+46↑r
 .data:0045733C                                         ; W2k_resume_cdrom+17↑w
 .data:00457340 dword_457340    dd 0                    ; DATA XREF: W2k_resume_cdrom+50↑r
 .data:00457344 word_457344     dw 1                    ; DATA XREF: W2k_resume_cdrom+5A↑r
-.data:00457346                 align 4
 .data:00457348 dword_457348    dd 0FFFFFFFFh           ; DATA XREF: W2k_reset_cdda_state+A↑w
 .data:0045734C dword_45734C    dd 47h                  ; DATA XREF: W2k_cdrom_play_cdda+B8↑r
 .data:0045734C                                         ; W2k_cdrom_play_cdda+37↑w
@@ -9245,79 +6925,13 @@
 .data:00457350                                         ; W2k_cdrom_play_cdda:loc_434412↑r ...
 .data:00457354 word_457354     dw 0                    ; DATA XREF: W2k_cdrom_play_cdda+7D↑w
 .data:00457354                                         ; W2k_cdrom_play_cdda+CB↑r
-.data:00457356                 align 4
 .data:00457358 dword_457358    dd 4Bh                  ; DATA XREF: W2k_cdrom_stop+6A↑r
 .data:00457358                                         ; W2k_cdrom_stop+A↑w
 .data:0045735C dword_45735C    dd 0                    ; DATA XREF: W2k_cdrom_stop+74↑r
 .data:00457360 word_457360     dw 0                    ; DATA XREF: W2k_cdrom_stop+7E↑r
-.data:00457362                 align 4
-.data:00457364 ; const CHAR aC_1[]
-.data:00457364 aC_1            db '\\.\%c:',0          ; DATA XREF: W2k_open_cdrom_device+52↑o
-.data:0045736C ; const char aCError[]
-.data:0045736C aCError         db ' %c: error ',0Ah,0  ; DATA XREF: W2k_get_scsi_address+C7↑o
-.data:00457379                 align 4
-.data:0045737C ; const char aCErrorHandle[]
-.data:0045737C aCErrorHandle   db ' %c error handle ',0Ah,0
-.data:0045737C                                         ; DATA XREF: W2k_get_scsi_address+26↑o
-.data:0045738F                 align 10h
-.data:00457390 ; const char aGettrackinfoEr[]
-.data:00457390 aGettrackinfoEr db ' * gettrackinfo error[%d]',0Ah,0
-.data:00457390                                         ; DATA XREF: W2k_cdrom_gettrackinfo+F3↑o
-.data:004573AB                 align 4
-.data:004573AC ; const char aCOk[]
-.data:004573AC aCOk            db '[%c] ok',0Ah,0      ; DATA XREF: W2k_cdrom_init+B4↑o
-.data:004573B5                 align 4
-.data:004573B8 ; const char aInitCoreW2kCdr[]
-.data:004573B8 aInitCoreW2kCdr db ' * Init Core W2k cdrom ... ',0
-.data:004573B8                                         ; DATA XREF: W2k_cdrom_init:loc_434142↑o
-.data:004573D4 ; const char aCdromNotFound[]
-.data:004573D4 aCdromNotFound  db ' * cdrom not found ',0Ah,0
-.data:004573D4                                         ; DATA XREF: W2k_cdrom_init+17↑o
-.data:004573E9                 align 4
-.data:004573EC ; const char aW2kPlayCddaErr[]
-.data:004573EC aW2kPlayCddaErr db ' * W2k play cdda error (%d, %d, %d) ',0Ah,0
-.data:004573EC                                         ; DATA XREF: W2k_cdrom_play_cdda+153↑o
-.data:00457412                 align 4
-.data:00457414 ; const char aW2kStopCdromEr[]
-.data:00457414 aW2kStopCdromEr db ' * W2k stop cdrom error. ',0Ah,0
-.data:00457414                                         ; DATA XREF: W2k_cdrom_stop+E1↑o
-.data:0045742F                 align 10h
-.data:00457430 ; const char aSystemCnf1[13]
-.data:00457430 aSystemCnf1     db 'SYSTEM.CNF;1',0     ; DATA XREF: cdfs_load_executable+12↑o
-.data:0045743D                 align 10h
-.data:00457440 ; const char aSlus99999[]
-.data:00457440 aSlus99999      db 'SLUS_999.99',0      ; DATA XREF: cdfs_load_executable+4C↑o
+
 .data:0045744C ppf_enabled     db 1                    ; DATA XREF: cfg_load_settings+60A↑w
 .data:0045744C                                         ; cfg_save_settings+6CD↑r ...
-.data:0045744D                 align 10h
-.data:00457450 ; const char aDone[]
-.data:00457450 aDone           db 'done.',0Ah,0        ; DATA XREF: ppf_parse_and_build:loc_436D60↑o
-.data:00457457                 align 4
-.data:00457458 ; const char aPpfFileV10[]
-.data:00457458 aPpfFileV10     db 'ppf file v.1.0 ',0  ; DATA XREF: ppf_load_patch:loc_436EFB↑o
-.data:00457468 ; const char aDiz[]
-.data:00457468 aDiz            db '.DIZ',0             ; DATA XREF: ppf_load_patch+131↑o
-.data:0045746D                 align 10h
-.data:00457470 ; const char aPpfFileV20[]
-.data:00457470 aPpfFileV20     db 'ppf file v.2.0 ',0  ; DATA XREF: ppf_load_patch:loc_436E8B↑o
-.data:00457480 ; const char aUnkPpfFormat[]
-.data:00457480 aUnkPpfFormat   db 'unk ppf format.',0Ah,0
-.data:00457480                                         ; DATA XREF: ppf_load_patch+10B↑o
-.data:00457491                 align 4
-.data:00457494 ; const char aNoPpfFile[]
-.data:00457494 aNoPpfFile      db 'no ppf file.',0Ah,0 ; DATA XREF: ppf_load_patch+D1↑o
-.data:004574A2                 align 4
-.data:004574A4 ; const char aPpf_0[]
-.data:004574A4 aPpf_0          db 'PPF',0              ; DATA XREF: ppf_load_patch+A7↑o
-.data:004574A8 ; const char aPatchingGame[]
-.data:004574A8 aPatchingGame   db ' * Patching game ... ',0
-.data:004574A8                                         ; DATA XREF: ppf_load_patch+5C↑o
-.data:004574BE                 align 10h
-.data:004574C0 ; const CHAR aErrorRunningEp[]
-.data:004574C0 aErrorRunningEp db 'Error running ePSXe',0
-.data:004574C0                                         ; DATA XREF: fatal_error_with_message_box+5A↑o
-.data:004574D4 ; const char aConsoleLog[]
-.data:004574D4 aConsoleLog     db 'console.log',0      ; DATA XREF: reopen_console_log+17↑o
 
 .data:0045B8C8 forcespu        db 0                    ; DATA XREF: parse_command_line_options+172↑w
 .data:0045B8C8                                         ; parse_command_line_options+190↑w ...
@@ -9325,10 +6939,8 @@
 .data:0045B8C9                                         ; loader_cdrom_detect_region+128↑r ...
 .data:0045B8CA noauto          db 0                    ; DATA XREF: parse_command_line_options+6E0↑w
 .data:0045B8CA                                         ; sub_41BDC0↑r ...
-.data:0045B8CB                 align 4
 .data:0045B8CC byte_45B8CC     db 0                    ; DATA XREF: epsxe_main_loop_runner+17↑o
 .data:0045B8CC                                         ; print_version↑o ...
-.data:0045B8CD                 align 10h
 .data:0045B8D0 gpu_freeze_counter dd 0                 ; DATA XREF: gpu_freeze_with_counter↑r
 .data:0045B8D0                                         ; gpu_freeze_with_counter+13↑w ...
 .data:0045B8D4 ; HWND g_hWnd
@@ -9342,12 +6954,10 @@
 .data:0045B8DC                                         ; create_main_window+7E↑w
 .data:0045B8E0 byte_45B8E0     db 0                    ; DATA XREF: cfg_load_settings+805↑w
 .data:0045B8E0                                         ; cfg_load_settings+862↑w ...
-.data:0045B8E1                 align 4
 .data:0045B8E4 dword_45B8E4    dd 0                    ; DATA XREF: search_video_plugin:loc_405F46↑r
 .data:0045B8E4                                         ; search_video_plugin+F7↑r ...
 .data:0045B8E8 byte_45B8E8     db 0                    ; DATA XREF: main_window_callback+23A↑r
 .data:0045B8E8                                         ; main_window_callback+45F↑r ...
-.data:0045B8E9                 align 4
 .data:0045B8EC ; HMODULE hSpuModule
 .data:0045B8EC hSpuModule      dd 0                    ; DATA XREF: spu_load_plugin+56↑w
 .data:0045B8EC                                         ; spu_load_plugin+6C↑r ...
@@ -9525,7 +7135,6 @@
 .data:004EF140                                         ; spucore_generate_samples+D5↑r ...
 .data:004EF142 ; __int16 byte_4EF142[]
 .data:004EF142 byte_4EF142     db 8000h dup(?)         ; DATA XREF: spucore_generate_samples+DC↑r
-.data:004F7142                 align 8
 .data:004F7148 dword_4F7148    dd ?                    ; DATA XREF: spucore_init_dsound+17↑w
 .data:004F714C                 align 10h
 .data:004F7150 spucore_output_buffer dd ?              ; DATA XREF: spucore_update_dsound+A5↑o
@@ -9796,12 +7405,10 @@
 .data:004F8308                                         ; diEnumDevicesCallback+465↑r ...
 .data:004F8318 gtrace          db ?                    ; DATA XREF: parse_command_line_options+936↑w
 .data:004F8318                                         ; gte_exec_opcode:loc_41BA38↑r
-.data:004F8319                 align 4
 .data:004F831C dword_4F831C    dd ?                    ; DATA XREF: cheat_dialog_callback+69↑w
 .data:004F831C                                         ; cheat_dialog_callback+8A↑r ...
 .data:004F8320 byte_4F8320     db ?                    ; DATA XREF: op_MTC0+B0↑r
 .data:004F8320                                         ; op_MTC0+BE↑w ...
-.data:004F8321                 align 4
 .data:004F8324 zip_inflate_window_pos dd ?             ; DATA XREF: zip_inflate_data_with_trees+7↑r
 .data:004F8324                                         ; zip_inflate_data_with_trees+324↑w ...
 .data:004F8328 zip_inflate_bit_buffer dd ?             ; DATA XREF: zip_inflate_data_with_trees+23↑r
@@ -9818,7 +7425,6 @@
 .data:004F833C                                         ; zip_inflate_block+284↑w ...
 .data:004F8340 zip_inflate_max_memory_used dd ?        ; DATA XREF: zip_inflate_file+25↑w
 .data:004F8340                                         ; zip_inflate_file+37↑r ...
-.data:004F8344                 align 8
 .data:004F8348 ; char zip_filename[]
 .data:004F8348 zip_filename    dd ?                    ; DATA XREF: zip_extract_file+26↑w
 .data:004F8348                                         ; zip_extract_file+51↑r ...
@@ -9847,7 +7453,6 @@
 .data:004FC45C                                         ; joy_init+E↑w ...
 .data:004FC460 sio_memcard_loaded db ?                 ; DATA XREF: memcard_settings+6C↑r
 .data:004FC460                                         ; memcard_settings+75↑w ...
-.data:004FC461                 align 4
 .data:004FC464 ; char sio_last_command_slot[]
 .data:004FC464 sio_last_command_slot db ?              ; DATA XREF: sio_handle_config_command+40↑w
 .data:004FC464                                         ; sio_command+E2↑w ...
@@ -10062,13 +7667,10 @@
 .data:004FD650 mdec_color_table_6 dd 80h dup(?)        ; DATA XREF: mdec_init_color_tables+90↑w
 .data:004FD850 mdec_disable    dd ?                    ; DATA XREF: cfg_load_settings+825↑w
 .data:004FD850                                         ; cfg_load_settings+856↑w ...
-.data:004FD854                 align 8
 .data:004FD858 dword_4FD858    dd ?                    ; DATA XREF: mdec_y_to_mono+D4↑r
 .data:004FD858                                         ; mdec_y_to_mono+F5↑r ...
-.data:004FD85C                 align 10h
 .data:004FD860 parasite_eve_cheat db ?                 ; DATA XREF: parse_command_line_options+4BF↑w
 .data:004FD860                                         ; loader_parse_cheat_entry+D0↑w ...
-.data:004FD861                 align 4
 .data:004FD864 sio_transfer_timeout dd ?               ; DATA XREF: sio_read_data_byte+12↑r
 .data:004FD864                                         ; sio_read_halfword+4A↑r ...
 .data:004FD868 dword_4FD868    dd ?                    ; DATA XREF: dynarec_hw_update:loc_4239F6↑r
@@ -10086,12 +7688,10 @@
 .data:004FD878                                         ; mem_hw_reg_write_half+575E↑w ...
 .data:004FD87C word_4FD87C     dw ?                    ; DATA XREF: sub_42C9A0:loc_42C9BB↑r
 .data:004FD87C                                         ; sub_42C9A0+2A↑w ...
-.data:004FD87E                 align 10h
 .data:004FD880 nocdstatus      db ?                    ; DATA XREF: parse_command_line_options+6C2↑w
 .data:004FD880                                         ; loader_parse_cheat_entry+103↑w ...
 .data:004FD881 byte_4FD881     db ?                    ; DATA XREF: parse_command_line_options+484↑w
 .data:004FD881                                         ; cdr_reg1_write+697↑r ...
-.data:004FD882                 align 4
 .data:004FD884 ; int dword_4FD884[]
 .data:004FD884 dword_4FD884    dd ?                    ; DATA XREF: controller_set_joypad+33↑r
 .data:004FD884                                         ; controller_set_joypad+9F↑r ...
@@ -10181,7 +7781,6 @@
 .data:004FD8F4                                         ; sub_42D0E0+14D↑r ...
 .data:004FD8F8 multitap_1      db ?                    ; DATA XREF: cfg_load_settings+64B↑w
 .data:004FD8F8                                         ; cfg_save_settings+6F8↑r ...
-.data:004FD8F9                 align 2
 .data:004FD8FA word_4FD8FA     dw ?                    ; DATA XREF: sub_42D0E0+84↑r
 .data:004FD8FA                                         ; sub_42D0E0+91↑w ...
 .data:004FD8FC word_4FD8FC     dw ?                    ; DATA XREF: sub_42D0E0+D6↑r
@@ -10355,7 +7954,6 @@
 .data:004FFF68 ; int (__cdecl *SendASPI32Command_cb)(LPSRB)
 .data:004FFF68 SendASPI32Command_cb dd ?               ; DATA XREF: W9x_exec_scsi_cmd+8D↑r
 .data:004FFF68                                         ; W9x_add_cdrom_device_info+90↑r ...
-.data:004FFF6C                 align 20h
 .data:004FFF80 dword_4FFF80    dd ?                    ; DATA XREF: W9x_cdrom_init+776↑w
 .data:004FFF80                                         ; W9x_cdrom_subchannel_read+15↑w ...
 .data:004FFF84 ; char byte_4FFF84[12]
@@ -10409,7 +8007,6 @@
 .data:00504C94 ; DWORD GetASPI32SupportInfo()
 .data:00504C94 GetASPI32SupportInfo dd ?               ; DATA XREF: W9x_init_aspi+11↑r
 .data:00504C94                                         ; W9x_load_winaspi_dll+35↑w ...
-.data:00504C98                 align 10h
 .data:00504CA0 ; BYTE byte_504CA0[2]
 .data:00504CA0 byte_504CA0     db ?                    ; DATA XREF: W9x_cdrom_gettrackinfo+2F↑o
 .data:00504CA0                                         ; W9x_cdrom_gettrackinfo+41↑o
@@ -10466,7 +8063,6 @@
 .data:00505400 dword_505400    dd ?                    ; DATA XREF: iso_load+201↑w
 .data:00505400                                         ; iso_read_data+36↑r ...
 .data:00505404 CDRconfigure    dd ?                    ; DATA XREF: ext_cdrom_load_plugin+E8↑w
-.data:00505408                 align 20h
 .data:00505420 ; char cdrom_fake_filename[256]
 .data:00505420 cdrom_fake_filename db 100h dup(?)      ; DATA XREF: parse_command_line_options+459↑o
 .data:00505420                                         ; parse_command_line_options+508↑o ...
@@ -10576,7 +8172,6 @@
 .data:0050A1B4 ; int (__stdcall *NETtransferData)(_DWORD, _DWORD, _DWORD)
 .data:0050A1B4 NETtransferData dd ?                    ; DATA XREF: net_load_plugin+1CE↑w
 .data:0050A1B4                                         ; net_netplay_handler+1E7↑r ...
-.data:0050A1B8                 align 10h
 .data:0050A1C0 dword_50A1C0    dd ?                    ; DATA XREF: net_fill_input+98↑w
 .data:0050A1C0                                         ; net_fill_input+D0↑w ...
 .data:0050A1C4 byte_50A1C4     db ?                    ; DATA XREF: net_fill_input+9E↑w
@@ -10619,7 +8214,6 @@
 .data:0050A1F4 ; int (*NETinit)(void)
 .data:0050A1F4 NETinit         dd ?                    ; DATA XREF: net_load_plugin+8D↑w
 .data:0050A1F4                                         ; net_load_plugin+1EF↑r
-.data:0050A1F8                 align 10h
 .data:0050A200 byte_50A200     db ?                    ; DATA XREF: net_netplay_handler+53↑w
 .data:0050A200                                         ; net_netplay_handler+72↑o
 .data:0050A201 byte_50A201     db 41Fh dup(?)          ; DATA XREF: net_netplay_handler+49↑o
@@ -10648,12 +8242,10 @@
 .data:0050AA40 ; int (__stdcall *GPUwriteStatus)(_DWORD)
 .data:0050AA40 GPUwriteStatus  dd ?                    ; DATA XREF: gpu_load_plugin+1CE↑w
 .data:0050AA40                                         ; gpu_writeStatus+5↑r
-.data:0050AA44                 align 8
 .data:0050AA48 ; LARGE_INTEGER stru_50AA48
 .data:0050AA48 stru_50AA48     LARGE_INTEGER <?>       ; DATA XREF: gpu_frame_update+5C↑o
 .data:0050AA48                                         ; gpu_frame_update+63↑r ...
 .data:0050AA50 GPUsetMode      dd ?                    ; DATA XREF: gpu_load_plugin+299↑w
-.data:0050AA54                 align 10h
 .data:0050AA60 ; char byte_50AA60[27]
 .data:0050AA60 byte_50AA60     db 1Bh dup(?)           ; DATA XREF: cont_process_input+97↑o
 .data:0050AA60                                         ; cont_process_input+4D4↑o ...
@@ -10676,11 +8268,9 @@
 .data:0050AB68 ; int (__stdcall *GPUdmaChain)(_DWORD, _DWORD)
 .data:0050AB68 GPUdmaChain     dd ?                    ; DATA XREF: gpu_load_plugin+248↑w
 .data:0050AB68                                         ; gpu_dma+84↑r
-.data:0050AB6C                 align 10h
 .data:0050AB70 ; LARGE_INTEGER PerformanceCount
 .data:0050AB70 PerformanceCount LARGE_INTEGER <?>      ; DATA XREF: gpu_init_performance_counter+6A↑o
 .data:0050AB70                                         ; gpu_frame_update+69↑r ...
-.data:0050AB78                 align 10h
 .data:0050AB80 ; MSG g_msg
 .data:0050AB80 g_msg           MSG <?>                 ; DATA XREF: gpu_frame_update+11↑o
 .data:0050AB80                                         ; gpu_frame_update:loc_42E758↑o ...
@@ -10689,7 +8279,6 @@
 .data:0050AB9C                                         ; gpu_display_flags↑r
 .data:0050ABA0 GPUtest         dd ?                    ; DATA XREF: gpu_load_plugin+17C↑w
 .data:0050ABA4 GPUconfigure    dd ?                    ; DATA XREF: gpu_load_plugin+12B↑w
-.data:0050ABA8                 align 20h
 .data:0050ABC0 ; char g_KeyboardStatePrev[]
 .data:0050ABC0 g_KeyboardStatePrev db ?                ; DATA XREF: controller_setup_callback+80A↑o
 .data:0050ABC0                                         ; controller_setup_callback+820↑r ...
@@ -10800,7 +8389,6 @@
 .data:0050ADDC GPUfreeze       dd ?                    ; DATA XREF: gpu_load_plugin+33F↑w
 .data:0050ADDC                                         ; gpu_do_freeze+8↑r ...
 .data:0050ADE0 GPUabout        dd ?                    ; DATA XREF: gpu_load_plugin+154↑w
-.data:0050ADE4                 align 20h
 .data:0050AE00 ; __int16 g_KeyboardState[]
 .data:0050AE00 g_KeyboardState dw ?                    ; DATA XREF: controller_setup_callback+ADD↑o
 .data:0050AE00                                         ; diUpdateDeviceStates+11↑o ...
@@ -10841,7 +8429,6 @@
 .data:0050AE50 ; int (__fastcall *GPUupdateLace)(_DWORD)
 .data:0050AE50 GPUupdateLace   dd ?                    ; DATA XREF: gpu_load_plugin+2C2↑w
 .data:0050AE50                                         ; gpu_frame_update:loc_42E7F8↑r ...
-.data:0050AE54                 align 8
 .data:0050AE58 qword_50AE58    dq ?                    ; DATA XREF: gpu_init_performance_counter+E↑w
 .data:0050AE58                                         ; gpu_init_performance_counter+6F↑w ...
 .data:0050AE60 ; int (__stdcall *GPUshowScreenPic)(_DWORD)
@@ -10853,7 +8440,6 @@
 .data:0050AE68 ; FILE *dword_50AE68
 .data:0050AE68 dword_50AE68    dd ?                    ; DATA XREF: ui_error+E3↑r
 .data:0050AE68                                         ; fatal_error_with_message_box+8C↑r
-.data:0050AE6C                 align 20h
 .data:0050AE80 ; char dword_50AE80[]
 .data:0050AE80 dword_50AE80    dd ?                    ; DATA XREF: cdr_reg1_write+3D0↑w
 .data:0050AE80                                         ; cdr_reg1_write+570↑w ...
@@ -11265,7 +8851,6 @@
 .data:00576DAF                                         ; op_ADD+25↑w ...
 .data:00576DB0 op_rt           db ?                    ; DATA XREF: op_LB+23↑w
 .data:00576DB0                                         ; op_LB+52↑r ...
-.data:00576DB1                 align 10h
 .data:00576DC0 ; int mem_write_hooks[9371]
 .data:00576DC0 mem_write_hooks dd 10000h dup(?)        ; DATA XREF: mem_init_memory_handlers+F↑w
 .data:00576DC0                                         ; mem_init_memory_handlers+60↑w ...
