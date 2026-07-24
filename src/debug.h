@@ -26,9 +26,6 @@ extern unsigned char console_log_flush_pending;
 /** Flag at 0x4FF9F2: console log enabled. */
 extern unsigned char console_log_enabled;
 
-/*--- FILE* used for console output in this module (at address 0x458A00) ---*/
-extern FILE *console_out_file;
-
 /*--- SPU plugin destroy callback ---*/
 extern int (__cdecl *spu_destroy_cb)(unsigned long);
 

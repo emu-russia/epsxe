@@ -4,11 +4,6 @@
 /** Console output handle, set by alloc_console(). */
 static HANDLE h_console_output;
 
-//.data:00458A00 ; FILE console_out_file
-//.data:00458A00 console_out_file FILE <0, 0, 0, 2, 1, 0, 0, 0>
-//.data:00458A00                                         ; DATA XREF: dbg_print_no_flush+24↑o
-//.data:00458A00                                         ; ui_error+6F↑o ...
-
 int alloc_console(void)
 {
     HANDLE std_handle = INVALID_HANDLE_VALUE;
@@ -67,7 +62,7 @@ void dbg_print_no_flush(const char *Format, ...)
     buf = (char *)malloc(0x8000u);
     if (buf) {
         vsprintf(buf, Format, arg_list);
-        fprintf(console_out_file, "%s", buf);
+        fprintf(stdout, "%s", buf);
         if (console_allocated)
             WriteConsoleA(h_console_output, buf, (DWORD)strlen(buf), &chars_written, nullptr);
         free(buf);
@@ -96,7 +91,7 @@ void ui_error(const char *Format, ...)
     {
         buf = (char *)malloc(0x8000u);
         vsprintf(buf, Format, arg_list);
-        fprintf(console_out_file, "%s", buf);
+        fprintf(stdout, "%s", buf);
         if (console_allocated)
             WriteConsoleA(h_console_output, buf, (DWORD)strlen(buf), nullptr, nullptr);
         free(buf);
@@ -131,7 +126,7 @@ void fatal_error_with_message_box(const char *Format, ...)
         dynarec_deinit();
     buf = (char *)malloc(0x8000u);
     vsprintf(buf, Format, arg_list);
-    fprintf(console_out_file, "%s", buf);
+    fprintf(stdout, "%s", buf);
     MessageBoxA(nullptr, buf, "Error running ePSXe", 0x10u);
     free(buf);
     gpu_destroy();
@@ -155,12 +150,12 @@ int dbg_print(const char *Format, ...)
     buf = (char *)malloc(0x8000u);
     if (buf) {
         vsprintf(buf, Format, arg_list);
-        fprintf(console_out_file, "%s", buf);
+        fprintf(stdout, "%s", buf);
         if (console_allocated)
             WriteConsoleA(h_console_output, buf, (DWORD)strlen(buf), &chars_written, nullptr);
         free(buf);
     }
-    return fflush(console_out_file);
+    return fflush(stdout);
 }
 
 char reopen_console_log(void)
