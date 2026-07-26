@@ -555,3 +555,7 @@ typedef enum _GTERealCommand {
 #define GTE_INSTR_OP(sf) (GTE_BUILD_CMD(GTE_CMD_OP, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_OP))
 #define GTE_INSTR_GPF(sf) (GTE_BUILD_CMD(GTE_CMD_GPF, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_GPF))
 #define GTE_INSTR_GPL(sf) (GTE_BUILD_CMD(GTE_CMD_GPL, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_GPL))
+
+
+
+void gte_exec_opcode();

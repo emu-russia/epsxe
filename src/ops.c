@@ -1089,3 +1089,7 @@ void op_SYSCALL()
   dword_50C2A4 = dword_50C2A4 & 0xFFFFFFC0 | (4 * (dword_50C2A4 & 0xF));
   *(_DWORD *)reg_pc = 0x80000080;
 }
+
+void op_BREAK()
+{
+}

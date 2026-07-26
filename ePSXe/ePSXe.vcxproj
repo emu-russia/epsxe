@@ -29,6 +29,7 @@
     <ClInclude Include="..\src\input.h" />
     <ClInclude Include="..\src\main.h" />
     <ClInclude Include="..\src\ops.h" />
+    <ClInclude Include="..\src\op_tabs.h" />
     <ClInclude Include="..\src\pch.h" />
     <ClInclude Include="..\src\ppf.h" />
     <ClInclude Include="..\src\psemu.h" />
