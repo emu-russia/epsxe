@@ -1,5 +1,5 @@
 #include "pch.h"
-char *sub_436910()
+char *cdfs_read_root_directory()
 {
   int le32; // esi
 

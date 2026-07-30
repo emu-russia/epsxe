@@ -52,7 +52,7 @@ char ext_cdrom_load_plugin()
           if ( CDRconfigure )
           {
             CDRconfigure = GetProcAddress(hCdrModule, "CDRshutdown");
-            CDRshutdown = CDRconfigure;
+            CDRshutdown = (int (*(*)(void))(void))CDRconfigure;
             if ( CDRconfigure )
             {
               CDRconfigure = GetProcAddress(hCdrModule, "CDRopen");
@@ -80,12 +80,12 @@ char ext_cdrom_load_plugin()
                         if ( CDRconfigure )
                         {
                           CDRplay = (int)GetProcAddress(hCdrModule, "CDRplay");
-                          CDRstop = GetProcAddress(hCdrModule, "CDRstop");
+                          CDRstop = (char (*)(void))GetProcAddress(hCdrModule, "CDRstop");
                           if ( use_subchannel )
                           {
                             CDRgetBufferSub = GetProcAddress(hCdrModule, "CDRgetBufferSub");
                             if ( CDRgetBufferSub )
-                              BYTE1(byte_455945) = 0;
+                              byte_455946 = 0;
                           }
                           else
                           {

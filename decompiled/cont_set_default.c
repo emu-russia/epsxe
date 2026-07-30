@@ -5,22 +5,22 @@ int __cdecl cont_set_default(unsigned __int8 a1)
 
   if ( a1 == 1 )
   {
-    word_455FC8[0] = 203;
-    word_455FCA = 205;
-    word_455FCC = 200;
-    word_455FCE = 208;
-    word_455FD0 = 32;
-    word_455FD2 = 45;
-    word_455FD4 = 44;
-    word_455FD6 = 31;
-    word_455FD8 = 17;
-    word_455FDA = 18;
-    word_455FDC = 19;
-    word_455FDE = 20;
-    word_455FE0 = 47;
-    word_455FE2 = 46;
-    word_455FE4 = 16;
-    word_455FE6 = 21;
+    Keys1[0] = 203;
+    Keys1[1] = 205;
+    Keys1[2] = 200;
+    Keys1[3] = 208;
+    Keys1[4] = 32;
+    Keys1[5] = 45;
+    Keys1[6] = 44;
+    Keys1[7] = 31;
+    Keys1[8] = 17;
+    Keys1[9] = 18;
+    Keys1[10] = 19;
+    Keys1[11] = 20;
+    Keys1[12] = 47;
+    Keys1[13] = 46;
+    Keys1[14] = 16;
+    Keys1[15] = 21;
   }
   else if ( a1 > 1u && a1 < 4u )
   {

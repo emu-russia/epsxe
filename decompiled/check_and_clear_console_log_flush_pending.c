@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_437040()
+char check_and_clear_console_log_flush_pending()
 {
   char result; // al
 

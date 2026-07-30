@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned __int8 __cdecl sub_436AF0(char *Buffer)
+unsigned __int8 __cdecl cdfs_load_executable(char *Buffer)
 {
   int v2; // [esp+0h] [ebp-8h] BYREF
   int v3; // [esp+4h] [ebp-4h] BYREF

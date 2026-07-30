@@ -1,5 +1,5 @@
 #include "pch.h"
-BOOL register_output_win_class()
+BOOL gpu_register_output_win_class()
 {
   WNDCLASSA WndClass; // [esp+4h] [ebp-28h] BYREF
 

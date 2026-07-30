@@ -1,5 +1,5 @@
 #include "pch.h"
-int (__stdcall *sub_42E3A0())(_DWORD, _DWORD)
+int (__stdcall *gpu_sub_42E3A0())(_DWORD, _DWORD)
 {
   int v0; // eax
 

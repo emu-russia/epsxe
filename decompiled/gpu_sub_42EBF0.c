@@ -1,5 +1,5 @@
 #include "pch.h"
-_BYTE *__cdecl sub_42EBF0(char *a1, int a2)
+_BYTE *__cdecl gpu_sub_42EBF0(char *a1, int a2)
 {
   char *v2; // esi
   char *v3; // edx

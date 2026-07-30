@@ -1,5 +1,5 @@
 #include "pch.h"
-char sub_42E650()
+char gpu_sub_42E650()
 {
   char result; // al
 

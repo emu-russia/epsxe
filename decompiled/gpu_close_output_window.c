@@ -1,5 +1,5 @@
 #include "pch.h"
-BOOL close_output_window()
+BOOL gpu_close_output_window()
 {
   ChangeDisplaySettingsA(nullptr, 0);
   ShowCursor(1);

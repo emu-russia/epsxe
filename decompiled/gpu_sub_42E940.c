@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_42E940(_BYTE *a1, char a2)
+char __cdecl gpu_sub_42E940(_BYTE *a1, char a2)
 {
   char result; // al
 

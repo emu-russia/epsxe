@@ -1,5 +1,5 @@
 #include "pch.h"
-int __stdcall output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
+int __stdcall gpu_output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
 {
   int result; // eax
 

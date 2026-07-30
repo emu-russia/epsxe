@@ -1,5 +1,5 @@
 #include "pch.h"
-HWND create_output_window()
+HWND gpu_create_output_window()
 {
   dword_50AE4C = GetModuleHandleA(nullptr);
   if ( !gpu_register_output_win_class() )

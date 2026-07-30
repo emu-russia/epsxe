@@ -143,7 +143,7 @@ LABEL_42:
   }
 LABEL_51:
   v5 = &dword_455FB0;
-  v6 = (unsigned __int16 *)&word_455FD2;
+  v6 = (unsigned __int16 *)(Keys1 + 10);
   v7 = 4;
   do
   {

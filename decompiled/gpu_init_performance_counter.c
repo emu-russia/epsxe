@@ -1,5 +1,5 @@
 #include "pch.h"
-char init_performance_counter()
+char gpu_init_performance_counter()
 {
   int PerformanceFrequency; // eax
   __int64 v2; // [esp-8h] [ebp-8h]

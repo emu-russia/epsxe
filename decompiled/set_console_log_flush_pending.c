@@ -1,5 +1,5 @@
 #include "pch.h"
-void sub_437030()
+void set_console_log_flush_pending()
 {
   console_log_flush_pending = 1;
 }

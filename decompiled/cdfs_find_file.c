@@ -1,5 +1,5 @@
 #include "pch.h"
-int *__cdecl sub_436960(const char *a1, int *a2, int **a3)
+int *__cdecl cdfs_find_file(const char *a1, int *a2, int **a3)
 {
   int v3; // ebp
   char *v4; // edi
