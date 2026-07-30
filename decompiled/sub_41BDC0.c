@@ -8,18 +8,18 @@ char __cdecl sub_41BDC0(const char *a1)
   int v5; // esi
   char v6; // al
   bool v7; // zf
-  int *v8; // [esp+0h] [ebp-8h]
+  const char *v8; // [esp+0h] [ebp-8h]
   int v9; // [esp+4h] [ebp-4h]
 
   result = noauto;
   if ( !noauto )
   {
-    result = dword_44F9A8;
-    if ( dword_44F9A8 )
+    result = mini_cheat_count;
+    if ( mini_cheat_count )
     {
-      v2 = dword_44F9C4;
-      v8 = dword_44F9C4;
-      v9 = dword_44F9A8;
+      v2 = (int *)&mini_cheat_db[20];
+      v8 = &mini_cheat_db[20];
+      v9 = mini_cheat_count;
       do
       {
         if ( !strcmp(a1, (const char *)v2 - 20) && (unsigned __int8)dword_4F831C < 0x10u )
@@ -36,12 +36,12 @@ char __cdecl sub_41BDC0(const char *a1)
             dword_5B6DC4[v5] = v4;
             LOBYTE(dword_4F831C) = v6;
           }
-          v2 = v8;
+          v2 = (int *)v8;
         }
         v2 += 6;
         result = v9 - 1;
         v7 = v9 == 1;
-        v8 = v2;
+        v8 = (const char *)v2;
         --v9;
       }
       while ( !v7 );

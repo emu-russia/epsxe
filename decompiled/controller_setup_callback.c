@@ -61,7 +61,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital Only");
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Disabled");
-      v5 = *(_DWORD *)&word_456044[2 * (unsigned __int8)pad_number_menu_selection];
+      v5 = *(_DWORD *)&Keys4[2 * (unsigned __int8)pad_number_menu_selection + 14];
       if ( v5 )
       {
         v6 = v5 - 1;
@@ -85,7 +85,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
       SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
       SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"None");
-      switch ( word_4FD8A8[(unsigned __int8)pad_number_menu_selection] )
+      switch ( GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] )
       {
         case 0:
           SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 5u, 0);
@@ -449,7 +449,7 @@ LABEL_78:
                 v35 = 0;
                 v23 = *(&v33 + v22);
                 point_device_enabled = 0;
-                *(_DWORD *)&word_456044[2 * (unsigned __int8)pad_number_menu_selection] = v23;
+                *(_DWORD *)&Keys4[2 * (unsigned __int8)pad_number_menu_selection + 14] = v23;
               }
             }
             else
@@ -507,22 +507,22 @@ LABEL_78:
           switch ( v24 )
           {
             case 0u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 5;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 5;
               break;
             case 1u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 1;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 1;
               break;
             case 2u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 2;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 2;
               break;
             case 3u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 3;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 3;
               break;
             case 4u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 4;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 4;
               break;
             case 5u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 0;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 0;
               break;
           }
         }

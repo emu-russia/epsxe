@@ -8,7 +8,7 @@ void dbg_print_no_flush(char *Format, ...)
   va_start(ArgList, Format);
   v1 = (char *)malloc(0x8000u);
   vsprintf(v1, Format, ArgList);
-  fprintf(&stru_458A00, "%s", v1);
+  fprintf(&console_out_file, "%s", v1);
   if ( console_allocated )
     WriteConsoleA(hConsoleOutput, v1, strlen(v1), &NumberOfCharsWritten, nullptr);
   free(v1);

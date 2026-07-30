@@ -6,7 +6,7 @@ int op_JALR()
   unsigned int v2; // ecx
 
   v0 = mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]];
-  byte_576DAD = ((unsigned int)cpu_opcode >> 11) & 0x1F;
+  op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   v1 = (unsigned __int16)cpu_opcode >> 11;
   v2 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;

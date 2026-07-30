@@ -4,7 +4,7 @@ char op_J()
   int v0; // ecx
   char result; // al
 
-  dword_576DA0 = cpu_opcode & 0x3FFFFFF;
+  op_jump_addr = cpu_opcode & 0x3FFFFFF;
   v0 = 4 * (cpu_opcode & 0x3FFFFFF);
   cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
   *(_DWORD *)reg_pc = v0 | *(_DWORD *)reg_pc & 0xF0000000;

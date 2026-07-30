@@ -72,82 +72,82 @@ int cfg_load_settings()
     sscanf(
       Buffer,
       "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
-      word_455FC8,
-      &word_455FCA,
-      &word_455FCC,
-      &word_455FCE,
-      &word_455FD0,
-      &word_455FD2,
-      &word_455FD4,
-      &word_455FD6,
-      &word_455FD8,
-      &word_455FDA,
-      &word_455FDC,
-      &word_455FDE,
-      &word_455FE0,
-      &word_455FE2,
-      &word_455FE4,
-      &word_455FE6);
+      Keys1,
+      &Keys1[1],
+      &Keys1[2],
+      &Keys1[3],
+      &Keys1[4],
+      &Keys1[5],
+      &Keys1[6],
+      &Keys1[7],
+      &Keys1[8],
+      &Keys1[9],
+      &Keys1[10],
+      &Keys1[11],
+      &Keys1[12],
+      &Keys1[13],
+      &Keys1[14],
+      &Keys1[15]);
   if ( !cfg_get_value("Software\\epsxe\\config", "Keys2", (LPBYTE)Buffer) )
     sscanf(
       Buffer,
       "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
-      &word_455FE8,
-      &word_455FEA,
-      &word_455FEC,
-      &word_455FEE,
-      &word_455FF0,
-      &word_455FF2,
-      &word_455FF4,
-      &word_455FF6,
-      &word_455FF8,
-      &word_455FFA,
-      &dword_455FFC,
-      (char *)&dword_455FFC + 2,
-      &word_456000,
-      &word_456002,
-      &dword_456004,
-      (char *)&dword_456004 + 2);
+      Keys2,
+      &Keys2[1],
+      &Keys2[2],
+      &Keys2[3],
+      &Keys2[4],
+      &Keys2[5],
+      &Keys2[6],
+      &Keys2[7],
+      &Keys2[8],
+      &Keys2[9],
+      &Keys2[10],
+      &Keys2[11],
+      &Keys2[12],
+      &Keys2[13],
+      &Keys2[14],
+      &Keys2[15]);
   if ( !cfg_get_value("Software\\epsxe\\config", "Keys3", (LPBYTE)Buffer) )
     sscanf(
       Buffer,
       "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
-      &word_456008,
-      &word_45600A,
-      &word_45600C,
-      &word_45600E,
-      &word_456010,
-      &word_456012,
-      &word_456014,
-      &word_456016,
-      &word_456018,
-      &word_45601A,
-      &dword_45601C,
-      (char *)&dword_45601C + 2,
-      &word_456020,
-      &word_456022,
-      &dword_456024,
-      (char *)&dword_456024 + 2);
+      Keys3,
+      &Keys3[1],
+      &Keys3[2],
+      &Keys3[3],
+      &Keys3[4],
+      &Keys3[5],
+      &Keys3[6],
+      &Keys3[7],
+      &Keys3[8],
+      &Keys3[9],
+      &Keys3[10],
+      &Keys3[11],
+      &Keys3[12],
+      &Keys3[13],
+      &Keys3[14],
+      &Keys3[15]);
   if ( !cfg_get_value("Software\\epsxe\\config", "Keys4", (LPBYTE)Buffer) )
     sscanf(
       Buffer,
       "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
-      &word_456028,
-      &word_45602A,
-      &word_45602C,
-      &word_45602E,
-      &word_456030,
-      &word_456032,
-      &word_456034,
-      &word_456036,
-      &word_456038,
-      &word_45603A,
-      &word_45603C,
-      &word_45603E,
-      &word_456040,
-      &word_456042,
-      word_456044,
-      &word_456046);
+      Keys4,
+      &Keys4[1],
+      &Keys4[2],
+      &Keys4[3],
+      &Keys4[4],
+      &Keys4[5],
+      &Keys4[6],
+      &Keys4[7],
+      &Keys4[8],
+      &Keys4[9],
+      &Keys4[10],
+      &Keys4[11],
+      &Keys4[12],
+      &Keys4[13],
+      &Keys4[14],
+      &Keys4[15]);
   if ( !cfg_get_value("Software\\epsxe\\config", "CdromLetter", (LPBYTE)Buffer) )
   {
     sscanf(Buffer, "%d", &v1);
@@ -194,8 +194,8 @@ int cfg_load_settings()
     mdectiming = 1;
     mdec_disable = 0;
     if ( create_window_flag )
-      byte_45B8E0 = 1;
-    version_setting = 67072;
+      setup_wizard_required = 1;
+    version_setting = 0x10600;
     sprintf(Buffer, "%d", 67072);
     cfg_set_value("Software\\epsxe\\config", "Version", (BYTE *)Buffer);
   }
@@ -206,10 +206,10 @@ int cfg_load_settings()
     if ( v2 < 0x10600 )
     {
       if ( create_window_flag )
-        byte_45B8E0 = 1;
+        setup_wizard_required = 1;
       mdectiming = 1;
       mdec_disable = 0;
-      version_setting = 67072;
+      version_setting = 0x10600;
       sprintf(Buffer, "%d", 67072);
       cfg_set_value("Software\\epsxe\\config", "Version", (BYTE *)Buffer);
     }
@@ -232,22 +232,22 @@ int cfg_load_settings()
     sscanf(
       Buffer,
       "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
-      word_4FD88C,
-      word_4FD88E,
-      word_4FD890,
-      word_4FD892,
-      &word_4FD894,
-      &word_4FD896,
-      &word_4FD898,
-      &word_4FD89A,
-      &word_4FD89C,
-      &word_4FD89E,
-      &word_4FD8A0,
-      &word_4FD8A2,
-      &word_4FD8A4,
-      &word_4FD8A6,
-      word_4FD8A8,
-      &word_4FD8AA);
+      GamepadAxis,
+      (char *)GamepadAxis + 2,
+      &GamepadAxis[1],
+      (char *)&GamepadAxis[1] + 2,
+      &GamepadAxis[2],
+      (char *)&GamepadAxis[2] + 2,
+      &GamepadAxis[3],
+      (char *)&GamepadAxis[3] + 2,
+      &GamepadAxis[4],
+      (char *)&GamepadAxis[4] + 2,
+      &GamepadAxis[5],
+      (char *)&GamepadAxis[5] + 2,
+      &GamepadAxis[6],
+      (char *)&GamepadAxis[6] + 2,
+      &GamepadAxis[7],
+      (char *)&GamepadAxis[7] + 2);
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadMotorType", (LPBYTE)Buffer) )
     sscanf(Buffer, "%d,%d,%d,%d", g_PlayerDeviceMap1, &g_PlayerDeviceMap2, &g_PlayerDeviceMap3, g_PlayerDeviceMap4);
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadSMotorType", (LPBYTE)Buffer) )

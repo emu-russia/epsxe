@@ -4,7 +4,7 @@ char op_MFHI()
   char result; // al
 
   result = ((unsigned int)cpu_opcode >> 11) & 0x1F;
-  byte_576DAD = result;
+  op_rd = result;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = cpu_HI;
   return result;
 }

@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int sub_41ED00()
+unsigned int op_RFE()
 {
   unsigned int v0; // eax
   unsigned int result; // eax

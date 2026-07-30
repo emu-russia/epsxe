@@ -14,15 +14,17 @@ FILE *loader_load_cheats()
   {
     if ( (v0->_flag & 0x10) == 0 )
     {
-      v2 = dword_44F9A8;
+      v2 = mini_cheat_count;
       do
       {
         if ( v2 >= 200 )
           break;
         fread((void *)(24 * v2 + 4520368), 1u, 0x18u, v1);
-        v2 = dword_44F9A8;
-        if ( !sub_41BC30(dword_44F9C0[6 * dword_44F9A8], dword_44F9C4[6 * dword_44F9A8]) )
-          dword_44F9A8 = ++v2;
+        v2 = mini_cheat_count;
+        if ( !sub_41BC30(
+                *(_DWORD *)&mini_cheat_db[24 * mini_cheat_count + 16],
+                *(_DWORD *)&mini_cheat_db[24 * mini_cheat_count + 20]) )
+          mini_cheat_count = ++v2;
       }
       while ( (v1->_flag & 0x10) == 0 );
     }

@@ -1,5 +1,5 @@
 #include "pch.h"
-void init_memory_handlers()
+void mem_init_memory_handlers()
 {
   int i; // eax
   int *v1; // ecx

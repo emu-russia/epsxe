@@ -21,12 +21,12 @@ void __noreturn ui_error(char *Format, ...)
   if ( cdrom_deinit_cb )
     cdrom_deinit_cb(v2);
   ppf_free();
-  sub_437040();
-  if ( byte_4FF9F0 )
+  check_and_clear_console_log_flush_pending();
+  if ( console_log_flush_pending )
   {
     v3 = (char *)malloc(0x8000u);
     vsprintf(v3, Format, ArgList);
-    fprintf(&stru_458A00, "%s", v3);
+    fprintf(&console_out_file, "%s", v3);
     if ( console_allocated )
       WriteConsoleA(hConsoleOutput, v3, strlen(v3), &NumberOfCharsWritten, nullptr);
     free(v3);
@@ -38,7 +38,7 @@ void __noreturn ui_error(char *Format, ...)
     printf("%s", v4);
     free(v4);
   }
-  sub_437040();
+  check_and_clear_console_log_flush_pending();
   if ( dword_50AE68 )
     fclose(dword_50AE68);
   nullsub_1();

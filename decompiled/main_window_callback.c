@@ -568,9 +568,9 @@ LABEL_178:
     switch ( Msg )
     {
       case 1u:
-        if ( !byte_45B8E0 )
+        if ( !setup_wizard_required )
           return 1;
-        byte_45B8E0 = 0;
+        setup_wizard_required = 0;
         setup_wizard_step = 0;
         setup_wizard_callback(hWnd);
         result = 1;

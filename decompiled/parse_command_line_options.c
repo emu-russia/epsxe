@@ -98,7 +98,7 @@ LABEL_146:
         }
         if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-p", 3u) )
         {
-          LOBYTE(byte_455945) = atoi(*(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+          byte_455945 = atoi(*(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
           v3 += 2;
         }
         else
@@ -195,7 +195,7 @@ LABEL_146:
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-ff9pal") )
               {
-                BYTE1(byte_455945) = 0;
+                byte_455946 = 0;
                 goto LABEL_146;
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-pe2") )
@@ -205,7 +205,7 @@ LABEL_146:
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocputrick") )
               {
-                BYTE1(byte_455945) = 0;
+                byte_455946 = 0;
                 goto LABEL_146;
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadfake") )
@@ -261,7 +261,7 @@ LABEL_146:
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noauto") )
                 {
                   noauto = 1;
-                  BYTE1(byte_455945) = 0;
+                  byte_455946 = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mouse") )

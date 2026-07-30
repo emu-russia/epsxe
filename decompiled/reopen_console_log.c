@@ -9,7 +9,7 @@ char reopen_console_log()
     LOBYTE(v0) = (_BYTE)console_log_handle;
     if ( !console_log_handle )
     {
-      v0 = fopen(aConsoleLog, aW);
+      v0 = fopen("console.log", aW);
       console_log_handle = v0;
     }
   }

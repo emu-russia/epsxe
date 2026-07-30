@@ -55,7 +55,7 @@ LABEL_16:
     cheat_file_from_cmdline = 0;
     cfg_load_settings();
     parse_command_line_options(v14, (int)v15);
-    sub_437030();
+    set_console_log_flush_pending();
     select_cdrom_core();
     dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &byte_45B8CC);
     if ( strlen(&cheat_file_from_cmdline) )

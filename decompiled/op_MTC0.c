@@ -10,7 +10,7 @@ unsigned int op_MTC0()
   v0 = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   v1 = BYTE2(cpu_opcode) & 0x1F;
   op_rt = BYTE2(cpu_opcode) & 0x1F;
-  byte_576DAD = v0;
+  op_rd = v0;
   if ( v0 == 14 || v0 == 15 || v0 == 8 )
     return dbg_print("[%d] only read!!!\n", (unsigned __int16)cpu_opcode >> 11);
   if ( v0 == 13 )
@@ -54,10 +54,10 @@ LABEL_21:
       else
       {
         v3 = cpu_gpr[v1];
-        if ( dword_50C280 != v3 )
+        if ( dword_50C280[0] != v3 )
         {
           v4 = v3 | 1;
-          if ( dword_50C280 == v4 )
+          if ( dword_50C280[0] == v4 )
             cpu_gpr[v1] = v4;
         }
       }
