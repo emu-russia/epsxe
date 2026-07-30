@@ -1,5 +1,5 @@
 #include "pch.h"
-_BYTE *__cdecl gpu_sub_42EB00(char *a1, int a2)
+_BYTE *__cdecl gpu_draw_free_slot(char *a1, int a2)
 {
   char *v2; // esi
   char *v3; // edx
@@ -18,7 +18,7 @@ _BYTE *__cdecl gpu_sub_42EB00(char *a1, int a2)
   _BYTE *v16; // eax
 
   v2 = a1 + 309;
-  gpu_draw_text_on_screen("NO SAVE PIC", a1);
+  gpu_draw_text_on_screen("FREE SLOT", a1);
   v3 = &byte_4560D0[120 * a2];
   v4 = 20;
   do
@@ -26,13 +26,13 @@ _BYTE *__cdecl gpu_sub_42EB00(char *a1, int a2)
     v5 = 6;
     do
     {
-      gpu_sub_42E940(v2, (unsigned __int8)*v3 >> 6);
+      gpu_pack_pixels(v2, (unsigned __int8)*v3 >> 6);
       v7 = v2 + 3;
-      gpu_sub_42E940(v7, (v6 >> 4) & 3);
+      gpu_pack_pixels(v7, (v6 >> 4) & 3);
       v7 += 3;
-      gpu_sub_42E940(v7, (v8 >> 2) & 3);
+      gpu_pack_pixels(v7, (v8 >> 2) & 3);
       v7 += 3;
-      gpu_sub_42E940(v7, v9 & 3);
+      gpu_pack_pixels(v7, v9 & 3);
       v2 = v7 + 3;
       v3 = (char *)(v10 + 1);
       --v5;
