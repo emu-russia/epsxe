@@ -6,7 +6,7 @@ int cont_process_input()
   int v2; // eax
   unsigned __int8 v3; // si
   int v4; // edx
-  int *v5; // eax
+  char *v5; // eax
   unsigned __int16 *v6; // ecx
   int v7; // esi
   unsigned __int16 v8; // dx
@@ -45,9 +45,9 @@ int cont_process_input()
   if ( byte_50AA91 )
     byte_4FC4E4 = 1;
   if ( byte_50AA92 )
-    cont_sub_42CFE0(2);
+    cdr_get_status(2);
   if ( byte_50AA93 )
-    cont_sub_42CFE0(3);
+    cdr_get_status(3);
   if ( byte_50AA94[0] )
     irq_sio_assert_int();
   if ( word_4FD986 )
@@ -116,7 +116,7 @@ int cont_process_input()
     dword_4FD8E0[(unsigned __int8)dword_4FD988] ^= 1u;
     LOBYTE(v4) = dword_4FD988;
 LABEL_42:
-    sub_42D620(v4);
+    cont_update_led_and_mode(v4);
     byte_4FD984 = 25;
     goto LABEL_51;
   }
@@ -142,57 +142,57 @@ LABEL_42:
     byte_4FD984 = 25;
   }
 LABEL_51:
-  v5 = &dword_455FB0;
+  v5 = &byte_455FB0;
   v6 = (unsigned __int16 *)(Keys1 + 10);
   v7 = 4;
   do
   {
     v8 = *(v6 - 5);
-    *v5 = -1;
+    *(_DWORD *)v5 = -1;
     if ( v8 )
     {
       if ( g_KeyboardStatePrev[v6[1]] )
-        *v5 = -65;
+        *(_DWORD *)v5 = -65;
       if ( g_KeyboardStatePrev[*v6] )
-        *v5 &= ~0x20u;
+        *(_DWORD *)v5 &= ~0x20u;
       if ( g_KeyboardStatePrev[v6[2]] )
-        *v5 &= ~0x80u;
+        *(_DWORD *)v5 &= ~0x80u;
       if ( g_KeyboardStatePrev[*(v6 - 1)] )
-        *v5 &= ~0x10u;
+        *(_DWORD *)v5 &= ~0x10u;
       if ( g_KeyboardStatePrev[v6[7]] )
-        *v5 &= ~0x800u;
+        *(_DWORD *)v5 &= ~0x800u;
       if ( g_KeyboardStatePrev[v6[8]] )
-        *v5 &= ~0x100u;
+        *(_DWORD *)v5 &= ~0x100u;
       if ( g_KeyboardStatePrev[*(v6 - 3)] )
-        *v5 &= ~0x1000u;
+        *(_DWORD *)v5 &= ~0x1000u;
       if ( g_KeyboardStatePrev[*(v6 - 2)] )
-        *v5 &= ~0x4000u;
+        *(_DWORD *)v5 &= ~0x4000u;
       if ( g_KeyboardStatePrev[v8] )
-        *v5 &= ~0x8000u;
+        *(_DWORD *)v5 &= ~0x8000u;
       if ( g_KeyboardStatePrev[*(v6 - 4)] )
-        *v5 &= ~0x2000u;
+        *(_DWORD *)v5 &= ~0x2000u;
       if ( g_KeyboardStatePrev[v6[3]] )
-        *v5 &= ~4u;
+        *(_DWORD *)v5 &= ~4u;
       if ( g_KeyboardStatePrev[v6[4]] )
-        *v5 &= ~1u;
+        *(_DWORD *)v5 &= ~1u;
       if ( g_KeyboardStatePrev[v6[5]] )
-        *v5 &= ~8u;
+        *(_DWORD *)v5 &= ~8u;
       if ( g_KeyboardStatePrev[v6[6]] )
-        *v5 &= ~2u;
+        *(_DWORD *)v5 &= ~2u;
       if ( g_KeyboardStatePrev[v6[9]] )
-        *v5 &= ~0x200u;
+        *(_DWORD *)v5 &= ~0x200u;
       if ( g_KeyboardStatePrev[v6[10]] )
-        *v5 &= ~0x400u;
+        *(_DWORD *)v5 &= ~0x400u;
     }
     v6 += 16;
-    ++v5;
+    v5 += 4;
     --v7;
   }
   while ( v7 );
   if ( LOBYTE(mdec_disable_flag[0]) )
   {
     LOBYTE(mdec_disable_flag[0]) = 0;
-    dword_455FB0 &= 0xFFFFF7BF;
+    *(_DWORD *)&byte_455FB0 &= 0xFFFFF7BF;
   }
   result = network_enabled;
   if ( network_enabled )

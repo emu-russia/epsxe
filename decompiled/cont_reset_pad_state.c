@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl cont_sub_42DCC0(unsigned __int8 a1)
+int __cdecl cont_reset_pad_state(unsigned __int8 a1)
 {
   _DWORD *v2; // ecx
 

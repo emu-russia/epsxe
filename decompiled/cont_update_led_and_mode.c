@@ -1,5 +1,5 @@
 #include "pch.h"
-int (__stdcall *__cdecl sub_42D620(unsigned __int8 a1))(_DWORD)
+int (__stdcall *__cdecl cont_update_led_and_mode(unsigned __int8 a1))(_DWORD)
 {
   int v1; // eax
   int (__stdcall *result)(_DWORD); // eax

@@ -6,14 +6,14 @@ int net_fill_input()
   result = 0;
   if ( network_enabled )
   {
-    HIWORD(dword_50A1D0) = dword_455FB0;
+    HIWORD(dword_50A1D0) = byte_455FB0;
     byte_50A1D4 = dword_4FD900[0];
     byte_50A1D5 = dword_4FD910[0];
     byte_50A1D6 = dword_4FD920[0];
     byte_50A1D7 = dword_4FD930[0];
     LOBYTE(dword_50A1D8) = dword_50AB60;
     BYTE1(dword_50A1D8) = dword_4FD8F0;
-    HIWORD(dword_50A1C0) = dword_455FB4;
+    HIWORD(dword_50A1C0) = byte_455FB4;
     BYTE2(dword_50A1D8) = dword_4FD8F4;
     LOBYTE(dword_50A1D0) = dword_456048[0];
     LOBYTE(dword_50A1C0) = dword_456048[1];
@@ -38,7 +38,7 @@ int net_fill_input()
     {
       dword_456048[0] = (unsigned __int8)dword_50A1D0;
       dword_4FD910[0] = byte_50A1D5;
-      dword_455FB0 = HIWORD(dword_50A1D0);
+      byte_455FB0 = HIWORD(dword_50A1D0);
       dword_4FD920[0] = byte_50A1D6;
       dword_4FD8F0 = SBYTE1(dword_50A1D8);
       dword_4FD900[0] = byte_50A1D4;
@@ -46,7 +46,7 @@ int net_fill_input()
       dword_4FD930[0] = byte_50A1D7;
       dword_456048[1] = (unsigned __int8)dword_50A1C0;
       dword_4FD8F4 = SBYTE2(dword_50A1D8);
-      dword_455FB4 = HIWORD(dword_50A1C0);
+      byte_455FB4 = HIWORD(dword_50A1C0);
       return 0;
     }
   }

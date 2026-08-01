@@ -1,5 +1,5 @@
 #include "pch.h"
-_BYTE *__cdecl sub_42D010(char a1, _BYTE *a2)
+_BYTE *__cdecl cont_build_controller_response_digital(char a1, _BYTE *a2)
 {
   _BYTE *result; // eax
 
@@ -9,16 +9,16 @@ _BYTE *__cdecl sub_42D010(char a1, _BYTE *a2)
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = BYTE1(dword_455FB0);
-      a2[4] = dword_455FB0;
+      a2[3] = byte_455FB1;
+      a2[4] = byte_455FB0;
       result = a2;
       break;
     case 1:
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = BYTE1(dword_455FB4);
-      a2[4] = dword_455FB4;
+      a2[3] = byte_455FB5;
+      a2[4] = byte_455FB4;
       result = a2;
       break;
     case 2:

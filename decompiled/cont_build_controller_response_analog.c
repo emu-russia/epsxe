@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_42D0E0(char a1, _BYTE *a2)
+char __cdecl cont_build_controller_response_analog(char a1, _BYTE *a2)
 {
   char result; // al
   __int16 v3; // ax
@@ -13,8 +13,8 @@ char __cdecl sub_42D0E0(char a1, _BYTE *a2)
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = BYTE1(dword_455FB0);
-      a2[4] = dword_455FB0;
+      a2[3] = byte_455FB1;
+      a2[4] = byte_455FB0;
       a2[8] = 0x80;
       a2[7] = 0x80;
       a2[6] = 0x80;
@@ -122,8 +122,8 @@ LABEL_24:
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = BYTE1(dword_455FB4);
-      a2[4] = dword_455FB4;
+      a2[3] = byte_455FB5;
+      a2[4] = byte_455FB4;
       a2[7] = byte_4FD904 + 0x80;
       a2[8] = byte_4FD914 + 0x80;
       a2[5] = byte_4FD924 + 0x80;

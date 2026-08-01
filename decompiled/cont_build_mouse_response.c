@@ -1,5 +1,5 @@
 #include "pch.h"
-_BYTE *__cdecl sub_42D3C0(char a1, _BYTE *a2)
+_BYTE *__cdecl cont_build_mouse_response(char a1, _BYTE *a2)
 {
   _BYTE *result; // eax
 

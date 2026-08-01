@@ -1,5 +1,5 @@
 #include "pch.h"
-__int16 __cdecl sub_42DBE0(unsigned __int16 a1, __int16 a2)
+__int16 __cdecl cont_map_button_state(unsigned __int16 a1, __int16 a2)
 {
   __int16 result; // ax
 

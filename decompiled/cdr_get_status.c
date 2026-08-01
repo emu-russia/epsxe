@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl cont_sub_42CFE0(int a1)
+int __cdecl cdr_get_status(int a1)
 {
   int result; // eax
 

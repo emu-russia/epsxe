@@ -595,7 +595,7 @@ LABEL_78:
         return 0;
       case 1055:
         edit_button_id = -1;
-        cont_sub_42DCC0(pad_number_menu_selection);
+        cont_reset_pad_state(pad_number_menu_selection);
         v29 = hDlg;
         controller_set_keyboard(hDlg, (unsigned __int8)edit_button_id);
         controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
@@ -641,7 +641,7 @@ LABEL_203:
     while ( (unsigned __int16)v20 < 0x20u );
     if ( !v19 )
       return 1;
-    sub_42DBC0((unsigned __int8)v40 + 4 * (unsigned __int8)pad_number_menu_selection - 20, v19);
+    cont_map_axis_state((unsigned __int8)v40 + 4 * (unsigned __int8)pad_number_menu_selection - 20, v19);
     controller_set_joypad(hDlg, v15 - 16);
     edit_button_id = v15;
     return 1;
@@ -665,7 +665,7 @@ LABEL_203:
     {
       v17 += 32;
 LABEL_107:
-      sub_42DBE0(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v17);
+      cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v17);
       controller_set_keyboard(hDlg, v15);
       return 1;
     }
@@ -703,13 +703,13 @@ LABEL_107:
           {
             if ( byte_50ABE0[v18] && v15 != 0xFF )
             {
-              sub_42DBE0(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 32);
+              cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 32);
               controller_set_keyboard(hDlg, v15);
               return 1;
             }
             if ( byte_50AC00[v18] && v15 != 0xFF )
             {
-              sub_42DBE0(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 64);
+              cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 64);
               controller_set_keyboard(hDlg, v15);
               return 1;
             }
@@ -731,7 +731,7 @@ LABEL_107:
 LABEL_137:
   v30 = v18;
 LABEL_138:
-  sub_42DBE0(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v30);
+  cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v30);
   controller_set_keyboard(hDlg, v15);
   return 1;
 }

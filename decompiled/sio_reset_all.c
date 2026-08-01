@@ -10,5 +10,5 @@ int (__stdcall *sio_reset_all())(_DWORD)
   LOBYTE(sio_rx_fifo_count) = 0;
   sio_reset_controller_state();
   sio_memcard_load();
-  return sub_42D620(0);
+  return cont_update_led_and_mode(0);
 }

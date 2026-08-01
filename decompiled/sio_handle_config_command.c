@@ -23,11 +23,11 @@ int __cdecl sio_handle_config_command(char a1, int a2, char a3)
       {
         if ( dword_4FD8E0[(unsigned __int8)a1] )
         {
-          sub_42D0E0(a1, v11);
+          cont_build_controller_response_analog(a1, v11);
         }
         else
         {
-          sub_42D010(a1, v11);
+          cont_build_controller_response_digital(a1, v11);
           *(_DWORD *)&v11[5] = -2139062144;
         }
       }
@@ -86,7 +86,7 @@ LABEL_24:
     *(_DWORD *)(a2 + 4) = 0x80808080;
     return a2 + 4;
   }
-  sub_42D010(a1, v11);
+  cont_build_controller_response_digital(a1, v11);
   if ( a3 != 66 )
     v11[1] = a3;
   if ( a3 == 69 )

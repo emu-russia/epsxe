@@ -1,5 +1,5 @@
 #include "pch.h"
-_BYTE *__cdecl sub_42D440(char a1, _BYTE *a2)
+_BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
 {
   _BYTE *result; // eax
   __int16 v3; // ax
