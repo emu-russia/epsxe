@@ -19,9 +19,9 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
 
   if ( a2 == 272 )
   {
-    for ( i = 0; i < (unsigned __int8)byte_4F831C; ++i )
+    for ( i = 0; i < (unsigned __int8)active_mini_cheat_count; ++i )
     {
-      sprintf(lParam, "  %06x    %08x", dword_5B6DC4[2 * i], dword_5B6DC0[2 * i]);
+      sprintf(lParam, "  %06x    %08x", mini_cheat_id_array[2 * i], mini_cheat_attr_array[2 * i]);
       SendDlgItemMessageA(hDlg, 1142, 0x180u, 0, (LPARAM)lParam);
     }
     return 1;
@@ -70,7 +70,7 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
         return 0;
       case 1058:
         v4 = SendDlgItemMessageA(hDlg, 1142, 0x18Bu, 0, 0);
-        byte_4F831C = 0;
+        active_mini_cheat_count = 0;
         if ( v4 )
         {
           do
@@ -80,10 +80,10 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
             sscanf(
               lParam,
               "  %06x    %08x",
-              &dword_5B6DC4[2 * (unsigned __int8)byte_4F831C],
-              &dword_5B6DC0[2 * (unsigned __int8)byte_4F831C]);
+              &mini_cheat_id_array[2 * (unsigned __int8)active_mini_cheat_count],
+              &mini_cheat_attr_array[2 * (unsigned __int8)active_mini_cheat_count]);
             v4 = v5;
-            ++byte_4F831C;
+            ++active_mini_cheat_count;
           }
           while ( v5 );
         }

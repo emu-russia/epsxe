@@ -15,7 +15,7 @@ unsigned int cpu_load_bios_shell()
     if ( hw_update_counter < 0 )
     {
       hw_update_counter = cpu_speed_scale + v2;
-      if ( ++dword_50C364 >= (unsigned int)dword_45593C )
+      if ( ++dword_50C364 >= (unsigned int)video_scanlines )
       {
         dword_50C364 = 0;
         ++dword_50C360;

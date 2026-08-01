@@ -24,19 +24,19 @@ int cpu_execute()
     while ( 1 )
     {
       v0 = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
-      v1 = byte_4F831C;
+      v1 = active_mini_cheat_count;
       cpu_opcode = v0;
-      if ( byte_4F831C )
+      if ( active_mini_cheat_count )
       {
         v2 = 0;
         v16 = 0;
         v3 = *(_DWORD *)reg_pc & 0x1FFFFF;
         do
         {
-          v4 = dword_5B6DC4[2 * v16];
+          v4 = mini_cheat_id_array[2 * v16];
           if ( (v4 & 0x1FFFFF) == v3 )
           {
-            v0 = dword_5B6DC0[2 * v16];
+            v0 = mini_cheat_attr_array[2 * v16];
             if ( (v4 & 0xF0000000) == 0 )
             {
               v5 = v2 + 1;
@@ -60,7 +60,7 @@ int cpu_execute()
           v16 = ++v2;
         }
         while ( v2 < v1 );
-        byte_4F831C = v1;
+        active_mini_cheat_count = v1;
         cpu_opcode = v0;
       }
       if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0x1F800000 )
@@ -144,8 +144,8 @@ int cpu_execute()
           if ( (dword_50BFF4 & 0x50) == 0x50 )
             *(_DWORD *)int_reg |= 0x40u;
         }
-        v13 = dword_45593C;
-        if ( dword_50C364 == dword_45593C - 22 )
+        v13 = video_scanlines;
+        if ( dword_50C364 == video_scanlines - 22 )
         {
           v14 = *(_DWORD *)int_reg | 1;
           *(_DWORD *)int_reg |= 1u;

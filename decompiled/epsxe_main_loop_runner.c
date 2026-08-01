@@ -48,7 +48,7 @@ void __noreturn epsxe_main_loop_runner()
     }
     else if ( loaded_file_type == 4 )
     {
-      if ( BYTE1(byte_4F831C) )
+      if ( BYTE1(active_mini_cheat_count) )
         loader_load_demo("libps.exe");
       if ( loader_touch_demo_file() )
         loader_load_zip();

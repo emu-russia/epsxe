@@ -3,7 +3,7 @@ void __cdecl loader_load_file(char *a1, size_t Size)
 {
   char v2; // al
   int v3; // eax
-  size_t v4; // eax
+  size_t file_size; // eax
   char *v5; // ebp
   char *v6; // eax
   size_t v7; // eax
@@ -19,7 +19,7 @@ void __cdecl loader_load_file(char *a1, size_t Size)
   v12 = 0;
   if ( zip_extract_file(FileName, a1, &lpMem, (size_t *)&v11) )
     fatal_error_with_message_box(" * EPSX: error loading .pll file.");
-  v2 = sub_41C220((int)lpMem, &v12, v11, ArgList, (int)&v10);
+  v2 = loader_pll_parse_section((int)lpMem, &v12, v11, ArgList, (int)&v10);
   if ( v2 )
   {
     while ( 1 )
@@ -29,8 +29,8 @@ void __cdecl loader_load_file(char *a1, size_t Size)
         break;
       if ( v3 == 1 )
       {
-        v4 = sub_41C390(ArgList);
-        Str2 = (char *)malloc(v4);
+        file_size = loader_pll_get_file_size(ArgList);
+        Str2 = (char *)malloc(file_size);
         if ( zip_extract_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
           fatal_error_with_message_box(" * EPSX: error loading .exe file in pll/zip.");
         v5 = Str2;
@@ -39,18 +39,18 @@ void __cdecl loader_load_file(char *a1, size_t Size)
         v6 = Str2;
         qmemcpy((char *)ram + (*((_DWORD *)v5 + 6) & 0x1FFFFF), Str2 + 2048, *((_DWORD *)v5 + 7));
         cpu_gpr[28] = *((_DWORD *)v5 + 5);
-        cpu_gpr[29] = -2145386752;
-        cpu_gpr[30] = -2145386752;
+        cpu_gpr[29] = 0x801FFF00;
+        cpu_gpr[30] = 0x801FFF00;
         cpu_gpr[31] = 0;
         *(_DWORD *)reg_pc = *((_DWORD *)v5 + 4);
 LABEL_14:
         free(v6);
       }
-      v2 = sub_41C220((int)lpMem, &v12, v11, ArgList, (int)&v10);
+      v2 = loader_pll_parse_section((int)lpMem, &v12, v11, ArgList, (int)&v10);
       if ( !v2 )
         goto LABEL_16;
     }
-    v7 = sub_41C390(ArgList);
+    v7 = loader_pll_get_file_size(ArgList);
     Str2 = (char *)malloc(v7);
     if ( zip_extract_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
       fatal_error_with_message_box(" * EPSX: error loading %s.", ArgList);

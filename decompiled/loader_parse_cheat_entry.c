@@ -23,24 +23,24 @@ char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer)
     ::mdectiming = mdectiming;
   dword_50C374 = cheat_db[v2].dword_50C374;
   if ( dword_50C374 != -1 )
-    ::dword_50C374 = dword_50C374;
+    unknown_timing_value = dword_50C374;
   if ( cheat_db[v2].forcespu != 0xFF )
     forcespu = cheat_db[v2].forcespu;
   forcepad = cheat_db[v2].forcepad;
   if ( forcepad != -1 )
     ::forcepad = forcepad;
   if ( cheat_db[v2].byte_455946 != 0xFF )
-    byte_455946 = cheat_db[v2].byte_455946;
+    cpu_overclock_setting = cheat_db[v2].byte_455946;
   if ( cheat_db[v2].parasite_eve_cheat != 0xFF )
     parasite_eve_cheat = cheat_db[v2].parasite_eve_cheat;
   if ( cheat_db[v2].byte_455FA4 != 0xFF )
     cd_inc = cheat_db[v2].byte_455FA4;
   if ( cheat_db[v2].byte_4F75AA != 0xFF )
-    byte_4F75AA = cheat_db[v2].byte_4F75AA;
+    unknown_cd_setting = cheat_db[v2].byte_4F75AA;
   if ( cheat_db[v2].nocdstatus != 0xFF )
     nocdstatus = cheat_db[v2].nocdstatus;
   if ( cheat_db[v2].byte_4FC4E6 != 0xFF )
-    byte_4FC4E6 = cheat_db[v2].byte_4FC4E6;
+    cd_extra_setting = cheat_db[v2].byte_4FC4E6;
   text = cheat_db[v2].text;
   if ( !strcmp("NULL", text) )
     return 0;

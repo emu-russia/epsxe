@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_430500(__int16 a1, _BYTE *a2, _BYTE *a3, _BYTE *a4)
+char __cdecl ext_CDR_tarck_to_msf(__int16 a1, _BYTE *a2, _BYTE *a3, _BYTE *a4)
 {
   char result; // al
 

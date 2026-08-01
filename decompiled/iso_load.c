@@ -67,7 +67,7 @@ LABEL_12:
       {
         use_subchannel = 1;
         dbg_print("(+subchannel) ");
-        byte_455946 = 0;
+        cpu_overclock_setting = 0;
       }
     }
     return dbg_print("ok\n");

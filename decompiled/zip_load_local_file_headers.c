@@ -49,7 +49,7 @@ int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirect
       {
         v10 = zip_num_entries_loaded;
         v11 = v15;
-        v12 = &byte_566980[(zip_num_entries_loaded << 8) - (_DWORD)v15];
+        v12 = &zip_entry_names[(zip_num_entries_loaded << 8) - (_DWORD)v15];
         do
         {
           v13 = *v11;

@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl ext_CD_sub_430B60(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
+char __cdecl ext_CD_verify_subchannel_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
 {
   int v4; // ecx
   char v5; // bl

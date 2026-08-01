@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_4304E0(_BYTE *a1, _BYTE *a2)
+char __cdecl ext_CDR_get_first_last_track(_BYTE *a1, _BYTE *a2)
 {
   char result; // al
 

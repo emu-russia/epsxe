@@ -77,7 +77,7 @@ char net_netplay_handler()
     LOBYTE(dword_50A620) = dword_456048[0];
     BYTE1(dword_50A620) = dword_456048[1];
     LOBYTE(dword_50A624) = forcepad;
-    BYTE1(dword_50A624) = dword_50C374;
+    BYTE1(dword_50A624) = unknown_timing_value;
     BYTE2(dword_50A624) = nocdstatus;
     HIBYTE(dword_50A624) = country_setting;
     byte_50A628 = mdectiming;
@@ -87,7 +87,7 @@ char net_netplay_handler()
     NETtransferData("Transfer configuration info", &dword_50A620, 1037);
     dword_456048[0] = (unsigned __int8)dword_50A620;
     forcepad = (unsigned __int8)dword_50A624;
-    dword_50C374 = BYTE1(dword_50A624);
+    unknown_timing_value = BYTE1(dword_50A624);
     dword_456048[1] = BYTE1(dword_50A620);
     nocdstatus = BYTE2(dword_50A624);
     country_setting = HIBYTE(dword_50A624);

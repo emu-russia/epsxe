@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned __int8 __cdecl sub_430A00(
+unsigned __int8 __cdecl ext_CDR_lba_to_msf(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,

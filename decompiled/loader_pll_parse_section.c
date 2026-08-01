@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_41C220(int a1, unsigned int *a2, unsigned int a3, const char *a4, int a5)
+int __cdecl loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, const char *a4, int a5)
 {
   unsigned int v5; // eax
   int v6; // eax

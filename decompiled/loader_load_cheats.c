@@ -21,7 +21,7 @@ FILE *loader_load_cheats()
           break;
         fread((void *)(24 * v2 + 4520368), 1u, 0x18u, v1);
         v2 = mini_cheat_count;
-        if ( !sub_41BC30(
+        if ( !loader_mini_cheat_find(
                 *(_DWORD *)&mini_cheat_db[24 * mini_cheat_count + 16],
                 *(_DWORD *)&mini_cheat_db[24 * mini_cheat_count + 20]) )
           mini_cheat_count = ++v2;

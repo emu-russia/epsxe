@@ -1,5 +1,5 @@
 #include "pch.h"
-size_t __cdecl sub_41C390(const char *a1)
+size_t __cdecl loader_pll_get_file_size(const char *a1)
 {
   size_t result; // eax
   unsigned int v2; // edi
@@ -11,7 +11,7 @@ size_t __cdecl sub_41C390(const char *a1)
   v4 = 0x100000;
   if ( zip_num_entries_loaded )
   {
-    v3 = byte_566980;
+    v3 = zip_entry_names;
     do
     {
       if ( !strcmp(v3, a1) )

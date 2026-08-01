@@ -25,22 +25,22 @@ void loader_load_zip()
         fatal_error_with_message_box(" * EPSX: error loading .zip file.");
       if ( zip_num_entries_loaded == 1 )
       {
-        if ( strncmp(&byte_566980[strlen(byte_566980) - 3], "exe", 3u)
-          && strncmp(&byte_566980[strlen(byte_566980) - 3], "EXE", 3u) )
+        if ( strncmp(&zip_entry_names[strlen(zip_entry_names) - 3], "exe", 3u)
+          && strncmp(&zip_entry_names[strlen(zip_entry_names) - 3], "EXE", 3u) )
         {
-          fatal_error_with_message_box("* EPSX: DEMO not found [%s]. \n", byte_566980);
+          fatal_error_with_message_box("* EPSX: DEMO not found [%s]. \n", zip_entry_names);
         }
         Str2 = (char *)malloc(Size[0]);
-        if ( zip_extract_file(FileName, byte_566980, (LPVOID *)&Str2, (size_t *)&v8) )
+        if ( zip_extract_file(FileName, zip_entry_names, (LPVOID *)&Str2, (size_t *)&v8) )
           fatal_error_with_message_box(" * EPSX: error loading .zip file.");
         v2 = Str2;
         if ( strncmp("PS-X EXE", Str2, 8u) )
-          fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", byte_566980);
+          fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", zip_entry_names);
         v3 = Str2;
         qmemcpy((char *)ram + (*((_DWORD *)v2 + 6) & 0x1FFFFF), Str2 + 2048, *((_DWORD *)v2 + 7));
         cpu_gpr[28] = *((_DWORD *)v2 + 5);
-        cpu_gpr[29] = -2145386752;
-        cpu_gpr[30] = -2145386752;
+        cpu_gpr[29] = 0x801FFF00;
+        cpu_gpr[30] = 0x801FFF00;
         cpu_gpr[31] = 0;
         *(_DWORD *)reg_pc = *((_DWORD *)v2 + 4);
         free(v3);
@@ -54,7 +54,7 @@ void loader_load_zip()
         v5 = 0;
         do
         {
-          v6 = &byte_566980[256 * v5];
+          v6 = &zip_entry_names[256 * v5];
           if ( !strncmp(&v6[strlen(v6) - 3], "pll", 3u) || !strncmp(&v6[strlen(v6) - 3], "PLL", 3u) )
             LOBYTE(Str2) = v4;
           LOBYTE(v8) = ++v4;
@@ -64,7 +64,7 @@ void loader_load_zip()
         if ( (_BYTE)Str2 == 0xFF )
 LABEL_26:
           fatal_error_with_message_box("* EPSX: DEMO .pll not found. \n");
-        loader_load_file(&byte_566980[256 * (unsigned __int8)Str2], Size[(unsigned __int8)Str2]);
+        loader_load_file(&zip_entry_names[256 * (unsigned __int8)Str2], Size[(unsigned __int8)Str2]);
       }
     }
   }

@@ -10,7 +10,7 @@ int loader_cdrom_detect_region()
   {
     sprintf(Buffer, "DEMO_999.99");
     result = sprintf(default_filename, "%s", Buffer);
-    dword_45593C = 262;
+    video_scanlines = 262;
     cpu_speed_scale = 2154;
     country_setting = 0;
     return result;
@@ -22,7 +22,7 @@ int loader_cdrom_detect_region()
   for ( i = 0; i < strlen(default_filename); ++i )
     default_filename[i] = towupper(default_filename[i]);
   loader_parse_cheat_entry(default_filename, Buffer);
-  sub_41BDC0(default_filename);
+  loader_apply_mini_cheats(default_filename);
   if ( country_setting == 1 )
   {
     v2 = " * Force PAL cdrom detected. \n";
@@ -31,21 +31,21 @@ int loader_cdrom_detect_region()
   {
     if ( !country_setting )
     {
-      dword_45593C = 262;
+      video_scanlines = 262;
       cpu_speed_scale = old_timing != 0 ? 1916 : 2154;
       return dbg_print(" * Force NTSC cdrom detected. \n");
     }
     if ( default_filename[2] != 'E' && default_filename[2] != 'e' )
     {
       country_setting = 0;
-      dword_45593C = 262;
+      video_scanlines = 262;
       cpu_speed_scale = old_timing != 0 ? 1916 : 2154;
       return dbg_print(" * NTSC cdrom detected. \n");
     }
     country_setting = 1;
     v2 = " * PAL cdrom detected. \n";
   }
-  dword_45593C = 312;
+  video_scanlines = 312;
   cpu_speed_scale = old_timing != 0 ? 1923 : 2171;
   return dbg_print(v2);
 }

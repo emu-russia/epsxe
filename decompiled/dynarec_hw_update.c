@@ -97,7 +97,7 @@ char *dynarec_hw_update()
       }
     }
     v6 = int_mask;
-    if ( dword_50C364 == dword_45593C - (byte_4FC4E6 != 0 ? 32 : 1) )
+    if ( dword_50C364 == video_scanlines - (cd_extra_setting != 0 ? 32 : 1) )
     {
       v7 = *(_DWORD *)int_reg | 1;
       *(_DWORD *)int_reg |= 1u;
@@ -109,7 +109,7 @@ char *dynarec_hw_update()
       irq_cpu_interrupt();
       v6 = int_mask;
     }
-    if ( dword_50C364 >= (unsigned int)dword_45593C )
+    if ( dword_50C364 >= (unsigned int)video_scanlines )
     {
       dword_50C364 = 0;
       ++dword_50C360;

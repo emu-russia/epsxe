@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_41BDC0(const char *a1)
+char __cdecl loader_apply_mini_cheats(const char *a1)
 {
   char result; // al
   int *v2; // ebp
@@ -22,19 +22,19 @@ char __cdecl sub_41BDC0(const char *a1)
       v9 = mini_cheat_count;
       do
       {
-        if ( !strcmp(a1, (const char *)v2 - 20) && (unsigned __int8)byte_4F831C < 0x10u )
+        if ( !strcmp(a1, (const char *)v2 - 20) && (unsigned __int8)active_mini_cheat_count < 0x10u )
         {
           v3 = *v2;
           v4 = *(v2 - 1);
-          v5 = 2 * (unsigned __int8)byte_4F831C;
-          dword_5B6DC0[v5] = v3;
-          dword_5B6DC4[v5] = v4;
-          if ( !sub_41BD60(v4, v3) )
+          v5 = 2 * (unsigned __int8)active_mini_cheat_count;
+          mini_cheat_attr_array[v5] = v3;
+          mini_cheat_id_array[v5] = v4;
+          if ( !loader_mini_cheat_find_by_id(v4, v3) )
           {
-            v6 = byte_4F831C + 1;
-            dword_5B6DC0[v5] = v3;
-            dword_5B6DC4[v5] = v4;
-            LOBYTE(byte_4F831C) = v6;
+            v6 = active_mini_cheat_count + 1;
+            mini_cheat_attr_array[v5] = v3;
+            mini_cheat_id_array[v5] = v4;
+            active_mini_cheat_count = v6;
           }
           v2 = (int *)v8;
         }

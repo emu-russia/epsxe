@@ -37,7 +37,7 @@ LABEL_146:
         }
         if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-pslib") )
         {
-          BYTE1(byte_4F831C) = 1;
+          BYTE1(active_mini_cheat_count) = 1;
           goto LABEL_146;
         }
         if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocdoverwrite") )
@@ -195,7 +195,7 @@ LABEL_146:
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-ff9pal") )
               {
-                byte_455946 = 0;
+                cpu_overclock_setting = 0;
                 goto LABEL_146;
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-pe2") )
@@ -205,7 +205,7 @@ LABEL_146:
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocputrick") )
               {
-                byte_455946 = 0;
+                cpu_overclock_setting = 0;
                 goto LABEL_146;
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadfake") )
@@ -261,7 +261,7 @@ LABEL_146:
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noauto") )
                 {
                   noauto = 1;
-                  byte_455946 = 0;
+                  cpu_overclock_setting = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mouse") )

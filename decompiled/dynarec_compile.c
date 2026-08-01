@@ -198,23 +198,23 @@ int __cdecl dynarec_compile(unsigned int ArgList, int a2)
       *(_DWORD *)((char *)recomp_metadata + v6) = v159;
       v2 = code_ptr;
     }
-    if ( byte_4F831C )
+    if ( active_mini_cheat_count )
     {
       v8 = 0;
       ArgLista = 0;
       do
       {
-        v9 = dword_5B6DC4[2 * ArgLista];
+        v9 = mini_cheat_id_array[2 * ArgLista];
         if ( (v9 & 0x1FFFFF) == ArgList )
         {
-          v7 = dword_5B6DC0[2 * ArgLista];
+          v7 = mini_cheat_attr_array[2 * ArgLista];
           if ( (v9 & 0xF0000000) == 0 )
           {
             v10 = v8 + 1;
-            if ( (unsigned __int8)(v8 + 1) < (unsigned __int8)byte_4F831C )
+            if ( (unsigned __int8)(v8 + 1) < (unsigned __int8)active_mini_cheat_count )
             {
               v11 = (_DWORD *)(8 * v10 + 5991868);
-              v12 = (unsigned __int8)(byte_4F831C - v10);
+              v12 = (unsigned __int8)(active_mini_cheat_count - v10);
               do
               {
                 *(v11 - 1) = v11[1];
@@ -224,12 +224,12 @@ int __cdecl dynarec_compile(unsigned int ArgList, int a2)
               }
               while ( v12 );
             }
-            --byte_4F831C;
+            --active_mini_cheat_count;
           }
         }
         ArgLista = ++v8;
       }
-      while ( v8 < (unsigned __int8)byte_4F831C );
+      while ( v8 < (unsigned __int8)active_mini_cheat_count );
       v2 = code_ptr;
     }
     ArgList += 4;
@@ -936,7 +936,7 @@ LABEL_151:
         if ( a2 != 1 )
         {
           v51 = 4 * (v7 & 0x3FFFFFF);
-          if ( !byte_455946 || ((v51 ^ (ArgList - 4)) & 0xFFFFFF) != 0 )
+          if ( !cpu_overclock_setting || ((v51 ^ (ArgList - 4)) & 0xFFFFFF) != 0 )
           {
             *(_WORD *)code_ptr = 32267;
             code_ptr[2] = -44;
@@ -1066,7 +1066,7 @@ LABEL_151:
         goto LABEL_436;
       case 5u:
         if ( a2 == 1
-          || byte_455946
+          || cpu_overclock_setting
           && v7 == 339804155
           && *(_DWORD *)((unsigned __int16)(ArgList - 8) + mem_read_hooks[(ArgList - 8) >> 16]) == 4395045
           && !*(_DWORD *)((unsigned __int16)(ArgList - 12) + mem_read_hooks[(ArgList - 12) >> 16])

@@ -30,6 +30,6 @@ void mem_init_memory_handlers()
       mem_write_hooks[i] = (int)dummy_page;
     }
   }
-  byte_454CC0 = 1;
+  mem_handlers_inited = 1;
   dbg_print_no_flush(" * Memory handlers init. \n");
 }

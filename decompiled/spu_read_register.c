@@ -3,7 +3,7 @@ __int16 __cdecl spu_read_register(unsigned int a1)
 {
   int v1; // eax
 
-  if ( !byte_4F75AA || (a1 & 0xF) != 0xC )
+  if ( !unknown_cd_setting || (a1 & 0xF) != 0xC )
   {
     if ( spu_use_external_plugin == 1 )
     {

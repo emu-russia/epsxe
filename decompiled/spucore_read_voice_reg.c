@@ -14,7 +14,7 @@ __int16 __cdecl spucore_read_voice_reg(int a1, int a2)
       LOWORD(v2) = dword_465574[74 * a1];
       break;
     case 12:
-      if ( byte_4F75AA )
+      if ( unknown_cd_setting )
       {
         LOWORD(v2) = rand() & 1;
       }

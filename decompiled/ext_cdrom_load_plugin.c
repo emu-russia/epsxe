@@ -85,7 +85,7 @@ char ext_cdrom_load_plugin()
                           {
                             CDRgetBufferSub = GetProcAddress(hCdrModule, "CDRgetBufferSub");
                             if ( CDRgetBufferSub )
-                              byte_455946 = 0;
+                              cpu_overclock_setting = 0;
                           }
                           else
                           {
