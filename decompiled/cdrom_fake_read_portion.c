@@ -3,7 +3,7 @@ size_t __cdecl cdrom_fake_read_portion(unsigned __int8 a1, unsigned __int8 a2, u
 {
   int v4; // eax
 
-  v4 = *((_DWORD *)cdrom_fake_data + sub_42C6D0(a1, a2, a3));
+  v4 = *((_DWORD *)cdrom_fake_data + cdr_msf_to_lba(a1, a2, a3));
   if ( v4 == -1 )
   {
     _close((int)FileHandle);

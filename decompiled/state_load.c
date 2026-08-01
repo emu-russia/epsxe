@@ -36,7 +36,7 @@ _DWORD *state_load()
     irq_unfreeze((int)"IRQ", v3);
     gte_unfreeze((int)"GTE", v3);
     if ( v4 >= 2u )
-      sub_42CED0((int)"CDR", v3);
+      cdr_unfreeze_new((int)"CDR", v3);
     else
       cdr_unfreeze((int)"CDR", v3);
     sio_unfreeze((int)"SIO", v3);

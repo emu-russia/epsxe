@@ -4,7 +4,7 @@ void *__cdecl cdrom_fake_write_portion(unsigned __int8 a1, unsigned __int8 a2, u
   int v4; // esi
   void *result; // eax
 
-  v4 = sub_42C6D0(a1, a2, a3);
+  v4 = cdr_msf_to_lba(a1, a2, a3);
   if ( !a1 && a2 == 2 && a3 == 18 )
     printf("saved \n");
   result = cdrom_fake_data;

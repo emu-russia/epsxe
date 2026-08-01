@@ -3,31 +3,31 @@ char __cdecl cdr_reg2_write(char a1)
 {
   char result; // al
 
-  result = byte_50BF66;
-  if ( !byte_50BF66 )
+  result = g_cdr_param_fifo_count;
+  if ( !g_cdr_param_fifo_count )
   {
-    result = byte_50AF07[64];
-    if ( byte_50AF07[64] == 2 )
+    result = g_cdr_status_regs[64];
+    if ( g_cdr_status_regs[64] == 2 )
     {
-      if ( a1 == 7 && byte_50AF07[61] )
+      if ( a1 == 7 && g_cdr_status_regs[61] )
       {
-        byte_50AEC2 = 1;
-        byte_50AF07[61] = 0;
-        byte_50AF07[64] = 0;
+        g_cdr_irq_pending = 1;
+        g_cdr_status_regs[61] = 0;
+        g_cdr_status_regs[64] = 0;
         return result;
       }
       goto LABEL_7;
     }
-    if ( byte_50AF07[64] )
+    if ( g_cdr_status_regs[64] )
     {
 LABEL_7:
-      byte_50BF84 = a1;
-      byte_50AF07[64] = 0;
+      g_cdr_irq_mode = a1;
+      g_cdr_status_regs[64] = 0;
       return result;
     }
-    result = byte_50AF07[61];
-    *((_BYTE *)&word_50AEC3 + (unsigned __int8)byte_50AF07[61]++) = a1;
-    byte_50AF07[64] = 0;
+    result = g_cdr_status_regs[61];
+    *((_BYTE *)&g_cdr_param_fifo + (unsigned __int8)g_cdr_status_regs[61]++) = a1;
+    g_cdr_status_regs[64] = 0;
   }
   return result;
 }

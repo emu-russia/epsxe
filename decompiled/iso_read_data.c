@@ -17,7 +17,7 @@ char __cdecl iso_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __in
   char *v17; // edi
   int v18; // eax
 
-  v4 = sub_42C6D0(a1, a2, a3);
+  v4 = cdr_msf_to_lba(a1, a2, a3);
   if ( dword_505400 )
   {
     fseek(dword_505400, 96 * v4, 0);

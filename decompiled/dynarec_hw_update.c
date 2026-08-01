@@ -31,9 +31,9 @@ char *dynarec_hw_update()
     gpu_sub_42E650();
     hw_update_counter = cpu_speed_scale;
     ++dword_50C364;
-    sub_42CA70();
-    sub_42C9A0();
-    if ( (int_reg[0] & 4) == 0 && sub_42C8B0() )
+    cdr_play_tick();
+    cdr_process_delays();
+    if ( (int_reg[0] & 4) == 0 && cdr_get_response_status() )
       *(_DWORD *)int_reg |= 4u;
     if ( dword_50C210 && (int_reg[1] & 2) == 0 )
     {
@@ -132,7 +132,7 @@ char *dynarec_hw_update()
         dynarec_invalidate();
       }
       if ( (dword_50C360 & 0x3F) == 0 )
-        sub_42CE40();
+        cdr_update_motor_status();
       sio_memcard_auto_save();
     }
     if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0xBFC00000 )

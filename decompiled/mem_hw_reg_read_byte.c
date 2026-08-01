@@ -13,7 +13,7 @@ void __cdecl mem_hw_reg_read_byte(unsigned int a1)
   {
     if ( a1 == 0x1F801802 )
     {
-      ++dword_50BF5C;
+      ++g_cdr_data_bytes_transferred;
       return;
     }
     if ( a1 == 0x1F801803 )
@@ -24,12 +24,12 @@ LABEL_19:
   }
   if ( a1 == 0x1F801801 )
   {
-    if ( (unsigned __int8)byte_50AEC1 < (unsigned __int8)byte_50AEC0 )
+    if ( (unsigned __int8)g_cdr_response_index < (unsigned __int8)g_cdr_response_size )
     {
-      if ( byte_50AEC2 )
+      if ( g_cdr_irq_pending )
       {
-        if ( (unsigned __int8)++byte_50AEC1 >= (unsigned __int8)byte_50AEC0 )
-          byte_50AEC2 = 0;
+        if ( (unsigned __int8)++g_cdr_response_index >= (unsigned __int8)g_cdr_response_size )
+          g_cdr_irq_pending = 0;
       }
     }
     return;

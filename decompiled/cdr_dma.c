@@ -17,17 +17,17 @@ unsigned int cdr_dma()
     if ( !(_WORD)dword_516508 )
       result = 512;
     v3 = 4 * v0 * result;
-    v4 = dword_50BF5C;
-    result = v3 + dword_50BF5C;
-    dword_50BF5C += v3;
+    v4 = g_cdr_data_bytes_transferred;
+    result = v3 + g_cdr_data_bytes_transferred;
+    g_cdr_data_bytes_transferred += v3;
     if ( dword_50C36C == 1 )
       result = dynarec_invalidate_range(dword_516504, v3 >> 2);
     if ( v3 + (v2 & 0x1FFFFF) <= 0x200000 )
     {
       result = mem_dma_read(v2);
-      qmemcpy((void *)result, &byte_50AF56[v4], v3);
+      qmemcpy((void *)result, &g_cdr_data_buffer[v4], v3);
     }
-    byte_50BF64 = 1;
+    g_cdr_dma_active = 1;
   }
   return result;
 }

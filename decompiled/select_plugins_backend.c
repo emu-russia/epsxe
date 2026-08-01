@@ -68,7 +68,7 @@ int select_plugins_backend()
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CDR_read;
     cdrom_play_cdda_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))ext_CDRplay;
     cdrom_stop_cb = (int (*)(void))ext_CDRstop;
-    cdrom_reset_cb = (int (*)(void))sub_430810;
+    cdrom_reset_cb = (int (*)(void))j_cdr_spinup_motor;
     cdrom_unused_cb = (int)nullsub_1;
     cdrom_lba_to_msf_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_430A00;
     cdrom_verify_sub_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CD_sub_430B60;

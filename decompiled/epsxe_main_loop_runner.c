@@ -28,7 +28,7 @@ void __noreturn epsxe_main_loop_runner()
       spu_init_cb();
       nullsub_1();
     }
-    sub_42C830();
+    cdr_reset_controller();
     gte_clear_regs();
     sio_reset_all();
     reopen_console_log();

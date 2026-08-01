@@ -83,9 +83,9 @@ int cpu_execute()
           mdec_timer_handler();
         gpu_sub_42E450();
         gpu_sub_42E650();
-        sub_42CA70();
-        sub_42C9A0();
-        if ( (int_reg[0] & 4) == 0 && sub_42C8B0() )
+        cdr_play_tick();
+        cdr_process_delays();
+        if ( (int_reg[0] & 4) == 0 && cdr_get_response_status() )
           *(_DWORD *)int_reg |= 4u;
         if ( dword_50C210 && (*(_WORD *)int_reg & 0x200) == 0 )
         {
@@ -166,7 +166,7 @@ int cpu_execute()
     if ( reset_flag )
       break;
     if ( (dword_50C360 & 0x3F) == 0 )
-      sub_42CE40();
+      cdr_update_motor_status();
     sio_memcard_auto_save();
   }
   return result;

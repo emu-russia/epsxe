@@ -46,7 +46,7 @@ int __cdecl W2k_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
       iso_read_data(a1, a2, v7, (int)Buffer);
       if ( ppf_enabled )
       {
-        v9 = sub_42C6D0(a1, a2, v7);
+        v9 = cdr_msf_to_lba(a1, a2, v7);
         ppf_apply_patch_to_sector(v9, (int)Buffer);
       }
       if ( cd_savefake_flag == 1 )
@@ -302,7 +302,7 @@ LABEL_66:
       }
       if ( ppf_enabled )
       {
-        v35 = sub_42C6D0(a1, v6, v7);
+        v35 = cdr_msf_to_lba(a1, v6, v7);
         ppf_apply_patch_to_sector(v35, (int)v10);
       }
       if ( cd_savefake_flag == 1 )

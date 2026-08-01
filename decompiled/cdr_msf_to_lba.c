@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl sub_42C6D0(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3)
+int __cdecl cdr_msf_to_lba(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3)
 {
   int v3; // ecx
   int v4; // eax

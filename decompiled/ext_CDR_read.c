@@ -17,7 +17,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
     iso_read_data(a1, a2, a3, (int)Buffer);
     if ( ppf_enabled )
     {
-      v5 = sub_42C6D0(a1, a2, a3);
+      v5 = cdr_msf_to_lba(a1, a2, a3);
       ppf_apply_patch_to_sector(v5, (int)Buffer);
     }
     if ( cd_savefake_flag == 1 )
@@ -37,7 +37,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
     qmemcpy(Buffer + 12, v6, 0x930u);
     if ( ppf_enabled )
     {
-      v8 = sub_42C6D0(a1, a2, a3);
+      v8 = cdr_msf_to_lba(a1, a2, a3);
       ppf_apply_patch_to_sector(v8, (int)Buffer);
       v7 = Buffer;
     }

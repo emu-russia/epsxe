@@ -1,46 +1,46 @@
 #include "pch.h"
 void __cdecl cdr_reg3_write(char a1)
 {
-  if ( byte_50BF66 )
+  if ( g_cdr_param_fifo_count )
   {
     if ( a1 == 32 )
-      byte_50BF66 = 0;
+      g_cdr_param_fifo_count = 0;
   }
   else
   {
-    byte_50AF07[65] |= 0x40u;
-    if ( byte_50AF07[64] != 1 || (byte_50AF07[64] = 2, a1 != 7) )
-      byte_50AF07[64] = 0;
-    if ( byte_50AEC2 && a1 == 7 )
+    g_cdr_status_regs[65] |= 0x40u;
+    if ( g_cdr_status_regs[64] != 1 || (g_cdr_status_regs[64] = 2, a1 != 7) )
+      g_cdr_status_regs[64] = 0;
+    if ( g_cdr_irq_pending && a1 == 7 )
     {
-      if ( byte_50AF07[62] == 1 && byte_50BF7D )
-        --byte_50BF7D;
-      byte_50AF07[62] = 0;
-      if ( (unsigned __int8)byte_50AEC1 >= (unsigned __int8)byte_50AEC0 && byte_50AF07[63] )
+      if ( g_cdr_status_regs[62] == 1 && g_cdr_retry_count )
+        --g_cdr_retry_count;
+      g_cdr_status_regs[62] = 0;
+      if ( (unsigned __int8)g_cdr_response_index >= (unsigned __int8)g_cdr_response_size && g_cdr_status_regs[63] )
       {
-        if ( byte_50AF07[60] )
+        if ( g_cdr_status_regs[60] )
         {
-          qmemcpy(dword_50AE80, &dword_50AF03, (unsigned __int8)byte_50AF07[60]);
-          byte_50AEC0 = byte_50AF07[60];
-          byte_50AEC1 = 0;
-          byte_50AF07[60] = 0;
-          byte_50AEC2 = 1;
+          qmemcpy(g_cdr_response_fifo, &g_cdr_primary_response, (unsigned __int8)g_cdr_status_regs[60]);
+          g_cdr_response_size = g_cdr_status_regs[60];
+          g_cdr_response_index = 0;
+          g_cdr_status_regs[60] = 0;
+          g_cdr_irq_pending = 1;
         }
-        byte_50AF07[62] = byte_50AF07[63];
-        byte_50AF07[63] = 0;
-        if ( byte_50BF84 != 24 )
+        g_cdr_status_regs[62] = g_cdr_status_regs[63];
+        g_cdr_status_regs[63] = 0;
+        if ( g_cdr_irq_mode != 24 )
           irq_cdrom_assert_int();
-        if ( byte_50BF6A )
+        if ( g_cdr_secondary_response_size )
         {
-          if ( byte_50BF6B )
+          if ( g_cdr_secondary_response_index )
           {
-            qmemcpy(&dword_50AF03, &dword_50BF6C, (unsigned __int8)byte_50BF6B);
-            byte_50AF07[60] = byte_50BF6B;
-            byte_50AEC2 = 1;
-            byte_50BF6B = 0;
+            qmemcpy(&g_cdr_primary_response, &g_cdr_secondary_response, (unsigned __int8)g_cdr_secondary_response_index);
+            g_cdr_status_regs[60] = g_cdr_secondary_response_index;
+            g_cdr_irq_pending = 1;
+            g_cdr_secondary_response_index = 0;
           }
-          byte_50AF07[63] = byte_50BF6A;
-          byte_50BF6A = 0;
+          g_cdr_status_regs[63] = g_cdr_secondary_response_size;
+          g_cdr_secondary_response_size = 0;
         }
       }
     }
