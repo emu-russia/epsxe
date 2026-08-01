@@ -1,5 +1,5 @@
 #include "pch.h"
-int issue_big_motor()
+int joy_issue_big_motor()
 {
   int result; // eax
 

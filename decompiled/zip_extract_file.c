@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl zip_extract_file(char *FileName, char *a2, LPVOID *a3, size_t *a4)
+int __cdecl zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a4)
 {
   FILE *v4; // eax
   FILE *v5; // ebp
@@ -16,9 +16,9 @@ int __cdecl zip_extract_file(char *FileName, char *a2, LPVOID *a3, size_t *a4)
   __int16 v18; // [esp+1Ah] [ebp-8Ah]
   __int16 v19; // [esp+1Ch] [ebp-88h]
   __int16 v20; // [esp+1Eh] [ebp-86h]
-  ZipLocalFileHeaderInMem a3a; // [esp+2Ch] [ebp-78h] BYREF
+  ZipLocalFileHeaderInMem a3; // [esp+2Ch] [ebp-78h] BYREF
   char ArgList[32]; // [esp+50h] [ebp-54h] BYREF
-  ZipCentralDirectoryEntry a2a; // [esp+70h] [ebp-34h] BYREF
+  ZipCentralDirectoryEntry a2; // [esp+70h] [ebp-34h] BYREF
 
   lpMem = nullptr;
   v14 = nullptr;
@@ -50,40 +50,40 @@ int __cdecl zip_extract_file(char *FileName, char *a2, LPVOID *a3, size_t *a4)
         v8 = ArgList;
         do
         {
-          v13 = *a2++;
+          v13 = *arg4++;
           v9 = toupper(v13);
           *v8++ = v9;
         }
         while ( v9 );
-        file_size = zip_load_central_directory(v5, ArgList, (int)&v16, &a2a);
+        file_size = zip_load_central_directory(v5, ArgList, (int)&v16, &a2);
         if ( file_size )
         {
           zip_print("Could not find %s in zipfile %s\n", ArgList, *(_DWORD *)zip_filename);
         }
         else
         {
-          file_size = zip_read_local_file_header(v5, (int)&a2a, &a3a, (unsigned __int8 *)&zip_central_dir_buffer);
+          file_size = zip_read_local_file_header(v5, (int)&a2, &a3, (unsigned __int8 *)&zip_central_dir_buffer);
           if ( !file_size )
           {
-            if ( a3a.compression_method )
+            if ( a3.compression_method )
             {
-              if ( a3a.compression_method == 8 )
+              if ( a3.compression_method == 8 )
               {
-                file_size = zip_read_compressed_data_to_buffer(v5, (int)&a2a, (int)&a3a, &lpMem);
+                file_size = zip_read_compressed_data_to_buffer(v5, (int)&a2, (int)&a3, &lpMem);
                 if ( file_size )
                 {
                   zip_print("Could not create input buffer for zipfile %s\n", *(const char **)zip_filename);
                   goto LABEL_13;
                 }
                 zipfile_input_buffer = (int)lpMem;
-                v11 = malloc(a3a.uncompressed_size);
+                v11 = malloc(a3.uncompressed_size);
                 v14 = v11;
                 if ( !v11 )
                 {
                   zip_print(
                     "Couldn't allocate %d bytes for zipfile %s output buffer\n",
                     *(_DWORD *)zip_filename,
-                    (const char *)a3a.uncompressed_size);
+                    (const char *)a3.uncompressed_size);
                   file_size = -1;
                   goto LABEL_13;
                 }
@@ -106,15 +106,15 @@ int __cdecl zip_extract_file(char *FileName, char *a2, LPVOID *a3, size_t *a4)
             }
             else
             {
-              file_size = zip_read_compressed_data_to_buffer(v5, (int)&a2a, (int)&a3a, &v14);
+              file_size = zip_read_compressed_data_to_buffer(v5, (int)&a2, (int)&a3, &v14);
               if ( file_size )
               {
                 zip_print("Couldn't extract uncompressed file from zipfile %s\n", *(const char **)zip_filename);
                 goto LABEL_13;
               }
             }
-            *a3 = v14;
-            *a4 = a3a.uncompressed_size;
+            *arg8 = v14;
+            *a4 = a3.uncompressed_size;
             v14 = nullptr;
             goto LABEL_13;
           }

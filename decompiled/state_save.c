@@ -6,7 +6,7 @@ _DWORD *state_save()
   char v2[64]; // [esp+8h] [ebp-440h] BYREF
   char Buffer[1024]; // [esp+48h] [ebp-400h] BYREF
 
-  sprintf(Buffer, "%s%s.%03d", "sstates\\", ppf_default_filename, (unsigned __int8)gpu_freeze_counter);
+  sprintf(Buffer, "%s%s.%03d", "sstates\\", default_filename, (unsigned __int8)gpu_freeze_counter);
   memset(v2, 0, sizeof(v2));
   result = gzopen(Buffer, "wb1");
   v1 = result;
@@ -17,9 +17,9 @@ _DWORD *state_save()
       *(_WORD *)&v2[5] = 2;
     else
       *(_WORD *)&v2[5] = save_state_ver;
-    *(_DWORD *)&v2[7] = *(_DWORD *)ppf_default_filename;
-    *(_DWORD *)&v2[11] = *(_DWORD *)&ppf_default_filename[4];
-    *(_DWORD *)&v2[15] = *(_DWORD *)&ppf_default_filename[8];
+    *(_DWORD *)&v2[7] = *(_DWORD *)default_filename;
+    *(_DWORD *)&v2[11] = *(_DWORD *)&default_filename[4];
+    *(_DWORD *)&v2[15] = *(_DWORD *)&default_filename[8];
     gzwrite((int)v1, (unsigned __int8 *)v2, 0x40u);
     sprintf(v2, "PSX");
     *(_DWORD *)&v2[3] = 364;

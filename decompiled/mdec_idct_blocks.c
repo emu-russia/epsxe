@@ -13,7 +13,7 @@ void __cdecl mdec_idct_blocks(int a1)
   v2 = 0;
   v6 = mdec_idct_buffer_end;
   v7 = mdec_idct_buffer;
-  for ( i = (__m64 *)MEMORY[0x50C3E0]; v2 < 6 * a1; v6 += 32 )
+  for ( i = (__m64 *)byte_50C3E0; v2 < 6 * a1; v6 += 32 )
   {
     if ( mdec_nonzero_counts[v2] )
     {

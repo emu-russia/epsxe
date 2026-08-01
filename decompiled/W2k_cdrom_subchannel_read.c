@@ -64,7 +64,7 @@ char W2k_cdrom_subchannel_read()
     result = use_subchannel;
     if ( use_subchannel )
     {
-      sprintf(Buffer, "%s%s.SUB", "patches\\", ppf_default_filename);
+      sprintf(Buffer, "%s%s.SUB", "patches\\", default_filename);
       Stream = fopen(Buffer, "rb");
       if ( Stream )
       {
@@ -83,7 +83,7 @@ char W2k_cdrom_subchannel_read()
         }
         return result;
       }
-      sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+      sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
       v2 = fopen(Buffer, "rb");
       if ( v2 )
       {
@@ -177,7 +177,7 @@ char W2k_cdrom_subchannel_read()
         }
         while ( v8 );
         dword_504C8C = 6;
-        sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+        sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
         v11 = fopen(Buffer, "wb");
         v12 = v11;
         if ( v11 )
@@ -224,7 +224,7 @@ char W2k_cdrom_subchannel_read()
             ++v40;
           }
           while ( v40 < 0x3Cu );
-          sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+          sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
           v16 = fopen(Buffer, "wb");
           v17 = v16;
           if ( v16 )
@@ -305,7 +305,7 @@ LABEL_101:
             ++v41;
           }
           while ( v41 < 0x3Cu );
-          sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+          sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
           v26 = fopen(Buffer, "wb");
           if ( !v26 )
             goto LABEL_88;
@@ -356,7 +356,7 @@ LABEL_101:
             ++v42;
           }
           while ( v42 < 0x3Cu );
-          sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+          sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
           v34 = fopen(Buffer, "wb");
           v26 = v34;
           if ( !v34 )
@@ -400,7 +400,7 @@ LABEL_88:
         ++v43;
       }
       while ( v43 < 0x3Cu );
-      sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+      sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
       v38 = fopen(Buffer, "wb");
       if ( v38 )
       {

@@ -34,7 +34,7 @@ char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer)
   if ( cheat_db[v2].parasite_eve_cheat != 0xFF )
     parasite_eve_cheat = cheat_db[v2].parasite_eve_cheat;
   if ( cheat_db[v2].byte_455FA4 != 0xFF )
-    byte_455FA4 = cheat_db[v2].byte_455FA4;
+    cd_inc = cheat_db[v2].byte_455FA4;
   if ( cheat_db[v2].byte_4F75AA != 0xFF )
     byte_4F75AA = cheat_db[v2].byte_4F75AA;
   if ( cheat_db[v2].nocdstatus != 0xFF )

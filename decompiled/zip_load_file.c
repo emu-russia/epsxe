@@ -27,7 +27,7 @@ int __cdecl zip_load_file(char *FileName)
     {
       if ( v5 == v6 && v7 == v8 && v8 )
       {
-        zip_load_local_file_headers(v2, (int)&v4, (int)v9);
+        zip_load_local_file_headers(v2, (int)&v4, (ZipCentralDirectoryEntryInMem *)v9);
         fclose(v2);
         return 0;
       }

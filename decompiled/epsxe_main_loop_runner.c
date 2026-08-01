@@ -13,7 +13,7 @@ void __noreturn epsxe_main_loop_runner()
     mem_clear_memory();
     loader_load_cheats();
     loader_load_bios();
-    clear_cpu_regs();
+    cpu_clear_regs();
     select_plugins_backend();
     clear_hw_regs();
     if ( !reset_flag )
@@ -40,7 +40,7 @@ void __noreturn epsxe_main_loop_runner()
     reset_flag = 0;
     ppf_enabled = old_auto_ppf_load;
     ppf_load_patch();
-    sub_42B1E0();
+    cpu_load_bios_shell();
     if ( loaded_file_type == 1 || loaded_file_type == 3 )
     {
       if ( fastboot )
@@ -48,7 +48,7 @@ void __noreturn epsxe_main_loop_runner()
     }
     else if ( loaded_file_type == 4 )
     {
-      if ( BYTE1(dword_4F831C) )
+      if ( BYTE1(byte_4F831C) )
         loader_load_demo("libps.exe");
       if ( loader_touch_demo_file() )
         loader_load_zip();
@@ -63,7 +63,7 @@ void __noreturn epsxe_main_loop_runner()
     }
     else
     {
-      sub_42B2A0();
+      cpu_execute();
     }
   }
 }

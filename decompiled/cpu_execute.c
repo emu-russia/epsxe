@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_42B2A0()
+int cpu_execute()
 {
   unsigned int v0; // esi
   unsigned __int8 v1; // dl
@@ -24,9 +24,9 @@ int sub_42B2A0()
     while ( 1 )
     {
       v0 = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
-      v1 = dword_4F831C;
+      v1 = byte_4F831C;
       cpu_opcode = v0;
-      if ( (_BYTE)dword_4F831C )
+      if ( byte_4F831C )
       {
         v2 = 0;
         v16 = 0;
@@ -60,7 +60,7 @@ int sub_42B2A0()
           v16 = ++v2;
         }
         while ( v2 < v1 );
-        LOBYTE(dword_4F831C) = v1;
+        byte_4F831C = v1;
         cpu_opcode = v0;
       }
       if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0x1F800000 )

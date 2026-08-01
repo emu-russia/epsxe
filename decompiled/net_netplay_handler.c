@@ -16,7 +16,7 @@ char net_netplay_handler()
   if ( network_enabled )
   {
     dword_50A1E0 = NETqueryPlayer();
-    if ( (unsigned __int8)NETcompareData(ppf_default_filename, 12) )
+    if ( (unsigned __int8)NETcompareData(default_filename, 12) )
       fatal_error_with_message_box(" * NETPLAY: Error psx game is different in every site. \n");
     byte_50A201[0] = fastboot;
     byte_50A200 = sound_enabled;

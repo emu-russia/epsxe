@@ -9,7 +9,7 @@ int loader_cdrom_detect_region()
   if ( loaded_file_type != 3 && loaded_file_type != 1 )
   {
     sprintf(Buffer, "DEMO_999.99");
-    result = sprintf(ppf_default_filename, "%s", Buffer);
+    result = sprintf(default_filename, "%s", Buffer);
     dword_45593C = 262;
     cpu_speed_scale = 2154;
     country_setting = 0;
@@ -18,11 +18,11 @@ int loader_cdrom_detect_region()
   cdfs_load_executable(Buffer);
   if ( Buffer[strlen(Buffer) - 2] == ';' )
     Buffer[strlen(Buffer) - 2] = 0;
-  sprintf(ppf_default_filename, "%s", Buffer);
-  for ( i = 0; i < strlen(ppf_default_filename); ++i )
-    ppf_default_filename[i] = towupper(ppf_default_filename[i]);
-  loader_parse_cheat_entry(ppf_default_filename, Buffer);
-  sub_41BDC0(ppf_default_filename);
+  sprintf(default_filename, "%s", Buffer);
+  for ( i = 0; i < strlen(default_filename); ++i )
+    default_filename[i] = towupper(default_filename[i]);
+  loader_parse_cheat_entry(default_filename, Buffer);
+  sub_41BDC0(default_filename);
   if ( country_setting == 1 )
   {
     v2 = " * Force PAL cdrom detected. \n";
@@ -35,7 +35,7 @@ int loader_cdrom_detect_region()
       cpu_speed_scale = old_timing != 0 ? 1916 : 2154;
       return dbg_print(" * Force NTSC cdrom detected. \n");
     }
-    if ( ppf_default_filename[2] != 'E' && ppf_default_filename[2] != 'e' )
+    if ( default_filename[2] != 'E' && default_filename[2] != 'e' )
     {
       country_setting = 0;
       dword_45593C = 262;

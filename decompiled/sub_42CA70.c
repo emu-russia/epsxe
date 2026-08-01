@@ -32,7 +32,7 @@ void sub_42CA70()
           {
             dword_50AE80[1] = 1;
             dword_50AE80[2] = 0x80;
-            if ( byte_455FA5 )
+            if ( report_mode_enabled )
               dword_50AE80[3] = cdr_sub_42B680(dword_50AF50);
             else
               dword_50AE80[3] = 0;

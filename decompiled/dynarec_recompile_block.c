@@ -8,7 +8,7 @@ char *__cdecl dynarec_recompile_block(int a1)
   if ( (unsigned int)(a1 - (_DWORD)recomp_code_base) >= 0x200000 )
     v1 -= 0x40600000;
   *(_DWORD *)reg_pc = v1;
-  dynarec_compile(v1, 20480);
+  dynarec_compile(v1, 0x5000u);
   if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0xBFC00000 )
     v2 = (*(_DWORD *)reg_pc & 0x7FFFF) + 0x200000;
   else

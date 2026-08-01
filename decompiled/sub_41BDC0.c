@@ -22,19 +22,19 @@ char __cdecl sub_41BDC0(const char *a1)
       v9 = mini_cheat_count;
       do
       {
-        if ( !strcmp(a1, (const char *)v2 - 20) && (unsigned __int8)dword_4F831C < 0x10u )
+        if ( !strcmp(a1, (const char *)v2 - 20) && (unsigned __int8)byte_4F831C < 0x10u )
         {
           v3 = *v2;
           v4 = *(v2 - 1);
-          v5 = 2 * (unsigned __int8)dword_4F831C;
+          v5 = 2 * (unsigned __int8)byte_4F831C;
           dword_5B6DC0[v5] = v3;
           dword_5B6DC4[v5] = v4;
           if ( !sub_41BD60(v4, v3) )
           {
-            v6 = dword_4F831C + 1;
+            v6 = byte_4F831C + 1;
             dword_5B6DC0[v5] = v3;
             dword_5B6DC4[v5] = v4;
-            LOBYTE(dword_4F831C) = v6;
+            LOBYTE(byte_4F831C) = v6;
           }
           v2 = (int *)v8;
         }

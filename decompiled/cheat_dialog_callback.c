@@ -19,7 +19,7 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
 
   if ( a2 == 272 )
   {
-    for ( i = 0; i < (unsigned __int8)dword_4F831C; ++i )
+    for ( i = 0; i < (unsigned __int8)byte_4F831C; ++i )
     {
       sprintf(lParam, "  %06x    %08x", dword_5B6DC4[2 * i], dword_5B6DC0[2 * i]);
       SendDlgItemMessageA(hDlg, 1142, 0x180u, 0, (LPARAM)lParam);
@@ -70,7 +70,7 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
         return 0;
       case 1058:
         v4 = SendDlgItemMessageA(hDlg, 1142, 0x18Bu, 0, 0);
-        LOBYTE(dword_4F831C) = 0;
+        byte_4F831C = 0;
         if ( v4 )
         {
           do
@@ -80,10 +80,10 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
             sscanf(
               lParam,
               "  %06x    %08x",
-              &dword_5B6DC4[2 * (unsigned __int8)dword_4F831C],
-              &dword_5B6DC0[2 * (unsigned __int8)dword_4F831C]);
+              &dword_5B6DC4[2 * (unsigned __int8)byte_4F831C],
+              &dword_5B6DC0[2 * (unsigned __int8)byte_4F831C]);
             v4 = v5;
-            LOBYTE(dword_4F831C) = dword_4F831C + 1;
+            ++byte_4F831C;
           }
           while ( v5 );
         }

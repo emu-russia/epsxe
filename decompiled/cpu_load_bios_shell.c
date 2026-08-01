@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int sub_42B1E0()
+unsigned int cpu_load_bios_shell()
 {
   int v0; // ecx
   unsigned int result; // eax

@@ -1,5 +1,5 @@
 #include "pch.h"
-_BYTE *__cdecl gpu_draw_no_save_pic(char *a1, int a2)
+_BYTE *__cdecl gpu_sub_42EB00(char *a1, int a2)
 {
   char *v2; // esi
   char *v3; // edx
@@ -19,7 +19,7 @@ _BYTE *__cdecl gpu_draw_no_save_pic(char *a1, int a2)
 
   v2 = a1 + 309;
   gpu_draw_text_on_screen("NO SAVE PIC", a1);
-  v3 = &byte_4560D0[120 * a2];
+  v3 = &gpu_save_pic_data[120 * a2];
   v4 = 20;
   do
   {

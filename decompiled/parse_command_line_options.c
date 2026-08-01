@@ -37,7 +37,7 @@ LABEL_146:
         }
         if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-pslib") )
         {
-          BYTE1(dword_4F831C) = 1;
+          BYTE1(byte_4F831C) = 1;
           goto LABEL_146;
         }
         if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocdoverwrite") )
@@ -328,12 +328,12 @@ LABEL_146:
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noignorecmd") )
                 {
-                  byte_455FA3 = 0;
+                  ignore_cmd = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocdinc") )
                 {
-                  byte_455FA4 = 0;
+                  cd_inc = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noppf") )
@@ -370,7 +370,7 @@ LABEL_146:
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-disablereportmode") )
                 {
-                  byte_455FA5 = 0;
+                  report_mode_enabled = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-hdev") )

@@ -6,7 +6,7 @@ int __cdecl zip_locate_central_dir(FILE *Stream, int *a2)
   int v4; // edi
   BOOL end_of_central_dir_signature; // ebx
   unsigned __int8 *v7; // esi
-  int uint32_le; // eax
+  uint32_t uint32_le; // eax
   int *v9; // edi
 
   v2 = zip_file_size;

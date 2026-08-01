@@ -335,14 +335,14 @@ LABEL_78:
       v11 = dword_4FD8D0;
       goto LABEL_78;
     }
-    byte_44DD44 = -1;
+    edit_button_id = -1;
     v13 = dword_4FD884[2 * (unsigned __int8)pad_number_menu_selection];
     v14 = mdec_disable_flag[2 * (unsigned __int8)pad_number_menu_selection];
     qmemcpy(byte_8A9500, &word_455FA8[16 * (unsigned __int8)pad_number_menu_selection], sizeof(byte_8A9500));
     dword_8B1548 = v13;
     dword_8B154C = v14;
     controller_set_keyboard(hDlg, 0xFFu);
-    controller_set_joypad(hDlg, (unsigned __int8)byte_44DD44);
+    controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
     sprintf(String, "PAD NUMBER %d", (unsigned __int8)pad_number_menu_selection);
     SetDlgItemTextA(hDlg, 1049, String);
     SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: NONE");
@@ -359,70 +359,70 @@ LABEL_78:
     switch ( (__int16)a3 )
     {
       case 1023:
-        byte_44DD44 = -1;
+        edit_button_id = -1;
         cont_set_default(pad_number_menu_selection);
         v29 = hDlg;
-        controller_set_keyboard(hDlg, (unsigned __int8)byte_44DD44);
+        controller_set_keyboard(hDlg, (unsigned __int8)edit_button_id);
         goto LABEL_203;
       case 1031:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: L2");
-        byte_44DD44 = 9;
+        edit_button_id = 9;
         return 0;
       case 1032:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: L1");
-        byte_44DD44 = 8;
+        edit_button_id = 8;
         return 0;
       case 1033:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: UP");
-        byte_44DD44 = 2;
+        edit_button_id = 2;
         return 0;
       case 1034:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: LEFT");
-        byte_44DD44 = 0;
+        edit_button_id = 0;
         return 0;
       case 1035:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: DOWN");
-        byte_44DD44 = 3;
+        edit_button_id = 3;
         return 0;
       case 1036:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: RIGHT");
-        byte_44DD44 = 1;
+        edit_button_id = 1;
         return 0;
       case 1038:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: SELECT");
-        byte_44DD44 = 13;
+        edit_button_id = 13;
         return 0;
       case 1039:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: START");
-        byte_44DD44 = 12;
+        edit_button_id = 12;
         return 0;
       case 1040:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: R2");
-        byte_44DD44 = 11;
+        edit_button_id = 11;
         return 0;
       case 1041:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: R1");
-        byte_44DD44 = 10;
+        edit_button_id = 10;
         return 0;
       case 1042:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: TRIANGLE");
-        byte_44DD44 = 4;
+        edit_button_id = 4;
         return 0;
       case 1043:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: CIRCLE");
-        byte_44DD44 = 5;
+        edit_button_id = 5;
         return 0;
       case 1044:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: X");
-        byte_44DD44 = 6;
+        edit_button_id = 6;
         return 0;
       case 1045:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: SQUARE");
-        byte_44DD44 = 7;
+        edit_button_id = 7;
         return 0;
       case 1046:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: L3");
-        byte_44DD44 = 14;
+        edit_button_id = 14;
         return 0;
       case 1047:
         v27 = (unsigned __int8)pad_number_menu_selection;
@@ -571,34 +571,34 @@ LABEL_78:
         return 1;
       case 1049:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: NONE");
-        byte_44DD44 = -1;
+        edit_button_id = -1;
         return 0;
       case 1050:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: R3");
-        byte_44DD44 = 15;
+        edit_button_id = 15;
         return 0;
       case 1051:
         SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: Y1");
-        byte_44DD44 = 17;
+        edit_button_id = 17;
         return 0;
       case 1052:
         SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: X1");
-        byte_44DD44 = 16;
+        edit_button_id = 16;
         return 0;
       case 1053:
         SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: X2");
-        byte_44DD44 = 18;
+        edit_button_id = 18;
         return 0;
       case 1054:
         SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: Y2");
-        byte_44DD44 = 19;
+        edit_button_id = 19;
         return 0;
       case 1055:
-        byte_44DD44 = -1;
+        edit_button_id = -1;
         cont_sub_42DCC0(pad_number_menu_selection);
         v29 = hDlg;
-        controller_set_keyboard(hDlg, (unsigned __int8)byte_44DD44);
-        controller_set_joypad(hDlg, (unsigned __int8)byte_44DD44);
+        controller_set_keyboard(hDlg, (unsigned __int8)edit_button_id);
+        controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
 LABEL_203:
         SetDlgItemTextA(v29, 1060, "EDIT BUTTON: NONE");
         result = 0;
@@ -610,11 +610,11 @@ LABEL_203:
   }
   if ( a2 != 275 )
     return 0;
-  v15 = byte_44DD44;
-  LOBYTE(v40) = byte_44DD44;
-  if ( (unsigned __int8)byte_44DD44 >= 0x10u )
+  v15 = edit_button_id;
+  LOBYTE(v40) = edit_button_id;
+  if ( (unsigned __int8)edit_button_id >= 0x10u )
   {
-    if ( (unsigned __int8)byte_44DD44 >= 0x14u )
+    if ( (unsigned __int8)edit_button_id >= 0x14u )
       return 1;
     v19 = 0;
     v32 = 0;
@@ -643,7 +643,7 @@ LABEL_203:
       return 1;
     sub_42DBC0((unsigned __int8)v40 + 4 * (unsigned __int8)pad_number_menu_selection - 20, v19);
     controller_set_joypad(hDlg, v15 - 16);
-    byte_44DD44 = v15;
+    edit_button_id = v15;
     return 1;
   }
   memset(g_KeyboardStatePrev, 0, 0x200u);

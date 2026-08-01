@@ -1,8 +1,8 @@
 #include "pch.h"
-unsigned int op_RFE()
+int op_RFE()
 {
   unsigned int v0; // eax
-  unsigned int result; // eax
+  int result; // eax
 
   v0 = dword_50C2A4;
   if ( (dword_50C2A4 & 1) != 0 )

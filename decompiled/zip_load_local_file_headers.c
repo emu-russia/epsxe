@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl zip_load_local_file_headers(FILE *Stream, int a2, ZipCentralDirectoryEntryInMem *a3)
+int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2)
 {
   size_t v3; // esi
   int v5; // ebx
@@ -11,13 +11,13 @@ int __cdecl zip_load_local_file_headers(FILE *Stream, int a2, ZipCentralDirector
   char *v11; // eax
   char *v12; // edx
   char v13; // cl
-  ZipLocalFileHeaderInMem a3a; // [esp+8h] [ebp-124h] BYREF
+  ZipLocalFileHeaderInMem a3; // [esp+8h] [ebp-124h] BYREF
   _BYTE v15[256]; // [esp+2Ch] [ebp-100h] BYREF
 
-  v3 = *(_DWORD *)(a2 + 12);
+  v3 = *(_DWORD *)(arg4 + 12);
   if ( v3 > 0x2000 )
     v3 = 0x2000;
-  if ( fseek(Stream, *(_DWORD *)(a2 + 16), 0) )
+  if ( fseek(Stream, *(_DWORD *)(arg4 + 16), 0) )
   {
     zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)zip_filename);
     return -1;
@@ -26,24 +26,24 @@ int __cdecl zip_load_local_file_headers(FILE *Stream, int a2, ZipCentralDirector
   {
     v5 = 0;
     v6 = &zip_central_dir_buffer;
-    while ( v5 < *(unsigned __int16 *)(a2 + 10) )
+    while ( v5 < *(unsigned __int16 *)(arg4 + 10) )
     {
-      zip_parse_cd_entry(v6, a3);
+      zip_parse_cd_entry(v6, a2);
       v7 = 0;
-      if ( a3->filename_length )
+      if ( a2->filename_length )
       {
         do
         {
           if ( v7 >= 254 )
             break;
-          v8 = toupper(a3->filename[v7]);
-          filename_length = a3->filename_length;
+          v8 = toupper(a2->filename[v7]);
+          filename_length = a2->filename_length;
           v15[v7++] = v8;
         }
         while ( v7 < filename_length );
       }
       v15[v7] = 0;
-      if ( zip_read_local_file_header(Stream, (int)a3, &a3a, byte_4FA350) )
+      if ( zip_read_local_file_header(Stream, (int)a2, &a3, byte_4FA350) )
         zip_print("Error reading 'local file header' in zipfile %s\n", *(const char **)zip_filename);
       if ( v5 < 256 )
       {
@@ -57,13 +57,13 @@ int __cdecl zip_load_local_file_headers(FILE *Stream, int a2, ZipCentralDirector
           ++v11;
         }
         while ( v13 );
-        Size[v10] = a3a.uncompressed_size;
+        Size[v10] = a3.uncompressed_size;
         zip_num_entries_loaded = v10 + 1;
       }
       v6 = (ZipCentralDirectoryEntry *)((char *)v6
-                                      + a3->filename_length
-                                      + a3->extra_field_length
-                                      + a3->file_comment_length
+                                      + a2->filename_length
+                                      + a2->extra_field_length
+                                      + a2->file_comment_length
                                       + 46);
       ++v5;
     }

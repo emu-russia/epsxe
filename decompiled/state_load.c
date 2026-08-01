@@ -14,7 +14,7 @@ _DWORD *state_load()
   v1 = loaded_file_type;
   if ( !strcmp(state_file_from_cmdline, "NULL") )
   {
-    sprintf(Buffer, "%s%s.%03d", "sstates\\", ppf_default_filename, (unsigned __int8)gpu_freeze_counter);
+    sprintf(Buffer, "%s%s.%03d", "sstates\\", default_filename, (unsigned __int8)gpu_freeze_counter);
   }
   else
   {

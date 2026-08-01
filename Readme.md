@@ -4,7 +4,7 @@
 
 Тут появится ещё больше информации.
 
-Progress: 38 `sub_` left
+Progress: 34 `sub_` left
 
 ## Brief Changelog 
 

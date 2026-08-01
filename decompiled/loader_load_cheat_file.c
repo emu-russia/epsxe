@@ -9,7 +9,7 @@ FILE *__cdecl loader_load_cheat_file(char *FileName)
   int v6; // [esp+8h] [ebp-404h] BYREF
   char Buffer[1024]; // [esp+Ch] [ebp-400h] BYREF
 
-  LOBYTE(dword_4F831C) = 0;
+  LOBYTE(byte_4F831C) = 0;
   result = fopen(FileName, "r");
   v2 = result;
   if ( result )
@@ -23,10 +23,10 @@ FILE *__cdecl loader_load_cheat_file(char *FileName)
         if ( Buffer[0] != '#' && sscanf(Buffer, "%x %x", &v6, &v5) == 2 )
         {
           v3 = v5;
-          v4 = 2 * (unsigned __int8)dword_4F831C;
+          v4 = 2 * (unsigned __int8)byte_4F831C;
           dword_5B6DC4[v4] = v6;
           dword_5B6DC0[v4] = v3;
-          LOBYTE(dword_4F831C) = dword_4F831C + 1;
+          LOBYTE(byte_4F831C) = byte_4F831C + 1;
         }
       }
       while ( (v2->_flag & 0x10) == 0 );

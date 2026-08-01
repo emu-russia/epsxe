@@ -1,5 +1,5 @@
 #include "pch.h"
-int clear_cpu_regs()
+int cpu_clear_regs()
 {
   *(_DWORD *)reg_pc = 0xBFC00000;
   memset(cpu_gpr, 0, 0x80u);

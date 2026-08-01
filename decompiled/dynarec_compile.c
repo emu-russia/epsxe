@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
+int __cdecl dynarec_compile(unsigned int ArgList, int a2)
 {
   uint8_t *v2; // ebx
   unsigned int v3; // esi
@@ -198,7 +198,7 @@ int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
       *(_DWORD *)((char *)recomp_metadata + v6) = v159;
       v2 = code_ptr;
     }
-    if ( (_BYTE)dword_4F831C )
+    if ( byte_4F831C )
     {
       v8 = 0;
       ArgLista = 0;
@@ -211,10 +211,10 @@ int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
           if ( (v9 & 0xF0000000) == 0 )
           {
             v10 = v8 + 1;
-            if ( (unsigned __int8)(v8 + 1) < (unsigned __int8)dword_4F831C )
+            if ( (unsigned __int8)(v8 + 1) < (unsigned __int8)byte_4F831C )
             {
               v11 = (_DWORD *)(8 * v10 + 5991868);
-              v12 = (unsigned __int8)(dword_4F831C - v10);
+              v12 = (unsigned __int8)(byte_4F831C - v10);
               do
               {
                 *(v11 - 1) = v11[1];
@@ -224,12 +224,12 @@ int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
               }
               while ( v12 );
             }
-            LOBYTE(dword_4F831C) = dword_4F831C - 1;
+            --byte_4F831C;
           }
         }
         ArgLista = ++v8;
       }
-      while ( v8 < (unsigned __int8)dword_4F831C );
+      while ( v8 < (unsigned __int8)byte_4F831C );
       v2 = code_ptr;
     }
     ArgList += 4;

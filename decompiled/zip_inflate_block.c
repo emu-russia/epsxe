@@ -1,5 +1,5 @@
 #include "pch.h"
-unsigned int __cdecl zip_inflate_block(int *a1)
+int __cdecl zip_inflate_block(int *a1)
 {
   int v1; // ecx
   unsigned int v2; // eax
@@ -11,7 +11,7 @@ unsigned int __cdecl zip_inflate_block(int *a1)
   unsigned int v8; // ecx
   int v9; // edx
   int v10; // edx
-  unsigned int result; // eax
+  int result; // eax
   unsigned __int8 *v12; // eax
   int v13; // ebp
   int v14; // ecx
