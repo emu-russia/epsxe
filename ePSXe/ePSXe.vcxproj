@@ -61,6 +61,7 @@
     <ClCompile Include="..\src\cdrom_w9x.c" />
     <ClCompile Include="..\src\cdr_plugin.c" />
     <ClCompile Include="..\src\cfg.c" />
+    <ClCompile Include="..\src\cheat.c" />
     <ClCompile Include="..\src\cont.c" />
     <ClCompile Include="..\src\cpu.c" />
     <ClCompile Include="..\src\debug.c" />

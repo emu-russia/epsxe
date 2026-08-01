@@ -20,17 +20,12 @@ typedef struct _CHEAT_DB_ENTRY {
 	
 } CHEAT_DB_ENTRY;
 
-typedef struct _MINI_CHEAR_ENTRY {
+typedef struct _MINI_CHEAT_ENTRY {
 	
 	char id[16]; 			// "SLUS_008.45"
 	uint32_t attr; 		// 0x10023458
 	uint32_t unk;
 
-} MINI_CHEAR_ENTRY;
+} MINI_CHEAT_ENTRY;
 
 #pragma pack(pop)
-
-//cheat_entries_count dd 39
-
-//00450C78
-//00454CC0  = 200 + 1
