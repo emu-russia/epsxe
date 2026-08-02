@@ -217,7 +217,7 @@ void spu_dma()
           }
           while ( v9 );
         }
-        if ( dword_50C36C == 1 && v8 )
+        if ( dynarec_enabled == 1 && v8 )
           dynarec_invalidate_range(dword_516510, v8);
       }
       else
@@ -450,7 +450,7 @@ __int16 __cdecl spu_read_register(unsigned int a1)
 {
   int v1; // eax
 
-  if ( !byte_4F75AA || (a1 & 0xF) != 0xC )
+  if ( !unknown_cd_setting || (a1 & 0xF) != 0xC )
   {
     if ( spu_use_external_plugin == 1 )
     {

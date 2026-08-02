@@ -232,7 +232,7 @@ int zip_inflate_file()
   return result;
 }
 
-unsigned int __cdecl zip_inflate_block(int *a1)
+int __cdecl zip_inflate_block(int *a1)
 {
   int v1; // ecx
   unsigned int v2; // eax
@@ -244,7 +244,7 @@ unsigned int __cdecl zip_inflate_block(int *a1)
   unsigned int v8; // ecx
   int v9; // edx
   int v10; // edx
-  unsigned int result; // eax
+  int result; // eax
   unsigned __int8 *v12; // eax
   int v13; // ebp
   int v14; // ecx
@@ -1033,7 +1033,7 @@ unsigned int __cdecl zip_copy_sliding_window_to_output(const void *a1, unsigned 
   return a2;
 }
 
-int __cdecl zip_extract_file(char *FileName, char *a2, LPVOID *a3, size_t *a4)
+int __cdecl zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a4)
 {
   FILE *v4; // eax
   FILE *v5; // ebp
@@ -1050,9 +1050,9 @@ int __cdecl zip_extract_file(char *FileName, char *a2, LPVOID *a3, size_t *a4)
   __int16 v18; // [esp+1Ah] [ebp-8Ah]
   __int16 v19; // [esp+1Ch] [ebp-88h]
   __int16 v20; // [esp+1Eh] [ebp-86h]
-  ZipLocalFileHeaderInMem a3a; // [esp+2Ch] [ebp-78h] BYREF
+  ZipLocalFileHeaderInMem a3; // [esp+2Ch] [ebp-78h] BYREF
   char ArgList[32]; // [esp+50h] [ebp-54h] BYREF
-  ZipCentralDirectoryEntry a2a; // [esp+70h] [ebp-34h] BYREF
+  ZipCentralDirectoryEntry a2; // [esp+70h] [ebp-34h] BYREF
 
   lpMem = nullptr;
   v14 = nullptr;
@@ -1084,40 +1084,40 @@ int __cdecl zip_extract_file(char *FileName, char *a2, LPVOID *a3, size_t *a4)
         v8 = ArgList;
         do
         {
-          v13 = *a2++;
+          v13 = *arg4++;
           v9 = toupper(v13);
           *v8++ = v9;
         }
         while ( v9 );
-        file_size = zip_load_central_directory(v5, ArgList, (int)&v16, &a2a);
+        file_size = zip_load_central_directory(v5, ArgList, (int)&v16, &a2);
         if ( file_size )
         {
           zip_print("Could not find %s in zipfile %s\n", ArgList, *(_DWORD *)zip_filename);
         }
         else
         {
-          file_size = zip_read_local_file_header(v5, (int)&a2a, &a3a, (unsigned __int8 *)&zip_central_dir_buffer);
+          file_size = zip_read_local_file_header(v5, (int)&a2, &a3, (unsigned __int8 *)&zip_central_dir_buffer);
           if ( !file_size )
           {
-            if ( a3a.compression_method )
+            if ( a3.compression_method )
             {
-              if ( a3a.compression_method == 8 )
+              if ( a3.compression_method == 8 )
               {
-                file_size = zip_read_compressed_data_to_buffer(v5, (int)&a2a, (int)&a3a, &lpMem);
+                file_size = zip_read_compressed_data_to_buffer(v5, (int)&a2, (int)&a3, &lpMem);
                 if ( file_size )
                 {
                   zip_print("Could not create input buffer for zipfile %s\n", *(const char **)zip_filename);
                   goto LABEL_13;
                 }
                 zipfile_input_buffer = (int)lpMem;
-                v11 = malloc(a3a.uncompressed_size);
+                v11 = malloc(a3.uncompressed_size);
                 v14 = v11;
                 if ( !v11 )
                 {
                   zip_print(
                     "Couldn't allocate %d bytes for zipfile %s output buffer\n",
                     *(_DWORD *)zip_filename,
-                    (const char *)a3a.uncompressed_size);
+                    (const char *)a3.uncompressed_size);
                   file_size = -1;
                   goto LABEL_13;
                 }
@@ -1140,15 +1140,15 @@ int __cdecl zip_extract_file(char *FileName, char *a2, LPVOID *a3, size_t *a4)
             }
             else
             {
-              file_size = zip_read_compressed_data_to_buffer(v5, (int)&a2a, (int)&a3a, &v14);
+              file_size = zip_read_compressed_data_to_buffer(v5, (int)&a2, (int)&a3, &v14);
               if ( file_size )
               {
                 zip_print("Couldn't extract uncompressed file from zipfile %s\n", *(const char **)zip_filename);
                 goto LABEL_13;
               }
             }
-            *a3 = v14;
-            *a4 = a3a.uncompressed_size;
+            *arg8 = v14;
+            *a4 = a3.uncompressed_size;
             v14 = nullptr;
             goto LABEL_13;
           }
@@ -1233,7 +1233,7 @@ int __cdecl zip_load_file(char *FileName)
     {
       if ( v5 == v6 && v7 == v8 && v8 )
       {
-        zip_load_local_file_headers(v2, (int)&v4, (int)v9);
+        zip_load_local_file_headers(v2, (int)&v4, (ZipCentralDirectoryEntryInMem *)v9);
         fclose(v2);
         return 0;
       }
@@ -1319,7 +1319,7 @@ int __cdecl zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderI
   }
 }
 
-int __cdecl zip_load_central_directory(FILE *Stream, const char *a2, int a3, ZipCentralDirectoryEntry *a4)
+int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, int a3, ZipCentralDirectoryEntry *a2)
 {
   int v4; // ebp
   size_t v5; // esi
@@ -1346,24 +1346,24 @@ int __cdecl zip_load_central_directory(FILE *Stream, const char *a2, int a3, Zip
     a1 = &zip_central_dir_buffer;
     while ( v11 < *(unsigned __int16 *)(a3 + 10) )
     {
-      zip_parse_cd_entry(a1, (ZipCentralDirectoryEntryInMem *)a4);
+      zip_parse_cd_entry(a1, (ZipCentralDirectoryEntryInMem *)a2);
       v7 = 0;
-      if ( a4->filename_length )
+      if ( a2->filename_length )
       {
         do
         {
           if ( v7 >= 254 )
             break;
-          v8 = toupper(*(char *)(*(uint32_t *)((char *)&a4[1].signature + 2) + v7));
-          filename_length = a4->filename_length;
+          v8 = toupper(*(char *)(*(uint32_t *)((char *)&a2[1].signature + 2) + v7));
+          filename_length = a2->filename_length;
           v13[v7++] = v8;
         }
         while ( v7 < filename_length );
       }
       v13[v7] = 0;
-      if ( !zip_compare_filename_case_insensitive(v13, a2) )
+      if ( !zip_compare_filename_case_insensitive(v13, arg4) )
       {
-        compression_method = a4->compression_method;
+        compression_method = a2->compression_method;
         v4 = 1;
         if ( compression_method && compression_method != 8 )
         {
@@ -1371,31 +1371,31 @@ int __cdecl zip_load_central_directory(FILE *Stream, const char *a2, int a3, Zip
           zip_print(
             "Error in zipfile %s: compression method for file %s unsupported.\n",
             *(const char **)zip_filename,
-            a2);
-          zip_print("Method: $%04x  must be $0000 (Stored) or $0008 (Deflated)\n", a4->compression_method);
+            arg4);
+          zip_print("Method: $%04x  must be $0000 (Stored) or $0008 (Deflated)\n", a2->compression_method);
         }
-        if ( LOBYTE(a4->version_needed) > 0x14u )
+        if ( LOBYTE(a2->version_needed) > 0x14u )
         {
           v4 = 0;
-          zip_print("Error in zipfile %s: version for file %s too new.\n", *(const char **)zip_filename, a2);
-          zip_print("Version: $%02x must be $14 or less\n", LOBYTE(a4->version_needed));
+          zip_print("Error in zipfile %s: version for file %s too new.\n", *(const char **)zip_filename, arg4);
+          zip_print("Version: $%02x must be $14 or less\n", LOBYTE(a2->version_needed));
         }
-        if ( HIBYTE(a4->version_needed) )
+        if ( HIBYTE(a2->version_needed) )
         {
           v4 = 0;
-          zip_print("Error in zipfile %s: OS for file %s not supported.\n", *(const char **)zip_filename, a2);
-          zip_print("OS: $%02x must be $00\n", HIBYTE(a4->version_needed));
+          zip_print("Error in zipfile %s: OS for file %s not supported.\n", *(const char **)zip_filename, arg4);
+          zip_print("OS: $%02x must be $00\n", HIBYTE(a2->version_needed));
         }
-        if ( a4->disk_number_start != *(_WORD *)(a3 + 4) )
+        if ( a2->disk_number_start != *(_WORD *)(a3 + 4) )
         {
           v4 = 0;
           zip_print("Error in zipfile %s: zipfile cannot span disks\n", *(const char **)zip_filename);
         }
       }
       a1 = (ZipCentralDirectoryEntry *)((char *)a1
-                                      + a4->filename_length
-                                      + a4->extra_field_length
-                                      + a4->file_comment_length
+                                      + a2->filename_length
+                                      + a2->extra_field_length
+                                      + a2->file_comment_length
                                       + 46);
       ++v11;
       if ( v4 )
@@ -1410,7 +1410,7 @@ int __cdecl zip_load_central_directory(FILE *Stream, const char *a2, int a3, Zip
   }
 }
 
-int __cdecl zip_load_local_file_headers(FILE *Stream, int a2, ZipCentralDirectoryEntryInMem *a3)
+int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2)
 {
   size_t v3; // esi
   int v5; // ebx
@@ -1422,13 +1422,13 @@ int __cdecl zip_load_local_file_headers(FILE *Stream, int a2, ZipCentralDirector
   char *v11; // eax
   char *v12; // edx
   char v13; // cl
-  ZipLocalFileHeaderInMem a3a; // [esp+8h] [ebp-124h] BYREF
+  ZipLocalFileHeaderInMem a3; // [esp+8h] [ebp-124h] BYREF
   _BYTE v15[256]; // [esp+2Ch] [ebp-100h] BYREF
 
-  v3 = *(_DWORD *)(a2 + 12);
+  v3 = *(_DWORD *)(arg4 + 12);
   if ( v3 > 0x2000 )
     v3 = 0x2000;
-  if ( fseek(Stream, *(_DWORD *)(a2 + 16), 0) )
+  if ( fseek(Stream, *(_DWORD *)(arg4 + 16), 0) )
   {
     zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)zip_filename);
     return -1;
@@ -1437,30 +1437,30 @@ int __cdecl zip_load_local_file_headers(FILE *Stream, int a2, ZipCentralDirector
   {
     v5 = 0;
     v6 = &zip_central_dir_buffer;
-    while ( v5 < *(unsigned __int16 *)(a2 + 10) )
+    while ( v5 < *(unsigned __int16 *)(arg4 + 10) )
     {
-      zip_parse_cd_entry(v6, a3);
+      zip_parse_cd_entry(v6, a2);
       v7 = 0;
-      if ( a3->filename_length )
+      if ( a2->filename_length )
       {
         do
         {
           if ( v7 >= 254 )
             break;
-          v8 = toupper(a3->filename[v7]);
-          filename_length = a3->filename_length;
+          v8 = toupper(a2->filename[v7]);
+          filename_length = a2->filename_length;
           v15[v7++] = v8;
         }
         while ( v7 < filename_length );
       }
       v15[v7] = 0;
-      if ( zip_read_local_file_header(Stream, (int)a3, &a3a, byte_4FA350) )
+      if ( zip_read_local_file_header(Stream, (int)a2, &a3, byte_4FA350) )
         zip_print("Error reading 'local file header' in zipfile %s\n", *(const char **)zip_filename);
       if ( v5 < 256 )
       {
         v10 = zip_num_entries_loaded;
         v11 = v15;
-        v12 = &byte_566980[(zip_num_entries_loaded << 8) - (_DWORD)v15];
+        v12 = &zip_entry_names[(zip_num_entries_loaded << 8) - (_DWORD)v15];
         do
         {
           v13 = *v11;
@@ -1468,13 +1468,13 @@ int __cdecl zip_load_local_file_headers(FILE *Stream, int a2, ZipCentralDirector
           ++v11;
         }
         while ( v13 );
-        Size[v10] = a3a.uncompressed_size;
+        Size[v10] = a3.uncompressed_size;
         zip_num_entries_loaded = v10 + 1;
       }
       v6 = (ZipCentralDirectoryEntry *)((char *)v6
-                                      + a3->filename_length
-                                      + a3->extra_field_length
-                                      + a3->file_comment_length
+                                      + a2->filename_length
+                                      + a2->extra_field_length
+                                      + a2->file_comment_length
                                       + 46);
       ++v5;
     }
@@ -1592,7 +1592,7 @@ int __cdecl zip_locate_central_dir(FILE *Stream, int *a2)
   int v4; // edi
   BOOL end_of_central_dir_signature; // ebx
   unsigned __int8 *v7; // esi
-  int uint32_le; // eax
+  uint32_t uint32_le; // eax
   int *v9; // edi
 
   v2 = zip_file_size;

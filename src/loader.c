@@ -1,18 +1,17 @@
 #include "pch.h"
-
-char __cdecl sub_41BC30(int a1, int a2)
+char __cdecl loader_mini_cheat_find(int a1, int a2)
 {
   unsigned __int8 v2; // cl
   int v3; // eax
 
   v2 = 0;
-  if ( dword_44F9A8 <= 0 )
+  if ( mini_cheat_count <= 0 )
     return 0;
   v3 = 0;
-  while ( a1 != dword_5B6DC4[2 * v3] || a2 != dword_44F9C4[6 * v3] )
+  while ( a1 != mini_cheat_id_array[2 * v3] || a2 != *(_DWORD *)&mini_cheat_db[24 * v3 + 20] )
   {
     v3 = ++v2;
-    if ( v2 >= dword_44F9A8 )
+    if ( v2 >= mini_cheat_count )
       return 0;
   }
   return 1;
@@ -33,15 +32,17 @@ FILE *loader_load_cheats()
   {
     if ( (v0->_flag & 0x10) == 0 )
     {
-      v2 = dword_44F9A8;
+      v2 = mini_cheat_count;
       do
       {
         if ( v2 >= 200 )
           break;
         fread((void *)(24 * v2 + 4520368), 1u, 0x18u, v1);
-        v2 = dword_44F9A8;
-        if ( !sub_41BC30(dword_44F9C0[6 * dword_44F9A8], dword_44F9C4[6 * dword_44F9A8]) )
-          dword_44F9A8 = ++v2;
+        v2 = mini_cheat_count;
+        if ( !loader_mini_cheat_find(
+                *(_DWORD *)&mini_cheat_db[24 * mini_cheat_count + 16],
+                *(_DWORD *)&mini_cheat_db[24 * mini_cheat_count + 20]) )
+          mini_cheat_count = ++v2;
       }
       while ( (v1->_flag & 0x10) == 0 );
     }
@@ -68,25 +69,25 @@ FILE *loader_load_cheats()
   return result;
 }
 
-char __cdecl sub_41BD60(int a1, int a2)
+char __cdecl loader_mini_cheat_find_by_id(int a1, int a2)
 {
   unsigned __int8 v2; // cl
   unsigned __int8 v4; // [esp+8h] [ebp-4h]
 
   v2 = 0;
   v4 = 0;
-  if ( !(_BYTE)dword_4F831C )
+  if ( !active_mini_cheat_count )
     return 0;
-  while ( a1 != dword_5B6DC4[2 * v4] || a2 != dword_44F9C4[6 * v4] )
+  while ( a1 != mini_cheat_id_array[2 * v4] || a2 != *(_DWORD *)&mini_cheat_db[24 * v4 + 20] )
   {
     v4 = ++v2;
-    if ( v2 >= (unsigned __int8)dword_4F831C )
+    if ( v2 >= (unsigned __int8)active_mini_cheat_count )
       return 0;
   }
   return 1;
 }
 
-char __cdecl sub_41BDC0(const char *a1)
+char __cdecl loader_apply_mini_cheats(const char *a1)
 {
   char result; // al
   int *v2; // ebp
@@ -95,40 +96,40 @@ char __cdecl sub_41BDC0(const char *a1)
   int v5; // esi
   char v6; // al
   bool v7; // zf
-  int *v8; // [esp+0h] [ebp-8h]
+  const char *v8; // [esp+0h] [ebp-8h]
   int v9; // [esp+4h] [ebp-4h]
 
   result = noauto;
   if ( !noauto )
   {
-    result = dword_44F9A8;
-    if ( dword_44F9A8 )
+    result = mini_cheat_count;
+    if ( mini_cheat_count )
     {
-      v2 = dword_44F9C4;
-      v8 = dword_44F9C4;
-      v9 = dword_44F9A8;
+      v2 = (int *)&mini_cheat_db[20];
+      v8 = &mini_cheat_db[20];
+      v9 = mini_cheat_count;
       do
       {
-        if ( !strcmp(a1, (const char *)v2 - 20) && (unsigned __int8)dword_4F831C < 0x10u )
+        if ( !strcmp(a1, (const char *)v2 - 20) && (unsigned __int8)active_mini_cheat_count < 0x10u )
         {
           v3 = *v2;
           v4 = *(v2 - 1);
-          v5 = 2 * (unsigned __int8)dword_4F831C;
-          dword_5B6DC0[v5] = v3;
-          dword_5B6DC4[v5] = v4;
-          if ( !sub_41BD60(v4, v3) )
+          v5 = 2 * (unsigned __int8)active_mini_cheat_count;
+          mini_cheat_attr_array[v5] = v3;
+          mini_cheat_id_array[v5] = v4;
+          if ( !loader_mini_cheat_find_by_id(v4, v3) )
           {
-            v6 = dword_4F831C + 1;
-            dword_5B6DC0[v5] = v3;
-            dword_5B6DC4[v5] = v4;
-            LOBYTE(dword_4F831C) = v6;
+            v6 = active_mini_cheat_count + 1;
+            mini_cheat_attr_array[v5] = v3;
+            mini_cheat_id_array[v5] = v4;
+            active_mini_cheat_count = v6;
           }
-          v2 = v8;
+          v2 = (int *)v8;
         }
         v2 += 6;
         result = v9 - 1;
         v7 = v9 == 1;
-        v8 = v2;
+        v8 = (const char *)v2;
         --v9;
       }
       while ( !v7 );
@@ -161,24 +162,24 @@ char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer)
     ::mdectiming = mdectiming;
   dword_50C374 = cheat_db[v2].dword_50C374;
   if ( dword_50C374 != -1 )
-    ::dword_50C374 = dword_50C374;
+    unknown_timing_value = dword_50C374;
   if ( cheat_db[v2].forcespu != 0xFF )
     forcespu = cheat_db[v2].forcespu;
   forcepad = cheat_db[v2].forcepad;
   if ( forcepad != -1 )
     ::forcepad = forcepad;
   if ( cheat_db[v2].byte_455946 != 0xFF )
-    byte_455946 = cheat_db[v2].byte_455946;
+    cpu_overclock_setting = cheat_db[v2].byte_455946;
   if ( cheat_db[v2].parasite_eve_cheat != 0xFF )
     parasite_eve_cheat = cheat_db[v2].parasite_eve_cheat;
   if ( cheat_db[v2].byte_455FA4 != 0xFF )
-    byte_455FA4 = cheat_db[v2].byte_455FA4;
+    cd_inc = cheat_db[v2].byte_455FA4;
   if ( cheat_db[v2].byte_4F75AA != 0xFF )
-    byte_4F75AA = cheat_db[v2].byte_4F75AA;
+    unknown_cd_setting = cheat_db[v2].byte_4F75AA;
   if ( cheat_db[v2].nocdstatus != 0xFF )
     nocdstatus = cheat_db[v2].nocdstatus;
   if ( cheat_db[v2].byte_4FC4E6 != 0xFF )
-    byte_4FC4E6 = cheat_db[v2].byte_4FC4E6;
+    cd_extra_setting = cheat_db[v2].byte_4FC4E6;
   text = cheat_db[v2].text;
   if ( !strcmp("NULL", text) )
     return 0;
@@ -191,7 +192,7 @@ int __cdecl loader_set_bios_name(const char *a1)
   return sprintf((char *const)bios_name, "%s", a1);
 }
 
-int __cdecl sub_41C010(const char *a1)
+int __cdecl loader_set_filename(const char *a1)
 {
   return sprintf(FileName, "%s", a1);
 }
@@ -263,7 +264,7 @@ int __cdecl loader_load_demo(char *FileName)
   return fclose(v2);
 }
 
-int __cdecl sub_41C220(int a1, unsigned int *a2, unsigned int a3, const char *a4, int a5)
+int __cdecl loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, const char *a4, int a5)
 {
   unsigned int v5; // eax
   int v6; // eax
@@ -336,7 +337,7 @@ int __cdecl sub_41C220(int a1, unsigned int *a2, unsigned int a3, const char *a4
   return 2;
 }
 
-size_t __cdecl sub_41C390(const char *a1)
+size_t __cdecl loader_pll_get_file_size(const char *a1)
 {
   size_t result; // eax
   unsigned int v2; // edi
@@ -348,7 +349,7 @@ size_t __cdecl sub_41C390(const char *a1)
   v4 = 0x100000;
   if ( zip_num_entries_loaded )
   {
-    v3 = byte_566980;
+    v3 = zip_entry_names;
     do
     {
       if ( !strcmp(v3, a1) )
@@ -366,7 +367,7 @@ void __cdecl loader_load_file(char *a1, size_t Size)
 {
   char v2; // al
   int v3; // eax
-  size_t v4; // eax
+  size_t file_size; // eax
   char *v5; // ebp
   char *v6; // eax
   size_t v7; // eax
@@ -382,7 +383,7 @@ void __cdecl loader_load_file(char *a1, size_t Size)
   v12 = 0;
   if ( zip_extract_file(FileName, a1, &lpMem, (size_t *)&v11) )
     fatal_error_with_message_box(" * EPSX: error loading .pll file.");
-  v2 = sub_41C220((int)lpMem, &v12, v11, ArgList, (int)&v10);
+  v2 = loader_pll_parse_section((int)lpMem, &v12, v11, ArgList, (int)&v10);
   if ( v2 )
   {
     while ( 1 )
@@ -392,8 +393,8 @@ void __cdecl loader_load_file(char *a1, size_t Size)
         break;
       if ( v3 == 1 )
       {
-        v4 = sub_41C390(ArgList);
-        Str2 = (char *)malloc(v4);
+        file_size = loader_pll_get_file_size(ArgList);
+        Str2 = (char *)malloc(file_size);
         if ( zip_extract_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
           fatal_error_with_message_box(" * EPSX: error loading .exe file in pll/zip.");
         v5 = Str2;
@@ -402,18 +403,18 @@ void __cdecl loader_load_file(char *a1, size_t Size)
         v6 = Str2;
         qmemcpy((char *)ram + (*((_DWORD *)v5 + 6) & 0x1FFFFF), Str2 + 2048, *((_DWORD *)v5 + 7));
         cpu_gpr[28] = *((_DWORD *)v5 + 5);
-        cpu_gpr[29] = -2145386752;
-        cpu_gpr[30] = -2145386752;
+        cpu_gpr[29] = 0x801FFF00;
+        cpu_gpr[30] = 0x801FFF00;
         cpu_gpr[31] = 0;
         *(_DWORD *)reg_pc = *((_DWORD *)v5 + 4);
 LABEL_14:
         free(v6);
       }
-      v2 = sub_41C220((int)lpMem, &v12, v11, ArgList, (int)&v10);
+      v2 = loader_pll_parse_section((int)lpMem, &v12, v11, ArgList, (int)&v10);
       if ( !v2 )
         goto LABEL_16;
     }
-    v7 = sub_41C390(ArgList);
+    v7 = loader_pll_get_file_size(ArgList);
     Str2 = (char *)malloc(v7);
     if ( zip_extract_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
       fatal_error_with_message_box(" * EPSX: error loading %s.", ArgList);
@@ -451,22 +452,22 @@ void loader_load_zip()
         fatal_error_with_message_box(" * EPSX: error loading .zip file.");
       if ( zip_num_entries_loaded == 1 )
       {
-        if ( strncmp(&byte_566980[strlen(byte_566980) - 3], "exe", 3u)
-          && strncmp(&byte_566980[strlen(byte_566980) - 3], "EXE", 3u) )
+        if ( strncmp(&zip_entry_names[strlen(zip_entry_names) - 3], "exe", 3u)
+          && strncmp(&zip_entry_names[strlen(zip_entry_names) - 3], "EXE", 3u) )
         {
-          fatal_error_with_message_box("* EPSX: DEMO not found [%s]. \n", byte_566980);
+          fatal_error_with_message_box("* EPSX: DEMO not found [%s]. \n", zip_entry_names);
         }
         Str2 = (char *)malloc(Size[0]);
-        if ( zip_extract_file(FileName, byte_566980, (LPVOID *)&Str2, (size_t *)&v8) )
+        if ( zip_extract_file(FileName, zip_entry_names, (LPVOID *)&Str2, (size_t *)&v8) )
           fatal_error_with_message_box(" * EPSX: error loading .zip file.");
         v2 = Str2;
         if ( strncmp("PS-X EXE", Str2, 8u) )
-          fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", byte_566980);
+          fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", zip_entry_names);
         v3 = Str2;
         qmemcpy((char *)ram + (*((_DWORD *)v2 + 6) & 0x1FFFFF), Str2 + 2048, *((_DWORD *)v2 + 7));
         cpu_gpr[28] = *((_DWORD *)v2 + 5);
-        cpu_gpr[29] = -2145386752;
-        cpu_gpr[30] = -2145386752;
+        cpu_gpr[29] = 0x801FFF00;
+        cpu_gpr[30] = 0x801FFF00;
         cpu_gpr[31] = 0;
         *(_DWORD *)reg_pc = *((_DWORD *)v2 + 4);
         free(v3);
@@ -480,7 +481,7 @@ void loader_load_zip()
         v5 = 0;
         do
         {
-          v6 = &byte_566980[256 * v5];
+          v6 = &zip_entry_names[256 * v5];
           if ( !strncmp(&v6[strlen(v6) - 3], "pll", 3u) || !strncmp(&v6[strlen(v6) - 3], "PLL", 3u) )
             LOBYTE(Str2) = v4;
           LOBYTE(v8) = ++v4;
@@ -490,7 +491,7 @@ void loader_load_zip()
         if ( (_BYTE)Str2 == 0xFF )
 LABEL_26:
           fatal_error_with_message_box("* EPSX: DEMO .pll not found. \n");
-        loader_load_file(&byte_566980[256 * (unsigned __int8)Str2], Size[(unsigned __int8)Str2]);
+        loader_load_file(&zip_entry_names[256 * (unsigned __int8)Str2], Size[(unsigned __int8)Str2]);
       }
     }
   }
@@ -523,8 +524,8 @@ int loader_cdrom_detect_region()
   if ( loaded_file_type != 3 && loaded_file_type != 1 )
   {
     sprintf(Buffer, "DEMO_999.99");
-    result = sprintf(ppf_default_filename, "%s", Buffer);
-    dword_45593C = 262;
+    result = sprintf(default_filename, "%s", Buffer);
+    video_scanlines = 262;
     cpu_speed_scale = 2154;
     country_setting = 0;
     return result;
@@ -532,11 +533,11 @@ int loader_cdrom_detect_region()
   cdfs_load_executable(Buffer);
   if ( Buffer[strlen(Buffer) - 2] == ';' )
     Buffer[strlen(Buffer) - 2] = 0;
-  sprintf(ppf_default_filename, "%s", Buffer);
-  for ( i = 0; i < strlen(ppf_default_filename); ++i )
-    ppf_default_filename[i] = towupper(ppf_default_filename[i]);
-  loader_parse_cheat_entry(ppf_default_filename, Buffer);
-  sub_41BDC0(ppf_default_filename);
+  sprintf(default_filename, "%s", Buffer);
+  for ( i = 0; i < strlen(default_filename); ++i )
+    default_filename[i] = towupper(default_filename[i]);
+  loader_parse_cheat_entry(default_filename, Buffer);
+  loader_apply_mini_cheats(default_filename);
   if ( country_setting == 1 )
   {
     v2 = " * Force PAL cdrom detected. \n";
@@ -545,21 +546,21 @@ int loader_cdrom_detect_region()
   {
     if ( !country_setting )
     {
-      dword_45593C = 262;
+      video_scanlines = 262;
       cpu_speed_scale = old_timing != 0 ? 1916 : 2154;
       return dbg_print(" * Force NTSC cdrom detected. \n");
     }
-    if ( ppf_default_filename[2] != 'E' && ppf_default_filename[2] != 'e' )
+    if ( default_filename[2] != 'E' && default_filename[2] != 'e' )
     {
       country_setting = 0;
-      dword_45593C = 262;
+      video_scanlines = 262;
       cpu_speed_scale = old_timing != 0 ? 1916 : 2154;
       return dbg_print(" * NTSC cdrom detected. \n");
     }
     country_setting = 1;
     v2 = " * PAL cdrom detected. \n";
   }
-  dword_45593C = 312;
+  video_scanlines = 312;
   cpu_speed_scale = old_timing != 0 ? 1923 : 2171;
   return dbg_print(v2);
 }
@@ -574,7 +575,7 @@ FILE *__cdecl loader_load_cheat_file(char *FileName)
   int v6; // [esp+8h] [ebp-404h] BYREF
   char Buffer[1024]; // [esp+Ch] [ebp-400h] BYREF
 
-  LOBYTE(dword_4F831C) = 0;
+  active_mini_cheat_count = 0;
   result = fopen(FileName, "r");
   v2 = result;
   if ( result )
@@ -583,15 +584,15 @@ FILE *__cdecl loader_load_cheat_file(char *FileName)
     {
       do
       {
-        sprintf(Buffer, asc_44E24C);
+        sprintf(Buffer, " ");
         fgets(Buffer, 1024, v2);
         if ( Buffer[0] != '#' && sscanf(Buffer, "%x %x", &v6, &v5) == 2 )
         {
           v3 = v5;
-          v4 = 2 * (unsigned __int8)dword_4F831C;
-          dword_5B6DC4[v4] = v6;
-          dword_5B6DC0[v4] = v3;
-          LOBYTE(dword_4F831C) = dword_4F831C + 1;
+          v4 = 2 * (unsigned __int8)active_mini_cheat_count;
+          mini_cheat_id_array[v4] = v6;
+          mini_cheat_attr_array[v4] = v3;
+          ++active_mini_cheat_count;
         }
       }
       while ( (v2->_flag & 0x10) == 0 );
@@ -600,3 +601,4 @@ FILE *__cdecl loader_load_cheat_file(char *FileName)
   }
   return result;
 }
+

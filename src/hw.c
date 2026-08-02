@@ -95,7 +95,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           }
           break;
         case 0x1F8010A8u:
-          *(_DWORD *)dword_516500 = a2;
+          *(_DWORD *)gpu_dma_channel_status = a2;
           if ( (dword_5164D0[1] & 8) != 0 )
             gpu_dma();
           break;
@@ -185,12 +185,12 @@ LABEL_51:
     }
     goto LABEL_51;
   }
-  *(_DWORD *)dword_516530 = a2;
+  *(_DWORD *)gpu_dma6_status = a2;
   if ( (*(_DWORD *)dword_5164D0 & 0x8000000) != 0 )
   {
     v2 = dword_516528;
     v3 = dword_51652C;
-    if ( *(_DWORD *)dword_516530 == 285212674 )
+    if ( *(_DWORD *)gpu_dma6_status == 285212674 )
     {
       if ( dword_51652C )
       {
@@ -210,17 +210,17 @@ LABEL_51:
       *(int *)((char *)&ram[1] + (v2 & 0x1FFFFF)) = 0xFFFFFF;
       if ( v3 <= 0x40 )
       {
-        *(_DWORD *)dword_516530 = 268435458;
+        *(_DWORD *)gpu_dma6_status = 268435458;
         irq_dma_assert_int(6u);
       }
       else
       {
-        byte_50C215 = 1;
+        gpu_dma6_delay_counter = 1;
       }
     }
-    else if ( (*(_DWORD *)dword_516530 & 0x1000000) != 0 )
+    else if ( (*(_DWORD *)gpu_dma6_status & 0x1000000) != 0 )
     {
-      ui_error("DMA[6] mode NOT implemented (%08x)\n", *(_DWORD *)dword_516530);
+      ui_error("DMA[6] mode NOT implemented (%08x)\n", *(_DWORD *)gpu_dma6_status);
     }
   }
 }
@@ -485,11 +485,11 @@ LABEL_39:
 LABEL_15:
       v3 = (unsigned __int8)a1 >> 4;
       result = mdec_dma_control[3 * v3 - 24];
-      if ( v3 == 10 && byte_50C216 <= 0 )
+      if ( v3 == 10 && gpu_dma2_state <= 0 )
       {
-        v4 = *(_DWORD *)dword_516500 & 0xFEFFFFFF;
-        *(_DWORD *)dword_516500 &= ~0x1000000u;
-        if ( byte_50C216 <= -2 )
+        v4 = *(_DWORD *)gpu_dma_channel_status & 0xFEFFFFFF;
+        *(_DWORD *)gpu_dma_channel_status &= ~0x1000000u;
+        if ( gpu_dma2_state <= -2 )
           return v4;
       }
     }

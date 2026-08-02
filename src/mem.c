@@ -7,7 +7,7 @@ int clear_memory()
   return 0;
 }
 
-void init_memory_handlers()
+void mem_init_memory_handlers()
 {
   int i; // eax
   int *v1; // ecx
@@ -38,7 +38,7 @@ void init_memory_handlers()
       mem_write_hooks[i] = (int)dummy_page;
     }
   }
-  byte_454CC0 = 1;
+  mem_handlers_inited = 1;
   dbg_print_no_flush(" * Memory handlers init. \n");
 }
 
@@ -56,7 +56,7 @@ void __cdecl mem_hw_reg_read_byte(unsigned int a1)
   {
     if ( a1 == 0x1F801802 )
     {
-      ++dword_50BF5C;
+      ++g_cdr_data_bytes_transferred;
       return;
     }
     if ( a1 == 0x1F801803 )
@@ -67,12 +67,12 @@ LABEL_19:
   }
   if ( a1 == 0x1F801801 )
   {
-    if ( (unsigned __int8)byte_50AEC1 < (unsigned __int8)byte_50AEC0 )
+    if ( (unsigned __int8)g_cdr_response_index < (unsigned __int8)g_cdr_response_size )
     {
-      if ( byte_50AEC2 )
+      if ( g_cdr_irq_pending )
       {
-        if ( (unsigned __int8)++byte_50AEC1 >= (unsigned __int8)byte_50AEC0 )
-          byte_50AEC2 = 0;
+        if ( (unsigned __int8)++g_cdr_response_index >= (unsigned __int8)g_cdr_response_size )
+          g_cdr_irq_pending = 0;
       }
     }
     return;
@@ -466,3 +466,4 @@ int __cdecl mem_unfreeze(int a1, _DWORD *a2)
   gzread(a2, pio_mem, 0x20000);
   return gzread(a2, dcache, 4096);
 }
+

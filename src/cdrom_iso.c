@@ -1,5 +1,4 @@
 #include "pch.h"
-
 char __cdecl iso_load(char *FileName)
 {
   FILE *v1; // eax
@@ -68,7 +67,7 @@ LABEL_12:
       {
         use_subchannel = 1;
         dbg_print("(+subchannel) ");
-        BYTE1(byte_455945) = 0;
+        cpu_overclock_setting = 0;
       }
     }
     return dbg_print("ok\n");
@@ -76,7 +75,7 @@ LABEL_12:
   return result;
 }
 
-char __cdecl sub_42FCB0(unsigned __int8 a1, unsigned __int8 a2, char a3, int a4)
+char __cdecl iso_verify_sub(unsigned __int8 a1, unsigned __int8 a2, char a3, int a4)
 {
   int v4; // eax
   unsigned __int8 v5; // bh
@@ -198,7 +197,7 @@ char __cdecl iso_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __in
   char *v17; // edi
   int v18; // eax
 
-  v4 = sub_42C6D0(a1, a2, a3);
+  v4 = cdr_msf_to_lba(a1, a2, a3);
   if ( dword_505400 )
   {
     fseek(dword_505400, 96 * v4, 0);
@@ -264,3 +263,4 @@ int iso_close()
     _close((int)dword_505400);
   return dbg_print(" * Closing ISO system. \n");
 }
+

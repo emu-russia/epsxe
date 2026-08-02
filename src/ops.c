@@ -15,13 +15,13 @@ void op_UNKNOWN()
     "\nePSXe: Opcode [%02x-%08x] in PC [%08x] UNKNOWN [%08x:%03d:%d]\n",
     (unsigned int)cpu_opcode >> 26,
     cpu_opcode,
-    *(uint32_t *)reg_pc - 4,
+    *(_DWORD *)reg_pc - 4,
     dword_50C360,
     dword_50C364,
     hw_update_counter);
 }
 
-void op_LB()
+int op_LB()
 {
   unsigned int v0; // ecx
   int v1; // ecx
@@ -45,6 +45,7 @@ void op_LB()
     result |= 0xFFFFFF00;
     cpu_gpr[v1] = result;
   }
+  return result;
 }
 
 void op_LBU()
@@ -72,7 +73,7 @@ void op_LBU()
   }
 }
 
-void op_LH()
+int op_LH()
 {
   unsigned int v0; // ecx
   int v1; // ecx
@@ -96,9 +97,10 @@ void op_LH()
     result |= 0xFFFF0000;
     cpu_gpr[v1] = result;
   }
+  return result;
 }
 
-void op_LHU()
+int op_LHU()
 {
   unsigned int v0; // ecx
   int result; // eax
@@ -114,9 +116,10 @@ void op_LHU()
   }
   result = (unsigned __int16)mem_read_half(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
   cpu_gpr[(unsigned __int8)op_rt] = result;
+  return result;
 }
 
-void op_LW()
+int op_LW()
 {
   unsigned int v0; // ecx
   int result; // eax
@@ -134,9 +137,10 @@ void op_LW()
     return mem_read_word(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
   result = mem_read_word(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
   cpu_gpr[(unsigned __int8)op_rt] = result;
+  return result;
 }
 
-void op_LWL()
+int op_LWL()
 {
   unsigned int v0; // ecx
   unsigned int v1; // esi
@@ -174,9 +178,10 @@ void op_LWL()
         break;
     }
   }
+  return result;
 }
 
-void op_LWR()
+unsigned int op_LWR()
 {
   unsigned int v0; // ecx
   unsigned int v1; // esi
@@ -214,9 +219,10 @@ void op_LWR()
         break;
     }
   }
+  return result;
 }
 
-void op_LUI()
+int op_LUI()
 {
   int result; // eax
 
@@ -224,6 +230,7 @@ void op_LUI()
   result = (unsigned __int16)cpu_opcode << 16;
   op_rt = BYTE2(cpu_opcode) & 0x1F;
   cpu_gpr[BYTE2(cpu_opcode) & 0x1F] = result;
+  return result;
 }
 
 void op_SB()
@@ -346,10 +353,10 @@ void op_SWR()
   }
 }
 
-void op_ADDI()
+unsigned int op_ADDI()
 {
   unsigned int v0; // esi
-  int result; // eax
+  unsigned int result; // eax
 
   v0 = (unsigned __int16)cpu_opcode;
   op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
@@ -362,9 +369,10 @@ void op_ADDI()
   }
   result = v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
   cpu_gpr[BYTE2(cpu_opcode) & 0x1F] = result;
+  return result;
 }
 
-void op_ADD()
+int op_ADD()
 {
   int v0; // eax
   int result; // eax
@@ -375,9 +383,10 @@ void op_ADD()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] + v0;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = result;
+  return result;
 }
 
-void op_SUB()
+int op_SUB()
 {
   int result; // eax
 
@@ -386,9 +395,10 @@ void op_SUB()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] - cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = result;
+  return result;
 }
 
-void op_ANDI()
+int op_ANDI()
 {
   int result; // eax
 
@@ -397,9 +407,10 @@ void op_ANDI()
   op_rt = BYTE2(cpu_opcode) & 0x1F;
   result = (unsigned __int16)cpu_opcode & cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
   cpu_gpr[BYTE2(cpu_opcode) & 0x1F] = result;
+  return result;
 }
 
-void op_AND()
+int op_AND()
 {
   int v0; // eax
   int result; // eax
@@ -410,9 +421,10 @@ void op_AND()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] & v0;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = result;
+  return result;
 }
 
-void op_NOR()
+int op_NOR()
 {
   int v0; // eax
   int result; // eax
@@ -423,20 +435,22 @@ void op_NOR()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = ~(cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] | v0);
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = result;
+  return result;
 }
 
-void op_ORI()
+int op_ORI()
 {
   int result; // eax
-  
+
   op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   op_imm = (unsigned __int16)cpu_opcode;
   op_rt = BYTE2(cpu_opcode) & 0x1F;
   result = (unsigned __int16)cpu_opcode | cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
   cpu_gpr[BYTE2(cpu_opcode) & 0x1F] = result;
+  return result;
 }
 
-void op_OR()
+int op_OR()
 {
   int v0; // eax
   int result; // eax
@@ -447,9 +461,10 @@ void op_OR()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] | v0;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = result;
+  return result;
 }
 
-void op_XORI()
+int op_XORI()
 {
   int result; // eax
 
@@ -458,9 +473,10 @@ void op_XORI()
   op_rt = BYTE2(cpu_opcode) & 0x1F;
   result = (unsigned __int16)cpu_opcode ^ cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
   cpu_gpr[BYTE2(cpu_opcode) & 0x1F] = result;
+  return result;
 }
 
-void op_XOR()
+int op_XOR()
 {
   int v0; // eax
   int result; // eax
@@ -471,9 +487,10 @@ void op_XOR()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] ^ v0;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = result;
+  return result;
 }
 
-void op_SLTI()
+BOOL op_SLTI()
 {
   signed int v0; // esi
   BOOL result; // eax
@@ -489,9 +506,10 @@ void op_SLTI()
   }
   result = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] < v0;
   cpu_gpr[BYTE2(cpu_opcode) & 0x1F] = result;
+  return result;
 }
 
-void op_SLTIU()
+BOOL op_SLTIU()
 {
   BOOL result; // eax
 
@@ -500,9 +518,10 @@ void op_SLTIU()
   op_rt = BYTE2(cpu_opcode) & 0x1F;
   result = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] < (unsigned int)(unsigned __int16)cpu_opcode;
   cpu_gpr[BYTE2(cpu_opcode) & 0x1F] = result;
+  return result;
 }
 
-void op_SLT()
+int op_SLT()
 {
   int v0; // esi
   int result; // eax
@@ -513,9 +532,10 @@ void op_SLT()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = (unsigned __int16)cpu_opcode >> 11;
   cpu_gpr[result] = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] < v0;
+  return result;
 }
 
-void op_SLTU()
+__int64 op_SLTU()
 {
   __int64 result; // rax
 
@@ -525,9 +545,10 @@ void op_SLTU()
   LODWORD(result) = (unsigned __int16)cpu_opcode >> 11;
   HIDWORD(result) = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] < (unsigned int)cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
   cpu_gpr[(_DWORD)result] = HIDWORD(result);
+  return result;
 }
 
-void op_SLL()
+char op_SLL()
 {
   char result; // al
 
@@ -538,9 +559,10 @@ void op_SLL()
   if ( result )
     cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = cpu_gpr[BYTE2(cpu_opcode) & 0x1F] << (((unsigned int)cpu_opcode >> 6)
                                                                                       & 0x1F);
+  return result;
 }
 
-void op_SLLV()
+int op_SLLV()
 {
   char v0; // cl
   int result; // eax
@@ -551,9 +573,10 @@ void op_SLLV()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = cpu_gpr[BYTE2(cpu_opcode) & 0x1F] << v0;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = result;
+  return result;
 }
 
-void op_SRL()
+char op_SRL()
 {
   unsigned int v0; // edx
   char result; // al
@@ -564,9 +587,10 @@ void op_SRL()
   result = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   op_rd = result;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = v0;
+  return result;
 }
 
-void op_SRLV()
+unsigned int op_SRLV()
 {
   char v0; // cl
   unsigned int result; // eax
@@ -577,9 +601,10 @@ void op_SRLV()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = (unsigned int)cpu_gpr[BYTE2(cpu_opcode) & 0x1F] >> v0;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = result;
+  return result;
 }
 
-void op_SRA()
+char op_SRA()
 {
   int v0; // edx
   char result; // al
@@ -590,9 +615,10 @@ void op_SRA()
   result = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   op_rd = result;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = v0;
+  return result;
 }
 
-void op_SRAV()
+int op_SRAV()
 {
   char v0; // cl
   int result; // eax
@@ -603,9 +629,10 @@ void op_SRAV()
   op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   result = cpu_gpr[BYTE2(cpu_opcode) & 0x1F] >> v0;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = result;
+  return result;
 }
 
-void op_MULT()
+__int64 op_MULT()
 {
   __int64 result; // rax
 
@@ -613,9 +640,10 @@ void op_MULT()
   op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   result = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] * (__int64)cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
   __SET_PAIR__(cpu_HI, cpu_LO, result);
+  return result;
 }
 
-void op_MULTU()
+unsigned __int64 op_MULTU()
 {
   unsigned __int64 result; // rax
 
@@ -624,9 +652,10 @@ void op_MULTU()
   result = (unsigned int)cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]
          * (unsigned __int64)(unsigned int)cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
   __SET_PAIR__(cpu_HI, cpu_LO, result);
+  return result;
 }
 
-void op_DIV()
+int op_DIV()
 {
   int v0; // ecx
   int v1; // esi
@@ -648,9 +677,10 @@ void op_DIV()
     cpu_LO = -1;
     return dbg_print(" division sign by 0 \n");
   }
+  return result;
 }
 
-void op_DIVU()
+unsigned int op_DIVU()
 {
   int v0; // ecx
   unsigned int v1; // esi
@@ -672,27 +702,30 @@ void op_DIVU()
     cpu_LO = -1;
     return dbg_print(" division by 0 \n");
   }
+  return result;
 }
 
-void op_MFHI()
+char op_MFHI()
 {
   char result; // al
 
   result = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   op_rd = result;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = cpu_HI;
+  return result;
 }
 
-void op_MFLO()
+char op_MFLO()
 {
   char result; // al
 
   result = ((unsigned int)cpu_opcode >> 11) & 0x1F;
   op_rd = result;
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = cpu_LO;
+  return result;
 }
 
-void op_MTHI()
+unsigned int op_MTHI()
 {
   unsigned int result; // eax
 
@@ -700,9 +733,10 @@ void op_MTHI()
   LOBYTE(result) = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   op_rs_0 = result;
   cpu_HI = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
+  return result;
 }
 
-void op_MTLO()
+unsigned int op_MTLO()
 {
   unsigned int result; // eax
 
@@ -710,36 +744,39 @@ void op_MTLO()
   LOBYTE(result) = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   op_rs_0 = result;
   cpu_LO = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
+  return result;
 }
 
-void op_J()
+char op_J()
 {
-    int v0; // ecx
-    char result; // al
+  int v0; // ecx
+  char result; // al
 
-    op_jump_addr = cpu_opcode & 0x3FFFFFF;
-    v0 = 4 * (cpu_opcode & 0x3FFFFFF);
-    cpu_opcode = *(_DWORD*)(*(unsigned __int16*)reg_pc + mem_read_hooks[*(unsigned __int16*)&reg_pc[2]]);
-    *(_DWORD*)reg_pc = v0 | *(_DWORD*)reg_pc & 0xF0000000;
-    result = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
-    --hw_update_counter;
+  op_jump_addr = cpu_opcode & 0x3FFFFFF;
+  v0 = 4 * (cpu_opcode & 0x3FFFFFF);
+  cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+  *(_DWORD *)reg_pc = v0 | *(_DWORD *)reg_pc & 0xF0000000;
+  result = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+  --hw_update_counter;
+  return result;
 }
 
-void op_JAL()
+char op_JAL()
 {
-    int v0; // ecx
-    char result; // al
+  int v0; // ecx
+  char result; // al
 
-    op_jump_addr = cpu_opcode & 0x3FFFFFF;
-    v0 = 4 * (cpu_opcode & 0x3FFFFFF);
-    cpu_opcode = *(_DWORD*)(*(unsigned __int16*)reg_pc + mem_read_hooks[*(unsigned __int16*)&reg_pc[2]]);
-    cpu_gpr[31] = *(_DWORD*)reg_pc + 4;
-    *(_DWORD*)reg_pc = v0 | *(_DWORD*)reg_pc & 0xF0000000;
-    result = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
-    --hw_update_counter;
+  op_jump_addr = cpu_opcode & 0x3FFFFFF;
+  v0 = 4 * (cpu_opcode & 0x3FFFFFF);
+  cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+  cpu_gpr[31] = *(_DWORD *)reg_pc + 4;
+  *(_DWORD *)reg_pc = v0 | *(_DWORD *)reg_pc & 0xF0000000;
+  result = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+  --hw_update_counter;
+  return result;
 }
 
-void op_JR()
+char op_JR()
 {
   unsigned int v0; // edx
   char result; // al
@@ -750,9 +787,10 @@ void op_JR()
   *(_DWORD *)reg_pc = cpu_gpr[v0];
   result = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
   --hw_update_counter;
+  return result;
 }
 
-void op_JALR()
+int op_JALR()
 {
   int v0; // esi
   int v1; // ebx
@@ -767,10 +805,10 @@ void op_JALR()
   cpu_gpr[v1] = *(_DWORD *)reg_pc + 4;
   *(_DWORD *)reg_pc = cpu_gpr[v2];
   cpu_main_table[(unsigned int)cpu_opcode >> 26]();
-  --hw_update_counter;
+  return --hw_update_counter;
 }
 
-void op_BEQ()
+char op_BEQ()
 {
   unsigned int v0; // esi
   int v1; // eax
@@ -792,9 +830,10 @@ void op_BEQ()
     LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
+  return v1;
 }
 
-void op_BNE()
+char op_BNE()
 {
   unsigned int v0; // esi
   int v1; // eax
@@ -816,9 +855,10 @@ void op_BNE()
     LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
+  return v1;
 }
 
-void op_BGTZ()
+char op_BGTZ()
 {
   unsigned int v0; // ecx
   int v1; // eax
@@ -839,9 +879,10 @@ void op_BGTZ()
     LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
+  return v1;
 }
 
-void op_BLTZ()
+char op_BLTZ()
 {
   unsigned int v0; // ecx
   int v1; // eax
@@ -862,9 +903,10 @@ void op_BLTZ()
     LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
+  return v1;
 }
 
-void op_BLEZ()
+char op_BLEZ()
 {
   unsigned int v0; // ecx
   int v1; // eax
@@ -880,85 +922,89 @@ void op_BLEZ()
   v1 = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
   if ( v1 <= 0 )
   {
-    cpu_opcode = *(_DWORD *)((unsigned __int16)reg_pc + mem_read_hooks[HIWORD(reg_pc)]);
-    reg_pc += 4 * v0;
+    cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+    *(_DWORD *)reg_pc += 4 * v0;
     LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
+  return v1;
 }
 
-void op_BGEZ()
+char op_BGEZ()
 {
-    unsigned int v0; // ecx
-    int v1; // eax
+  unsigned int v0; // ecx
+  int v1; // eax
 
-    v0 = (unsigned __int16)cpu_opcode;
-    op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
-    op_ofs = (unsigned __int16)cpu_opcode;
-    if ((cpu_opcode & 0x8000) != 0)
-    {
-        v0 = cpu_opcode | 0xFFFF0000;
-        op_ofs = v0;
-    }
-    v1 = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
-    if (v1 >= 0)
-    {
-        cpu_opcode = *(_DWORD*)(*(unsigned __int16*)reg_pc + mem_read_hooks[*(unsigned __int16*)&reg_pc[2]]);
-        *(_DWORD*)reg_pc += 4 * v0;
-        LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
-        --hw_update_counter;
-    }
+  v0 = (unsigned __int16)cpu_opcode;
+  op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
+  op_ofs = (unsigned __int16)cpu_opcode;
+  if ( (cpu_opcode & 0x8000) != 0 )
+  {
+    v0 = cpu_opcode | 0xFFFF0000;
+    op_ofs = v0;
+  }
+  v1 = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
+  if ( v1 >= 0 )
+  {
+    cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+    *(_DWORD *)reg_pc += 4 * v0;
+    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    --hw_update_counter;
+  }
+  return v1;
 }
 
-void op_BLTZAL()
+char op_BLTZAL()
 {
-    unsigned int v0; // ecx
-    int v1; // eax
+  unsigned int v0; // ecx
+  int v1; // eax
 
-    v0 = (unsigned __int16)cpu_opcode;
-    op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
-    op_ofs = (unsigned __int16)cpu_opcode;
-    if ((cpu_opcode & 0x8000) != 0)
-    {
-        v0 = cpu_opcode | 0xFFFF0000;
-        op_ofs = v0;
-    }
-    v1 = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
-    if (v1 < 0)
-    {
-        cpu_opcode = *(_DWORD*)(*(unsigned __int16*)reg_pc + mem_read_hooks[*(unsigned __int16*)&reg_pc[2]]);
-        cpu_gpr[31] = *(_DWORD*)reg_pc + 4;
-        *(_DWORD*)reg_pc += 4 * v0;
-        LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
-        --hw_update_counter;
-    }
+  v0 = (unsigned __int16)cpu_opcode;
+  op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
+  op_ofs = (unsigned __int16)cpu_opcode;
+  if ( (cpu_opcode & 0x8000) != 0 )
+  {
+    v0 = cpu_opcode | 0xFFFF0000;
+    op_ofs = v0;
+  }
+  v1 = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
+  if ( v1 < 0 )
+  {
+    cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+    cpu_gpr[31] = *(_DWORD *)reg_pc + 4;
+    *(_DWORD *)reg_pc += 4 * v0;
+    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    --hw_update_counter;
+  }
+  return v1;
 }
 
-void op_BGEZAL()
+char op_BGEZAL()
 {
-    unsigned int v0; // ecx
-    int v1; // eax
+  unsigned int v0; // ecx
+  int v1; // eax
 
-    v0 = (unsigned __int16)cpu_opcode;
-    op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
-    op_ofs = (unsigned __int16)cpu_opcode;
-    if ((cpu_opcode & 0x8000) != 0)
-    {
-        v0 = cpu_opcode | 0xFFFF0000;
-        op_ofs = v0;
-    }
-    v1 = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
-    if (v1 >= 0)
-    {
-        cpu_opcode = *(_DWORD*)(*(unsigned __int16*)reg_pc + mem_read_hooks[*(unsigned __int16*)&reg_pc[2]]);
-        cpu_gpr[31] = *(_DWORD*)reg_pc + 4;
-        *(_DWORD*)reg_pc += 4 * v0;
-        LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
-        --hw_update_counter;
-    }
+  v0 = (unsigned __int16)cpu_opcode;
+  op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
+  op_ofs = (unsigned __int16)cpu_opcode;
+  if ( (cpu_opcode & 0x8000) != 0 )
+  {
+    v0 = cpu_opcode | 0xFFFF0000;
+    op_ofs = v0;
+  }
+  v1 = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F];
+  if ( v1 >= 0 )
+  {
+    cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+    cpu_gpr[31] = *(_DWORD *)reg_pc + 4;
+    *(_DWORD *)reg_pc += 4 * v0;
+    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    --hw_update_counter;
+  }
+  return v1;
 }
 
-void op_MTC0()
+unsigned int op_MTC0()
 {
   unsigned __int8 v0; // cl
   unsigned __int8 v1; // al
@@ -1013,10 +1059,10 @@ LABEL_21:
       else
       {
         v3 = cpu_gpr[v1];
-        if ( dword_50C280 != v3 )
+        if ( dword_50C280[0] != v3 )
         {
           v4 = v3 | 1;
-          if ( dword_50C280 == v4 )
+          if ( dword_50C280[0] == v4 )
             cpu_gpr[v1] = v4;
         }
       }
@@ -1024,9 +1070,10 @@ LABEL_21:
     cop0_regs[v0] = cpu_gpr[v1];
     return v0;
   }
+  return result;
 }
 
-void op_MFC0()
+int op_MFC0()
 {
   int result; // eax
 
@@ -1034,18 +1081,20 @@ void op_MFC0()
   result = BYTE2(cpu_opcode) & 0x1F;
   op_rt = BYTE2(cpu_opcode) & 0x1F;
   cpu_gpr[result] = cop0_regs[(unsigned __int16)cpu_opcode >> 11];
+  return result;
 }
 
-void op_RFE()
+int op_RFE()
 {
-    unsigned int v0; // eax
-    int result; // eax
+  unsigned int v0; // eax
+  int result; // eax
 
-    v0 = dword_50C2A4;
-    if ((dword_50C2A4 & 1) != 0)
-        v0 = dword_50C2A4 | 4;
-    result = ((unsigned __int8)v0 ^ (unsigned __int8)(v0 >> 2)) & 0xF ^ v0;
-    dword_50C2A4 = result;
+  v0 = dword_50C2A4;
+  if ( (dword_50C2A4 & 1) != 0 )
+    v0 = dword_50C2A4 | 4;
+  result = ((unsigned __int8)v0 ^ (unsigned __int8)(v0 >> 2)) & 0xF ^ v0;
+  dword_50C2A4 = result;
+  return result;
 }
 
 void op_SWC2()
@@ -1056,7 +1105,7 @@ void op_SWC2()
   op_rt = BYTE2(cpu_opcode) & 0x1F;
   op_ofs = (unsigned __int16)cpu_opcode;
   if ( (cpu_opcode & 0x8000) != 0 )
-      op_ofs = cpu_opcode | 0xFFFF0000;
+    op_ofs = cpu_opcode | 0xFFFF0000;
   data_register = gte_read_data_register(BYTE2(cpu_opcode) & 0x1F);
   mem_write_word(op_ofs + cpu_gpr[(unsigned __int8)op_rs], data_register);
 }
@@ -1076,10 +1125,10 @@ void op_LWC2()
     op_ofs = v0;
   }
   word = mem_read_word(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
-  gte_write_data_register(op_rt, (GTE_REG)word);
+  return gte_write_data_register(op_rt, (GTE_REG)word);
 }
 
-void op_SYSCALL()
+unsigned int op_SYSCALL()
 {
   unsigned int result; // eax
 
@@ -1088,6 +1137,7 @@ void op_SYSCALL()
   dword_50C2A8 = 32;
   dword_50C2A4 = dword_50C2A4 & 0xFFFFFFC0 | (4 * (dword_50C2A4 & 0xF));
   *(_DWORD *)reg_pc = 0x80000080;
+  return result;
 }
 
 void op_BREAK()

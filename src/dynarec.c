@@ -8,7 +8,7 @@ char *__cdecl dynarec_recompile_block(int a1)
   if ( (unsigned int)(a1 - (_DWORD)recomp_code_base) >= 0x200000 )
     v1 -= 0x40600000;
   *(_DWORD *)reg_pc = v1;
-  dynarec_compile(v1, 20480);
+  dynarec_compile(v1, 0x5000u);
   if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0xBFC00000 )
     v2 = (*(_DWORD *)reg_pc & 0x7FFFF) + 0x200000;
   else
@@ -44,13 +44,13 @@ char *dynarec_hw_update()
     if ( (++dword_4FC4EC & 0x1F) == 0 )
       spu_async_update_cb(32 * cpu_speed_scale);
     mdec_timer_handler();
-    gpu_sub_42E450();
-    gpu_sub_42E650();
+    gpu_dma2_interrupt();
+    gpu_dma6_interrupt();
     hw_update_counter = cpu_speed_scale;
     ++dword_50C364;
-    sub_42CA70();
-    sub_42C9A0();
-    if ( (int_reg[0] & 4) == 0 && sub_42C8B0() )
+    cdr_play_tick();
+    cdr_process_delays();
+    if ( (int_reg[0] & 4) == 0 && cdr_get_response_status() )
       *(_DWORD *)int_reg |= 4u;
     if ( dword_50C210 && (int_reg[1] & 2) == 0 )
     {
@@ -114,7 +114,7 @@ char *dynarec_hw_update()
       }
     }
     v6 = int_mask;
-    if ( dword_50C364 == dword_45593C - (byte_4FC4E6 != 0 ? 32 : 1) )
+    if ( dword_50C364 == video_scanlines - (cd_extra_setting != 0 ? 32 : 1) )
     {
       v7 = *(_DWORD *)int_reg | 1;
       *(_DWORD *)int_reg |= 1u;
@@ -126,7 +126,7 @@ char *dynarec_hw_update()
       irq_cpu_interrupt();
       v6 = int_mask;
     }
-    if ( dword_50C364 >= (unsigned int)dword_45593C )
+    if ( dword_50C364 >= (unsigned int)video_scanlines )
     {
       dword_50C364 = 0;
       ++dword_50C360;
@@ -143,13 +143,13 @@ char *dynarec_hw_update()
           v8 = *(_DWORD *)reg_pc & 0x1FFFFF;
         **(_DWORD **)((char *)recomp_code_base + v8) = 195;
       }
-      if ( byte_4FC4E4 )
+      if ( dynarec_clear_needed )
       {
-        byte_4FC4E4 = 0;
+        dynarec_clear_needed = 0;
         dynarec_invalidate();
       }
       if ( (dword_50C360 & 0x3F) == 0 )
-        sub_42CE40();
+        cdr_update_motor_status();
       sio_memcard_auto_save();
     }
     if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0xBFC00000 )
@@ -160,7 +160,7 @@ char *dynarec_hw_update()
   }
 }
 
-int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
+int __cdecl dynarec_compile(unsigned int ArgList, int a2)
 {
   uint8_t *v2; // ebx
   unsigned int v3; // esi
@@ -359,23 +359,23 @@ int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
       *(_DWORD *)((char *)recomp_metadata + v6) = v159;
       v2 = code_ptr;
     }
-    if ( (_BYTE)dword_4F831C )
+    if ( active_mini_cheat_count )
     {
       v8 = 0;
       ArgLista = 0;
       do
       {
-        v9 = dword_5B6DC4[2 * ArgLista];
+        v9 = mini_cheat_id_array[2 * ArgLista];
         if ( (v9 & 0x1FFFFF) == ArgList )
         {
-          v7 = dword_5B6DC0[2 * ArgLista];
+          v7 = mini_cheat_attr_array[2 * ArgLista];
           if ( (v9 & 0xF0000000) == 0 )
           {
             v10 = v8 + 1;
-            if ( (unsigned __int8)(v8 + 1) < (unsigned __int8)dword_4F831C )
+            if ( (unsigned __int8)(v8 + 1) < (unsigned __int8)active_mini_cheat_count )
             {
               v11 = (_DWORD *)(8 * v10 + 5991868);
-              v12 = (unsigned __int8)(dword_4F831C - v10);
+              v12 = (unsigned __int8)(active_mini_cheat_count - v10);
               do
               {
                 *(v11 - 1) = v11[1];
@@ -385,12 +385,12 @@ int __cdecl dynarec_compile(unsigned int ArgList, unsigned int a2)
               }
               while ( v12 );
             }
-            LOBYTE(dword_4F831C) = dword_4F831C - 1;
+            --active_mini_cheat_count;
           }
         }
         ArgLista = ++v8;
       }
-      while ( v8 < (unsigned __int8)dword_4F831C );
+      while ( v8 < (unsigned __int8)active_mini_cheat_count );
       v2 = code_ptr;
     }
     ArgList += 4;
@@ -1097,7 +1097,7 @@ LABEL_151:
         if ( a2 != 1 )
         {
           v51 = 4 * (v7 & 0x3FFFFFF);
-          if ( !byte_455946 || ((v51 ^ (ArgList - 4)) & 0xFFFFFF) != 0 )
+          if ( !cpu_overclock_setting || ((v51 ^ (ArgList - 4)) & 0xFFFFFF) != 0 )
           {
             *(_WORD *)code_ptr = 32267;
             code_ptr[2] = -44;
@@ -1227,7 +1227,7 @@ LABEL_151:
         goto LABEL_436;
       case 5u:
         if ( a2 == 1
-          || byte_455946
+          || cpu_overclock_setting
           && v7 == 339804155
           && *(_DWORD *)((unsigned __int16)(ArgList - 8) + mem_read_hooks[(ArgList - 8) >> 16]) == 4395045
           && !*(_DWORD *)((unsigned __int16)(ArgList - 12) + mem_read_hooks[(ArgList - 12) >> 16])
@@ -2940,7 +2940,7 @@ char *dynarec_invalidate()
 
   for ( i = 0; i < 0x280000; i += 4 )
     *(_DWORD *)((char *)recomp_code_base + i) = recomp_buffer;
-  code_ptr = (int)recomp_buffer + 1216;
+  code_ptr = (uint8_t *)recomp_buffer + 1216;
   return (char *)recomp_buffer + 1216;
 }
 

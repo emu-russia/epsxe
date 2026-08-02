@@ -13,7 +13,7 @@ char __cdecl sio_schedule_transfer(char a1, char *a2)
     LOBYTE(v2) = sio0_control_reg;
     if ( (sio0_control_reg & 0x1000) != 0 )
     {
-      sub_42AFD0();
+      irq_sio_update();
       v2 = hw_update_counter;
       if ( hw_update_counter >= 0 )
       {
@@ -61,11 +61,11 @@ int __cdecl sio_handle_config_command(char a1, int a2, char a3)
       {
         if ( dword_4FD8E0[(unsigned __int8)a1] )
         {
-          sub_42D0E0(a1, v11);
+          cont_build_controller_response_analog(a1, v11);
         }
         else
         {
-          sub_42D010(a1, v11);
+          cont_build_controller_response_digital(a1, v11);
           *(_DWORD *)&v11[5] = -2139062144;
         }
       }
@@ -124,7 +124,7 @@ LABEL_24:
     *(_DWORD *)(a2 + 4) = 0x80808080;
     return a2 + 4;
   }
-  sub_42D010(a1, v11);
+  cont_build_controller_response_digital(a1, v11);
   if ( a3 != 66 )
     v11[1] = a3;
   if ( a3 == 69 )
@@ -259,7 +259,7 @@ void __cdecl sio_command(char *a1)
               sio_transfer_length = 2;
               break;
             case 1:
-              sub_42D010(v2, (_BYTE *)(v3 + 5334371));
+              cont_build_controller_response_digital(v2, (_BYTE *)(v3 + 5334371));
               if ( *a1 != 66 )
                 sio_controller_response_buffer[65 * (unsigned __int8)sio_controller_state[0]] = *a1;
               sio_transfer_length = 5;
@@ -275,23 +275,23 @@ void __cdecl sio_command(char *a1)
             case 2:
               if ( !dword_4FD8E0[v2] )
               {
-                sub_42D010(v2, (_BYTE *)(v3 + 5334371));
+                cont_build_controller_response_digital(v2, (_BYTE *)(v3 + 5334371));
                 if ( *a1 != 66 )
                   sio_controller_response_buffer[65 * (unsigned __int8)sio_controller_state[0]] = *a1;
                 goto LABEL_30;
               }
-              sub_42D3C0(v2, (_BYTE *)(v3 + 5334371));
+              cont_build_mouse_response(v2, (_BYTE *)(v3 + 5334371));
               sio_transfer_length = 7;
               break;
             case 3:
               if ( dword_4FD8E0[v2] )
               {
-                sub_42D440(v2, (_BYTE *)(v3 + 5334371));
+                cont_build_guncon_response(v2, (_BYTE *)(v3 + 5334371));
                 sio_transfer_length = 9;
               }
               else
               {
-                sub_42D010(v2, (_BYTE *)(v3 + 5334371));
+                cont_build_controller_response_digital(v2, (_BYTE *)(v3 + 5334371));
                 if ( *a1 == 66 )
                 {
 LABEL_30:
@@ -312,11 +312,11 @@ LABEL_30:
               {
                 if ( dword_4FD8E0[v2] )
                 {
-                  sub_42D0E0(v2, (_BYTE *)(v3 + 0x516563));
+                  cont_build_controller_response_analog(v2, (_BYTE *)(v3 + 0x516563));
                 }
                 else
                 {
-                  sub_42D010(v2, (_BYTE *)(v3 + 5334371));
+                  cont_build_controller_response_digital(v2, (_BYTE *)(v3 + 5334371));
                   *(_DWORD *)&byte_516568[65 * (unsigned __int8)sio_controller_state[0]] = -2139062144;
                 }
               }
@@ -430,7 +430,7 @@ LABEL_30:
           {
             v41 = BYTE1(sio_multitap_slot_counter);
             dword_4FD8E0[BYTE1(sio_multitap_slot_counter)] = 1;
-            sub_42D620(v41);
+            cont_update_led_and_mode(v41);
             v26 = sio_multitap_slot_counter;
           }
           if ( sio_last_command_slot[(unsigned __int8)sio_controller_state[0]] == 68
@@ -440,7 +440,7 @@ LABEL_30:
           {
             v42 = BYTE1(sio_multitap_slot_counter);
             dword_4FD8E0[BYTE1(sio_multitap_slot_counter)] = 0;
-            sub_42D620(v42);
+            cont_update_led_and_mode(v42);
             v26 = sio_multitap_slot_counter;
           }
           v27 = (unsigned __int8)sio_controller_state[0];
@@ -837,7 +837,7 @@ int (__stdcall *sio_reset_all())(_DWORD)
   LOBYTE(sio_rx_fifo_count) = 0;
   sio_reset_controller_state();
   sio_memcard_load();
-  return sub_42D620(0);
+  return cont_update_led_and_mode(0);
 }
 
 void __cdecl sio_write_data_byte(int a1, char a2)

@@ -1,366 +1,41 @@
 #include "pch.h"
-
-//.data:0044C148 stru_44C148     KBD_NAME <'NONE'>
-//.data:0044C155                 KBD_NAME <'ESCAPE'>
-//.data:0044C162                 KBD_NAME <'1'>
-//.data:0044C16F                 KBD_NAME <'2'>
-//.data:0044C17C                 KBD_NAME <'3'>
-//.data:0044C189                 KBD_NAME <'4'>
-//.data:0044C196                 KBD_NAME <'5'>
-//.data:0044C1A3                 KBD_NAME <'6'>
-//.data:0044C1B0                 KBD_NAME <'7'>
-//.data:0044C1BD                 KBD_NAME <'8'>
-//.data:0044C1CA                 KBD_NAME <'9'>
-//.data:0044C1D7                 KBD_NAME <'0'>
-//.data:0044C1E4                 KBD_NAME <'MINUS'>
-//.data:0044C1F1                 KBD_NAME <'EQUALS'>
-//.data:0044C1FE                 KBD_NAME <'BACK'>
-//.data:0044C20B                 KBD_NAME <'TAB'>
-//.data:0044C218                 KBD_NAME <'Q'>
-//.data:0044C225                 KBD_NAME <'W'>
-//.data:0044C232                 KBD_NAME <'E'>
-//.data:0044C23F                 KBD_NAME <'R'>
-//.data:0044C24C                 KBD_NAME <'T'>
-//.data:0044C259                 KBD_NAME <'Y'>
-//.data:0044C266                 KBD_NAME <'U'>
-//.data:0044C273                 KBD_NAME <'I'>
-//.data:0044C280                 KBD_NAME <'O'>
-//.data:0044C28D                 KBD_NAME <'P'>
-//.data:0044C29A                 KBD_NAME <'['>
-//.data:0044C2A7                 KBD_NAME <']'>
-//.data:0044C2B4                 KBD_NAME <'RETURN'>
-//.data:0044C2C1                 KBD_NAME <'LCONTROL'>
-//.data:0044C2CE                 KBD_NAME <'A'>
-//.data:0044C2DB                 KBD_NAME <'S'>
-//.data:0044C2E8                 KBD_NAME <'D'>
-//.data:0044C2F5                 KBD_NAME <'F'>
-//.data:0044C302                 KBD_NAME <'G'>
-//.data:0044C30F                 KBD_NAME <'H'>
-//.data:0044C31C                 KBD_NAME <'J'>
-//.data:0044C329                 KBD_NAME <'K'>
-//.data:0044C336                 KBD_NAME <'L'>
-//.data:0044C343                 KBD_NAME <'SEMICOLON'>
-//.data:0044C350                 KBD_NAME <'APOSTROPHE'>
-//.data:0044C35D                 KBD_NAME <'GRAVE'>
-//.data:0044C36A                 KBD_NAME <'LSHIFT'>
-//.data:0044C377                 KBD_NAME <'BACKSLASH'>
-//.data:0044C384                 KBD_NAME <'Z'>
-//.data:0044C391                 KBD_NAME <'X'>
-//.data:0044C39E                 KBD_NAME <'C'>
-//.data:0044C3AB                 KBD_NAME <'V'>
-//.data:0044C3B8                 KBD_NAME <'B'>
-//.data:0044C3C5                 KBD_NAME <'N'>
-//.data:0044C3D2                 KBD_NAME <'M'>
-//.data:0044C3DF                 KBD_NAME <'COMMA'>
-//.data:0044C3EC                 KBD_NAME <'PERIOD'>
-//.data:0044C3F9                 KBD_NAME <'SLASH'>
-//.data:0044C406                 KBD_NAME <'RSHIFT'>
-//.data:0044C413                 KBD_NAME <'MULTIPLY'>
-//.data:0044C420                 KBD_NAME <'LMENU'>
-//.data:0044C42D                 KBD_NAME <'SPACE'>
-//.data:0044C43A                 KBD_NAME <'CAPITAL'>
-//.data:0044C447                 KBD_NAME <'F1'>
-//.data:0044C454                 KBD_NAME <'F2'>
-//.data:0044C461                 KBD_NAME <'F3'>
-//.data:0044C46E                 KBD_NAME <'F4'>
-//.data:0044C47B                 KBD_NAME <'F5'>
-//.data:0044C488                 KBD_NAME <'F6'>
-//.data:0044C495                 KBD_NAME <'F7'>
-//.data:0044C4A2                 KBD_NAME <'F8'>
-//.data:0044C4AF                 KBD_NAME <'F9'>
-//.data:0044C4BC                 KBD_NAME <'F10'>
-//.data:0044C4C9                 KBD_NAME <'NUMLOCK'>
-//.data:0044C4D6                 KBD_NAME <'SCROLL'>
-//.data:0044C4E3                 KBD_NAME <'NUMPAD7'>
-//.data:0044C4F0                 KBD_NAME <'NUMPAD8'>
-//.data:0044C4FD                 KBD_NAME <'NUMPAD9'>
-//.data:0044C50A                 KBD_NAME <'SUBTRACT'>
-//.data:0044C517                 KBD_NAME <'NUMPAD4'>
-//.data:0044C524                 KBD_NAME <'NUMPAD5'>
-//.data:0044C531                 KBD_NAME <'NUMPAD6'>
-//.data:0044C53E                 KBD_NAME <'ADD'>
-//.data:0044C54B                 KBD_NAME <'NUMPAD1'>
-//.data:0044C558                 KBD_NAME <'NUMPAD2'>
-//.data:0044C565                 KBD_NAME <'NUMPAD3'>
-//.data:0044C572                 KBD_NAME <'NUMPAD0'>
-//.data:0044C57F                 KBD_NAME <'DECIMAL'>
-//.data:0044C58C                 KBD_NAME 2 dup(<''>)
-//.data:0044C5A6                 KBD_NAME <'OEM_102'>
-//.data:0044C5B3                 KBD_NAME <'F11'>
-//.data:0044C5C0                 KBD_NAME <'F12'>
-//.data:0044C5CD                 KBD_NAME 0Bh dup(<''>)
-//.data:0044C65C                 KBD_NAME <'F13'>
-//.data:0044C669                 KBD_NAME <'F14'>
-//.data:0044C676                 KBD_NAME <'F15'>
-//.data:0044C683                 KBD_NAME 9 dup(<''>)
-//.data:0044C6F8                 KBD_NAME <'KANA'>
-//.data:0044C705                 KBD_NAME 2 dup(<''>)
-//.data:0044C71F                 KBD_NAME <'ABNT_C1'>
-//.data:0044C72C                 KBD_NAME 5 dup(<''>)
-//.data:0044C76D                 KBD_NAME <'CONVERT'>
-//.data:0044C77A                 KBD_NAME <''>
-//.data:0044C787                 KBD_NAME <'NOCONVERT'>
-//.data:0044C794                 KBD_NAME <''>
-//.data:0044C7A1                 KBD_NAME <'YEN'>
-//.data:0044C7AE                 KBD_NAME <'ABNT_C2'>
-//.data:0044C7BB                 KBD_NAME 0Fh dup(<''>)
-//.data:0044C87E                 KBD_NAME <'NUMPADEQUALS'>
-//.data:0044C88B                 KBD_NAME 2 dup(<''>)
-//.data:0044C8A5                 KBD_NAME <'PREVTRACK'>
-//.data:0044C8B2                 KBD_NAME <'AT'>
-//.data:0044C8BF                 KBD_NAME <'COLON'>
-//.data:0044C8CC                 KBD_NAME <'UNDERLINE'>
-//.data:0044C8D9                 KBD_NAME <'KANJI'>
-//.data:0044C8E6                 KBD_NAME <'STOP'>
-//.data:0044C8F3                 KBD_NAME <'AX'>
-//.data:0044C900                 KBD_NAME <'UNLABELED'>
-//.data:0044C90D                 KBD_NAME <'NEXTTRACK'>
-//.data:0044C91A                 KBD_NAME 2 dup(<''>)
-//.data:0044C934                 KBD_NAME <'NUMPADENTER'>
-//.data:0044C941                 KBD_NAME <'RCONTROL'>
-//.data:0044C94E                 KBD_NAME 2 dup(<''>)
-//.data:0044C968                 KBD_NAME <'MUTE'>
-//.data:0044C975                 KBD_NAME <'CALCULATOR'>
-//.data:0044C982                 KBD_NAME <'PLAYPAUSE'>
-//.data:0044C98F                 KBD_NAME <''>
-//.data:0044C99C                 KBD_NAME <'MEDIASTOP'>
-//.data:0044C9A9                 KBD_NAME 9 dup(<''>)
-//.data:0044CA1E                 KBD_NAME <'VOLUMEDOWN'>
-//.data:0044CA2B                 KBD_NAME <''>
-//.data:0044CA38                 KBD_NAME <'VOLUMEUP'>
-//.data:0044CA45                 KBD_NAME <''>
-//.data:0044CA52                 KBD_NAME <'WEBHOME'>
-//.data:0044CA5F                 KBD_NAME <'NUMPADCOMMA'>
-//.data:0044CA6C                 KBD_NAME <''>
-//.data:0044CA79                 KBD_NAME <'DIVIDE'>
-//.data:0044CA86                 KBD_NAME <''>
-//.data:0044CA93                 KBD_NAME <'SYSRQ'>
-//.data:0044CAA0                 KBD_NAME <'RMENU'>
-//.data:0044CAAD                 KBD_NAME 0Ch dup(<''>)
-//.data:0044CB49                 KBD_NAME <'PAUSE'>
-//.data:0044CB56                 KBD_NAME <''>
-//.data:0044CB63                 KBD_NAME <'HOME'>
-//.data:0044CB70                 KBD_NAME <'UP'>
-//.data:0044CB7D                 KBD_NAME <'PRIOR'>
-//.data:0044CB8A                 KBD_NAME <''>
-//.data:0044CB97                 KBD_NAME <'LEFT'>
-//.data:0044CBA4                 KBD_NAME <''>
-//.data:0044CBB1                 KBD_NAME <'RIGHT'>
-//.data:0044CBBE                 KBD_NAME <''>
-//.data:0044CBCB                 KBD_NAME <'END'>
-//.data:0044CBD8                 KBD_NAME <'DOWN'>
-//.data:0044CBE5                 KBD_NAME <'NEXT'>
-//.data:0044CBF2                 KBD_NAME <'INSERT'>
-//.data:0044CBFF                 KBD_NAME <'DELETE'>
-//.data:0044CC0C                 KBD_NAME 7 dup(<''>)
-//.data:0044CC67                 KBD_NAME <'LWIN'>
-//.data:0044CC74                 KBD_NAME <'RWIN'>
-//.data:0044CC81                 KBD_NAME <'APPS'>
-//.data:0044CC8E                 KBD_NAME <'POWER'>
-//.data:0044CC9B                 KBD_NAME <'SLEEP'>
-//.data:0044CCA8                 KBD_NAME 3 dup(<''>)
-//.data:0044CCCF                 KBD_NAME <'WAKE'>
-//.data:0044CCDC                 KBD_NAME <''>
-//.data:0044CCE9                 KBD_NAME <'WEBSEARCH'>
-//.data:0044CCF6                 KBD_NAME <'WEBFAVORI'>
-//.data:0044CD03                 KBD_NAME <'WEBREFRESH'>
-//.data:0044CD10                 KBD_NAME <'WEBSTOP'>
-//.data:0044CD1D                 KBD_NAME <'WEBFORWARD'>
-//.data:0044CD2A                 KBD_NAME <'WEBBACK'>
-//.data:0044CD37                 KBD_NAME <'MYCOMPUTER'>
-//.data:0044CD44                 KBD_NAME <'MAIL'>
-//.data:0044CD51                 KBD_NAME <'MEDIASELECT'>
-//.data:0044CD5E                 KBD_NAME 12h dup(<''>)
-//.data:0044CE48                 KBD_NAME <'J1_RIGHT'>
-//.data:0044CE55                 KBD_NAME <'J1_LEFT'>
-//.data:0044CE62                 KBD_NAME <'J1_DOWN'>
-//.data:0044CE6F                 KBD_NAME <'J1_UP'>
-//.data:0044CE7C                 KBD_NAME <'J1b_DOWN'>
-//.data:0044CE89                 KBD_NAME <'J1b_UP'>
-//.data:0044CE96                 KBD_NAME 2 dup(<''>)
-//.data:0044CEB0                 KBD_NAME <'J1b_RIGHT'>
-//.data:0044CEBD                 KBD_NAME <'J1b_LEFT'>
-//.data:0044CECA                 KBD_NAME 6 dup(<''>)
-//.data:0044CF18                 KBD_NAME <'J1_B1'>
-//.data:0044CF25                 KBD_NAME <'J1_B2'>
-//.data:0044CF32                 KBD_NAME <'J1_B3'>
-//.data:0044CF3F                 KBD_NAME <'J1_B4'>
-//.data:0044CF4C                 KBD_NAME <'J1_B5'>
-//.data:0044CF59                 KBD_NAME <'J1_B6'>
-//.data:0044CF66                 KBD_NAME <'J1_B7'>
-//.data:0044CF73                 KBD_NAME <'J1_B8'>
-//.data:0044CF80                 KBD_NAME <'J1_B9'>
-//.data:0044CF8D                 KBD_NAME <'J1_B10'>
-//.data:0044CF9A                 KBD_NAME <'J1_B11'>
-//.data:0044CFA7                 KBD_NAME <'J1_B12'>
-//.data:0044CFB4                 KBD_NAME <'J1_B13'>
-//.data:0044CFC1                 KBD_NAME <'J1_B14'>
-//.data:0044CFCE                 KBD_NAME <'J1_B15'>
-//.data:0044CFDB                 KBD_NAME <'J1_B16'>
-//.data:0044CFE8                 KBD_NAME <'J2_RIGHT'>
-//.data:0044CFF5                 KBD_NAME <'J2_LEFT'>
-//.data:0044D002                 KBD_NAME <'J2_DOWN'>
-//.data:0044D00F                 KBD_NAME <'J2_UP'>
-//.data:0044D01C                 KBD_NAME <'J2b_DOWN'>
-//.data:0044D029                 KBD_NAME <'J2b_UP'>
-//.data:0044D036                 KBD_NAME 2 dup(<''>)
-//.data:0044D050                 KBD_NAME <'J2b_RIGHT'>
-//.data:0044D05D                 KBD_NAME <'J2b_LEFT'>
-//.data:0044D06A                 KBD_NAME 6 dup(<''>)
-//.data:0044D0B8                 KBD_NAME <'J2_B1'>
-//.data:0044D0C5                 KBD_NAME <'J2_B2'>
-//.data:0044D0D2                 KBD_NAME <'J2_B3'>
-//.data:0044D0DF                 KBD_NAME <'J2_B4'>
-//.data:0044D0EC                 KBD_NAME <'J2_B5'>
-//.data:0044D0F9                 KBD_NAME <'J2_B6'>
-//.data:0044D106                 KBD_NAME <'J2_B7'>
-//.data:0044D113                 KBD_NAME <'J2_B8'>
-//.data:0044D120                 KBD_NAME <'J2_B9'>
-//.data:0044D12D                 KBD_NAME <'J2_B10'>
-//.data:0044D13A                 KBD_NAME <'J2_B11'>
-//.data:0044D147                 KBD_NAME <'J2_B12'>
-//.data:0044D154                 KBD_NAME <'J2_13'>
-//.data:0044D161                 KBD_NAME <'J2_B14'>
-//.data:0044D16E                 KBD_NAME <'J2_B15'>
-//.data:0044D17B                 KBD_NAME <'J2_B16'>
-//.data:0044D188                 KBD_NAME <'J3_RIGHT'>
-//.data:0044D195                 KBD_NAME <'J3_LEFT'>
-//.data:0044D1A2                 KBD_NAME <'J3_DOWN'>
-//.data:0044D1AF                 KBD_NAME <'J3_UP'>
-//.data:0044D1BC                 KBD_NAME <'J3b_DOWN'>
-//.data:0044D1C9                 KBD_NAME <'J3b_UP'>
-//.data:0044D1D6                 KBD_NAME 2 dup(<''>)
-//.data:0044D1F0                 KBD_NAME <'J3b_RIGHT'>
-//.data:0044D1FD                 KBD_NAME <'J3b_LEFT'>
-//.data:0044D20A                 KBD_NAME 6 dup(<''>)
-//.data:0044D258                 KBD_NAME <'J3_B1'>
-//.data:0044D265                 KBD_NAME <'J3_B2'>
-//.data:0044D272                 KBD_NAME <'J3_B3'>
-//.data:0044D27F                 KBD_NAME <'J3_B4'>
-//.data:0044D28C                 KBD_NAME <'J3_B5'>
-//.data:0044D299                 KBD_NAME <'J3_B6'>
-//.data:0044D2A6                 KBD_NAME <'J3_B7'>
-//.data:0044D2B3                 KBD_NAME <'J3_B8'>
-//.data:0044D2C0                 KBD_NAME <'J3_B9'>
-//.data:0044D2CD                 KBD_NAME <'J3_B10'>
-//.data:0044D2DA                 KBD_NAME <'J3_B11'>
-//.data:0044D2E7                 KBD_NAME <'J3_B12'>
-//.data:0044D2F4                 KBD_NAME <'J3_13'>
-//.data:0044D301                 KBD_NAME <'J3_B14'>
-//.data:0044D30E                 KBD_NAME <'J3_B15'>
-//.data:0044D31B                 KBD_NAME <'J3_B16'>
-//.data:0044D328                 KBD_NAME <'J4_RIGHT'>
-//.data:0044D335                 KBD_NAME <'J4_LEFT'>
-//.data:0044D342                 KBD_NAME <'J4_DOWN'>
-//.data:0044D34F                 KBD_NAME <'J4_UP'>
-//.data:0044D35C                 KBD_NAME 0Ch dup(<''>)
-//.data:0044D3F8                 KBD_NAME <'J4_B1'>
-//.data:0044D405                 KBD_NAME <'J4_B2'>
-//.data:0044D412                 KBD_NAME <'J4_B3'>
-//.data:0044D41F                 KBD_NAME <'J4_B4'>
-//.data:0044D42C                 KBD_NAME <'J4_B5'>
-//.data:0044D439                 KBD_NAME <'J4_B6'>
-//.data:0044D446                 KBD_NAME <'J4_B7'>
-//.data:0044D453                 KBD_NAME <'J4_B8'>
-//.data:0044D460                 KBD_NAME <'J4_B9'>
-//.data:0044D46D                 KBD_NAME <'J4_B10'>
-//.data:0044D47A                 KBD_NAME <'J4_B11'>
-//.data:0044D487                 KBD_NAME <'J4_B12'>
-//.data:0044D494                 KBD_NAME <'J4_13'>
-//.data:0044D4A1                 KBD_NAME <'J4_B14'>
-//.data:0044D4AE                 KBD_NAME <'J4_B15'>
-//.data:0044D4BB                 KBD_NAME <'J4_B16'>
-//.data:0044D4C8                 KBD_NAME <'POV1_UP'>
-//.data:0044D4D5                 KBD_NAME <'POV1_RIGHT'>
-//.data:0044D4E2                 KBD_NAME <'POV1_DOWN'>
-//.data:0044D4EF                 KBD_NAME <'POV1_LEFT'>
-//.data:0044D4FC                 KBD_NAME 1Ch dup(<''>)
-//.data:0044D668                 KBD_NAME <'POV2_UP'>
-//.data:0044D675                 KBD_NAME <'POV2_RIGHT'>
-//.data:0044D682                 KBD_NAME <'POV2_DOWN'>
-//.data:0044D68F                 KBD_NAME <'POV2_LEFT'>
-//.data:0044D69C                 KBD_NAME 1Ch dup(<''>)
-//.data:0044D808                 KBD_NAME <'POV3_UP'>
-//.data:0044D815                 KBD_NAME <'POV3_RIGHT'>
-//.data:0044D822                 KBD_NAME <'POV3_DOWN'>
-//.data:0044D82F                 KBD_NAME <'POV3_LEFT'>
-//.data:0044D83C                 KBD_NAME 1Ch dup(<''>)
-//.data:0044D9A8                 KBD_NAME <'POV4_UP'>
-//.data:0044D9B5                 KBD_NAME <'POV4_RIGHT'>
-//.data:0044D9C2                 KBD_NAME <'POV4_DOWN'>
-//.data:0044D9CF                 KBD_NAME <'POV4_LEFT'>
-//.data:0044D9DC                 KBD_NAME 1Ch dup(<0>)
-
-//.data:0044DB48 ; CHAR joy_names[14]
-//.data:0044DB48 joy_names       JOY_NAME <'J1_NONE'>
-//.data:0044DB56                 JOY_NAME <'J1_LX'>
-//.data:0044DB64                 JOY_NAME <'J1_LY'>
-//.data:0044DB72                 JOY_NAME <'J1_LZ'>
-//.data:0044DB80                 JOY_NAME <'J1_LRY'>
-//.data:0044DB8E                 JOY_NAME <'J1_LRZ'>
-//.data:0044DB9C                 JOY_NAME <'J1_RLGSLIDER0'>
-//.data:0044DBAA                 JOY_NAME <'J1_RLGSLIDER1'>
-//.data:0044DBB8                 JOY_NAME <'J2_NONE'>
-//.data:0044DBC6                 JOY_NAME <'J2_LX'>
-//.data:0044DBD4                 JOY_NAME <'J2_LY'>
-//.data:0044DBE2                 JOY_NAME <'J2_LZ'>
-//.data:0044DBF0                 JOY_NAME <'J2_LRY'>
-//.data:0044DBFE                 JOY_NAME <'J2_LRZ'>
-//.data:0044DC0C                 JOY_NAME <'J2_RLGSLIDER0'>
-//.data:0044DC1A                 JOY_NAME <'J2_RLGSLIDER1'>
-//.data:0044DC28                 JOY_NAME <'J3_NONE'>
-//.data:0044DC36                 JOY_NAME <'J3_LX'>
-//.data:0044DC44                 JOY_NAME <'J3_LY'>
-//.data:0044DC52                 JOY_NAME <'J3_LZ'>
-//.data:0044DC60                 JOY_NAME <'J3_LRY'>
-//.data:0044DC6E                 JOY_NAME <'J3_LRZ'>
-//.data:0044DC7C                 JOY_NAME <'J3_RLGSLIDER0'>
-//.data:0044DC8A                 JOY_NAME <'J3_RLGSLIDER1'>
-//.data:0044DC98                 JOY_NAME <'J4_NONE'>
-//.data:0044DCA6                 JOY_NAME <'J4_LX'>
-//.data:0044DCB4                 JOY_NAME <'J4_LY'>
-//.data:0044DCC2                 JOY_NAME <'J4_LZ'>
-//.data:0044DCD0                 JOY_NAME <'J4_LRY'>
-//.data:0044DCDE                 JOY_NAME <'J4_LRZ'>
-//.data:0044DCEC                 JOY_NAME <'J4_RLGSLIDER0'>
-//.data:0044DCFA                 JOY_NAME <'J4_RLGSLIDER1'>
-
-BOOL __cdecl open_file_dialog(const CHAR* a1, const CHAR* a2, CHAR* a3, const CHAR* a4, const CHAR* a5)
+BOOL __cdecl open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CHAR *a4, const CHAR *a5)
 {
-    BOOL result; // eax
-    int v6; // eax
-    CHAR v7; // cl
-    OPENFILENAMEA v8; // [esp+4h] [ebp-84Ch] BYREF NOPROP
-    _BYTE v9[1024]; // [esp+450h] [ebp-400h] BYREF
+  BOOL result; // eax
+  int v6; // eax
+  CHAR v7; // cl
+  OPENFILENAMEA v8; // [esp+4h] [ebp-84Ch] BYREF NOPROP
+  _BYTE v9[1024]; // [esp+450h] [ebp-400h] BYREF
 
-    memset(&v8.pvReserved, 0, 0x400u);
-    memset(v9, 0, sizeof(v9));
-    v8.lpstrFile = (LPSTR)&v8.pvReserved;
-    v8.hwndOwner = g_hWnd;
-    v8.lpstrFilter = a2;
-    v8.lpstrFileTitle = v9;
-    v8.nMaxFile = 1024;
-    v8.lpstrInitialDir = a4;
-    v8.nMaxFileTitle = 1024;
-    v8.lStructSize = 76;
-    v8.lpstrCustomFilter = nullptr;
-    v8.nMaxCustFilter = 0;
-    v8.nFilterIndex = 1;
-    v8.lpstrTitle = a1;
-    v8.lpstrDefExt = a5;
-    v8.Flags = 12;
-    result = GetOpenFileNameA(&v8);
-    if (result)
+  memset(&v8.pvReserved, 0, 0x400u);
+  memset(v9, 0, sizeof(v9));
+  v8.lpstrFile = (LPSTR)&v8.pvReserved;
+  v8.hwndOwner = g_hWnd;
+  v8.lpstrFilter = a2;
+  v8.lpstrFileTitle = v9;
+  v8.nMaxFile = 1024;
+  v8.lpstrInitialDir = a4;
+  v8.nMaxFileTitle = 1024;
+  v8.lStructSize = 76;
+  v8.lpstrCustomFilter = nullptr;
+  v8.nMaxCustFilter = 0;
+  v8.nFilterIndex = 1;
+  v8.lpstrTitle = a1;
+  v8.lpstrDefExt = a5;
+  v8.Flags = 12;
+  result = GetOpenFileNameA(&v8);
+  if ( result )
+  {
+    v6 = 0;
+    do
     {
-        v6 = 0;
-        do
-        {
-            v7 = *((_BYTE*)&v8.pvReserved + v6);
-            temp_path[v6++] = v7;
-        } while (v7);
-        return 1;
+      v7 = *((_BYTE *)&v8.pvReserved + v6);
+      temp_path[v6++] = v7;
     }
-    return result;
+    while ( v7 );
+    return 1;
+  }
+  return result;
 }
 
 BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
@@ -406,7 +81,7 @@ int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
 {
   int v2; // ebp
   int *v3; // esi
-  CHAR *v4; // eax
+  KBD_NAME *v4; // eax
   int result; // eax
   int v6; // edx
   int v7; // [esp+10h] [ebp-404h]
@@ -420,13 +95,13 @@ int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
     if ( (unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2] >= 0x200u )
     {
       sprintf(String, "%d", (unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2]);
-      v4 = String;
+      v4 = (KBD_NAME *)String;
     }
     else
     {
-      v4 = &stru_44C148[13 * (unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2]];
+      v4 = &stru_44C148[(unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2]];
     }
-    SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, v4);
+    SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, v4->text);
     ++v2;
     v3 = (int *)((char *)v3 + 2);
     result = --v7;
@@ -445,7 +120,7 @@ int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
       return SetDlgItemTextA(
                hDlg,
                *((unsigned __int16 *)&word_44DD1C + a2),
-               &stru_44C148[13 * (unsigned __int16)word_455FA8[v6]]);
+               stru_44C148[(unsigned __int16)word_455FA8[v6]].text);
     }
   }
   return result;
@@ -513,7 +188,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital Only");
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Disabled");
-      v5 = *(_DWORD *)&word_456044[2 * (unsigned __int8)pad_number_menu_selection];
+      v5 = *(_DWORD *)&Keys4[2 * (unsigned __int8)pad_number_menu_selection + 14];
       if ( v5 )
       {
         v6 = v5 - 1;
@@ -537,7 +212,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
       SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
       SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"None");
-      switch ( word_4FD8A8[(unsigned __int8)pad_number_menu_selection] )
+      switch ( GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] )
       {
         case 0:
           SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 5u, 0);
@@ -787,14 +462,14 @@ LABEL_78:
       v11 = dword_4FD8D0;
       goto LABEL_78;
     }
-    byte_44DD44 = -1;
+    edit_button_id = -1;
     v13 = dword_4FD884[2 * (unsigned __int8)pad_number_menu_selection];
     v14 = mdec_disable_flag[2 * (unsigned __int8)pad_number_menu_selection];
     qmemcpy(byte_8A9500, &word_455FA8[16 * (unsigned __int8)pad_number_menu_selection], sizeof(byte_8A9500));
     dword_8B1548 = v13;
     dword_8B154C = v14;
     controller_set_keyboard(hDlg, 0xFFu);
-    controller_set_joypad(hDlg, (unsigned __int8)byte_44DD44);
+    controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
     sprintf(String, "PAD NUMBER %d", (unsigned __int8)pad_number_menu_selection);
     SetDlgItemTextA(hDlg, 1049, String);
     SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: NONE");
@@ -811,70 +486,70 @@ LABEL_78:
     switch ( (__int16)a3 )
     {
       case 1023:
-        byte_44DD44 = -1;
+        edit_button_id = -1;
         cont_set_default(pad_number_menu_selection);
         v29 = hDlg;
-        controller_set_keyboard(hDlg, (unsigned __int8)byte_44DD44);
+        controller_set_keyboard(hDlg, (unsigned __int8)edit_button_id);
         goto LABEL_203;
       case 1031:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: L2");
-        byte_44DD44 = 9;
+        edit_button_id = 9;
         return 0;
       case 1032:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: L1");
-        byte_44DD44 = 8;
+        edit_button_id = 8;
         return 0;
       case 1033:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: UP");
-        byte_44DD44 = 2;
+        edit_button_id = 2;
         return 0;
       case 1034:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: LEFT");
-        byte_44DD44 = 0;
+        edit_button_id = 0;
         return 0;
       case 1035:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: DOWN");
-        byte_44DD44 = 3;
+        edit_button_id = 3;
         return 0;
       case 1036:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: RIGHT");
-        byte_44DD44 = 1;
+        edit_button_id = 1;
         return 0;
       case 1038:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: SELECT");
-        byte_44DD44 = 13;
+        edit_button_id = 13;
         return 0;
       case 1039:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: START");
-        byte_44DD44 = 12;
+        edit_button_id = 12;
         return 0;
       case 1040:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: R2");
-        byte_44DD44 = 11;
+        edit_button_id = 11;
         return 0;
       case 1041:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: R1");
-        byte_44DD44 = 10;
+        edit_button_id = 10;
         return 0;
       case 1042:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: TRIANGLE");
-        byte_44DD44 = 4;
+        edit_button_id = 4;
         return 0;
       case 1043:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: CIRCLE");
-        byte_44DD44 = 5;
+        edit_button_id = 5;
         return 0;
       case 1044:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: X");
-        byte_44DD44 = 6;
+        edit_button_id = 6;
         return 0;
       case 1045:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: SQUARE");
-        byte_44DD44 = 7;
+        edit_button_id = 7;
         return 0;
       case 1046:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: L3");
-        byte_44DD44 = 14;
+        edit_button_id = 14;
         return 0;
       case 1047:
         v27 = (unsigned __int8)pad_number_menu_selection;
@@ -901,7 +576,7 @@ LABEL_78:
                 v35 = 0;
                 v23 = *(&v33 + v22);
                 point_device_enabled = 0;
-                *(_DWORD *)&word_456044[2 * (unsigned __int8)pad_number_menu_selection] = v23;
+                *(_DWORD *)&Keys4[2 * (unsigned __int8)pad_number_menu_selection + 14] = v23;
               }
             }
             else
@@ -959,22 +634,22 @@ LABEL_78:
           switch ( v24 )
           {
             case 0u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 5;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 5;
               break;
             case 1u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 1;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 1;
               break;
             case 2u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 2;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 2;
               break;
             case 3u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 3;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 3;
               break;
             case 4u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 4;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 4;
               break;
             case 5u:
-              word_4FD8A8[(unsigned __int8)pad_number_menu_selection] = 0;
+              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 0;
               break;
           }
         }
@@ -1023,34 +698,34 @@ LABEL_78:
         return 1;
       case 1049:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: NONE");
-        byte_44DD44 = -1;
+        edit_button_id = -1;
         return 0;
       case 1050:
         SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: R3");
-        byte_44DD44 = 15;
+        edit_button_id = 15;
         return 0;
       case 1051:
         SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: Y1");
-        byte_44DD44 = 17;
+        edit_button_id = 17;
         return 0;
       case 1052:
         SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: X1");
-        byte_44DD44 = 16;
+        edit_button_id = 16;
         return 0;
       case 1053:
         SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: X2");
-        byte_44DD44 = 18;
+        edit_button_id = 18;
         return 0;
       case 1054:
         SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: Y2");
-        byte_44DD44 = 19;
+        edit_button_id = 19;
         return 0;
       case 1055:
-        byte_44DD44 = -1;
-        cont_sub_42DCC0(pad_number_menu_selection);
+        edit_button_id = -1;
+        cont_reset_pad_state(pad_number_menu_selection);
         v29 = hDlg;
-        controller_set_keyboard(hDlg, (unsigned __int8)byte_44DD44);
-        controller_set_joypad(hDlg, (unsigned __int8)byte_44DD44);
+        controller_set_keyboard(hDlg, (unsigned __int8)edit_button_id);
+        controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
 LABEL_203:
         SetDlgItemTextA(v29, 1060, "EDIT BUTTON: NONE");
         result = 0;
@@ -1062,11 +737,11 @@ LABEL_203:
   }
   if ( a2 != 275 )
     return 0;
-  v15 = byte_44DD44;
-  LOBYTE(v40) = byte_44DD44;
-  if ( (unsigned __int8)byte_44DD44 >= 0x10u )
+  v15 = edit_button_id;
+  LOBYTE(v40) = edit_button_id;
+  if ( (unsigned __int8)edit_button_id >= 0x10u )
   {
-    if ( (unsigned __int8)byte_44DD44 >= 0x14u )
+    if ( (unsigned __int8)edit_button_id >= 0x14u )
       return 1;
     v19 = 0;
     v32 = 0;
@@ -1093,9 +768,9 @@ LABEL_203:
     while ( (unsigned __int16)v20 < 0x20u );
     if ( !v19 )
       return 1;
-    sub_42DBC0((unsigned __int8)v40 + 4 * (unsigned __int8)pad_number_menu_selection - 20, v19);
+    cont_map_axis_state((unsigned __int8)v40 + 4 * (unsigned __int8)pad_number_menu_selection - 20, v19);
     controller_set_joypad(hDlg, v15 - 16);
-    byte_44DD44 = v15;
+    edit_button_id = v15;
     return 1;
   }
   memset(g_KeyboardStatePrev, 0, 0x200u);
@@ -1117,7 +792,7 @@ LABEL_203:
     {
       v17 += 32;
 LABEL_107:
-      sub_42DBE0(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v17);
+      cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v17);
       controller_set_keyboard(hDlg, v15);
       return 1;
     }
@@ -1155,13 +830,13 @@ LABEL_107:
           {
             if ( byte_50ABE0[v18] && v15 != 0xFF )
             {
-              sub_42DBE0(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 32);
+              cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 32);
               controller_set_keyboard(hDlg, v15);
               return 1;
             }
             if ( byte_50AC00[v18] && v15 != 0xFF )
             {
-              sub_42DBE0(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 64);
+              cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 64);
               controller_set_keyboard(hDlg, v15);
               return 1;
             }
@@ -1183,7 +858,7 @@ LABEL_107:
 LABEL_137:
   v30 = v18;
 LABEL_138:
-  sub_42DBE0(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v30);
+  cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v30);
   controller_set_keyboard(hDlg, v15);
   return 1;
 }
@@ -1208,9 +883,9 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
 
   if ( a2 == 272 )
   {
-    for ( i = 0; i < (unsigned __int8)dword_4F831C; ++i )
+    for ( i = 0; i < (unsigned __int8)active_mini_cheat_count; ++i )
     {
-      sprintf(lParam, "  %06x    %08x", dword_5B6DC4[2 * i], dword_5B6DC0[2 * i]);
+      sprintf(lParam, "  %06x    %08x", mini_cheat_id_array[2 * i], mini_cheat_attr_array[2 * i]);
       SendDlgItemMessageA(hDlg, 1142, 0x180u, 0, (LPARAM)lParam);
     }
     return 1;
@@ -1259,7 +934,7 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
         return 0;
       case 1058:
         v4 = SendDlgItemMessageA(hDlg, 1142, 0x18Bu, 0, 0);
-        LOBYTE(dword_4F831C) = 0;
+        active_mini_cheat_count = 0;
         if ( v4 )
         {
           do
@@ -1269,10 +944,10 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
             sscanf(
               lParam,
               "  %06x    %08x",
-              &dword_5B6DC4[2 * (unsigned __int8)dword_4F831C],
-              &dword_5B6DC0[2 * (unsigned __int8)dword_4F831C]);
+              &mini_cheat_id_array[2 * (unsigned __int8)active_mini_cheat_count],
+              &mini_cheat_attr_array[2 * (unsigned __int8)active_mini_cheat_count]);
             v4 = v5;
-            LOBYTE(dword_4F831C) = dword_4F831C + 1;
+            ++active_mini_cheat_count;
           }
           while ( v5 );
         }
@@ -2616,3 +2291,4 @@ int __cdecl calc_bios_checksum(uint8_t *ptr, int size)
   }
   return v2 ^ (v3 << 16);
 }
+

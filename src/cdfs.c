@@ -1,5 +1,4 @@
 #include "pch.h"
-
 int __cdecl cdfs_read_le32(unsigned __int8 *a1)
 {
   return *a1 | ((a1[1] | ((a1[2] | ((char)a1[3] << 8)) << 8)) << 8);
@@ -27,7 +26,7 @@ unsigned int __cdecl cdfs_read_data(int a1, int a2, unsigned int a3, void *a4)
   return a3;
 }
 
-char *sub_436910()
+char *cdfs_read_root_directory()
 {
   int le32; // esi
 
@@ -38,7 +37,7 @@ char *sub_436910()
   return byte_4FE9E8;
 }
 
-int *__cdecl sub_436960(const char *a1, int *a2, int **a3)
+int *__cdecl cdfs_find_file(const char *a1, int *a2, int **a3)
 {
   int v3; // ebp
   char *v4; // edi
@@ -113,7 +112,7 @@ unsigned __int8 __cdecl cdfs_parse_system_cnf_for_exec(int a1, int a2, char *Buf
   return result;
 }
 
-unsigned __int8 __cdecl sub_436AF0(char *Buffer)
+unsigned __int8 __cdecl cdfs_load_executable(char *Buffer)
 {
   int v2; // [esp+0h] [ebp-8h] BYREF
   int v3; // [esp+4h] [ebp-4h] BYREF
@@ -125,3 +124,4 @@ unsigned __int8 __cdecl sub_436AF0(char *Buffer)
   else
     return sprintf(Buffer, "SLUS_999.99");
 }
+

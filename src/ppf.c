@@ -108,7 +108,7 @@ char ppf_load_patch()
   if ( ppf_enabled )
   {
     if ( !strcmp(ppf_filename, "NULL") )
-      sprintf(ppf_filename, "%s%s", "patches\\", ppf_default_filename);
+      sprintf(ppf_filename, "%s%s", "patches\\", default_filename);
     v0 = fopen(ppf_filename, "rb");
     v1 = v0;
     if ( v0 )

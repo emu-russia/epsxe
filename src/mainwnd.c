@@ -1,5 +1,4 @@
 #include "pch.h"
-
 LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
   LRESULT result; // eax
@@ -569,9 +568,9 @@ LABEL_178:
     switch ( Msg )
     {
       case 1u:
-        if ( !byte_45B8E0 )
+        if ( !setup_wizard_required )
           return 1;
-        byte_45B8E0 = 0;
+        setup_wizard_required = 0;
         setup_wizard_step = 0;
         setup_wizard_callback(hWnd);
         result = 1;
@@ -710,3 +709,4 @@ void save_load_state()
     set_gpu_freeze_counter(v1);
   }
 }
+

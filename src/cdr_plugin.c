@@ -1,5 +1,4 @@
 #include "pch.h"
-
 char ext_cdrom_load_plugin()
 {
   unsigned __int8 v0; // bl
@@ -25,10 +24,10 @@ char ext_cdrom_load_plugin()
     {
       iso_load(bin_iso_file);
       sound_use_cdda = 0;
-      byte_505542[0] = 0;
-      byte_505544[0] = 0;
-      word_505540 = 257;
-      byte_505543[0] = 2;
+      track_msf_minutes[0] = 0;
+      track_msf_sectors[0] = 0;
+      first_last_tracks = 257;
+      track_msf_seconds[0] = 2;
       LOBYTE(CDRconfigure) = 1;
     }
     else
@@ -53,7 +52,7 @@ char ext_cdrom_load_plugin()
           if ( CDRconfigure )
           {
             CDRconfigure = GetProcAddress(hCdrModule, "CDRshutdown");
-            CDRshutdown = CDRconfigure;
+            CDRshutdown = (int (*(*)(void))(void))CDRconfigure;
             if ( CDRconfigure )
             {
               CDRconfigure = GetProcAddress(hCdrModule, "CDRopen");
@@ -81,12 +80,12 @@ char ext_cdrom_load_plugin()
                         if ( CDRconfigure )
                         {
                           CDRplay = (int)GetProcAddress(hCdrModule, "CDRplay");
-                          CDRstop = GetProcAddress(hCdrModule, "CDRstop");
+                          CDRstop = (char (*)(void))GetProcAddress(hCdrModule, "CDRstop");
                           if ( use_subchannel )
                           {
                             CDRgetBufferSub = GetProcAddress(hCdrModule, "CDRgetBufferSub");
                             if ( CDRgetBufferSub )
-                              BYTE1(byte_455945) = 0;
+                              cpu_overclock_setting = 0;
                           }
                           else
                           {
@@ -107,35 +106,35 @@ char ext_cdrom_load_plugin()
                           LOBYTE(CDRconfigure) = (_BYTE)hCdrModule;
                           if ( hCdrModule )
                           {
-                            dword_505528 = 0;
-                            word_50552C = 0;
-                            ((void (__cdecl *)(int *))CDRgetTN)(&dword_505528);
+                            current_position_msf = 0;
+                            current_position_low = 0;
+                            ((void (__cdecl *)(int *))CDRgetTN)(&current_position_msf);
                             v0 = 0;
-                            word_505540 = dword_505528;
+                            first_last_tracks = current_position_msf;
                             LOBYTE(v12) = 0;
-                            if ( BYTE1(dword_505528) )
+                            if ( BYTE1(current_position_msf) )
                             {
                               v11 = v8;
                               do
                               {
                                 v1 = (unsigned __int8)v12;
-                                dword_505524 = 0;
-                                CDRgetTD((unsigned __int8)v12 + 1, &dword_505524, v11);
-                                byte_505542[3 * v1] = BYTE2(dword_505524);
-                                v2 = dword_505524;
-                                byte_505543[3 * v1] = BYTE1(dword_505524);
-                                byte_505544[3 * v1] = v2;
+                                track_info_buffer = 0;
+                                CDRgetTD((unsigned __int8)v12 + 1, &track_info_buffer, v11);
+                                track_msf_minutes[3 * v1] = BYTE2(track_info_buffer);
+                                v2 = track_info_buffer;
+                                track_msf_seconds[3 * v1] = BYTE1(track_info_buffer);
+                                track_msf_sectors[3 * v1] = v2;
                                 LOBYTE(v11) = ++v0;
                               }
-                              while ( v0 < HIBYTE(word_505540) );
+                              while ( v0 < HIBYTE(first_last_tracks) );
                             }
-                            dword_505524 = 0;
-                            CDRgetTD(0, &dword_505524, v10);
-                            byte_505542[3 * HIBYTE(word_505540)] = BYTE2(dword_505524);
-                            v3 = dword_505524;
-                            byte_505543[3 * HIBYTE(word_505540)] = BYTE1(dword_505524);
-                            LOBYTE(CDRconfigure) = HIBYTE(word_505540);
-                            byte_505544[3 * HIBYTE(word_505540)] = v3;
+                            track_info_buffer = 0;
+                            CDRgetTD(0, &track_info_buffer, v10);
+                            track_msf_minutes[3 * HIBYTE(first_last_tracks)] = BYTE2(track_info_buffer);
+                            v3 = track_info_buffer;
+                            track_msf_seconds[3 * HIBYTE(first_last_tracks)] = BYTE1(track_info_buffer);
+                            LOBYTE(CDRconfigure) = HIBYTE(first_last_tracks);
+                            track_msf_sectors[3 * HIBYTE(first_last_tracks)] = v3;
                           }
                         }
                       }
@@ -156,35 +155,35 @@ char ext_cdrom_load_plugin()
   return (char)CDRconfigure;
 }
 
-char __cdecl sub_4304E0(_BYTE *a1, _BYTE *a2)
+char __cdecl ext_CDR_get_first_last_track(_BYTE *a1, _BYTE *a2)
 {
   char result; // al
 
-  *a1 = word_505540;
-  result = HIBYTE(word_505540);
-  *a2 = HIBYTE(word_505540);
+  *a1 = first_last_tracks;
+  result = HIBYTE(first_last_tracks);
+  *a2 = HIBYTE(first_last_tracks);
   return result;
 }
 
-char __cdecl sub_430500(__int16 a1, _BYTE *a2, _BYTE *a3, _BYTE *a4)
+char __cdecl ext_CDR_track_to_msf(__int16 a1, _BYTE *a2, _BYTE *a3, _BYTE *a4)
 {
   char result; // al
 
-  if ( a1 <= (int)HIBYTE(word_505540) )
+  if ( a1 <= (int)HIBYTE(first_last_tracks) )
   {
     if ( a1 )
     {
-      *a2 = byte_50553F[3 * a1];
-      *a3 = *((_BYTE *)&word_505540 + 3 * a1);
-      result = *((_BYTE *)&word_505540 + 3 * a1 + 1);
+      *a2 = track_msf_table[3 * a1];
+      *a3 = *((_BYTE *)&first_last_tracks + 3 * a1);
+      result = *((_BYTE *)&first_last_tracks + 3 * a1 + 1);
       *a4 = result;
     }
     else
     {
-      *a2 = byte_505542[3 * HIBYTE(word_505540)];
-      *a3 = byte_505543[3 * HIBYTE(word_505540)];
-      result = HIBYTE(word_505540);
-      *a4 = byte_505544[3 * HIBYTE(word_505540)];
+      *a2 = track_msf_minutes[3 * HIBYTE(first_last_tracks)];
+      *a3 = track_msf_seconds[3 * HIBYTE(first_last_tracks)];
+      result = HIBYTE(first_last_tracks);
+      *a4 = track_msf_sectors[3 * HIBYTE(first_last_tracks)];
     }
   }
   else
@@ -215,7 +214,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
     iso_read_data(a1, a2, a3, (int)Buffer);
     if ( ppf_enabled )
     {
-      v5 = sub_42C6D0(a1, a2, a3);
+      v5 = cdr_msf_to_lba(a1, a2, a3);
       ppf_apply_patch_to_sector(v5, (int)Buffer);
     }
     if ( cd_savefake_flag == 1 )
@@ -235,7 +234,7 @@ int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8
     qmemcpy(Buffer + 12, v6, 0x930u);
     if ( ppf_enabled )
     {
-      v8 = sub_42C6D0(a1, a2, a3);
+      v8 = cdr_msf_to_lba(a1, a2, a3);
       ppf_apply_patch_to_sector(v8, (int)Buffer);
       v7 = Buffer;
     }
@@ -262,19 +261,19 @@ int (*ext_cdrom_deinit())(void)
   return result;
 }
 
-char __cdecl sub_430750(char a1, char a2)
+char __cdecl ext_CDR_bcd_to_binary(char a1, char a2)
 {
   unsigned __int8 v3; // [esp+4h] [ebp-4h]
 
   v3 = 0;
-  if ( !HIBYTE(word_505540) )
+  if ( !HIBYTE(first_last_tracks) )
     return 0;
-  while ( a1 != byte_505542[3 * v3] || a2 != byte_505543[3 * v3] )
+  while ( a1 != track_msf_minutes[3 * v3] || a2 != track_msf_seconds[3 * v3] )
   {
-    if ( ++v3 >= HIBYTE(word_505540) )
+    if ( ++v3 >= HIBYTE(first_last_tracks) )
       return 0;
   }
-  return byte_505544[3 * v3];
+  return track_msf_sectors[3 * v3];
 }
 
 char __cdecl ext_CDRplay(int a1, char a2)
@@ -289,7 +288,7 @@ char __cdecl ext_CDRplay(int a1, char a2)
     if ( CDRplay )
     {
       BYTE1(a1) = a2;
-      BYTE2(a1) = sub_430750(a1, a2);
+      BYTE2(a1) = ext_CDR_bcd_to_binary(a1, a2);
       return v3(&a1);
     }
   }
@@ -311,12 +310,12 @@ char ext_CDRstop()
 }
 
 // attributes: thunk
-void sub_430810()
+void ext_CDR_reset_state()
 {
-  sub_42CDE0();
+  cdr_spinup_motor();
 }
 
-char __cdecl sub_430820(
+char __cdecl ext_CDR_lba_to_msf_with_track(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -333,26 +332,26 @@ char __cdecl sub_430820(
   unsigned __int8 v13; // [esp+Ch] [ebp-4h]
 
   v7 = 75 * ((a2 & 0xF) + 10 * ((a2 >> 4) + 6 * ((a1 & 0xF) + 10 * (a1 >> 4)))) + 10 * (a3 >> 4) + (a3 & 0xF) - 150;
-  v8 = HIBYTE(word_505540);
+  v8 = HIBYTE(first_last_tracks);
   v13 = 0;
-  v9 = (unsigned __int8)byte_505544[3 * HIBYTE(word_505540)];
+  v9 = (unsigned __int8)track_msf_sectors[3 * HIBYTE(first_last_tracks)];
   if ( 75
-     * ((unsigned __int8)byte_505543[3 * HIBYTE(word_505540)]
-      + 60 * (unsigned int)(unsigned __int8)byte_505542[3 * HIBYTE(word_505540)])
+     * ((unsigned __int8)track_msf_seconds[3 * HIBYTE(first_last_tracks)]
+      + 60 * (unsigned int)(unsigned __int8)track_msf_minutes[3 * HIBYTE(first_last_tracks)])
      + v9
      - 150 > v7 )
   {
-    if ( HIBYTE(word_505540) )
+    if ( HIBYTE(first_last_tracks) )
     {
       while ( 1 )
       {
-        v10 = 75 * ((unsigned __int8)byte_505546[3 * v13] + 60 * (unsigned __int8)byte_505545[3 * v13])
-            + (unsigned __int8)byte_505547[3 * v13]
+        v10 = 75 * ((unsigned __int8)track_seconds_table[3 * v13] + 60 * (unsigned __int8)track_minutes_table[3 * v13])
+            + (unsigned __int8)track_sectors_table[3 * v13]
             - 150;
-        if ( v13 + 1 < HIBYTE(word_505540) )
+        if ( v13 + 1 < HIBYTE(first_last_tracks) )
         {
           v10 -= v10 % 0x4B;
-          v8 = HIBYTE(word_505540);
+          v8 = HIBYTE(first_last_tracks);
         }
         if ( v10 > v7 )
           break;
@@ -362,12 +361,12 @@ char __cdecl sub_430820(
       v11 = 75 * ((a2 & 0xF) + 10 * ((a2 >> 4) + 6 * ((a1 & 0xF) + 10 * (a1 >> 4))))
           + 10 * (a3 >> 4)
           + (a3 & 0xF)
-          + (75 * ((unsigned __int8)byte_505543[3 * v13] + 60 * (unsigned __int8)byte_505542[3 * v13])
-           + (unsigned int)(unsigned __int8)byte_505544[3 * v13]
+          + (75 * ((unsigned __int8)track_msf_seconds[3 * v13] + 60 * (unsigned __int8)track_msf_minutes[3 * v13])
+           + (unsigned int)(unsigned __int8)track_msf_sectors[3 * v13]
            - 150)
           % 0x4B
-          - (75 * ((unsigned __int8)byte_505543[3 * v13] + 60 * (unsigned __int8)byte_505542[3 * v13])
-           + (unsigned __int8)byte_505544[3 * v13]);
+          - (75 * ((unsigned __int8)track_msf_seconds[3 * v13] + 60 * (unsigned __int8)track_msf_minutes[3 * v13])
+           + (unsigned __int8)track_msf_sectors[3 * v13]);
       *a4 = (v13 + 1) % 10 + 16 * ((v13 + 1) / 10);
       *a5 = v11 / 0x4B / 0x3C % 0xA + 16 * (v11 / 0x4B / 0x3C / 0xA);
       *a6 = v11 / 0x4B % 0x3C % 0xA + 16 * (v11 / 0x4B % 0x3C / 0xA);
@@ -388,7 +387,7 @@ LABEL_8:
   return v9;
 }
 
-unsigned __int8 __cdecl sub_430A00(
+unsigned __int8 __cdecl ext_CDR_lba_to_msf(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -406,24 +405,24 @@ unsigned __int8 __cdecl sub_430A00(
   v7 = (a3 & 0xF) + 75 * ((a2 & 0xF) + 10 * ((a2 >> 4) + 6 * ((a1 & 0xF) + 10 * (a1 >> 4)))) + 10 * (a3 >> 4);
   v10 = 0;
   if ( 75
-     * ((unsigned __int8)byte_505543[3 * HIBYTE(word_505540)]
-      + 60 * (unsigned __int8)byte_505542[3 * HIBYTE(word_505540)])
-     + (unsigned int)(unsigned __int8)byte_505544[3 * HIBYTE(word_505540)]
+     * ((unsigned __int8)track_msf_seconds[3 * HIBYTE(first_last_tracks)]
+      + 60 * (unsigned __int8)track_msf_minutes[3 * HIBYTE(first_last_tracks)])
+     + (unsigned int)(unsigned __int8)track_msf_sectors[3 * HIBYTE(first_last_tracks)]
      - 150 > v7 )
   {
-    result = HIBYTE(word_505540);
-    if ( HIBYTE(word_505540) )
+    result = HIBYTE(first_last_tracks);
+    if ( HIBYTE(first_last_tracks) )
     {
       while ( 1 )
       {
-        v9 = 75 * ((unsigned __int8)byte_505546[3 * v10] + 60 * (unsigned __int8)byte_505545[3 * v10])
-           + (unsigned __int8)byte_505547[3 * v10]
+        v9 = 75 * ((unsigned __int8)track_seconds_table[3 * v10] + 60 * (unsigned __int8)track_minutes_table[3 * v10])
+           + (unsigned __int8)track_sectors_table[3 * v10]
            - 150;
         if ( v9 > v7 )
           break;
-        result = HIBYTE(word_505540);
+        result = HIBYTE(first_last_tracks);
         v10 = ++v6;
-        if ( v6 >= HIBYTE(word_505540) )
+        if ( v6 >= HIBYTE(first_last_tracks) )
           return result;
       }
       *a4 = v9 / 0x4B / 0x3C;
@@ -442,7 +441,7 @@ unsigned __int8 __cdecl sub_430A00(
   return result;
 }
 
-char __cdecl ext_CD_sub_430B60(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
+char __cdecl ext_CDR_verify_subchannel_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
 {
   int v4; // ecx
   char v5; // bl
@@ -513,7 +512,14 @@ char __cdecl ext_CD_sub_430B60(unsigned __int8 a1, unsigned __int8 a2, unsigned 
   {
     v10 = a2 % 10 + 16 * (a2 / 10);
     v13 = a3 % 10 + 16 * (a3 / 10);
-    sub_430820(a1 % 10 + 16 * (a1 / 10), v10, v13, (_BYTE *)a4, (_BYTE *)(a4 + 2), (_BYTE *)(a4 + 3), (_BYTE *)(a4 + 4));
+    ext_CDR_lba_to_msf_with_track(
+      a1 % 10 + 16 * (a1 / 10),
+      v10,
+      v13,
+      (_BYTE *)a4,
+      (_BYTE *)(a4 + 2),
+      (_BYTE *)(a4 + 3),
+      (_BYTE *)(a4 + 4));
     *(_BYTE *)(a4 + 1) = 1;
     *(_BYTE *)(a4 + 5) = a1 % 10 + 16 * (a1 / 10);
     *(_BYTE *)(a4 + 6) = v10;
@@ -522,3 +528,4 @@ char __cdecl ext_CD_sub_430B60(unsigned __int8 a1, unsigned __int8 a2, unsigned 
   }
   return result;
 }
+

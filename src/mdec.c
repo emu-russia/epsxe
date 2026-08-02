@@ -1,5 +1,4 @@
 #include "pch.h"
-
 char *mdec_init_pointers()
 {
   char *v0; // ecx
@@ -349,8 +348,8 @@ char *__cdecl mdec_rl_decode(char *a1, int a2)
   _WORD *v8; // [esp+10h] [ebp-8h]
   int v9; // [esp+20h] [ebp+8h]
 
-  v8 = (_WORD *)MEMORY[0x50C3E0];
-  memset(MEMORY[0x50C3E0], 0, 4 * ((unsigned int)(768 * a2) >> 2));
+  v8 = (_WORD *)byte_50C3E0;
+  memset(byte_50C3E0, 0, 4 * ((unsigned int)(768 * a2) >> 2));
   v2 = 6 * a2;
   v9 = 0;
   if ( v2 <= 0 )
@@ -394,7 +393,7 @@ void __cdecl mdec_idct_blocks(int a1)
   v2 = 0;
   v6 = mdec_idct_buffer_end;
   v7 = mdec_idct_buffer;
-  for ( i = (__m64 *)MEMORY[0x50C3E0]; v2 < 6 * a1; v6 += 32 )
+  for ( i = (__m64 *)byte_50C3E0; v2 < 6 * a1; v6 += 32 )
   {
     if ( mdec_nonzero_counts[v2] )
     {
@@ -1269,3 +1268,4 @@ void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
   while ( a3 );
   mdec_sse_m_empty();
 }
+

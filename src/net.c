@@ -87,7 +87,7 @@ char net_netplay_handler()
   if ( network_enabled )
   {
     dword_50A1E0 = NETqueryPlayer();
-    if ( (unsigned __int8)NETcompareData(ppf_default_filename, 12) )
+    if ( (unsigned __int8)NETcompareData(default_filename, 12) )
       fatal_error_with_message_box(" * NETPLAY: Error psx game is different in every site. \n");
     byte_50A201[0] = fastboot;
     byte_50A200 = sound_enabled;
@@ -148,7 +148,7 @@ char net_netplay_handler()
     LOBYTE(dword_50A620) = dword_456048[0];
     BYTE1(dword_50A620) = dword_456048[1];
     LOBYTE(dword_50A624) = forcepad;
-    BYTE1(dword_50A624) = dword_50C374;
+    BYTE1(dword_50A624) = unknown_timing_value;
     BYTE2(dword_50A624) = nocdstatus;
     HIBYTE(dword_50A624) = country_setting;
     byte_50A628 = mdectiming;
@@ -158,7 +158,7 @@ char net_netplay_handler()
     NETtransferData("Transfer configuration info", &dword_50A620, 1037);
     dword_456048[0] = (unsigned __int8)dword_50A620;
     forcepad = (unsigned __int8)dword_50A624;
-    dword_50C374 = BYTE1(dword_50A624);
+    unknown_timing_value = BYTE1(dword_50A624);
     dword_456048[1] = BYTE1(dword_50A620);
     nocdstatus = BYTE2(dword_50A624);
     country_setting = HIBYTE(dword_50A624);
@@ -229,14 +229,14 @@ int net_fill_input()
   result = 0;
   if ( network_enabled )
   {
-    HIWORD(dword_50A1D0) = dword_455FB0;
+    HIWORD(dword_50A1D0) = byte_455FB0;
     byte_50A1D4 = dword_4FD900[0];
     byte_50A1D5 = dword_4FD910[0];
     byte_50A1D6 = dword_4FD920[0];
     byte_50A1D7 = dword_4FD930[0];
     LOBYTE(dword_50A1D8) = dword_50AB60;
     BYTE1(dword_50A1D8) = dword_4FD8F0;
-    HIWORD(dword_50A1C0) = dword_455FB4;
+    HIWORD(dword_50A1C0) = byte_455FB4;
     BYTE2(dword_50A1D8) = dword_4FD8F4;
     LOBYTE(dword_50A1D0) = dword_456048[0];
     LOBYTE(dword_50A1C0) = dword_456048[1];
@@ -261,7 +261,7 @@ int net_fill_input()
     {
       dword_456048[0] = (unsigned __int8)dword_50A1D0;
       dword_4FD910[0] = byte_50A1D5;
-      dword_455FB0 = HIWORD(dword_50A1D0);
+      byte_455FB0 = HIWORD(dword_50A1D0);
       dword_4FD920[0] = byte_50A1D6;
       dword_4FD8F0 = SBYTE1(dword_50A1D8);
       dword_4FD900[0] = byte_50A1D4;
@@ -269,7 +269,7 @@ int net_fill_input()
       dword_4FD930[0] = byte_50A1D7;
       dword_456048[1] = (unsigned __int8)dword_50A1C0;
       dword_4FD8F4 = SBYTE2(dword_50A1D8);
-      dword_455FB4 = HIWORD(dword_50A1C0);
+      byte_455FB4 = HIWORD(dword_50A1C0);
       return 0;
     }
   }

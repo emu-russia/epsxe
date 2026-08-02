@@ -800,7 +800,7 @@ __int16 __cdecl spucore_read_voice_reg(int a1, int a2)
       LOWORD(v2) = dword_465574[74 * a1];
       break;
     case 12:
-      if ( byte_4F75AA )
+      if ( unknown_cd_setting )
       {
         LOWORD(v2) = rand() & 1;
       }
@@ -901,7 +901,7 @@ void spucore_dma()
         }
         while ( v8 );
       }
-      if ( dword_50C36C == 1 && v7 )
+      if ( dynarec_enabled == 1 && v7 )
         dynarec_invalidate_range(dword_516510, v7);
     }
     else if ( *(_DWORD *)dword_516518 == 0x1000201 )

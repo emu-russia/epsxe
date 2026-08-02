@@ -733,7 +733,7 @@ char W9x_cdrom_subchannel_read()
     result = use_subchannel;
     if ( use_subchannel )
     {
-      sprintf(Buffer, "%s%s.SUB", "patches\\", ppf_default_filename);
+      sprintf(Buffer, "%s%s.SUB", "patches\\", default_filename);
       Stream = fopen(Buffer, "rb");
       if ( Stream )
       {
@@ -752,7 +752,7 @@ char W9x_cdrom_subchannel_read()
         }
         return result;
       }
-      sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+      sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
       v2 = fopen(Buffer, "rb");
       if ( v2 )
       {
@@ -846,7 +846,7 @@ char W9x_cdrom_subchannel_read()
         }
         while ( v8 );
         dword_504C8C = 6;
-        sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+        sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
         v11 = fopen(Buffer, "wb");
         v12 = v11;
         if ( v11 )
@@ -893,7 +893,7 @@ char W9x_cdrom_subchannel_read()
             ++v40;
           }
           while ( v40 < 0x3Cu );
-          sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+          sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
           v16 = fopen(Buffer, "wb");
           v17 = v16;
           if ( v16 )
@@ -974,7 +974,7 @@ LABEL_101:
             ++v41;
           }
           while ( v41 < 0x3Cu );
-          sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+          sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
           v26 = fopen(Buffer, "wb");
           if ( !v26 )
             goto LABEL_88;
@@ -1025,7 +1025,7 @@ LABEL_101:
             ++v42;
           }
           while ( v42 < 0x3Cu );
-          sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+          sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
           v34 = fopen(Buffer, "wb");
           v26 = v34;
           if ( !v34 )
@@ -1069,7 +1069,7 @@ LABEL_88:
         ++v43;
       }
       while ( v43 < 0x3Cu );
-      sprintf(Buffer, "%s%s.M3S", "patches\\", ppf_default_filename);
+      sprintf(Buffer, "%s%s.M3S", "patches\\", default_filename);
       v38 = fopen(Buffer, "wb");
       if ( v38 )
       {
@@ -1133,7 +1133,7 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
       iso_read_data(a1, a2, v7, (int)Buffer);
       if ( ppf_enabled )
       {
-        v9 = sub_42C6D0(a1, a2, v7);
+        v9 = cdr_msf_to_lba(a1, a2, v7);
         ppf_apply_patch_to_sector(v9, (int)Buffer);
       }
       if ( cd_savefake_flag == 1 )
@@ -1389,7 +1389,7 @@ LABEL_66:
       }
       if ( ppf_enabled )
       {
-        v35 = sub_42C6D0(a1, v6, v7);
+        v35 = cdr_msf_to_lba(a1, v6, v7);
         ppf_apply_patch_to_sector(v35, (int)v10);
       }
       if ( cd_savefake_flag == 1 )
@@ -1542,7 +1542,7 @@ void W9x_reset_cdrom_state()
 {
   dword_4FD9C0 = 0;
   dword_4FFF80 = -1;
-  sub_42CDE0();
+  cdr_spinup_motor();
 }
 
 char __cdecl W9x_msf_to_lba(
@@ -1740,3 +1740,4 @@ char __cdecl W9x_verify_subchannel_data(unsigned int a1, unsigned __int8 a2, uns
   }
   return result;
 }
+

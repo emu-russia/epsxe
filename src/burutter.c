@@ -59,28 +59,33 @@ BOOL __cdecl Small_Motor(unsigned int a1, int a2)
     return DeviceIoControl(hDevice, 4u, dword_100053A0, 0x14u, nullptr, 0, &BytesReturned, nullptr);
 }
 
-int issue_big_motor()
+int joy_init(void)
 {
-  int result; // eax
-
-  if ( dword_4FC45C )
-    return Big_Motor();
-  joy_init();
-  result = dword_4FC45C;
-  if ( dword_4FC45C )
-    return Big_Motor();
-  return result;
+    return __imp_JOY_init();
 }
 
-int issue_small_motor()
+int joy_issue_big_motor()
 {
-  int result; // eax
+    int result; // eax
 
-  if ( dword_4FC45C )
-    return Small_Motor();
-  joy_init();
-  result = dword_4FC45C;
-  if ( dword_4FC45C )
-    return Small_Motor();
-  return result;
+    if (dword_4FC45C)
+        return Big_Motor();
+    joy_init();
+    result = dword_4FC45C;
+    if (dword_4FC45C)
+        return Big_Motor();
+    return result;
+}
+
+int joy_issue_small_motor()
+{
+    int result; // eax
+
+    if (dword_4FC45C)
+        return Small_Motor();
+    joy_init();
+    result = dword_4FC45C;
+    if (dword_4FC45C)
+        return Small_Motor();
+    return result;
 }

@@ -115,15 +115,15 @@ int select_plugins_backend()
   {
     cdrom_init_cb = (int (*)(void))ext_cdrom_load_plugin;
     cdrom_deinit_cb = (int (__fastcall *)(_DWORD))ext_cdrom_deinit;
-    cdrom_get_first_last_TN_cb = (int (__cdecl *)(_DWORD, _DWORD))sub_4304E0;
-    cdrom_track_to_msf = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))sub_430500;
+    cdrom_get_first_last_TN_cb = (int (__cdecl *)(_DWORD, _DWORD))ext_CDR_get_first_last_track;
+    cdrom_track_to_msf = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CDR_track_to_msf;
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CDR_read;
     cdrom_play_cdda_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))ext_CDRplay;
     cdrom_stop_cb = (int (*)(void))ext_CDRstop;
-    cdrom_reset_cb = (int (*)(void))sub_430810;
+    cdrom_reset_cb = (int (*)(void))ext_CDR_reset_state;
     cdrom_unused_cb = (int)nullsub_1;
-    cdrom_lba_to_msf_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))sub_430A00;
-    cdrom_verify_sub_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CD_sub_430B60;
+    cdrom_lba_to_msf_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD, _DWORD, _DWORD))ext_CDR_lba_to_msf;
+    cdrom_verify_sub_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CDR_verify_subchannel_data;
     cdrom_subchannel_read_cb = (int (*)(void))nullsub_1;
   }
   *(_DWORD *)dword_5164D0 = 0;

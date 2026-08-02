@@ -1144,3 +1144,4 @@ int __cdecl setup_wizard_callback(HWND hWndParent)
   }
   return result;
 }
+

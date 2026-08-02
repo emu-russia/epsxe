@@ -1,19 +1,5 @@
 #include "pch.h"
-
-int __cdecl cont_sub_42CFE0(int a1)
-{
-  int result; // eax
-
-  result = a1;
-  byte_50AF07[62] = a1;
-  byte_50AEC1 = 0;
-  byte_50AEC0 = 1;
-  if ( a1 == 1 )
-    dword_50AE80[0] = 2;
-  return result;
-}
-
-_BYTE *__cdecl sub_42D010(char a1, _BYTE *a2)
+_BYTE *__cdecl cont_build_controller_response_digital(char a1, _BYTE *a2)
 {
   _BYTE *result; // eax
 
@@ -23,16 +9,16 @@ _BYTE *__cdecl sub_42D010(char a1, _BYTE *a2)
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = BYTE1(dword_455FB0);
-      a2[4] = dword_455FB0;
+      a2[3] = byte_455FB1;
+      a2[4] = byte_455FB0;
       result = a2;
       break;
     case 1:
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = BYTE1(dword_455FB4);
-      a2[4] = dword_455FB4;
+      a2[3] = byte_455FB5;
+      a2[4] = byte_455FB4;
       result = a2;
       break;
     case 2:
@@ -63,7 +49,7 @@ _BYTE *__cdecl sub_42D010(char a1, _BYTE *a2)
   return result;
 }
 
-char __cdecl sub_42D0E0(char a1, _BYTE *a2)
+char __cdecl cont_build_controller_response_analog(char a1, _BYTE *a2)
 {
   char result; // al
   __int16 v3; // ax
@@ -77,8 +63,8 @@ char __cdecl sub_42D0E0(char a1, _BYTE *a2)
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = BYTE1(dword_455FB0);
-      a2[4] = dword_455FB0;
+      a2[3] = byte_455FB1;
+      a2[4] = byte_455FB0;
       a2[8] = 0x80;
       a2[7] = 0x80;
       a2[6] = 0x80;
@@ -186,8 +172,8 @@ LABEL_24:
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = BYTE1(dword_455FB4);
-      a2[4] = dword_455FB4;
+      a2[3] = byte_455FB5;
+      a2[4] = byte_455FB4;
       a2[7] = byte_4FD904 + 0x80;
       a2[8] = byte_4FD914 + 0x80;
       a2[5] = byte_4FD924 + 0x80;
@@ -229,7 +215,7 @@ LABEL_24:
   }
 }
 
-_BYTE *__cdecl sub_42D3C0(char a1, _BYTE *a2)
+_BYTE *__cdecl cont_build_mouse_response(char a1, _BYTE *a2)
 {
   _BYTE *result; // eax
 
@@ -266,7 +252,7 @@ _BYTE *__cdecl sub_42D3C0(char a1, _BYTE *a2)
   return result;
 }
 
-_BYTE *__cdecl sub_42D440(char a1, _BYTE *a2)
+_BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
 {
   _BYTE *result; // eax
   __int16 v3; // ax
@@ -387,7 +373,7 @@ _BYTE *__cdecl sub_42D440(char a1, _BYTE *a2)
   return result;
 }
 
-int (__stdcall *__cdecl sub_42D620(unsigned __int8 a1))(_DWORD)
+int (__stdcall *__cdecl cont_update_led_and_mode(unsigned __int8 a1))(_DWORD)
 {
   int v1; // eax
   int (__stdcall *result)(_DWORD); // eax
@@ -412,7 +398,7 @@ int cont_process_input()
   int v2; // eax
   unsigned __int8 v3; // si
   int v4; // edx
-  int *v5; // eax
+  char *v5; // eax
   unsigned __int16 *v6; // ecx
   int v7; // esi
   unsigned __int16 v8; // dx
@@ -445,15 +431,15 @@ int cont_process_input()
     else
     {
       save_load_state();
-      memset(byte_50AA60, 0, 0x100u);
+      memset(gpu_keyboard_state, 0, 0x100u);
     }
   }
   if ( byte_50AA91 )
-    byte_4FC4E4 = 1;
+    dynarec_clear_needed = 1;
   if ( byte_50AA92 )
-    cont_sub_42CFE0(2);
+    cdr_get_status(2);
   if ( byte_50AA93 )
-    cont_sub_42CFE0(3);
+    cdr_get_status(3);
   if ( byte_50AA94[0] )
     irq_sio_assert_int();
   if ( word_4FD986 )
@@ -494,7 +480,7 @@ int cont_process_input()
     {
       state_load();
       dbg_print(" * LoadState Done! \n");
-      byte_4FC4E4 = 1;
+      dynarec_clear_needed = 1;
     }
     byte_4FD984 = 25;
     goto LABEL_51;
@@ -522,7 +508,7 @@ int cont_process_input()
     dword_4FD8E0[(unsigned __int8)dword_4FD988] ^= 1u;
     LOBYTE(v4) = dword_4FD988;
 LABEL_42:
-    sub_42D620(v4);
+    cont_update_led_and_mode(v4);
     byte_4FD984 = 25;
     goto LABEL_51;
   }
@@ -548,57 +534,57 @@ LABEL_42:
     byte_4FD984 = 25;
   }
 LABEL_51:
-  v5 = &dword_455FB0;
-  v6 = (unsigned __int16 *)&word_455FD2;
+  v5 = &byte_455FB0;
+  v6 = (unsigned __int16 *)(Keys1 + 10);
   v7 = 4;
   do
   {
     v8 = *(v6 - 5);
-    *v5 = -1;
+    *(_DWORD *)v5 = -1;
     if ( v8 )
     {
       if ( g_KeyboardStatePrev[v6[1]] )
-        *v5 = -65;
+        *(_DWORD *)v5 = -65;
       if ( g_KeyboardStatePrev[*v6] )
-        *v5 &= ~0x20u;
+        *(_DWORD *)v5 &= ~0x20u;
       if ( g_KeyboardStatePrev[v6[2]] )
-        *v5 &= ~0x80u;
+        *(_DWORD *)v5 &= ~0x80u;
       if ( g_KeyboardStatePrev[*(v6 - 1)] )
-        *v5 &= ~0x10u;
+        *(_DWORD *)v5 &= ~0x10u;
       if ( g_KeyboardStatePrev[v6[7]] )
-        *v5 &= ~0x800u;
+        *(_DWORD *)v5 &= ~0x800u;
       if ( g_KeyboardStatePrev[v6[8]] )
-        *v5 &= ~0x100u;
+        *(_DWORD *)v5 &= ~0x100u;
       if ( g_KeyboardStatePrev[*(v6 - 3)] )
-        *v5 &= ~0x1000u;
+        *(_DWORD *)v5 &= ~0x1000u;
       if ( g_KeyboardStatePrev[*(v6 - 2)] )
-        *v5 &= ~0x4000u;
+        *(_DWORD *)v5 &= ~0x4000u;
       if ( g_KeyboardStatePrev[v8] )
-        *v5 &= ~0x8000u;
+        *(_DWORD *)v5 &= ~0x8000u;
       if ( g_KeyboardStatePrev[*(v6 - 4)] )
-        *v5 &= ~0x2000u;
+        *(_DWORD *)v5 &= ~0x2000u;
       if ( g_KeyboardStatePrev[v6[3]] )
-        *v5 &= ~4u;
+        *(_DWORD *)v5 &= ~4u;
       if ( g_KeyboardStatePrev[v6[4]] )
-        *v5 &= ~1u;
+        *(_DWORD *)v5 &= ~1u;
       if ( g_KeyboardStatePrev[v6[5]] )
-        *v5 &= ~8u;
+        *(_DWORD *)v5 &= ~8u;
       if ( g_KeyboardStatePrev[v6[6]] )
-        *v5 &= ~2u;
+        *(_DWORD *)v5 &= ~2u;
       if ( g_KeyboardStatePrev[v6[9]] )
-        *v5 &= ~0x200u;
+        *(_DWORD *)v5 &= ~0x200u;
       if ( g_KeyboardStatePrev[v6[10]] )
-        *v5 &= ~0x400u;
+        *(_DWORD *)v5 &= ~0x400u;
     }
     v6 += 16;
-    ++v5;
+    v5 += 4;
     --v7;
   }
   while ( v7 );
   if ( LOBYTE(mdec_disable_flag[0]) )
   {
     LOBYTE(mdec_disable_flag[0]) = 0;
-    dword_455FB0 &= 0xFFFFF7BF;
+    *(_DWORD *)&byte_455FB0 &= 0xFFFFF7BF;
   }
   result = network_enabled;
   if ( network_enabled )
@@ -608,30 +594,30 @@ LABEL_51:
     {
       dword_4FD9A0 = 0;
       save_load_state();
-      memset(byte_50AA60, 0, 0x100u);
+      memset(gpu_keyboard_state, 0, 0x100u);
       return 0;
     }
   }
   return result;
 }
 
-__int16 __cdecl sub_42DBC0(unsigned __int16 a1, __int16 a2)
+__int16 __cdecl cont_map_axis_state(unsigned __int16 a1, __int16 a2)
 {
   __int16 result; // ax
 
   result = a2;
   if ( a2 )
-    *((_WORD *)word_4FD88C + a1) = a2;
+    *((_WORD *)GamepadAxis + a1) = a2;
   return result;
 }
 
-__int16 __cdecl sub_42DBE0(unsigned __int16 a1, __int16 a2)
+__int16 __cdecl cont_map_button_state(unsigned __int16 a1, __int16 a2)
 {
   __int16 result; // ax
 
   result = a2;
   if ( a2 != 1 )
-    word_455FC8[a1] = a2;
+    Keys1[a1] = a2;
   return result;
 }
 
@@ -641,22 +627,22 @@ int __cdecl cont_set_default(unsigned __int8 a1)
 
   if ( a1 == 1 )
   {
-    word_455FC8[0] = 203;
-    word_455FCA = 205;
-    word_455FCC = 200;
-    word_455FCE = 208;
-    word_455FD0 = 32;
-    word_455FD2 = 45;
-    word_455FD4 = 44;
-    word_455FD6 = 31;
-    word_455FD8 = 17;
-    word_455FDA = 18;
-    word_455FDC = 19;
-    word_455FDE = 20;
-    word_455FE0 = 47;
-    word_455FE2 = 46;
-    word_455FE4 = 16;
-    word_455FE6 = 21;
+    Keys1[0] = 203;
+    Keys1[1] = 205;
+    Keys1[2] = 200;
+    Keys1[3] = 208;
+    Keys1[4] = 32;
+    Keys1[5] = 45;
+    Keys1[6] = 44;
+    Keys1[7] = 31;
+    Keys1[8] = 17;
+    Keys1[9] = 18;
+    Keys1[10] = 19;
+    Keys1[11] = 20;
+    Keys1[12] = 47;
+    Keys1[13] = 46;
+    Keys1[14] = 16;
+    Keys1[15] = 21;
   }
   else if ( a1 > 1u && a1 < 4u )
   {
@@ -666,7 +652,7 @@ int __cdecl cont_set_default(unsigned __int8 a1)
   return result;
 }
 
-int __cdecl cont_sub_42DCC0(unsigned __int8 a1)
+int __cdecl cont_reset_pad_state(unsigned __int8 a1)
 {
   _DWORD *v2; // ecx
 
@@ -676,3 +662,4 @@ int __cdecl cont_sub_42DCC0(unsigned __int8 a1)
   v2[1] = 0;
   return 0;
 }
+
