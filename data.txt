@@ -73,43 +73,565 @@
 .data:0044C144 ; _DWORD dword_44C144
 .data:0044C144 dword_44C144    dd 0                    ; DATA XREF: xa_decode_mono_blocks+134↑o
 
+.data:0044C148 stru_44C148     db 'NONE',0,0,0,0,0,0,0,0,0; text
+.data:0044C148                                         ; DATA XREF: controller_set_keyboard+48↑o
+.data:0044C148                                         ; controller_set_keyboard+BD↑o
+.data:0044C155                 db 'ESCAPE',0,0,0,0,0,0,0; text
+.data:0044C162                 db '1',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C16F                 db '2',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C17C                 db '3',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C189                 db '4',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C196                 db '5',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C1A3                 db '6',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C1B0                 db '7',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C1BD                 db '8',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C1CA                 db '9',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C1D7                 db '0',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C1E4                 db 'MINUS',0,0,0,0,0,0,0,0; text
+.data:0044C1F1                 db 'EQUALS',0,0,0,0,0,0,0; text
+.data:0044C1FE                 db 'BACK',0,0,0,0,0,0,0,0,0; text
+.data:0044C20B                 db 'TAB',0,0,0,0,0,0,0,0,0,0; text
+.data:0044C218                 db 'Q',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C225                 db 'W',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C232                 db 'E',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C23F                 db 'R',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C24C                 db 'T',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C259                 db 'Y',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C266                 db 'U',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C273                 db 'I',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C280                 db 'O',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C28D                 db 'P',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C29A                 db '[',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C2A7                 db ']',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C2B4                 db 'RETURN',0,0,0,0,0,0,0; text
+.data:0044C2C1                 db 'LCONTROL',0,0,0,0,0 ; text
+.data:0044C2CE                 db 'A',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C2DB                 db 'S',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C2E8                 db 'D',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C2F5                 db 'F',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C302                 db 'G',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C30F                 db 'H',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C31C                 db 'J',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C329                 db 'K',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C336                 db 'L',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C343                 db 'SEMICOLON',0,0,0,0  ; text
+.data:0044C350                 db 'APOSTROPHE',0,0,0   ; text
+.data:0044C35D                 db 'GRAVE',0,0,0,0,0,0,0,0; text
+.data:0044C36A                 db 'LSHIFT',0,0,0,0,0,0,0; text
+.data:0044C377                 db 'BACKSLASH',0,0,0,0  ; text
+.data:0044C384                 db 'Z',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C391                 db 'X',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C39E                 db 'C',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C3AB                 db 'V',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C3B8                 db 'B',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C3C5                 db 'N',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C3D2                 db 'M',0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C3DF                 db 'COMMA',0,0,0,0,0,0,0,0; text
+.data:0044C3EC                 db 'PERIOD',0,0,0,0,0,0,0; text
+.data:0044C3F9                 db 'SLASH',0,0,0,0,0,0,0,0; text
+.data:0044C406                 db 'RSHIFT',0,0,0,0,0,0,0; text
+.data:0044C413                 db 'MULTIPLY',0,0,0,0,0 ; text
+.data:0044C420                 db 'LMENU',0,0,0,0,0,0,0,0; text
+.data:0044C42D                 db 'SPACE',0,0,0,0,0,0,0,0; text
+.data:0044C43A                 db 'CAPITAL',0,0,0,0,0,0; text
+.data:0044C447                 db 'F1',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C454                 db 'F2',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C461                 db 'F3',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C46E                 db 'F4',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C47B                 db 'F5',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C488                 db 'F6',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C495                 db 'F7',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C4A2                 db 'F8',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C4AF                 db 'F9',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C4BC                 db 'F10',0,0,0,0,0,0,0,0,0,0; text
+.data:0044C4C9                 db 'NUMLOCK',0,0,0,0,0,0; text
+.data:0044C4D6                 db 'SCROLL',0,0,0,0,0,0,0; text
+.data:0044C4E3                 db 'NUMPAD7',0,0,0,0,0,0; text
+.data:0044C4F0                 db 'NUMPAD8',0,0,0,0,0,0; text
+.data:0044C4FD                 db 'NUMPAD9',0,0,0,0,0,0; text
+.data:0044C50A                 db 'SUBTRACT',0,0,0,0,0 ; text
+.data:0044C517                 db 'NUMPAD4',0,0,0,0,0,0; text
+.data:0044C524                 db 'NUMPAD5',0,0,0,0,0,0; text
+.data:0044C531                 db 'NUMPAD6',0,0,0,0,0,0; text
+.data:0044C53E                 db 'ADD',0,0,0,0,0,0,0,0,0,0; text
+.data:0044C54B                 db 'NUMPAD1',0,0,0,0,0,0; text
+.data:0044C558                 db 'NUMPAD2',0,0,0,0,0,0; text
+.data:0044C565                 db 'NUMPAD3',0,0,0,0,0,0; text
+.data:0044C572                 db 'NUMPAD0',0,0,0,0,0,0; text
+.data:0044C57F                 db 'DECIMAL',0,0,0,0,0,0; text
+.data:0044C58C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C599                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C5A6                 db 'OEM_102',0,0,0,0,0,0; text
+.data:0044C5B3                 db 'F11',0,0,0,0,0,0,0,0,0,0; text
+.data:0044C5C0                 db 'F12',0,0,0,0,0,0,0,0,0,0; text
+.data:0044C5CD                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C5DA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C5E7                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C5F4                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C601                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C60E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C61B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C628                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C635                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C642                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C64F                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C65C                 db 'F13',0,0,0,0,0,0,0,0,0,0; text
+.data:0044C669                 db 'F14',0,0,0,0,0,0,0,0,0,0; text
+.data:0044C676                 db 'F15',0,0,0,0,0,0,0,0,0,0; text
+.data:0044C683                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C690                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C69D                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C6AA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C6B7                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C6C4                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C6D1                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C6DE                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C6EB                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C6F8                 db 'KANA',0,0,0,0,0,0,0,0,0; text
+.data:0044C705                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C712                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C71F                 db 'ABNT_C1',0,0,0,0,0,0; text
+.data:0044C72C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C739                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C746                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C753                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C760                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C76D                 db 'CONVERT',0,0,0,0,0,0; text
+.data:0044C77A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C787                 db 'NOCONVERT',0,0,0,0  ; text
+.data:0044C794                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C7A1                 db 'YEN',0,0,0,0,0,0,0,0,0,0; text
+.data:0044C7AE                 db 'ABNT_C2',0,0,0,0,0,0; text
+.data:0044C7BB                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C7C8                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C7D5                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C7E2                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C7EF                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C7FC                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C809                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C816                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C823                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C830                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C83D                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C84A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C857                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C864                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C871                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C87E                 db 'NUMPADEQUALS',0     ; text
+.data:0044C88B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C898                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C8A5                 db 'PREVTRACK',0,0,0,0  ; text
+.data:0044C8B2                 db 'AT',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C8BF                 db 'COLON',0,0,0,0,0,0,0,0; text
+.data:0044C8CC                 db 'UNDERLINE',0,0,0,0  ; text
+.data:0044C8D9                 db 'KANJI',0,0,0,0,0,0,0,0; text
+.data:0044C8E6                 db 'STOP',0,0,0,0,0,0,0,0,0; text
+.data:0044C8F3                 db 'AX',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C900                 db 'UNLABELED',0,0,0,0  ; text
+.data:0044C90D                 db 'NEXTTRACK',0,0,0,0  ; text
+.data:0044C91A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C927                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C934                 db 'NUMPADENTER',0,0    ; text
+.data:0044C941                 db 'RCONTROL',0,0,0,0,0 ; text
+.data:0044C94E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C95B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C968                 db 'MUTE',0,0,0,0,0,0,0,0,0; text
+.data:0044C975                 db 'CALCULATOR',0,0,0   ; text
+.data:0044C982                 db 'PLAYPAUSE',0,0,0,0  ; text
+.data:0044C98F                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C99C                 db 'MEDIASTOP',0,0,0,0  ; text
+.data:0044C9A9                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C9B6                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C9C3                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C9D0                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C9DD                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C9EA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044C9F7                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CA04                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CA11                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CA1E                 db 'VOLUMEDOWN',0,0,0   ; text
+.data:0044CA2B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CA38                 db 'VOLUMEUP',0,0,0,0,0 ; text
+.data:0044CA45                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CA52                 db 'WEBHOME',0,0,0,0,0,0; text
+.data:0044CA5F                 db 'NUMPADCOMMA',0,0    ; text
+.data:0044CA6C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CA79                 db 'DIVIDE',0,0,0,0,0,0,0; text
+.data:0044CA86                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CA93                 db 'SYSRQ',0,0,0,0,0,0,0,0; text
+.data:0044CAA0                 db 'RMENU',0,0,0,0,0,0,0,0; text
+.data:0044CAAD                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CABA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CAC7                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CAD4                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CAE1                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CAEE                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CAFB                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CB08                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CB15                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CB22                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CB2F                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CB3C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CB49                 db 'PAUSE',0,0,0,0,0,0,0,0; text
+.data:0044CB56                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CB63                 db 'HOME',0,0,0,0,0,0,0,0,0; text
+.data:0044CB70                 db 'UP',0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CB7D                 db 'PRIOR',0,0,0,0,0,0,0,0; text
+.data:0044CB8A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CB97                 db 'LEFT',0,0,0,0,0,0,0,0,0; text
+.data:0044CBA4                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CBB1                 db 'RIGHT',0,0,0,0,0,0,0,0; text
+.data:0044CBBE                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CBCB                 db 'END',0,0,0,0,0,0,0,0,0,0; text
+.data:0044CBD8                 db 'DOWN',0,0,0,0,0,0,0,0,0; text
+.data:0044CBE5                 db 'NEXT',0,0,0,0,0,0,0,0,0; text
+.data:0044CBF2                 db 'INSERT',0,0,0,0,0,0,0; text
+.data:0044CBFF                 db 'DELETE',0,0,0,0,0,0,0; text
+.data:0044CC0C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CC19                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CC26                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CC33                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CC40                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CC4D                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CC5A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CC67                 db 'LWIN',0,0,0,0,0,0,0,0,0; text
+.data:0044CC74                 db 'RWIN',0,0,0,0,0,0,0,0,0; text
+.data:0044CC81                 db 'APPS',0,0,0,0,0,0,0,0,0; text
+.data:0044CC8E                 db 'POWER',0,0,0,0,0,0,0,0; text
+.data:0044CC9B                 db 'SLEEP',0,0,0,0,0,0,0,0; text
+.data:0044CCA8                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CCB5                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CCC2                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CCCF                 db 'WAKE',0,0,0,0,0,0,0,0,0; text
+.data:0044CCDC                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CCE9                 db 'WEBSEARCH',0,0,0,0  ; text
+.data:0044CCF6                 db 'WEBFAVORI',0,0,0,0  ; text
+.data:0044CD03                 db 'WEBREFRESH',0,0,0   ; text
+.data:0044CD10                 db 'WEBSTOP',0,0,0,0,0,0; text
+.data:0044CD1D                 db 'WEBFORWARD',0,0,0   ; text
+.data:0044CD2A                 db 'WEBBACK',0,0,0,0,0,0; text
+.data:0044CD37                 db 'MYCOMPUTER',0,0,0   ; text
+.data:0044CD44                 db 'MAIL',0,0,0,0,0,0,0,0,0; text
+.data:0044CD51                 db 'MEDIASELECT',0,0    ; text
+.data:0044CD5E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CD6B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CD78                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CD85                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CD92                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CD9F                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CDAC                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CDB9                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CDC6                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CDD3                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CDE0                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CDED                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CDFA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CE07                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CE14                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CE21                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CE2E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CE3B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CE48                 db 'J1_RIGHT',0,0,0,0,0 ; text
+.data:0044CE55                 db 'J1_LEFT',0,0,0,0,0,0; text
+.data:0044CE62                 db 'J1_DOWN',0,0,0,0,0,0; text
+.data:0044CE6F                 db 'J1_UP',0,0,0,0,0,0,0,0; text
+.data:0044CE7C                 db 'J1b_DOWN',0,0,0,0,0 ; text
+.data:0044CE89                 db 'J1b_UP',0,0,0,0,0,0,0; text
+.data:0044CE96                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CEA3                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CEB0                 db 'J1b_RIGHT',0,0,0,0  ; text
+.data:0044CEBD                 db 'J1b_LEFT',0,0,0,0,0 ; text
+.data:0044CECA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CED7                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CEE4                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CEF1                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CEFE                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CF0B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044CF18                 db 'J1_B1',0,0,0,0,0,0,0,0; text
+.data:0044CF25                 db 'J1_B2',0,0,0,0,0,0,0,0; text
+.data:0044CF32                 db 'J1_B3',0,0,0,0,0,0,0,0; text
+.data:0044CF3F                 db 'J1_B4',0,0,0,0,0,0,0,0; text
+.data:0044CF4C                 db 'J1_B5',0,0,0,0,0,0,0,0; text
+.data:0044CF59                 db 'J1_B6',0,0,0,0,0,0,0,0; text
+.data:0044CF66                 db 'J1_B7',0,0,0,0,0,0,0,0; text
+.data:0044CF73                 db 'J1_B8',0,0,0,0,0,0,0,0; text
+.data:0044CF80                 db 'J1_B9',0,0,0,0,0,0,0,0; text
+.data:0044CF8D                 db 'J1_B10',0,0,0,0,0,0,0; text
+.data:0044CF9A                 db 'J1_B11',0,0,0,0,0,0,0; text
+.data:0044CFA7                 db 'J1_B12',0,0,0,0,0,0,0; text
+.data:0044CFB4                 db 'J1_B13',0,0,0,0,0,0,0; text
+.data:0044CFC1                 db 'J1_B14',0,0,0,0,0,0,0; text
+.data:0044CFCE                 db 'J1_B15',0,0,0,0,0,0,0; text
+.data:0044CFDB                 db 'J1_B16',0,0,0,0,0,0,0; text
+.data:0044CFE8                 db 'J2_RIGHT',0,0,0,0,0 ; text
+.data:0044CFF5                 db 'J2_LEFT',0,0,0,0,0,0; text
+.data:0044D002                 db 'J2_DOWN',0,0,0,0,0,0; text
+.data:0044D00F                 db 'J2_UP',0,0,0,0,0,0,0,0; text
+.data:0044D01C                 db 'J2b_DOWN',0,0,0,0,0 ; text
+.data:0044D029                 db 'J2b_UP',0,0,0,0,0,0,0; text
+.data:0044D036                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D043                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D050                 db 'J2b_RIGHT',0,0,0,0  ; text
+.data:0044D05D                 db 'J2b_LEFT',0,0,0,0,0 ; text
+.data:0044D06A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D077                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D084                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D091                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D09E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D0AB                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D0B8                 db 'J2_B1',0,0,0,0,0,0,0,0; text
+.data:0044D0C5                 db 'J2_B2',0,0,0,0,0,0,0,0; text
+.data:0044D0D2                 db 'J2_B3',0,0,0,0,0,0,0,0; text
+.data:0044D0DF                 db 'J2_B4',0,0,0,0,0,0,0,0; text
+.data:0044D0EC                 db 'J2_B5',0,0,0,0,0,0,0,0; text
+.data:0044D0F9                 db 'J2_B6',0,0,0,0,0,0,0,0; text
+.data:0044D106                 db 'J2_B7',0,0,0,0,0,0,0,0; text
+.data:0044D113                 db 'J2_B8',0,0,0,0,0,0,0,0; text
+.data:0044D120                 db 'J2_B9',0,0,0,0,0,0,0,0; text
+.data:0044D12D                 db 'J2_B10',0,0,0,0,0,0,0; text
+.data:0044D13A                 db 'J2_B11',0,0,0,0,0,0,0; text
+.data:0044D147                 db 'J2_B12',0,0,0,0,0,0,0; text
+.data:0044D154                 db 'J2_13',0,0,0,0,0,0,0,0; text
+.data:0044D161                 db 'J2_B14',0,0,0,0,0,0,0; text
+.data:0044D16E                 db 'J2_B15',0,0,0,0,0,0,0; text
+.data:0044D17B                 db 'J2_B16',0,0,0,0,0,0,0; text
+.data:0044D188                 db 'J3_RIGHT',0,0,0,0,0 ; text
+.data:0044D195                 db 'J3_LEFT',0,0,0,0,0,0; text
+.data:0044D1A2                 db 'J3_DOWN',0,0,0,0,0,0; text
+.data:0044D1AF                 db 'J3_UP',0,0,0,0,0,0,0,0; text
+.data:0044D1BC                 db 'J3b_DOWN',0,0,0,0,0 ; text
+.data:0044D1C9                 db 'J3b_UP',0,0,0,0,0,0,0; text
+.data:0044D1D6                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D1E3                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D1F0                 db 'J3b_RIGHT',0,0,0,0  ; text
+.data:0044D1FD                 db 'J3b_LEFT',0,0,0,0,0 ; text
+.data:0044D20A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D217                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D224                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D231                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D23E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D24B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D258                 db 'J3_B1',0,0,0,0,0,0,0,0; text
+.data:0044D265                 db 'J3_B2',0,0,0,0,0,0,0,0; text
+.data:0044D272                 db 'J3_B3',0,0,0,0,0,0,0,0; text
+.data:0044D27F                 db 'J3_B4',0,0,0,0,0,0,0,0; text
+.data:0044D28C                 db 'J3_B5',0,0,0,0,0,0,0,0; text
+.data:0044D299                 db 'J3_B6',0,0,0,0,0,0,0,0; text
+.data:0044D2A6                 db 'J3_B7',0,0,0,0,0,0,0,0; text
+.data:0044D2B3                 db 'J3_B8',0,0,0,0,0,0,0,0; text
+.data:0044D2C0                 db 'J3_B9',0,0,0,0,0,0,0,0; text
+.data:0044D2CD                 db 'J3_B10',0,0,0,0,0,0,0; text
+.data:0044D2DA                 db 'J3_B11',0,0,0,0,0,0,0; text
+.data:0044D2E7                 db 'J3_B12',0,0,0,0,0,0,0; text
+.data:0044D2F4                 db 'J3_13',0,0,0,0,0,0,0,0; text
+.data:0044D301                 db 'J3_B14',0,0,0,0,0,0,0; text
+.data:0044D30E                 db 'J3_B15',0,0,0,0,0,0,0; text
+.data:0044D31B                 db 'J3_B16',0,0,0,0,0,0,0; text
+.data:0044D328                 db 'J4_RIGHT',0,0,0,0,0 ; text
+.data:0044D335                 db 'J4_LEFT',0,0,0,0,0,0; text
+.data:0044D342                 db 'J4_DOWN',0,0,0,0,0,0; text
+.data:0044D34F                 db 'J4_UP',0,0,0,0,0,0,0,0; text
+.data:0044D35C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D369                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D376                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D383                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D390                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D39D                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D3AA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D3B7                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D3C4                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D3D1                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D3DE                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D3EB                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D3F8                 db 'J4_B1',0,0,0,0,0,0,0,0; text
+.data:0044D405                 db 'J4_B2',0,0,0,0,0,0,0,0; text
+.data:0044D412                 db 'J4_B3',0,0,0,0,0,0,0,0; text
+.data:0044D41F                 db 'J4_B4',0,0,0,0,0,0,0,0; text
+.data:0044D42C                 db 'J4_B5',0,0,0,0,0,0,0,0; text
+.data:0044D439                 db 'J4_B6',0,0,0,0,0,0,0,0; text
+.data:0044D446                 db 'J4_B7',0,0,0,0,0,0,0,0; text
+.data:0044D453                 db 'J4_B8',0,0,0,0,0,0,0,0; text
+.data:0044D460                 db 'J4_B9',0,0,0,0,0,0,0,0; text
+.data:0044D46D                 db 'J4_B10',0,0,0,0,0,0,0; text
+.data:0044D47A                 db 'J4_B11',0,0,0,0,0,0,0; text
+.data:0044D487                 db 'J4_B12',0,0,0,0,0,0,0; text
+.data:0044D494                 db 'J4_13',0,0,0,0,0,0,0,0; text
+.data:0044D4A1                 db 'J4_B14',0,0,0,0,0,0,0; text
+.data:0044D4AE                 db 'J4_B15',0,0,0,0,0,0,0; text
+.data:0044D4BB                 db 'J4_B16',0,0,0,0,0,0,0; text
+.data:0044D4C8                 db 'POV1_UP',0,0,0,0,0,0; text
+.data:0044D4D5                 db 'POV1_RIGHT',0,0,0   ; text
+.data:0044D4E2                 db 'POV1_DOWN',0,0,0,0  ; text
+.data:0044D4EF                 db 'POV1_LEFT',0,0,0,0  ; text
+.data:0044D4FC                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D509                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D516                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D523                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D530                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D53D                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D54A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D557                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D564                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D571                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D57E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D58B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D598                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D5A5                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D5B2                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D5BF                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D5CC                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D5D9                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D5E6                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D5F3                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D600                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D60D                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D61A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D627                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D634                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D641                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D64E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D65B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D668                 db 'POV2_UP',0,0,0,0,0,0; text
+.data:0044D675                 db 'POV2_RIGHT',0,0,0   ; text
+.data:0044D682                 db 'POV2_DOWN',0,0,0,0  ; text
+.data:0044D68F                 db 'POV2_LEFT',0,0,0,0  ; text
+.data:0044D69C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D6A9                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D6B6                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D6C3                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D6D0                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D6DD                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D6EA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D6F7                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D704                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D711                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D71E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D72B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D738                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D745                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D752                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D75F                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D76C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D779                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D786                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D793                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D7A0                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D7AD                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D7BA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D7C7                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D7D4                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D7E1                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D7EE                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D7FB                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D808                 db 'POV3_UP',0,0,0,0,0,0; text
+.data:0044D815                 db 'POV3_RIGHT',0,0,0   ; text
+.data:0044D822                 db 'POV3_DOWN',0,0,0,0  ; text
+.data:0044D82F                 db 'POV3_LEFT',0,0,0,0  ; text
+.data:0044D83C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D849                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D856                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D863                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D870                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D87D                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D88A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D897                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D8A4                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D8B1                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D8BE                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D8CB                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D8D8                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D8E5                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D8F2                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D8FF                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D90C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D919                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D926                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D933                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D940                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D94D                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D95A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D967                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D974                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D981                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D98E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D99B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D9A8                 db 'POV4_UP',0,0,0,0,0,0; text
+.data:0044D9B5                 db 'POV4_RIGHT',0,0,0   ; text
+.data:0044D9C2                 db 'POV4_DOWN',0,0,0,0  ; text
+.data:0044D9CF                 db 'POV4_LEFT',0,0,0,0  ; text
+.data:0044D9DC                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D9E9                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044D9F6                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA03                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA10                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA1D                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA2A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA37                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA44                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA51                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA5E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA6B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA78                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA85                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA92                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DA9F                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DAAC                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DAB9                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DAC6                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DAD3                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DAE0                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DAED                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DAFA                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DB07                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DB14                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DB21                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DB2E                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DB3B                 db 0,0,0,0,0,0,0,0,0,0,0,0,0; text
+.data:0044DB48 ; CHAR joy_names[14]
+.data:0044DB48 joy_names       db 'J1_NONE',0,0,0,0,0,0,0; text
+.data:0044DB48                                         ; DATA XREF: controller_set_joypad+49↑o
+.data:0044DB48                                         ; controller_set_joypad+B5↑o
+.data:0044DB56                 db 'J1_LX',0,0,0,0,0,0,0,0,0; text
+.data:0044DB64                 db 'J1_LY',0,0,0,0,0,0,0,0,0; text
+.data:0044DB72                 db 'J1_LZ',0,0,0,0,0,0,0,0,0; text
+.data:0044DB80                 db 'J1_LRY',0,0,0,0,0,0,0,0; text
+.data:0044DB8E                 db 'J1_LRZ',0,0,0,0,0,0,0,0; text
+.data:0044DB9C                 db 'J1_RLGSLIDER0',0    ; text
+.data:0044DBAA                 db 'J1_RLGSLIDER1',0    ; text
+.data:0044DBB8                 db 'J2_NONE',0,0,0,0,0,0,0; text
+.data:0044DBC6                 db 'J2_LX',0,0,0,0,0,0,0,0,0; text
+.data:0044DBD4                 db 'J2_LY',0,0,0,0,0,0,0,0,0; text
+.data:0044DBE2                 db 'J2_LZ',0,0,0,0,0,0,0,0,0; text
+.data:0044DBF0                 db 'J2_LRY',0,0,0,0,0,0,0,0; text
+.data:0044DBFE                 db 'J2_LRZ',0,0,0,0,0,0,0,0; text
+.data:0044DC0C                 db 'J2_RLGSLIDER0',0    ; text
+.data:0044DC1A                 db 'J2_RLGSLIDER1',0    ; text
+.data:0044DC28                 db 'J3_NONE',0,0,0,0,0,0,0; text
+.data:0044DC36                 db 'J3_LX',0,0,0,0,0,0,0,0,0; text
+.data:0044DC44                 db 'J3_LY',0,0,0,0,0,0,0,0,0; text
+.data:0044DC52                 db 'J3_LZ',0,0,0,0,0,0,0,0,0; text
+.data:0044DC60                 db 'J3_LRY',0,0,0,0,0,0,0,0; text
+.data:0044DC6E                 db 'J3_LRZ',0,0,0,0,0,0,0,0; text
+.data:0044DC7C                 db 'J3_RLGSLIDER0',0    ; text
+.data:0044DC8A                 db 'J3_RLGSLIDER1',0    ; text
+.data:0044DC98                 db 'J4_NONE',0,0,0,0,0,0,0; text
+.data:0044DCA6                 db 'J4_LX',0,0,0,0,0,0,0,0,0; text
+.data:0044DCB4                 db 'J4_LY',0,0,0,0,0,0,0,0,0; text
+.data:0044DCC2                 db 'J4_LZ',0,0,0,0,0,0,0,0,0; text
+.data:0044DCD0                 db 'J4_LRY',0,0,0,0,0,0,0,0; text
+.data:0044DCDE                 db 'J4_LRZ',0,0,0,0,0,0,0,0; text
+.data:0044DCEC                 db 'J4_RLGSLIDER0',0    ; text
+.data:0044DCFA                 db 'J4_RLGSLIDER1',0    ; text
+
 .data:0044DD19 g_bDisableMouse db 1                    ; DATA XREF: parse_command_line_options+20A↑w
 .data:0044DD19                                         ; main_window_callback+269↑w ...
 .data:0044DD1A pad_number_menu_selection db 1          ; DATA XREF: controller_set_joypad+28↑r
 .data:0044DD1A                                         ; controller_set_joypad+8F↑r ...
 .data:0044DD1C ; int word_44DD1C
-.data:0044DD1C word_44DD1C     dw 40Ah                 ; DATA XREF: controller_set_keyboard+19↑o
+.data:0044DD1C word_44DD1C     dw 40Ah, 40Ch, 409h, 40Bh, 412h, 413h, 414h, 415h, 408h
+.data:0044DD1C                                         ; DATA XREF: controller_set_keyboard+19↑o
 .data:0044DD1C                                         ; controller_set_keyboard+E4↑r
-.data:0044DD1E                 db  0Ch
-.data:0044DD1F                 db    4
-.data:0044DD20                 db    9
-.data:0044DD21                 db    4
-.data:0044DD22                 db  0Bh
-.data:0044DD23                 db    4
-.data:0044DD24                 db  12h
-.data:0044DD25                 db    4
-.data:0044DD26                 db  13h
-.data:0044DD27                 db    4
-.data:0044DD28                 db  14h
-.data:0044DD29                 db    4
-.data:0044DD2A                 db  15h
-.data:0044DD2B                 db    4
-.data:0044DD2C                 db    8
-.data:0044DD2D                 db    4
-.data:0044DD2E                 db    7
-.data:0044DD2F                 db    4
-.data:0044DD30                 db  11h
-.data:0044DD31                 db    4
-.data:0044DD32                 db  10h
-.data:0044DD33                 db    4
-.data:0044DD34                 db  0Fh
-.data:0044DD35                 db    4
-.data:0044DD36                 db  0Eh
-.data:0044DD37                 db    4
-.data:0044DD38                 db  16h
-.data:0044DD39                 db    4
-.data:0044DD3A                 db  1Ah
-.data:0044DD3B                 db    4
+.data:0044DD2E                 dw 407h, 411h, 410h, 40Fh, 40Eh, 416h, 41Ah
 .data:0044DD3C ; int nIDDlgItem
 .data:0044DD3C nIDDlgItem      dw 41Ch                 ; DATA XREF: controller_set_joypad+19↑o
 .data:0044DD3C                                         ; controller_set_joypad+DC↑r
@@ -119,7 +641,7 @@
 .data:0044DD41                 db    4
 .data:0044DD42                 db  1Eh
 .data:0044DD43                 db    4
-.data:0044DD44 byte_44DD44     db 0FFh                 ; DATA XREF: controller_setup_callback+70E↑w
+.data:0044DD44 edit_button_id  db 0FFh                 ; DATA XREF: controller_setup_callback+70E↑w
 .data:0044DD44                                         ; controller_setup_callback+745↑r ...
 .data:0044DD48 setup_wizard_step dd 0FFFFFFFFh         ; DATA XREF: setup_wizard_search_bios+CE↑r
 .data:0044DD48                                         ; setup_wizard_search_bios+DA↑w ...
@@ -168,7 +690,6 @@
 .data:0044F408                                         ; spucore_unfreeze+173↑r
 .data:0044F420                 dd 255C1h, 16711h, 0D7B1h, 8190h, 4DD4h, 2EC0h, 1C15h
 .data:0044F43C                 dd 10DEh, 0A22h, 616h
-
 .data:0044F448 ; int dword_44F448[]
 .data:0044F448 dword_44F448    dd 5F8E2Ch, 505A27h, 43915Eh, 38D14Bh, 2FC716h, 282D13h
 .data:0044F448                                         ; DATA XREF: spucore_write_voice_reg+1FC↑r
@@ -183,7 +704,6 @@
 .data:0044F530                 dd 10Eh, 0E3h, 0BFh, 0A0h, 87h, 71h, 5Fh, 50h, 43h, 38h
 .data:0044F558                 dd 2Fh, 28h, 21h, 1Ch, 17h, 14h, 10h, 0Eh, 0Bh, 0Ah, 8
 .data:0044F584                 dd 7, 2 dup(5), 4, 3, 3 dup(2), 4 dup(1), 25h dup(0)
-
 .data:0044F648 ; int dword_44F648[16]
 .data:0044F648 dword_44F648    dd 0FFFFFh, 1FFFFFh, 2FFFFFh, 3FFFFFh, 4FFFFFh, 5FFFFFh
 .data:0044F648                                         ; DATA XREF: spucore_write_voice_reg+193↑r
@@ -322,8 +842,7 @@
 .data:0044F9A5                 db  6Eh ; n
 .data:0044F9A6                 db  63h ; c
 .data:0044F9A7                 db  2Eh ; .
-
-.data:0044F9A8 mini_cheat_count dd 4                   ; DATA XREF: sub_41BC30↑r
+.data:0044F9A8 mini_cheat_count dd 4                   ; DATA XREF: loader_mini_cheat_find↑r
 .data:0044F9A8                                         ; loader_load_cheats+22↑r ...
 .data:0044F9AC                 align 10h
 .data:0044F9B0 ; const char mini_cheat_db[12]
@@ -332,9 +851,10 @@
 .data:0044F9E0                 MINI_CHEAR_ENTRY <'SLES_033.42', 10036298h, 0>
 .data:0044F9F8                 MINI_CHEAR_ENTRY <'SLES_033.44', 100369F0h, 0>
 .data:0044FA10                 MINI_CHEAR_ENTRY 0C4h dup(<0>)
-
 .data:00450C70 cheat_entries_count dd 39               ; DATA XREF: loader_load_cheats+9D↑r
 .data:00450C70                                         ; loader_load_cheats+BC↑r ...
+
+.data:00450C78 ; CHEAT_DB_ENTRY cheat_db[200]
 .data:00450C78 cheat_db        CHEAT_DB_ENTRY <'SCES_021.05', 'NULL', 1, 0FFh, 2, 0FFh, 0FFh, 0, 0, \
 .data:00450C78                                         ; DATA XREF: loader_load_cheats+AF↑o
 .data:00450C78                                         ; loader_parse_cheat_entry+19↑o ...
@@ -414,7 +934,6 @@
 .data:0045182D                 CHEAT_DB_ENTRY <'SLES_021.12', 'NULL', 1, 0FFh, 0FFh, 0FFh, 0, 0, 0, \
 .data:0045182D                                 0, 0, 0, 0>
 .data:0045187E                 CHEAT_DB_ENTRY 0A2h dup(<0>)
-
 .data:00454BC0 ; char FileName[256]
 .data:00454BC0 FileName        db 'NULL',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 .data:00454BC0                                         ; DATA XREF: loader_set_filename+A↑o
@@ -426,8 +945,7 @@
 .data:00454C6A                 db 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 .data:00454C8C                 db 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 .data:00454CAE                 db 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-
-.data:00454CC0 byte_454CC0     db 1                    ; DATA XREF: mem_init_memory_handlers+EF↑w
+.data:00454CC0 mem_handlers_inited db 1                ; DATA XREF: mem_init_memory_handlers+EF↑w
 
 .data:00455028 ; int zip_code_length_order[19]
 .data:00455028 zip_code_length_order dd 10h, 11h, 12h, 0, 8, 7, 9, 6, 0Ah, 5, 0Bh, 4, 0Ch, 3
@@ -461,7 +979,19 @@
 .data:00455166                 db 0Ch, 0, 0Dh, 0, 0Dh, 0
 .data:0045516C zip_static_ltree_max_bits dd 9          ; DATA XREF: zip_inflate_block+616↑r
 .data:00455170 zip_static_dtree_max_bits dd 6          ; DATA XREF: zip_inflate_block:loc_41F886↑r
-.data:004551A8 ; const char zip_signature[2]
+.data:00455174 ; const char aIncompleteDTre[22]
+.data:00455174 aIncompleteDTre db '(incomplete d-tree)  ',0
+.data:00455174                                         ; DATA XREF: zip_inflate_block+6DA↑o
+.data:0045518A                 align 4
+.data:0045518C ; const char aIncompleteLTre[22]
+.data:0045518C aIncompleteLTre db '(incomplete l-tree)  ',0
+.data:0045518C                                         ; DATA XREF: zip_inflate_block:loc_41F85D↑o
+.data:004551A2                 align 4
+.data:004551A4                 db    1
+.data:004551A5                 db    0
+.data:004551A6                 db    0
+.data:004551A7                 db    0
+.data:004551A8 ; const char zip_signature[4]
 .data:004551A8 zip_signature   db 50h                  ; DATA XREF: zip_find_end_of_central_dir_signature+19↑o
 .data:004551A9                 db  4Bh ; K
 .data:004551AA                 db    5
@@ -498,7 +1028,7 @@
 .data:0045592B                 db 0
 .data:0045592C byte_45592C     db 4 dup(0), 8, 3 dup(0), 10h, 3 dup(0), 18h, 3 dup(0)
 .data:0045592C                                         ; DATA XREF: dynarec_compile+3B91↑o
-.data:0045593C dword_45593C    dd 106h                 ; DATA XREF: WinMain+12A↑w
+.data:0045593C video_scanlines dd 106h                 ; DATA XREF: WinMain+12A↑w
 .data:0045593C                                         ; loader_cdrom_detect_region+3B↑w ...
 .data:00455940 cpu_speed_scale dd 86Ah                 ; DATA XREF: WinMain+134↑w
 .data:00455940                                         ; loader_cdrom_detect_region+45↑w ...
@@ -506,7 +1036,7 @@
 .data:00455944                                         ; cont_process_input+2B3↑w
 .data:00455945 byte_455945     db 5                    ; DATA XREF: parse_command_line_options+23A↑w
 .data:00455945                                         ; dynarec_compile+3233↑r ...
-.data:00455946 byte_455946     db 1                    ; DATA XREF: parse_command_line_options+4A2↑w
+.data:00455946 cpu_overclock_setting db 1              ; DATA XREF: parse_command_line_options+4A2↑w
 .data:00455946                                         ; parse_command_line_options+4DD↑w ...
 .data:00455947                 db    0
 .data:00455948 byte_455948     db 81h                  ; DATA XREF: dynarec_init+8D2↑o
@@ -604,7 +1134,111 @@
 .data:00455C70                                         ; mdec_y_to_mono+102↑r ...
 .data:00455C78 qword_455C78    dq 0FFFFFFFF0000h       ; DATA XREF: mdec_y_to_mono+C5↑r
 .data:00455C78                                         ; mdec_y_to_mono+E1↑r ...
-
+.data:00455C80 cpu_special_opcode_table dd offset op_SLL, offset op_UNKNOWN, offset op_SRL, offset op_SRA
+.data:00455C80                                         ; DATA XREF: op_SPECIAL+8↑r
+.data:00455C90                 dd offset op_SLLV, offset op_UNKNOWN, offset op_SRLV, offset op_SRAV
+.data:00455CA0                 dd offset op_JR, offset op_JALR, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455CB0                 dd offset op_SYSCALL, offset nullsub_1, offset op_UNKNOWN
+.data:00455CBC                 dd offset op_UNKNOWN, offset op_MFHI, offset op_MTHI, offset op_MFLO
+.data:00455CCC                 dd offset op_MTLO, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455CD8                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_MULT
+.data:00455CE4                 dd offset op_MULTU, offset op_DIV, offset op_DIVU, offset op_UNKNOWN
+.data:00455CF4                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455D00                 dd offset op_ADD, offset op_ADD, offset op_SUB, offset op_SUB
+.data:00455D10                 dd offset op_AND, offset op_OR, offset op_XOR, offset op_NOR
+.data:00455D20                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_SLT
+.data:00455D2C                 dd offset op_SLTU, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455D38                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455D44                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455D50                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455D5C                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455D68                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455D74                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455D80 cpu_cop0_table  dd offset op_MFC0       ; DATA XREF: op_COP0+B↑r
+.data:00455D84                 dd offset op_UNKNOWN
+.data:00455D88                 dd offset op_UNKNOWN
+.data:00455D8C                 dd offset op_UNKNOWN
+.data:00455D90                 dd offset op_MTC0
+.data:00455D94                 dd offset op_UNKNOWN
+.data:00455D98                 dd offset op_UNKNOWN
+.data:00455D9C                 dd offset op_UNKNOWN
+.data:00455DA0                 dd offset op_UNKNOWN
+.data:00455DA4                 dd offset op_UNKNOWN
+.data:00455DA8                 dd offset op_UNKNOWN
+.data:00455DAC                 dd offset op_UNKNOWN
+.data:00455DB0                 dd offset op_UNKNOWN
+.data:00455DB4                 dd offset op_UNKNOWN
+.data:00455DB8                 dd offset op_UNKNOWN
+.data:00455DBC                 dd offset op_UNKNOWN
+.data:00455DC0                 dd offset op_RFE
+.data:00455DC4                 dd offset op_UNKNOWN
+.data:00455DC8                 dd offset op_UNKNOWN
+.data:00455DCC                 dd offset op_UNKNOWN
+.data:00455DD0                 dd offset op_UNKNOWN
+.data:00455DD4                 dd offset op_UNKNOWN
+.data:00455DD8                 dd offset op_UNKNOWN
+.data:00455DDC                 dd offset op_UNKNOWN
+.data:00455DE0                 dd offset op_UNKNOWN
+.data:00455DE4                 dd offset op_UNKNOWN
+.data:00455DE8                 dd offset op_UNKNOWN
+.data:00455DEC                 dd offset op_UNKNOWN
+.data:00455DF0                 dd offset op_UNKNOWN
+.data:00455DF4                 dd offset op_UNKNOWN
+.data:00455DF8                 dd offset op_UNKNOWN
+.data:00455DFC                 dd offset op_UNKNOWN
+.data:00455E00 cpu_bcond_opcode_table dd offset op_BLTZ ; DATA XREF: op_BCONDZ+A↑r
+.data:00455E04                 dd offset op_BGEZ
+.data:00455E08                 dd offset op_UNKNOWN
+.data:00455E0C                 dd offset op_UNKNOWN
+.data:00455E10                 dd offset op_UNKNOWN
+.data:00455E14                 dd offset op_UNKNOWN
+.data:00455E18                 dd offset op_UNKNOWN
+.data:00455E1C                 dd offset op_UNKNOWN
+.data:00455E20                 dd offset op_UNKNOWN
+.data:00455E24                 dd offset op_UNKNOWN
+.data:00455E28                 dd offset op_UNKNOWN
+.data:00455E2C                 dd offset op_UNKNOWN
+.data:00455E30                 dd offset op_UNKNOWN
+.data:00455E34                 dd offset op_UNKNOWN
+.data:00455E38                 dd offset op_UNKNOWN
+.data:00455E3C                 dd offset op_UNKNOWN
+.data:00455E40                 dd offset op_BLTZAL
+.data:00455E44                 dd offset op_BGEZAL
+.data:00455E48                 dd offset op_UNKNOWN
+.data:00455E4C                 dd offset op_UNKNOWN
+.data:00455E50                 dd offset op_UNKNOWN
+.data:00455E54                 dd offset op_UNKNOWN
+.data:00455E58                 dd offset op_UNKNOWN
+.data:00455E5C                 dd offset op_UNKNOWN
+.data:00455E60                 dd offset op_UNKNOWN
+.data:00455E64                 dd offset op_UNKNOWN
+.data:00455E68                 dd offset op_UNKNOWN
+.data:00455E6C                 dd offset op_UNKNOWN
+.data:00455E70                 dd offset op_UNKNOWN
+.data:00455E74                 dd offset op_UNKNOWN
+.data:00455E78                 dd offset op_UNKNOWN
+.data:00455E7C                 dd offset op_UNKNOWN
+.data:00455E80 cpu_main_table  dd offset op_SPECIAL, offset op_BCONDZ, offset op_J, offset op_JAL
+.data:00455E80                                         ; DATA XREF: op_J+4C↑r
+.data:00455E80                                         ; op_JAL+55↑r ...
+.data:00455E90                 dd offset op_BEQ, offset op_BNE, offset op_BLEZ, offset op_BGTZ
+.data:00455EA0                 dd offset op_ADDI, offset op_ADDI, offset op_SLTI, offset op_SLTIU
+.data:00455EB0                 dd offset op_ANDI, offset op_ORI, offset op_XORI, offset op_LUI
+.data:00455EC0                 dd offset op_COP0, offset op_UNKNOWN, offset gte_exec_opcode
+.data:00455ECC                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455ED8                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455EE4                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455EF0                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455EFC                 dd offset op_UNKNOWN, offset op_LB, offset op_LH, offset op_LWL
+.data:00455F0C                 dd offset op_LW, offset op_LBU, offset op_LHU, offset op_LWR
+.data:00455F1C                 dd offset op_UNKNOWN, offset op_SB, offset op_SH, offset op_SWL
+.data:00455F2C                 dd offset op_SW, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455F38                 dd offset op_SWR, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455F44                 dd offset op_UNKNOWN, offset op_LWC2, offset op_UNKNOWN
+.data:00455F50                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455F5C                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455F68                 dd offset op_SWC2, offset op_UNKNOWN, offset op_UNKNOWN
+.data:00455F74                 dd offset op_UNKNOWN, offset op_UNKNOWN, offset op_UNKNOWN
 .data:00455F80                 db  6Ah ; j
 .data:00455F81                 db    8
 .data:00455F82                 db    0
@@ -618,30 +1252,38 @@
 .data:00455FA1                                         ; main_window_callback+24F↑w ...
 .data:00455FA2 xa_read_enable  db 1                    ; DATA XREF: parse_command_line_options+40F↑w
 .data:00455FA2                                         ; parse_command_line_options+42D↑w ...
-.data:00455FA3 byte_455FA3     db 1                    ; DATA XREF: parse_command_line_options+8AB↑w
-.data:00455FA4 byte_455FA4     db 1                    ; DATA XREF: parse_command_line_options+8C8↑w
+.data:00455FA3 ignore_cmd      db 1                    ; DATA XREF: parse_command_line_options+8AB↑w
+.data:00455FA4 cd_inc          db 1                    ; DATA XREF: parse_command_line_options+8C8↑w
 .data:00455FA4                                         ; loader_parse_cheat_entry+E1↑w
-.data:00455FA5 byte_455FA5     db 1                    ; DATA XREF: parse_command_line_options+9AD↑w
-.data:00455FA5                                         ; sub_42CA70:loc_42CAF4↑r
+.data:00455FA5 report_mode_enabled db 1                ; DATA XREF: parse_command_line_options+9AD↑w
+.data:00455FA5                                         ; cdr_play_tick:loc_42CAF4↑r
 .data:00455FA6 word_455FA6     dw 0Ah                  ; DATA XREF: cdr_reg1_write+194↑w
 .data:00455FA6                                         ; cdr_reg1_write+468↑w ...
 .data:00455FA8 ; __int16 word_455FA8[]
-.data:00455FA8 word_455FA8     dw 1                    ; DATA XREF: parse_command_line_options+D8↑w
+.data:00455FA8 word_455FA8     dw 1, 3 dup(0)          ; DATA XREF: parse_command_line_options+D8↑w
 .data:00455FA8                                         ; controller_set_keyboard+32↑r ...
-.data:00455FB0 dword_455FB0    dd 0FFFFFFFFh           ; DATA XREF: sub_42D010+33↑r
-.data:00455FB0                                         ; sub_42D0E0+32↑r ...
-.data:00455FB4 dword_455FB4    dd 0FFFFFFFFh           ; DATA XREF: sub_42D010+55↑r
-.data:00455FB4                                         ; sub_42D0E0+1C9↑r ...
-.data:00455FB8 byte_455FB8     db 0FFh                 ; DATA XREF: sub_42D010+77↑r
-.data:00455FB8                                         ; sub_42D0E0+21B↑r
-.data:00455FB9 byte_455FB9     db 0FFh                 ; DATA XREF: sub_42D010+6E↑r
-.data:00455FB9                                         ; sub_42D0E0+212↑r
+.data:00455FB0 byte_455FB0     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+33↑r
+.data:00455FB0                                         ; cont_build_controller_response_analog+32↑r ...
+.data:00455FB1 byte_455FB1     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+2A↑r
+.data:00455FB1                                         ; cont_build_controller_response_analog+2A↑r
+.data:00455FB2                 db 0FFh
+.data:00455FB3                 db 0FFh
+.data:00455FB4 byte_455FB4     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+55↑r
+.data:00455FB4                                         ; cont_build_controller_response_analog+1C9↑r ...
+.data:00455FB5 byte_455FB5     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+4C↑r
+.data:00455FB5                                         ; cont_build_controller_response_analog+1C0↑r
+.data:00455FB6                 db 0FFh
+.data:00455FB7                 db 0FFh
+.data:00455FB8 byte_455FB8     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+77↑r
+.data:00455FB8                                         ; cont_build_controller_response_analog+21B↑r
+.data:00455FB9 byte_455FB9     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+6E↑r
+.data:00455FB9                                         ; cont_build_controller_response_analog+212↑r
 .data:00455FBA                 db 0FFh
 .data:00455FBB                 db 0FFh
-.data:00455FBC byte_455FBC     db 0FFh                 ; DATA XREF: sub_42D010+99↑r
-.data:00455FBC                                         ; sub_42D0E0+26D↑r
-.data:00455FBD byte_455FBD     db 0FFh                 ; DATA XREF: sub_42D010+90↑r
-.data:00455FBD                                         ; sub_42D0E0+264↑r
+.data:00455FBC byte_455FBC     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+99↑r
+.data:00455FBC                                         ; cont_build_controller_response_analog+26D↑r
+.data:00455FBD byte_455FBD     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+90↑r
+.data:00455FBD                                         ; cont_build_controller_response_analog+264↑r
 .data:00455FBE                 db 0FFh
 .data:00455FBF                 db 0FFh
 .data:00455FC0                 db 0FFh
@@ -652,128 +1294,17 @@
 .data:00455FC5                 db    0
 .data:00455FC6                 db    0
 .data:00455FC7                 db    0
-.data:00455FC8 ; __int16 word_455FC8[]
-.data:00455FC8 word_455FC8     dw 0CBh                 ; DATA XREF: cfg_load_settings+3CA↑o
+.data:00455FC8 ; __int16 Keys1[]
+.data:00455FC8 Keys1           dw 0CBh, 0CDh, 0C8h, 0D0h, 20h, 2Dh, 2Ch, 1Fh, 11h, 12h
+.data:00455FC8                                         ; DATA XREF: cfg_load_settings+3CA↑o
 .data:00455FC8                                         ; cfg_save_settings+1B5↑r ...
-.data:00455FCA word_455FCA     dw 0CDh                 ; DATA XREF: cfg_load_settings+3C5↑o
-.data:00455FCA                                         ; cfg_save_settings+1AD↑r ...
-.data:00455FCC word_455FCC     dw 0C8h                 ; DATA XREF: cfg_load_settings+3C0↑o
-.data:00455FCC                                         ; cfg_save_settings+19E↑r ...
-.data:00455FCE word_455FCE     dw 0D0h                 ; DATA XREF: cfg_load_settings+3BB↑o
-.data:00455FCE                                         ; cfg_save_settings+197↑r ...
-.data:00455FD0 word_455FD0     dw 20h                  ; DATA XREF: cfg_load_settings+3B6↑o
-.data:00455FD0                                         ; cfg_save_settings+189↑r ...
-.data:00455FD2 word_455FD2     dw 2Dh                  ; DATA XREF: cfg_load_settings+3B1↑o
-.data:00455FD2                                         ; cfg_save_settings+181↑r ...
-.data:00455FD4 word_455FD4     dw 2Ch                  ; DATA XREF: cfg_load_settings+3AC↑o
-.data:00455FD4                                         ; cfg_save_settings+179↑r ...
-.data:00455FD6 word_455FD6     dw 1Fh                  ; DATA XREF: cfg_load_settings+3A7↑o
-.data:00455FD6                                         ; cfg_save_settings+16B↑r ...
-.data:00455FD8 word_455FD8     dw 11h                  ; DATA XREF: cfg_load_settings+3A2↑o
-.data:00455FD8                                         ; cfg_save_settings+154↑r ...
-.data:00455FDA word_455FDA     dw 12h                  ; DATA XREF: cfg_load_settings+39D↑o
-.data:00455FDA                                         ; cfg_save_settings+15C↑r ...
-.data:00455FDC word_455FDC     dw 13h                  ; DATA XREF: cfg_load_settings+398↑o
-.data:00455FDC                                         ; cfg_save_settings+14D↑r ...
-.data:00455FDE word_455FDE     dw 14h                  ; DATA XREF: cfg_load_settings+393↑o
-.data:00455FDE                                         ; cfg_save_settings+145↑r ...
-.data:00455FE0 word_455FE0     dw 2Fh                  ; DATA XREF: cfg_load_settings+38E↑o
-.data:00455FE0                                         ; cfg_save_settings+137↑r ...
-.data:00455FE2 word_455FE2     dw 2Eh                  ; DATA XREF: cfg_load_settings+389↑o
-.data:00455FE2                                         ; cfg_save_settings+129↑r ...
-.data:00455FE4 word_455FE4     dw 10h                  ; DATA XREF: cfg_load_settings+384↑o
-.data:00455FE4                                         ; cfg_save_settings+119↑r ...
-.data:00455FE6 word_455FE6     dw 15h                  ; DATA XREF: cfg_load_settings+37F↑o
-.data:00455FE6                                         ; cfg_save_settings+121↑r ...
-.data:00455FE8 word_455FE8     dw 0                    ; DATA XREF: cfg_load_settings+447↑o
-.data:00455FE8                                         ; cfg_save_settings+290↑r
-.data:00455FEA word_455FEA     dw 0                    ; DATA XREF: cfg_load_settings+442↑o
-.data:00455FEA                                         ; cfg_save_settings+282↑r
-.data:00455FEC word_455FEC     dw 0                    ; DATA XREF: cfg_load_settings+43D↑o
-.data:00455FEC                                         ; cfg_save_settings+27A↑r
-.data:00455FEE word_455FEE     dw 0                    ; DATA XREF: cfg_load_settings+438↑o
-.data:00455FEE                                         ; cfg_save_settings+274↑r
-.data:00455FF0 word_455FF0     dw 0                    ; DATA XREF: cfg_load_settings+433↑o
-.data:00455FF0                                         ; cfg_save_settings+25E↑r
-.data:00455FF2 word_455FF2     dw 0                    ; DATA XREF: cfg_load_settings+42E↑o
-.data:00455FF2                                         ; cfg_save_settings+256↑r
-.data:00455FF4 word_455FF4     dw 0                    ; DATA XREF: cfg_load_settings+429↑o
-.data:00455FF4                                         ; cfg_save_settings+248↑r
-.data:00455FF6 word_455FF6     dw 0                    ; DATA XREF: cfg_load_settings+424↑o
-.data:00455FF6                                         ; cfg_save_settings+240↑r
-.data:00455FF8 word_455FF8     dw 0                    ; DATA XREF: cfg_load_settings+41F↑o
-.data:00455FF8                                         ; cfg_save_settings+237↑r
-.data:00455FFA word_455FFA     dw 0                    ; DATA XREF: cfg_load_settings+41A↑o
-.data:00455FFA                                         ; cfg_save_settings+22A↑r
-.data:00455FFC dword_455FFC    dd 0                    ; DATA XREF: cfg_load_settings+415↑o
-.data:00455FFC                                         ; cfg_save_settings+213↑r ...
-.data:00456000 word_456000     dw 0                    ; DATA XREF: cfg_load_settings+40B↑o
-.data:00456000                                         ; cfg_save_settings+20C↑r
-.data:00456002 word_456002     dw 0                    ; DATA XREF: cfg_load_settings+406↑o
-.data:00456002                                         ; cfg_save_settings+1FE↑r
-.data:00456004 dword_456004    dd 0                    ; DATA XREF: cfg_load_settings+401↑o
-.data:00456004                                         ; cfg_save_settings+1EE↑r ...
-.data:00456008 word_456008     dw 0                    ; DATA XREF: cfg_load_settings+4C4↑o
-.data:00456008                                         ; cfg_save_settings+35F↑r
-.data:0045600A word_45600A     dw 0                    ; DATA XREF: cfg_load_settings+4BF↑o
-.data:0045600A                                         ; cfg_save_settings+357↑r
-.data:0045600C word_45600C     dw 0                    ; DATA XREF: cfg_load_settings+4BA↑o
-.data:0045600C                                         ; cfg_save_settings+348↑r
-.data:0045600E word_45600E     dw 0                    ; DATA XREF: cfg_load_settings+4B5↑o
-.data:0045600E                                         ; cfg_save_settings+341↑r
-.data:00456010 word_456010     dw 0                    ; DATA XREF: cfg_load_settings+4B0↑o
-.data:00456010                                         ; cfg_save_settings+333↑r
-.data:00456012 word_456012     dw 0                    ; DATA XREF: cfg_load_settings+4AB↑o
-.data:00456012                                         ; cfg_save_settings+32B↑r
-.data:00456014 word_456014     dw 0                    ; DATA XREF: cfg_load_settings+4A6↑o
-.data:00456014                                         ; cfg_save_settings+31D↑r
-.data:00456016 word_456016     dw 0                    ; DATA XREF: cfg_load_settings+4A1↑o
-.data:00456016                                         ; cfg_save_settings+315↑r
-.data:00456018 word_456018     dw 0                    ; DATA XREF: cfg_load_settings+49C↑o
-.data:00456018                                         ; cfg_save_settings+30C↑r
-.data:0045601A word_45601A     dw 0                    ; DATA XREF: cfg_load_settings+497↑o
-.data:0045601A                                         ; cfg_save_settings+2FF↑r
-.data:0045601C dword_45601C    dd 0                    ; DATA XREF: cfg_load_settings+492↑o
-.data:0045601C                                         ; cfg_save_settings+2E8↑r ...
-.data:00456020 word_456020     dw 0                    ; DATA XREF: cfg_load_settings+488↑o
-.data:00456020                                         ; cfg_save_settings+2E1↑r
-.data:00456022 word_456022     dw 0                    ; DATA XREF: cfg_load_settings+483↑o
-.data:00456022                                         ; cfg_save_settings+2D3↑r
-.data:00456024 dword_456024    dd 0                    ; DATA XREF: cfg_load_settings+47E↑o
-.data:00456024                                         ; cfg_save_settings+2C3↑r ...
-.data:00456028 word_456028     dw 0                    ; DATA XREF: cfg_load_settings+541↑o
-.data:00456028                                         ; cfg_save_settings+434↑r
-.data:0045602A word_45602A     dw 0                    ; DATA XREF: cfg_load_settings+53C↑o
-.data:0045602A                                         ; cfg_save_settings+42C↑r
-.data:0045602C word_45602C     dw 0                    ; DATA XREF: cfg_load_settings+537↑o
-.data:0045602C                                         ; cfg_save_settings+41D↑r
-.data:0045602E word_45602E     dw 0                    ; DATA XREF: cfg_load_settings+532↑o
-.data:0045602E                                         ; cfg_save_settings+416↑r
-.data:00456030 word_456030     dw 0                    ; DATA XREF: cfg_load_settings+52D↑o
-.data:00456030                                         ; cfg_save_settings+408↑r
-.data:00456032 word_456032     dw 0                    ; DATA XREF: cfg_load_settings+528↑o
-.data:00456032                                         ; cfg_save_settings+400↑r
-.data:00456034 word_456034     dw 0                    ; DATA XREF: cfg_load_settings+523↑o
-.data:00456034                                         ; cfg_save_settings+3F2↑r
-.data:00456036 word_456036     dw 0                    ; DATA XREF: cfg_load_settings+51E↑o
-.data:00456036                                         ; cfg_save_settings+3EA↑r
-.data:00456038 word_456038     dw 0                    ; DATA XREF: cfg_load_settings+519↑o
-.data:00456038                                         ; cfg_save_settings+3DB↑r
-.data:0045603A word_45603A     dw 0                    ; DATA XREF: cfg_load_settings+514↑o
-.data:0045603A                                         ; cfg_save_settings+3D4↑r
-.data:0045603C word_45603C     dw 0                    ; DATA XREF: cfg_load_settings+50F↑o
-.data:0045603C                                         ; cfg_save_settings+3CB↑r
-.data:0045603E word_45603E     dw 0                    ; DATA XREF: cfg_load_settings+50A↑o
-.data:0045603E                                         ; cfg_save_settings+3BE↑r
-.data:00456040 word_456040     dw 0                    ; DATA XREF: cfg_load_settings+505↑o
-.data:00456040                                         ; cfg_save_settings+3A7↑r
-.data:00456042 word_456042     dw 0                    ; DATA XREF: cfg_load_settings+500↑o
-.data:00456042                                         ; cfg_save_settings+3AE↑r
-.data:00456044 ; __int16 word_456044[]
-.data:00456044 word_456044     dw 0                    ; DATA XREF: cfg_load_settings+4FB↑o
-.data:00456044                                         ; cfg_save_settings+3A0↑r ...
-.data:00456046 word_456046     dw 0                    ; DATA XREF: cfg_load_settings+4F6↑o
-.data:00456046                                         ; cfg_save_settings+39A↑r
+.data:00455FDC                 dw 13h, 14h, 2Fh, 2Eh, 10h, 15h
+.data:00455FE8 Keys2           dw 10h dup(0)           ; DATA XREF: cfg_load_settings+447↑o
+.data:00455FE8                                         ; cfg_save_settings+290↑r ...
+.data:00456008 Keys3           dw 10000b dup(0)        ; DATA XREF: cfg_load_settings+4C4↑o
+.data:00456008                                         ; cfg_save_settings+35F↑r ...
+.data:00456028 Keys4           dw 10h dup(0)           ; DATA XREF: cfg_load_settings+541↑o
+.data:00456028                                         ; cfg_save_settings+434↑r ...
 .data:00456048 ; int dword_456048[]
 .data:00456048 dword_456048    dd 4 dup(1)             ; DATA XREF: cfg_load_settings+8C8↑o
 .data:00456048                                         ; cfg_load_settings+8DC↑r ...
@@ -897,9 +1428,9 @@
 .data:004560CD                 db 0AAh
 .data:004560CE                 db 0AAh
 .data:004560CF                 db 0AAh
-.data:004560D0 byte_4560D0     db 6 dup(0AAh), 80h, 5 dup(0), 80h, 5 dup(0), 80h, 5 dup(0)
-.data:004560D0                                         ; DATA XREF: gpu_sub_42EB00+22↑o
-.data:004560D0                                         ; gpu_sub_42EBF0+22↑o
+.data:004560D0 gpu_save_pic_data db 6 dup(0AAh), 80h, 5 dup(0), 80h, 5 dup(0), 80h, 5 dup(0)
+.data:004560D0                                         ; DATA XREF: gpu_draw_no_save_pic+22↑o
+.data:004560D0                                         ; gpu_draw_free_slot+22↑o
 .data:004560E8                 db 80h, 5 dup(0), 80h, 2 dup(0), 50h, 2 dup(0), 80h, 0
 .data:004560F6                 db 5, 50h, 2 dup(0), 80h, 2 dup(0), 50h, 2 dup(0), 80h
 .data:00456101                 db 2 dup(0), 50h, 2 dup(0), 80h, 2 dup(0), 50h, 2 dup(0)
@@ -1020,16 +1551,15 @@
 .data:0045744C ppf_enabled     db 1                    ; DATA XREF: cfg_load_settings+60A↑w
 .data:0045744C                                         ; cfg_save_settings+6CD↑r ...
 
-.data:00458A00 ; FILE stru_458A00
-.data:00458A00 stru_458A00     FILE <0, 0, 0, 2, 1, 0, 0, 0>
+.data:00458A00 ; FILE console_out_file
+.data:00458A00 console_out_file FILE <0, 0, 0, 2, 1, 0, 0, 0>
 .data:00458A00                                         ; DATA XREF: dbg_print_no_flush+24↑o
-
 .data:0045B8C8 forcespu        db 0                    ; DATA XREF: parse_command_line_options+172↑w
 .data:0045B8C8                                         ; parse_command_line_options+190↑w ...
 .data:0045B8C9 old_timing      db 0                    ; DATA XREF: parse_command_line_options+972↑w
 .data:0045B8C9                                         ; loader_cdrom_detect_region+128↑r ...
 .data:0045B8CA noauto          db 0                    ; DATA XREF: parse_command_line_options+6E0↑w
-.data:0045B8CA                                         ; sub_41BDC0↑r ...
+.data:0045B8CA                                         ; loader_apply_mini_cheats↑r ...
 .data:0045B8CC byte_45B8CC     db 0                    ; DATA XREF: epsxe_main_loop_runner+17↑o
 .data:0045B8CC                                         ; print_version↑o ...
 .data:0045B8D0 gpu_freeze_counter dd 0                 ; DATA XREF: gpu_freeze_with_counter↑r
@@ -1043,7 +1573,7 @@
 .data:0045B8DC ; HGDIOBJ h
 .data:0045B8DC h               dd 0                    ; DATA XREF: main_window_callback+D9↑r
 .data:0045B8DC                                         ; create_main_window+7E↑w
-.data:0045B8E0 byte_45B8E0     db 0                    ; DATA XREF: cfg_load_settings+805↑w
+.data:0045B8E0 setup_wizard_required db 0              ; DATA XREF: cfg_load_settings+805↑w
 .data:0045B8E0                                         ; cfg_load_settings+862↑w ...
 .data:0045B8E4 dword_45B8E4    dd 0                    ; DATA XREF: search_video_plugin:loc_405F46↑r
 .data:0045B8E4                                         ; search_video_plugin+F7↑r ...
@@ -1273,7 +1803,7 @@
 .data:004F75A8 sound_use_xa    db ?                    ; DATA XREF: cfg_load_settings+323↑w
 .data:004F75A8                                         ; cfg_save_settings+C2↑r ...
 .data:004F75A9                 align 2
-.data:004F75AA byte_4F75AA     db ?                    ; DATA XREF: spu_read_register↑r
+.data:004F75AA unknown_cd_setting db ?                 ; DATA XREF: spu_read_register↑r
 .data:004F75AA                                         ; spucore_read_voice_reg:loc_40D0E7↑r ...
 .data:004F75AB                 align 4
 .data:004F75AC flt_4F75AC      dd ?                    ; DATA XREF: spucore_generate_samples+36↑r
@@ -1496,8 +2026,13 @@
 .data:004F8308                                         ; diEnumDevicesCallback+465↑r ...
 .data:004F8318 gtrace          db ?                    ; DATA XREF: parse_command_line_options+936↑w
 .data:004F8318                                         ; gte_exec_opcode:loc_41BA38↑r
-.data:004F831C dword_4F831C    dd ?                    ; DATA XREF: cheat_dialog_callback+69↑w
+.data:004F8319                 align 4
+.data:004F831C active_mini_cheat_count db ?            ; DATA XREF: cheat_dialog_callback+69↑w
 .data:004F831C                                         ; cheat_dialog_callback+8A↑r ...
+.data:004F831D byte_4F831D     db ?                    ; DATA XREF: epsxe_main_loop_runner+111↑r
+.data:004F831D                                         ; parse_command_line_options+BA↑w
+.data:004F831E                 db    ? ;
+.data:004F831F                 db    ? ;
 .data:004F8320 byte_4F8320     db ?                    ; DATA XREF: op_MTC0+B0↑r
 .data:004F8320                                         ; op_MTC0+BE↑w ...
 .data:004F8324 zip_inflate_window_pos dd ?             ; DATA XREF: zip_inflate_data_with_trees+7↑r
@@ -1521,13 +2056,8 @@
 .data:004F8348                                         ; zip_extract_file+51↑r ...
 .data:004F834C                 align 10h
 .data:004F8350 ; ZipCentralDirectoryEntry zip_central_dir_buffer
-.data:004F8350 zip_central_dir_buffer ZipCentralDirectoryEntry 0B2h dup(<?>)
-.data:004F8350                                         ; DATA XREF: zip_extract_file:loc_42001B↑o
+.data:004F8350 zip_central_dir_buffer db 2000h dup(?)  ; DATA XREF: zip_extract_file:loc_42001B↑o
 .data:004F8350                                         ; zip_load_central_directory+42↑o ...
-.data:004FA34C                 db    ? ;
-.data:004FA34D                 db    ? ;
-.data:004FA34E                 db    ? ;
-.data:004FA34F                 db    ? ;
 .data:004FA350 ; unsigned __int8 byte_4FA350[8192]
 .data:004FA350 byte_4FA350     db 2000h dup(?)         ; DATA XREF: zip_load_local_file_headers+F5↑o
 .data:004FC350 ; char byte_4FC350[256]
@@ -1538,7 +2068,7 @@
 .data:004FC450                                         ; zip_load_file+2B↑o ...
 .data:004FC454 zip_inflate_output_ptr dd ?             ; DATA XREF: zip_copy_sliding_window_to_output+A↑r
 .data:004FC454                                         ; zip_copy_sliding_window_to_output+20↑r ...
-.data:004FC458 zip_num_entries_loaded dd ?             ; DATA XREF: sub_41C390+2↑r
+.data:004FC458 zip_num_entries_loaded dd ?             ; DATA XREF: loader_pll_get_file_size+2↑r
 .data:004FC458                                         ; loader_load_zip+F6↑r ...
 .data:004FC45C dword_4FC45C    dd ?                    ; DATA XREF: joy_init↑r
 .data:004FC45C                                         ; joy_init+E↑w ...
@@ -1636,11 +2166,11 @@
 .data:004FC4E0 ; uint8_t *code_ptr
 .data:004FC4E0 code_ptr        dd ?                    ; DATA XREF: dynarec_compile+4↑r
 .data:004FC4E0                                         ; dynarec_compile+5F↑w ...
-.data:004FC4E4 byte_4FC4E4     db ?                    ; DATA XREF: dynarec_hw_update:loc_423BDA↑r
+.data:004FC4E4 dynarec_clear_needed db ?               ; DATA XREF: dynarec_hw_update:loc_423BDA↑r
 .data:004FC4E4                                         ; dynarec_hw_update+332↑w ...
 .data:004FC4E5 adjust_timing   db ?                    ; DATA XREF: parse_command_line_options+954↑w
 .data:004FC4E5                                         ; parse_command_line_options+990↑w ...
-.data:004FC4E6 byte_4FC4E6     db ?                    ; DATA XREF: loader_parse_cheat_entry+114↑w
+.data:004FC4E6 cd_extra_setting db ?                   ; DATA XREF: loader_parse_cheat_entry+114↑w
 .data:004FC4E6                                         ; dynarec_hw_update:loc_423AE3↑r
 .data:004FC4E7                 db    ? ;
 .data:004FC4E8                 db    ? ;
@@ -1777,8 +2307,9 @@
 .data:004FD878 ; char dword_4FD878[]
 .data:004FD878 dword_4FD878    dd ?                    ; DATA XREF: mem_hw_reg_write_half:loc_422941↑r
 .data:004FD878                                         ; mem_hw_reg_write_half+575E↑w ...
-.data:004FD87C word_4FD87C     dw ?                    ; DATA XREF: sub_42C9A0:loc_42C9BB↑r
-.data:004FD87C                                         ; sub_42C9A0+2A↑w ...
+.data:004FD87C word_4FD87C     dw ?                    ; DATA XREF: cdr_process_delays:loc_42C9BB↑r
+.data:004FD87C                                         ; cdr_process_delays+2A↑w ...
+.data:004FD87E                 align 10h
 .data:004FD880 nocdstatus      db ?                    ; DATA XREF: parse_command_line_options+6C2↑w
 .data:004FD880                                         ; loader_parse_cheat_entry+103↑w ...
 .data:004FD881 byte_4FD881     db ?                    ; DATA XREF: parse_command_line_options+484↑w
@@ -1789,43 +2320,9 @@
 .data:004FD888 ; int mdec_disable_flag[]
 .data:004FD888 mdec_disable_flag dd ?                  ; DATA XREF: controller_setup_callback+71E↑r
 .data:004FD888                                         ; controller_setup_callback+F27↑w ...
-.data:004FD88C ; int word_4FD88C[]
-.data:004FD88C word_4FD88C     dw ?                    ; DATA XREF: cfg_load_settings+9B2↑o
+.data:004FD88C ; int GamepadAxis[]
+.data:004FD88C GamepadAxis     dw 10h dup(?)           ; DATA XREF: cfg_load_settings+9B2↑o
 .data:004FD88C                                         ; cfg_save_settings+5D8↑r ...
-.data:004FD88E ; __int16 word_4FD88E[]
-.data:004FD88E word_4FD88E     dw ?                    ; DATA XREF: cfg_load_settings+9AD↑o
-.data:004FD88E                                         ; cfg_save_settings+5D0↑r ...
-.data:004FD890 ; int word_4FD890[]
-.data:004FD890 word_4FD890     dw ?                    ; DATA XREF: cfg_load_settings+9A8↑o
-.data:004FD890                                         ; cfg_save_settings+5C1↑r ...
-.data:004FD892 ; __int16 word_4FD892[]
-.data:004FD892 word_4FD892     dw ?                    ; DATA XREF: cfg_load_settings+9A3↑o
-.data:004FD892                                         ; cfg_save_settings+5BA↑r ...
-.data:004FD894 word_4FD894     dw ?                    ; DATA XREF: cfg_load_settings+99E↑o
-.data:004FD894                                         ; cfg_save_settings+5AC↑r
-.data:004FD896 word_4FD896     dw ?                    ; DATA XREF: cfg_load_settings+999↑o
-.data:004FD896                                         ; cfg_save_settings+5A4↑r
-.data:004FD898 word_4FD898     dw ?                    ; DATA XREF: cfg_load_settings+994↑o
-.data:004FD898                                         ; cfg_save_settings+596↑r
-.data:004FD89A word_4FD89A     dw ?                    ; DATA XREF: cfg_load_settings+98F↑o
-.data:004FD89A                                         ; cfg_save_settings+58E↑r
-.data:004FD89C word_4FD89C     dw ?                    ; DATA XREF: cfg_load_settings+98A↑o
-.data:004FD89C                                         ; cfg_save_settings+585↑r
-.data:004FD89E word_4FD89E     dw ?                    ; DATA XREF: cfg_load_settings+985↑o
-.data:004FD89E                                         ; cfg_save_settings+578↑r
-.data:004FD8A0 word_4FD8A0     dw ?                    ; DATA XREF: cfg_load_settings+980↑o
-.data:004FD8A0                                         ; cfg_save_settings+561↑r
-.data:004FD8A2 word_4FD8A2     dw ?                    ; DATA XREF: cfg_load_settings+97B↑o
-.data:004FD8A2                                         ; cfg_save_settings+569↑r
-.data:004FD8A4 word_4FD8A4     dw ?                    ; DATA XREF: cfg_load_settings+976↑o
-.data:004FD8A4                                         ; cfg_save_settings+55A↑r
-.data:004FD8A6 word_4FD8A6     dw ?                    ; DATA XREF: cfg_load_settings+971↑o
-.data:004FD8A6                                         ; cfg_save_settings+54C↑r
-.data:004FD8A8 ; int word_4FD8A8[]
-.data:004FD8A8 word_4FD8A8     dw ?                    ; DATA XREF: cfg_load_settings+96C↑o
-.data:004FD8A8                                         ; cfg_save_settings+53C↑r ...
-.data:004FD8AA word_4FD8AA     dw ?                    ; DATA XREF: cfg_load_settings+967↑o
-.data:004FD8AA                                         ; cfg_save_settings+544↑r
 .data:004FD8AC ; int g_PlayerDeviceMap1[]
 .data:004FD8AC g_PlayerDeviceMap1 dd ?                 ; DATA XREF: cfg_load_settings+9F3↑o
 .data:004FD8AC                                         ; cfg_save_settings+623↑r ...
@@ -1866,55 +2363,56 @@
 .data:004FD8E8                                         ; cfg_save_settings+504↑r ...
 .data:004FD8EC dword_4FD8EC    dd ?                    ; DATA XREF: cfg_load_settings+926↑o
 .data:004FD8EC                                         ; cfg_save_settings+4FF↑r ...
-.data:004FD8F0 dword_4FD8F0    dd ?                    ; DATA XREF: sub_42D0E0+70↑r
-.data:004FD8F0                                         ; sub_42D0E0:loc_42D200↑r ...
-.data:004FD8F4 dword_4FD8F4    dd ?                    ; DATA XREF: sub_42D0E0+C2↑r
-.data:004FD8F4                                         ; sub_42D0E0+14D↑r ...
+.data:004FD8F0 dword_4FD8F0    dd ?                    ; DATA XREF: cont_build_controller_response_analog+70↑r
+.data:004FD8F0                                         ; cont_build_controller_response_analog:loc_42D200↑r ...
+.data:004FD8F4 dword_4FD8F4    dd ?                    ; DATA XREF: cont_build_controller_response_analog+C2↑r
+.data:004FD8F4                                         ; cont_build_controller_response_analog+14D↑r ...
 .data:004FD8F8 multitap_1      db ?                    ; DATA XREF: cfg_load_settings+64B↑w
 .data:004FD8F8                                         ; cfg_save_settings+6F8↑r ...
-.data:004FD8FA word_4FD8FA     dw ?                    ; DATA XREF: sub_42D0E0+84↑r
-.data:004FD8FA                                         ; sub_42D0E0+91↑w ...
-.data:004FD8FC word_4FD8FC     dw ?                    ; DATA XREF: sub_42D0E0+D6↑r
-.data:004FD8FC                                         ; sub_42D0E0+E3↑w ...
+.data:004FD8F9                 align 2
+.data:004FD8FA word_4FD8FA     dw ?                    ; DATA XREF: cont_build_controller_response_analog+84↑r
+.data:004FD8FA                                         ; cont_build_controller_response_analog+91↑w ...
+.data:004FD8FC word_4FD8FC     dw ?                    ; DATA XREF: cont_build_controller_response_analog+D6↑r
+.data:004FD8FC                                         ; cont_build_controller_response_analog+E3↑w ...
 .data:004FD8FE                 align 10h
 .data:004FD900 ; int dword_4FD900[]
-.data:004FD900 dword_4FD900    dd ?                    ; DATA XREF: sub_42D0E0:loc_42D264↑r
+.data:004FD900 dword_4FD900    dd ?                    ; DATA XREF: cont_build_controller_response_analog:loc_42D264↑r
 .data:004FD900                                         ; cont_process_input+37↑w ...
-.data:004FD904 byte_4FD904     db ?                    ; DATA XREF: sub_42D0E0+1D2↑r
+.data:004FD904 byte_4FD904     db ?                    ; DATA XREF: cont_build_controller_response_analog+1D2↑r
 .data:004FD905                 align 4
-.data:004FD908 byte_4FD908     db ?                    ; DATA XREF: sub_42D0E0+224↑r
+.data:004FD908 byte_4FD908     db ?                    ; DATA XREF: cont_build_controller_response_analog+224↑r
 .data:004FD909                 align 4
-.data:004FD90C byte_4FD90C     db ?                    ; DATA XREF: sub_42D0E0+276↑r
+.data:004FD90C byte_4FD90C     db ?                    ; DATA XREF: cont_build_controller_response_analog+276↑r
 .data:004FD90D                 align 10h
 .data:004FD910 ; int dword_4FD910[]
-.data:004FD910 dword_4FD910    dd ?                    ; DATA XREF: sub_42D0E0+190↑r
+.data:004FD910 dword_4FD910    dd ?                    ; DATA XREF: cont_build_controller_response_analog+190↑r
 .data:004FD910                                         ; cont_process_input+44↑w ...
-.data:004FD914 byte_4FD914     db ?                    ; DATA XREF: sub_42D0E0+1DE↑r
+.data:004FD914 byte_4FD914     db ?                    ; DATA XREF: cont_build_controller_response_analog+1DE↑r
 .data:004FD915                 align 4
-.data:004FD918 byte_4FD918     db ?                    ; DATA XREF: sub_42D0E0+230↑r
+.data:004FD918 byte_4FD918     db ?                    ; DATA XREF: cont_build_controller_response_analog+230↑r
 .data:004FD919                 align 4
-.data:004FD91C byte_4FD91C     db ?                    ; DATA XREF: sub_42D0E0+282↑r
+.data:004FD91C byte_4FD91C     db ?                    ; DATA XREF: cont_build_controller_response_analog+282↑r
 .data:004FD91D                 align 10h
 .data:004FD920 ; int dword_4FD920[]
-.data:004FD920 dword_4FD920    dd ?                    ; DATA XREF: sub_42D0E0+19A↑r
+.data:004FD920 dword_4FD920    dd ?                    ; DATA XREF: cont_build_controller_response_analog+19A↑r
 .data:004FD920                                         ; cont_process_input+51↑w ...
-.data:004FD924 byte_4FD924     db ?                    ; DATA XREF: sub_42D0E0+1EA↑r
+.data:004FD924 byte_4FD924     db ?                    ; DATA XREF: cont_build_controller_response_analog+1EA↑r
 .data:004FD925                 align 4
-.data:004FD928 byte_4FD928     db ?                    ; DATA XREF: sub_42D0E0+23C↑r
+.data:004FD928 byte_4FD928     db ?                    ; DATA XREF: cont_build_controller_response_analog+23C↑r
 .data:004FD929                 align 4
-.data:004FD92C byte_4FD92C     db ?                    ; DATA XREF: sub_42D0E0+28E↑r
+.data:004FD92C byte_4FD92C     db ?                    ; DATA XREF: cont_build_controller_response_analog+28E↑r
 .data:004FD92D                 align 10h
 .data:004FD930 ; int dword_4FD930[]
-.data:004FD930 dword_4FD930    dd ?                    ; DATA XREF: sub_42D0E0+1A6↑r
+.data:004FD930 dword_4FD930    dd ?                    ; DATA XREF: cont_build_controller_response_analog+1A6↑r
 .data:004FD930                                         ; cont_process_input+60↑w ...
-.data:004FD934 byte_4FD934     db ?                    ; DATA XREF: sub_42D0E0+1F6↑r
+.data:004FD934 byte_4FD934     db ?                    ; DATA XREF: cont_build_controller_response_analog+1F6↑r
 .data:004FD935                 align 4
-.data:004FD938 byte_4FD938     db ?                    ; DATA XREF: sub_42D0E0+248↑r
+.data:004FD938 byte_4FD938     db ?                    ; DATA XREF: cont_build_controller_response_analog+248↑r
 .data:004FD939                 align 4
-.data:004FD93C byte_4FD93C     db ?                    ; DATA XREF: sub_42D0E0+29A↑r
+.data:004FD93C byte_4FD93C     db ?                    ; DATA XREF: cont_build_controller_response_analog+29A↑r
 .data:004FD93D                 align 80h
-.data:004FD980 dword_4FD980    dd ?                    ; DATA XREF: sub_42D440+6C↑r
-.data:004FD980                                         ; sub_42D440+90↑w ...
+.data:004FD980 dword_4FD980    dd ?                    ; DATA XREF: cont_build_guncon_response+6C↑r
+.data:004FD980                                         ; cont_build_guncon_response+90↑w ...
 .data:004FD984 byte_4FD984     db ?                    ; DATA XREF: cont_process_input:loc_42D7F4↑r
 .data:004FD984                                         ; cont_process_input+13C↑w ...
 .data:004FD985                 align 2
@@ -1929,7 +2427,7 @@
 .data:004FD990 hGpuModule      dd ?                    ; DATA XREF: gpu_load_plugin+53↑w
 .data:004FD990                                         ; gpu_load_plugin+69↑r ...
 .data:004FD994 gpu_closed      db ?                    ; DATA XREF: gpu_load_plugin+7D↑w
-.data:004FD994                                         ; gpu_sub_42E3A0+26↑w ...
+.data:004FD994                                         ; gpu_open_with_input+26↑w ...
 .data:004FD995 use_performance_counters db ?           ; DATA XREF: parse_command_line_options+2FB↑w
 .data:004FD995                                         ; gpu_init_performance_counter↑r ...
 .data:004FD996                 align 4
@@ -1949,7 +2447,7 @@
 .data:004FD9B0 hCdrModule      dd ?                    ; DATA XREF: ext_cdrom_load_plugin-EF↑r
 .data:004FD9B0                                         ; ext_cdrom_load_plugin+BA↑w ...
 .data:004FD9B4 extsubchanhle   db ?                    ; DATA XREF: parse_command_line_options+9C↑w
-.data:004FD9B4                                         ; ext_CD_sub_430B60+26↑r
+.data:004FD9B4                                         ; ext_CDR_verify_subchannel_data+26↑r
 .data:004FD9B5                 db    ? ;
 .data:004FD9B6                 db    ? ;
 .data:004FD9B7                 db    ? ;
@@ -2004,10 +2502,20 @@
 .data:004FF1E8 byte_4FF1E8     db 800h dup(?)          ; DATA XREF: cdfs_read_root_directory+32↑o
 .data:004FF9E8 dword_4FF9E8    dd ?                    ; DATA XREF: dynarec_compile+819↑w
 .data:004FF9E8                                         ; dynarec_compile:loc_4245FD↑w
+.data:004FF9EC                 align 10h
+.data:004FF9F0 console_log_flush_pending db ?          ; DATA XREF: set_console_log_flush_pending↑w
+.data:004FF9F0                                         ; check_and_clear_console_log_flush_pending↑r ...
+.data:004FF9F1 console_allocated db ?                  ; DATA XREF: cfg_load_settings+5CA↑w
+.data:004FF9F1                                         ; cfg_save_settings+82E↑r ...
+.data:004FF9F2 byte_4FF9F2     db ?                    ; DATA XREF: reopen_console_log↑r
+.data:004FF9F2                                         ; dump_log+28↑r
+.data:004FF9F3                 align 4
 .data:004FF9F4 ; FILE *console_log_handle
 .data:004FF9F4 console_log_handle dd ?                 ; DATA XREF: loader_check_demo_header+28↑r
 .data:004FF9F4                                         ; mem_hw_reg_write_byte+5920↑r ...
-
+.data:004FFC1C ; HANDLE hConsoleOutput
+.data:004FFC1C hConsoleOutput  dd ?                    ; DATA XREF: alloc_console+22↑w
+.data:004FFC1C                                         ; dbg_print_no_flush+44↑r ...
 .data:004FFC20 last_tick_count dd ?                    ; DATA XREF: get_tick_count+6↑w
 .data:004FFC24 ; LPVOID ppf_sector_lists
 .data:004FFC24 ppf_sector_lists dd ?                   ; DATA XREF: ppf_parse_and_build+D↑w
@@ -2149,11 +2657,11 @@
 .data:00505520 ; int (*CDRgetBufferSub)(void)
 .data:00505520 CDRgetBufferSub dd ?                    ; DATA XREF: ext_cdrom_load_plugin+220↑w
 .data:00505520                                         ; ext_cdrom_load_plugin:loc_43045F↑w ...
-.data:00505524 dword_505524    dd ?                    ; DATA XREF: ext_cdrom_load_plugin-9E↑o
+.data:00505524 track_info_buffer dd ?                  ; DATA XREF: ext_cdrom_load_plugin-9E↑o
 .data:00505524                                         ; ext_cdrom_load_plugin-95↑w ...
-.data:00505528 dword_505528    dd ?                    ; DATA XREF: ext_cdrom_load_plugin-DF↑w
+.data:00505528 current_position_msf dd ?               ; DATA XREF: ext_cdrom_load_plugin-DF↑w
 .data:00505528                                         ; ext_cdrom_load_plugin-DA↑o ...
-.data:0050552C word_50552C     dw ?                    ; DATA XREF: ext_cdrom_load_plugin-D5↑w
+.data:0050552C current_position_low dw ?               ; DATA XREF: ext_cdrom_load_plugin-D5↑w
 .data:0050552E                 align 10h
 .data:00505530 ; int (*CDRgetBuffer)(void)
 .data:00505530 CDRgetBuffer    dd ?                    ; DATA XREF: ext_cdrom_load_plugin+1D8↑w
@@ -2168,48 +2676,58 @@
 .data:0050553C                 db    ? ;
 .data:0050553D                 db    ? ;
 .data:0050553E                 db    ? ;
-.data:0050553F ; char byte_50553F[]
-.data:0050553F byte_50553F     db ?                    ; DATA XREF: sub_430500:loc_430564↑r
-.data:00505540 word_505540     dw ?                    ; DATA XREF: ext_cdrom_load_plugin-BA↑w
+.data:0050553F ; char track_msf_table[]
+.data:0050553F track_msf_table db ?                    ; DATA XREF: ext_CDR_track_to_msf:loc_430564↑r
+.data:00505540 first_last_tracks dw ?                  ; DATA XREF: ext_cdrom_load_plugin-BA↑w
 .data:00505540                                         ; ext_cdrom_load_plugin+70↑w ...
-.data:00505542 ; char byte_505542[]
-.data:00505542 byte_505542     db ?                    ; DATA XREF: ext_cdrom_load_plugin-80↑w
+.data:00505542 ; char track_msf_minutes[]
+.data:00505542 track_msf_minutes db ?                  ; DATA XREF: ext_cdrom_load_plugin-80↑w
 .data:00505542                                         ; ext_cdrom_load_plugin-31↑w ...
-.data:00505543 ; char byte_505543[]
-.data:00505543 byte_505543     db ?                    ; DATA XREF: ext_cdrom_load_plugin-74↑w
+.data:00505543 ; char track_msf_seconds[]
+.data:00505543 track_msf_seconds db ?                  ; DATA XREF: ext_cdrom_load_plugin-74↑w
 .data:00505543                                         ; ext_cdrom_load_plugin-1D↑w ...
-.data:00505544 ; char byte_505544[]
-.data:00505544 byte_505544     db ?                    ; DATA XREF: ext_cdrom_load_plugin-6D↑w
+.data:00505544 ; char track_msf_sectors[]
+.data:00505544 track_msf_sectors db ?                  ; DATA XREF: ext_cdrom_load_plugin-6D↑w
 .data:00505544                                         ; ext_cdrom_load_plugin-F↑w ...
-.data:00505545 ; char byte_505545[]
-.data:00505545 byte_505545     db ?                    ; DATA XREF: sub_430820+BD↑r
-.data:00505545                                         ; sub_430A00+DB↑r
-.data:00505546 ; char byte_505546[]
-.data:00505546 byte_505546     db ?                    ; DATA XREF: sub_430820+CA↑r
-.data:00505546                                         ; sub_430A00+E8↑r
-.data:00505547 ; char byte_505547[313]
-.data:00505547 byte_505547     db 139h dup(?)          ; DATA XREF: sub_430820+DD↑r
-.data:00505547                                         ; sub_430A00+F6↑r
+.data:00505545 ; char track_minutes_table[]
+.data:00505545 track_minutes_table db ?                ; DATA XREF: ext_CDR_lba_to_msf_with_track+BD↑r
+.data:00505545                                         ; ext_CDR_lba_to_msf+DB↑r
+.data:00505546 ; char track_seconds_table[]
+.data:00505546 track_seconds_table db ?                ; DATA XREF: ext_CDR_lba_to_msf_with_track+CA↑r
+.data:00505546                                         ; ext_CDR_lba_to_msf+E8↑r
+.data:00505547 ; char track_sectors_table[313]
+.data:00505547 track_sectors_table db 139h dup(?)      ; DATA XREF: ext_CDR_lba_to_msf_with_track+DD↑r
+.data:00505547                                         ; ext_CDR_lba_to_msf+F6↑r
 .data:00505680 byte_505680     db 0Dh dup(?)           ; DATA XREF: iso_read_data+5C↑o
-.data:0050568D dword_50568D    dd ?                    ; DATA XREF: sub_42FCB0+22↑r
-.data:0050568D                                         ; sub_42FCB0+80↑r ...
-.data:00505691 byte_505691     db ?                    ; DATA XREF: sub_42FCB0+2B↑r
+.data:0050568D dword_50568D    dd ?                    ; DATA XREF: iso_verify_sub+22↑r
+.data:0050568D                                         ; iso_verify_sub+80↑r ...
+.data:00505691 byte_505691     db ?                    ; DATA XREF: iso_verify_sub+2B↑r
 .data:00505692                 db    ? ;
-.data:00505693 word_505693     dw ?                    ; DATA XREF: sub_42FCB0+34↑r
-.data:00505693                                         ; sub_42FCB0+6F↑r ...
-.data:00505695 byte_505695     db 4Bh dup(?)           ; DATA XREF: sub_42FCB0+40↑r
+.data:00505693 word_505693     dw ?                    ; DATA XREF: iso_verify_sub+34↑r
+.data:00505693                                         ; iso_verify_sub+6F↑r ...
+.data:00505695 byte_505695     db 4Bh dup(?)           ; DATA XREF: iso_verify_sub+40↑r
+.data:005056E0 dword_5056E0    dd ?                    ; DATA XREF: cdrom_fake_create_file+6B↑w
+.data:005056E0                                         ; cdrom_fake_write_portion+70↑r ...
+.data:005056E4                 align 20h
 .data:00505700 byte_505700     db 1160h dup(?)         ; DATA XREF: iso_read_data+A7↑o
 .data:00505700                                         ; iso_read_data+113↑o ...
 .data:00506860 byte_506860     db 3820h dup(?)         ; DATA XREF: sio_for_netplay+C↑o
 .data:0050A080 ; int (__stdcall *CDRreadTrack)(_DWORD)
 .data:0050A080 CDRreadTrack    dd ?                    ; DATA XREF: ext_cdrom_load_plugin+1BD↑w
 .data:0050A080                                         ; ext_CDR_read+106↑r
+.data:0050A084 ; FILE *FileHandle
+.data:0050A084 FileHandle      dd ?                    ; DATA XREF: cdrom_fake_create_file+32↑w
+.data:0050A084                                         ; cdrom_fake_create_file+44↑r ...
 .data:0050A088 ; int (*CDRinit)(void)
 .data:0050A088 CDRinit         dd ?                    ; DATA XREF: ext_cdrom_load_plugin+11D↑w
 .data:0050A088                                         ; ext_cdrom_load_plugin+242↑r
 .data:0050A08C ; int (*(*CDRshutdown)(void))(void)
 .data:0050A08C CDRshutdown     dd ?                    ; DATA XREF: ext_cdrom_load_plugin+138↑w
 .data:0050A08C                                         ; ext_cdrom_deinit:loc_43073C↑r
+.data:0050A090 byte_50A090     db ?                    ; DATA XREF: cdrom_fake_create_file+56↑w
+.data:0050A090                                         ; cdrom_fake_load_file+43↑o ...
+.data:0050A091 byte_50A091     db ?                    ; DATA XREF: cdrom_fake_create_file+5C↑w
+.data:0050A092                 align 4
 .data:0050A094 CDRtest         dd ?                    ; DATA XREF: ext_cdrom_load_plugin+103↑w
 .data:0050A098 ; FILE *dword_50A098
 .data:0050A098 dword_50A098    dd ?                    ; DATA XREF: iso_load+28↑w
@@ -2220,11 +2738,14 @@
 .data:0050A0A0 ; char bin_iso_file[256]
 .data:0050A0A0 bin_iso_file    db 100h dup(?)          ; DATA XREF: parse_command_line_options+5CF↑o
 .data:0050A0A0                                         ; parse_command_line_options+60A↑o ...
-.data:0050A1A4 byte_50A1A4     db ?                    ; DATA XREF: sub_42FCB0+54↑r
-.data:0050A1A4                                         ; sub_42FCB0+18B↑r ...
-.data:0050A1A5 byte_50A1A5     db ?                    ; DATA XREF: sub_42FCB0+4B↑r
+.data:0050A1A0 ; void *cdrom_fake_data
+.data:0050A1A0 cdrom_fake_data dd ?                    ; DATA XREF: cdrom_fake_create_file+1A↑w
+.data:0050A1A0                                         ; cdrom_fake_load_file+15↑w ...
+.data:0050A1A4 byte_50A1A4     db ?                    ; DATA XREF: iso_verify_sub+54↑r
+.data:0050A1A4                                         ; iso_verify_sub+18B↑r ...
+.data:0050A1A5 byte_50A1A5     db ?                    ; DATA XREF: iso_verify_sub+4B↑r
 .data:0050A1A5                                         ; iso_read_data+76↑w
-.data:0050A1A6 byte_50A1A6     db ?                    ; DATA XREF: sub_42FCB0+13F↑r
+.data:0050A1A6 byte_50A1A6     db ?                    ; DATA XREF: iso_verify_sub+13F↑r
 .data:0050A1A6                                         ; iso_read_data+7C↑w
 .data:0050A1A7                 align 4
 .data:0050A1A8 ; HMODULE (*NETshutdown)(void)
@@ -2305,16 +2826,19 @@
 .data:0050AA38                                         ; gpu_freeze+BD↑r ...
 .data:0050AA3C ; int (__stdcall *GPUopen)(_DWORD)
 .data:0050AA3C GPUopen         dd ?                    ; DATA XREF: gpu_load_plugin+DA↑w
-.data:0050AA3C                                         ; gpu_sub_42E3A0+6↑r ...
+.data:0050AA3C                                         ; gpu_open_with_input+6↑r ...
 .data:0050AA40 ; int (__stdcall *GPUwriteStatus)(_DWORD)
 .data:0050AA40 GPUwriteStatus  dd ?                    ; DATA XREF: gpu_load_plugin+1CE↑w
 .data:0050AA40                                         ; gpu_writeStatus+5↑r
-.data:0050AA48 ; LARGE_INTEGER stru_50AA48
-.data:0050AA48 stru_50AA48     LARGE_INTEGER <?>       ; DATA XREF: gpu_frame_update+5C↑o
+.data:0050AA44                 align 8
+.data:0050AA48 ; LARGE_INTEGER gpu_performance_counter
+.data:0050AA48 gpu_performance_counter LARGE_INTEGER <?>
+.data:0050AA48                                         ; DATA XREF: gpu_frame_update+5C↑o
 .data:0050AA48                                         ; gpu_frame_update+63↑r ...
 .data:0050AA50 GPUsetMode      dd ?                    ; DATA XREF: gpu_load_plugin+299↑w
-.data:0050AA60 ; char byte_50AA60[27]
-.data:0050AA60 byte_50AA60     db 1Bh dup(?)           ; DATA XREF: cont_process_input+97↑o
+.data:0050AA54                 align 10h
+.data:0050AA60 ; char gpu_keyboard_state[27]
+.data:0050AA60 gpu_keyboard_state db 1Bh dup(?)        ; DATA XREF: cont_process_input+97↑o
 .data:0050AA60                                         ; cont_process_input+4D4↑o ...
 .data:0050AA7B byte_50AA7B     db 16h dup(?)           ; DATA XREF: cont_process_input+6B↑r
 .data:0050AA91 byte_50AA91     db ?                    ; DATA XREF: cont_process_input:loc_42D795↑r
@@ -2329,8 +2853,8 @@
 .data:0050AAD5 byte_50AAD5     db ?                    ; DATA XREF: cont_process_input:loc_42D94A↑r
 .data:0050AAD6 byte_50AAD6     db ?                    ; DATA XREF: cont_process_input:loc_42D98A↑r
 .data:0050AAD7 byte_50AAD7     db 89h dup(?)           ; DATA XREF: cont_process_input:loc_42D9C7↑r
-.data:0050AB60 dword_50AB60    dd ?                    ; DATA XREF: sub_42D0E0+67↑r
-.data:0050AB60                                         ; sub_42D0E0+B9↑r ...
+.data:0050AB60 dword_50AB60    dd ?                    ; DATA XREF: cont_build_controller_response_analog+67↑r
+.data:0050AB60                                         ; cont_build_controller_response_analog+B9↑r ...
 .data:0050AB64 GPUgetMode      dd ?                    ; DATA XREF: gpu_load_plugin+270↑w
 .data:0050AB68 ; int (__stdcall *GPUdmaChain)(_DWORD, _DWORD)
 .data:0050AB68 GPUdmaChain     dd ?                    ; DATA XREF: gpu_load_plugin+248↑w
@@ -2490,75 +3014,77 @@
 .data:0050AE48 ; int (*GPUreadStatus)()
 .data:0050AE48 GPUreadStatus   dd ?                    ; DATA XREF: gpu_load_plugin+21F↑w
 .data:0050AE48                                         ; gpu_readStatus↑r
-.data:0050AE4C ; HINSTANCE dword_50AE4C
-.data:0050AE4C dword_50AE4C    dd ?                    ; DATA XREF: gpu_register_output_win_class+26↑r
+.data:0050AE4C ; HINSTANCE gpu_hInstance
+.data:0050AE4C gpu_hInstance   dd ?                    ; DATA XREF: gpu_register_output_win_class+26↑r
 .data:0050AE4C                                         ; gpu_create_output_window+8↑w ...
 .data:0050AE50 ; int (__fastcall *GPUupdateLace)(_DWORD)
 .data:0050AE50 GPUupdateLace   dd ?                    ; DATA XREF: gpu_load_plugin+2C2↑w
 .data:0050AE50                                         ; gpu_frame_update:loc_42E7F8↑r ...
-.data:0050AE58 qword_50AE58    dq ?                    ; DATA XREF: gpu_init_performance_counter+E↑w
+.data:0050AE54                 align 8
+.data:0050AE58 gpu_performance_threshold dq ?          ; DATA XREF: gpu_init_performance_counter+E↑w
 .data:0050AE58                                         ; gpu_init_performance_counter+6F↑w ...
 .data:0050AE60 ; int (__stdcall *GPUshowScreenPic)(_DWORD)
 .data:0050AE60 GPUshowScreenPic dd ?                   ; DATA XREF: gpu_load_plugin+364↑w
 .data:0050AE60                                         ; gpu_show_screen_pic↑r ...
-.data:0050AE64 ; int (*GPUreadData)()
+.data:0050AE64 ; int (*GPUreadData)(void)
 .data:0050AE64 GPUreadData     dd ?                    ; DATA XREF: gpu_load_plugin+1F6↑w
 .data:0050AE64                                         ; gpu_readData↑r ...
 .data:0050AE68 ; FILE *dword_50AE68
 .data:0050AE68 dword_50AE68    dd ?                    ; DATA XREF: ui_error+E3↑r
 .data:0050AE68                                         ; fatal_error_with_message_box+8C↑r
-.data:0050AE80 ; char dword_50AE80[]
-.data:0050AE80 dword_50AE80    dd ?                    ; DATA XREF: cdr_reg1_write+3D0↑w
+.data:0050AE6C                 align 20h
+.data:0050AE80 ; char g_cdr_response_fifo[]
+.data:0050AE80 g_cdr_response_fifo dd ?                ; DATA XREF: cdr_reg1_write+3D0↑w
 .data:0050AE80                                         ; cdr_reg1_write+570↑w ...
-.data:0050AE84 dword_50AE84    dd ?                    ; DATA XREF: cdr_reg1_write+607↑w
+.data:0050AE84 g_cdr_response_extra dd ?               ; DATA XREF: cdr_reg1_write+607↑w
 .data:0050AE84                                         ; cdr_reg1_write+67C↑w ...
 .data:0050AE88                 align 40h
-.data:0050AEC0 byte_50AEC0     db ?                    ; DATA XREF: cdr_reg1_write+182↑w
+.data:0050AEC0 g_cdr_response_size db ?                ; DATA XREF: cdr_reg1_write+182↑w
 .data:0050AEC0                                         ; cdr_reg1_write+325↑w ...
-.data:0050AEC1 byte_50AEC1     db ?                    ; DATA XREF: cdr_reg1_write+188↑w
+.data:0050AEC1 g_cdr_response_index db ?               ; DATA XREF: cdr_reg1_write+188↑w
 .data:0050AEC1                                         ; cdr_reg1_write+32B↑w ...
-.data:0050AEC2 byte_50AEC2     db ?                    ; DATA XREF: cdr_reg0_write:loc_42B6EB↑w
+.data:0050AEC2 g_cdr_irq_pending db ?                  ; DATA XREF: cdr_reg0_write:loc_42B6EB↑w
 .data:0050AEC2                                         ; cdr_reg1_write+AC↑w ...
-.data:0050AEC3 word_50AEC3     dw ?                    ; DATA XREF: cdr_reg1_write+E9↑r
+.data:0050AEC3 g_cdr_param_fifo dw ?                   ; DATA XREF: cdr_reg1_write+E9↑r
 .data:0050AEC3                                         ; cdr_reg1_write:loc_42BC21↑r ...
-.data:0050AEC5 byte_50AEC5     db 3Eh dup(?)           ; DATA XREF: cdr_reg1_write+12C↑r
-.data:0050AF03 dword_50AF03    dd ?                    ; DATA XREF: cdr_reg1_write+8C↑w
+.data:0050AEC5 g_cdr_param_fifo_byte db 3Eh dup(?)     ; DATA XREF: cdr_reg1_write+12C↑r
+.data:0050AF03 g_cdr_primary_response dd ?             ; DATA XREF: cdr_reg1_write+8C↑w
 .data:0050AF03                                         ; cdr_reg1_write+175↑w ...
-.data:0050AF07 byte_50AF07     db 49h dup(?)           ; DATA XREF: cdr_reg1_write+740↑w
+.data:0050AF07 g_cdr_status_regs db 49h dup(?)         ; DATA XREF: cdr_reg1_write+740↑w
 .data:0050AF07                                         ; cdr_reg1_write+729↑w ...
-.data:0050AF50 dword_50AF50    dd ?                    ; DATA XREF: cdr_reg1_write+11A↑w
+.data:0050AF50 g_cdr_cur_msf_pos dd ?                  ; DATA XREF: cdr_reg1_write+11A↑w
 .data:0050AF50                                         ; cdr_reg1_write+137↑r ...
-.data:0050AF54 word_50AF54     dw ?                    ; DATA XREF: cdr_reg1_write+565↑w
+.data:0050AF54 g_cdr_cur_track dw ?                    ; DATA XREF: cdr_reg1_write+565↑w
 .data:0050AF54                                         ; cdr_reg1_write:loc_42BCC7↑r ...
-.data:0050AF56 ; char byte_50AF56[12]
-.data:0050AF56 byte_50AF56     db 0Ch dup(?)           ; DATA XREF: mem_hw_reg_read_byte+F916↑r
-.data:0050AF56                                         ; sub_42C710+3A↑o ...
-.data:0050AF62 dword_50AF62    dd ?                    ; DATA XREF: cdr_reg1_write+666↑r
+.data:0050AF56 ; char g_cdr_data_buffer[12]
+.data:0050AF56 g_cdr_data_buffer db 0Ch dup(?)         ; DATA XREF: mem_hw_reg_read_byte+F916↑r
+.data:0050AF56                                         ; cdr_read_data_sector+3A↑o ...
+.data:0050AF62 g_cdr_pending_response dd ?             ; DATA XREF: cdr_reg1_write+666↑r
 .data:0050AF62                                         ; cdr_reg1_write+6FB↑r ...
-.data:0050AF66 byte_50AF66     db 0FF2h dup(?)         ; DATA XREF: cdr_reg1_write+677↑r
+.data:0050AF66 g_cdr_xa_buffer db 0FF2h dup(?)         ; DATA XREF: cdr_reg1_write+677↑r
 .data:0050AF66                                         ; cdr_reg1_write+723↑r ...
-.data:0050BF58 dword_50BF58    dd ?                    ; DATA XREF: sub_42C710+1E↑r
-.data:0050BF58                                         ; sub_42C710+6D↑w ...
-.data:0050BF5C dword_50BF5C    dd ?                    ; DATA XREF: cdr_reg1_write+489↑w
+.data:0050BF58 g_cdr_last_lba_read dd ?                ; DATA XREF: cdr_read_data_sector+1E↑r
+.data:0050BF58                                         ; cdr_read_data_sector+6D↑w ...
+.data:0050BF5C g_cdr_data_bytes_transferred dd ?       ; DATA XREF: cdr_reg1_write+489↑w
 .data:0050BF5C                                         ; cdr_reg1_write+BF6↑w ...
-.data:0050BF60 dword_50BF60    dd ?                    ; DATA XREF: cdr_reg1_write+B50↑r
-.data:0050BF60                                         ; sub_42C820+4↑w ...
-.data:0050BF64 byte_50BF64     db ?                    ; DATA XREF: sub_42C830+3E↑w
-.data:0050BF64                                         ; sub_42CA00+26↑w ...
-.data:0050BF65 byte_50BF65     db ?                    ; DATA XREF: sub_42CA00+D↑w
-.data:0050BF66 byte_50BF66     db ?                    ; DATA XREF: cdr_reg0_write↑r
+.data:0050BF60 g_cdr_registers dd ?                    ; DATA XREF: cdr_reg1_write+B50↑r
+.data:0050BF60                                         ; cdr_set_nocd+4↑w ...
+.data:0050BF64 g_cdr_dma_active db ?                   ; DATA XREF: cdr_reset_controller+3E↑w
+.data:0050BF64                                         ; cdr_init_report_mode+26↑w ...
+.data:0050BF65 g_cdr_irq_enabled db ?                  ; DATA XREF: cdr_init_report_mode+D↑w
+.data:0050BF66 g_cdr_param_fifo_count db ?             ; DATA XREF: cdr_reg0_write↑r
 .data:0050BF66                                         ; cdr_reg0_write+1E↑w ...
-.data:0050BF67 byte_50BF67     db ?                    ; DATA XREF: sub_42CA00+20↑w
+.data:0050BF67 g_cdr_spindown_counter db ?             ; DATA XREF: cdr_init_report_mode+20↑w
 .data:0050BF67                                         ; cdr_freeze+3D↑w ...
-.data:0050BF68 byte_50BF68     db ?                    ; DATA XREF: sub_42CA00+4A↑w
+.data:0050BF68 g_cdr_region_code db ?                  ; DATA XREF: cdr_init_report_mode+4A↑w
 .data:0050BF68                                         ; cdr_unfreeze+25↑r
-.data:0050BF69 byte_50BF69     db ?                    ; DATA XREF: cdr_freeze+37↑w
-.data:0050BF69                                         ; sub_42CED0+25↑r ...
-.data:0050BF6A byte_50BF6A     db ?                    ; DATA XREF: cdr_reg1_write+D1↑w
+.data:0050BF69 g_cdr_idle_counter db ?                 ; DATA XREF: cdr_freeze+37↑w
+.data:0050BF69                                         ; cdr_unfreeze_new+25↑r ...
+.data:0050BF6A g_cdr_secondary_response_size db ?      ; DATA XREF: cdr_reg1_write+D1↑w
 .data:0050BF6A                                         ; cdr_reg1_write+448↑w ...
-.data:0050BF6B byte_50BF6B     db ?                    ; DATA XREF: cdr_reg1_write+DE↑w
+.data:0050BF6B g_cdr_secondary_response_index db ?     ; DATA XREF: cdr_reg1_write+DE↑w
 .data:0050BF6B                                         ; cdr_reg1_write+454↑w ...
-.data:0050BF6C dword_50BF6C    dd ?                    ; DATA XREF: cdr_reg1_write+D8↑w
+.data:0050BF6C g_cdr_secondary_response dd ?           ; DATA XREF: cdr_reg1_write+D8↑w
 .data:0050BF6C                                         ; cdr_reg1_write+44E↑w ...
 .data:0050BF70 dword_50BF70    dd ?                    ; DATA XREF: cdr_reg1_write+7C3↑w
 .data:0050BF70                                         ; cdr_reg1_write+B4B↑w ...
@@ -2568,19 +3094,19 @@
 .data:0050BF77                 db    ? ;
 .data:0050BF78                 db    ? ;
 .data:0050BF79                 db    ? ;
-.data:0050BF7A word_50BF7A     dw ?                    ; DATA XREF: cdr_reg1_write+1C1↑o
+.data:0050BF7A g_cdr_seek_target_msf dw ?              ; DATA XREF: cdr_reg1_write+1C1↑o
 .data:0050BF7A                                         ; cdr_reg1_write+1F2↑r ...
 .data:0050BF7C unk_50BF7C      db    ? ;               ; DATA XREF: cdr_reg1_write+1AF↑o
 .data:0050BF7C                                         ; cdr_reg1_write:loc_42B931↑o ...
-.data:0050BF7D byte_50BF7D     db ?                    ; DATA XREF: cdr_reg1_write+338↑w
+.data:0050BF7D g_cdr_retry_count db ?                  ; DATA XREF: cdr_reg1_write+338↑w
 .data:0050BF7D                                         ; cdr_reg1_write+C3B↑w ...
-.data:0050BF7E word_50BF7E     dw ?                    ; DATA XREF: cdr_reg1_write+62A↑r
+.data:0050BF7E g_cdr_read_ahead_sectors dw ?           ; DATA XREF: cdr_reg1_write+62A↑r
 .data:0050BF7E                                         ; cdr_reg1_write+809↑r ...
-.data:0050BF80 word_50BF80     dw ?                    ; DATA XREF: cdr_reg1_write+636↑r
+.data:0050BF80 g_cdr_delay_counter dw ?                ; DATA XREF: cdr_reg1_write+636↑r
 .data:0050BF80                                         ; cdr_reg1_write+815↑r ...
-.data:0050BF82 word_50BF82     dw ?                    ; DATA XREF: sub_42CA00+19↑w
-.data:0050BF82                                         ; sub_42CA70+E↑r ...
-.data:0050BF84 byte_50BF84     db ?                    ; DATA XREF: cdr_reg1_write:loc_42B7A5↑r
+.data:0050BF82 word_50BF82     dw ?                    ; DATA XREF: cdr_init_report_mode+19↑w
+.data:0050BF82                                         ; cdr_play_tick+E↑r ...
+.data:0050BF84 g_cdr_irq_mode  db ?                    ; DATA XREF: cdr_reg1_write:loc_42B7A5↑r
 .data:0050BF84                                         ; cdr_reg2_write:loc_42C49D↑w ...
 .data:0050BF85                 align 40h
 .data:0050BFC0 ; char int_reg[]
@@ -2602,21 +3128,21 @@
 .data:0050BFD8                                         ; hw_reg_read_word+27D↑r ...
 .data:0050BFDC ; int dword_50BFDC[]
 .data:0050BFDC dword_50BFDC    dd ?                    ; DATA XREF: dynarec_hw_update+184↑r
-.data:0050BFDC                                         ; clear_hw_regs+34↑w ...
+.data:0050BFDC                                         ; irq_clear_hw_regs+34↑w ...
 .data:0050BFE0 dword_50BFE0    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423A6E↑r
 .data:0050BFE0                                         ; dynarec_hw_update+1CC↑w ...
 .data:0050BFE4 dword_50BFE4    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423A59↑r
-.data:0050BFE4                                         ; sub_42B2A0:loc_42B54E↑r
+.data:0050BFE4                                         ; cpu_execute:loc_42B54E↑r
 .data:0050BFE8                 db    ? ;
 .data:0050BFE9                 db    ? ;
 .data:0050BFEA                 db    ? ;
 .data:0050BFEB                 db    ? ;
 .data:0050BFEC dword_50BFEC    dd ?                    ; DATA XREF: dynarec_hw_update+1C6↑r
-.data:0050BFEC                                         ; sub_42B2A0+2CB↑r
+.data:0050BFEC                                         ; cpu_execute+2CB↑r
 .data:0050BFF0 dword_50BFF0    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423AB3↑r
 .data:0050BFF0                                         ; dynarec_hw_update+213↑w ...
 .data:0050BFF4 dword_50BFF4    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423A9A↑r
-.data:0050BFF4                                         ; sub_42B2A0:loc_42B590↑r
+.data:0050BFF4                                         ; cpu_execute:loc_42B590↑r
 .data:0050BFF8                 db    ? ;
 .data:0050BFF9                 db    ? ;
 .data:0050BFFA                 db    ? ;
@@ -2627,27 +3153,27 @@
 .data:0050C000                                         ; dynarec_hw_update+2D5↑w ...
 .data:0050C004                 align 10h
 .data:0050C010 ; int dword_50C010[]
-.data:0050C010 dword_50C010    dd ?                    ; DATA XREF: clear_hw_regs:loc_42AD04↑w
+.data:0050C010 dword_50C010    dd ?                    ; DATA XREF: irq_clear_hw_regs:loc_42AD04↑w
 .data:0050C014 ; int dword_50C014[]
-.data:0050C014 dword_50C014    dd ?                    ; DATA XREF: clear_hw_regs+4A↑w
+.data:0050C014 dword_50C014    dd ?                    ; DATA XREF: irq_clear_hw_regs+4A↑w
 .data:0050C018 ; int dword_50C018[]
-.data:0050C018 dword_50C018    dd ?                    ; DATA XREF: clear_hw_regs+50↑w
+.data:0050C018 dword_50C018    dd ?                    ; DATA XREF: irq_clear_hw_regs+50↑w
 .data:0050C01C ; int dword_50C01C[]
-.data:0050C01C dword_50C01C    dd 4Dh dup(?)           ; DATA XREF: clear_hw_regs+56↑w
+.data:0050C01C dword_50C01C    dd 4Dh dup(?)           ; DATA XREF: irq_clear_hw_regs+56↑w
 .data:0050C150 ; int dword_50C150[]
-.data:0050C150 dword_50C150    dd ?                    ; DATA XREF: clear_hw_regs:loc_42ACC4↑w
+.data:0050C150 dword_50C150    dd ?                    ; DATA XREF: irq_clear_hw_regs:loc_42ACC4↑w
 .data:0050C154 ; int dword_50C154[]
-.data:0050C154 dword_50C154    dd ?                    ; DATA XREF: clear_hw_regs+A↑w
+.data:0050C154 dword_50C154    dd ?                    ; DATA XREF: irq_clear_hw_regs+A↑w
 .data:0050C158 ; int dword_50C158[]
-.data:0050C158 dword_50C158    dd 2Eh dup(?)           ; DATA XREF: clear_hw_regs+10↑w
+.data:0050C158 dword_50C158    dd 2Eh dup(?)           ; DATA XREF: irq_clear_hw_regs+10↑w
 .data:0050C210 dword_50C210    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423980↑r
 .data:0050C210                                         ; dynarec_hw_update+E4↑r ...
-.data:0050C214 byte_50C214     db ?                    ; DATA XREF: clear_hw_regs+6E↑w
-.data:0050C214                                         ; gpu_sub_42E450:loc_42E464↑r ...
-.data:0050C215 byte_50C215     db ?                    ; DATA XREF: clear_hw_regs+73↑w
-.data:0050C215                                         ; gpu_sub_42E650↑r ...
-.data:0050C216 byte_50C216     db ?                    ; DATA XREF: hw_reg_read_word+103↑r
-.data:0050C216                                         ; gpu_sub_42E450↑r ...
+.data:0050C214 gpu_dma2_delay_counter db ?             ; DATA XREF: irq_clear_hw_regs+6E↑w
+.data:0050C214                                         ; gpu_dma2_interrupt:loc_42E464↑r ...
+.data:0050C215 gpu_dma6_delay_counter db ?             ; DATA XREF: irq_clear_hw_regs+73↑w
+.data:0050C215                                         ; gpu_dma6_interrupt↑r ...
+.data:0050C216 gpu_dma2_state  db ?                    ; DATA XREF: hw_reg_read_word+103↑r
+.data:0050C216                                         ; gpu_dma2_interrupt↑r ...
 .data:0050C217                 align 4
 .data:0050C218 dword_50C218    dd ?                    ; DATA XREF: irq_freeze+74↑w
 .data:0050C218                                         ; irq_unfreeze+4C↑r
@@ -2655,7 +3181,15 @@
 .data:0050C21C                                         ; irq_unfreeze+52↑r
 .data:0050C220 dword_50C220    dd 10h dup(?)           ; DATA XREF: irq_freeze+7F↑w
 .data:0050C220                                         ; irq_unfreeze+58↑r
-
+.data:0050C260 ; char reg_pc[]
+.data:0050C260 reg_pc          dd ?                    ; DATA XREF: epsxe_main_loop_runner+144↑w
+.data:0050C260                                         ; state_save+D5↑o ...
+.data:0050C264 cpu_LO          dd ?                    ; DATA XREF: op_MULT+3F↑w
+.data:0050C264                                         ; op_MULTU+3A↑w ...
+.data:0050C268 cpu_HI          dd ?                    ; DATA XREF: op_MULT+39↑w
+.data:0050C268                                         ; op_MULTU+34↑w ...
+.data:0050C26C cpu_opcode      dd ?                    ; DATA XREF: gte_exec_opcode↑r
+.data:0050C26C                                         ; op_UNKNOWN+1D↑r ...
 .data:0050C270 hw_update_counter dd ?                  ; DATA XREF: spu_read_register:loc_40BF94↑r
 .data:0050C270                                         ; mem_hw_reg_read_byte↑w ...
 .data:0050C274 ; int cop0_regs[]
@@ -2663,7 +3197,7 @@
 .data:0050C274                                         ; op_MFC0+26↑r ...
 .data:0050C278                 align 10h
 .data:0050C280 dword_50C280    dd 9 dup(?)             ; DATA XREF: op_MTC0:loc_41EC6F↑r
-.data:0050C280                                         ; ext_CD_sub_430B60+2F↑r ...
+.data:0050C280                                         ; ext_CDR_verify_subchannel_data+2F↑r ...
 .data:0050C2A4 dword_50C2A4    dd ?                    ; DATA XREF: mem_hw_reg_write_byte:loc_41CF13↑r
 .data:0050C2A4                                         ; mem_write_half:loc_41D00A↑r ...
 .data:0050C2A8 dword_50C2A8    dd ?                    ; DATA XREF: op_MTC0+4C↑w
@@ -2675,7 +3209,9 @@
 .data:0050C2B2                 db    ? ;
 .data:0050C2B3                 db    ? ;
 .data:0050C2B4 dword_50C2B4    dd 0Bh dup(?)           ; DATA XREF: dynarec_hw_update+12↑w
-
+.data:0050C2E0 ; int cpu_gpr[]
+.data:0050C2E0 cpu_gpr         dd 20h dup(?)           ; DATA XREF: gte_exec_opcode+66↑w
+.data:0050C2E0                                         ; gte_exec_opcode+DA↑w ...
 .data:0050C360 dword_50C360    dd ?                    ; DATA XREF: op_UNKNOWN+B↑r
 .data:0050C360                                         ; dynarec_hw_update+273↑r ...
 .data:0050C364 dword_50C364    dd ?                    ; DATA XREF: op_UNKNOWN+5↑r
@@ -2684,10 +3220,10 @@
 .data:0050C369                 db    ? ;
 .data:0050C36A                 db    ? ;
 .data:0050C36B                 db    ? ;
-.data:0050C36C dword_50C36C    dd ?                    ; DATA XREF: epsxe_main_loop_runner+D8↑r
+.data:0050C36C dynarec_enabled dd ?                    ; DATA XREF: epsxe_main_loop_runner+D8↑r
 .data:0050C36C                                         ; epsxe_main_loop_runner+14F↑r ...
 .data:0050C370 dword_50C370    dd ?                    ; DATA XREF: WinMain+109↑w
-.data:0050C374 dword_50C374    dd ?                    ; DATA XREF: loader_parse_cheat_entry+89↑w
+.data:0050C374 unknown_timing_value dd ?               ; DATA XREF: loader_parse_cheat_entry+89↑w
 .data:0050C374                                         ; net_netplay_handler+254↑r ...
 .data:0050C378 forcepad        dd ?                    ; DATA XREF: parse_command_line_options+134↑w
 .data:0050C378                                         ; parse_command_line_options+155↑w ...
@@ -2699,7 +3235,8 @@
 .data:0050C384                                         ; cfg_save_settings+46D↑r ...
 .data:0050C388 version_setting dd ?                    ; DATA XREF: cfg_load_settings+7F1↑w
 .data:0050C388                                         ; cfg_load_settings+82F↑w ...
-.data:0050C38C unused_arr      db 5A54h dup(?)
+.data:0050C38C unused_arr      db 54h dup(?)
+.data:0050C3E0 byte_50C3E0     db 5A00h dup(?)         ; DATA XREF: mdec_idct_blocks+26↑o
 .data:00511DE0 ; int mdec_nonzero_counts[184]
 .data:00511DE0 mdec_nonzero_counts dd 0B8h dup(?)      ; DATA XREF: mdec_rl_decode+F1↑w
 .data:00511DE0                                         ; mdec_idct_blocks:loc_429BC0↑r
@@ -2740,11 +3277,11 @@
 .data:005164F0                                         ; mdec_decode+8↑r
 .data:005164F4 mdec_dma_status dd ?                    ; DATA XREF: hw_reg_write_word+18E↑w
 .data:005164F4                                         ; hw_reg_write_word+1B4↑w ...
-.data:005164F8 dword_5164F8    dd ?                    ; DATA XREF: gpu_dma+3↑r
-.data:005164FC dword_5164FC    dd ?                    ; DATA XREF: gpu_dma+A↑r
+.data:005164F8 gpu_dma_address dd ?                    ; DATA XREF: gpu_dma+3↑r
+.data:005164FC gpu_dma_control dd ?                    ; DATA XREF: gpu_dma+A↑r
 .data:005164FC                                         ; gpu_dma+13↑r
-.data:00516500 ; char dword_516500[]
-.data:00516500 dword_516500    dd ?                    ; DATA XREF: hw_reg_write_word+1D1↑w
+.data:00516500 ; char gpu_dma_channel_status[]
+.data:00516500 gpu_dma_channel_status dd ?             ; DATA XREF: hw_reg_write_word+1D1↑w
 .data:00516500                                         ; hw_reg_read_word+111↑r ...
 .data:00516504 dword_516504    dd ?                    ; DATA XREF: cdr_dma+26↑r
 .data:00516508 dword_516508    dd ?                    ; DATA XREF: cdr_dma+6↑r
@@ -2770,9 +3307,9 @@
 .data:00516524                                         ; hw_reg_write_word+2BC↑w
 .data:00516528 dword_516528    dd ?                    ; DATA XREF: hw_reg_write_word+BC4C↑r
 .data:0051652C dword_51652C    dd ?                    ; DATA XREF: hw_reg_write_word+BC52↑r
-.data:00516530 ; char dword_516530[]
-.data:00516530 dword_516530    dd ?                    ; DATA XREF: hw_reg_write_word+33A↑w
-.data:00516530                                         ; gpu_sub_42E650+13↑r ...
+.data:00516530 ; char gpu_dma6_status[]
+.data:00516530 gpu_dma6_status dd ?                    ; DATA XREF: hw_reg_write_word+33A↑w
+.data:00516530                                         ; gpu_dma6_interrupt+13↑r ...
 .data:00516534                 align 10h
 .data:00516540 sio_multitap_state dd ?                 ; DATA XREF: sio_build_multitap_response+6↑w
 .data:00516540                                         ; sio_build_multitap_response+16↑o ...
@@ -2880,8 +3417,8 @@
 .data:00566964 dword_566964    dd ?                    ; DATA XREF: select_plugins_backend+29B↑w
 .data:00566964                                         ; hw_reg_freeze+40↑o ...
 .data:00566968                 align 20h
-.data:00566980 ; char byte_566980[65536]
-.data:00566980 byte_566980     db 10000h dup(?)        ; DATA XREF: sub_41C390+1A↑o
+.data:00566980 ; char zip_entry_names[65536]
+.data:00566980 zip_entry_names db 10000h dup(?)        ; DATA XREF: loader_pll_get_file_size+1A↑o
 .data:00566980                                         ; loader_load_zip+122↑o ...
 .data:00576980 zipfile_input_buffer dd ?               ; DATA XREF: zip_inflate_data_with_trees+45↑r
 .data:00576980                                         ; zip_inflate_data_with_trees+64↑w ...
@@ -2890,17 +3427,33 @@
 .data:00576984                                         ; zip_inflate_data_with_trees+107↑r ...
 .data:00576988                 align 20h
 .data:005769A0 ; size_t Size[256]
-.data:005769A0 Size            dd 100h dup(?)          ; DATA XREF: sub_41C390+53↑r
+.data:005769A0 Size            dd 100h dup(?)          ; DATA XREF: loader_pll_get_file_size+53↑r
 .data:005769A0                                         ; loader_load_zip:loc_41C7A8↑r ...
-
+.data:00576DA0 op_jump_addr    dd ?                    ; DATA XREF: op_J+15↑w
+.data:00576DA0                                         ; op_JAL+15↑w
+.data:00576DA4 op_imm          dd ?                    ; DATA XREF: op_LUI+17↑w
+.data:00576DA4                                         ; op_ADDI+30↑w ...
+.data:00576DA8 op_ofs          dd ?                    ; DATA XREF: op_LB+29↑w
+.data:00576DA8                                         ; op_LB+37↑w ...
+.data:00576DAC op_rs           db ?                    ; DATA XREF: op_LB+1E↑w
+.data:00576DAC                                         ; op_LBU+1E↑w ...
+.data:00576DAD op_rd           db ?                    ; DATA XREF: op_ADD+37↑w
+.data:00576DAD                                         ; op_SUB+30↑w ...
+.data:00576DAE op_sa           db ?                    ; DATA XREF: op_SLL+29↑w
+.data:00576DAE                                         ; op_SRL+25↑w ...
+.data:00576DAF op_rs_0         db ?                    ; DATA XREF: op_ADDI+25↑w
+.data:00576DAF                                         ; op_ADD+25↑w ...
+.data:00576DB0 op_rt           db ?                    ; DATA XREF: op_LB+23↑w
+.data:00576DB0                                         ; op_LB+52↑r ...
+.data:00576DB1                 align 10h
 .data:00576DC0 ; int mem_write_hooks[9371]
 .data:00576DC0 mem_write_hooks dd 10000h dup(?)        ; DATA XREF: mem_init_memory_handlers+F↑w
 .data:00576DC0                                         ; mem_init_memory_handlers+60↑w ...
-.data:005B6DC0 ; int dword_5B6DC0[]
-.data:005B6DC0 dword_5B6DC0    dd ?                    ; DATA XREF: cheat_dialog_callback+92↑o
+.data:005B6DC0 ; int mini_cheat_attr_array[]
+.data:005B6DC0 mini_cheat_attr_array dd ?              ; DATA XREF: cheat_dialog_callback+92↑o
 .data:005B6DC0                                         ; cheat_dialog_callback:loc_405C91↑r ...
-.data:005B6DC4 ; int dword_5B6DC4[31]
-.data:005B6DC4 dword_5B6DC4    dd 1Fh dup(?)           ; DATA XREF: cheat_dialog_callback+99↑o
+.data:005B6DC4 ; int mini_cheat_id_array[31]
+.data:005B6DC4 mini_cheat_id_array dd 1Fh dup(?)       ; DATA XREF: cheat_dialog_callback+99↑o
 .data:005B6DC4                                         ; cheat_dialog_callback+428↑r ...
 .data:005B6E40 ; int ram[]
 .data:005B6E40 ram             db 200000h dup(?)       ; DATA XREF: loader_load_demo+7E↑o
@@ -3148,8 +3701,8 @@
 .data:008B3980 ; CHAR IsoDirectory[]
 .data:008B3980 IsoDirectory    db 400h dup(?)          ; DATA XREF: cfg_load_settings+AB1↑o
 .data:008B3980                                         ; cfg_load_settings+ACA↑o ...
-.data:008B3D80 ; char ppf_default_filename[2]
-.data:008B3D80 ppf_default_filename db 400h dup(?)     ; DATA XREF: state_save+13↑o
+.data:008B3D80 ; char default_filename[2]
+.data:008B3D80 default_filename db 400h dup(?)         ; DATA XREF: state_save+13↑o
 .data:008B3D80                                         ; state_save:loc_403622↑r ...
 .data:008B4180 ; BYTE NetPlugin[1024]
 .data:008B4180 NetPlugin       db 400h dup(?)          ; DATA XREF: cfg_load_settings+FD↑o
