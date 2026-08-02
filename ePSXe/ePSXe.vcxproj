@@ -21,19 +21,45 @@
   <ItemGroup>
     <ClInclude Include="..\resources\Resource.h" />
     <ClInclude Include="..\src\bios_descr.h" />
+    <ClInclude Include="..\src\burutter.h" />
+    <ClInclude Include="..\src\cdfs.h" />
+    <ClInclude Include="..\src\cdr.h" />
+    <ClInclude Include="..\src\cdrom_fake.h" />
+    <ClInclude Include="..\src\cdrom_iso.h" />
+    <ClInclude Include="..\src\cdrom_w2k.h" />
+    <ClInclude Include="..\src\cdrom_w9x.h" />
+    <ClInclude Include="..\src\cdr_plugin.h" />
     <ClInclude Include="..\src\cfg.h" />
     <ClInclude Include="..\src\cheat.h" />
+    <ClInclude Include="..\src\cont.h" />
     <ClInclude Include="..\src\cpu.h" />
     <ClInclude Include="..\src\debug.h" />
+    <ClInclude Include="..\src\dlg_callbacks.h" />
+    <ClInclude Include="..\src\dynarec.h" />
+    <ClInclude Include="..\src\gpu_plugin.h" />
     <ClInclude Include="..\src\gte.h" />
+    <ClInclude Include="..\src\hw.h" />
     <ClInclude Include="..\src\input.h" />
+    <ClInclude Include="..\src\intr.h" />
+    <ClInclude Include="..\src\loader.h" />
     <ClInclude Include="..\src\main.h" />
+    <ClInclude Include="..\src\mainwnd.h" />
+    <ClInclude Include="..\src\mdec.h" />
+    <ClInclude Include="..\src\mem.h" />
+    <ClInclude Include="..\src\net.h" />
     <ClInclude Include="..\src\ops.h" />
     <ClInclude Include="..\src\op_tabs.h" />
     <ClInclude Include="..\src\pch.h" />
     <ClInclude Include="..\src\ppf.h" />
     <ClInclude Include="..\src\psemu.h" />
     <ClInclude Include="..\src\psxdefs.h" />
+    <ClInclude Include="..\src\setup_wizard.h" />
+    <ClInclude Include="..\src\sio.h" />
+    <ClInclude Include="..\src\spucore.h" />
+    <ClInclude Include="..\src\spu_plugin.h" />
+    <ClInclude Include="..\src\sstates.h" />
+    <ClInclude Include="..\src\ui_misc.h" />
+    <ClInclude Include="..\src\xa.h" />
     <ClInclude Include="..\src\zip.h" />
   </ItemGroup>
   <ItemGroup>
