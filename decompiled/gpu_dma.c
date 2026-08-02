@@ -26,12 +26,12 @@ char gpu_dma()
     {
       v9 = v1 * v2;
       GPUreadDataMem(v3, v9);
-      if ( gpu_dynarec_enabled == 1 && v9 )
+      if ( dynarec_enabled == 1 && v9 )
         dynarec_invalidate_range(v0, v9);
     }
     else
     {
-      if ( gpu_dynarec_enabled == 1 && v1 * v2 )
+      if ( dynarec_enabled == 1 && v1 * v2 )
         dynarec_invalidate_range(v0, v1 * v2);
       for ( i = v1 * v2; i; --i )
       {

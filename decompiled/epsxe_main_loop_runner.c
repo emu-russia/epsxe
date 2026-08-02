@@ -35,7 +35,7 @@ void __noreturn epsxe_main_loop_runner()
     nullsub_1();
     gpu_init_performance_counter();
     mdec_init();
-    if ( gpu_dynarec_enabled == 1 )
+    if ( dynarec_enabled == 1 )
       dynarec_init();
     reset_flag = 0;
     ppf_enabled = old_auto_ppf_load;
@@ -54,9 +54,9 @@ void __noreturn epsxe_main_loop_runner()
         loader_load_zip();
     }
     get_tick_count();
-    if ( gpu_dynarec_enabled )
+    if ( dynarec_enabled )
     {
-      if ( gpu_dynarec_enabled == 1 )
+      if ( dynarec_enabled == 1 )
         dynarec_execute();
       else
         nullsub_1();

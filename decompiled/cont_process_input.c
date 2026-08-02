@@ -43,7 +43,7 @@ int cont_process_input()
     }
   }
   if ( byte_50AA91 )
-    gpu_dynarec_clear_needed = 1;
+    dynarec_clear_needed = 1;
   if ( byte_50AA92 )
     cdr_get_status(2);
   if ( byte_50AA93 )
@@ -88,7 +88,7 @@ int cont_process_input()
     {
       state_load();
       dbg_print(" * LoadState Done! \n");
-      gpu_dynarec_clear_needed = 1;
+      dynarec_clear_needed = 1;
     }
     byte_4FD984 = 25;
     goto LABEL_51;

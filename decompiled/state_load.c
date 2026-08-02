@@ -10,7 +10,7 @@ _DWORD *state_load()
   int v6; // [esp+15h] [ebp-43Bh]
   char Buffer[1024]; // [esp+50h] [ebp-400h] BYREF
 
-  v0 = gpu_dynarec_enabled;
+  v0 = dynarec_enabled;
   v1 = loaded_file_type;
   if ( !strcmp(state_file_from_cmdline, "NULL") )
   {
@@ -29,7 +29,7 @@ _DWORD *state_load()
     v4 = v6;
     gzread(v3, v5, 7);
     gzread(v3, reg_pc, 364);
-    gpu_dynarec_enabled = v0;
+    dynarec_enabled = v0;
     loaded_file_type = v1;
     mem_unfreeze((int)"MEM", v3);
     hw_reg_unfreeze((int)"REG", v3);

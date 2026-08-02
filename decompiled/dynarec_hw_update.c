@@ -126,9 +126,9 @@ char *dynarec_hw_update()
           v8 = *(_DWORD *)reg_pc & 0x1FFFFF;
         **(_DWORD **)((char *)recomp_code_base + v8) = 195;
       }
-      if ( gpu_dynarec_clear_needed )
+      if ( dynarec_clear_needed )
       {
-        gpu_dynarec_clear_needed = 0;
+        dynarec_clear_needed = 0;
         dynarec_invalidate();
       }
       if ( (dword_50C360 & 0x3F) == 0 )
