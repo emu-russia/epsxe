@@ -1,0 +1,527 @@
+.rdata:00448500 stru_448500     GUID <57D7C6BCh, 2356h, 11D3h, <8Eh, 9Dh, 0, 0C0h, 4Fh, 68h, 44h, \
+.rdata:004485D0 stru_4485D0     GUID <6F1D2B60h, 0D5A0h, 11CFh, <0BFh, 0C7h, 44h, 45h, 53h, 54h, 0, 0>>
+.rdata:004485E0 stru_4485E0     GUID <6F1D2B61h, 0D5A0h, 11CFh, <0BFh, 0C7h, 44h, 45h, 53h, 54h, 0, 0>>
+.data:0044C124 byte_44C124     db 0                    ; DATA XREF: xa_decode_stereo_blocks+43↑o
+.data:0044C134 dword_44C134    dd 0, 2, 8, 0Ah         ; DATA XREF: xa_decode_stereo_blocks+136↑o
+.data:0044C144 dword_44C144    dd 0                    ; DATA XREF: xa_decode_mono_blocks+134↑o
+.data:0044DD1C word_44DD1C     dw 40Ah, 40Ch, 409h, 40Bh, 412h, 413h, 414h, 415h, 408h
+.data:0044DF24 dword_44DF24    dd 0FFFFFFFFh           ; DATA XREF: main_window_callback:loc_40AA85↑w
+.data:0044F208 dword_44F208    dd 5 dup(1C3C00h), 17BE00h, 13F6F8h, 10C9CBh, 0E1E00h
+.data:0044F408 dword_44F408    dd 31B343h, 1DDACEh, 11EF00h, 0AC5CBh, 67898h, 3E31Bh
+.data:0044F448 dword_44F448    dd 5F8E2Ch, 505A27h, 43915Eh, 38D14Bh, 2FC716h, 282D13h
+.data:0044F648 dword_44F648    dd 0FFFFFh, 1FFFFFh, 2FFFFFh, 3FFFFFh, 4FFFFFh, 5FFFFFh
+.data:0044F688 dword_44F688    dd 2 dup(6666h), 3333h, 2222h, 1999h, 147Ah, 1111h, 0EA0h
+.data:0044F720 byte_44F720     db 1Bh, 0E8h, 0EAh, 8Ah, 0BBh, 0F6h, 0B0h, 51h, 19h, 0F1h
+.data:0044F7A0 dword_44F7A0    dd 1                    ; DATA XREF: spucore_generate_samples+3↑r
+.data:0044F7A4 dword_44F7A4    dd 0                    ; DATA XREF: spucore_decode_adpcm_block+F5↑r
+.data:0044F7A8 dword_44F7A8    dd 0, 3Ch, 0, 73h, 0FFFFFFCCh, 62h, 0FFFFFFC9h, 7Ah, 0FFFFFFC4h
+.data:0044F950 dword_44F950    dd 8A7F00h              ; DATA XREF: gte_rtps+3↑r
+.data:0044F958 qword_44F958    dq 8080000081000000h    ; DATA XREF: gte_rtps+98↑r
+.data:0044F960 qword_44F960    dq 400000h              ; DATA XREF: gte_rtps+9F↑r
+.data:004557A8 byte_4557A8     db 1                    ; DATA XREF: parse_command_line_options+399↑w
+.data:004557FC byte_4557FC     db 0                    ; DATA XREF: sio_handle_config_command+16B↑r
+.data:004558BC byte_4558BC     db 3 dup(0FFh), 0, 2 dup(0FFh), 2 dup(0), 0FFh, 7 dup(0)
+.data:004558CC byte_4558CC     db 18h, 3 dup(0), 10h, 3 dup(0), 8, 7 dup(0)
+.data:004558DC byte_4558DC     db 7 dup(0), 0FFh, 2 dup(0), 2 dup(0FFh), 0, 3 dup(0FFh)
+.data:004558EC byte_4558EC     db 4 dup(0), 8, 3 dup(0), 10h, 3 dup(0), 18h, 3 dup(0)
+.data:004558FC byte_4558FC     db 0, 3 dup(0FFh), 2 dup(0), 2 dup(0FFh), 3 dup(0), 0FFh
+.data:0045590C byte_45590C     db 18h, 3 dup(0), 10h, 3 dup(0), 8, 7 dup(0)
+.data:0045591C byte_45591C     db 4 dup(0), 0FFh, 3 dup(0), 2 dup(0FFh), 2 dup(0), 3 dup(0FFh)
+.data:0045592C byte_45592C     db 4 dup(0), 8, 3 dup(0), 10h, 3 dup(0), 18h, 3 dup(0)
+.data:00455945 byte_455945     db 5                    ; DATA XREF: parse_command_line_options+23A↑w
+.data:00455948 byte_455948     db 81h                  ; DATA XREF: dynarec_init+8D2↑o
+.data:0045594F dword_45594F    dd 0                    ; DATA XREF: dynarec_init+8A0↑w
+.data:00455958 dword_455958    dd 0                    ; DATA XREF: dynarec_init+8AC↑w
+.data:00455960 dword_455960    dd 0                    ; DATA XREF: dynarec_init+8B2↑w
+.data:00455968 dword_455968    dd 0                    ; DATA XREF: dynarec_init+8C4↑w
+.data:00455972 dword_455972    dd 0                    ; DATA XREF: dynarec_init+8B8↑w
+.data:00455984 word_455984     dw 7503h
+.data:00455986 byte_455986     db 0F1h
+.data:00455C20 qword_455C20    dq 5A825A825A825A82h    ; DATA XREF: mdec_idct_sse+8A↑r
+.data:00455C28 qword_455C28    dq 0CF04CF04CF04CF04h   ; DATA XREF: mdec_idct_sse+43↑r
+.data:00455C30 qword_455C30    dq 7641764176417641h    ; DATA XREF: mdec_idct_sse+75↑r
+.data:00455C38 qword_455C38    dq 896F896F896F896Fh    ; DATA XREF: mdec_idct_sse+4D↑r
+.data:00455C40 qword_455C40    dq 0CF04CF04CF04CF04h   ; DATA XREF: mdec_idct_sse+6B↑r
+.data:00455C50 qword_455C50    dq 59BA0000D24E59BAh    ; DATA XREF: mdec_y_to_mono+75↑r
+.data:00455C58 qword_455C58    dq 7168EA0C0000h        ; DATA XREF: mdec_y_to_mono+90↑r
+.data:00455C60 qword_455C60    dq 0D24E59BA0000h       ; DATA XREF: mdec_y_to_mono+A5↑r
+.data:00455C68 qword_455C68    dq 7168EA0C00007168h    ; DATA XREF: mdec_y_to_mono+B8↑r
+.data:00455C70 qword_455C70    dq 80808080h            ; DATA XREF: mdec_y_to_mono+9E↑r
+.data:00455C78 qword_455C78    dq 0FFFFFFFF0000h       ; DATA XREF: mdec_y_to_mono+C5↑r
+.data:00455FA6 word_455FA6     dw 0Ah                  ; DATA XREF: cdr_reg1_write+194↑w
+.data:00455FA8 word_455FA8     dw 1, 3 dup(0)          ; DATA XREF: parse_command_line_options+D8↑w
+.data:00455FB0 byte_455FB0     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+33↑r
+.data:00455FB1 byte_455FB1     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+2A↑r
+.data:00455FB4 byte_455FB4     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+55↑r
+.data:00455FB5 byte_455FB5     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+4C↑r
+.data:00455FB8 byte_455FB8     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+77↑r
+.data:00455FB9 byte_455FB9     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+6E↑r
+.data:00455FBC byte_455FBC     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+99↑r
+.data:00455FBD byte_455FBD     db 0FFh                 ; DATA XREF: cont_build_controller_response_digital+90↑r
+.data:00456048 dword_456048    dd 4 dup(1)             ; DATA XREF: cfg_load_settings+8C8↑o
+.data:0045696C byte_45696C     db 1                    ; DATA XREF: net_open+2F↑w
+.data:00456D74 dword_456D74    dd 0FFFFFFFFh           ; DATA XREF: iso_load+67↑w
+.data:00456D78 dword_456D78    dd 930h                 ; DATA XREF: iso_load+99↑r
+.data:00456FB4 dword_456FB4    dd 47h                  ; DATA XREF: W9x_play_cdda+BC↑r
+.data:00456FB8 dword_456FB8    dd 0                    ; DATA XREF: W9x_play_cdda+4E↑w
+.data:00456FBC word_456FBC     dw 0                    ; DATA XREF: W9x_play_cdda+81↑w
+.data:00456FC0 dword_456FC0    dd 4Bh                  ; DATA XREF: W9x_cdrom_stop+6A↑r
+.data:00456FC4 dword_456FC4    dd 0                    ; DATA XREF: W9x_cdrom_stop+74↑r
+.data:00456FC8 word_456FC8     dw 0                    ; DATA XREF: W9x_cdrom_stop+7E↑r
+.data:00456FCC dword_456FCC    dd 4Bh                  ; DATA XREF: W9x_resume_cdda+46↑r
+.data:00456FD0 dword_456FD0    dd 0                    ; DATA XREF: W9x_resume_cdda+50↑r
+.data:00456FD4 word_456FD4     dw 1                    ; DATA XREF: W9x_resume_cdda+5A↑r
+.data:00457338 byte_457338     db 2                    ; DATA XREF: W2k_cdrom_gettrackinfo+5A↑r
+.data:0045733C dword_45733C    dd 4Bh                  ; DATA XREF: W2k_resume_cdrom+46↑r
+.data:00457340 dword_457340    dd 0                    ; DATA XREF: W2k_resume_cdrom+50↑r
+.data:00457344 word_457344     dw 1                    ; DATA XREF: W2k_resume_cdrom+5A↑r
+.data:00457348 dword_457348    dd 0FFFFFFFFh           ; DATA XREF: W2k_reset_cdda_state+A↑w
+.data:0045734C dword_45734C    dd 47h                  ; DATA XREF: W2k_cdrom_play_cdda+B8↑r
+.data:00457350 dword_457350    dd 0                    ; DATA XREF: W2k_cdrom_play_cdda+41↑w
+.data:00457354 word_457354     dw 0                    ; DATA XREF: W2k_cdrom_play_cdda+7D↑w
+.data:00457358 dword_457358    dd 4Bh                  ; DATA XREF: W2k_cdrom_stop+6A↑r
+.data:0045735C dword_45735C    dd 0                    ; DATA XREF: W2k_cdrom_stop+74↑r
+.data:00457360 word_457360     dw 0                    ; DATA XREF: W2k_cdrom_stop+7E↑r
+.data:0045B8CC byte_45B8CC     db 0                    ; DATA XREF: epsxe_main_loop_runner+17↑o
+.data:0045B8D8 dword_45B8D8    dd 0                    ; DATA XREF: main_window_callback+BC↑r
+.data:0045B8DC h               dd 0                    ; DATA XREF: main_window_callback+D9↑r
+.data:0045B8E4 dword_45B8E4    dd 0                    ; DATA XREF: search_video_plugin:loc_405F46↑r
+.data:0045B8E8 byte_45B8E8     db 0                    ; DATA XREF: main_window_callback+23A↑r
+.data:0045B8F0 byte_45B8F0     db 0                    ; DATA XREF: spu_destroy+25↑r
+.data:0045B900 byte_45B900     db 700h dup(0), 7900h dup(?)
+.data:00463904 dword_463904    dd ?                    ; DATA XREF: spucore_decode_adpcm_block+3↑r
+.data:00465530 dword_465530    dd ?                    ; DATA XREF: spucore_init_dsound+1C↑w
+.data:00465534 dword_465534    dd ?                    ; DATA XREF: spucore_update_dsound+38↑o
+.data:0046553C word_46553C     dw ?                    ; DATA XREF: spucore_write_dma_ctrl+5↑w
+.data:00465540 dword_465540    dd ?                    ; DATA XREF: spucore_write_voice_reg+3B↑w
+.data:00465544 dword_465544    dd ?                    ; DATA XREF: spucore_write_voice_reg+97↑w
+.data:00465548 dword_465548    dd ?                    ; DATA XREF: spucore_write_voice_reg+71↑w
+.data:0046554C dword_46554C    dd ?                    ; DATA XREF: spucore_write_voice_reg+CD↑w
+.data:00465550 dword_465550    dd ?                    ; DATA XREF: spucore_write_voice_reg+49↑w
+.data:00465554 dword_465554    dd ?                    ; DATA XREF: spucore_write_voice_reg+A5↑w
+.data:00465558 dword_465558    dd ?                    ; DATA XREF: spucore_write_voice_reg+4F↑w
+.data:0046555C dword_46555C    dd ?                    ; DATA XREF: spucore_write_voice_reg+AB↑w
+.data:00465560 dword_465560    dd ?                    ; DATA XREF: spucore_write_voice_reg+5D↑w
+.data:00465564 dword_465564    dd ?                    ; DATA XREF: spucore_write_voice_reg+B9↑w
+.data:00465568 dword_465568    dd ?                    ; DATA XREF: spucore_write_voice_reg+6B↑w
+.data:0046556C dword_46556C    dd ?                    ; DATA XREF: spucore_write_voice_reg+C7↑w
+.data:00465570 dword_465570    dd ?                    ; DATA XREF: spucore_write_voice_reg+F7↑w
+.data:00465574 dword_465574    dd ?                    ; DATA XREF: spucore_voice_key_on+A↑r
+.data:00465578 dword_465578    dd ?                    ; DATA XREF: spucore_write_voice_reg+15A↑w
+.data:0046557C dword_46557C    dd ?                    ; DATA XREF: spucore_write_voice_reg+16A↑w
+.data:00465580 dword_465580    dd ?                    ; DATA XREF: spucore_write_voice_reg+19C↑w
+.data:00465584 dword_465584    dd ?                    ; DATA XREF: spucore_write_voice_reg+18D↑w
+.data:00465588 dword_465588    dd ?                    ; DATA XREF: spucore_write_voice_reg+1CD↑w
+.data:0046558C dword_46558C    dd ?                    ; DATA XREF: spucore_write_voice_reg+1EE↑w
+.data:00465590 dword_465590    dd ?                    ; DATA XREF: spucore_write_voice_reg+203↑w
+.data:00465594 dword_465594    dd ?                    ; DATA XREF: spucore_write_voice_reg+1F4↑w
+.data:00465598 dword_465598    dd ?                    ; DATA XREF: spucore_write_voice_reg+209↑w
+.data:0046559C dword_46559C    dd ?                    ; DATA XREF: spucore_voice_key_off:loc_40C611↑w
+.data:004655A0 dword_4655A0    dd ?                    ; DATA XREF: spucore_decode_adpcm_block+B9↑r
+.data:004655A4 dword_4655A4    dd ?                    ; DATA XREF: spucore_voice_key_on+12↑w
+.data:004655AC dword_4655AC    dd ?                    ; DATA XREF: spucore_voice_key_on+28↑w
+.data:004655B0 dword_4655B0    dd ?
+.data:004655B4 dword_4655B4    dd ?                    ; DATA XREF: spucore_write_voice_reg+118↑w
+.data:004655B8 dword_4655B8    dd ?                    ; DATA XREF: spucore_voice_key_on+1C↑w
+.data:004655BC dword_4655BC    dd ?                    ; DATA XREF: spucore_voice_key_on+22↑w
+.data:004655C0 dword_4655C0    dd ?                    ; DATA XREF: spucore_decode_adpcm_block:loc_40C781↑r
+.data:004655C4 dword_4655C4    dd ?                    ; DATA XREF: spucore_decode_adpcm_block+167↑r
+.data:004655C8 dword_4655C8    dd ?                    ; DATA XREF: spucore_decode_adpcm_block+1D7↑w
+.data:004655CC dword_4655CC    dd 1Bh dup(?)           ; DATA XREF: spucore_decode_adpcm_block+22B↑w
+.data:00465638 dword_465638    dd 7 dup(?)             ; DATA XREF: spucore_voice_key_on+2E↑w
+.data:00465654 dword_465654    dd ?                    ; DATA XREF: spucore_write_voice_reg+180↑w
+.data:00465658 dword_465658    dd ?                    ; DATA XREF: spucore_write_voice_reg+1A2↑w
+.data:0046565C dword_46565C    dd ?                    ; DATA XREF: spucore_write_voice_reg+1A8↑w
+.data:00465660 dword_465660    dd ?                    ; DATA XREF: spucore_write_voice_reg+21D↑w
+.data:00465664 dword_465664    dd 6A7h dup(?)          ; DATA XREF: spucore_write_voice_reg+223↑w
+.data:004E7100 dword_4E7100    dd ?                    ; DATA XREF: spucore_write_register:loc_40D4D3↑r
+.data:004E7104 word_4E7104     dw ?                    ; DATA XREF: spucore_write_register+242↑w
+.data:004E7106 word_4E7106     dw ?                    ; DATA XREF: spucore_write_register+24E↑w
+.data:004E7108 dword_4E7108    dd ?                    ; DATA XREF: spu_play_adpcm+1D↑o
+.data:004E7110 dword_4E7110    dd ?                    ; DATA XREF: spucore_generate_samples+31↑r
+.data:004E7114 dword_4E7114    dd ?                    ; DATA XREF: spu_play_adpcm+2E↑r
+.data:004E7128 byte_4E7128     db 8004h dup(?)         ; DATA XREF: spucore_generate_samples+8C↑o
+.data:004EF134 byte_4EF134     db ?                    ; DATA XREF: spucore_update_dsound+33↑o
+.data:004EF138 dword_4EF138    dd ?                    ; DATA XREF: spucore_write_register:loc_40D50F↑r
+.data:004EF140 word_4EF140     dw ?                    ; DATA XREF: spucore_generate_samples+91↑o
+.data:004EF142 byte_4EF142     db 8000h dup(?)         ; DATA XREF: spucore_generate_samples+DC↑r
+.data:004F7148 dword_4F7148    dd ?                    ; DATA XREF: spucore_init_dsound+17↑w
+.data:004F7154 byte_4F7154     db 200h dup(?)          ; DATA XREF: spucore_generate_samples+3E↑o
+.data:004F7354 dword_4F7354    dd 7Fh dup(?)           ; DATA XREF: spucore_generate_samples+FA↑o
+.data:004F7550 word_4F7550     dw ?                    ; DATA XREF: spucore_decode_adpcm_block+37↑r
+.data:004F7554 dword_4F7554    dd ?                    ; DATA XREF: spucore_set_dma_address+C↑w
+.data:004F755C word_4F755C     dw ?                    ; DATA XREF: spucore_write_register+25B↑w
+.data:004F7560 dword_4F7560    dd ?                    ; DATA XREF: spucore_init_dsound+138↑o
+.data:004F7564 dword_4F7564    dd ?                    ; DATA XREF: spucore_init_dsound+169↑w
+.data:004F7568 dword_4F7568    dd ?                    ; DATA XREF: spucore_init_dsound+144↑w
+.data:004F7570 byte_4F7570     db 14h dup(?)           ; DATA XREF: spucore_init_dsound+173↑w
+.data:004F7584 word_4F7584     dw ?                    ; DATA XREF: spucore_write_register+268↑w
+.data:004F7594 dword_4F7594    dd ?                    ; DATA XREF: save_load_state+1A↑w
+.data:004F7598 dword_4F7598    dd ?                    ; DATA XREF: spucore_update_dsound+4D↑r
+.data:004F75A0 dword_4F75A0    dd ?                    ; DATA XREF: spucore_update_dsound↑r
+.data:004F75A4 dword_4F75A4    dd ?                    ; DATA XREF: spucore_update_dsound+C↑r
+.data:004F75B0 dword_4F75B0    dd ?                    ; DATA XREF: spucore_generate_samples+57↑w
+.data:004F75B4 word_4F75B4     dw ?                    ; DATA XREF: spucore_decode_adpcm_block+24D↑w
+.data:004F777C byte_4F777C     db ?                    ; DATA XREF: diShutdownDirectInput+39↑o
+.data:004F778C dword_4F778C    dd ?                    ; DATA XREF: diUpdateDeviceStates+178↑r
+.data:004F7790 dword_4F7790    dd ?                    ; DATA XREF: diUpdateDeviceStates+1E4↑r
+.data:004F7798 dword_4F7798    dd ?                    ; DATA XREF: diUpdateDeviceStates+250↑r
+.data:004F779C dword_4F779C    dd ?                    ; DATA XREF: diUpdateDeviceStates+2BC↑r
+.data:004F77A0 dword_4F77A0    dd ?                    ; DATA XREF: diUpdateDeviceStates+328↑r
+.data:004F77A4 dword_4F77A4    dd ?                    ; DATA XREF: diUpdateDeviceStates+394↑r
+.data:004F77A8 dword_4F77A8    dd 4 dup(?)             ; DATA XREF: diUpdateDeviceStates:loc_40F907↑r
+.data:004F77B8 byte_4F77B8     db ?                    ; DATA XREF: diUpdateDeviceStates+400↑r
+.data:004F77B9 byte_4F77B9     db ?                    ; DATA XREF: diUpdateDeviceStates+41D↑r
+.data:004F77BA byte_4F77BA     db ?                    ; DATA XREF: diUpdateDeviceStates+43A↑r
+.data:004F77BB byte_4F77BB     db ?                    ; DATA XREF: diUpdateDeviceStates+457↑r
+.data:004F77BC byte_4F77BC     db ?                    ; DATA XREF: diUpdateDeviceStates+474↑r
+.data:004F77BD byte_4F77BD     db ?                    ; DATA XREF: diUpdateDeviceStates+491↑r
+.data:004F77BE byte_4F77BE     db ?                    ; DATA XREF: diUpdateDeviceStates+4AE↑r
+.data:004F77BF byte_4F77BF     db ?                    ; DATA XREF: diUpdateDeviceStates+4CB↑r
+.data:004F77C0 byte_4F77C0     db ?                    ; DATA XREF: diUpdateDeviceStates+4E8↑r
+.data:004F77C1 byte_4F77C1     db ?                    ; DATA XREF: diUpdateDeviceStates+505↑r
+.data:004F77C2 byte_4F77C2     db ?                    ; DATA XREF: diUpdateDeviceStates+522↑r
+.data:004F77C3 byte_4F77C3     db ?                    ; DATA XREF: diUpdateDeviceStates+53F↑r
+.data:004F77C4 byte_4F77C4     db ?                    ; DATA XREF: diUpdateDeviceStates+55C↑r
+.data:004F77C5 byte_4F77C5     db ?                    ; DATA XREF: diUpdateDeviceStates+579↑r
+.data:004F77C6 byte_4F77C6     db ?                    ; DATA XREF: diUpdateDeviceStates+596↑r
+.data:004F77C7 byte_4F77C7     db 101h dup(?)          ; DATA XREF: diUpdateDeviceStates+5B3↑r
+.data:004F7AA8 dword_4F7AA8    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+157↑w
+.data:004F7AE8 dword_4F7AE8    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+183↑w
+.data:004F7B28 dword_4F7B28    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+18A↑w
+.data:004F7B68 dword_4F7B68    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+1B6↑w
+.data:004F7BA8 dword_4F7BA8    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+1BD↑w
+.data:004F7BE8 dword_4F7BE8    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+1E9↑w
+.data:004F7C28 dword_4F7C28    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+1F0↑w
+.data:004F7C68 dword_4F7C68    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+218↑w
+.data:004F7CA8 dword_4F7CA8    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+21F↑w
+.data:004F7CE8 dword_4F7CE8    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+24C↑w
+.data:004F7D28 dword_4F7D28    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+253↑w
+.data:004F7D68 dword_4F7D68    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+27F↑w
+.data:004F7DA8 dword_4F7DA8    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+286↑w
+.data:004F7DE8 dword_4F7DE8    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+2B8↑w
+.data:004F7E28 dword_4F7E28    dd 10h dup(?)           ; DATA XREF: diEnumDevicesCallback+2BF↑w
+.data:004F7E68 dword_4F7E68    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F1AF↑r
+.data:004F7EA8 dword_4F7EA8    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F1C6↑r
+.data:004F7EE8 dword_4F7EE8    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F1DD↑r
+.data:004F7F28 dword_4F7F28    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F1F4↑r
+.data:004F7F68 dword_4F7F68    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F20B↑r
+.data:004F7FA8 dword_4F7FA8    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F222↑r
+.data:004F7FE8 dword_4F7FE8    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F239↑r
+.data:004F8028 dword_4F8028    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F250↑r
+.data:004F8068 dword_4F8068    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F267↑r
+.data:004F80A8 dword_4F80A8    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F27E↑r
+.data:004F80E8 dword_4F80E8    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F295↑r
+.data:004F8128 dword_4F8128    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F2AC↑r
+.data:004F8168 dword_4F8168    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F2C3↑r
+.data:004F81A8 dword_4F81A8    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F2DA↑r
+.data:004F81E8 dword_4F81E8    dd 10h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F2F1↑r
+.data:004F8228 dword_4F8228    dd 30h dup(?)           ; DATA XREF: diUpdateJoystickStates:loc_40F308↑r
+.data:004F8304 dword_4F8304    dd ?                    ; DATA XREF: diSetEffectMagnitude+6E↑r
+.data:004F831D byte_4F831D     db ?                    ; DATA XREF: epsxe_main_loop_runner+111↑r
+.data:004F8320 byte_4F8320     db ?                    ; DATA XREF: op_MTC0+B0↑r
+.data:004FA350 byte_4FA350     db 2000h dup(?)         ; DATA XREF: zip_load_local_file_headers+F5↑o
+.data:004FC350 byte_4FC350     db 100h dup(?)          ; DATA XREF: zip_get_filename_from_path+4↑o
+.data:004FC45C dword_4FC45C    dd ?                    ; DATA XREF: joy_init↑r
+.data:004FC468 byte_4FC468     db ?                    ; DATA XREF: sio_command+78B↑w
+.data:004FC469 byte_4FC469     db ?                    ; DATA XREF: sio_command+818↑w
+.data:004FC4EC dword_4FC4EC    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423915↑r
+.data:004FD858 dword_4FD858    dd ?                    ; DATA XREF: mdec_y_to_mono+D4↑r
+.data:004FD868 dword_4FD868    dd ?                    ; DATA XREF: dynarec_hw_update:loc_4239F6↑r
+.data:004FD870 dword_4FD870    dd ?                    ; DATA XREF: mem_hw_reg_write_half+5750↑r
+.data:004FD874 dword_4FD874    dd ?                    ; DATA XREF: dynarec_hw_update:loc_4239C7↑r
+.data:004FD878 dword_4FD878    dd ?                    ; DATA XREF: mem_hw_reg_write_half:loc_422941↑r
+.data:004FD87C word_4FD87C     dw ?                    ; DATA XREF: cdr_process_delays:loc_42C9BB↑r
+.data:004FD881 byte_4FD881     db ?                    ; DATA XREF: parse_command_line_options+484↑w
+.data:004FD884 dword_4FD884    dd ?                    ; DATA XREF: controller_set_joypad+33↑r
+.data:004FD8C0 dword_4FD8C0    dd ?                    ; DATA XREF: cfg_load_settings+A2F↑o
+.data:004FD8C4 dword_4FD8C4    dd ?                    ; DATA XREF: cfg_load_settings+A2A↑o
+.data:004FD8C8 dword_4FD8C8    dd ?                    ; DATA XREF: cfg_load_settings+A25↑o
+.data:004FD8D0 dword_4FD8D0    dd ?                    ; DATA XREF: cfg_load_settings+A70↑o
+.data:004FD8D4 dword_4FD8D4    dd ?                    ; DATA XREF: cfg_load_settings+A6B↑o
+.data:004FD8D8 dword_4FD8D8    dd ?                    ; DATA XREF: cfg_load_settings+A66↑o
+.data:004FD8E0 dword_4FD8E0    dd ?                    ; DATA XREF: cfg_load_settings+935↑o
+.data:004FD8E4 dword_4FD8E4    dd ?                    ; DATA XREF: cfg_load_settings+930↑o
+.data:004FD8E8 dword_4FD8E8    dd ?                    ; DATA XREF: cfg_load_settings+92B↑o
+.data:004FD8EC dword_4FD8EC    dd ?                    ; DATA XREF: cfg_load_settings+926↑o
+.data:004FD8F0 dword_4FD8F0    dd ?                    ; DATA XREF: cont_build_controller_response_analog+70↑r
+.data:004FD8F4 dword_4FD8F4    dd ?                    ; DATA XREF: cont_build_controller_response_analog+C2↑r
+.data:004FD8FA word_4FD8FA     dw ?                    ; DATA XREF: cont_build_controller_response_analog+84↑r
+.data:004FD8FC word_4FD8FC     dw ?                    ; DATA XREF: cont_build_controller_response_analog+D6↑r
+.data:004FD900 dword_4FD900    dd ?                    ; DATA XREF: cont_build_controller_response_analog:loc_42D264↑r
+.data:004FD904 byte_4FD904     db ?                    ; DATA XREF: cont_build_controller_response_analog+1D2↑r
+.data:004FD908 byte_4FD908     db ?                    ; DATA XREF: cont_build_controller_response_analog+224↑r
+.data:004FD90C byte_4FD90C     db ?                    ; DATA XREF: cont_build_controller_response_analog+276↑r
+.data:004FD910 dword_4FD910    dd ?                    ; DATA XREF: cont_build_controller_response_analog+190↑r
+.data:004FD914 byte_4FD914     db ?                    ; DATA XREF: cont_build_controller_response_analog+1DE↑r
+.data:004FD918 byte_4FD918     db ?                    ; DATA XREF: cont_build_controller_response_analog+230↑r
+.data:004FD91C byte_4FD91C     db ?                    ; DATA XREF: cont_build_controller_response_analog+282↑r
+.data:004FD920 dword_4FD920    dd ?                    ; DATA XREF: cont_build_controller_response_analog+19A↑r
+.data:004FD924 byte_4FD924     db ?                    ; DATA XREF: cont_build_controller_response_analog+1EA↑r
+.data:004FD928 byte_4FD928     db ?                    ; DATA XREF: cont_build_controller_response_analog+23C↑r
+.data:004FD92C byte_4FD92C     db ?                    ; DATA XREF: cont_build_controller_response_analog+28E↑r
+.data:004FD930 dword_4FD930    dd ?                    ; DATA XREF: cont_build_controller_response_analog+1A6↑r
+.data:004FD934 byte_4FD934     db ?                    ; DATA XREF: cont_build_controller_response_analog+1F6↑r
+.data:004FD938 byte_4FD938     db ?                    ; DATA XREF: cont_build_controller_response_analog+248↑r
+.data:004FD93C byte_4FD93C     db ?                    ; DATA XREF: cont_build_controller_response_analog+29A↑r
+.data:004FD980 dword_4FD980    dd ?                    ; DATA XREF: cont_build_guncon_response+6C↑r
+.data:004FD984 byte_4FD984     db ?                    ; DATA XREF: cont_process_input:loc_42D7F4↑r
+.data:004FD986 word_4FD986     dw ?                    ; DATA XREF: cont_process_input:loc_42D7D8↑r
+.data:004FD988 dword_4FD988    dd ?                    ; DATA XREF: cont_process_input+242↑r
+.data:004FD9A0 dword_4FD9A0    dd ?                    ; DATA XREF: cont_process_input:loc_42D780↑w
+.data:004FD9A8 dword_4FD9A8    dd ?                    ; DATA XREF: iso_load+62↑w
+.data:004FD9AC dword_4FD9AC    dd ?                    ; DATA XREF: iso_load+E9↑w
+.data:004FD9BC dword_4FD9BC    dd ?                    ; DATA XREF: W9x_cdrom_gettrackinfo+A2↑w
+.data:004FD9C0 dword_4FD9C0    dd ?                    ; DATA XREF: W9x_play_cdda:loc_43340A↑w
+.data:004FD9C4 dword_4FD9C4    dd ?                    ; DATA XREF: W9x_cdrom_read_data:loc_432B8A↑r
+.data:004FD9C8 byte_4FD9C8     db ?                    ; DATA XREF: W9x_cdrom_deinit:loc_43156E↑r
+.data:004FD9D0 byte_4FD9D0     db ?                    ; DATA XREF: W2k_cdrom_gettrackinfo+4C↑r
+.data:004FD9D4 byte_4FD9D4     db ?                    ; DATA XREF: W2k_cdrom_gettrackinfo+52↑r
+.data:004FD9D8 dword_4FD9D8    dd ?                    ; DATA XREF: W2k_cdrom_play_cdda:loc_4344B5↑w
+.data:004FD9DC dword_4FD9DC    dd ?                    ; DATA XREF: W2k_cdrom_stop+F6↑w
+.data:004FD9E3 byte_4FD9E3     db ?                    ; DATA XREF: W2k_cdrom_gettrackinfo+139↑w
+.data:004FD9E8 byte_4FD9E8     db ?                    ; DATA XREF: cdfs_parse_system_cnf_for_exec+B↑o
+.data:004FD9F0 byte_4FD9F0     db 0FF8h dup(?)         ; DATA XREF: cdfs_parse_system_cnf_for_exec+4E↑r
+.data:004FE9E8 byte_4FE9E8     db 800h dup(?)          ; DATA XREF: cdfs_read_root_directory+1↑o
+.data:004FF1E8 byte_4FF1E8     db 800h dup(?)          ; DATA XREF: cdfs_read_root_directory+32↑o
+.data:004FF9E8 dword_4FF9E8    dd ?                    ; DATA XREF: dynarec_compile+819↑w
+.data:004FF9F2 byte_4FF9F2     db ?                    ; DATA XREF: reopen_console_log↑r
+.data:004FFC40 byte_4FFC40     db ?                    ; DATA XREF: W2k_cdrom_gettrackinfo+42↑o
+.data:004FFC42 byte_4FFC42     db ?                    ; DATA XREF: W2k_cdrom_gettrackinfo+112↑r
+.data:004FFC43 byte_4FFC43     db ?                    ; DATA XREF: W2k_cdrom_gettrackinfo+10A↑r
+.data:004FFC45 byte_4FFC45     db ?                    ; DATA XREF: W2k_cdrom_gettrackinfo+166↑r
+.data:004FFC46 byte_4FFC46     db 31Eh dup(?)          ; DATA XREF: W2k_cdrom_gettrackinfo+154↑r
+.data:004FFF80 dword_4FFF80    dd ?                    ; DATA XREF: W9x_cdrom_init+776↑w
+.data:004FFF84 byte_4FFF84     db ?                    ; DATA XREF: W9x_cdrom_read_data+EE↑o
+.data:004FFF90 byte_4FFF90     db 924h dup(?)          ; DATA XREF: W9x_cdrom_read_data+3D3↑o
+.data:005008B4 byte_5008B4     db ?                    ; DATA XREF: W9x_cdrom_read_data+1A2↑o
+.data:005008B7 byte_5008B7     db ?                    ; DATA XREF: W9x_cdrom_read_data+4AC↑r
+.data:005008B8 dword_5008B8    dd ?                    ; DATA XREF: W9x_cdrom_read_data+4C2↑r
+.data:005008BC dword_5008BC    dd ?                    ; DATA XREF: W9x_cdrom_read_data+4CE↑r
+.data:005008C0 dword_5008C0    dd 10D1h dup(?)         ; DATA XREF: W9x_cdrom_read_data:loc_432D70↑r
+.data:00504C04 dword_504C04    dd ?                    ; DATA XREF: W9x_cdrom_read_data+28E↑o
+.data:00504C08 dword_504C08    dd ?                    ; DATA XREF: W9x_cdrom_read_data+447↑r
+.data:00504C0C dword_504C0C    dd ?                    ; DATA XREF: W9x_cdrom_read_data+44D↑r
+.data:00504C10 dword_504C10    dd 1Dh dup(?)           ; DATA XREF: W9x_cdrom_read_data+458↑r
+.data:00504C84 dword_504C84    dd ?                    ; DATA XREF: W9x_cdrom_deinit:loc_43155C↑r
+.data:00504C88 dword_504C88    dd ?                    ; DATA XREF: W9x_cdrom_init+7C6↑w
+.data:00504C8C dword_504C8C    dd ?                    ; DATA XREF: W9x_cdrom_init+76C↑w
+.data:00504CA0 byte_504CA0     db ?                    ; DATA XREF: W9x_cdrom_gettrackinfo+2F↑o
+.data:00504CA2 byte_504CA2     db ?                    ; DATA XREF: W9x_cdrom_gettrackinfo+7A↑r
+.data:00504CA3 byte_504CA3     db ?                    ; DATA XREF: W9x_cdrom_gettrackinfo+73↑r
+.data:00504CA5 byte_504CA5     db ?                    ; DATA XREF: W9x_cdrom_gettrackinfo+D1↑r
+.data:00504CA6 byte_504CA6     db 33Ah dup(?)          ; DATA XREF: W9x_cdrom_gettrackinfo+BF↑r
+.data:00504FE0 dword_504FE0    dd ?                    ; DATA XREF: W9x_add_cdrom_device_info+D3↑w
+.data:00504FE4 dword_504FE4    dd ?                    ; DATA XREF: W9x_add_cdrom_device_info+DD↑w
+.data:00504FE8 byte_504FE8     db ?                    ; DATA XREF: W9x_add_cdrom_device_info+E3↑w
+.data:00504FE9 byte_504FE9     db 10h dup(?)           ; DATA XREF: w9x_cdrom_settings+140↑o
+.data:00504FF9 byte_504FF9     db ?                    ; DATA XREF: W9x_add_cdrom_device_info+10B↑w
+.data:00504FFA dword_504FFA    dd ?                    ; DATA XREF: W9x_add_cdrom_device_info+112↑w
+.data:00504FFE byte_504FFE     db ?                    ; DATA XREF: W9x_add_cdrom_device_info+118↑w
+.data:00504FFF byte_504FFF     db 14h dup(?)           ; DATA XREF: W9x_add_cdrom_device_info+11F↑o
+.data:00505013 byte_505013     db ?                    ; DATA XREF: W9x_add_cdrom_device_info+140↑w
+.data:00505014 dword_505014    dd ?                    ; DATA XREF: w9x_cdrom_settings+8F↑r
+.data:00505018 dword_505018    dd ?                    ; DATA XREF: w9x_cdrom_settings+95↑r
+.data:0050501C dword_50501C    dd 0F1h dup(?)          ; DATA XREF: w9x_cdrom_settings+A1↑r
+.data:005053E0 dword_5053E0    dd ?                    ; DATA XREF: cdr_reg1_write+156↑w
+.data:005053E4 dword_5053E4    dd ?                    ; DATA XREF: cdr_reg1_write+15C↑w
+.data:005053E8 dword_5053E8    dd ?                    ; DATA XREF: cdr_reg1_write+162↑w
+.data:005053EC dword_5053EC    dd ?                    ; DATA XREF: cdr_reg1_write+18E↑w
+.data:00505400 dword_505400    dd ?                    ; DATA XREF: iso_load+201↑w
+.data:00505680 byte_505680     db 0Dh dup(?)           ; DATA XREF: iso_read_data+5C↑o
+.data:0050568D dword_50568D    dd ?                    ; DATA XREF: iso_verify_sub+22↑r
+.data:00505691 byte_505691     db ?                    ; DATA XREF: iso_verify_sub+2B↑r
+.data:00505693 word_505693     dw ?                    ; DATA XREF: iso_verify_sub+34↑r
+.data:00505695 byte_505695     db 4Bh dup(?)           ; DATA XREF: iso_verify_sub+40↑r
+.data:005056E0 dword_5056E0    dd ?                    ; DATA XREF: cdrom_fake_create_file+6B↑w
+.data:00505700 byte_505700     db 1160h dup(?)         ; DATA XREF: iso_read_data+A7↑o
+.data:00506860 byte_506860     db 3820h dup(?)         ; DATA XREF: sio_for_netplay+C↑o
+.data:0050A090 byte_50A090     db ?                    ; DATA XREF: cdrom_fake_create_file+56↑w
+.data:0050A091 byte_50A091     db ?                    ; DATA XREF: cdrom_fake_create_file+5C↑w
+.data:0050A098 dword_50A098    dd ?                    ; DATA XREF: iso_load+28↑w
+.data:0050A1A4 byte_50A1A4     db ?                    ; DATA XREF: iso_verify_sub+54↑r
+.data:0050A1A5 byte_50A1A5     db ?                    ; DATA XREF: iso_verify_sub+4B↑r
+.data:0050A1A6 byte_50A1A6     db ?                    ; DATA XREF: iso_verify_sub+13F↑r
+.data:0050A1C0 dword_50A1C0    dd ?                    ; DATA XREF: net_fill_input+98↑w
+.data:0050A1C4 byte_50A1C4     db ?                    ; DATA XREF: net_fill_input+9E↑w
+.data:0050A1C5 byte_50A1C5     db ?                    ; DATA XREF: net_fill_input+A3↑w
+.data:0050A1C6 byte_50A1C6     db ?                    ; DATA XREF: net_fill_input+A8↑w
+.data:0050A1C7 byte_50A1C7     db ?                    ; DATA XREF: net_fill_input+AD↑w
+.data:0050A1C8 byte_50A1C8     db ?                    ; DATA XREF: net_fill_input+B2↑w
+.data:0050A1C9 byte_50A1C9     db ?                    ; DATA XREF: net_fill_input+B7↑w
+.data:0050A1CA byte_50A1CA     db ?                    ; DATA XREF: net_fill_input+BC↑w
+.data:0050A1D0 dword_50A1D0    dd ?                    ; DATA XREF: net_fill_input+92↑w
+.data:0050A1D4 byte_50A1D4     db ?                    ; DATA XREF: net_fill_input+27↑w
+.data:0050A1D5 byte_50A1D5     db ?                    ; DATA XREF: net_fill_input+33↑w
+.data:0050A1D6 byte_50A1D6     db ?                    ; DATA XREF: net_fill_input+3F↑w
+.data:0050A1D7 byte_50A1D7     db ?                    ; DATA XREF: net_fill_input+4B↑w
+.data:0050A1D8 dword_50A1D8    dd ?                    ; DATA XREF: net_fill_input+57↑w
+.data:0050A1E0 dword_50A1E0    dd ?                    ; DATA XREF: net_netplay_handler+20↑w
+.data:0050A200 byte_50A200     db ?                    ; DATA XREF: net_netplay_handler+53↑w
+.data:0050A201 byte_50A201     db 41Fh dup(?)          ; DATA XREF: net_netplay_handler+49↑o
+.data:0050A620 dword_50A620    dd ?                    ; DATA XREF: net_netplay_handler+24F↑w
+.data:0050A624 dword_50A624    dd ?                    ; DATA XREF: net_netplay_handler+265↑w
+.data:0050A628 byte_50A628     db ?                    ; DATA XREF: net_netplay_handler+298↑w
+.data:0050A629 byte_50A629     db ?                    ; DATA XREF: net_netplay_handler+2AC↑w
+.data:0050A62A byte_50A62A     db ?                    ; DATA XREF: net_netplay_handler+2B2↑w
+.data:0050A62B byte_50A62B     db 405h dup(?)          ; DATA XREF: net_netplay_handler+2B8↑w
+.data:0050AA7B byte_50AA7B     db 16h dup(?)           ; DATA XREF: cont_process_input+6B↑r
+.data:0050AA91 byte_50AA91     db ?                    ; DATA XREF: cont_process_input:loc_42D795↑r
+.data:0050AA92 byte_50AA92     db ?                    ; DATA XREF: cont_process_input:loc_42D7A4↑r
+.data:0050AA93 byte_50AA93     db ?                    ; DATA XREF: cont_process_input:loc_42D7B7↑r
+.data:0050AA94 byte_50AA94     db 3Ch dup(?)           ; DATA XREF: cont_process_input:loc_42D7CA↑r
+.data:0050AAD0 byte_50AAD0     db ?                    ; DATA XREF: cont_process_input+121↑r
+.data:0050AAD1 byte_50AAD1     db ?                    ; DATA XREF: cont_process_input:loc_42D828↑r
+.data:0050AAD2 byte_50AAD2     db ?                    ; DATA XREF: cont_process_input:loc_42D861↑r
+.data:0050AAD3 byte_50AAD3     db ?                    ; DATA XREF: cont_process_input:loc_42D8B0↑r
+.data:0050AAD4 byte_50AAD4     db ?                    ; DATA XREF: cont_process_input:loc_42D919↑r
+.data:0050AAD5 byte_50AAD5     db ?                    ; DATA XREF: cont_process_input:loc_42D94A↑r
+.data:0050AAD6 byte_50AAD6     db ?                    ; DATA XREF: cont_process_input:loc_42D98A↑r
+.data:0050AAD7 byte_50AAD7     db 89h dup(?)           ; DATA XREF: cont_process_input:loc_42D9C7↑r
+.data:0050ABE0 byte_50ABE0     db ?                    ; DATA XREF: controller_setup_callback:loc_404C0A↑r
+.data:0050AC00 byte_50AC00     db ?                    ; DATA XREF: controller_setup_callback:loc_404C19↑r
+.data:0050AC20 byte_50AC20     db 0A0h dup(?)          ; DATA XREF: controller_setup_callback:loc_404C28↑r
+.data:0050ACC0 byte_50ACC0     db ?                    ; DATA XREF: diUpdateDeviceStates+126↑w
+.data:0050ACC1 byte_50ACC1     db ?                    ; DATA XREF: diUpdateDeviceStates+156↑w
+.data:0050ACC2 byte_50ACC2     db ?                    ; DATA XREF: diUpdateDeviceStates+189↑w
+.data:0050ACC3 byte_50ACC3     db ?                    ; DATA XREF: diUpdateDeviceStates+1BF↑w
+.data:0050ACC4 byte_50ACC4     db ?                    ; DATA XREF: diUpdateDeviceStates+1F5↑w
+.data:0050ACC5 byte_50ACC5     db ?                    ; DATA XREF: diUpdateDeviceStates+22B↑w
+.data:0050ACC6 byte_50ACC6     db ?                    ; DATA XREF: diUpdateDeviceStates+261↑w
+.data:0050ACC7 byte_50ACC7     db ?                    ; DATA XREF: diUpdateDeviceStates+297↑w
+.data:0050ACC8 byte_50ACC8     db ?                    ; DATA XREF: diUpdateDeviceStates+2CD↑w
+.data:0050ACC9 byte_50ACC9     db ?                    ; DATA XREF: diUpdateDeviceStates+303↑w
+.data:0050ACCA byte_50ACCA     db ?                    ; DATA XREF: diUpdateDeviceStates+339↑w
+.data:0050ACCB byte_50ACCB     db ?                    ; DATA XREF: diUpdateDeviceStates+36F↑w
+.data:0050ACCC byte_50ACCC     db ?                    ; DATA XREF: diUpdateDeviceStates+3A5↑w
+.data:0050ACCD byte_50ACCD     db ?                    ; DATA XREF: diUpdateDeviceStates+3DB↑w
+.data:0050ACD0 byte_50ACD0     db ?                    ; DATA XREF: diUpdateDeviceStates+40D↑w
+.data:0050ACD1 byte_50ACD1     db ?                    ; DATA XREF: diUpdateDeviceStates+42A↑w
+.data:0050ACD2 byte_50ACD2     db ?                    ; DATA XREF: diUpdateDeviceStates+447↑w
+.data:0050ACD3 byte_50ACD3     db ?                    ; DATA XREF: diUpdateDeviceStates+464↑w
+.data:0050ACD4 byte_50ACD4     db ?                    ; DATA XREF: diUpdateDeviceStates+481↑w
+.data:0050ACD5 byte_50ACD5     db ?                    ; DATA XREF: diUpdateDeviceStates+49E↑w
+.data:0050ACD6 byte_50ACD6     db ?                    ; DATA XREF: diUpdateDeviceStates+4BB↑w
+.data:0050ACD7 byte_50ACD7     db ?                    ; DATA XREF: diUpdateDeviceStates+4D8↑w
+.data:0050ACD8 byte_50ACD8     db ?                    ; DATA XREF: diUpdateDeviceStates+4F5↑w
+.data:0050ACD9 byte_50ACD9     db ?                    ; DATA XREF: diUpdateDeviceStates+512↑w
+.data:0050ACDA byte_50ACDA     db ?                    ; DATA XREF: diUpdateDeviceStates+52F↑w
+.data:0050ACDB byte_50ACDB     db ?                    ; DATA XREF: diUpdateDeviceStates+54C↑w
+.data:0050ACDC byte_50ACDC     db ?                    ; DATA XREF: diUpdateDeviceStates+569↑w
+.data:0050ACDD byte_50ACDD     db ?                    ; DATA XREF: diUpdateDeviceStates+586↑w
+.data:0050ACDE byte_50ACDE     db ?                    ; DATA XREF: diUpdateDeviceStates+5A3↑w
+.data:0050ACDF byte_50ACDF     db 61h dup(?)           ; DATA XREF: diUpdateDeviceStates+5C0↑w
+.data:0050AD41 byte_50AD41     db ?                    ; DATA XREF: diUpdateDeviceStates+601↑w
+.data:0050AD42 byte_50AD42     db ?                    ; DATA XREF: diUpdateDeviceStates+659↑w
+.data:0050AD43 byte_50AD43     db 7Dh dup(?)           ; DATA XREF: diUpdateDeviceStates+683↑w
+.data:0050ADD4 dword_50ADD4    dd ?                    ; DATA XREF: gpu_load_plugin+381↑w
+.data:0050AE02 word_50AE02     dw ?                    ; DATA XREF: diUpdateDeviceStates+138↑w
+.data:0050AE04 word_50AE04     dw ?                    ; DATA XREF: diUpdateDeviceStates+19E↑w
+.data:0050AE06 word_50AE06     dw ?                    ; DATA XREF: diUpdateDeviceStates+20A↑w
+.data:0050AE08 word_50AE08     dw ?                    ; DATA XREF: diUpdateDeviceStates+276↑w
+.data:0050AE0A word_50AE0A     dw ?                    ; DATA XREF: diUpdateDeviceStates+2E2↑w
+.data:0050AE0C word_50AE0C     dw ?                    ; DATA XREF: diUpdateDeviceStates+34E↑w
+.data:0050AE0E word_50AE0E     dw ?                    ; DATA XREF: diUpdateDeviceStates+3BA↑w
+.data:0050AE68 dword_50AE68    dd ?                    ; DATA XREF: ui_error+E3↑r
+.data:0050BF70 dword_50BF70    dd ?                    ; DATA XREF: cdr_reg1_write+7C3↑w
+.data:0050BF7C unk_50BF7C      db    ? ;               ; DATA XREF: cdr_reg1_write+1AF↑o
+.data:0050BF82 word_50BF82     dw ?                    ; DATA XREF: cdr_init_report_mode+19↑w
+.data:0050BFC8 dword_50BFC8    dd ?                    ; DATA XREF: mem_hw_reg_write_byte+58B9↑r
+.data:0050BFD0 dword_50BFD0    dd ?                    ; DATA XREF: hw_reg_read_half+113↑r
+.data:0050BFD4 dword_50BFD4    dd ?                    ; DATA XREF: hw_reg_read_half+11A↑r
+.data:0050BFD8 dword_50BFD8    dd ?                    ; DATA XREF: hw_reg_read_half+219↑r
+.data:0050BFDC dword_50BFDC    dd ?                    ; DATA XREF: dynarec_hw_update+184↑r
+.data:0050BFE0 dword_50BFE0    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423A6E↑r
+.data:0050BFE4 dword_50BFE4    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423A59↑r
+.data:0050BFEC dword_50BFEC    dd ?                    ; DATA XREF: dynarec_hw_update+1C6↑r
+.data:0050BFF0 dword_50BFF0    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423AB3↑r
+.data:0050BFF4 dword_50BFF4    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423A9A↑r
+.data:0050BFFC dword_50BFFC    dd ?                    ; DATA XREF: dynarec_hw_update+20B↑r
+.data:0050C000 dword_50C000    dd ?                    ; DATA XREF: dynarec_hw_update+2B6↑r
+.data:0050C010 dword_50C010    dd ?                    ; DATA XREF: irq_clear_hw_regs:loc_42AD04↑w
+.data:0050C014 dword_50C014    dd ?                    ; DATA XREF: irq_clear_hw_regs+4A↑w
+.data:0050C018 dword_50C018    dd ?                    ; DATA XREF: irq_clear_hw_regs+50↑w
+.data:0050C01C dword_50C01C    dd 4Dh dup(?)           ; DATA XREF: irq_clear_hw_regs+56↑w
+.data:0050C150 dword_50C150    dd ?                    ; DATA XREF: irq_clear_hw_regs:loc_42ACC4↑w
+.data:0050C154 dword_50C154    dd ?                    ; DATA XREF: irq_clear_hw_regs+A↑w
+.data:0050C158 dword_50C158    dd 2Eh dup(?)           ; DATA XREF: irq_clear_hw_regs+10↑w
+.data:0050C210 dword_50C210    dd ?                    ; DATA XREF: dynarec_hw_update:loc_423980↑r
+.data:0050C218 dword_50C218    dd ?                    ; DATA XREF: irq_freeze+74↑w
+.data:0050C21C dword_50C21C    dd ?                    ; DATA XREF: irq_freeze+79↑w
+.data:0050C220 dword_50C220    dd 10h dup(?)           ; DATA XREF: irq_freeze+7F↑w
+.data:0050C280 dword_50C280    dd 9 dup(?)             ; DATA XREF: op_MTC0:loc_41EC6F↑r
+.data:0050C2A4 dword_50C2A4    dd ?                    ; DATA XREF: mem_hw_reg_write_byte:loc_41CF13↑r
+.data:0050C2A8 dword_50C2A8    dd ?                    ; DATA XREF: op_MTC0+4C↑w
+.data:0050C2AC dword_50C2AC    dd ?                    ; DATA XREF: op_SYSCALL+8↑w
+.data:0050C2B4 dword_50C2B4    dd 0Bh dup(?)           ; DATA XREF: dynarec_hw_update+12↑w
+.data:0050C360 dword_50C360    dd ?                    ; DATA XREF: op_UNKNOWN+B↑r
+.data:0050C364 dword_50C364    dd ?                    ; DATA XREF: op_UNKNOWN+5↑r
+.data:0050C370 dword_50C370    dd ?                    ; DATA XREF: WinMain+109↑w
+.data:0050C3E0 byte_50C3E0     db 5A00h dup(?)         ; DATA XREF: mdec_idct_blocks+26↑o
+.data:005164D0 dword_5164D0    dd ?                    ; DATA XREF: select_plugins_backend:loc_422706↑w
+.data:005164E4 dword_5164E4    dd ?                    ; DATA XREF: hw_reg_write_word+2DD↑w
+.data:00516504 dword_516504    dd ?                    ; DATA XREF: cdr_dma+26↑r
+.data:00516508 dword_516508    dd ?                    ; DATA XREF: cdr_dma+6↑r
+.data:0051650C dword_51650C    dd ?                    ; DATA XREF: hw_reg_write_word+1EF↑w
+.data:00516510 dword_516510    dd ?                    ; DATA XREF: spu_dma+2↑r
+.data:00516514 dword_516514    dd ?                    ; DATA XREF: spu_dma+9↑r
+.data:00516518 dword_516518    dd ?                    ; DATA XREF: spu_dma+36↑r
+.data:00516524 dword_516524    dd ?                    ; DATA XREF: hw_reg_write_word+2AA↑w
+.data:00516528 dword_516528    dd ?                    ; DATA XREF: hw_reg_write_word+BC4C↑r
+.data:0051652C dword_51652C    dd ?                    ; DATA XREF: hw_reg_write_word+BC52↑r
+.data:00516565 byte_516565     db ?                    ; DATA XREF: sio_command+1AD↑w
+.data:00516566 byte_516566     db ?                    ; DATA XREF: sio_command+1C3↑w
+.data:00516567 byte_516567     db ?                    ; DATA XREF: sio_command+1D7↑w
+.data:00516568 byte_516568     db ?                    ; DATA XREF: sio_command+2E7↑o
+.data:00516569 byte_516569     db ?                    ; DATA XREF: sio_command+59F↑w
+.data:0051656A byte_51656A     db ?                    ; DATA XREF: sio_command+609↑w
+.data:0051656B byte_51656B     db 38h dup(?)           ; DATA XREF: sio_command+620↑w
+.data:005165A5 byte_5165A5     db ?                    ; DATA XREF: sio_reset_controller_state+4E↑w
+.data:005165A6 byte_5165A6     db ?                    ; DATA XREF: sio_reset_controller_state+54↑w
+.data:00516600 byte_516600     db 10000h dup(?)        ; DATA XREF: select_plugins_backend+2B3↑o
+.data:00526600 byte_526600     db 4 dup(?)             ; DATA XREF: sio_freeze+37↑o
+.data:00526820 byte_526820     db ?                    ; DATA XREF: sio_command+30E↑w
+.data:00526821 byte_526821     db 3Fh dup(?)           ; DATA XREF: sio_command+317↑w
+.data:00526861 byte_526861     db 7Eh dup(?)           ; DATA XREF: sio_memcard_load+97↑w
+.data:005268DF byte_5268DF     db ?                    ; DATA XREF: sio_memcard_load+A3↑w
+.data:005268E0 byte_5268E0     db ?                    ; DATA XREF: sio_memcard_load+B6↑w
+.data:005268E8 byte_5268E8     db ?                    ; DATA XREF: sio_memcard_load+C2↑w
+.data:005268E9 byte_5268E9     db 76h dup(?)           ; DATA XREF: sio_memcard_load+CE↑w
+.data:0052695F byte_52695F     db 701h dup(?)          ; DATA XREF: sio_memcard_load+DA↑w
+.data:00527060 byte_527060     db ?                    ; DATA XREF: sio_memcard_load+F6↑w
+.data:00527061 byte_527061     db ?                    ; DATA XREF: sio_memcard_load+102↑w
+.data:00527062 byte_527062     db ?                    ; DATA XREF: sio_memcard_load+10E↑w
+.data:00527063 byte_527063     db ?                    ; DATA XREF: sio_memcard_load+11A↑w
+.data:00527068 byte_527068     db ?                    ; DATA XREF: sio_memcard_load+126↑w
+.data:00527069 byte_527069     db 1F7F7h dup(?)        ; DATA XREF: sio_memcard_load+132↑w
+.data:00546861 byte_546861     db 7Eh dup(?)           ; DATA XREF: sio_memcard_load+92↑w
+.data:005468DF byte_5468DF     db ?                    ; DATA XREF: sio_memcard_load+9E↑w
+.data:005468E0 byte_5468E0     db ?                    ; DATA XREF: sio_memcard_load:loc_421C50↑w
+.data:005468E8 byte_5468E8     db ?                    ; DATA XREF: sio_memcard_load+BC↑w
+.data:005468E9 byte_5468E9     db 76h dup(?)           ; DATA XREF: sio_memcard_load+C8↑w
+.data:0054695F byte_54695F     db 701h dup(?)          ; DATA XREF: sio_memcard_load+D4↑w
+.data:00547060 byte_547060     db 1F902h dup(?)        ; DATA XREF: sio_memcard_load:loc_421C90↑w
+.data:00566962 word_566962     dw ?                    ; DATA XREF: sio_command+9CF↑w
+.data:00566964 dword_566964    dd ?                    ; DATA XREF: select_plugins_backend+29B↑w
+.data:008A7EE0 byte_8A7EE0     db ?                    ; DATA XREF: gte_exec_opcode+34↑w
+.data:008A8000 byte_8A8000     db ?                    ; DATA XREF: gte_exec_opcode+FC↑w
+.data:008A8001 byte_8A8001     db ?                    ; DATA XREF: gte_exec_opcode+3A↑w
+.data:008A8004 dword_8A8004    dd ?                    ; DATA XREF: gte_dcpl+184↑w
+.data:008A8008 dword_8A8008    dd ?                    ; DATA XREF: gte_dcpl+18A↑w
+.data:008A800C dword_8A800C    dd ?                    ; DATA XREF: gte_dcpl+190↑w
+.data:008A8080 dword_8A8080    dd ?                    ; DATA XREF: spu_dma:loc_40BAA7↑r
+.data:008A8084 word_8A8084     dw 200h dup(?)          ; DATA XREF: spu_write_register+1C6↑w
+.data:008A84C0 byte_8A84C0     db 400h dup(?)          ; DATA XREF: setup_wizard_search_video_plugin+E3↑o
+.data:008A88C0 byte_8A88C0     db 400h dup(?)          ; DATA XREF: setup_wizard_search_spu_plugin+DD↑o
+.data:008A8CC0 byte_8A8CC0     db 400h dup(?)          ; DATA XREF: setup_wizard_search_cdrom_plugin+132↑o
+.data:008A90C0 byte_8A90C0     db 80h dup(?)           ; DATA XREF: setup_wizard_search_bios+C4↑o
+.data:008A9140 byte_8A9140     db 380h dup(?)          ; DATA XREF: search_video_plugin+5D5↑o
+.data:008A94C0 byte_8A94C0     db ?                    ; DATA XREF: setup_wizard_search_cdrom_plugin+DD↑r
+.data:008A94E0 stru_8A94E0     MSG <?>                 ; DATA XREF: create_main_window+C7↑o
+.data:008A9500 byte_8A9500     db 20h dup(?)           ; DATA XREF: controller_setup_callback+708↑o
+.data:008A9540 byte_8A9540     db 4 dup(?)             ; DATA XREF: search_video_plugin+102↑o
+.data:008A9544 byte_8A9544     db 7FFCh dup(?)         ; DATA XREF: search_spu_plugin+3F3↑w
+.data:008B1548 dword_8B1548    dd ?                    ; DATA XREF: controller_setup_callback+735↑w
+.data:008B154C dword_8B154C    dd ?                    ; DATA XREF: controller_setup_callback+73B↑w
+.data:008B1960 byte_8B1960     db 20h dup(?)           ; DATA XREF: xa_setup_adpcm_decoder+2A↑w
+.data:008B2580 byte_8B2580     db 400h dup(?)          ; DATA XREF: WinMain+D1↑o
