@@ -1,5 +1,5 @@
 #include "pch.h"
-int (__stdcall *gpu_sub_42E3A0())(_DWORD, _DWORD)
+int (__stdcall *gpu_open_with_input())(_DWORD, _DWORD)
 {
   int v0; // eax
 
@@ -7,7 +7,7 @@ int (__stdcall *gpu_sub_42E3A0())(_DWORD, _DWORD)
   dbg_print(" * Gpu open[%d]... \n", v0);
   gpu_closed = 0;
   hDlgInput = (int)hOutputWnd;
-  hInst_For_DInput = (int)dword_50AE4C;
+  hInst_For_DInput = (int)gpu_hInstance;
   if ( diInitDirectInput() == 1 )
     dbg_print_no_flush(" * Direct input init ok. \n");
   else

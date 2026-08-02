@@ -1,7 +1,7 @@
 #include "pch.h"
 HWND gpu_create_output_window()
 {
-  dword_50AE4C = GetModuleHandleA(nullptr);
+  gpu_hInstance = GetModuleHandleA(nullptr);
   if ( !gpu_register_output_win_class() )
     ui_error(" * Error registering window.\n");
   hOutputWnd = CreateWindowExA(
@@ -15,7 +15,7 @@ HWND gpu_create_output_window()
                  480,
                  nullptr,
                  nullptr,
-                 dword_50AE4C,
+                 gpu_hInstance,
                  nullptr);
   if ( !hOutputWnd )
     ui_error(" * Error creating window.\n");

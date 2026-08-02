@@ -8,5 +8,5 @@ BOOL gpu_close_output_window()
     MessageBoxA(nullptr, "Could Not Release hWnd.", "SHUTDOWN ERROR", 0x40u);
     hOutputWnd = nullptr;
   }
-  return UnregisterClassA("EPSX", dword_50AE4C);
+  return UnregisterClassA("EPSX", gpu_hInstance);
 }

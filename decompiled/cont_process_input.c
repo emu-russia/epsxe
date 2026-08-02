@@ -39,11 +39,11 @@ int cont_process_input()
     else
     {
       save_load_state();
-      memset(byte_50AA60, 0, 0x100u);
+      memset(gpu_keyboard_state, 0, 0x100u);
     }
   }
   if ( byte_50AA91 )
-    byte_4FC4E4 = 1;
+    gpu_dynarec_clear_needed = 1;
   if ( byte_50AA92 )
     cdr_get_status(2);
   if ( byte_50AA93 )
@@ -88,7 +88,7 @@ int cont_process_input()
     {
       state_load();
       dbg_print(" * LoadState Done! \n");
-      byte_4FC4E4 = 1;
+      gpu_dynarec_clear_needed = 1;
     }
     byte_4FD984 = 25;
     goto LABEL_51;
@@ -202,7 +202,7 @@ LABEL_51:
     {
       dword_4FD9A0 = 0;
       save_load_state();
-      memset(byte_50AA60, 0, 0x100u);
+      memset(gpu_keyboard_state, 0, 0x100u);
       return 0;
     }
   }

@@ -44,7 +44,7 @@ LABEL_16:
     sprintf(state_file_from_cmdline, "NULL");
     sprintf((char *const)NetPlugin, "DISABLED");
     version_setting = 0;
-    dword_50C36C = 1;
+    gpu_dynarec_enabled = 1;
     dword_50C370 = 0;
     forcepad = 0;
     country_setting = 255;

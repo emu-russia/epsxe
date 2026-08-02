@@ -5,7 +5,7 @@ int gpu_open()
   gpu_closed = 0;
   diShutdownDirectInput();
   hDlgInput = (int)hOutputWnd;
-  hInst_For_DInput = (int)dword_50AE4C;
+  hInst_For_DInput = (int)gpu_hInstance;
   if ( diInitDirectInput() == 1 )
     dbg_print_no_flush(" * Direct input init ok. \n");
   else

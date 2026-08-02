@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl ext_CD_verify_subchannel_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
+char __cdecl ext_CDR_verify_subchannel_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
 {
   int v4; // ecx
   char v5; // bl
@@ -70,7 +70,14 @@ char __cdecl ext_CD_verify_subchannel_data(unsigned __int8 a1, unsigned __int8 a
   {
     v10 = a2 % 10 + 16 * (a2 / 10);
     v13 = a3 % 10 + 16 * (a3 / 10);
-    sub_430820(a1 % 10 + 16 * (a1 / 10), v10, v13, (_BYTE *)a4, (_BYTE *)(a4 + 2), (_BYTE *)(a4 + 3), (_BYTE *)(a4 + 4));
+    ext_CDR_lba_to_msf_with_track(
+      a1 % 10 + 16 * (a1 / 10),
+      v10,
+      v13,
+      (_BYTE *)a4,
+      (_BYTE *)(a4 + 2),
+      (_BYTE *)(a4 + 3),
+      (_BYTE *)(a4 + 4));
     *(_BYTE *)(a4 + 1) = 1;
     *(_BYTE *)(a4 + 5) = a1 % 10 + 16 * (a1 / 10);
     *(_BYTE *)(a4 + 6) = v10;

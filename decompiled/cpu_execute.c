@@ -81,8 +81,8 @@ int cpu_execute()
           spu_async_update_cb(32 * cpu_speed_scale);
         if ( mdectiming )
           mdec_timer_handler();
-        gpu_sub_42E450();
-        gpu_sub_42E650();
+        gpu_dma2_interrupt();
+        gpu_dma6_interrupt();
         cdr_play_tick();
         cdr_process_delays();
         if ( (int_reg[0] & 4) == 0 && cdr_get_response_status() )

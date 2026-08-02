@@ -8,7 +8,7 @@ BOOL gpu_register_output_win_class()
   WndClass.cbWndExtra = 0;
   WndClass.hIcon = LoadIconA(nullptr, (LPCSTR)0x7F05);
   memset(&WndClass.hCursor, 0, 12);
-  WndClass.hInstance = dword_50AE4C;
+  WndClass.hInstance = gpu_hInstance;
   WndClass.lpfnWndProc = gpu_output_win_callback;
   WndClass.lpszClassName = "EPSX";
   return RegisterClassA(&WndClass) != 0;

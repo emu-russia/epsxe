@@ -15,7 +15,7 @@ void __noreturn ui_error(char *Format, ...)
   nullsub_1();
   if ( spu_destroy_cb )
     spu_destroy_cb(NumberOfCharsWritten);
-  if ( dword_50C36C == 1 )
+  if ( gpu_dynarec_enabled == 1 )
     dynarec_deinit();
   gpu_destroy();
   if ( cdrom_deinit_cb )

@@ -105,7 +105,7 @@ LABEL_146:
         {
           if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-i", 3u) )
           {
-            dword_50C36C = 0;
+            gpu_dynarec_enabled = 0;
             goto LABEL_146;
           }
           if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-v", 3u) )

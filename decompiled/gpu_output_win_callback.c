@@ -8,10 +8,10 @@ int __stdcall gpu_output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
     switch ( a2 )
     {
       case 0x100u:
-        byte_50AA60[a3] = 1;
+        gpu_keyboard_state[a3] = 1;
         return 0;
       case 0x101u:
-        byte_50AA60[a3] = 0;
+        gpu_keyboard_state[a3] = 0;
         return 0;
       case 0x200u:
         diAcquireMouseDevice();

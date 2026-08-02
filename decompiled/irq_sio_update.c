@@ -1,5 +1,5 @@
 #include "pch.h"
-int sub_42AFD0()
+int irq_sio_update()
 {
   int result; // eax
 

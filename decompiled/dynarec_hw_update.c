@@ -27,8 +27,8 @@ char *dynarec_hw_update()
     if ( (++dword_4FC4EC & 0x1F) == 0 )
       spu_async_update_cb(32 * cpu_speed_scale);
     mdec_timer_handler();
-    gpu_sub_42E450();
-    gpu_sub_42E650();
+    gpu_dma2_interrupt();
+    gpu_dma6_interrupt();
     hw_update_counter = cpu_speed_scale;
     ++dword_50C364;
     cdr_play_tick();
@@ -126,9 +126,9 @@ char *dynarec_hw_update()
           v8 = *(_DWORD *)reg_pc & 0x1FFFFF;
         **(_DWORD **)((char *)recomp_code_base + v8) = 195;
       }
-      if ( byte_4FC4E4 )
+      if ( gpu_dynarec_clear_needed )
       {
-        byte_4FC4E4 = 0;
+        gpu_dynarec_clear_needed = 0;
         dynarec_invalidate();
       }
       if ( (dword_50C360 & 0x3F) == 0 )

@@ -70,7 +70,7 @@ HWND gpu_load_plugin()
   GPUclearDynarec = GetProcAddress(hGpuModule, "GPUclearDynarec");
   dword_50ADD4 = (int)GPUclearDynarec;
   if ( GPUclearDynarec )
-    ((void (__stdcall *)(void (*)()))GPUclearDynarec)(gpu_sub_42DED0);
+    ((void (__stdcall *)(void (*)()))GPUclearDynarec)(gpu_clear_dynarec_callback);
   v2 = GPUinit();
   dbg_print(" * Doing init gpu[%d]... \n", v2);
   net_load_plugin();

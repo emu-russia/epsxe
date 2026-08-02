@@ -20,7 +20,7 @@ unsigned int cdr_dma()
     v4 = g_cdr_data_bytes_transferred;
     result = v3 + g_cdr_data_bytes_transferred;
     g_cdr_data_bytes_transferred += v3;
-    if ( dword_50C36C == 1 )
+    if ( gpu_dynarec_enabled == 1 )
       result = dynarec_invalidate_range(dword_516504, v3 >> 2);
     if ( v3 + (v2 & 0x1FFFFF) <= 0x200000 )
     {

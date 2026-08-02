@@ -11,7 +11,7 @@ char __cdecl ext_CDRplay(int a1, char a2)
     if ( CDRplay )
     {
       BYTE1(a1) = a2;
-      BYTE2(a1) = sub_430750(a1, a2);
+      BYTE2(a1) = ext_CDR_bcd_to_binary(a1, a2);
       return v3(&a1);
     }
   }

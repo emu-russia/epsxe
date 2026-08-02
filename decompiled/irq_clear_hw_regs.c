@@ -1,5 +1,5 @@
 #include "pch.h"
-char clear_hw_regs()
+char irq_clear_hw_regs()
 {
   unsigned int i; // eax
   unsigned int j; // eax
@@ -26,8 +26,8 @@ char clear_hw_regs()
     dword_50C01C[k] = 0;
   }
   dword_50C210 = 0;
-  byte_50C214 = -1;
-  byte_50C215 = -1;
+  gpu_dma2_delay_counter = -1;
+  gpu_dma6_delay_counter = -1;
   sio_transfer_timeout = 0;
   dword_4FD868 = 0;
   sio_transfer_pending = 0;

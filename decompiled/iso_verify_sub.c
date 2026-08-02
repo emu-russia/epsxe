@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_42FCB0(unsigned __int8 a1, unsigned __int8 a2, char a3, int a4)
+char __cdecl iso_verify_sub(unsigned __int8 a1, unsigned __int8 a2, char a3, int a4)
 {
   int v4; // eax
   unsigned __int8 v5; // bh

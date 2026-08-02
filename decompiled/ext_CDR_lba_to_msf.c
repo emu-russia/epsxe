@@ -17,24 +17,24 @@ unsigned __int8 __cdecl ext_CDR_lba_to_msf(
   v7 = (a3 & 0xF) + 75 * ((a2 & 0xF) + 10 * ((a2 >> 4) + 6 * ((a1 & 0xF) + 10 * (a1 >> 4)))) + 10 * (a3 >> 4);
   v10 = 0;
   if ( 75
-     * ((unsigned __int8)byte_505543[3 * HIBYTE(word_505540)]
-      + 60 * (unsigned __int8)byte_505542[3 * HIBYTE(word_505540)])
-     + (unsigned int)(unsigned __int8)byte_505544[3 * HIBYTE(word_505540)]
+     * ((unsigned __int8)track_msf_seconds[3 * HIBYTE(first_last_tracks)]
+      + 60 * (unsigned __int8)track_msf_minutes[3 * HIBYTE(first_last_tracks)])
+     + (unsigned int)(unsigned __int8)track_msf_sectors[3 * HIBYTE(first_last_tracks)]
      - 150 > v7 )
   {
-    result = HIBYTE(word_505540);
-    if ( HIBYTE(word_505540) )
+    result = HIBYTE(first_last_tracks);
+    if ( HIBYTE(first_last_tracks) )
     {
       while ( 1 )
       {
-        v9 = 75 * ((unsigned __int8)byte_505546[3 * v10] + 60 * (unsigned __int8)byte_505545[3 * v10])
-           + (unsigned __int8)byte_505547[3 * v10]
+        v9 = 75 * ((unsigned __int8)track_seconds_table[3 * v10] + 60 * (unsigned __int8)track_minutes_table[3 * v10])
+           + (unsigned __int8)track_sectors_table[3 * v10]
            - 150;
         if ( v9 > v7 )
           break;
-        result = HIBYTE(word_505540);
+        result = HIBYTE(first_last_tracks);
         v10 = ++v6;
-        if ( v6 >= HIBYTE(word_505540) )
+        if ( v6 >= HIBYTE(first_last_tracks) )
           return result;
       }
       *a4 = v9 / 0x4B / 0x3C;

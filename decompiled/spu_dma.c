@@ -42,7 +42,7 @@ void spu_dma()
           }
           while ( v9 );
         }
-        if ( dword_50C36C == 1 && v8 )
+        if ( gpu_dynarec_enabled == 1 && v8 )
           dynarec_invalidate_range(dword_516510, v8);
       }
       else

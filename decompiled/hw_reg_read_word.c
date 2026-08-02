@@ -124,11 +124,11 @@ LABEL_39:
 LABEL_15:
       v3 = (unsigned __int8)a1 >> 4;
       result = mdec_dma_control[3 * v3 - 24];
-      if ( v3 == 10 && byte_50C216 <= 0 )
+      if ( v3 == 10 && gpu_dma2_state <= 0 )
       {
-        v4 = *(_DWORD *)dword_516500 & 0xFEFFFFFF;
-        *(_DWORD *)dword_516500 &= ~0x1000000u;
-        if ( byte_50C216 <= -2 )
+        v4 = *(_DWORD *)gpu_dma_channel_status & 0xFEFFFFFF;
+        *(_DWORD *)gpu_dma_channel_status &= ~0x1000000u;
+        if ( gpu_dma2_state <= -2 )
           return v4;
       }
     }

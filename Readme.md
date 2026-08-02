@@ -4,8 +4,6 @@
 
 Тут появится ещё больше информации.
 
-Progress: 4 `sub_` left
-
 ## Brief Changelog 
 
 ePSXe releases for PC (Source: https://en.wikipedia.org/wiki/EPSXe)

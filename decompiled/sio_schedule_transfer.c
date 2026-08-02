@@ -13,7 +13,7 @@ char __cdecl sio_schedule_transfer(char a1, char *a2)
     LOBYTE(v2) = sio0_control_reg;
     if ( (sio0_control_reg & 0x1000) != 0 )
     {
-      sub_42AFD0();
+      irq_sio_update();
       v2 = hw_update_counter;
       if ( hw_update_counter >= 0 )
       {

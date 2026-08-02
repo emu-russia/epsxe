@@ -7,7 +7,7 @@ char gpu_init_performance_counter()
   LOBYTE(PerformanceFrequency) = use_performance_counters;
   if ( use_performance_counters )
   {
-    qword_50AE58 = 0;
+    gpu_performance_threshold = 0;
     PerformanceFrequency = QueryPerformanceFrequency(&Frequency);
     if ( PerformanceFrequency )
     {
@@ -16,7 +16,7 @@ char gpu_init_performance_counter()
         LODWORD(v2) = 20;
       else
         LODWORD(v2) = 16;
-      qword_50AE58 = Frequency.QuadPart * v2 / 1000;
+      gpu_performance_threshold = Frequency.QuadPart * v2 / 1000;
       LOBYTE(PerformanceFrequency) = QueryPerformanceCounter(&PerformanceCount);
     }
   }

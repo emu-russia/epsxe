@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sub_430820(
+char __cdecl ext_CDR_lba_to_msf_with_track(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -16,26 +16,26 @@ char __cdecl sub_430820(
   unsigned __int8 v13; // [esp+Ch] [ebp-4h]
 
   v7 = 75 * ((a2 & 0xF) + 10 * ((a2 >> 4) + 6 * ((a1 & 0xF) + 10 * (a1 >> 4)))) + 10 * (a3 >> 4) + (a3 & 0xF) - 150;
-  v8 = HIBYTE(word_505540);
+  v8 = HIBYTE(first_last_tracks);
   v13 = 0;
-  v9 = (unsigned __int8)byte_505544[3 * HIBYTE(word_505540)];
+  v9 = (unsigned __int8)track_msf_sectors[3 * HIBYTE(first_last_tracks)];
   if ( 75
-     * ((unsigned __int8)byte_505543[3 * HIBYTE(word_505540)]
-      + 60 * (unsigned int)(unsigned __int8)byte_505542[3 * HIBYTE(word_505540)])
+     * ((unsigned __int8)track_msf_seconds[3 * HIBYTE(first_last_tracks)]
+      + 60 * (unsigned int)(unsigned __int8)track_msf_minutes[3 * HIBYTE(first_last_tracks)])
      + v9
      - 150 > v7 )
   {
-    if ( HIBYTE(word_505540) )
+    if ( HIBYTE(first_last_tracks) )
     {
       while ( 1 )
       {
-        v10 = 75 * ((unsigned __int8)byte_505546[3 * v13] + 60 * (unsigned __int8)byte_505545[3 * v13])
-            + (unsigned __int8)byte_505547[3 * v13]
+        v10 = 75 * ((unsigned __int8)track_seconds_table[3 * v13] + 60 * (unsigned __int8)track_minutes_table[3 * v13])
+            + (unsigned __int8)track_sectors_table[3 * v13]
             - 150;
-        if ( v13 + 1 < HIBYTE(word_505540) )
+        if ( v13 + 1 < HIBYTE(first_last_tracks) )
         {
           v10 -= v10 % 0x4B;
-          v8 = HIBYTE(word_505540);
+          v8 = HIBYTE(first_last_tracks);
         }
         if ( v10 > v7 )
           break;
@@ -45,12 +45,12 @@ char __cdecl sub_430820(
       v11 = 75 * ((a2 & 0xF) + 10 * ((a2 >> 4) + 6 * ((a1 & 0xF) + 10 * (a1 >> 4))))
           + 10 * (a3 >> 4)
           + (a3 & 0xF)
-          + (75 * ((unsigned __int8)byte_505543[3 * v13] + 60 * (unsigned __int8)byte_505542[3 * v13])
-           + (unsigned int)(unsigned __int8)byte_505544[3 * v13]
+          + (75 * ((unsigned __int8)track_msf_seconds[3 * v13] + 60 * (unsigned __int8)track_msf_minutes[3 * v13])
+           + (unsigned int)(unsigned __int8)track_msf_sectors[3 * v13]
            - 150)
           % 0x4B
-          - (75 * ((unsigned __int8)byte_505543[3 * v13] + 60 * (unsigned __int8)byte_505542[3 * v13])
-           + (unsigned __int8)byte_505544[3 * v13]);
+          - (75 * ((unsigned __int8)track_msf_seconds[3 * v13] + 60 * (unsigned __int8)track_msf_minutes[3 * v13])
+           + (unsigned __int8)track_msf_sectors[3 * v13]);
       *a4 = (v13 + 1) % 10 + 16 * ((v13 + 1) / 10);
       *a5 = v11 / 0x4B / 0x3C % 0xA + 16 * (v11 / 0x4B / 0x3C / 0xA);
       *a6 = v11 / 0x4B % 0x3C % 0xA + 16 * (v11 / 0x4B % 0x3C / 0xA);

@@ -11,16 +11,16 @@ int gpu_frame_update()
   }
   if ( use_performance_counters )
   {
-    QueryPerformanceCounter(&stru_50AA48);
-    for ( i = stru_50AA48.LowPart - PerformanceCount.LowPart;
-          stru_50AA48.QuadPart - PerformanceCount.QuadPart < qword_50AE58;
-          i = stru_50AA48.LowPart - PerformanceCount.LowPart )
+    QueryPerformanceCounter(&gpu_performance_counter);
+    for ( i = gpu_performance_counter.LowPart - PerformanceCount.LowPart;
+          gpu_performance_counter.QuadPart - PerformanceCount.QuadPart < gpu_performance_threshold;
+          i = gpu_performance_counter.LowPart - PerformanceCount.LowPart )
     {
-      QueryPerformanceCounter(&stru_50AA48);
+      QueryPerformanceCounter(&gpu_performance_counter);
     }
     GPUupdateLace(i);
-    QueryPerformanceCounter(&stru_50AA48);
-    PerformanceCount = stru_50AA48;
+    QueryPerformanceCounter(&gpu_performance_counter);
+    PerformanceCount = gpu_performance_counter;
   }
   else
   {
