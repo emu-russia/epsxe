@@ -61,7 +61,7 @@ BOOL __cdecl Small_Motor(unsigned int a1, int a2)
 
 int joy_init(void)
 {
-    return __imp_JOY_init();
+    return JOY_init();
 }
 
 int joy_issue_big_motor()
