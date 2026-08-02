@@ -48,7 +48,7 @@ void cdr_play_tick()
       }
       if ( (v0 & 2) == 2
         && g_cdr_seek_target_msf == (_BYTE)g_cdr_cur_msf_pos
-        && word_50BF7B == *(_WORD *)((char *)&g_cdr_cur_msf_pos + 1)
+        && MEMORY[0x50BF7B] == *(_WORD *)((char *)&g_cdr_cur_msf_pos + 1)
         && loaded_file_type != 3 )
       {
         g_cdr_status_regs[62] = 4;
