@@ -520,7 +520,7 @@
         "gpu_close",
         "gpu_open",
         "gpu_pack_pixels",
-        "gpu_draw",
+        "gpu_draw_text_on_screen",
         "gpu_draw_no_save_pic",
         "gpu_draw_free_slot",
         "gpu_display_flags",
