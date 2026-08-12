@@ -37,47 +37,6 @@
 .data:00465530 dword_465530    dd ?                    ; DATA XREF: spucore_init_dsound+1C↑w
 .data:00465534 dword_465534    dd ?                    ; DATA XREF: spucore_update_dsound+38↑o
 .data:0046553C word_46553C     dw ?                    ; DATA XREF: spucore_write_dma_ctrl+5↑w
-.data:00465540 dword_465540    dd ?                    ; DATA XREF: spucore_write_voice_reg+3B↑w
-.data:00465544 dword_465544    dd ?                    ; DATA XREF: spucore_write_voice_reg+97↑w
-.data:00465548 dword_465548    dd ?                    ; DATA XREF: spucore_write_voice_reg+71↑w
-.data:0046554C dword_46554C    dd ?                    ; DATA XREF: spucore_write_voice_reg+CD↑w
-.data:00465550 dword_465550    dd ?                    ; DATA XREF: spucore_write_voice_reg+49↑w
-.data:00465554 dword_465554    dd ?                    ; DATA XREF: spucore_write_voice_reg+A5↑w
-.data:00465558 dword_465558    dd ?                    ; DATA XREF: spucore_write_voice_reg+4F↑w
-.data:0046555C dword_46555C    dd ?                    ; DATA XREF: spucore_write_voice_reg+AB↑w
-.data:00465560 dword_465560    dd ?                    ; DATA XREF: spucore_write_voice_reg+5D↑w
-.data:00465564 dword_465564    dd ?                    ; DATA XREF: spucore_write_voice_reg+B9↑w
-.data:00465568 dword_465568    dd ?                    ; DATA XREF: spucore_write_voice_reg+6B↑w
-.data:0046556C dword_46556C    dd ?                    ; DATA XREF: spucore_write_voice_reg+C7↑w
-.data:00465570 dword_465570    dd ?                    ; DATA XREF: spucore_write_voice_reg+F7↑w
-.data:00465574 dword_465574    dd ?                    ; DATA XREF: spucore_voice_key_on+A↑r
-.data:00465578 dword_465578    dd ?                    ; DATA XREF: spucore_write_voice_reg+15A↑w
-.data:0046557C dword_46557C    dd ?                    ; DATA XREF: spucore_write_voice_reg+16A↑w
-.data:00465580 dword_465580    dd ?                    ; DATA XREF: spucore_write_voice_reg+19C↑w
-.data:00465584 dword_465584    dd ?                    ; DATA XREF: spucore_write_voice_reg+18D↑w
-.data:00465588 dword_465588    dd ?                    ; DATA XREF: spucore_write_voice_reg+1CD↑w
-.data:0046558C dword_46558C    dd ?                    ; DATA XREF: spucore_write_voice_reg+1EE↑w
-.data:00465590 dword_465590    dd ?                    ; DATA XREF: spucore_write_voice_reg+203↑w
-.data:00465594 dword_465594    dd ?                    ; DATA XREF: spucore_write_voice_reg+1F4↑w
-.data:00465598 dword_465598    dd ?                    ; DATA XREF: spucore_write_voice_reg+209↑w
-.data:0046559C dword_46559C    dd ?                    ; DATA XREF: spucore_voice_key_off:loc_40C611↑w
-.data:004655A0 dword_4655A0    dd ?                    ; DATA XREF: spucore_decode_adpcm_block+B9↑r
-.data:004655A4 dword_4655A4    dd ?                    ; DATA XREF: spucore_voice_key_on+12↑w
-.data:004655AC dword_4655AC    dd ?                    ; DATA XREF: spucore_voice_key_on+28↑w
-.data:004655B0 dword_4655B0    dd ?
-.data:004655B4 dword_4655B4    dd ?                    ; DATA XREF: spucore_write_voice_reg+118↑w
-.data:004655B8 dword_4655B8    dd ?                    ; DATA XREF: spucore_voice_key_on+1C↑w
-.data:004655BC dword_4655BC    dd ?                    ; DATA XREF: spucore_voice_key_on+22↑w
-.data:004655C0 dword_4655C0    dd ?                    ; DATA XREF: spucore_decode_adpcm_block:loc_40C781↑r
-.data:004655C4 dword_4655C4    dd ?                    ; DATA XREF: spucore_decode_adpcm_block+167↑r
-.data:004655C8 dword_4655C8    dd ?                    ; DATA XREF: spucore_decode_adpcm_block+1D7↑w
-.data:004655CC dword_4655CC    dd 1Bh dup(?)           ; DATA XREF: spucore_decode_adpcm_block+22B↑w
-.data:00465638 dword_465638    dd 7 dup(?)             ; DATA XREF: spucore_voice_key_on+2E↑w
-.data:00465654 dword_465654    dd ?                    ; DATA XREF: spucore_write_voice_reg+180↑w
-.data:00465658 dword_465658    dd ?                    ; DATA XREF: spucore_write_voice_reg+1A2↑w
-.data:0046565C dword_46565C    dd ?                    ; DATA XREF: spucore_write_voice_reg+1A8↑w
-.data:00465660 dword_465660    dd ?                    ; DATA XREF: spucore_write_voice_reg+21D↑w
-.data:00465664 dword_465664    dd 6A7h dup(?)          ; DATA XREF: spucore_write_voice_reg+223↑w
 .data:004E7100 dword_4E7100    dd ?                    ; DATA XREF: spucore_write_register:loc_40D4D3↑r
 .data:004E7104 word_4E7104     dw ?                    ; DATA XREF: spucore_write_register+242↑w
 .data:004E7106 word_4E7106     dw ?                    ; DATA XREF: spucore_write_register+24E↑w
