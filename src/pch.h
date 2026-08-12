@@ -34,3 +34,4 @@ typedef BOOLEAN bool;
 #include "ops.h"
 #include "cpu.h"
 #include "cheat.h"
+#include "spucore.h"
