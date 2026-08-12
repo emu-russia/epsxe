@@ -3,7 +3,7 @@ int __cdecl spucore_freeze(const char *a1, int a2)
 {
   int v2; // edx
   char *v3; // esi
-  int *v4; // eax
+  uint32_t *p_adsr_lower; // eax
   int v5; // ecx
   int v6; // edi
   int v7; // ebp
@@ -18,7 +18,7 @@ int __cdecl spucore_freeze(const char *a1, int a2)
   __int16 *v16; // ecx
   int v17; // edx
   int v18; // esi
-  int *v19; // kr10_4
+  uint32_t *v19; // kr10_4
   char Buffer[384]; // [esp+10h] [ebp-200h] BYREF
   char v22; // [esp+190h] [ebp-80h] BYREF
 
@@ -30,7 +30,7 @@ int __cdecl spucore_freeze(const char *a1, int a2)
   *(_QWORD *)Buffer = 0x89DF800000002LL;
   gzwrite(a2, (unsigned __int8 *)Buffer, 8u);
   v3 = &Buffer[2];
-  v4 = dword_465550;
+  p_adsr_lower = &spu_voice_param[0].adsr_lower;
   v5 = 24;
   do
   {
@@ -43,46 +43,47 @@ int __cdecl spucore_freeze(const char *a1, int a2)
       switch ( v6 )
       {
         case 0:
-          v9 = 2 * (unsigned __int16)(*(_WORD *)v4 | (2 * *((_WORD *)v4 + 12)));
-          LOWORD(v9) = *((_WORD *)v4 + 8) | v9;
+          v9 = 2 * (unsigned __int16)(*(_WORD *)p_adsr_lower | (2 * *((_WORD *)p_adsr_lower + 12)));
+          LOWORD(v9) = *((_WORD *)p_adsr_lower + 8) | v9;
           v2 = v9 << 13;
-          LOWORD(v2) = *((_WORD *)v4 - 8) | v2;
+          LOWORD(v2) = *((_WORD *)p_adsr_lower - 8) | v2;
           *((_WORD *)v3 - 1) = v2;
           break;
         case 2:
-          v10 = 2 * (unsigned __int16)(*((_WORD *)v4 + 2) | (2 * *((_WORD *)v4 + 14)));
-          LOWORD(v10) = *((_WORD *)v4 + 10) | v10;
+          v10 = 2 * (unsigned __int16)(*((_WORD *)p_adsr_lower + 2) | (2 * *((_WORD *)p_adsr_lower + 14)));
+          LOWORD(v10) = *((_WORD *)p_adsr_lower + 10) | v10;
           v2 = v10 << 13;
-          LOWORD(v2) = *((_WORD *)v4 - 6) | v2;
+          LOWORD(v2) = *((_WORD *)p_adsr_lower - 6) | v2;
           *(_WORD *)v3 = v2;
           break;
         case 4:
-          LOWORD(v2) = *((_WORD *)v4 + 16);
+          LOWORD(v2) = *((_WORD *)p_adsr_lower + 16);
           *((_WORD *)v3 + 1) = v2;
           break;
         case 6:
-          LOWORD(v2) = *((_WORD *)v4 + 18);
+          LOWORD(v2) = *((_WORD *)p_adsr_lower + 18);
           *((_WORD *)v3 + 2) = v2;
           break;
         case 8:
-          v11 = 16 * (unsigned __int16)(*((_WORD *)v4 + 22) | (*((_WORD *)v4 + 20) << 7));
-          LOWORD(v11) = *((_WORD *)v4 + 24) | v11;
+          v11 = 16 * (unsigned __int16)(*((_WORD *)p_adsr_lower + 22) | (*((_WORD *)p_adsr_lower + 20) << 7));
+          LOWORD(v11) = *((_WORD *)p_adsr_lower + 24) | v11;
           v2 = 16 * v11;
-          LOWORD(v2) = *((_WORD *)v4 + 26) | v2;
+          LOWORD(v2) = *((_WORD *)p_adsr_lower + 26) | v2;
           *((_WORD *)v3 + 3) = v2;
           break;
         case 10:
-          LOBYTE(v2) = *((_BYTE *)v4 + 60) | (2 * *((_BYTE *)v4 + 56));
+          LOBYTE(v2) = *((_BYTE *)p_adsr_lower + 60) | (2 * *((_BYTE *)p_adsr_lower + 56));
           LOBYTE(v12) = 0;
           HIBYTE(v12) = v2;
-          *((_WORD *)v3 + 4) = *((_WORD *)v4 + 36) | (32 * (*((_WORD *)v4 + 34) | (2 * (*((_WORD *)v4 + 32) | v12))));
+          *((_WORD *)v3 + 4) = *((_WORD *)p_adsr_lower + 36)
+                             | (32 * (*((_WORD *)p_adsr_lower + 34) | (2 * (*((_WORD *)p_adsr_lower + 32) | v12))));
           break;
         case 12:
-          v2 = v4[19] >> 9;
+          v2 = (int)p_adsr_lower[19] >> 9;
           *((_WORD *)v3 + 5) = v2;
           break;
         case 14:
-          LOWORD(v2) = *((_WORD *)v4 + 40);
+          LOWORD(v2) = *((_WORD *)p_adsr_lower + 40);
           *((_WORD *)v3 + 6) = v2;
           break;
         default:
@@ -93,7 +94,7 @@ int __cdecl spucore_freeze(const char *a1, int a2)
       --v7;
     }
     while ( v7 );
-    v4 += 74;
+    p_adsr_lower += 74;
     v3 += 16;
     --v5;
   }
@@ -106,8 +107,8 @@ int __cdecl spucore_freeze(const char *a1, int a2)
   v18 = 64;
   do
   {
-    v19 = v4;
-    v4 = nullptr;
+    v19 = p_adsr_lower;
+    p_adsr_lower = nullptr;
     switch ( v17 )
     {
       case 0:
@@ -117,66 +118,66 @@ int __cdecl spucore_freeze(const char *a1, int a2)
         *v16 = v14;
         break;
       case 4:
-        LOWORD(v4) = spucore_reverb_vol_left;
+        LOWORD(p_adsr_lower) = spucore_reverb_vol_left;
         goto LABEL_37;
       case 6:
-        LOWORD(v4) = spucore_reverb_vol_right;
+        LOWORD(p_adsr_lower) = spucore_reverb_vol_right;
         goto LABEL_37;
       case 16:
-        LOWORD(v4) = spucore_pitchmod_enable;
+        LOWORD(p_adsr_lower) = spucore_pitchmod_enable;
         goto LABEL_37;
       case 18:
-        v4 = (int *)v15;
+        p_adsr_lower = (uint32_t *)v15;
         goto LABEL_37;
       case 20:
-        LOWORD(v4) = spucore_noise_mode;
+        LOWORD(p_adsr_lower) = spucore_noise_mode;
         goto LABEL_37;
       case 22:
-        v4 = (int *)BYTE2(spucore_noise_mode);
+        p_adsr_lower = (uint32_t *)BYTE2(spucore_noise_mode);
         goto LABEL_37;
       case 24:
-        LOWORD(v4) = dword_4E7100;
+        LOWORD(p_adsr_lower) = dword_4E7100;
         goto LABEL_37;
       case 26:
-        v4 = (int *)BYTE2(dword_4E7100);
+        p_adsr_lower = (uint32_t *)BYTE2(dword_4E7100);
         goto LABEL_37;
       case 28:
-        LOWORD(v4) = dword_4EF138;
+        LOWORD(p_adsr_lower) = dword_4EF138;
         goto LABEL_37;
       case 30:
-        v4 = (int *)BYTE2(dword_4EF138);
+        p_adsr_lower = (uint32_t *)BYTE2(dword_4EF138);
         goto LABEL_37;
       case 34:
-        LOWORD(v4) = byte_4EF142[0x3FFF];
+        LOWORD(p_adsr_lower) = byte_4EF142[0x3FFF];
         goto LABEL_37;
       case 36:
-        LOWORD(v4) = dword_463904;
+        LOWORD(p_adsr_lower) = dword_463904;
         goto LABEL_37;
       case 42:
-        LOWORD(v4) = spucore_read_cnt();
+        LOWORD(p_adsr_lower) = spucore_read_cnt();
         goto LABEL_37;
       case 44:
-        LOWORD(v4) = spucore_read_dma_ctrl();
+        LOWORD(p_adsr_lower) = spucore_read_dma_ctrl();
         goto LABEL_37;
       case 46:
-        LOWORD(v4) = spucore_read_status_hi();
+        LOWORD(p_adsr_lower) = spucore_read_status_hi();
         goto LABEL_37;
       case 48:
-        LOWORD(v4) = word_4E7104;
+        LOWORD(p_adsr_lower) = word_4E7104;
         goto LABEL_37;
       case 50:
-        LOWORD(v4) = word_4E7106;
+        LOWORD(p_adsr_lower) = word_4E7106;
         goto LABEL_37;
       case 52:
-        LOWORD(v4) = word_4F755C;
+        LOWORD(p_adsr_lower) = word_4F755C;
         goto LABEL_37;
       case 54:
-        LOWORD(v4) = word_4F7584;
+        LOWORD(p_adsr_lower) = word_4F7584;
 LABEL_37:
-        *v16 = (__int16)v4;
+        *v16 = (__int16)p_adsr_lower;
         break;
       default:
-        v4 = v19;
+        p_adsr_lower = v19;
         break;
     }
     v17 += 2;
@@ -187,5 +188,5 @@ LABEL_37:
   gzwrite(a2, (unsigned __int8 *)Buffer, 0x200u);
   gzwrite(a2, (unsigned __int8 *)spu_ram, 0x80000u);
   gzwrite(a2, (unsigned __int8 *)dword_4E7108, 0x8020u);
-  return gzwrite(a2, (unsigned __int8 *)dword_465540, 0x1BC0u);
+  return gzwrite(a2, (unsigned __int8 *)spu_voice_param, 0x1BC0u);
 }

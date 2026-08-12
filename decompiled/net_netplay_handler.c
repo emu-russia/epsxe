@@ -74,8 +74,8 @@ char net_netplay_handler()
       if ( dword_50A1E0 == 2 )
         save_temp_memcard2();
     }
-    LOBYTE(dword_50A620) = dword_456048[0];
-    BYTE1(dword_50A620) = dword_456048[1];
+    LOBYTE(dword_50A620) = controller_port_modes[0];
+    BYTE1(dword_50A620) = controller_port_modes[1];
     LOBYTE(dword_50A624) = forcepad;
     BYTE1(dword_50A624) = unknown_timing_value;
     BYTE2(dword_50A624) = nocdstatus;
@@ -85,10 +85,10 @@ char net_netplay_handler()
     byte_50A62A = xa_read_enable;
     byte_50A62B[0] = forcespu;
     NETtransferData("Transfer configuration info", &dword_50A620, 1037);
-    dword_456048[0] = (unsigned __int8)dword_50A620;
+    controller_port_modes[0] = (unsigned __int8)dword_50A620;
     forcepad = (unsigned __int8)dword_50A624;
     unknown_timing_value = BYTE1(dword_50A624);
-    dword_456048[1] = BYTE1(dword_50A620);
+    controller_port_modes[1] = BYTE1(dword_50A620);
     nocdstatus = BYTE2(dword_50A624);
     country_setting = HIBYTE(dword_50A624);
     mdectiming = (unsigned __int8)byte_50A628;

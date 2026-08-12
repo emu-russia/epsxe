@@ -24,13 +24,13 @@ char sio_memcard_load()
     sio_memcard_data_slot2[0] = 77;
     sio_memcard_data_slot1[0] = 77;
     byte_546861[0] = 67;
-    byte_526861 = 67;
+    memcard2_id_byte = 67;
     byte_5468DF = 14;
-    byte_5268DF = 14;
+    memcard2_checksum = 14;
     for ( j = 0; j < 0x780; j += 128 )
     {
       byte_5468E0[j] = -96;
-      byte_5268E0[j] = -96;
+      memcard2_data[j] = -96;
       byte_5468E8[j] = -1;
       byte_5268E8[j] = -1;
       byte_5468E9[j] = -1;

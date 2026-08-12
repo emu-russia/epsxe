@@ -27,7 +27,7 @@ unsigned int spucore_generate_samples()
   char *v23; // edi
   unsigned int v24; // eax
   int v25; // eax
-  int v26; // ecx
+  int32_t v26; // ecx
   int v27; // edx
   int v28; // ecx
   int v29; // eax
@@ -124,7 +124,7 @@ unsigned int spucore_generate_samples()
   }
   v30 = 0;
   v32 = 0;
-  for ( i = (_WORD *)(dword_46559C + 2); (int)i < 4616542; i += 148 )
+  for ( i = (_WORD *)(spu_voice_param + 94); (int)i < 4616542; i += 148 )
   {
     result = *(_DWORD *)(i + 3);
     if ( result && (((unsigned int)spucore_pitchmod_enable >> (v30 + 1)) & 1) == 0 )
@@ -219,7 +219,7 @@ LABEL_41:
           }
           while ( !v25 );
         }
-        v26 = dword_4655C8[(unsigned __int16)i[8] + v32];
+        v26 = spu_voice_param[0].sample_history[(unsigned __int16)i[8] + 5 + v32];
         v27 = ((v19 * v26) >> 16) + *((_DWORD *)v23 - 1);
         v28 = ((v22 * v26) >> 16) + *(_DWORD *)v23;
         v29 = *(_DWORD *)(i + 7);

@@ -13,28 +13,28 @@ int cont_process_input()
   int result; // eax
 
   diUpdateDeviceStates();
-  dword_4FD8F0 = diGetClampedMouseX();
-  dword_4FD8F4 = diGetClampedMouseY();
-  dword_50AB60 = g_MouseButtons;
+  mouse_delta_x = diGetClampedMouseX();
+  mouse_delta_y = diGetClampedMouseY();
+  mouse_buttons_state = g_MouseButtons;
   v0 = 0;
   v1 = 2;
   do
   {
-    dword_4FD900[v0] = diGetJoystickButtonState1(v0);
-    dword_4FD910[v0] = diGetJoystickButtonState2(v0);
-    dword_4FD920[v0] = diGetJoystickButtonState3(v0);
-    dword_4FD930[v0] = diGetJoystickButtonState4(v0);
+    joystick_button_state1[v0] = diGetJoystickButtonState1(v0);
+    joystick_button_state2[v0] = diGetJoystickButtonState2(v0);
+    joystick_button_state3[v0] = diGetJoystickButtonState3(v0);
+    joystick_button_state4[v0] = diGetJoystickButtonState4(v0);
     ++v0;
     --v1;
   }
   while ( v1 );
-  if ( byte_50AA7B[0] )
+  if ( keyboard_escape_pressed[0] )
   {
     if ( !create_window_flag )
       ui_error(" User   hit ESC ... \n");
     if ( network_enabled )
     {
-      dword_4FD9A0 = 1;
+      netplay_reset_request = 1;
     }
     else
     {
@@ -42,43 +42,43 @@ int cont_process_input()
       memset(gpu_keyboard_state, 0, 0x100u);
     }
   }
-  if ( byte_50AA91 )
+  if ( dynarec_clear_request )
     dynarec_clear_needed = 1;
-  if ( byte_50AA92 )
+  if ( cdr_status_command_2 )
     cdr_get_status(2);
-  if ( byte_50AA93 )
+  if ( cdr_status_command_3 )
     cdr_get_status(3);
-  if ( byte_50AA94[0] )
+  if ( sio_irq_assert_request[0] )
     irq_sio_assert_int();
-  if ( word_4FD986 )
+  if ( screen_pic_display_counter )
   {
-    if ( word_4FD986 == 1 )
+    if ( screen_pic_display_counter == 1 )
       gpu_hide_screen_pic();
-    --word_4FD986;
+    --screen_pic_display_counter;
   }
-  if ( byte_4FD984 )
+  if ( ui_feedback_timer )
   {
-    --byte_4FD984;
+    --ui_feedback_timer;
     goto LABEL_51;
   }
-  if ( byte_50AAD0 )
+  if ( save_state_request )
   {
     state_save();
     dbg_print(" * SaveState Done! \n");
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
     goto LABEL_51;
   }
-  if ( byte_50AAD1 )
+  if ( increase_slot_state_request )
   {
     LOBYTE(v2) = gpu_freeze_with_counter();
     v3 = v2;
     dbg_print(" * Increased SlotState! (%d)\n", v2);
     gpu_show_screen_pic(v3);
-    byte_4FD984 = 25;
-    word_4FD986 = 150;
+    ui_feedback_timer = 25;
+    screen_pic_display_counter = 150;
     goto LABEL_51;
   }
-  if ( byte_50AAD2 )
+  if ( load_state_request )
   {
     if ( network_enabled )
     {
@@ -90,15 +90,15 @@ int cont_process_input()
       dbg_print(" * LoadState Done! \n");
       dynarec_clear_needed = 1;
     }
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
     goto LABEL_51;
   }
-  if ( byte_50AAD3 )
+  if ( toggle_sio_irq_request )
   {
     if ( network_enabled )
     {
       dbg_print(" * SIO trick doesn't implemented yet with Netplay! \n");
-      byte_4FD984 = 25;
+      ui_feedback_timer = 25;
     }
     else
     {
@@ -107,42 +107,42 @@ int cont_process_input()
         dbg_print(" * SIO irq enabled. \n");
       else
         dbg_print(" * SIO irq disabled. \n");
-      byte_4FD984 = 25;
+      ui_feedback_timer = 25;
     }
     goto LABEL_51;
   }
-  if ( byte_50AAD4 )
+  if ( toggle_pad_mode_request )
   {
-    dword_4FD8E0[(unsigned __int8)dword_4FD988] ^= 1u;
-    LOBYTE(v4) = dword_4FD988;
+    pad_analog_mode_flags[(unsigned __int8)selected_slot_for_mode_switch] ^= 1u;
+    LOBYTE(v4) = selected_slot_for_mode_switch;
 LABEL_42:
     cont_update_led_and_mode(v4);
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
     goto LABEL_51;
   }
-  if ( byte_50AAD5 )
+  if ( switch_controller_slot_request )
   {
-    v4 = ((unsigned __int8)dword_4FD988 + 1) % (2 * (multitap_1 != 0) + 2);
-    LOBYTE(dword_4FD988) = v4;
+    v4 = ((unsigned __int8)selected_slot_for_mode_switch + 1) % (2 * (multitap_1 != 0) + 2);
+    LOBYTE(selected_slot_for_mode_switch) = v4;
     goto LABEL_42;
   }
-  if ( byte_50AAD6 )
+  if ( toggle_xenogears_trick_request )
   {
     xenogears_trick_enabled ^= 1u;
     if ( xenogears_trick_enabled )
       dbg_print(" * Xenogears trick disabled. \n");
     else
       dbg_print(" * Xenogears trick enabled. \n");
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
   }
-  else if ( byte_50AAD7[0] )
+  else if ( make_snapshot_request[0] )
   {
     dbg_print(" * Picture done. \n");
     gpu_make_snapshot();
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
   }
 LABEL_51:
-  v5 = &byte_455FB0;
+  v5 = &pad1_buttons_low;
   v6 = (unsigned __int16 *)(Keys1 + 10);
   v7 = 4;
   do
@@ -192,7 +192,7 @@ LABEL_51:
   if ( LOBYTE(mdec_disable_flag[0]) )
   {
     LOBYTE(mdec_disable_flag[0]) = 0;
-    *(_DWORD *)&byte_455FB0 &= 0xFFFFF7BF;
+    *(_DWORD *)&pad1_buttons_low &= 0xFFFFF7BF;
   }
   result = network_enabled;
   if ( network_enabled )
@@ -200,7 +200,7 @@ LABEL_51:
     result = net_fill_input();
     if ( result )
     {
-      dword_4FD9A0 = 0;
+      netplay_reset_request = 0;
       save_load_state();
       memset(gpu_keyboard_state, 0, 0x100u);
       return 0;

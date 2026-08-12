@@ -20,11 +20,11 @@ int __cdecl diSetEffectMagnitude(int a1, int a2, int a3, int a4)
     result = g_EffectType2[a4];
     if ( result == 1 )
     {
-      return diSetConstantForceMagnitude(dword_4F8304[g_PlayerDeviceMap1[a4]], a2);
+      return diSetConstantForceMagnitude(force_feedback_effect_handles2[g_PlayerDeviceMap1[a4]], a2);
     }
     else if ( result == 2 )
     {
-      return diSetPeriodicForceMagnitude((_DWORD *)dword_4F8304[g_PlayerDeviceMap1[a4]], a2);
+      return diSetPeriodicForceMagnitude((_DWORD *)force_feedback_effect_handles2[g_PlayerDeviceMap1[a4]], a2);
     }
   }
   return result;

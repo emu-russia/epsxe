@@ -9,32 +9,32 @@ _BYTE *__cdecl cont_build_controller_response_digital(char a1, _BYTE *a2)
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = byte_455FB1;
-      a2[4] = byte_455FB0;
+      a2[3] = pad1_buttons_high;
+      a2[4] = pad1_buttons_low;
       result = a2;
       break;
     case 1:
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = byte_455FB5;
-      a2[4] = byte_455FB4;
+      a2[3] = pad2_buttons_high;
+      a2[4] = pad2_buttons_low;
       result = a2;
       break;
     case 2:
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = byte_455FB9;
-      a2[4] = byte_455FB8;
+      a2[3] = pad3_buttons_high;
+      a2[4] = pad3_buttons_low;
       result = a2;
       break;
     case 3:
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = byte_455FBD;
-      a2[4] = byte_455FBC;
+      a2[3] = pad4_buttons_high;
+      a2[4] = pad4_buttons_low;
       result = a2;
       break;
     default:

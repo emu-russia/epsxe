@@ -100,9 +100,15 @@ int cfg_save_settings()
   cfg_set_value("Software\\epsxe\\config", "Country", (BYTE *)Buffer);
   sprintf(Buffer, "%d", version_setting);
   cfg_set_value("Software\\epsxe\\config", "Version", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", dword_456048[0], dword_456048[1], dword_456048[2], dword_456048[3]);
+  sprintf(
+    Buffer,
+    "%d,%d,%d,%d",
+    controller_port_modes[0],
+    controller_port_modes[1],
+    controller_port_modes[2],
+    controller_port_modes[3]);
   cfg_set_value("Software\\epsxe\\config", "GamepadType", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", dword_4FD8E0[0], dword_4FD8E4, dword_4FD8E8, dword_4FD8EC);
+  sprintf(Buffer, "%d,%d,%d,%d", pad_analog_mode_flags[0], dword_4FD8E4, dword_4FD8E8, dword_4FD8EC);
   cfg_set_value("Software\\epsxe\\config", "GamepadSubType", (BYTE *)Buffer);
   sprintf(
     Buffer,

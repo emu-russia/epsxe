@@ -2,7 +2,7 @@
 int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
 {
   char *v2; // edi
-  int *v3; // esi
+  uint32_t *p_adsr_lower; // esi
   unsigned int v4; // ebp
   unsigned __int16 v5; // ax
   int v6; // ecx
@@ -46,7 +46,7 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
   gzread(a2, v39, 8);
   gzread(a2, v39, 512);
   v2 = v39;
-  v3 = dword_465550;
+  p_adsr_lower = &spu_voice_param[0].adsr_lower;
   v34 = 24;
   do
   {
@@ -62,12 +62,12 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
             v5 = *(_WORD *)v2;
             v6 = (*(unsigned __int16 *)v2 >> 14) & 1;
             v7 = *(_WORD *)v2 & 0x3FFF;
-            *v3 = v6;
-            v3[2] = v6;
-            *(v3 - 4) = v7;
-            v3[4] = (v5 >> 13) & 1;
-            v3[6] = v5 >> 15;
-            *(v3 - 2) = v5 & 0x7F;
+            *p_adsr_lower = v6;
+            p_adsr_lower[2] = v6;
+            *(p_adsr_lower - 4) = v7;
+            p_adsr_lower[4] = (v5 >> 13) & 1;
+            p_adsr_lower[6] = v5 >> 15;
+            *(p_adsr_lower - 2) = v5 & 0x7F;
             break;
           case 1u:
           case 3u:
@@ -79,72 +79,72 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
             break;
           case 2u:
             v8 = *((_WORD *)v2 + 1);
-            *(v3 - 3) = v8 & 0x3FFF;
+            *(p_adsr_lower - 3) = v8 & 0x3FFF;
             v9 = (v8 >> 14) & 1;
-            v3[1] = v9;
-            v3[3] = v9;
-            v3[5] = (v8 >> 13) & 1;
-            v3[7] = v8 >> 15;
-            *(v3 - 1) = v8 & 0x7F;
+            p_adsr_lower[1] = v9;
+            p_adsr_lower[3] = v9;
+            p_adsr_lower[5] = (v8 >> 13) & 1;
+            p_adsr_lower[7] = v8 >> 15;
+            *(p_adsr_lower - 1) = v8 & 0x7F;
             break;
           case 4u:
             v10 = (double)(*((_WORD *)v2 + 2) & 0x3FFF);
-            v3[8] = *((_WORD *)v2 + 2) & 0x3FFF;
+            p_adsr_lower[8] = *((_WORD *)v2 + 2) & 0x3FFF;
             v11 = v10 * 0.000244140625;
-            *((float *)v3 + 24) = v11;
-            v3[25] = (__int64)(v11 * 65536.0);
+            *((float *)p_adsr_lower + 24) = v11;
+            p_adsr_lower[25] = (__int64)(v11 * 65536.0);
             break;
           case 6u:
-            v3[9] = *((unsigned __int16 *)v2 + 3);
+            p_adsr_lower[9] = *((unsigned __int16 *)v2 + 3);
             break;
           case 8u:
             v12 = *((_WORD *)v2 + 4);
             v13 = v2[9];
-            v3[10] = v12 >> 15;
+            p_adsr_lower[10] = v12 >> 15;
             v14 = v13 & 0x7F;
             v15 = (unsigned __int8)v12 >> 4;
-            v3[11] = v14;
+            p_adsr_lower[11] = v14;
             v16 = dword_44F208[v14];
-            v3[12] = v15;
+            p_adsr_lower[12] = v15;
             v17 = dword_44F408[v15];
             v18 = v12 & 0xF;
-            v3[65] = v16;
+            p_adsr_lower[65] = v16;
             v19 = dword_44F648[v18];
-            v3[13] = v18;
-            v3[66] = -v17;
-            v3[67] = v19;
+            p_adsr_lower[13] = v18;
+            p_adsr_lower[66] = -v17;
+            p_adsr_lower[67] = v19;
             break;
           case 0xAu:
             v20 = *((_WORD *)v2 + 5);
-            v3[14] = v20 >> 15;
+            p_adsr_lower[14] = v20 >> 15;
             v21 = (v20 >> 14) & 1;
             v22 = (v20 >> 6) & 0x7F;
             v23 = (v20 >> 5) & 1;
             v24 = v20 & 0x1F;
-            v3[15] = v21;
-            v3[16] = v22;
-            v3[17] = v23;
-            v3[18] = v24;
+            p_adsr_lower[15] = v21;
+            p_adsr_lower[16] = v22;
+            p_adsr_lower[17] = v23;
+            p_adsr_lower[18] = v24;
             if ( v21 )
             {
               v26 = -dword_44F448[v22];
               v25 = -dword_44F688[v24];
-              v3[68] = v26;
+              p_adsr_lower[68] = v26;
             }
             else
             {
-              v3[68] = dword_44F448[v22];
+              p_adsr_lower[68] = dword_44F448[v22];
               v25 = -dword_44F688[v24];
             }
-            v3[69] = v25;
+            p_adsr_lower[69] = v25;
             break;
           case 0xCu:
             v37 = *((unsigned __int16 *)v2 + 6) << 9;
-            v3[19] = v37;
-            *((float *)v3 + 26) = (double)v37 * 0.000030517578125;
+            p_adsr_lower[19] = v37;
+            *((float *)p_adsr_lower + 26) = (double)v37 * 0.000030517578125;
             break;
           case 0xEu:
-            v3[20] = *((unsigned __int16 *)v2 + 7);
+            p_adsr_lower[20] = *((unsigned __int16 *)v2 + 7);
             break;
         }
       }
@@ -153,7 +153,7 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
     }
     while ( v36 );
     v2 += 16;
-    v3 += 74;
+    p_adsr_lower += 74;
     --v34;
   }
   while ( v34 );
@@ -250,6 +250,6 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
     dword_4E7114 = 0;
   result = strncmp(Str1, "ISPU", 4u);
   if ( !result )
-    return gzread(a2, (char *)dword_465540, 7104);
+    return gzread(a2, (char *)spu_voice_param, 7104);
   return result;
 }

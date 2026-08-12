@@ -64,7 +64,7 @@ void __cdecl sio_command(char *a1)
           }
           v6 = multitap_1;
           v7 = multitap_1 == 0;
-          v43 = dword_456048[(unsigned __int8)sio_controller_state[0]];
+          v43 = controller_port_modes[(unsigned __int8)sio_controller_state[0]];
           sio_last_command_slot[(unsigned __int8)sio_controller_state[0]] = 0;
           LOWORD(sio_multitap_slot_counter) = -256;
           if ( v7 )
@@ -95,13 +95,13 @@ void __cdecl sio_command(char *a1)
               {
                 sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 3] = 1;
                 sio_controller_response_buffer[65 * (unsigned __int8)sio_controller_state[0]] = -13;
-                byte_516565[65 * (unsigned __int8)sio_controller_state[0]] = 90;
-                byte_516566[65 * (unsigned __int8)sio_controller_state[0]] = 0;
-                byte_516567[65 * (unsigned __int8)sio_controller_state[0]] = 0;
+                sio_response_buffer_id[65 * (unsigned __int8)sio_controller_state[0]] = 90;
+                sio_response_buffer_data1[65 * (unsigned __int8)sio_controller_state[0]] = 0;
+                sio_response_buffer_data2[65 * (unsigned __int8)sio_controller_state[0]] = 0;
               }
               break;
             case 2:
-              if ( !dword_4FD8E0[v2] )
+              if ( !pad_analog_mode_flags[v2] )
               {
                 cont_build_controller_response_digital(v2, (_BYTE *)(v3 + 5334371));
                 if ( *a1 != 66 )
@@ -112,7 +112,7 @@ void __cdecl sio_command(char *a1)
               sio_transfer_length = 7;
               break;
             case 3:
-              if ( dword_4FD8E0[v2] )
+              if ( pad_analog_mode_flags[v2] )
               {
                 cont_build_guncon_response(v2, (_BYTE *)(v3 + 5334371));
                 sio_transfer_length = 9;
@@ -138,19 +138,19 @@ LABEL_30:
               sio_last_command_slot[v2] = *a1;
               if ( *a1 == 66 || *a1 == 67 )
               {
-                if ( dword_4FD8E0[v2] )
+                if ( pad_analog_mode_flags[v2] )
                 {
                   cont_build_controller_response_analog(v2, (_BYTE *)(v3 + 0x516563));
                 }
                 else
                 {
                   cont_build_controller_response_digital(v2, (_BYTE *)(v3 + 5334371));
-                  *(_DWORD *)&byte_516568[65 * (unsigned __int8)sio_controller_state[0]] = -2139062144;
+                  *(_DWORD *)&sio_response_buffer_analog_byte[65 * (unsigned __int8)sio_controller_state[0]] = -2139062144;
                 }
               }
               sio_transfer_length = 9;
-              byte_526820[0] = 1;
-              byte_526821[0] = *a1;
+              sio_multitap_command_buffer[0] = 1;
+              sio_multitap_command_byte[0] = *a1;
               if ( *a1 == 68 )
               {
                 v8 = *(_DWORD *)&sio_config_data[4];
@@ -168,8 +168,8 @@ LABEL_30:
                 v13 = sio_config_data[20];
                 *(_DWORD *)(v12 + 4) = v11;
                 *(_BYTE *)(v12 + 8) = v13;
-                if ( dword_4FD8E0[(unsigned __int8)sio_controller_state[0]] == 1 )
-                  byte_516568[65 * (unsigned __int8)sio_controller_state[0]] = 1;
+                if ( pad_analog_mode_flags[(unsigned __int8)sio_controller_state[0]] == 1 )
+                  sio_response_buffer_analog_byte[65 * (unsigned __int8)sio_controller_state[0]] = 1;
               }
               if ( *a1 == 70 )
               {
@@ -217,7 +217,9 @@ LABEL_30:
         }
         else
         {
-          byte_526820[(unsigned __int8)sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 2]] = *a1;
+          sio_multitap_command_buffer[(unsigned __int8)sio_controller_state[65
+                                                                          * (unsigned __int8)sio_controller_state[0]
+                                                                          + 2]] = *a1;
           if ( multitap_1 )
           {
             if ( !v1
@@ -240,34 +242,35 @@ LABEL_30:
             && *a1 == 1
             && (unsigned __int8)sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 2] == (unsigned __int8)sio_multitap_slot_counter + 3 )
           {
-            byte_516569[65 * (unsigned __int8)sio_controller_state[0] + (unsigned __int8)sio_multitap_slot_counter] = 7;
+            sio_response_buffer_config_byte[65 * (unsigned __int8)sio_controller_state[0]
+                                          + (unsigned __int8)sio_multitap_slot_counter] = 7;
           }
           if ( sio_last_command_slot[(unsigned __int8)sio_controller_state[0]] == 70
             && *a1 == 1
             && (unsigned __int8)sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 2] == v26 + 3 )
           {
-            byte_516568[65 * (unsigned __int8)sio_controller_state[0] + v26] = 4;
-            byte_516569[65 * (unsigned __int8)sio_controller_state[0] + v26] = 3;
-            byte_51656A[65 * (unsigned __int8)sio_controller_state[0] + v26] = 1;
-            byte_51656B[65 * (unsigned __int8)sio_controller_state[0] + v26] = 30;
+            sio_response_buffer_analog_byte[65 * (unsigned __int8)sio_controller_state[0] + v26] = 4;
+            sio_response_buffer_config_byte[65 * (unsigned __int8)sio_controller_state[0] + v26] = 3;
+            sio_response_buffer_config_byte2[65 * (unsigned __int8)sio_controller_state[0] + v26] = 1;
+            sio_response_buffer_config_byte3[65 * (unsigned __int8)sio_controller_state[0] + v26] = 30;
           }
           if ( sio_last_command_slot[(unsigned __int8)sio_controller_state[0]] == 68
             && *a1
             && (unsigned __int8)sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 2] == v26 + 3
-            && dword_4FD8E0[BYTE1(sio_multitap_slot_counter)] != 1 )
+            && pad_analog_mode_flags[BYTE1(sio_multitap_slot_counter)] != 1 )
           {
             v41 = BYTE1(sio_multitap_slot_counter);
-            dword_4FD8E0[BYTE1(sio_multitap_slot_counter)] = 1;
+            pad_analog_mode_flags[BYTE1(sio_multitap_slot_counter)] = 1;
             cont_update_led_and_mode(v41);
             v26 = sio_multitap_slot_counter;
           }
           if ( sio_last_command_slot[(unsigned __int8)sio_controller_state[0]] == 68
             && !*a1
             && (unsigned __int8)sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 2] == v26 + 3
-            && dword_4FD8E0[BYTE1(sio_multitap_slot_counter)] )
+            && pad_analog_mode_flags[BYTE1(sio_multitap_slot_counter)] )
           {
             v42 = BYTE1(sio_multitap_slot_counter);
-            dword_4FD8E0[BYTE1(sio_multitap_slot_counter)] = 0;
+            pad_analog_mode_flags[BYTE1(sio_multitap_slot_counter)] = 0;
             cont_update_led_and_mode(v42);
             v26 = sio_multitap_slot_counter;
           }
@@ -289,7 +292,7 @@ LABEL_30:
                 v26 = sio_multitap_slot_counter;
               }
               v27 = (unsigned __int8)sio_controller_state[0];
-              byte_4FC468[2 * (unsigned __int8)sio_controller_state[0]] = *a1 & 1;
+              rumble_small_motor_state[2 * (unsigned __int8)sio_controller_state[0]] = *a1 & 1;
             }
             if ( sio_last_command_slot[v27] == 66
               && *a1
@@ -300,7 +303,7 @@ LABEL_30:
               v29 = g_PlayerDeviceMap1[BYTE1(sio_multitap_slot_counter)];
               if ( v29 && v29 <= 4 )
                 diSetEffectMagnitude(1, (unsigned __int8)*a1, 2, BYTE1(sio_multitap_slot_counter));
-              byte_4FC469[2 * (unsigned __int8)sio_controller_state[0]] = *a1;
+              rumble_big_motor_state[2 * (unsigned __int8)sio_controller_state[0]] = *a1;
             }
           }
         }
@@ -365,12 +368,12 @@ LABEL_30:
           {
             LOBYTE(v37) = 0;
             HIBYTE(v37) = *a1;
-            word_566962 = v37;
+            memcard_current_address = v37;
             byte_547060[129033] = *a1;
           }
           if ( v4 == 5 )
           {
-            word_566962 |= (unsigned __int8)*a1;
+            memcard_current_address |= (unsigned __int8)*a1;
             byte_547060[129034] = *a1;
           }
           if ( v4 == 6 )
@@ -378,7 +381,8 @@ LABEL_30:
             qmemcpy(
               &byte_547060[129035],
               &sio_memcard_data_slot1[128
-                                    * ((unsigned __int16)word_566962 + ((unsigned __int8)sio_controller_state[0] << 10))],
+                                    * ((unsigned __int16)memcard_current_address
+                                     + ((unsigned __int8)sio_controller_state[0] << 10))],
               0x80u);
             v38 = 0;
             byte_547060[129163] = 0;
@@ -405,9 +409,9 @@ LABEL_30:
           {
             LOBYTE(v36) = 0;
             HIBYTE(v36) = byte_547060[129030];
-            word_566962 = (unsigned __int8)byte_547060[129031] | v36;
+            memcard_current_address = (unsigned __int8)byte_547060[129031] | v36;
             qmemcpy(
-              &sio_memcard_data_slot1[128 * ((unsigned __int16)word_566962 + (v2 << 10))],
+              &sio_memcard_data_slot1[128 * ((unsigned __int16)memcard_current_address + (v2 << 10))],
               &byte_547060[129032],
               0x80u);
           }

@@ -73,7 +73,7 @@ LABEL_8:
         {
           v10 = (unsigned __int8)cdr_bcd_to_hex(BYTE1(g_cdr_cur_msf_pos));
           v4 = cdr_bcd_to_hex(g_cdr_cur_msf_pos);
-          cdrom_lba_to_msf_cb(v4, v10, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &unk_50BF7C);
+          cdrom_lba_to_msf_cb(v4, v10, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &byte_50BF7C);
           v5 = BYTE1(g_cdr_cur_msf_pos);
           if ( g_cdr_seek_target_msf == (_WORD)g_cdr_cur_msf_pos )
           {
@@ -87,7 +87,7 @@ LABEL_8:
             }
             v11 = (unsigned __int8)cdr_bcd_to_hex(v6);
             v7 = cdr_bcd_to_hex(g_cdr_cur_msf_pos);
-            cdrom_lba_to_msf_cb(v7, v11, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &unk_50BF7C);
+            cdrom_lba_to_msf_cb(v7, v11, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &byte_50BF7C);
             v5 = BYTE1(g_cdr_cur_msf_pos);
           }
           cdrom_play_cdda_cb((unsigned __int8)g_cdr_cur_msf_pos, v5, BYTE2(g_cdr_cur_msf_pos));

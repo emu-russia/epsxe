@@ -2,14 +2,14 @@
 int __cdecl spucore_voice_key_on(int a1)
 {
   int result; // eax
-  int v2; // edx
+  uint32_t adsr_sustain_dir; // edx
 
-  result = 74 * a1;
-  v2 = dword_465574[74 * a1];
-  dword_4655A4[result] = 1;
-  dword_4655B8[result] = 0;
-  dword_4655BC[result] = v2;
-  dword_4655AC[result] = 0;
-  dword_465638[result] = 0;
-  return result * 4;
+  result = a1;
+  adsr_sustain_dir = spu_voice_param[a1].adsr_sustain_dir;
+  spu_voice_param[result].current_block_addr = 1;
+  spu_voice_param[result].sample_history[1] = 0;
+  spu_voice_param[result].sample_history[2] = adsr_sustain_dir;
+  spu_voice_param[result].adpcm_s0 = 0;
+  spu_voice_param[result].unknown3E = 0;
+  return result * 296;
 }

@@ -68,7 +68,7 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
     if ( !(*(int (__stdcall **)(_DWORD *, _DWORD *, GUID *, int, _DWORD))(*a2 + 36))(
             a2,
             v41,
-            &stru_448500,
+            &GUID_Joystick,
             4 * g_uiNumJoysticks + 5207916,
             0) )
     {
@@ -95,7 +95,7 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       if ( v11 )
       {
         g_JoystickStateFlags[g_uiNumJoysticks] = 1;
-        dword_4F7AA8[v12] = 1;
+        joystick_axis_1_positive_triggered[v12] = 1;
       }
       v13 = g_pJoystickDevices[v12];
       v50 = 4;
@@ -103,8 +103,8 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       v14 = g_uiNumJoysticks;
       if ( v11 )
       {
-        dword_4F7AE8[g_uiNumJoysticks] = 1;
-        dword_4F7B28[v14] = 1;
+        joystick_axis_1_negative_triggered[g_uiNumJoysticks] = 1;
+        joystick_axis_2_positive_triggered[v14] = 1;
       }
       v15 = g_pJoystickDevices[v14];
       v50 = 8;
@@ -113,7 +113,7 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       if ( v11 )
       {
         dword_4F7B68[g_uiNumJoysticks] = 1;
-        dword_4F7BA8[v16] = 1;
+        joystick_axis_2_negative_triggered[v16] = 1;
       }
       v17 = g_pJoystickDevices[v16];
       v50 = 12;
@@ -121,8 +121,8 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       v18 = g_uiNumJoysticks;
       if ( v11 )
       {
-        dword_4F7BE8[g_uiNumJoysticks] = 1;
-        dword_4F7C28[v18] = 1;
+        joystick_axis_3_positive_triggered[g_uiNumJoysticks] = 1;
+        joystick_axis_3_negative_triggered[v18] = 1;
       }
       v19 = g_pJoystickDevices[v18];
       v50 = 16;
@@ -130,8 +130,8 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       v20 = g_uiNumJoysticks;
       if ( v11 )
       {
-        dword_4F7C68[g_uiNumJoysticks] = 1;
-        dword_4F7CA8[v20] = 1;
+        joystick_axis_4_positive_triggered[g_uiNumJoysticks] = 1;
+        joystick_axis_4_negative_triggered[v20] = 1;
       }
       v21 = g_pJoystickDevices[v20];
       v50 = 20;
@@ -139,8 +139,8 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       v22 = g_uiNumJoysticks;
       if ( v11 )
       {
-        dword_4F7CE8[g_uiNumJoysticks] = 1;
-        dword_4F7D28[v22] = 1;
+        joystick_axis_5_positive_triggered[g_uiNumJoysticks] = 1;
+        joystick_axis_5_negative_triggered[v22] = 1;
       }
       v23 = g_pJoystickDevices[v22];
       v50 = 24;
@@ -148,8 +148,8 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       v24 = g_uiNumJoysticks;
       if ( v11 )
       {
-        dword_4F7D68[g_uiNumJoysticks] = 1;
-        dword_4F7DA8[v24] = 1;
+        joystick_axis_6_positive_triggered[g_uiNumJoysticks] = 1;
+        joystick_axis_6_negative_triggered[v24] = 1;
       }
       v25 = g_pJoystickDevices[v24];
       v50 = 28;
@@ -157,8 +157,8 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       v26 = g_uiNumJoysticks;
       if ( v11 )
       {
-        dword_4F7DE8[g_uiNumJoysticks] = 1;
-        dword_4F7E28[v26] = 1;
+        joystick_axis_7_positive_triggered[g_uiNumJoysticks] = 1;
+        joystick_axis_7_negative_triggered[v26] = 1;
       }
       v27 = g_pJoystickDevices[v26];
       v43 = 20;

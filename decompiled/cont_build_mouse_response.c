@@ -27,11 +27,11 @@ _BYTE *__cdecl cont_build_mouse_response(char a1, _BYTE *a2)
     a2[3] = -1;
   }
   result[4] = -4;
-  if ( (dword_50AB60 & 1) != 0 )
+  if ( (mouse_buttons_state & 1) != 0 )
     result[4] = -12;
-  if ( (dword_50AB60 & 2) != 0 )
+  if ( (mouse_buttons_state & 2) != 0 )
     result[4] &= ~4u;
-  result[5] = dword_4FD8F0;
-  result[6] = dword_4FD8F4;
+  result[5] = mouse_delta_x;
+  result[6] = mouse_delta_y;
   return result;
 }

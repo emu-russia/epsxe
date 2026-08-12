@@ -216,18 +216,24 @@ int cfg_load_settings()
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadType", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d,%d,%d,%d", dword_456048, &dword_456048[1], &dword_456048[2], &dword_456048[3]);
-    if ( dword_456048[0] == 5
-      || dword_456048[0] == 6
-      || dword_456048[0] == 3
-      || dword_456048[0] == 2
-      || dword_456048[1] == 2 )
+    sscanf(
+      Buffer,
+      "%d,%d,%d,%d",
+      controller_port_modes,
+      &controller_port_modes[1],
+      &controller_port_modes[2],
+      &controller_port_modes[3]);
+    if ( controller_port_modes[0] == 5
+      || controller_port_modes[0] == 6
+      || controller_port_modes[0] == 3
+      || controller_port_modes[0] == 2
+      || controller_port_modes[1] == 2 )
     {
       point_device_enabled = 1;
     }
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadSubType", (LPBYTE)Buffer) )
-    sscanf(Buffer, "%d,%d,%d,%d", dword_4FD8E0, &dword_4FD8E4, &dword_4FD8E8, &dword_4FD8EC);
+    sscanf(Buffer, "%d,%d,%d,%d", pad_analog_mode_flags, &dword_4FD8E4, &dword_4FD8E8, &dword_4FD8EC);
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadAxis", (LPBYTE)Buffer) )
     sscanf(
       Buffer,

@@ -10,7 +10,7 @@ int __cdecl sio_handle_config_command(char a1, int a2, char a3)
   int v10; // edx
   _BYTE v11[9]; // [esp+4h] [ebp-10h] BYREF
 
-  v3 = dword_456048[(unsigned __int8)a1];
+  v3 = controller_port_modes[(unsigned __int8)a1];
   if ( !v3 )
     goto LABEL_24;
   v4 = v3 - 1;
@@ -21,7 +21,7 @@ int __cdecl sio_handle_config_command(char a1, int a2, char a3)
       sio_last_command_slot[(unsigned __int8)sio_controller_state[0]] = a3;
       if ( a3 == 66 || a3 == 67 )
       {
-        if ( dword_4FD8E0[(unsigned __int8)a1] )
+        if ( pad_analog_mode_flags[(unsigned __int8)a1] )
         {
           cont_build_controller_response_analog(a1, v11);
         }
@@ -41,7 +41,7 @@ int __cdecl sio_handle_config_command(char a1, int a2, char a3)
         case 'E':
           *(_DWORD *)v11 = *(_DWORD *)&sio_config_data[12];
           *(_DWORD *)&v11[4] = *(_DWORD *)&sio_config_data[16];
-          v8 = dword_4FD8E0[(unsigned __int8)a1];
+          v8 = pad_analog_mode_flags[(unsigned __int8)a1];
           v11[8] = sio_config_data[20];
           if ( v8 == 1 )
             v11[5] = 1;

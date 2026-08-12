@@ -9,7 +9,7 @@ unsigned int __cdecl sio_build_multitap_response(_BYTE *a1, _DWORD *a2)
   sio_multitap_state = 0;
   *a2 = 3;
   v2 = &sio_multitap_state;
-  v3 = dword_456048;
+  v3 = controller_port_modes;
   v4 = 4;
   do
   {

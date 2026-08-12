@@ -81,7 +81,7 @@ int diUpdateDeviceStates()
                 word_50AE02[8 * j] = *(_WORD *)v5;
               }
             }
-            if ( !dword_4F7AA8[j] )
+            if ( !joystick_axis_1_positive_triggered[j] )
             {
               result = *v5;
               if ( *v5 < 0 )
@@ -91,7 +91,7 @@ int diUpdateDeviceStates()
                 word_50AE02[8 * j] = *(_WORD *)v5;
               }
             }
-            if ( !dword_4F7AE8[j] )
+            if ( !joystick_axis_1_negative_triggered[j] )
             {
               result = dword_4F778C[20 * j];
               if ( result > 0 )
@@ -101,7 +101,7 @@ int diUpdateDeviceStates()
                 word_50AE04[8 * j] = dword_4F778C[20 * j];
               }
             }
-            if ( !dword_4F7B28[j] )
+            if ( !joystick_axis_2_positive_triggered[j] )
             {
               result = dword_4F778C[20 * j];
               if ( result < 0 )
@@ -121,7 +121,7 @@ int diUpdateDeviceStates()
                 word_50AE06[8 * j] = dword_4F7790[20 * j];
               }
             }
-            if ( !dword_4F7BA8[j] )
+            if ( !joystick_axis_2_negative_triggered[j] )
             {
               result = dword_4F7790[20 * j];
               if ( result < 0 )
@@ -131,7 +131,7 @@ int diUpdateDeviceStates()
                 word_50AE06[8 * j] = dword_4F7790[20 * j];
               }
             }
-            if ( !dword_4F7C68[j] )
+            if ( !joystick_axis_4_positive_triggered[j] )
             {
               result = dword_4F7798[20 * j];
               if ( result > 0 )
@@ -141,7 +141,7 @@ int diUpdateDeviceStates()
                 word_50AE08[8 * j] = dword_4F7798[20 * j];
               }
             }
-            if ( !dword_4F7CA8[j] )
+            if ( !joystick_axis_4_negative_triggered[j] )
             {
               result = dword_4F7798[20 * j];
               if ( result < 0 )
@@ -151,7 +151,7 @@ int diUpdateDeviceStates()
                 word_50AE08[8 * j] = dword_4F7798[20 * j];
               }
             }
-            if ( !dword_4F7CE8[j] )
+            if ( !joystick_axis_5_positive_triggered[j] )
             {
               result = dword_4F779C[20 * j];
               if ( result > 0 )
@@ -161,7 +161,7 @@ int diUpdateDeviceStates()
                 word_50AE0A[8 * j] = dword_4F779C[20 * j];
               }
             }
-            if ( !dword_4F7D28[j] )
+            if ( !joystick_axis_5_negative_triggered[j] )
             {
               result = dword_4F779C[20 * j];
               if ( result < 0 )
@@ -171,7 +171,7 @@ int diUpdateDeviceStates()
                 word_50AE0A[8 * j] = dword_4F779C[20 * j];
               }
             }
-            if ( !dword_4F7D68[j] )
+            if ( !joystick_axis_6_positive_triggered[j] )
             {
               result = dword_4F77A0[20 * j];
               if ( result > 0 )
@@ -181,7 +181,7 @@ int diUpdateDeviceStates()
                 word_50AE0C[8 * j] = dword_4F77A0[20 * j];
               }
             }
-            if ( !dword_4F7DA8[j] )
+            if ( !joystick_axis_6_negative_triggered[j] )
             {
               result = dword_4F77A0[20 * j];
               if ( result < 0 )
@@ -191,7 +191,7 @@ int diUpdateDeviceStates()
                 word_50AE0C[8 * j] = dword_4F77A0[20 * j];
               }
             }
-            if ( !dword_4F7DE8[j] )
+            if ( !joystick_axis_7_positive_triggered[j] )
             {
               result = dword_4F77A4[20 * j];
               if ( result > 0 )
@@ -201,7 +201,7 @@ int diUpdateDeviceStates()
                 word_50AE0E[8 * j] = dword_4F77A4[20 * j];
               }
             }
-            if ( !dword_4F7E28[j] )
+            if ( !joystick_axis_7_negative_triggered[j] )
             {
               result = dword_4F77A4[20 * j];
               if ( result < 0 )
@@ -211,9 +211,9 @@ int diUpdateDeviceStates()
                 word_50AE0E[8 * j] = dword_4F77A4[20 * j];
               }
             }
-            if ( !dword_4F7E68[j] && byte_4F77B8[80 * j] )
+            if ( !joystick_button_1_triggered[j] && byte_4F77B8[80 * j] )
               byte_50ACD0[32 * j] = 1;
-            if ( !dword_4F7EA8[j] && byte_4F77B9[80 * j] )
+            if ( !joystick_button_2_triggered[j] && byte_4F77B9[80 * j] )
             {
               result = 32 * j;
               byte_50ACD1[32 * j] = 1;

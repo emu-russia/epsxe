@@ -9,7 +9,7 @@ int diInitDirectInput()
   {
     if ( (*(int (__stdcall **)(int, GUID *, int *, _DWORD))(*(_DWORD *)g_pDirectInput + 12))(
            g_pDirectInput,
-           &stru_4485E0,
+           &GUID_Keyboard,
            &g_pKeyboardDevice,
            0) < 0 )
       return 0;
@@ -22,7 +22,7 @@ int diInitDirectInput()
       goto LABEL_25;
     if ( (*(int (__stdcall **)(int, GUID *, int *, _DWORD))(*(_DWORD *)g_pDirectInput + 12))(
            g_pDirectInput,
-           &stru_4485D0,
+           &GUID_Mouse,
            &g_pMouseDevice,
            0) < 0 )
       return 0;

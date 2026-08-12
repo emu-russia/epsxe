@@ -1,5 +1,5 @@
 #include "pch.h"
-__int16 __cdecl spucore_write_register(__int16 a1, unsigned __int16 a2)
+__int16 __cdecl spucore_write_register(__int16 a1, __int16 a2)
 {
   unsigned int v2; // eax
   __int16 result; // ax
@@ -25,45 +25,45 @@ __int16 __cdecl spucore_write_register(__int16 a1, unsigned __int16 a2)
       spucore_reverb_vol_right = a2;
       break;
     case 0xD88:
-      result = spucore_set_voiceon(a2);
+      result = spucore_set_voiceon((unsigned __int16)a2);
       break;
     case 0xD8A:
-      result = spucore_set_voiceon(a2 << 16);
+      result = spucore_set_voiceon((unsigned __int16)a2 << 16);
       break;
     case 0xD8C:
-      result = spucore_set_pitchmod(a2);
+      result = spucore_set_pitchmod((unsigned __int16)a2);
       break;
     case 0xD8E:
-      result = spucore_set_pitchmod(a2 << 16);
+      result = spucore_set_pitchmod((unsigned __int16)a2 << 16);
       break;
     case 0xD90:
-      spucore_pitchmod_enable = a2 + (spucore_pitchmod_enable & 0xFF0000);
+      spucore_pitchmod_enable = (unsigned __int16)a2 + (spucore_pitchmod_enable & 0xFF0000);
       break;
     case 0xD92:
       result = spucore_pitchmod_enable;
-      spucore_pitchmod_enable = (unsigned __int16)spucore_pitchmod_enable + (a2 << 16);
+      spucore_pitchmod_enable = (unsigned __int16)spucore_pitchmod_enable + ((unsigned __int16)a2 << 16);
       break;
     case 0xD94:
-      spucore_noise_mode = a2 + (spucore_noise_mode & 0xFF0000);
+      spucore_noise_mode = (unsigned __int16)a2 + (spucore_noise_mode & 0xFF0000);
       result = a2;
       break;
     case 0xD96:
-      spucore_noise_mode = (unsigned __int16)spucore_noise_mode + (a2 << 16);
+      spucore_noise_mode = (unsigned __int16)spucore_noise_mode + ((unsigned __int16)a2 << 16);
       break;
     case 0xD98:
-      dword_4E7100 = a2 + (dword_4E7100 & 0xFF0000);
+      dword_4E7100 = (unsigned __int16)a2 + (dword_4E7100 & 0xFF0000);
       result = a2;
       break;
     case 0xD9A:
       result = dword_4E7100;
-      dword_4E7100 = (unsigned __int16)dword_4E7100 + (a2 << 16);
+      dword_4E7100 = (unsigned __int16)dword_4E7100 + ((unsigned __int16)a2 << 16);
       break;
     case 0xD9C:
-      dword_4EF138 = a2 + (dword_4EF138 & 0xFF0000);
+      dword_4EF138 = (unsigned __int16)a2 + (dword_4EF138 & 0xFF0000);
       break;
     case 0xD9E:
       result = dword_4EF138;
-      dword_4EF138 = (unsigned __int16)dword_4EF138 + (a2 << 16);
+      dword_4EF138 = (unsigned __int16)dword_4EF138 + ((unsigned __int16)a2 << 16);
       break;
     case 0xDA2:
       byte_4EF142[0x3FFF] = a2;

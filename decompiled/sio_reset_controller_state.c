@@ -14,7 +14,7 @@ char sio_reset_controller_state()
   }
   sio_controller_state[3] = 0;
   sio_controller_response_buffer[0] = 65;
-  byte_516565[0] = 90;
+  sio_response_buffer_id[0] = 90;
   sio_controller_response_alt[0] = 0;
   byte_5165A5 = 65;
   byte_5165A6 = 90;

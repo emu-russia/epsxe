@@ -13,33 +13,33 @@ char __cdecl cont_build_controller_response_analog(char a1, _BYTE *a2)
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = byte_455FB1;
-      a2[4] = byte_455FB0;
+      a2[3] = pad1_buttons_high;
+      a2[4] = pad1_buttons_low;
       a2[8] = 0x80;
       a2[7] = 0x80;
       a2[6] = 0x80;
       a2[5] = 0x80;
-      if ( dword_456048[0] == 4 )
+      if ( controller_port_modes[0] == 4 )
       {
-        a2[7] = LOBYTE(dword_4FD900[0]) + 0x80;
-        a2[8] = LOBYTE(dword_4FD910[0]) + 0x80;
-        a2[5] = LOBYTE(dword_4FD920[0]) + 0x80;
-        result = LOBYTE(dword_4FD930[0]) + 0x80;
-        a2[6] = LOBYTE(dword_4FD930[0]) + 0x80;
+        a2[7] = LOBYTE(joystick_button_state1[0]) + 0x80;
+        a2[8] = LOBYTE(joystick_button_state2[0]) + 0x80;
+        a2[5] = LOBYTE(joystick_button_state3[0]) + 0x80;
+        result = LOBYTE(joystick_button_state4[0]) + 0x80;
+        a2[6] = LOBYTE(joystick_button_state4[0]) + 0x80;
         return result;
       }
-      if ( dword_456048[0] != 5 )
+      if ( controller_port_modes[0] != 5 )
       {
-        result = LOBYTE(dword_456048[0]) - 6;
-        if ( dword_456048[0] != 6 )
+        result = LOBYTE(controller_port_modes[0]) - 6;
+        if ( controller_port_modes[0] != 6 )
           return result;
-        if ( (dword_50AB60 & 3) != 0 )
+        if ( (mouse_buttons_state & 3) != 0 )
         {
-          word_4FD8FA += dword_4FD8F0 / 3;
-          LOBYTE(v3) = word_4FD8FA;
-          if ( word_4FD8FA <= 127 )
+          mouse_accumulated_x += mouse_delta_x / 3;
+          LOBYTE(v3) = mouse_accumulated_x;
+          if ( mouse_accumulated_x <= 127 )
           {
-            if ( word_4FD8FA >= -128 )
+            if ( mouse_accumulated_x >= -128 )
               goto LABEL_12;
             v3 = -128;
           }
@@ -52,41 +52,41 @@ char __cdecl cont_build_controller_response_analog(char a1, _BYTE *a2)
         {
           v3 = 0;
         }
-        word_4FD8FA = v3;
+        mouse_accumulated_x = v3;
 LABEL_12:
         a2[7] = v3 + 0x80;
-        if ( (dword_50AB60 & 3) != 0 )
+        if ( (mouse_buttons_state & 3) != 0 )
         {
-          word_4FD8FC += dword_4FD8F4 / 3;
-          v4 = word_4FD8FC;
-          if ( word_4FD8FC <= 127 )
+          mouse_accumulated_y += mouse_delta_y / 3;
+          v4 = mouse_accumulated_y;
+          if ( mouse_accumulated_y <= 127 )
           {
-            if ( word_4FD8FC < -128 )
+            if ( mouse_accumulated_y < -128 )
             {
               v4 = 0x80;
-              word_4FD8FC = -128;
+              mouse_accumulated_y = -128;
             }
             result = v4 + 0x80;
             a2[8] = result;
           }
           else
           {
-            word_4FD8FC = 127;
+            mouse_accumulated_y = 127;
             a2[8] = -1;
             return -1;
           }
         }
         else
         {
-          word_4FD8FC = 0;
+          mouse_accumulated_y = 0;
           a2[8] = 0x80;
           return 0x80;
         }
         return result;
       }
-      v5 = 3 * dword_4FD8F0;
-      dword_4FD8F0 *= 3;
-      if ( dword_4FD8F0 <= 127 )
+      v5 = 3 * mouse_delta_x;
+      mouse_delta_x *= 3;
+      if ( mouse_delta_x <= 127 )
       {
         if ( v5 >= -128 )
           goto LABEL_24;
@@ -96,24 +96,24 @@ LABEL_12:
       {
         v5 = 127;
       }
-      dword_4FD8F0 = v5;
+      mouse_delta_x = v5;
 LABEL_24:
       a2[7] = v5 + 0x80;
-      v6 = 3 * dword_4FD8F4;
-      dword_4FD8F4 *= 3;
-      if ( dword_4FD8F4 <= 127 )
+      v6 = 3 * mouse_delta_y;
+      mouse_delta_y *= 3;
+      if ( mouse_delta_y <= 127 )
       {
         if ( v6 < -128 )
         {
           LOBYTE(v6) = 0x80;
-          dword_4FD8F4 = -128;
+          mouse_delta_y = -128;
         }
         result = v6 + 0x80;
         a2[8] = result;
       }
       else
       {
-        dword_4FD8F4 = 127;
+        mouse_delta_y = 127;
         a2[8] = -1;
         return -1;
       }
@@ -122,34 +122,34 @@ LABEL_24:
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = byte_455FB5;
-      a2[4] = byte_455FB4;
-      a2[7] = byte_4FD904 + 0x80;
-      a2[8] = byte_4FD914 + 0x80;
-      a2[5] = byte_4FD924 + 0x80;
-      a2[6] = byte_4FD934 + 0x80;
+      a2[3] = pad2_buttons_high;
+      a2[4] = pad2_buttons_low;
+      a2[7] = pad1_analog_joy_x + 0x80;
+      a2[8] = pad1_analog_joy_y + 0x80;
+      a2[5] = pad1_analog_joy2_x + 0x80;
+      a2[6] = pad1_analog_joy2_y + 0x80;
       return (char)a2;
     case 2:
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = byte_455FB9;
-      a2[4] = byte_455FB8;
-      a2[7] = byte_4FD908 + 0x80;
-      a2[8] = byte_4FD918 + 0x80;
-      a2[5] = byte_4FD928 + 0x80;
-      a2[6] = byte_4FD938 + 0x80;
+      a2[3] = pad3_buttons_high;
+      a2[4] = pad3_buttons_low;
+      a2[7] = pad2_analog_joy_x + 0x80;
+      a2[8] = pad2_analog_joy_y + 0x80;
+      a2[5] = pad2_analog_joy2_x + 0x80;
+      a2[6] = pad2_analog_joy2_y + 0x80;
       return (char)a2;
     case 3:
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = byte_455FBD;
-      a2[4] = byte_455FBC;
-      a2[7] = byte_4FD90C + 0x80;
-      a2[8] = byte_4FD91C + 0x80;
-      a2[5] = byte_4FD92C + 0x80;
-      a2[6] = byte_4FD93C + 0x80;
+      a2[3] = pad4_buttons_high;
+      a2[4] = pad4_buttons_low;
+      a2[7] = pad3_analog_joy_x + 0x80;
+      a2[8] = pad3_analog_joy_y + 0x80;
+      a2[5] = pad3_analog_joy2_x + 0x80;
+      a2[6] = pad3_analog_joy2_y + 0x80;
       return (char)a2;
     default:
       *a2 = 0;

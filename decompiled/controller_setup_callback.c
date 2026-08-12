@@ -162,7 +162,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
         SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Gun    (F5)");
         SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Mouse  (F5)");
         SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Disabled");
-        switch ( dword_456048[0] )
+        switch ( controller_port_modes[0] )
         {
           case 0:
             SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 6u, 0);
@@ -265,7 +265,7 @@ LABEL_78:
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Mouse  (F5)");
       SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Disabled");
-      switch ( dword_456048[1] )
+      switch ( controller_port_modes[1] )
       {
         case 0:
           SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 3u, 0);
@@ -458,14 +458,17 @@ LABEL_78:
               v34 = 4;
               v35 = 2;
               v36 = 0;
-              dword_456048[1] = *(&v33 + v22);
+              controller_port_modes[1] = *(&v33 + v22);
               point_device_enabled = 0;
-              if ( dword_456048[1] == 2 )
+              if ( controller_port_modes[1] == 2 )
               {
                 point_device_enabled = 1;
-                if ( dword_456048[0] == 5 || dword_456048[0] == 6 || dword_456048[0] == 2 || dword_456048[0] == 3 )
+                if ( controller_port_modes[0] == 5
+                  || controller_port_modes[0] == 6
+                  || controller_port_modes[0] == 2
+                  || controller_port_modes[0] == 3 )
                 {
-                  dword_456048[0] = 1;
+                  controller_port_modes[0] = 1;
                   MessageBoxA(
                     nullptr,
                     "Sorry only 1 mouse supported, \n the other pad will be set to Digital Joypad",
@@ -484,14 +487,17 @@ LABEL_78:
             v37 = 3;
             v38 = 2;
             v39 = 0;
-            dword_456048[0] = *(&v33 + v22);
+            controller_port_modes[0] = *(&v33 + v22);
             point_device_enabled = 0;
-            if ( dword_456048[0] == 5 || dword_456048[0] == 6 || dword_456048[0] == 2 || dword_456048[0] == 3 )
+            if ( controller_port_modes[0] == 5
+              || controller_port_modes[0] == 6
+              || controller_port_modes[0] == 2
+              || controller_port_modes[0] == 3 )
             {
               point_device_enabled = 1;
-              if ( dword_456048[1] == 2 )
+              if ( controller_port_modes[1] == 2 )
               {
-                dword_456048[1] = 1;
+                controller_port_modes[1] = 1;
                 MessageBoxA(
                   nullptr,
                   "Sorry only 1 mouse supported, \n the other pad will be set to Digital Joypad",
