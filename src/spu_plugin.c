@@ -268,12 +268,12 @@ void spu_dma()
   }
 }
 
-char __cdecl spu_write_register(unsigned int a1, unsigned __int16 a2)
+char __cdecl spu_write_register(unsigned int a1, __int16 a2)
 {
   char result; // al
 
   if ( spu_use_external_plugin == 1 )
-    return SPUwriteRegister(a1, a2);
+    return SPUwriteRegister(a1, (unsigned __int16)a2);
   result = a1;
   if ( a1 > 0x1F801CC6 )
   {
@@ -292,7 +292,7 @@ char __cdecl spu_write_register(unsigned int a1, unsigned __int16 a2)
       case 0x1F801D70u:
 LABEL_7:
         if ( sound_enabled )
-          result = SPUsetVolumeL((a1 >> 4) & 0x1F, a2);
+          result = SPUsetVolumeL((a1 >> 4) & 0x1F, (unsigned __int16)a2);
         break;
       case 0x1F801CD2u:
       case 0x1F801CE2u:
@@ -307,7 +307,7 @@ LABEL_7:
       case 0x1F801D72u:
 LABEL_9:
         if ( sound_enabled )
-          result = SPUsetVolumeR((a1 >> 4) & 0x1F, a2);
+          result = SPUsetVolumeR((a1 >> 4) & 0x1F, (unsigned __int16)a2);
         break;
       case 0x1F801CD4u:
       case 0x1F801CE4u:
@@ -322,7 +322,7 @@ LABEL_9:
       case 0x1F801D74u:
 LABEL_11:
         if ( sound_enabled )
-          result = SPUsetPitch((a1 >> 4) & 0x1F, a2);
+          result = SPUsetPitch((a1 >> 4) & 0x1F, (unsigned __int16)a2);
         break;
       case 0x1F801CD6u:
       case 0x1F801CE6u:
@@ -339,31 +339,31 @@ LABEL_11:
       case 0x1F801D88u:
         result = sound_enabled;
         if ( sound_enabled )
-          result = SPUstartChannels1(a2);
+          result = SPUstartChannels1((unsigned __int16)a2);
         break;
       case 0x1F801D8Au:
         result = sound_enabled;
         if ( sound_enabled )
-          result = SPUstartChannels2(a2);
+          result = SPUstartChannels2((unsigned __int16)a2);
         break;
       case 0x1F801D8Cu:
         result = sound_enabled;
         if ( sound_enabled )
-          result = SPUstopChannels1(a2);
+          result = SPUstopChannels1((unsigned __int16)a2);
         break;
       case 0x1F801D8Eu:
         result = sound_enabled;
         if ( sound_enabled )
-          result = SPUstopChannels2(a2);
+          result = SPUstopChannels2((unsigned __int16)a2);
         break;
       case 0x1F801DA6u:
-        dword_8A8080 = 8 * a2;
+        dword_8A8080 = 8 * (unsigned __int16)a2;
         break;
       case 0x1F801DA8u:
         result = sound_enabled;
         if ( sound_enabled )
         {
-          result = SPUputOne(dword_8A8080, a2);
+          result = SPUputOne(dword_8A8080, (unsigned __int16)a2);
           dword_8A8080 += 2;
         }
         break;
@@ -376,7 +376,7 @@ LABEL_26:
   }
   else
   {
-    if ( a1 != 528489670 )
+    if ( a1 != 0x1F801CC6 )
     {
       switch ( a1 )
       {
@@ -441,7 +441,7 @@ LABEL_26:
     }
 LABEL_13:
     if ( sound_enabled )
-      return SPUsetAddr((a1 >> 4) & 0x1F, a2);
+      return SPUsetAddr((a1 >> 4) & 0x1F, (unsigned __int16)a2);
   }
   return result;
 }

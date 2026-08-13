@@ -9,32 +9,32 @@ _BYTE *__cdecl cont_build_controller_response_digital(char a1, _BYTE *a2)
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = byte_455FB1;
-      a2[4] = byte_455FB0;
+      a2[3] = pad1_buttons_high;
+      a2[4] = pad1_buttons_low;
       result = a2;
       break;
     case 1:
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = byte_455FB5;
-      a2[4] = byte_455FB4;
+      a2[3] = pad2_buttons_high;
+      a2[4] = pad2_buttons_low;
       result = a2;
       break;
     case 2:
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = byte_455FB9;
-      a2[4] = byte_455FB8;
+      a2[3] = pad3_buttons_high;
+      a2[4] = pad3_buttons_low;
       result = a2;
       break;
     case 3:
       *a2 = 0;
       a2[1] = 65;
       a2[2] = 90;
-      a2[3] = byte_455FBD;
-      a2[4] = byte_455FBC;
+      a2[3] = pad4_buttons_high;
+      a2[4] = pad4_buttons_low;
       result = a2;
       break;
     default:
@@ -63,33 +63,33 @@ char __cdecl cont_build_controller_response_analog(char a1, _BYTE *a2)
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = byte_455FB1;
-      a2[4] = byte_455FB0;
+      a2[3] = pad1_buttons_high;
+      a2[4] = pad1_buttons_low;
       a2[8] = 0x80;
       a2[7] = 0x80;
       a2[6] = 0x80;
       a2[5] = 0x80;
-      if ( dword_456048[0] == 4 )
+      if ( controller_port_modes[0] == 4 )
       {
-        a2[7] = LOBYTE(dword_4FD900[0]) + 0x80;
-        a2[8] = LOBYTE(dword_4FD910[0]) + 0x80;
-        a2[5] = LOBYTE(dword_4FD920[0]) + 0x80;
-        result = LOBYTE(dword_4FD930[0]) + 0x80;
-        a2[6] = LOBYTE(dword_4FD930[0]) + 0x80;
+        a2[7] = LOBYTE(joystick_button_state1[0]) + 0x80;
+        a2[8] = LOBYTE(joystick_button_state2[0]) + 0x80;
+        a2[5] = LOBYTE(joystick_button_state3[0]) + 0x80;
+        result = LOBYTE(joystick_button_state4[0]) + 0x80;
+        a2[6] = LOBYTE(joystick_button_state4[0]) + 0x80;
         return result;
       }
-      if ( dword_456048[0] != 5 )
+      if ( controller_port_modes[0] != 5 )
       {
-        result = LOBYTE(dword_456048[0]) - 6;
-        if ( dword_456048[0] != 6 )
+        result = LOBYTE(controller_port_modes[0]) - 6;
+        if ( controller_port_modes[0] != 6 )
           return result;
-        if ( (dword_50AB60 & 3) != 0 )
+        if ( (mouse_buttons_state & 3) != 0 )
         {
-          word_4FD8FA += dword_4FD8F0 / 3;
-          LOBYTE(v3) = word_4FD8FA;
-          if ( word_4FD8FA <= 127 )
+          mouse_accumulated_x += mouse_delta_x / 3;
+          LOBYTE(v3) = mouse_accumulated_x;
+          if ( mouse_accumulated_x <= 127 )
           {
-            if ( word_4FD8FA >= -128 )
+            if ( mouse_accumulated_x >= -128 )
               goto LABEL_12;
             v3 = -128;
           }
@@ -102,41 +102,41 @@ char __cdecl cont_build_controller_response_analog(char a1, _BYTE *a2)
         {
           v3 = 0;
         }
-        word_4FD8FA = v3;
+        mouse_accumulated_x = v3;
 LABEL_12:
         a2[7] = v3 + 0x80;
-        if ( (dword_50AB60 & 3) != 0 )
+        if ( (mouse_buttons_state & 3) != 0 )
         {
-          word_4FD8FC += dword_4FD8F4 / 3;
-          v4 = word_4FD8FC;
-          if ( word_4FD8FC <= 127 )
+          mouse_accumulated_y += mouse_delta_y / 3;
+          v4 = mouse_accumulated_y;
+          if ( mouse_accumulated_y <= 127 )
           {
-            if ( word_4FD8FC < -128 )
+            if ( mouse_accumulated_y < -128 )
             {
               v4 = 0x80;
-              word_4FD8FC = -128;
+              mouse_accumulated_y = -128;
             }
             result = v4 + 0x80;
             a2[8] = result;
           }
           else
           {
-            word_4FD8FC = 127;
+            mouse_accumulated_y = 127;
             a2[8] = -1;
             return -1;
           }
         }
         else
         {
-          word_4FD8FC = 0;
+          mouse_accumulated_y = 0;
           a2[8] = 0x80;
           return 0x80;
         }
         return result;
       }
-      v5 = 3 * dword_4FD8F0;
-      dword_4FD8F0 *= 3;
-      if ( dword_4FD8F0 <= 127 )
+      v5 = 3 * mouse_delta_x;
+      mouse_delta_x *= 3;
+      if ( mouse_delta_x <= 127 )
       {
         if ( v5 >= -128 )
           goto LABEL_24;
@@ -146,24 +146,24 @@ LABEL_12:
       {
         v5 = 127;
       }
-      dword_4FD8F0 = v5;
+      mouse_delta_x = v5;
 LABEL_24:
       a2[7] = v5 + 0x80;
-      v6 = 3 * dword_4FD8F4;
-      dword_4FD8F4 *= 3;
-      if ( dword_4FD8F4 <= 127 )
+      v6 = 3 * mouse_delta_y;
+      mouse_delta_y *= 3;
+      if ( mouse_delta_y <= 127 )
       {
         if ( v6 < -128 )
         {
           LOBYTE(v6) = 0x80;
-          dword_4FD8F4 = -128;
+          mouse_delta_y = -128;
         }
         result = v6 + 0x80;
         a2[8] = result;
       }
       else
       {
-        dword_4FD8F4 = 127;
+        mouse_delta_y = 127;
         a2[8] = -1;
         return -1;
       }
@@ -172,34 +172,34 @@ LABEL_24:
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = byte_455FB5;
-      a2[4] = byte_455FB4;
-      a2[7] = byte_4FD904 + 0x80;
-      a2[8] = byte_4FD914 + 0x80;
-      a2[5] = byte_4FD924 + 0x80;
-      a2[6] = byte_4FD934 + 0x80;
+      a2[3] = pad2_buttons_high;
+      a2[4] = pad2_buttons_low;
+      a2[7] = pad1_analog_joy_x + 0x80;
+      a2[8] = pad1_analog_joy_y + 0x80;
+      a2[5] = pad1_analog_joy2_x + 0x80;
+      a2[6] = pad1_analog_joy2_y + 0x80;
       return (char)a2;
     case 2:
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = byte_455FB9;
-      a2[4] = byte_455FB8;
-      a2[7] = byte_4FD908 + 0x80;
-      a2[8] = byte_4FD918 + 0x80;
-      a2[5] = byte_4FD928 + 0x80;
-      a2[6] = byte_4FD938 + 0x80;
+      a2[3] = pad3_buttons_high;
+      a2[4] = pad3_buttons_low;
+      a2[7] = pad2_analog_joy_x + 0x80;
+      a2[8] = pad2_analog_joy_y + 0x80;
+      a2[5] = pad2_analog_joy2_x + 0x80;
+      a2[6] = pad2_analog_joy2_y + 0x80;
       return (char)a2;
     case 3:
       *a2 = 0;
       a2[1] = 115;
       a2[2] = 90;
-      a2[3] = byte_455FBD;
-      a2[4] = byte_455FBC;
-      a2[7] = byte_4FD90C + 0x80;
-      a2[8] = byte_4FD91C + 0x80;
-      a2[5] = byte_4FD92C + 0x80;
-      a2[6] = byte_4FD93C + 0x80;
+      a2[3] = pad4_buttons_high;
+      a2[4] = pad4_buttons_low;
+      a2[7] = pad3_analog_joy_x + 0x80;
+      a2[8] = pad3_analog_joy_y + 0x80;
+      a2[5] = pad3_analog_joy2_x + 0x80;
+      a2[6] = pad3_analog_joy2_y + 0x80;
       return (char)a2;
     default:
       *a2 = 0;
@@ -243,12 +243,12 @@ _BYTE *__cdecl cont_build_mouse_response(char a1, _BYTE *a2)
     a2[3] = -1;
   }
   result[4] = -4;
-  if ( (dword_50AB60 & 1) != 0 )
+  if ( (mouse_buttons_state & 1) != 0 )
     result[4] = -12;
-  if ( (dword_50AB60 & 2) != 0 )
+  if ( (mouse_buttons_state & 2) != 0 )
     result[4] &= ~4u;
-  result[5] = dword_4FD8F0;
-  result[6] = dword_4FD8F4;
+  result[5] = mouse_delta_x;
+  result[6] = mouse_delta_y;
   return result;
 }
 
@@ -292,39 +292,39 @@ _BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
     a2[7] = 0;
     a2[6] = 0;
     a2[5] = 0;
-    v3 = dword_4FD8F4 / 2 + HIWORD(dword_4FD980);
-    LOWORD(dword_4FD980) = dword_4FD8F0 / 2 + dword_4FD980;
-    HIWORD(dword_4FD980) = v3;
-    if ( (__int16)dword_4FD980 <= 511 )
+    v3 = mouse_delta_y / 2 + HIWORD(guncon_position);
+    LOWORD(guncon_position) = mouse_delta_x / 2 + guncon_position;
+    HIWORD(guncon_position) = v3;
+    if ( (__int16)guncon_position <= 511 )
     {
-      if ( (dword_4FD980 & 0x8000u) != 0 )
-        LOWORD(dword_4FD980) = 0;
+      if ( (guncon_position & 0x8000u) != 0 )
+        LOWORD(guncon_position) = 0;
     }
     else
     {
-      LOWORD(dword_4FD980) = 511;
+      LOWORD(guncon_position) = 511;
     }
     if ( v3 <= 255 )
     {
       if ( v3 < 0 )
-        HIWORD(dword_4FD980) = 0;
+        HIWORD(guncon_position) = 0;
     }
     else
     {
-      HIWORD(dword_4FD980) = 255;
+      HIWORD(guncon_position) = 255;
     }
-    if ( (dword_50AB60 & 1) != 0 )
+    if ( (mouse_buttons_state & 1) != 0 )
       a2[4] &= ~0x20u;
-    if ( (dword_50AB60 & 2) != 0 )
+    if ( (mouse_buttons_state & 2) != 0 )
       a2[3] &= ~8u;
-    if ( (dword_50AB60 & 4) != 0 )
+    if ( (mouse_buttons_state & 4) != 0 )
       a2[4] &= ~0x40u;
-    *(_WORD *)(a2 + 5) = dword_4FD980;
-    a2[7] = BYTE2(dword_4FD980);
-    if ( (dword_4FD980 & 0x100) != 0 )
+    *(_WORD *)(a2 + 5) = guncon_position;
+    a2[7] = BYTE2(guncon_position);
+    if ( (guncon_position & 0x100) != 0 )
     {
-      v4 = (__int16)dword_4FD980 + ((__int16)dword_4FD980 - 255) / 2;
-      v5 = SHIWORD(dword_4FD980) - 40;
+      v4 = (__int16)guncon_position + ((__int16)guncon_position - 255) / 2;
+      v5 = SHIWORD(guncon_position) - 40;
       if ( v4 <= 511 )
       {
         if ( v4 < 0 )
@@ -347,8 +347,8 @@ _BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
     }
     else
     {
-      v6 = (__int16)dword_4FD980 - (255 - (__int16)dword_4FD980) / 2;
-      v7 = SHIWORD(dword_4FD980) - 40;
+      v6 = (__int16)guncon_position - (255 - (__int16)guncon_position) / 2;
+      v7 = SHIWORD(guncon_position) - 40;
       if ( v6 <= 511 )
       {
         if ( v6 < 0 )
@@ -378,14 +378,14 @@ int (__stdcall *__cdecl cont_update_led_and_mode(unsigned __int8 a1))(_DWORD)
   int v1; // eax
   int (__stdcall *result)(_DWORD); // eax
 
-  v1 = dword_456048[a1];
+  v1 = controller_port_modes[a1];
   if ( v1 == 4 || v1 == 5 || v1 == 6 )
-    gpu_display_flags(((a1 + 1) << 12) | ((dword_4FD8E0[a1] != 0) << 8));
-  if ( dword_456048[a1] == 2 )
-    gpu_display_flags(((a1 + 1) << 12) | ((dword_4FD8E0[a1] != 0 ? 2 : 0) << 8));
-  if ( dword_456048[a1] == 3 )
-    gpu_display_flags(((a1 + 1) << 12) | ((dword_4FD8E0[a1] != 0 ? 3 : 0) << 8));
-  result = (int (__stdcall *)(_DWORD))dword_456048[a1];
+    gpu_display_flags(((a1 + 1) << 12) | ((pad_analog_mode_flags[a1] != 0) << 8));
+  if ( controller_port_modes[a1] == 2 )
+    gpu_display_flags(((a1 + 1) << 12) | ((pad_analog_mode_flags[a1] != 0 ? 2 : 0) << 8));
+  if ( controller_port_modes[a1] == 3 )
+    gpu_display_flags(((a1 + 1) << 12) | ((pad_analog_mode_flags[a1] != 0 ? 3 : 0) << 8));
+  result = (int (__stdcall *)(_DWORD))controller_port_modes[a1];
   if ( (unsigned int)result <= 1 )
     return gpu_display_flags((a1 + 1) << 12);
   return result;
@@ -405,28 +405,28 @@ int cont_process_input()
   int result; // eax
 
   diUpdateDeviceStates();
-  dword_4FD8F0 = diGetClampedMouseX();
-  dword_4FD8F4 = diGetClampedMouseY();
-  dword_50AB60 = g_MouseButtons;
+  mouse_delta_x = diGetClampedMouseX();
+  mouse_delta_y = diGetClampedMouseY();
+  mouse_buttons_state = g_MouseButtons;
   v0 = 0;
   v1 = 2;
   do
   {
-    dword_4FD900[v0] = diGetJoystickButtonState1(v0);
-    dword_4FD910[v0] = diGetJoystickButtonState2(v0);
-    dword_4FD920[v0] = diGetJoystickButtonState3(v0);
-    dword_4FD930[v0] = diGetJoystickButtonState4(v0);
+    joystick_button_state1[v0] = diGetJoystickButtonState1(v0);
+    joystick_button_state2[v0] = diGetJoystickButtonState2(v0);
+    joystick_button_state3[v0] = diGetJoystickButtonState3(v0);
+    joystick_button_state4[v0] = diGetJoystickButtonState4(v0);
     ++v0;
     --v1;
   }
   while ( v1 );
-  if ( byte_50AA7B[0] )
+  if ( keyboard_escape_pressed[0] )
   {
     if ( !create_window_flag )
       ui_error(" User   hit ESC ... \n");
     if ( network_enabled )
     {
-      dword_4FD9A0 = 1;
+      netplay_reset_request = 1;
     }
     else
     {
@@ -434,43 +434,43 @@ int cont_process_input()
       memset(gpu_keyboard_state, 0, 0x100u);
     }
   }
-  if ( byte_50AA91 )
+  if ( dynarec_clear_request )
     dynarec_clear_needed = 1;
-  if ( byte_50AA92 )
+  if ( cdr_status_command_2 )
     cdr_get_status(2);
-  if ( byte_50AA93 )
+  if ( cdr_status_command_3 )
     cdr_get_status(3);
-  if ( byte_50AA94[0] )
+  if ( sio_irq_assert_request[0] )
     irq_sio_assert_int();
-  if ( word_4FD986 )
+  if ( screen_pic_display_counter )
   {
-    if ( word_4FD986 == 1 )
+    if ( screen_pic_display_counter == 1 )
       gpu_hide_screen_pic();
-    --word_4FD986;
+    --screen_pic_display_counter;
   }
-  if ( byte_4FD984 )
+  if ( ui_feedback_timer )
   {
-    --byte_4FD984;
+    --ui_feedback_timer;
     goto LABEL_51;
   }
-  if ( byte_50AAD0 )
+  if ( save_state_request )
   {
     state_save();
     dbg_print(" * SaveState Done! \n");
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
     goto LABEL_51;
   }
-  if ( byte_50AAD1 )
+  if ( increase_slot_state_request )
   {
     LOBYTE(v2) = gpu_freeze_with_counter();
     v3 = v2;
     dbg_print(" * Increased SlotState! (%d)\n", v2);
     gpu_show_screen_pic(v3);
-    byte_4FD984 = 25;
-    word_4FD986 = 150;
+    ui_feedback_timer = 25;
+    screen_pic_display_counter = 150;
     goto LABEL_51;
   }
-  if ( byte_50AAD2 )
+  if ( load_state_request )
   {
     if ( network_enabled )
     {
@@ -482,15 +482,15 @@ int cont_process_input()
       dbg_print(" * LoadState Done! \n");
       dynarec_clear_needed = 1;
     }
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
     goto LABEL_51;
   }
-  if ( byte_50AAD3 )
+  if ( toggle_sio_irq_request )
   {
     if ( network_enabled )
     {
       dbg_print(" * SIO trick doesn't implemented yet with Netplay! \n");
-      byte_4FD984 = 25;
+      ui_feedback_timer = 25;
     }
     else
     {
@@ -499,42 +499,42 @@ int cont_process_input()
         dbg_print(" * SIO irq enabled. \n");
       else
         dbg_print(" * SIO irq disabled. \n");
-      byte_4FD984 = 25;
+      ui_feedback_timer = 25;
     }
     goto LABEL_51;
   }
-  if ( byte_50AAD4 )
+  if ( toggle_pad_mode_request )
   {
-    dword_4FD8E0[(unsigned __int8)dword_4FD988] ^= 1u;
-    LOBYTE(v4) = dword_4FD988;
+    pad_analog_mode_flags[(unsigned __int8)selected_slot_for_mode_switch] ^= 1u;
+    LOBYTE(v4) = selected_slot_for_mode_switch;
 LABEL_42:
     cont_update_led_and_mode(v4);
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
     goto LABEL_51;
   }
-  if ( byte_50AAD5 )
+  if ( switch_controller_slot_request )
   {
-    v4 = ((unsigned __int8)dword_4FD988 + 1) % (2 * (multitap_1 != 0) + 2);
-    LOBYTE(dword_4FD988) = v4;
+    v4 = ((unsigned __int8)selected_slot_for_mode_switch + 1) % (2 * (multitap_1 != 0) + 2);
+    LOBYTE(selected_slot_for_mode_switch) = v4;
     goto LABEL_42;
   }
-  if ( byte_50AAD6 )
+  if ( toggle_xenogears_trick_request )
   {
     xenogears_trick_enabled ^= 1u;
     if ( xenogears_trick_enabled )
       dbg_print(" * Xenogears trick disabled. \n");
     else
       dbg_print(" * Xenogears trick enabled. \n");
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
   }
-  else if ( byte_50AAD7[0] )
+  else if ( make_snapshot_request[0] )
   {
     dbg_print(" * Picture done. \n");
     gpu_make_snapshot();
-    byte_4FD984 = 25;
+    ui_feedback_timer = 25;
   }
 LABEL_51:
-  v5 = &byte_455FB0;
+  v5 = &pad1_buttons_low;
   v6 = (unsigned __int16 *)(Keys1 + 10);
   v7 = 4;
   do
@@ -584,7 +584,7 @@ LABEL_51:
   if ( LOBYTE(mdec_disable_flag[0]) )
   {
     LOBYTE(mdec_disable_flag[0]) = 0;
-    *(_DWORD *)&byte_455FB0 &= 0xFFFFF7BF;
+    *(_DWORD *)&pad1_buttons_low &= 0xFFFFF7BF;
   }
   result = network_enabled;
   if ( network_enabled )
@@ -592,7 +592,7 @@ LABEL_51:
     result = net_fill_input();
     if ( result )
     {
-      dword_4FD9A0 = 0;
+      netplay_reset_request = 0;
       save_load_state();
       memset(gpu_keyboard_state, 0, 0x100u);
       return 0;

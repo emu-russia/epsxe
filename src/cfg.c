@@ -261,18 +261,24 @@ int cfg_load_settings()
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadType", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d,%d,%d,%d", dword_456048, &dword_456048[1], &dword_456048[2], &dword_456048[3]);
-    if ( dword_456048[0] == 5
-      || dword_456048[0] == 6
-      || dword_456048[0] == 3
-      || dword_456048[0] == 2
-      || dword_456048[1] == 2 )
+    sscanf(
+      Buffer,
+      "%d,%d,%d,%d",
+      controller_port_modes,
+      &controller_port_modes[1],
+      &controller_port_modes[2],
+      &controller_port_modes[3]);
+    if ( controller_port_modes[0] == 5
+      || controller_port_modes[0] == 6
+      || controller_port_modes[0] == 3
+      || controller_port_modes[0] == 2
+      || controller_port_modes[1] == 2 )
     {
       point_device_enabled = 1;
     }
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadSubType", (LPBYTE)Buffer) )
-    sscanf(Buffer, "%d,%d,%d,%d", dword_4FD8E0, &dword_4FD8E4, &dword_4FD8E8, &dword_4FD8EC);
+    sscanf(Buffer, "%d,%d,%d,%d", pad_analog_mode_flags, &dword_4FD8E4, &dword_4FD8E8, &dword_4FD8EC);
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadAxis", (LPBYTE)Buffer) )
     sscanf(
       Buffer,
@@ -406,9 +412,15 @@ int cfg_save_settings()
   cfg_set_value("Software\\epsxe\\config", "Country", (BYTE *)Buffer);
   sprintf(Buffer, "%d", version_setting);
   cfg_set_value("Software\\epsxe\\config", "Version", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", dword_456048[0], dword_456048[1], dword_456048[2], dword_456048[3]);
+  sprintf(
+    Buffer,
+    "%d,%d,%d,%d",
+    controller_port_modes[0],
+    controller_port_modes[1],
+    controller_port_modes[2],
+    controller_port_modes[3]);
   cfg_set_value("Software\\epsxe\\config", "GamepadType", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", dword_4FD8E0[0], dword_4FD8E4, dword_4FD8E8, dword_4FD8EC);
+  sprintf(Buffer, "%d,%d,%d,%d", pad_analog_mode_flags[0], dword_4FD8E4, dword_4FD8E8, dword_4FD8EC);
   cfg_set_value("Software\\epsxe\\config", "GamepadSubType", (BYTE *)Buffer);
   sprintf(
     Buffer,
@@ -480,3 +492,4 @@ int cfg_cdrom_iso_set_path()
 {
   return cfg_set_value("Software\\epsxe\\config", "IsoDirectory", (BYTE *)IsoDirectory);
 }
+

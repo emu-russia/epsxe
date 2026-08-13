@@ -363,14 +363,14 @@
         "sio_read_register",
         "sio_freeze",
         "sio_unfreeze",
-        "sio_for_netplay"
+        "sio_for_netplay",
+        "save_temp_memcard1",
+        "save_temp_memcard2"
       ]
     },
     {
-      "name": "ui_misc.c",
+      "name": "plugin.c",
       "procs": [
-        "save_temp_memcard1",
-        "save_temp_memcard2",
         "select_cdrom_core",
         "select_plugins_backend"
       ]

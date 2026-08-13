@@ -145,8 +145,8 @@ char net_netplay_handler()
       if ( dword_50A1E0 == 2 )
         save_temp_memcard2();
     }
-    LOBYTE(dword_50A620) = dword_456048[0];
-    BYTE1(dword_50A620) = dword_456048[1];
+    LOBYTE(dword_50A620) = controller_port_modes[0];
+    BYTE1(dword_50A620) = controller_port_modes[1];
     LOBYTE(dword_50A624) = forcepad;
     BYTE1(dword_50A624) = unknown_timing_value;
     BYTE2(dword_50A624) = nocdstatus;
@@ -156,10 +156,10 @@ char net_netplay_handler()
     byte_50A62A = xa_read_enable;
     byte_50A62B[0] = forcespu;
     NETtransferData("Transfer configuration info", &dword_50A620, 1037);
-    dword_456048[0] = (unsigned __int8)dword_50A620;
+    controller_port_modes[0] = (unsigned __int8)dword_50A620;
     forcepad = (unsigned __int8)dword_50A624;
     unknown_timing_value = BYTE1(dword_50A624);
-    dword_456048[1] = BYTE1(dword_50A620);
+    controller_port_modes[1] = BYTE1(dword_50A620);
     nocdstatus = BYTE2(dword_50A624);
     country_setting = HIBYTE(dword_50A624);
     mdectiming = (unsigned __int8)byte_50A628;
@@ -229,17 +229,17 @@ int net_fill_input()
   result = 0;
   if ( network_enabled )
   {
-    HIWORD(dword_50A1D0) = byte_455FB0;
-    byte_50A1D4 = dword_4FD900[0];
-    byte_50A1D5 = dword_4FD910[0];
-    byte_50A1D6 = dword_4FD920[0];
-    byte_50A1D7 = dword_4FD930[0];
-    LOBYTE(dword_50A1D8) = dword_50AB60;
-    BYTE1(dword_50A1D8) = dword_4FD8F0;
-    HIWORD(dword_50A1C0) = byte_455FB4;
-    BYTE2(dword_50A1D8) = dword_4FD8F4;
-    LOBYTE(dword_50A1D0) = dword_456048[0];
-    LOBYTE(dword_50A1C0) = dword_456048[1];
+    HIWORD(dword_50A1D0) = pad1_buttons_low;
+    byte_50A1D4 = joystick_button_state1[0];
+    byte_50A1D5 = joystick_button_state2[0];
+    byte_50A1D6 = joystick_button_state3[0];
+    byte_50A1D7 = joystick_button_state4[0];
+    LOBYTE(dword_50A1D8) = mouse_buttons_state;
+    BYTE1(dword_50A1D8) = mouse_delta_x;
+    HIWORD(dword_50A1C0) = pad2_buttons_low;
+    BYTE2(dword_50A1D8) = mouse_delta_y;
+    LOBYTE(dword_50A1D0) = controller_port_modes[0];
+    LOBYTE(dword_50A1C0) = controller_port_modes[1];
     byte_50A1C4 = 0;
     byte_50A1C5 = 0;
     byte_50A1C6 = 0;
@@ -247,10 +247,10 @@ int net_fill_input()
     byte_50A1C8 = 0;
     byte_50A1C9 = 0;
     byte_50A1CA = 0;
-    if ( dword_4FD9A0 )
+    if ( netplay_reset_request )
     {
-      LOBYTE(dword_50A1D0) = LOBYTE(dword_456048[0]) | 0x80;
-      LOBYTE(dword_50A1C0) = LOBYTE(dword_456048[1]) | 0x80;
+      LOBYTE(dword_50A1D0) = LOBYTE(controller_port_modes[0]) | 0x80;
+      LOBYTE(dword_50A1C0) = LOBYTE(controller_port_modes[1]) | 0x80;
     }
     NETpadState(&dword_50A1D0, &dword_50A1C0);
     if ( (dword_50A1D0 & 0x80u) != 0 || (dword_50A1C0 & 0x80u) != 0 )
@@ -259,17 +259,17 @@ int net_fill_input()
     }
     else
     {
-      dword_456048[0] = (unsigned __int8)dword_50A1D0;
-      dword_4FD910[0] = byte_50A1D5;
-      byte_455FB0 = HIWORD(dword_50A1D0);
-      dword_4FD920[0] = byte_50A1D6;
-      dword_4FD8F0 = SBYTE1(dword_50A1D8);
-      dword_4FD900[0] = byte_50A1D4;
-      dword_50AB60 = (unsigned __int8)dword_50A1D8;
-      dword_4FD930[0] = byte_50A1D7;
-      dword_456048[1] = (unsigned __int8)dword_50A1C0;
-      dword_4FD8F4 = SBYTE2(dword_50A1D8);
-      byte_455FB4 = HIWORD(dword_50A1C0);
+      controller_port_modes[0] = (unsigned __int8)dword_50A1D0;
+      joystick_button_state2[0] = byte_50A1D5;
+      pad1_buttons_low = HIWORD(dword_50A1D0);
+      joystick_button_state3[0] = byte_50A1D6;
+      mouse_delta_x = SBYTE1(dword_50A1D8);
+      joystick_button_state1[0] = byte_50A1D4;
+      mouse_buttons_state = (unsigned __int8)dword_50A1D8;
+      joystick_button_state4[0] = byte_50A1D7;
+      controller_port_modes[1] = (unsigned __int8)dword_50A1C0;
+      mouse_delta_y = SBYTE2(dword_50A1D8);
+      pad2_buttons_low = HIWORD(dword_50A1C0);
       return 0;
     }
   }

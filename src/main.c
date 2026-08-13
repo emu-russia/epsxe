@@ -394,28 +394,28 @@ LABEL_146:
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mouse") )
                 {
-                  dword_456048[0] = 2;
+                  controller_port_modes[0] = 2;
                   point_device_enabled = 1;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-mouse2") )
                 {
-                  if ( dword_456048[0] == 2 )
-                    dword_456048[0] = 1;
-                  dword_456048[1] = 2;
+                  if ( controller_port_modes[0] == 2 )
+                    controller_port_modes[0] = 1;
+                  controller_port_modes[1] = 2;
                   point_device_enabled = 1;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-anamouse") )
                 {
-                  dword_456048[0] = 6;
-                  dword_4FD8E0[0] = 0;
+                  controller_port_modes[0] = 6;
+                  pad_analog_mode_flags[0] = 0;
                   point_device_enabled = 1;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-gun") )
                 {
-                  dword_456048[0] = 3;
+                  controller_port_modes[0] = 3;
                   point_device_enabled = 1;
                   goto LABEL_146;
                 }
@@ -426,31 +426,31 @@ LABEL_146:
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog") )
                 {
-                  dword_456048[0] = 4;
-                  dword_4FD8E0[0] = 0;
+                  controller_port_modes[0] = 4;
+                  pad_analog_mode_flags[0] = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog1") )
                 {
-                  dword_456048[0] = 4;
-                  dword_4FD8E0[0] = 0;
+                  controller_port_modes[0] = 4;
+                  pad_analog_mode_flags[0] = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog2") )
                 {
-                  dword_456048[1] = 4;
+                  controller_port_modes[1] = 4;
                   dword_4FD8E4 = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog3") )
                 {
-                  dword_456048[2] = 4;
+                  controller_port_modes[2] = 4;
                   dword_4FD8E8 = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog4") )
                 {
-                  dword_456048[3] = 4;
+                  controller_port_modes[3] = 4;
                   dword_4FD8EC = 0;
                   goto LABEL_146;
                 }
@@ -656,3 +656,4 @@ LABEL_15:
       goto LABEL_16;
   }
 }
+
