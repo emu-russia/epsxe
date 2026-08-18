@@ -147,6 +147,9 @@
     <ClInclude Include="..\src\plugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\mmx_compat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\resources\BITMAP140_1.bmp">
@@ -283,6 +286,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\plugin.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dinput_shim.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\irq_misc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
