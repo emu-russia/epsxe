@@ -99,7 +99,7 @@ int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
     }
     else
     {
-      v4 = &stru_44C148[(unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2]];
+      v4 = &((KBD_NAME *)stru_44C148)[(unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2]];
     }
     SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, v4->text);
     ++v2;
@@ -120,7 +120,7 @@ int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
       return SetDlgItemTextA(
                hDlg,
                *((unsigned __int16 *)&word_44DD1C + a2),
-               stru_44C148[(unsigned __int16)word_455FA8[v6]].text);
+               ((KBD_NAME *)stru_44C148)[(unsigned __int16)word_455FA8[v6]].text);
     }
   }
   return result;
@@ -904,7 +904,7 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
         if ( !open_file_dialog("Open PSX CHEAT", "PSX CHEATs (*.CHT)", temp_path, "cheats\\", "CHT") )
           return 0;
         v9 = fopen(temp_path, "r");
-        while ( (v9->_flag & 0x10) == 0 )
+        while ( !feof(v9) )
         {
           sprintf(lParam, asc_44E24C);
           fgets(lParam, 1024, v9);
@@ -1412,7 +1412,7 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 }
                 else
                 {
-                  if ( v28 < dword_45B8E4 )
+                  if ( (unsigned int)v28 < dword_45B8E4 )
                   {
                     v33 = &byte_8A9140[1024 * dword_45B8E4];
                     v34 = dword_45B8E4 - v28;
@@ -1728,7 +1728,7 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   int v22; // eax
   HMODULE LibraryA; // eax
   HMODULE v24; // esi
-  FARPROC PSEgetLibVersion; // eax
+  FARPROC PSEgetLibVersion_ptr; // eax
   unsigned __int8 v26; // al
   int v27; // eax
   const char *v28; // eax
@@ -1798,16 +1798,16 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
         PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v24, "PSEgetLibName");
-        PSEgetLibVersion = GetProcAddress(v24, "PSEgetLibVersion");
-        ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+        PSEgetLibVersion_ptr = GetProcAddress(v24, "PSEgetLibVersion");
+        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion_ptr;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
           {
-            if ( PSEgetLibVersion )
+            if ( PSEgetLibVersion_ptr )
             {
-              v26 = PSEgetLibVersion();
-              v27 = ::PSEgetLibVersion(v26);
+              v26 = PSEgetLibVersion_ptr();
+              v27 = PSEgetLibVersion(v26);
               v28 = (const char *)PSEgetLibName(BYTE1(v27));
               sprintf(lParam, "%s %d.%d", v28, v41, v42);
               if ( PSEgetLibType() == 1 )
@@ -1830,7 +1830,7 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 }
                 else
                 {
-                  if ( v29 < dword_45B8E4 )
+                  if ( (unsigned int)v29 < dword_45B8E4 )
                   {
                     v34 = &byte_8A9140[1024 * dword_45B8E4];
                     v35 = dword_45B8E4 - v29;
@@ -1897,14 +1897,14 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         v12 = &byte_8A9540[1024 * v11];
         if ( !strcmp(v12, "W9XCDRCORE") )
         {
-          DialogBoxParamA(g_hInstance, "IDD_CDROMCORE9X", hDlg, w9x_cdrom_settings, 0);
+          DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CDROMCORE9X", hDlg, w9x_cdrom_settings, 0);
           result = 0;
         }
         else
         {
           if ( !strcmp(v12, "W2KCDRCORE") )
           {
-            DialogBoxParamA(g_hInstance, "IDD_CDROMCORE2K", hDlg, w2k_cdrom_settings, 0);
+            DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CDROMCORE2K", hDlg, w2k_cdrom_settings, 0);
           }
           else
           {
@@ -1991,7 +1991,7 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   int v21; // ecx
   HMODULE LibraryA; // eax
   HMODULE v23; // esi
-  FARPROC PSEgetLibVersion; // eax
+  FARPROC PSEgetLibVersion_ptr; // eax
   unsigned __int8 v25; // al
   int v26; // eax
   const char *v27; // eax
@@ -2049,16 +2049,16 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
         PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
-        PSEgetLibVersion = GetProcAddress(v23, "PSEgetLibVersion");
-        ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+        PSEgetLibVersion_ptr = GetProcAddress(v23, "PSEgetLibVersion");
+        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion_ptr;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
           {
-            if ( PSEgetLibVersion )
+            if ( PSEgetLibVersion_ptr )
             {
-              v25 = PSEgetLibVersion();
-              v26 = ::PSEgetLibVersion(v25);
+              v25 = PSEgetLibVersion_ptr();
+              v26 = PSEgetLibVersion(v25);
               v27 = (const char *)PSEgetLibName(BYTE1(v26));
               sprintf(lParam, "%s %d.%d", v27, v40, v41);
               if ( PSEgetLibType() == 4 )
@@ -2081,7 +2081,7 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 }
                 else
                 {
-                  if ( v28 < dword_45B8E4 )
+                  if ( (unsigned int)v28 < dword_45B8E4 )
                   {
                     v33 = &byte_8A9140[1024 * dword_45B8E4];
                     v34 = dword_45B8E4 - v28;
@@ -2152,7 +2152,7 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         v12 = &byte_8A9540[1024 * v11];
         if ( !strcmp(v12, "SPUCORE") )
         {
-          DialogBoxParamA(g_hInstance, "IDD_SOUND9X", hDlg, spucore_configure_dialog_callback, 0);
+          DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_SOUND9X", hDlg, spucore_configure_dialog_callback, 0);
         }
         else
         {

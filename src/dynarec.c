@@ -2646,7 +2646,7 @@ uint8_t *dynarec_init()
   code_ptr[66] = -112;
   code_ptr[67] = 80;
   code_ptr[68] = -24;
-  *(_DWORD *)(code_ptr + 69) = &loc_422F00 - (_UNKNOWN *)code_ptr - 73;
+  *(_DWORD *)(code_ptr + 69) = (char *)mem_hw_reg_read_byte - (char *)code_ptr - 73;
   *(_WORD *)(code_ptr + 73) = -15231;
   *(_DWORD *)(code_ptr + 75) = 4;
   code_ptr[79] = 0xC3;
@@ -2780,7 +2780,7 @@ uint8_t *dynarec_init()
   code_ptr[138] = 83;
   code_ptr[139] = 80;
   code_ptr[140] = -24;
-  *(_DWORD *)(code_ptr + 141) = &loc_422730 - (_UNKNOWN *)code_ptr - 145;
+  *(_DWORD *)(code_ptr + 141) = (char *)mem_hw_reg_write_byte - (char *)code_ptr - 145;
   *(_WORD *)(code_ptr + 145) = -15231;
   *(_DWORD *)(code_ptr + 147) = 8;
   code_ptr[151] = 0xC3;
@@ -2835,7 +2835,7 @@ uint8_t *dynarec_init()
   code_ptr[140] = 83;
   code_ptr[141] = 80;
   code_ptr[142] = -24;
-  *(_DWORD *)(code_ptr + 143) = &loc_422830 - (_UNKNOWN *)code_ptr - 147;
+  *(_DWORD *)(code_ptr + 143) = (char *)mem_hw_reg_write_half - (char *)code_ptr - 147;
   *(_WORD *)(code_ptr + 147) = -15231;
   *(_DWORD *)(code_ptr + 149) = 8;
   code_ptr[153] = 0xC3;

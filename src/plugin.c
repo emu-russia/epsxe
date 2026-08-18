@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 char select_cdrom_core()
 {
   int win_aspi_silent; // eax
@@ -68,7 +68,7 @@ int select_plugins_backend()
   if ( !strcmp((const char *)CdromPlugin, "W9XCDRCORE") )
   {
     cdrom_init_cb = (int (*)(void))W9x_cdrom_init;
-    cdrom_deinit_cb = (int (__fastcall *)(_DWORD))W9x_cdrom_deinit;
+    cdrom_deinit_cb = (int (__cdecl *)(_DWORD))W9x_cdrom_deinit;
     cdrom_get_first_last_TN_cb = (int (__cdecl *)(_DWORD, _DWORD))W9x_get_first_last_track;
     cdrom_track_to_msf = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W9x_track_to_msf;
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W9x_cdrom_read_data;
@@ -83,7 +83,7 @@ int select_plugins_backend()
   else if ( !strcmp((const char *)CdromPlugin, "W2KCDRCORE") )
   {
     cdrom_init_cb = (int (*)(void))W2k_cdrom_init;
-    cdrom_deinit_cb = (int (__fastcall *)(_DWORD))W2k_cdrom_deinit;
+    cdrom_deinit_cb = (int (__cdecl *)(_DWORD))W2k_cdrom_deinit;
     cdrom_get_first_last_TN_cb = (int (__cdecl *)(_DWORD, _DWORD))W2k_get_first_last_track;
     cdrom_track_to_msf = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W2k_track_to_msf;
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))W2k_cdrom_read_data;
@@ -98,7 +98,7 @@ int select_plugins_backend()
   else
   {
     cdrom_init_cb = (int (*)(void))ext_cdrom_load_plugin;
-    cdrom_deinit_cb = (int (__fastcall *)(_DWORD))ext_cdrom_deinit;
+    cdrom_deinit_cb = (int (__cdecl *)(_DWORD))ext_cdrom_deinit;
     cdrom_get_first_last_TN_cb = (int (__cdecl *)(_DWORD, _DWORD))ext_CDR_get_first_last_track;
     cdrom_track_to_msf = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CDR_track_to_msf;
     cdrom_read_data_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CDR_read;
@@ -116,4 +116,6 @@ int select_plugins_backend()
   memset(byte_516600, 0, 0x10000u);
   return 0;
 }
+
+
 

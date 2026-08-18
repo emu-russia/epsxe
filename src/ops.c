@@ -724,7 +724,7 @@ void op_J()
   v0 = 4 * (cpu_opcode & 0x3FFFFFF);
   cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
   *(_DWORD *)reg_pc = v0 | *(_DWORD *)reg_pc & 0xF0000000;
-  result = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+  cpu_main_table[(unsigned int)cpu_opcode >> 26]();
   --hw_update_counter;
 }
 
@@ -738,7 +738,7 @@ void op_JAL()
   cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
   cpu_gpr[31] = *(_DWORD *)reg_pc + 4;
   *(_DWORD *)reg_pc = v0 | *(_DWORD *)reg_pc & 0xF0000000;
-  result = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+  cpu_main_table[(unsigned int)cpu_opcode >> 26]();
   --hw_update_counter;
 }
 
@@ -751,7 +751,7 @@ void op_JR()
   v0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
   *(_DWORD *)reg_pc = cpu_gpr[v0];
-  result = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+  cpu_main_table[(unsigned int)cpu_opcode >> 26]();
   --hw_update_counter;
 }
 
@@ -792,7 +792,7 @@ void op_BEQ()
   {
     cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
     *(_DWORD *)reg_pc += 4 * v0;
-    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
 }
@@ -816,7 +816,7 @@ void op_BNE()
   {
     cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
     *(_DWORD *)reg_pc += 4 * v0;
-    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
 }
@@ -839,7 +839,7 @@ void op_BGTZ()
   {
     cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
     *(_DWORD *)reg_pc += 4 * v0;
-    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
 }
@@ -862,7 +862,7 @@ void op_BLTZ()
   {
     cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
     *(_DWORD *)reg_pc += 4 * v0;
-    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
 }
@@ -885,7 +885,7 @@ void op_BLEZ()
   {
     cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
     *(_DWORD *)reg_pc += 4 * v0;
-    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
 }
@@ -908,7 +908,7 @@ void op_BGEZ()
   {
     cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
     *(_DWORD *)reg_pc += 4 * v0;
-    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
 }
@@ -932,7 +932,7 @@ void op_BLTZAL()
     cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
     cpu_gpr[31] = *(_DWORD *)reg_pc + 4;
     *(_DWORD *)reg_pc += 4 * v0;
-    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
 }
@@ -956,7 +956,7 @@ void op_BGEZAL()
     cpu_opcode = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
     cpu_gpr[31] = *(_DWORD *)reg_pc + 4;
     *(_DWORD *)reg_pc += 4 * v0;
-    LOBYTE(v1) = cpu_main_table[(unsigned int)cpu_opcode >> 26]();
+    cpu_main_table[(unsigned int)cpu_opcode >> 26]();
     --hw_update_counter;
   }
 }
@@ -1080,7 +1080,11 @@ void op_LWC2()
     op_ofs = v0;
   }
   word = mem_read_word(v0 + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
-  gte_write_data_register(op_rt, (GTE_REG)word);
+  {
+    GTE_REG data_reg;
+    data_reg.u32 = (uint32_t)word;
+    gte_write_data_register(op_rt, data_reg);
+  }
 }
 
 void op_SYSCALL()

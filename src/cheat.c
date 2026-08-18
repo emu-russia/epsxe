@@ -1,7 +1,6 @@
 #include "pch.h"
 
 // Mini cheat database - built-in cheats for specific games
-int mini_cheat_count = 4;
 
 MINI_CHEAT_ENTRY mini_cheat_db[200] = {
     {"SLUS_008.45", 0x10023458, 0},
@@ -11,7 +10,6 @@ MINI_CHEAT_ENTRY mini_cheat_db[200] = {
 };
 
 // Cheat database entries count
-int cheat_entries_count = 39;
 
 // Internal cheat database for ePSXe
 CHEAT_DB_ENTRY cheat_db[200] = {

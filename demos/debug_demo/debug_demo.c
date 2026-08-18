@@ -1,4 +1,4 @@
-/*
+﻿/*
  * debug_demo.c - Demonstrates all functions from src/debug.c
  *
  * Standalone Win32 application with stub implementations of
@@ -21,18 +21,18 @@ unsigned char console_allocated = 1;
 unsigned char console_log_enabled = 1;
 unsigned char console_log_flush_pending = 0;
 unsigned long last_tick_count = 0;
-int dynarec_active = 0;
-FILE *console_log_handle = NULL;
+unsigned char dynarec_active = 0;
+unsigned int console_log_handle = NULL;
 FILE *error_log_file = NULL;
 FILE __stdout;
 
 int (__cdecl *spu_destroy_cb)(unsigned long) = NULL;
-int (__fastcall *cdrom_deinit_cb)(unsigned long) = NULL;
+int (__cdecl *cdrom_deinit_cb)(unsigned long) = NULL;
 
 void nullsub_1(void) {}
 void sio_memcard_both_save(void) {}
-void net_close(void) {}
-void gpu_destroy(void) {}
+HMODULE net_close(void) { return NULL; }
+HMODULE gpu_destroy(void) { return NULL; }
 void ppf_free(void) {}
 void dynarec_deinit(void) {}
 
@@ -405,3 +405,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     return (int)msg.wParam;
 }
+
+

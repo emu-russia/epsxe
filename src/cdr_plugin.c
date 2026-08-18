@@ -40,7 +40,6 @@ char ext_cdrom_load_plugin()
       if ( !LibraryA )
         fatal_error_with_message_box(" * Error loading [%s] \n", LibFileName);
       CDRconfigure = GetProcAddress(LibraryA, "CDRconfigure");
-      ::CDRconfigure = (int)CDRconfigure;
       if ( CDRconfigure )
       {
         CDRconfigure = GetProcAddress(hCdrModule, "CDRtest");
@@ -52,7 +51,7 @@ char ext_cdrom_load_plugin()
           if ( CDRconfigure )
           {
             CDRconfigure = GetProcAddress(hCdrModule, "CDRshutdown");
-            CDRshutdown = (int (*(*)(void))(void))CDRconfigure;
+            CDRshutdown = (int (__cdecl *)(void))CDRconfigure;
             if ( CDRconfigure )
             {
               CDRconfigure = GetProcAddress(hCdrModule, "CDRopen");
@@ -72,15 +71,15 @@ char ext_cdrom_load_plugin()
                     if ( CDRconfigure )
                     {
                       CDRconfigure = GetProcAddress(hCdrModule, "CDRreadTrack");
-                      CDRreadTrack = (int (__stdcall *)(_DWORD))CDRconfigure;
+                      CDRreadTrack = (int (__cdecl *)(_DWORD))CDRconfigure;
                       if ( CDRconfigure )
                       {
                         CDRconfigure = GetProcAddress(hCdrModule, "CDRgetBuffer");
                         CDRgetBuffer = CDRconfigure;
                         if ( CDRconfigure )
                         {
-                          CDRplay = (int)GetProcAddress(hCdrModule, "CDRplay");
-                          CDRstop = (char (*)(void))GetProcAddress(hCdrModule, "CDRstop");
+                          CDRplay = (int (__cdecl *)(void))GetProcAddress(hCdrModule, "CDRplay");
+                          CDRstop = (int (__cdecl *)(void))GetProcAddress(hCdrModule, "CDRstop");
                           if ( use_subchannel )
                           {
                             CDRgetBufferSub = GetProcAddress(hCdrModule, "CDRgetBufferSub");
