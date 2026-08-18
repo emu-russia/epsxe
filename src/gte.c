@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 int gte_rtps()
 {
   int v0; // edi
@@ -44,18 +44,18 @@ int gte_rtps()
   v6 = _m_psradi(_m_pmaddwd(*(__m64 *)(v0 + 128), v3), 1u);
   v7 = _m_paddd(_m_psradi(_m_paddd(v5, _m_psrlqi(v5, 0x20u)), 0xBu), *(__m64 *)(v0 + 156));
   v8 = _m_paddd(_m_psradi(_m_paddd(_m_punpckldq(v6, v4), _m_punpckhdq(v6, v4)), 0xBu), *(__m64 *)(v0 + 148));
-  *(_DWORD *)(v0 + 108) = _mm_cvtsi64_si32(v7);
+  *(_DWORD *)(v0 + 108) = _m_to_int(v7);
   *(__m64 *)(v0 + 100) = v8;
   v9 = v8;
   v10 = _m_packssdw(v8, v7);
   v11 = _m_psradi(_m_psrlqi(v10, 0x10u), 0x10u);
   v12 = _m_psradi(_m_punpcklwd(v10, v10), 0x10u);
-  v13 = _m_pandn(_m_pcmpeqd(v9, v12), (__m64)qword_44F958);
-  v14 = _mm_cvtsi64_si32(_m_por(_m_pandn(_m_pcmpeqd(v7, v11), (__m64)qword_44F960), _m_por(v13, _m_psrlqi(v13, 0x20u))));
+  v13 = _m_pandn(_m_pcmpeqd(v9, v12), _m_from_int64(qword_44F958));
+  v14 = _m_to_int(_m_por(_m_pandn(_m_pcmpeqd(v7, v11), _m_from_int64(qword_44F960)), _m_por(v13, _m_psrlqi(v13, 0x20u))));
   *(_DWORD *)(v0 + 252) |= v14;
-  v15 = _mm_cvtsi64_si32(v7);
+  v15 = _m_to_int(v7);
   *(__m64 *)(v0 + 36) = v12;
-  *(_DWORD *)(v0 + 44) = _mm_cvtsi64_si32(v11);
+  *(_DWORD *)(v0 + 44) = _m_to_int(v11);
   if ( (unsigned int)v15 > 0xFFFF )
   {
     *(_DWORD *)(v0 + 252) |= 0x80040000;
@@ -87,8 +87,8 @@ LABEL_5:
   v14 = (v16 << 16) / (unsigned int)v15;
 LABEL_6:
   v17 = v14;
-  v18 = ((unsigned __int64)(_mm_cvtsi64_si32(v12) * (__int64)v14) >> 16) + (*(int *)(v0 + 224) >> 16);
-  v19 = (*(int *)(v0 + 228) >> 16) + ((unsigned __int64)(v14 * (__int64)_mm_cvtsi64_si32(_m_psrlqi(v12, 0x20u))) >> 16);
+  v18 = ((unsigned __int64)(_m_to_int(v12) * (__int64)v14) >> 16) + (*(int *)(v0 + 224) >> 16);
+  v19 = (*(int *)(v0 + 228) >> 16) + ((unsigned __int64)(v14 * (__int64)_m_to_int(_m_psrlqi(v12, 0x20u))) >> 16);
   v20 = v18 + 1024;
   v21 = v19 + 1024;
   if ( (unsigned int)(v18 + 1024) > 0x7FF )
@@ -207,13 +207,13 @@ int gte_rtpt()
   v7 = _m_packssdw(v6, v5);
   v8 = _m_psrlqi(v7, 0x10u);
   v9 = _m_psradi(_m_punpcklwd(v7, v7), 0x10u);
-  v10 = _m_pandn(_m_pcmpeqd(v6, v9), (__m64)qword_44F958);
-  v11 = _mm_cvtsi64_si32(
+  v10 = _m_pandn(_m_pcmpeqd(v6, v9), _m_from_int64(qword_44F958));
+  v11 = _m_to_int(
           _m_por(
-            _m_pandn(_m_pcmpeqd(v5, _m_psradi(v8, 0x10u)), (__m64)qword_44F960),
+            _m_pandn(_m_pcmpeqd(v5, _m_psradi(v8, 0x10u)), _m_from_int64(qword_44F960)),
             _m_por(v10, _m_psrlqi(v10, 0x20u))));
   *(_DWORD *)(v0 + 252) |= v11;
-  v12 = _mm_cvtsi64_si32(v5);
+  v12 = _m_to_int(v5);
   if ( (unsigned int)v12 > 0xFFFF )
   {
     *(_DWORD *)(v0 + 252) |= 0x80040000;
@@ -244,8 +244,8 @@ LABEL_5:
     goto LABEL_5;
   v11 = (v13 << 16) / (unsigned int)v12;
 LABEL_6:
-  v14 = ((unsigned __int64)(_mm_cvtsi64_si32(v9) * (__int64)v11) >> 16) + (*(int *)(v0 + 224) >> 16);
-  v15 = (*(int *)(v0 + 228) >> 16) + ((unsigned __int64)(v11 * (__int64)_mm_cvtsi64_si32(_m_psrlqi(v9, 0x20u))) >> 16);
+  v14 = ((unsigned __int64)(_m_to_int(v9) * (__int64)v11) >> 16) + (*(int *)(v0 + 224) >> 16);
+  v15 = (*(int *)(v0 + 228) >> 16) + ((unsigned __int64)(v11 * (__int64)_m_to_int(_m_psrlqi(v9, 0x20u))) >> 16);
   v16 = v14 + 1024;
   v17 = v15 + 1024;
   if ( (unsigned int)(v14 + 1024) > 0x7FF )
@@ -274,13 +274,13 @@ LABEL_6:
   v25 = _m_packssdw(v24, v23);
   v26 = _m_psrlqi(v25, 0x10u);
   v27 = _m_psradi(_m_punpcklwd(v25, v25), 0x10u);
-  v28 = _m_pandn(_m_pcmpeqd(v24, v27), (__m64)qword_44F958);
-  v29 = _mm_cvtsi64_si32(
+  v28 = _m_pandn(_m_pcmpeqd(v24, v27), _m_from_int64(qword_44F958));
+  v29 = _m_to_int(
           _m_por(
-            _m_pandn(_m_pcmpeqd(v23, _m_psradi(v26, 0x10u)), (__m64)qword_44F960),
+            _m_pandn(_m_pcmpeqd(v23, _m_psradi(v26, 0x10u)), _m_from_int64(qword_44F960)),
             _m_por(v28, _m_psrlqi(v28, 0x20u))));
   *(_DWORD *)(v0 + 252) |= v29;
-  v30 = _mm_cvtsi64_si32(v23);
+  v30 = _m_to_int(v23);
   if ( (unsigned int)v30 > 0xFFFF )
   {
     *(_DWORD *)(v0 + 252) |= 0x80040000;
@@ -311,8 +311,8 @@ LABEL_12:
     goto LABEL_12;
   v29 = (v31 << 16) / (unsigned int)v30;
 LABEL_13:
-  v32 = ((unsigned __int64)(_mm_cvtsi64_si32(v27) * (__int64)v29) >> 16) + (*(int *)(v0 + 224) >> 16);
-  v33 = (*(int *)(v0 + 228) >> 16) + ((unsigned __int64)(v29 * (__int64)_mm_cvtsi64_si32(_m_psrlqi(v27, 0x20u))) >> 16);
+  v32 = ((unsigned __int64)(_m_to_int(v27) * (__int64)v29) >> 16) + (*(int *)(v0 + 224) >> 16);
+  v33 = (*(int *)(v0 + 228) >> 16) + ((unsigned __int64)(v29 * (__int64)_m_to_int(_m_psrlqi(v27, 0x20u))) >> 16);
   v34 = v32 + 1024;
   v35 = v33 + 1024;
   if ( (unsigned int)(v32 + 1024) > 0x7FF )
@@ -338,18 +338,18 @@ LABEL_13:
   v40 = _m_psradi(_m_pmaddwd(*(__m64 *)(v0 + 128), v37), 1u);
   v41 = _m_paddd(_m_psradi(_m_paddd(v39, _m_psrlqi(v39, 0x20u)), 0xBu), *(__m64 *)(v0 + 156));
   v42 = _m_paddd(_m_psradi(_m_paddd(_m_punpckldq(v40, v38), _m_punpckhdq(v40, v38)), 0xBu), *(__m64 *)(v0 + 148));
-  *(_DWORD *)(v0 + 108) = _mm_cvtsi64_si32(v41);
+  *(_DWORD *)(v0 + 108) = _m_to_int(v41);
   *(__m64 *)(v0 + 100) = v42;
   v43 = v42;
   v44 = _m_packssdw(v42, v41);
   v45 = _m_psradi(_m_psrlqi(v44, 0x10u), 0x10u);
   v46 = _m_psradi(_m_punpcklwd(v44, v44), 0x10u);
-  v47 = _m_pandn(_m_pcmpeqd(v43, v46), (__m64)qword_44F958);
-  v48 = _mm_cvtsi64_si32(_m_por(_m_pandn(_m_pcmpeqd(v41, v45), (__m64)qword_44F960), _m_por(v47, _m_psrlqi(v47, 0x20u))));
+  v47 = _m_pandn(_m_pcmpeqd(v43, v46), _m_from_int64(qword_44F958));
+  v48 = _m_to_int(_m_por(_m_pandn(_m_pcmpeqd(v41, v45), _m_from_int64(qword_44F960)), _m_por(v47, _m_psrlqi(v47, 0x20u))));
   *(_DWORD *)(v0 + 252) |= v48;
-  v49 = _mm_cvtsi64_si32(v41);
+  v49 = _m_to_int(v41);
   *(__m64 *)(v0 + 36) = v46;
-  *(_DWORD *)(v0 + 44) = _mm_cvtsi64_si32(v45);
+  *(_DWORD *)(v0 + 44) = _m_to_int(v45);
   if ( (unsigned int)v49 > 0xFFFF )
   {
     *(_DWORD *)(v0 + 252) |= 0x80040000;
@@ -381,8 +381,8 @@ LABEL_19:
   v48 = (v50 << 16) / (unsigned int)v49;
 LABEL_20:
   v51 = v48;
-  v52 = ((unsigned __int64)(_mm_cvtsi64_si32(v46) * (__int64)v48) >> 16) + (*(int *)(v0 + 224) >> 16);
-  v53 = (*(int *)(v0 + 228) >> 16) + ((unsigned __int64)(v48 * (__int64)_mm_cvtsi64_si32(_m_psrlqi(v46, 0x20u))) >> 16);
+  v52 = ((unsigned __int64)(_m_to_int(v46) * (__int64)v48) >> 16) + (*(int *)(v0 + 224) >> 16);
+  v53 = (*(int *)(v0 + 228) >> 16) + ((unsigned __int64)(v48 * (__int64)_m_to_int(_m_psrlqi(v46, 0x20u))) >> 16);
   v54 = v52 + 1024;
   v55 = v53 + 1024;
   if ( (unsigned int)(v52 + 1024) > 0x7FF )
@@ -8543,4 +8543,7 @@ int __cdecl gte_unfreeze(int a1, _DWORD *a2)
   gzread(a2, v3, 7);
   return gzread(a2, (char *)&gte_regs, 256);
 }
+
+
+
 

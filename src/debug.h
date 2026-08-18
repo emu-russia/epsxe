@@ -12,11 +12,11 @@
 /*--- Global flags and handles (defined in cfg.c / main.c / etc.) ---*/
 
 extern unsigned char console_allocated;
-extern FILE *console_log_handle;
+extern unsigned int console_log_handle;
 extern FILE *error_log_file;
 
 extern unsigned long last_tick_count;
-extern int dynarec_active;
+extern unsigned char dynarec_active;
 
 /*--- Flags defined in debug.c (at fixed memory addresses) ---*/
 
@@ -30,15 +30,15 @@ extern unsigned char console_log_enabled;
 extern int (__cdecl *spu_destroy_cb)(unsigned long);
 
 /*--- CD-ROM deinit callback ---*/
-extern int (__fastcall *cdrom_deinit_cb)(unsigned long);
+extern int (__cdecl *cdrom_deinit_cb)(unsigned long);
 
 /*--- Null stub used as a placeholder callback ---*/
 void nullsub_1(void);
 
 /*--- Plugin / subsystem cleanup helpers (defined elsewhere) ---*/
 void sio_memcard_both_save(void);
-void net_close(void);
-void gpu_destroy(void);
+HMODULE net_close(void);
+HMODULE gpu_destroy(void);
 void ppf_free(void);
 void dynarec_deinit(void);
 

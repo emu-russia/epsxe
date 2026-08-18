@@ -8,7 +8,7 @@ char __cdecl loader_mini_cheat_find(int a1, int a2)
   if ( mini_cheat_count <= 0 )
     return 0;
   v3 = 0;
-  while ( a1 != mini_cheat_id_array[2 * v3] || a2 != *(_DWORD *)&mini_cheat_db[24 * v3 + 20] )
+  while ( a1 != mini_cheat_id_array[2 * v3] || a2 != *(_DWORD *)((unsigned char *)&mini_cheat_db + 24 * v3 + 20) )
   {
     v3 = ++v2;
     if ( v2 >= mini_cheat_count )
@@ -30,7 +30,7 @@ FILE *loader_load_cheats()
   v1 = v0;
   if ( v0 )
   {
-    if ( (v0->_flag & 0x10) == 0 )
+    if ( !feof(v0) )
     {
       v2 = mini_cheat_count;
       do
@@ -40,11 +40,11 @@ FILE *loader_load_cheats()
         fread((void *)(24 * v2 + 4520368), 1u, 0x18u, v1);
         v2 = mini_cheat_count;
         if ( !loader_mini_cheat_find(
-                *(_DWORD *)&mini_cheat_db[24 * mini_cheat_count + 16],
-                *(_DWORD *)&mini_cheat_db[24 * mini_cheat_count + 20]) )
+                *(_DWORD *)((unsigned char *)&mini_cheat_db + 24 * mini_cheat_count + 16),
+                *(_DWORD *)((unsigned char *)&mini_cheat_db + 24 * mini_cheat_count + 20)) )
           mini_cheat_count = ++v2;
       }
-      while ( (v1->_flag & 0x10) == 0 );
+      while ( !feof(v1) );
     }
     fclose(v1);
   }
@@ -52,7 +52,7 @@ FILE *loader_load_cheats()
   v4 = result;
   if ( result )
   {
-    if ( (result->_flag & 0x10) == 0 )
+    if ( !feof(result) )
     {
       v5 = cheat_entries_count;
       do
@@ -62,7 +62,7 @@ FILE *loader_load_cheats()
         fread(&cheat_db[v5], 1u, 81u, v4);
         v5 = ++cheat_entries_count;
       }
-      while ( (v4->_flag & 0x10) == 0 );
+      while ( !feof(v4) );
     }
     return (FILE *)fclose(v4);
   }
@@ -78,7 +78,7 @@ char __cdecl loader_mini_cheat_find_by_id(int a1, int a2)
   v4 = 0;
   if ( !active_mini_cheat_count )
     return 0;
-  while ( a1 != mini_cheat_id_array[2 * v4] || a2 != *(_DWORD *)&mini_cheat_db[24 * v4 + 20] )
+  while ( a1 != mini_cheat_id_array[2 * v4] || a2 != *(_DWORD *)((unsigned char *)&mini_cheat_db + 24 * v4 + 20) )
   {
     v4 = ++v2;
     if ( v2 >= (unsigned __int8)active_mini_cheat_count )
@@ -105,8 +105,8 @@ char __cdecl loader_apply_mini_cheats(const char *a1)
     result = mini_cheat_count;
     if ( mini_cheat_count )
     {
-      v2 = (int *)&mini_cheat_db[20];
-      v8 = &mini_cheat_db[20];
+      v2 = (int *)((unsigned char *)&mini_cheat_db + 20);
+      v8 = (const char *)&mini_cheat_db + 20;
       v9 = mini_cheat_count;
       do
       {
@@ -142,9 +142,9 @@ char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer)
 {
   int v2; // edi
   CHEAT_DB_ENTRY *i; // ebp
-  signed __int8 mdectiming; // cl
+  signed __int8 mdec_timing; // cl
   signed __int8 dword_50C374; // cl
-  signed __int8 forcepad; // cl
+  signed __int8 force_pad; // cl
   char *text; // eax
 
   if ( noauto )
@@ -154,20 +154,20 @@ char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer)
     return 0;
   for ( i = cheat_db; strcmp(a1, i->gameid); ++i )
   {
-    if ( ++v2 >= (unsigned int)cheat_entries_count )
+    if ( ++v2 >= cheat_entries_count )
       return 0;
   }
-  mdectiming = cheat_db[v2].mdectiming;
-  if ( mdectiming != -1 )
-    ::mdectiming = mdectiming;
+  mdec_timing = cheat_db[v2].mdectiming;
+  if ( mdec_timing != -1 )
+    mdectiming = mdec_timing;
   dword_50C374 = cheat_db[v2].dword_50C374;
   if ( dword_50C374 != -1 )
     unknown_timing_value = dword_50C374;
   if ( cheat_db[v2].forcespu != 0xFF )
     forcespu = cheat_db[v2].forcespu;
-  forcepad = cheat_db[v2].forcepad;
-  if ( forcepad != -1 )
-    ::forcepad = forcepad;
+  force_pad = cheat_db[v2].forcepad;
+  if ( force_pad != -1 )
+    forcepad = force_pad;
   if ( cheat_db[v2].byte_455946 != 0xFF )
     cpu_overclock_setting = cheat_db[v2].byte_455946;
   if ( cheat_db[v2].parasite_eve_cheat != 0xFF )
@@ -233,7 +233,7 @@ void __cdecl loader_check_demo_header(FILE *Stream, int a2)
   fseek(Stream, 0, 2);
   v2 = ftell(Stream) - 2048;
   if ( a2 != v2 )
-    dump_log(console_log_handle, " ePSXe: (Demo bugged header) Real: %x Load: %x \n", v2, a2);
+    dump_log((FILE *)console_log_handle, " ePSXe: (Demo bugged header) Real: %x Load: %x \n", v2, a2);
 }
 
 int __cdecl loader_load_demo(char *FileName)
@@ -253,7 +253,7 @@ int __cdecl loader_load_demo(char *FileName)
   fread(Str2, 1u, 0x4Cu, v1);
   if ( strncmp("PS-X EXE", Str2, 8u) )
     fatal_error_with_message_box(" * ePSXe: [%s] is not a EXE file. \n", FileName);
-  loader_check_demo_header(v2, ElementCount);
+  loader_check_demo_header(v2, (int)ElementCount);
   fseek(v2, 2048, 0);
   fread((char *)ram + (v7 & 0x1FFFFF), 1u, ElementCount, v2);
   cpu_gpr[29] = 0x801FFF00;
@@ -304,8 +304,8 @@ int __cdecl loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, 
       }
       while ( *(_BYTE *)(v8 + a1) == 32 );
     }
-    sscanf((const char *const)(a1 + *a2), "%s ", a4);
-    v9 = strlen(a4) + *a2;
+    sscanf((const char *const)(a1 + *a2), "%s ", (char *)a4);
+    v9 = (unsigned int)strlen(a4) + *a2;
     *a2 = v9;
     if ( *(_BYTE *)(v9 + a1) == 32 )
     {
@@ -316,7 +316,7 @@ int __cdecl loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, 
       }
       while ( *(_BYTE *)(v10 + a1) == 32 );
     }
-    sscanf((const char *const)(a1 + *a2), "%x", a5);
+    sscanf((const char *const)(a1 + *a2), "%x", (unsigned int *)a5);
     return 1;
   }
   if ( strncmp((const char *)(a1 + v7), "LOAD", 4u) )
@@ -332,8 +332,8 @@ int __cdecl loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, 
     }
     while ( *(_BYTE *)(v13 + a1) == 32 );
   }
-  sscanf((const char *const)(a1 + *a2), "%s\n", a4);
-  *a2 += strlen(a4);
+  sscanf((const char *const)(a1 + *a2), "%s\n", (char *)a4);
+  *a2 += (unsigned int)strlen(a4);
   return 2;
 }
 
@@ -580,7 +580,7 @@ FILE *__cdecl loader_load_cheat_file(char *FileName)
   v2 = result;
   if ( result )
   {
-    if ( (result->_flag & 0x10) == 0 )
+    if ( !feof(result) )
     {
       do
       {
@@ -595,7 +595,7 @@ FILE *__cdecl loader_load_cheat_file(char *FileName)
           ++active_mini_cheat_count;
         }
       }
-      while ( (v2->_flag & 0x10) == 0 );
+      while ( !feof(v2) );
     }
     return (FILE *)fclose(v2);
   }

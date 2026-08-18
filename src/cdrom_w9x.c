@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 char __cdecl W9x_exec_scsi_cmd(const void *a1, unsigned int a2, BYTE *a3, DWORD a4)
 {
   HANDLE EventA; // ebx
@@ -234,10 +234,10 @@ int (__cdecl *W9x_load_winaspi_dll())(LPSRB)
   hCdrModule = LibraryA;
   if ( !LibraryA )
     fatal_error_with_message_box(" * Error loading WNASPI32.DLL\n");
-  *(_DWORD *)GetASPI32SupportInfo = GetProcAddress(LibraryA, "GetASPI32SupportInfo");
+  GetASPI32SupportInfo_cb = GetProcAddress(LibraryA, "GetASPI32SupportInfo");
   result = (int (__cdecl *)(LPSRB))GetProcAddress(hCdrModule, "SendASPI32Command");
   SendASPI32Command_cb = result;
-  if ( !*(_DWORD *)GetASPI32SupportInfo || !result )
+  if ( !GetASPI32SupportInfo_cb || !result )
     fatal_error_with_message_box("Error loading WNASPI32.DLL\n");
   return result;
 }
@@ -250,10 +250,10 @@ int W9x_load_win_aspi_silent()
   LibraryA = LoadLibraryA("WNASPI32.DLL");
   hCdrModule = LibraryA;
   if ( LibraryA
-    && (*(_DWORD *)GetASPI32SupportInfo = GetProcAddress(LibraryA, "GetASPI32SupportInfo"),
+    && (GetASPI32SupportInfo_cb = GetProcAddress(LibraryA, "GetASPI32SupportInfo"),
         SendASPI32Command = (int (__cdecl *)(LPSRB))GetProcAddress(hCdrModule, "SendASPI32Command"),
         SendASPI32Command_cb = SendASPI32Command,
-        *(_DWORD *)GetASPI32SupportInfo)
+        GetASPI32SupportInfo_cb)
     && SendASPI32Command )
   {
     return 0;
@@ -272,8 +272,8 @@ HMODULE W9x_free_winaspi_dll()
   if ( hCdrModule )
   {
     FreeLibrary(hCdrModule);
-    if ( *(_DWORD *)GetASPI32SupportInfo )
-      *(_DWORD *)GetASPI32SupportInfo = 0;
+    if ( GetASPI32SupportInfo_cb )
+      GetASPI32SupportInfo_cb = 0;
     result = (HMODULE)SendASPI32Command_cb;
     if ( SendASPI32Command_cb )
       SendASPI32Command_cb = nullptr;
@@ -1740,4 +1740,6 @@ char __cdecl W9x_verify_subchannel_data(unsigned int a1, unsigned __int8 a2, uns
   }
   return result;
 }
+
+
 

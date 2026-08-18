@@ -855,24 +855,24 @@ int __cdecl mdec_idct_sse(__m64 *a1, int a2)
   v4 = a1[14];
   v5 = _m_paddw(v3, v2);
   v6 = _m_psllwi(_m_psubw(v3, v2), 2u);
-  v7 = _m_pmulhw(v6, (__m64)qword_455C28);
+  v7 = _m_pmulhw(v6, _m_from_int64(qword_455C28));
   v8 = a1[2];
   v9 = _m_paddw(v8, v4);
   v10 = _m_psubw(v9, v5);
   v11 = _m_psllwi(_m_psubw(v8, v4), 2u);
   v12 = a1[12];
   v13 = _m_paddw(v9, v5);
-  v14 = _m_paddw(_m_pmulhw(v6, (__m64)qword_455C38), _m_pmulhw(v11, (__m64)qword_455C40));
-  v15 = _m_psubw(_m_paddw(v7, _m_pmulhw(v11, (__m64)qword_455C30)), v13);
+  v14 = _m_paddw(_m_pmulhw(v6, _m_from_int64(qword_455C38)), _m_pmulhw(v11, _m_from_int64(qword_455C40)));
+  v15 = _m_psubw(_m_paddw(v7, _m_pmulhw(v11, _m_from_int64(qword_455C30))), v13);
   v16 = a1[4];
-  v17 = _m_psubw(_m_pmulhw(_m_psllwi(v10, 2u), (__m64)qword_455C20), v15);
+  v17 = _m_psubw(_m_pmulhw(_m_psllwi(v10, 2u), _m_from_int64(qword_455C20)), v15);
   v190 = _m_paddw(v16, v12);
-  v18 = _m_pmulhw(_m_psllwi(_m_psubw(v16, v12), 2u), (__m64)qword_455C20);
+  v18 = _m_pmulhw(_m_psllwi(_m_psubw(v16, v12), 2u), _m_from_int64(qword_455C20));
   v19 = a1[8];
   v202 = _m_paddw(v14, v17);
   v196 = _m_psubw(v18, v190);
-  v20 = _m_psubw((__m64)a1->m64_u64, v19);
-  v21 = _m_paddw((__m64)a1->m64_u64, v19);
+  v20 = _m_psubw(*a1, v19);
+  v21 = _m_paddw(*a1, v19);
   v22 = _m_paddw(v21, v190);
   v23 = _m_psubw(v21, v190);
   v24 = _m_psubw(v20, v196);
@@ -891,20 +891,20 @@ int __cdecl mdec_idct_sse(__m64 *a1, int a2)
   v29 = a1[15];
   v30 = _m_paddw(v28, v27);
   v31 = _m_psllwi(_m_psubw(v28, v27), 2u);
-  v32 = _m_pmulhw(v31, (__m64)qword_455C28);
+  v32 = _m_pmulhw(v31, _m_from_int64(qword_455C28));
   v33 = a1[3];
   v34 = _m_paddw(v33, v29);
   v35 = _m_psubw(v34, v30);
   v36 = _m_psllwi(_m_psubw(v33, v29), 2u);
   v37 = a1[13];
   v38 = _m_paddw(v34, v30);
-  v39 = _m_paddw(_m_pmulhw(v31, (__m64)qword_455C38), _m_pmulhw(v36, (__m64)qword_455C40));
-  v40 = _m_psubw(_m_paddw(v32, _m_pmulhw(v36, (__m64)qword_455C30)), v38);
+  v39 = _m_paddw(_m_pmulhw(v31, _m_from_int64(qword_455C38)), _m_pmulhw(v36, _m_from_int64(qword_455C40)));
+  v40 = _m_psubw(_m_paddw(v32, _m_pmulhw(v36, _m_from_int64(qword_455C30))), v38);
   v41 = a1[5];
-  v42 = _m_psubw(_m_pmulhw(_m_psllwi(v35, 2u), (__m64)qword_455C20), v40);
+  v42 = _m_psubw(_m_pmulhw(_m_psllwi(v35, 2u), _m_from_int64(qword_455C20)), v40);
   v193 = _m_paddw(v41, v37);
   v43 = a1[1];
-  v44 = _m_pmulhw(_m_psllwi(_m_psubw(v41, v37), 2u), (__m64)qword_455C20);
+  v44 = _m_pmulhw(_m_psllwi(_m_psubw(v41, v37), 2u), _m_from_int64(qword_455C20));
   v45 = a1[9];
   v204 = _m_paddw(v39, v42);
   v199 = _m_psubw(v44, v193);
@@ -939,7 +939,7 @@ int __cdecl mdec_idct_sse(__m64 *a1, int a2)
   v66 = _m_punpckldq(v57, v63);
   v67 = _m_paddw(v66, v65);
   v68 = _m_psubw(v66, v65);
-  v69 = _m_psubw(_m_pmulhw(_m_psllwi(_m_punpckhdq(v58, v64), 2u), (__m64)qword_455C20), v65);
+  v69 = _m_psubw(_m_pmulhw(_m_psllwi(_m_punpckhdq(v58, v64), 2u), _m_from_int64(qword_455C20)), v65);
   v70 = _m_punpckldq(v58, v64);
   v71 = _m_paddw(v70, v69);
   v72 = _m_psubw(v70, v69);
@@ -975,10 +975,10 @@ int __cdecl mdec_idct_sse(__m64 *a1, int a2)
   v98 = _m_paddw(v95, v96);
   v99 = _m_psllwi(v94, 2u);
   v100 = _m_psllwi(_m_punpckldq(v82, v92), 2u);
-  v101 = _m_pmulhw(v99, (__m64)qword_455C38);
-  v102 = _m_pmulhw(v100, (__m64)qword_455C40);
-  v103 = _m_psubw(_m_paddw(_m_pmulhw(v100, (__m64)qword_455C30), _m_pmulhw(v99, (__m64)qword_455C28)), v98);
-  v104 = _m_psubw(_m_pmulhw(_m_psllwi(v97, 2u), (__m64)qword_455C20), v103);
+  v101 = _m_pmulhw(v99, _m_from_int64(qword_455C38));
+  v102 = _m_pmulhw(v100, _m_from_int64(qword_455C40));
+  v103 = _m_psubw(_m_paddw(_m_pmulhw(v100, _m_from_int64(qword_455C30)), _m_pmulhw(v99, _m_from_int64(qword_455C28))), v98);
+  v104 = _m_psubw(_m_pmulhw(_m_psllwi(v97, 2u), _m_from_int64(qword_455C20)), v103);
   v105 = _m_packsswb(_m_psrawi(_m_paddw(v195, v103), 5u), _m_psrawi(_m_psubw(v192, v98), 5u));
   v106 = _m_packsswb(_m_psrawi(_m_paddw(v192, v98), 5u), _m_psrawi(_m_psubw(v195, v103), 5u));
   v107 = _m_paddw(_m_paddw(v101, v102), v104);
@@ -995,10 +995,10 @@ int __cdecl mdec_idct_sse(__m64 *a1, int a2)
   v118 = _m_punpckhwd(v113, v110);
   *(__m64 *)*(_DWORD *)a2 = _m_punpckldq(v114, v115);
   v119 = *(__m64 **)(a2 + 8);
-  v116->m64_u64 = (unsigned __int64)_m_punpckhdq(v114, v115);
+  v116->m64_u64 = _m_punpckhdq(v114, v115).m64_u64;
   v120 = *(__m64 **)(a2 + 12);
-  v119->m64_u64 = (unsigned __int64)_m_punpckldq(v117, v118);
-  v120->m64_u64 = (unsigned __int64)_m_punpckhdq(v117, v118);
+  v119->m64_u64 = _m_punpckldq(v117, v118).m64_u64;
+  v120->m64_u64 = _m_punpckhdq(v117, v118).m64_u64;
   v121 = _m_psubw(v208, v210);
   v122 = _m_paddw(v208, v210);
   v123 = _m_paddw(v212, v214);
@@ -1015,7 +1015,7 @@ int __cdecl mdec_idct_sse(__m64 *a1, int a2)
   v134 = _m_punpckldq(v125, v131);
   v135 = _m_paddw(v134, v133);
   v136 = _m_psubw(v134, v133);
-  v137 = _m_psubw(_m_pmulhw(_m_psllwi(_m_punpckhdq(v126, v132), 2u), (__m64)qword_455C20), v133);
+  v137 = _m_psubw(_m_pmulhw(_m_psllwi(_m_punpckhdq(v126, v132), 2u), _m_from_int64(qword_455C20)), v133);
   v138 = _m_punpckldq(v126, v132);
   v139 = _m_paddw(v138, v137);
   v140 = _m_psubw(v138, v137);
@@ -1051,10 +1051,10 @@ int __cdecl mdec_idct_sse(__m64 *a1, int a2)
   v166 = _m_paddw(v163, v164);
   v167 = _m_psllwi(v162, 2u);
   v168 = _m_psllwi(_m_punpckldq(v150, v160), 2u);
-  v169 = _m_pmulhw(v167, (__m64)qword_455C38);
-  v170 = _m_pmulhw(v168, (__m64)qword_455C40);
-  v171 = _m_psubw(_m_paddw(_m_pmulhw(v168, (__m64)qword_455C30), _m_pmulhw(v167, (__m64)qword_455C28)), v166);
-  v172 = _m_psubw(_m_pmulhw(_m_psllwi(v165, 2u), (__m64)qword_455C20), v171);
+  v169 = _m_pmulhw(v167, _m_from_int64(qword_455C38));
+  v170 = _m_pmulhw(v168, _m_from_int64(qword_455C40));
+  v171 = _m_psubw(_m_paddw(_m_pmulhw(v168, _m_from_int64(qword_455C30)), _m_pmulhw(v167, _m_from_int64(qword_455C28))), v166);
+  v172 = _m_psubw(_m_pmulhw(_m_psllwi(v165, 2u), _m_from_int64(qword_455C20)), v171);
   v173 = _m_packsswb(_m_psrawi(_m_paddw(v211, v171), 5u), _m_psrawi(_m_psubw(v209, v166), 5u));
   v174 = _m_packsswb(_m_psrawi(_m_paddw(v209, v166), 5u), _m_psrawi(_m_psubw(v211, v171), 5u));
   v175 = _m_paddw(_m_paddw(v169, v170), v172);
@@ -1071,10 +1071,10 @@ int __cdecl mdec_idct_sse(__m64 *a1, int a2)
   v186 = _m_punpckhwd(v181, v178);
   *(__m64 *)*(_DWORD *)(a2 + 16) = _m_punpckldq(v182, v183);
   v187 = *(__m64 **)(a2 + 24);
-  v184->m64_u64 = (unsigned __int64)_m_punpckhdq(v182, v183);
+  v184->m64_u64 = _m_punpckhdq(v182, v183).m64_u64;
   v189 = *(__m64 **)(a2 + 28);
-  v187->m64_u64 = (unsigned __int64)_m_punpckldq(v185, v186);
-  v189->m64_u64 = (unsigned __int64)_m_punpckhdq(v185, v186);
+  v187->m64_u64 = _m_punpckldq(v185, v186).m64_u64;
+  v189->m64_u64 = _m_punpckhdq(v185, v186).m64_u64;
   return a2 + 28;
 }
 
@@ -1151,75 +1151,75 @@ void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
         v50 = 4;
         do
         {
-          v9 = _mm_cvtsi32_si64(*v5);
+          v9 = _m_from_int(*v5);
           v10 = _m_punpcklbw(v9, v9);
           v11 = _m_punpcklwd(v10, v10);
-          v12 = _mm_cvtsi32_si64(*v6);
+          v12 = _m_from_int(*v6);
           v13 = _m_punpcklbw(v12, v12);
           v14 = _m_punpcklwd(v13, v13);
-          v15 = _m_paddb(_mm_cvtsi32_si64(*v3), (__m64)qword_455C70);
+          v15 = _m_paddb(_m_from_int(*v3), _m_from_int64(qword_455C70));
           v16 = _m_paddsw(
-                  _m_pmulhw(_m_psrawi(_m_punpckldq(v11, v11), 6u), (__m64)qword_455C50),
-                  _m_pmulhw(_m_psrawi(_m_punpckldq(v14, v14), 6u), (__m64)qword_455C58));
+                  _m_pmulhw(_m_psrawi(_m_punpckldq(v11, v11), 6u), _m_from_int64(qword_455C50)),
+                  _m_pmulhw(_m_psrawi(_m_punpckldq(v14, v14), 6u), _m_from_int64(qword_455C58)));
           v17 = _m_punpcklbw(v15, v15);
           v18 = _m_punpcklwd(v17, v15);
           v19 = _m_psrlqi(v17, 0x10u);
           v20 = _m_paddsw(
-                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v11, v11), 6u), (__m64)qword_455C60),
-                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v14, v14), 6u), (__m64)qword_455C68));
+                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v11, v11), 6u), _m_from_int64(qword_455C60)),
+                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v14, v14), 6u), _m_from_int64(qword_455C68)));
           v21 = _m_por(
-                  _m_psrlqi(_m_pand(v16, (__m64)qword_455C78), 0x10u),
-                  _m_psllqi(_m_pand(v20, (__m64)qword_455C78), 0x10u));
-          v22 = _m_paddb(_mm_cvtsi32_si64(*v4), (__m64)qword_455C70);
-          v7->m64_u64 = (unsigned __int64)_m_packuswb(
-                                            _m_paddsw(_m_punpcklbw(v18, (__m64)(unsigned int)dword_4FD858), v16),
-                                            _m_paddsw(_m_punpcklbw(v19, (__m64)(unsigned int)dword_4FD858), v21));
+                  _m_psrlqi(_m_pand(v16, _m_from_int64(qword_455C78)), 0x10u),
+                  _m_psllqi(_m_pand(v20, _m_from_int64(qword_455C78)), 0x10u));
+          v22 = _m_paddb(_m_from_int(*v4), _m_from_int64(qword_455C70));
+          v7->m64_u64 = _m_packuswb(
+                                            _m_paddsw(_m_punpcklbw(v18, _m_from_int((int)dword_4FD858)), v16),
+                                            _m_paddsw(_m_punpcklbw(v19, _m_from_int((int)dword_4FD858)), v21)).m64_u64;
           v23 = _m_punpcklbw(v22, v22);
-          v24 = _m_punpcklbw(_m_punpcklwd(v23, v22), (__m64)(unsigned int)dword_4FD858);
+          v24 = _m_punpcklbw(_m_punpcklwd(v23, v22), _m_from_int((int)dword_4FD858));
           v25 = _m_psrlqi(v23, 0x10u);
-          v8->m64_u64 = (unsigned __int64)_m_packuswb(
+          v8->m64_u64 = _m_packuswb(
                                             _m_paddsw(v24, v16),
                                             _m_paddsw(
-                                              _m_punpcklbw(_m_punpckldq(v25, v25), (__m64)(unsigned int)dword_4FD858),
-                                              v21));
-          v26 = _m_psrlqi(_mm_cvtsi32_si64(*v5), 0x10u);
+                                              _m_punpcklbw(_m_punpckldq(v25, v25), _m_from_int((int)dword_4FD858)),
+                                              v21)).m64_u64;
+          v26 = _m_psrlqi(_m_from_int(*v5), 0x10u);
           v27 = _m_paddsw(
                   _m_punpcklbw(
                     _m_punpcklwd(_m_psrlqi(v19, 0x18u), _m_psrlqi(v19, 0x20u)),
-                    (__m64)(unsigned int)dword_4FD858),
+                    _m_from_int((int)dword_4FD858)),
                   v20);
           v28 = _m_punpcklbw(v26, v26);
           v29 = _m_paddsw(
                   _m_punpcklbw(
                     _m_punpcklwd(_m_psrlqi(v25, 0x18u), _m_psrlqi(v25, 0x20u)),
-                    (__m64)(unsigned int)dword_4FD858),
+                    _m_from_int((int)dword_4FD858)),
                   v20);
           v30 = _m_punpcklwd(v28, v28);
-          v31 = _m_psrlqi(_mm_cvtsi32_si64(*v6), 0x10u);
+          v31 = _m_psrlqi(_m_from_int(*v6), 0x10u);
           v32 = _m_punpcklbw(v31, v31);
           v33 = _m_punpcklwd(v32, v32);
           v34 = _m_paddsw(
-                  _m_pmulhw(_m_psrawi(_m_punpckldq(v30, v30), 6u), (__m64)qword_455C50),
-                  _m_pmulhw(_m_psrawi(_m_punpckldq(v33, v33), 6u), (__m64)qword_455C58));
-          v35 = _m_paddb(_mm_cvtsi32_si64(v3[1]), (__m64)qword_455C70);
-          v36 = _m_psrlqi(_m_pand(v34, (__m64)qword_455C78), 0x10u);
+                  _m_pmulhw(_m_psrawi(_m_punpckldq(v30, v30), 6u), _m_from_int64(qword_455C50)),
+                  _m_pmulhw(_m_psrawi(_m_punpckldq(v33, v33), 6u), _m_from_int64(qword_455C58)));
+          v35 = _m_paddb(_m_from_int(v3[1]), _m_from_int64(qword_455C70));
+          v36 = _m_psrlqi(_m_pand(v34, _m_from_int64(qword_455C78)), 0x10u);
           v37 = _m_paddsw(
-                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v30, v30), 6u), (__m64)qword_455C60),
-                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v33, v33), 6u), (__m64)qword_455C68));
-          v38 = _m_paddb(_mm_cvtsi32_si64(v4[1]), (__m64)qword_455C70);
-          v39 = _m_psllqi(_m_pand(v37, (__m64)qword_455C78), 0x10u);
-          v7[1].m64_u64 = (unsigned __int64)_m_packuswb(
+                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v30, v30), 6u), _m_from_int64(qword_455C60)),
+                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v33, v33), 6u), _m_from_int64(qword_455C68)));
+          v38 = _m_paddb(_m_from_int(v4[1]), _m_from_int64(qword_455C70));
+          v39 = _m_psllqi(_m_pand(v37, _m_from_int64(qword_455C78)), 0x10u);
+          v7[1].m64_u64 = _m_packuswb(
                                               v27,
                                               _m_paddsw(
                                                 _m_punpcklbw(
                                                   _m_punpcklwd(_m_punpcklbw(v35, v35), v35),
-                                                  (__m64)(unsigned int)dword_4FD858),
-                                                v34));
+                                                  _m_from_int((int)dword_4FD858)),
+                                                v34)).m64_u64;
           v40 = _m_por(v36, v39);
           v41 = v38;
-          v42 = _m_paddsw(_m_punpcklbw(_m_punpcklwd(_m_punpcklbw(v38, v38), v38), 0), v34);
+          v42 = _m_paddsw(_m_punpcklbw(_m_punpcklwd(_m_punpcklbw(v38, v38), v38), _m_from_int(0)), v34);
           v43 = _m_psrlqi(v41, 8u);
-          v8[1].m64_u64 = (unsigned __int64)_m_packuswb(v29, v42);
+          v8[1].m64_u64 = _m_packuswb(v29, v42).m64_u64;
           v44 = _m_psrlqi(v35, 8u);
           v45 = _m_psrlqi(v44, 8u);
           v3 += 4;
@@ -1231,17 +1231,17 @@ void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
           v47 = _m_paddsw(
                   _m_punpcklbw(
                     _m_punpcklwd(v46, _m_psrlqi(_m_punpcklbw(v46, v46), 0x10u)),
-                    (__m64)(unsigned int)dword_4FD858),
+                    _m_from_int((int)dword_4FD858)),
                   v37);
-          v7[-10].m64_u64 = (unsigned __int64)_m_packuswb(
-                                                _m_paddsw(_m_punpcklbw(_m_punpcklbw(v44, v44), 0), v40),
+          v7[-10].m64_u64 = _m_packuswb(
+                                                _m_paddsw(_m_punpcklbw(_m_punpcklbw(v44, v44), _m_from_int(0)), v40),
                                                 _m_paddsw(
                                                   _m_punpcklbw(
                                                     _m_punpcklwd(v45, _m_psrlqi(_m_punpcklbw(v45, v45), 0x10u)),
-                                                    (__m64)(unsigned int)dword_4FD858),
-                                                  v37));
+                                                    _m_from_int((int)dword_4FD858)),
+                                                  v37)).m64_u64;
           v6 += 2;
-          v8[-10].m64_u64 = (unsigned __int64)_m_packuswb(_m_paddsw(_m_punpcklbw(_m_punpcklbw(v43, v43), 0), v40), v47);
+          v8[-10].m64_u64 = _m_packuswb(_m_paddsw(_m_punpcklbw(_m_punpcklbw(v43, v43), _m_from_int(0)), v40), v47).m64_u64;
           --v50;
         }
         while ( v50 );
@@ -1268,4 +1268,7 @@ void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
   while ( a3 );
   mdec_sse_m_empty();
 }
+
+
+
 

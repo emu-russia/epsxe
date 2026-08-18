@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 char gpu_init_performance_counter()
 {
   int PerformanceFrequency; // eax
@@ -194,10 +194,10 @@ HWND gpu_load_plugin()
   GPUsetMode = (int)GetProcAddress(hGpuModule, "GPUsetMode");
   if ( !GPUsetMode )
     ui_error(" * GetProcAddress error %s\n", "GPUsetMode");
-  GPUupdateLace = (int (__fastcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUupdateLace");
+  GPUupdateLace = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUupdateLace");
   if ( !GPUupdateLace )
     ui_error(" * GetProcAddress error %s\n", "GPUupdateLace");
-  GPUmakeSnapshot = (int (*(*)(void))(void))GetProcAddress(hGpuModule, "GPUmakeSnapshot");
+  GPUmakeSnapshot = (int (__stdcall *)(void))GetProcAddress(hGpuModule, "GPUmakeSnapshot");
   GPUwriteDataMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUwriteDataMem");
   GPUreadDataMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUreadDataMem");
   GPUdisplayFlags = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUdisplayFlags");
@@ -869,4 +869,5 @@ void __cdecl gpu_unfreeze(int a1, _DWORD *ArgList)
     dbg_print(" * GPU plugin doesn't support savestates. \n");
   }
 }
+
 

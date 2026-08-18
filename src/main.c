@@ -366,7 +366,7 @@ LABEL_146:
               }
               else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadcheat") )
               {
-                strcpy(&cheat_file_from_cmdline, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+                strcpy((char *)cheat_file_from_cmdline, *(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
                 v3 += 2;
               }
               else if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-loadstate") )
@@ -545,7 +545,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
   int v14; // [esp+10h] [ebp-404h]
   _DWORD v15[256]; // [esp+14h] [ebp-400h] BYREF
 
-  v4 = strlen(lpCmdLine) + 1;
+  v4 = (unsigned int)strlen(lpCmdLine) + 1;
   v14 = 1;
   v5 = v4 - 1;
   v6 = 0;
@@ -584,14 +584,14 @@ LABEL_16:
     reset_flag = 0;
     video_scanlines = 312;
     cpu_speed_scale = 2171;
-    cheat_file_from_cmdline = 0;
+    cheat_file_from_cmdline[0] = 0;
     cfg_load_settings();
     parse_command_line_options(v14, (int)v15);
     set_console_log_flush_pending();
     select_cdrom_core();
     dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &byte_45B8CC);
-    if ( strlen(&cheat_file_from_cmdline) )
-      loader_load_cheat_file(&cheat_file_from_cmdline);
+    if ( strlen((const char *)cheat_file_from_cmdline) )
+      loader_load_cheat_file((char *)cheat_file_from_cmdline);
     epsxe_main_loop_runner();
   }
 LABEL_7:

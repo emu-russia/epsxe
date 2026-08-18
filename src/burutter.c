@@ -69,11 +69,11 @@ int joy_issue_big_motor()
     int result; // eax
 
     if (dword_4FC45C)
-        return Big_Motor();
+        return Big_Motor(0xFFFF, 1);
     joy_init();
     result = dword_4FC45C;
     if (dword_4FC45C)
-        return Big_Motor();
+        return Big_Motor(0xFFFF, 1);
     return result;
 }
 
@@ -82,10 +82,10 @@ int joy_issue_small_motor()
     int result; // eax
 
     if (dword_4FC45C)
-        return Small_Motor();
+        return Small_Motor(1, 1);
     joy_init();
     result = dword_4FC45C;
     if (dword_4FC45C)
-        return Small_Motor();
+        return Small_Motor(1, 1);
     return result;
 }

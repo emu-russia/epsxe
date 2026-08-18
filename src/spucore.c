@@ -13,9 +13,9 @@ int spucore_init_dsound()
 
   dword_4F7148 = audio_sample_rate_mode;
   dword_465530 = audio_stereo_flag;
-  if ( DirectSoundCreate(nullptr, &ppDS, nullptr) )
+  if ( DirectSoundCreate(nullptr, (LPDIRECTSOUND *)&ppDS, nullptr) )
     return 0;
-  ppDS->lpVtbl->SetCooperativeLevel(ppDS, hOutputWnd, 1);
+  ((LPDIRECTSOUND)ppDS)->lpVtbl->SetCooperativeLevel((LPDIRECTSOUND)ppDS, hOutputWnd, 1);
   v3 = 1;
   switch ( audio_sample_rate_mode )
   {
@@ -80,8 +80,8 @@ LABEL_11:
   dword_4F7560 = 36;
   dword_4F7564 = 16392;
   *(_DWORD *)byte_4F7570 = &v3;
-  if ( ppDS->lpVtbl->CreateSoundBuffer(ppDS, (LPCDSBUFFERDESC)&dword_4F7560, &pDSBuffer, nullptr)
-    || pDSBuffer->lpVtbl->Play(pDSBuffer, 0, 0, 1) )
+  if ( ((LPDIRECTSOUND)ppDS)->lpVtbl->CreateSoundBuffer((LPDIRECTSOUND)ppDS, (LPCDSBUFFERDESC)&dword_4F7560, (LPDIRECTSOUNDBUFFER *)&pDSBuffer, nullptr)
+    || ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->Play((LPDIRECTSOUNDBUFFER)pDSBuffer, 0, 0, 1) )
   {
     return 0;
   }
@@ -111,7 +111,7 @@ int spucore_update_dsound()
   else
   {
     dword_4F75A4 = 0;
-    pDSBuffer->lpVtbl->GetCurrentPosition(pDSBuffer, (LPDWORD)&dword_465534, (LPDWORD)&byte_4EF134);
+    ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->GetCurrentPosition((LPDIRECTSOUNDBUFFER)pDSBuffer, (LPDWORD)&dword_465534, (LPDWORD)&byte_4EF134);
     v1 = dword_4F7598;
     result = dword_465534;
     if ( dword_4F7598 > (unsigned int)dword_465534 )
@@ -150,8 +150,8 @@ int spucore_update_dsound()
         v4 += 2;
       }
       while ( (int)v5 < (int)&byte_4F7154[508] );
-      result = pDSBuffer->lpVtbl->Lock(
-                 pDSBuffer,
+      result = ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->Lock(
+                 (LPDIRECTSOUNDBUFFER)pDSBuffer,
                  v1,
                  256,
                  (LPVOID *)&lock_ptr1,
@@ -172,7 +172,7 @@ int spucore_update_dsound()
         qmemcpy(&v7[4 * v9], &v10[4 * v9], v8 & 3);
         v7 = (char *)lock_ptr2;
       }
-      result = pDSBuffer->lpVtbl->Unlock(pDSBuffer, (LPVOID)lock_ptr1, lock_size1, v7, lock_size2);
+      result = ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->Unlock((LPDIRECTSOUNDBUFFER)pDSBuffer, (LPVOID)lock_ptr1, lock_size1, v7, lock_size2);
       if ( result )
         break;
       result = audio_buffer_size_bytes;
@@ -858,10 +858,10 @@ int spucore_destroy()
   result = spucore_init_flag;
   if ( spucore_init_flag )
   {
-    pDSBuffer->lpVtbl->Stop(pDSBuffer);
-    while ( pDSBuffer->lpVtbl->Release(pDSBuffer) )
+    ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->Stop((LPDIRECTSOUNDBUFFER)pDSBuffer);
+    while ( ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->Release((LPDIRECTSOUNDBUFFER)pDSBuffer) )
       ;
-    while ( ppDS->lpVtbl->Release(ppDS) )
+    while ( ((LPDIRECTSOUND)ppDS)->lpVtbl->Release((LPDIRECTSOUND)ppDS) )
       ;
     return dbg_print(" * Closing core spu...\n");
   }

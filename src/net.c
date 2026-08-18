@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 int net_load_plugin()
 {
   int result; // eax
@@ -23,7 +23,7 @@ int net_load_plugin()
   NETinit = GetProcAddress(LibraryA, "NETinit");
   if ( !NETinit )
     ui_error(" * GetProcAddress error NETinit\n");
-  NETshutdown = (HMODULE (*)(void))GetProcAddress(hNetModule, "NETshutdown");
+  NETshutdown = (int (__stdcall *)(void))GetProcAddress(hNetModule, "NETshutdown");
   if ( !NETshutdown )
     ui_error(" * GetProcAddress error NETshutdoww\n");
   NETopen = (int (__stdcall *)(_DWORD))GetProcAddress(hNetModule, "NETopen");
@@ -32,7 +32,7 @@ int net_load_plugin()
   NETclose = GetProcAddress(hNetModule, "NETclose");
   if ( !NETclose )
     ui_error(" * GetProcAddress error NETclose\n");
-  NETpause = (HMODULE (*)(void))GetProcAddress(hNetModule, "NETpause");
+  NETpause = (int (__stdcall *)(void))GetProcAddress(hNetModule, "NETpause");
   if ( !NETpause )
     ui_error(" * GetProcAddress error NETpause\n");
   NETresume = (int (__stdcall *)(_DWORD))GetProcAddress(hNetModule, "NETresume");
@@ -275,4 +275,5 @@ int net_fill_input()
   }
   return result;
 }
+
 

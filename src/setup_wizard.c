@@ -151,7 +151,7 @@ INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM
       v12 = 0;
       if ( debug_bios.crc )
       {
-        v13 = retail_bioses;
+        v13 = &retail_bioses;
         do
         {
           if ( v11 == v13->crc )
@@ -237,7 +237,7 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
   HMODULE v14; // esi
   HMODULE LibraryA; // eax
   HMODULE v16; // esi
-  FARPROC PSEgetLibVersion; // eax
+  FARPROC PSEgetLibVersionProc; // eax
   unsigned __int8 v18; // al
   int v19; // eax
   const char *v20; // eax
@@ -297,16 +297,16 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
         PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v16, "PSEgetLibName");
-        PSEgetLibVersion = GetProcAddress(v16, "PSEgetLibVersion");
-        ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+        PSEgetLibVersionProc = GetProcAddress(v16, "PSEgetLibVersion");
+        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersionProc;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
           {
-            if ( PSEgetLibVersion )
+            if ( PSEgetLibVersionProc )
             {
-              v18 = PSEgetLibVersion();
-              v19 = ::PSEgetLibVersion(v18);
+              v18 = PSEgetLibVersionProc();
+              v19 = PSEgetLibVersion(v18);
               v20 = (const char *)PSEgetLibName(BYTE1(v19));
               sprintf(lParam, "%s %d.%d", v20, v33, v34);
               if ( PSEgetLibType() == 2 )
@@ -487,7 +487,7 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
   int v21; // ecx
   HMODULE LibraryA; // eax
   HMODULE v23; // esi
-  FARPROC PSEgetLibVersion; // eax
+  FARPROC PSEgetLibVersionProc; // eax
   unsigned __int8 v25; // al
   int v26; // eax
   const char *v27; // eax
@@ -551,16 +551,16 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
         PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
-        PSEgetLibVersion = GetProcAddress(v23, "PSEgetLibVersion");
-        ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+        PSEgetLibVersionProc = GetProcAddress(v23, "PSEgetLibVersion");
+        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersionProc;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
           {
-            if ( PSEgetLibVersion )
+            if ( PSEgetLibVersionProc )
             {
-              v25 = PSEgetLibVersion();
-              v26 = ::PSEgetLibVersion(v25);
+              v25 = PSEgetLibVersionProc();
+              v26 = PSEgetLibVersion(v25);
               v27 = (const char *)PSEgetLibName(BYTE1(v26));
               sprintf(lParam, "%s %d.%d", v27, v40, v41);
               if ( PSEgetLibType() == 4 )
@@ -583,7 +583,7 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
                 }
                 else
                 {
-                  if ( v28 < dword_45B8E4 )
+                  if ( (unsigned int)v28 < dword_45B8E4 )
                   {
                     v33 = &byte_8A9140[1024 * dword_45B8E4];
                     v34 = dword_45B8E4 - v28;
@@ -641,7 +641,7 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
       v12 = &byte_8A9540[1024 * v11];
       if ( !strcmp(v12, "SPUCORE") )
       {
-        DialogBoxParamA(g_hInstance, "IDD_SOUND9X", hDlg, spucore_configure_dialog_callback, 0);
+        DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_SOUND9X", hDlg, spucore_configure_dialog_callback, 0);
       }
       else
       {
@@ -726,7 +726,7 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
   int v21; // eax
   HMODULE LibraryA; // eax
   HMODULE v23; // esi
-  FARPROC PSEgetLibVersion; // eax
+  FARPROC PSEgetLibVersionProc; // eax
   unsigned __int8 v25; // al
   int v26; // eax
   const char *v27; // eax
@@ -803,16 +803,16 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
         {
           PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
           PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
-          PSEgetLibVersion = GetProcAddress(v23, "PSEgetLibVersion");
-          ::PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion;
+          PSEgetLibVersionProc = GetProcAddress(v23, "PSEgetLibVersion");
+          PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersionProc;
           if ( PSEgetLibType )
           {
             if ( PSEgetLibName )
             {
-              if ( PSEgetLibVersion )
+              if ( PSEgetLibVersionProc )
               {
-                v25 = PSEgetLibVersion();
-                v26 = ::PSEgetLibVersion(v25);
+                v25 = PSEgetLibVersionProc();
+                v26 = PSEgetLibVersion(v25);
                 v27 = (const char *)PSEgetLibName(BYTE1(v26));
                 sprintf(v51, "%s %d.%d", v27, v43, v44);
                 if ( PSEgetLibType() == 1 )
@@ -835,7 +835,7 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
                   }
                   else
                   {
-                    if ( v28 < dword_45B8E4 )
+                    if ( (unsigned int)v28 < dword_45B8E4 )
                     {
                       v33 = &byte_8A9140[1024 * dword_45B8E4];
                       v34 = dword_45B8E4 - v28;
@@ -904,7 +904,7 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
           byte_8A94C0 = 1;
           if ( !strcmp(v13, "W9XCDRCORE") )
           {
-            DialogBoxParamA(g_hInstance, "IDD_CDROMCORE9X", hDlg, w9x_cdrom_settings, 0);
+            DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CDROMCORE9X", hDlg, w9x_cdrom_settings, 0);
             return 0;
           }
           if ( !strcmp(v13, "W2KCDRCORE") )
@@ -1029,9 +1029,9 @@ LABEL_16:
           DeviceCaps = GetDeviceCaps(DC, 88);
           ReleaseDC(hDlg, DC);
           if ( DeviceCaps > 96 )
-            DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", hDlg, controller_setup_callback, 0);
+            DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CONTROLLER_LARGE", hDlg, controller_setup_callback, 0);
           else
-            DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", hDlg, controller_setup_callback, 0);
+            DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CONTROLLER", hDlg, controller_setup_callback, 0);
           return 0;
         case 1118:
           pad_number_menu_selection = 2;
@@ -1040,10 +1040,10 @@ LABEL_16:
           ReleaseDC(hDlg, v7);
           if ( v8 <= 96 )
           {
-            DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", hDlg, controller_setup_callback, 0);
+            DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CONTROLLER", hDlg, controller_setup_callback, 0);
             return 0;
           }
-          DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", hDlg, controller_setup_callback, 0);
+          DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CONTROLLER_LARGE", hDlg, controller_setup_callback, 0);
           break;
         default:
           return 0;
@@ -1110,25 +1110,25 @@ int __cdecl setup_wizard_callback(HWND hWndParent)
     {
       case 0:
         setup_wizard_init();
-        DialogBoxParamA(g_hInstance, "IDD_INSTALL", hWndParent, setup_wizard_begin, 0);
+        DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_INSTALL", hWndParent, setup_wizard_begin, 0);
         continue;
       case 1:
-        DialogBoxParamA(g_hInstance, "IDD_INSTALL_BIOS", hWndParent, setup_wizard_search_bios, 0);
+        DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_INSTALL_BIOS", hWndParent, setup_wizard_search_bios, 0);
         continue;
       case 2:
-        DialogBoxParamA(g_hInstance, "IDD_INSTALL_GPU", hWndParent, setup_wizard_search_video_plugin, 0);
+        DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_INSTALL_GPU", hWndParent, setup_wizard_search_video_plugin, 0);
         continue;
       case 3:
-        DialogBoxParamA(g_hInstance, "IDD_INSTALL_SPU", hWndParent, setup_wizard_search_spu_plugin, 0);
+        DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_INSTALL_SPU", hWndParent, setup_wizard_search_spu_plugin, 0);
         continue;
       case 4:
-        DialogBoxParamA(g_hInstance, "IDD_INSTALL_CDROM", hWndParent, setup_wizard_search_cdrom_plugin, 0);
+        DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_INSTALL_CDROM", hWndParent, setup_wizard_search_cdrom_plugin, 0);
         continue;
       case 5:
-        DialogBoxParamA(g_hInstance, "IDD_INSTALL_PAD", hWndParent, setup_wizard_controllers, 0);
+        DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_INSTALL_PAD", hWndParent, setup_wizard_controllers, 0);
         continue;
       case 6:
-        DialogBoxParamA(g_hInstance, "IDD_INSTALL_END", hWndParent, setup_wizard_end, 0);
+        DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_INSTALL_END", hWndParent, setup_wizard_end, 0);
         continue;
       case 7:
         sprintf((char *const)VideoPlugin, "%s", byte_8A84C0);

@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 char spu_load_plugin()
 {
   char result; // al
@@ -86,7 +86,7 @@ char spu_load_plugin()
       spu_use_external_plugin = 0;
     SPUregisterCallback = (char (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUregisterCallback");
     SPUfreeze = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUfreeze");
-    SPUupdate = (int (*(*)(void))(void))GetProcAddress(hSpuModule, "SPUupdate");
+    SPUupdate = (int (__stdcall *)(void))GetProcAddress(hSpuModule, "SPUupdate");
     SPUasync = (int (*(__stdcall *)(_DWORD))(void))GetProcAddress(hSpuModule, "SPUasync");
     SPUreadDMAMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUreadDMAMem");
     SPUwriteDMAMem = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUwriteDMAMem");
@@ -597,4 +597,5 @@ void __cdecl spu_unfreeze(int a1, _DWORD *a2)
     dbg_print(" * SPU plugin doesn't support savestates. \n");
   }
 }
+
 
