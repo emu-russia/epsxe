@@ -3,9 +3,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/Demos/">
-    <Project Path="../demos/debug_demo/debug_demo/debug_demo.vcxproj" Id="212fd22b-a2e9-4429-bc06-148e75903075" />
-  </Folder>
   <Project Path="ePSXe.vcxproj" Id="eb881b2b-0cf4-4d83-8974-12b7bf48dc22" />
   <Project Path="zlib.vcxproj" Id="e573e340-cf42-4f79-879b-9e8a073f3320" />
 </Solution>
