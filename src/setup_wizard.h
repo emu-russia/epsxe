@@ -1,11 +1,11 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
 extern char FileName[256];
-extern unsigned char byte_8A84C0[0x400];
-extern unsigned char byte_8A88C0[0x400];
-extern unsigned char byte_8A8CC0[0x400];
-extern unsigned char byte_8A90C0[0x80];
-extern unsigned char byte_8A94C0;
+extern unsigned char video_plugin_search_path[0x400];
+extern unsigned char spu_plugin_search_path[0x400];
+extern unsigned char cdrom_plugin_search_path[0x400];
+extern unsigned char bios_search_path[0x80];
+extern unsigned char cdrom_plugin_configured_flag;
 extern BIOS_DESCR debug_bios;
 extern BIOS_DESCR retail_bioses;
 extern unsigned int setup_wizard_step;

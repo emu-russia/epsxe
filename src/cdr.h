@@ -1,11 +1,11 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
 extern int adjust_timing;
-extern unsigned char byte_4FD881;
-extern unsigned char byte_50BF7C;
-extern unsigned int dword_50BF70;
-extern unsigned int dword_516504;
-extern unsigned int dword_516508;
+extern unsigned char cdr_randomize_response_flag;
+extern unsigned char g_cdr_seek_target_frame;
+extern unsigned int g_cdr_last_sector_header;
+extern unsigned int g_cdr_dma_address;
+extern unsigned int g_cdr_dma_block_control;
 extern unsigned int g_cdr_cur_msf_pos;
 extern unsigned short g_cdr_cur_track;
 extern unsigned char g_cdr_data_buffer[0xc];
@@ -38,10 +38,10 @@ extern unsigned char g_cdr_spindown_counter;
 extern unsigned char g_cdr_status_regs[0x49];
 extern unsigned char g_cdr_xa_buffer[0xff2];
 extern unsigned char report_mode_enabled;
-extern unsigned short word_455FA6;
-extern unsigned short word_4FD87C;
-extern unsigned short word_50BF7B;
-extern unsigned short word_50BF82;
+extern unsigned short g_cdr_response_delay;
+extern unsigned short g_cdr_response_delay_counter;
+extern unsigned short g_cdr_seek_target_sf;
+extern unsigned short g_cdr_tick_counter;
 
 /* Function prototypes (previously generated in src/_gen) */
 int __cdecl cdr_bcd_to_hex(unsigned __int8 a1);

@@ -9,21 +9,21 @@ char __cdecl iso_load(char *FileName)
 
   dbg_print(" * Loading ISO Format ");
   v1 = fopen(FileName, "rb");
-  dword_50A098 = v1;
+  iso_file_handle = v1;
   if ( !v1 )
     fatal_error_with_message_box(" * Error loading cdrombin [%s]\n", FileName);
   fseek(v1, 0, 2);
-  dword_4FD9A8 = ftell(dword_50A098);
-  dword_456D74 = -1;
-  fseek(dword_50A098, 12, 0);
-  fread(&Offset, 1u, 4u, dword_50A098);
+  iso_file_size = ftell(iso_file_handle);
+  iso_cache_start_lba = -1;
+  fseek(iso_file_handle, 12, 0);
+  fread(&Offset, 1u, 4u, iso_file_handle);
   if ( Offset == 0x2000000 )
   {
-    fseek(dword_50A098, 150 * dword_456D78 + 12, 0);
-    fread(&Offset, 1u, 4u, dword_50A098);
+    fseek(iso_file_handle, 150 * iso_sector_size + 12, 0);
+    fread(&Offset, 1u, 4u, iso_file_handle);
     if ( Offset == 33554944 )
     {
-      dword_4FD9AC = 150 * dword_456D78;
+      iso_data_start_offset = 150 * iso_sector_size;
       dbg_print("[NRG2352] ");
     }
   }
@@ -31,11 +31,11 @@ char __cdecl iso_load(char *FileName)
   {
     if ( Offset )
       goto LABEL_11;
-    fseek(dword_50A098, 0, 0);
-    fread(&Offset, 1u, 4u, dword_50A098);
+    fseek(iso_file_handle, 0, 0);
+    fread(&Offset, 1u, 4u, iso_file_handle);
     if ( Offset == 0x80000 )
     {
-      dword_456D78 = 2336;
+      iso_sector_size = 2336;
       dbg_print("[NRG2336] ");
       goto LABEL_12;
     }
@@ -47,12 +47,12 @@ LABEL_11:
     else
     {
       dbg_print("[CDI2336] ");
-      dword_456D78 = 2336;
-      dword_4FD9AC = 350400;
+      iso_sector_size = 2336;
+      iso_data_start_offset = 350400;
     }
   }
 LABEL_12:
-  fseek(dword_50A098, 0, 0);
+  fseek(iso_file_handle, 0, 0);
   sprintf(Buffer, "%s", FileName);
   result = use_subchannel;
   if ( use_subchannel )
@@ -62,8 +62,8 @@ LABEL_12:
     if ( v3 == 46 )
     {
       qmemcpy(&Buffer[strlen(Buffer) - 3], "sub", 3);
-      dword_505400 = fopen(Buffer, "rb");
-      if ( dword_505400 )
+      subchannel_file_handle = fopen(Buffer, "rb");
+      if ( subchannel_file_handle )
       {
         use_subchannel = 1;
         dbg_print("(+subchannel) ");
@@ -94,46 +94,46 @@ char __cdecl iso_verify_sub(unsigned __int8 a1, unsigned __int8 a2, char a3, int
   *(_DWORD *)(a4 + 4) = 0;
   if ( use_subchannel )
   {
-    *(_DWORD *)a4 = dword_50568D;
-    *(_BYTE *)(a4 + 4) = byte_505691;
-    *(_WORD *)(a4 + 5) = word_505693;
-    *(_BYTE *)(a4 + 7) = byte_505695[0];
-    if ( (unsigned __int8)byte_50A1A5 - 2 < 0 )
+    *(_DWORD *)a4 = subchannel_q_track_rel;
+    *(_BYTE *)(a4 + 4) = subchannel_q_rel_frame;
+    *(_WORD *)(a4 + 5) = subchannel_q_abs_ms;
+    *(_BYTE *)(a4 + 7) = subchannel_q_abs_frame[0];
+    if ( (unsigned __int8)subchannel_msf_second - 2 < 0 )
     {
-      v13 = (unsigned __int8)byte_50A1A4 % 10 + 16 * ((unsigned __int8)byte_50A1A4 / 10) != (unsigned __int8)word_505693;
-      if ( ((unsigned __int8)byte_50A1A4 - 1) % 10 + 16 * (((unsigned __int8)byte_50A1A4 - 1) / 10) != BYTE2(dword_50568D) )
+      v13 = (unsigned __int8)subchannel_msf_minute % 10 + 16 * ((unsigned __int8)subchannel_msf_minute / 10) != (unsigned __int8)subchannel_q_abs_ms;
+      if ( ((unsigned __int8)subchannel_msf_minute - 1) % 10 + 16 * (((unsigned __int8)subchannel_msf_minute - 1) / 10) != BYTE2(subchannel_q_track_rel) )
         ++v13;
-      v5 = byte_505695[0];
-      if ( (unsigned __int8)byte_50A1A5 % 10 + 16 * ((unsigned __int8)byte_50A1A5 / 10) != HIBYTE(word_505693) )
+      v5 = subchannel_q_abs_frame[0];
+      if ( (unsigned __int8)subchannel_msf_second % 10 + 16 * ((unsigned __int8)subchannel_msf_second / 10) != HIBYTE(subchannel_q_abs_ms) )
         ++v13;
-      v6 = (unsigned __int8)byte_50A1A5 + 58;
+      v6 = (unsigned __int8)subchannel_msf_second + 58;
     }
     else
     {
-      v4 = (unsigned __int8)byte_50A1A4 % 10 + 16 * ((unsigned __int8)byte_50A1A4 / 10);
-      v13 = v4 != (unsigned __int8)word_505693;
-      if ( v4 != BYTE2(dword_50568D) )
+      v4 = (unsigned __int8)subchannel_msf_minute % 10 + 16 * ((unsigned __int8)subchannel_msf_minute / 10);
+      v13 = v4 != (unsigned __int8)subchannel_q_abs_ms;
+      if ( v4 != BYTE2(subchannel_q_track_rel) )
         ++v13;
-      v5 = byte_505695[0];
-      if ( (unsigned __int8)byte_50A1A5 % 10 + 16 * ((unsigned __int8)byte_50A1A5 / 10) != HIBYTE(word_505693) )
+      v5 = subchannel_q_abs_frame[0];
+      if ( (unsigned __int8)subchannel_msf_second % 10 + 16 * ((unsigned __int8)subchannel_msf_second / 10) != HIBYTE(subchannel_q_abs_ms) )
         ++v13;
-      v6 = (unsigned __int8)byte_50A1A5 - 2;
+      v6 = (unsigned __int8)subchannel_msf_second - 2;
     }
-    if ( v6 % 10 + 16 * (v6 / 10) != HIBYTE(dword_50568D) )
+    if ( v6 % 10 + 16 * (v6 / 10) != HIBYTE(subchannel_q_track_rel) )
       ++v13;
-    v7 = (unsigned __int8)byte_50A1A6 % 10 + 16 * ((unsigned __int8)byte_50A1A6 / 10);
+    v7 = (unsigned __int8)subchannel_msf_frame % 10 + 16 * ((unsigned __int8)subchannel_msf_frame / 10);
     v8 = v13;
     if ( v7 != v5 )
       v8 = v13 + 1;
-    if ( v7 != (unsigned __int8)byte_505691 )
+    if ( v7 != (unsigned __int8)subchannel_q_rel_frame )
       ++v8;
     if ( v8 >= 2u && a1 == 3 )
     {
       *(_DWORD *)(a4 + 2) = 0;
       *(_WORD *)(a4 + 6) = 0;
-      v7 = (unsigned __int8)byte_50A1A4 % 10 + 16 * ((unsigned __int8)byte_50A1A4 / 10);
+      v7 = (unsigned __int8)subchannel_msf_minute % 10 + 16 * ((unsigned __int8)subchannel_msf_minute / 10);
       if ( v7 == 3 )
-        byte_4F8320 = 1;
+        xenogears_cd_detected = 1;
     }
   }
   else
@@ -198,46 +198,46 @@ char __cdecl iso_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __in
   int v18; // eax
 
   v4 = cdr_msf_to_lba(a1, a2, a3);
-  if ( dword_505400 )
+  if ( subchannel_file_handle )
   {
-    fseek(dword_505400, 96 * v4, 0);
-    fread(byte_505680, 1u, 0x60u, dword_505400);
-    byte_50A1A4 = a1;
-    byte_50A1A5 = a2;
-    byte_50A1A6 = a3;
+    fseek(subchannel_file_handle, 96 * v4, 0);
+    fread(subchannel_buffer, 1u, 0x60u, subchannel_file_handle);
+    subchannel_msf_minute = a1;
+    subchannel_msf_second = a2;
+    subchannel_msf_frame = a3;
   }
-  if ( v4 < dword_456D74 || v4 >= dword_456D74 + 8 )
+  if ( v4 < iso_cache_start_lba || v4 >= iso_cache_start_lba + 8 )
   {
-    v13 = dword_456D78;
-    v14 = v4 * dword_456D78;
-    v15 = 8 * dword_456D78;
-    if ( v4 * dword_456D78 < dword_4FD9A8
-      && (v14 < dword_4FD9A8 - v15 ? (v16 = 8 * dword_456D78) : (v16 = dword_4FD9A8 - v14), v16) )
+    v13 = iso_sector_size;
+    v14 = v4 * iso_sector_size;
+    v15 = 8 * iso_sector_size;
+    if ( v4 * iso_sector_size < iso_file_size
+      && (v14 < iso_file_size - v15 ? (v16 = 8 * iso_sector_size) : (v16 = iso_file_size - v14), v16) )
     {
-      fseek(dword_50A098, dword_4FD9AC + v14, 0);
-      fread(byte_505700, 1u, v16, dword_50A098);
-      v13 = dword_456D78;
+      fseek(iso_file_handle, iso_data_start_offset + v14, 0);
+      fread(iso_sector_buffer, 1u, v16, iso_file_handle);
+      v13 = iso_sector_size;
     }
     else
     {
-      memset(byte_505700, 0, 4 * (v15 >> 2));
+      memset(iso_sector_buffer, 0, 4 * (v15 >> 2));
     }
     v5 = a4;
-    dword_456D74 = v4;
+    iso_cache_start_lba = v4;
     v17 = (char *)(a4 - v13 + 2352);
-    qmemcpy(v17, byte_505700, 4 * (v13 >> 2));
-    v11 = &byte_505700[4 * (v13 >> 2)];
+    qmemcpy(v17, iso_sector_buffer, 4 * (v13 >> 2));
+    v11 = &iso_sector_buffer[4 * (v13 >> 2)];
     v10 = &v17[4 * (v13 >> 2)];
     v12 = v13;
   }
   else
   {
     v5 = a4;
-    v6 = dword_456D78;
-    v7 = &byte_505700[dword_456D78 * (v4 - dword_456D74)];
-    v8 = (char *)(a4 - dword_456D78 + 2352);
-    v9 = (unsigned int)dword_456D78 >> 2;
-    qmemcpy(v8, v7, 4 * ((unsigned int)dword_456D78 >> 2));
+    v6 = iso_sector_size;
+    v7 = &iso_sector_buffer[iso_sector_size * (v4 - iso_cache_start_lba)];
+    v8 = (char *)(a4 - iso_sector_size + 2352);
+    v9 = (unsigned int)iso_sector_size >> 2;
+    qmemcpy(v8, v7, 4 * ((unsigned int)iso_sector_size >> 2));
     v11 = &v7[4 * v9];
     v10 = &v8[4 * v9];
     v12 = v6;
@@ -257,28 +257,28 @@ char __cdecl iso_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __in
 
 int iso_close()
 {
-  if ( dword_50A098 )
-    _close((int)dword_50A098);
-  if ( dword_505400 )
-    _close((int)dword_505400);
+  if ( iso_file_handle )
+    _close((int)iso_file_handle);
+  if ( subchannel_file_handle )
+    _close((int)subchannel_file_handle);
   return dbg_print(" * Closing ISO system. \n");
 }
 
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned char byte_505680[0xd];
-unsigned char byte_505691;
-unsigned char byte_505695[0x4b];
-unsigned char byte_505700[0x1160];
-unsigned char byte_50A1A4;
-unsigned char byte_50A1A5;
-unsigned char byte_50A1A6;
-unsigned int dword_456D74 = 0xffffffff;
-unsigned int dword_456D78 = 0x930;
-unsigned int dword_4FD9A8;
-unsigned int dword_4FD9AC;
-unsigned int dword_505400;
-unsigned int dword_50568D;
-unsigned int dword_50A098;
+unsigned char subchannel_buffer[0xd];
+unsigned char subchannel_q_rel_frame;
+unsigned char subchannel_q_abs_frame[0x4b];
+unsigned char iso_sector_buffer[0x1160];
+unsigned char subchannel_msf_minute;
+unsigned char subchannel_msf_second;
+unsigned char subchannel_msf_frame;
+unsigned int iso_cache_start_lba = 0xffffffff;
+unsigned int iso_sector_size = 0x930;
+unsigned int iso_file_size;
+unsigned int iso_data_start_offset;
+unsigned int subchannel_file_handle;
+unsigned int subchannel_q_track_rel;
+unsigned int iso_file_handle;
 unsigned char use_subchannel = 0x1;
-unsigned short word_505693;
+unsigned short subchannel_q_abs_ms;

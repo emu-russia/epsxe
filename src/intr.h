@@ -1,19 +1,19 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned int dword_4FD870;
-extern unsigned int dword_4FD874;
-extern unsigned int dword_50BFD8[1];
-extern unsigned int dword_50BFDC[1];
-extern unsigned int dword_50C010[1];
-extern unsigned int dword_50C014[1];
-extern unsigned int dword_50C018[1];
-extern unsigned int dword_50C01C[0x4d];
-extern unsigned int dword_50C150[1];
-extern unsigned int dword_50C154[1];
-extern unsigned int dword_50C158[0x2e];
-extern unsigned int dword_50C218;
-extern unsigned int dword_50C21C;
-extern unsigned int dword_50C220[0x10];
+extern unsigned int sio_irq_timeout;
+extern unsigned int sio_irq_delay_time;
+extern unsigned int rcnt_target[1];
+extern unsigned int rcnt_compare[1];
+extern unsigned int irq_hw_regs_a[1];
+extern unsigned int irq_hw_regs_b[1];
+extern unsigned int irq_hw_regs_c[1];
+extern unsigned int irq_hw_regs_d[0x4d];
+extern unsigned int irq_hw_regs_e[1];
+extern unsigned int irq_hw_regs_f[1];
+extern unsigned int irq_hw_regs_g[0x2e];
+extern unsigned int sio_transfer_timeout_saved;
+extern unsigned int sio_pending_time_saved;
+extern unsigned int sio_transfer_pending_saved[0x10];
 
 /* Function prototypes (previously generated in src/_gen) */
 void cdrom_assert_int();

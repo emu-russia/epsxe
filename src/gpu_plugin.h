@@ -25,7 +25,7 @@ extern int (__stdcall *GPUwriteData)();
 extern int (__stdcall *GPUwriteDataMem)();
 extern int (__stdcall *GPUwriteStatus)();
 extern LARGE_INTEGER PerformanceCount;
-extern unsigned int dword_50ADD4;
+extern unsigned int gpu_clear_dynarec_ptr;
 extern MSG g_msg;
 extern unsigned char gpu_closed;
 extern unsigned char gpu_dma2_delay_counter;

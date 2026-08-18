@@ -1,7 +1,7 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned char byte_50C3E0[0x5a00];
-extern unsigned int dword_4FD858;
+extern unsigned char mdec_coeff_buffer[0x5a00];
+extern unsigned int mdec_mono_expand_value;
 extern unsigned short mdec_bit15_flag;
 extern unsigned char mdec_color_lookup[0x80];
 extern unsigned int mdec_color_table_0[0x80];

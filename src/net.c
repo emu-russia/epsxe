@@ -65,7 +65,7 @@ int net_open()
     dbg_print(" * Netplugin open... ");
     NETopen(hOutputWnd);
     result = dbg_print(" ok \n");
-    byte_45696C = 0;
+    net_closed_flag = 0;
   }
   return result;
 }
@@ -86,14 +86,14 @@ char net_netplay_handler()
   result = network_enabled;
   if ( network_enabled )
   {
-    dword_50A1E0 = NETqueryPlayer();
+    netplay_player_count = NETqueryPlayer();
     if ( (unsigned __int8)NETcompareData(default_filename, 12) )
       fatal_error_with_message_box(" * NETPLAY: Error psx game is different in every site. \n");
-    byte_50A201[0] = fastboot;
-    byte_50A200 = sound_enabled;
-    if ( (unsigned __int8)NETcompareData(byte_50A201, 1) )
+    netplay_start_options[0] = fastboot;
+    netplay_sound_enabled = sound_enabled;
+    if ( (unsigned __int8)NETcompareData(netplay_start_options, 1) )
       fatal_error_with_message_box(" * NETPLAY: Start Mode option is different in every site. \n");
-    if ( (unsigned __int8)NETcompareData(&byte_50A200, 1) )
+    if ( (unsigned __int8)NETcompareData(&netplay_sound_enabled, 1) )
       fatal_error_with_message_box(" * NETPLAY: Sound Enable option is different in every site. \n");
     if ( sound_enabled )
     {
@@ -134,7 +134,7 @@ char net_netplay_handler()
     {
       v6 = sio_for_netplay(1u);
       NETtransferData("Transfer Memcard 1", v6, 0x20000);
-      if ( dword_50A1E0 == 2 )
+      if ( netplay_player_count == 2 )
         save_temp_memcard1();
     }
     v7 = sio_for_netplay(2u);
@@ -142,31 +142,31 @@ char net_netplay_handler()
     {
       v8 = sio_for_netplay(2u);
       NETtransferData("Transfer Memcard 2", v8, 0x20000);
-      if ( dword_50A1E0 == 2 )
+      if ( netplay_player_count == 2 )
         save_temp_memcard2();
     }
-    LOBYTE(dword_50A620) = controller_port_modes[0];
-    BYTE1(dword_50A620) = controller_port_modes[1];
-    LOBYTE(dword_50A624) = forcepad;
-    BYTE1(dword_50A624) = unknown_timing_value;
-    BYTE2(dword_50A624) = nocdstatus;
-    HIBYTE(dword_50A624) = country_setting;
-    byte_50A628 = mdectiming;
-    byte_50A629 = mdec_disable;
-    byte_50A62A = xa_read_enable;
-    byte_50A62B[0] = forcespu;
-    NETtransferData("Transfer configuration info", &dword_50A620, 1037);
-    controller_port_modes[0] = (unsigned __int8)dword_50A620;
-    forcepad = (unsigned __int8)dword_50A624;
-    unknown_timing_value = BYTE1(dword_50A624);
-    controller_port_modes[1] = BYTE1(dword_50A620);
-    nocdstatus = BYTE2(dword_50A624);
-    country_setting = HIBYTE(dword_50A624);
-    mdectiming = (unsigned __int8)byte_50A628;
-    xa_read_enable = byte_50A62A;
-    forcespu = byte_50A62B[0];
-    mdec_disable = (unsigned __int8)byte_50A629;
-    return byte_50A62A;
+    LOBYTE(netplay_config_packet) = controller_port_modes[0];
+    BYTE1(netplay_config_packet) = controller_port_modes[1];
+    LOBYTE(netplay_config_options) = forcepad;
+    BYTE1(netplay_config_options) = unknown_timing_value;
+    BYTE2(netplay_config_options) = nocdstatus;
+    HIBYTE(netplay_config_options) = country_setting;
+    netplay_config_mdectiming = mdectiming;
+    netplay_config_mdec_disable = mdec_disable;
+    netplay_config_xa_read_enable = xa_read_enable;
+    netplay_config_padding[0] = forcespu;
+    NETtransferData("Transfer configuration info", &netplay_config_packet, 1037);
+    controller_port_modes[0] = (unsigned __int8)netplay_config_packet;
+    forcepad = (unsigned __int8)netplay_config_options;
+    unknown_timing_value = BYTE1(netplay_config_options);
+    controller_port_modes[1] = BYTE1(netplay_config_packet);
+    nocdstatus = BYTE2(netplay_config_options);
+    country_setting = HIBYTE(netplay_config_options);
+    mdectiming = (unsigned __int8)netplay_config_mdectiming;
+    xa_read_enable = netplay_config_xa_read_enable;
+    forcespu = netplay_config_padding[0];
+    mdec_disable = (unsigned __int8)netplay_config_mdec_disable;
+    return netplay_config_xa_read_enable;
   }
   return result;
 }
@@ -181,11 +181,11 @@ HMODULE net_close()
     result = hNetModule;
     if ( hNetModule )
     {
-      if ( !byte_45696C )
+      if ( !net_closed_flag )
       {
         dbg_print(" * Closing net ...\n");
         NETclose();
-        byte_45696C = 1;
+        net_closed_flag = 1;
       }
       dbg_print(" * Shutdown net ...\n");
       return NETshutdown();
@@ -229,47 +229,47 @@ int net_fill_input()
   result = 0;
   if ( network_enabled )
   {
-    HIWORD(dword_50A1D0) = pad1_buttons_low;
-    byte_50A1D4 = joystick_button_state1[0];
-    byte_50A1D5 = joystick_button_state2[0];
-    byte_50A1D6 = joystick_button_state3[0];
-    byte_50A1D7 = joystick_button_state4[0];
-    LOBYTE(dword_50A1D8) = mouse_buttons_state;
-    BYTE1(dword_50A1D8) = mouse_delta_x;
-    HIWORD(dword_50A1C0) = pad2_buttons_low;
-    BYTE2(dword_50A1D8) = mouse_delta_y;
-    LOBYTE(dword_50A1D0) = controller_port_modes[0];
-    LOBYTE(dword_50A1C0) = controller_port_modes[1];
-    byte_50A1C4 = 0;
-    byte_50A1C5 = 0;
-    byte_50A1C6 = 0;
-    byte_50A1C7 = 0;
-    byte_50A1C8 = 0;
-    byte_50A1C9 = 0;
-    byte_50A1CA = 0;
+    HIWORD(netplay_pad1_state) = pad1_buttons_low;
+    netplay_joy1_state = joystick_button_state1[0];
+    netplay_joy2_state = joystick_button_state2[0];
+    netplay_joy3_state = joystick_button_state3[0];
+    netplay_joy4_state = joystick_button_state4[0];
+    LOBYTE(netplay_mouse_state) = mouse_buttons_state;
+    BYTE1(netplay_mouse_state) = mouse_delta_x;
+    HIWORD(netplay_pad2_state) = pad2_buttons_low;
+    BYTE2(netplay_mouse_state) = mouse_delta_y;
+    LOBYTE(netplay_pad1_state) = controller_port_modes[0];
+    LOBYTE(netplay_pad2_state) = controller_port_modes[1];
+    netplay_pad2_reserved_1 = 0;
+    netplay_pad2_reserved_2 = 0;
+    netplay_pad2_reserved_3 = 0;
+    netplay_pad2_reserved_4 = 0;
+    netplay_pad2_reserved_5 = 0;
+    netplay_pad2_reserved_6 = 0;
+    netplay_pad2_reserved_7 = 0;
     if ( netplay_reset_request )
     {
-      LOBYTE(dword_50A1D0) = LOBYTE(controller_port_modes[0]) | 0x80;
-      LOBYTE(dword_50A1C0) = LOBYTE(controller_port_modes[1]) | 0x80;
+      LOBYTE(netplay_pad1_state) = LOBYTE(controller_port_modes[0]) | 0x80;
+      LOBYTE(netplay_pad2_state) = LOBYTE(controller_port_modes[1]) | 0x80;
     }
-    NETpadState(&dword_50A1D0, &dword_50A1C0);
-    if ( (dword_50A1D0 & 0x80u) != 0 || (dword_50A1C0 & 0x80u) != 0 )
+    NETpadState(&netplay_pad1_state, &netplay_pad2_state);
+    if ( (netplay_pad1_state & 0x80u) != 0 || (netplay_pad2_state & 0x80u) != 0 )
     {
       return 1;
     }
     else
     {
-      controller_port_modes[0] = (unsigned __int8)dword_50A1D0;
-      joystick_button_state2[0] = byte_50A1D5;
-      pad1_buttons_low = HIWORD(dword_50A1D0);
-      joystick_button_state3[0] = byte_50A1D6;
-      mouse_delta_x = SBYTE1(dword_50A1D8);
-      joystick_button_state1[0] = byte_50A1D4;
-      mouse_buttons_state = (unsigned __int8)dword_50A1D8;
-      joystick_button_state4[0] = byte_50A1D7;
-      controller_port_modes[1] = (unsigned __int8)dword_50A1C0;
-      mouse_delta_y = SBYTE2(dword_50A1D8);
-      pad2_buttons_low = HIWORD(dword_50A1C0);
+      controller_port_modes[0] = (unsigned __int8)netplay_pad1_state;
+      joystick_button_state2[0] = netplay_joy2_state;
+      pad1_buttons_low = HIWORD(netplay_pad1_state);
+      joystick_button_state3[0] = netplay_joy3_state;
+      mouse_delta_x = SBYTE1(netplay_mouse_state);
+      joystick_button_state1[0] = netplay_joy1_state;
+      mouse_buttons_state = (unsigned __int8)netplay_mouse_state;
+      joystick_button_state4[0] = netplay_joy4_state;
+      controller_port_modes[1] = (unsigned __int8)netplay_pad2_state;
+      mouse_delta_y = SBYTE2(netplay_mouse_state);
+      pad2_buttons_low = HIWORD(netplay_pad2_state);
       return 0;
     }
   }
@@ -289,30 +289,30 @@ int (__stdcall *NETqueryPlayer)();
 int (__stdcall *NETresume)();
 int (__stdcall *NETshutdown)();
 int (__stdcall *NETtransferData)();
-unsigned char byte_45696C = 0x1;
-unsigned char byte_50A1C4;
-unsigned char byte_50A1C5;
-unsigned char byte_50A1C6;
-unsigned char byte_50A1C7;
-unsigned char byte_50A1C8;
-unsigned char byte_50A1C9;
-unsigned char byte_50A1CA;
-unsigned char byte_50A1D4;
-unsigned char byte_50A1D5;
-unsigned char byte_50A1D6;
-unsigned char byte_50A1D7;
-unsigned char byte_50A200;
-unsigned char byte_50A201[0x41f];
-unsigned char byte_50A628;
-unsigned char byte_50A629;
-unsigned char byte_50A62A;
-unsigned char byte_50A62B[0x405];
-unsigned int dword_50A1C0;
-unsigned int dword_50A1D0;
-unsigned int dword_50A1D8;
-unsigned int dword_50A1E0;
-unsigned int dword_50A620;
-unsigned int dword_50A624;
+unsigned char net_closed_flag = 0x1;
+unsigned char netplay_pad2_reserved_1;
+unsigned char netplay_pad2_reserved_2;
+unsigned char netplay_pad2_reserved_3;
+unsigned char netplay_pad2_reserved_4;
+unsigned char netplay_pad2_reserved_5;
+unsigned char netplay_pad2_reserved_6;
+unsigned char netplay_pad2_reserved_7;
+unsigned char netplay_joy1_state;
+unsigned char netplay_joy2_state;
+unsigned char netplay_joy3_state;
+unsigned char netplay_joy4_state;
+unsigned char netplay_sound_enabled;
+unsigned char netplay_start_options[0x41f];
+unsigned char netplay_config_mdectiming;
+unsigned char netplay_config_mdec_disable;
+unsigned char netplay_config_xa_read_enable;
+unsigned char netplay_config_padding[0x405];
+unsigned int netplay_pad2_state;
+unsigned int netplay_pad1_state;
+unsigned int netplay_mouse_state;
+unsigned int netplay_player_count;
+unsigned int netplay_config_packet;
+unsigned int netplay_config_options;
 unsigned int hNetModule;
 unsigned int network_enabled;
 unsigned int unknown_timing_value;

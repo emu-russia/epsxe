@@ -646,7 +646,7 @@ int __cdecl cont_set_default(unsigned __int8 a1)
   }
   else if ( a1 > 1u && a1 < 4u )
   {
-    memset(&word_455FA8[16 * a1], 0, 0x20u);
+    memset(&pad_key_assignments[16 * a1], 0, 0x20u);
     return 0;
   }
   return result;
@@ -656,7 +656,7 @@ int __cdecl cont_reset_pad_state(unsigned __int8 a1)
 {
   _DWORD *v2; // ecx
 
-  memset(&word_455FA8[16 * a1], 0, 0x20u);
+  memset(&pad_key_assignments[16 * a1], 0, 0x20u);
   v2 = (_DWORD *)(8 * a1 + 5232772);
   *v2 = 0;
   v2[1] = 0;

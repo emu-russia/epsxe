@@ -53,14 +53,14 @@ BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
   do
   {
     v4 = v2 + 4 * (unsigned __int8)pad_number_menu_selection;
-    if ( *((_WORD *)dword_4FD884 + v4) >= 0x20u )
+    if ( *((_WORD *)joypad_button_map + v4) >= 0x20u )
     {
-      sprintf(String, "%d", *((unsigned __int16 *)dword_4FD884 + v4));
+      sprintf(String, "%d", *((unsigned __int16 *)joypad_button_map + v4));
       SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, String);
     }
     else
     {
-      SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, &joy_names[14 * *((unsigned __int16 *)dword_4FD884 + v4)]);
+      SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, &joy_names[14 * *((unsigned __int16 *)joypad_button_map + v4)]);
     }
     ++v2;
     v3 = (int *)((char *)v3 + 2);
@@ -68,12 +68,12 @@ BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
   }
   while ( v7 );
   v5 = a2 + 4 * (unsigned __int8)pad_number_menu_selection;
-  if ( *((_WORD *)dword_4FD884 + v5) < 0x20u )
+  if ( *((_WORD *)joypad_button_map + v5) < 0x20u )
     return SetDlgItemTextA(
              hDlg,
              *((unsigned __int16 *)&nIDDlgItem + a2),
-             &joy_names[14 * *((unsigned __int16 *)dword_4FD884 + v5)]);
-  sprintf(String, "%d", *((unsigned __int16 *)dword_4FD884 + v5));
+             &joy_names[14 * *((unsigned __int16 *)joypad_button_map + v5)]);
+  sprintf(String, "%d", *((unsigned __int16 *)joypad_button_map + v5));
   return SetDlgItemTextA(hDlg, *((unsigned __int16 *)&nIDDlgItem + a2), String);
 }
 
@@ -88,18 +88,18 @@ int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
   CHAR String[1024]; // [esp+14h] [ebp-400h] BYREF
 
   v2 = 0;
-  v3 = &word_44DD1C;
+  v3 = &controller_button_dlg_ids;
   v7 = 16;
   do
   {
-    if ( (unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2] >= 0x200u )
+    if ( (unsigned __int16)pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection + v2] >= 0x200u )
     {
-      sprintf(String, "%d", (unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2]);
+      sprintf(String, "%d", (unsigned __int16)pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection + v2]);
       v4 = (KBD_NAME *)String;
     }
     else
     {
-      v4 = &((KBD_NAME *)stru_44C148)[(unsigned __int16)word_455FA8[16 * (unsigned __int8)pad_number_menu_selection + v2]];
+      v4 = &((KBD_NAME *)stru_44C148)[(unsigned __int16)pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection + v2]];
     }
     SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, v4->text);
     ++v2;
@@ -110,17 +110,17 @@ int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
   if ( a2 < 0xFFu )
   {
     v6 = a2 + 16 * (unsigned __int8)pad_number_menu_selection;
-    if ( (unsigned __int16)word_455FA8[v6] >= 0x200u )
+    if ( (unsigned __int16)pad_key_assignments[v6] >= 0x200u )
     {
-      sprintf(String, "%d", (unsigned __int16)word_455FA8[v6]);
-      return SetDlgItemTextA(hDlg, *((unsigned __int16 *)&word_44DD1C + a2), String);
+      sprintf(String, "%d", (unsigned __int16)pad_key_assignments[v6]);
+      return SetDlgItemTextA(hDlg, *((unsigned __int16 *)&controller_button_dlg_ids + a2), String);
     }
     else
     {
       return SetDlgItemTextA(
                hDlg,
-               *((unsigned __int16 *)&word_44DD1C + a2),
-               ((KBD_NAME *)stru_44C148)[(unsigned __int16)word_455FA8[v6]].text);
+               *((unsigned __int16 *)&controller_button_dlg_ids + a2),
+               ((KBD_NAME *)stru_44C148)[(unsigned __int16)pad_key_assignments[v6]].text);
     }
   }
   return result;
@@ -259,7 +259,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Constant");
       SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"None");
       SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Sine");
-      v9 = dword_4FD8C8[(unsigned __int8)pad_number_menu_selection];
+      v9 = pad4_small_motor_type[(unsigned __int8)pad_number_menu_selection];
       if ( v9 )
       {
         v10 = v9 - 1;
@@ -441,13 +441,13 @@ LABEL_78:
       SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Constant");
       SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"None");
       SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Sine");
-      if ( dword_4FD8C0 )
+      if ( pad2_small_motor_type )
       {
-        if ( dword_4FD8C0 == 1 )
+        if ( pad2_small_motor_type == 1 )
         {
           SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 0, 0);
         }
-        else if ( dword_4FD8C0 == 2 )
+        else if ( pad2_small_motor_type == 2 )
         {
           SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 2u, 0);
         }
@@ -459,15 +459,15 @@ LABEL_78:
       SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Constant");
       SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"None");
       SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Sine");
-      v11 = dword_4FD8D0;
+      v11 = pad2_big_motor_type;
       goto LABEL_78;
     }
     edit_button_id = -1;
-    v13 = dword_4FD884[2 * (unsigned __int8)pad_number_menu_selection];
+    v13 = joypad_button_map[2 * (unsigned __int8)pad_number_menu_selection];
     v14 = mdec_disable_flag[2 * (unsigned __int8)pad_number_menu_selection];
-    qmemcpy(byte_8A9500, &word_455FA8[16 * (unsigned __int8)pad_number_menu_selection], sizeof(byte_8A9500));
-    dword_8B1548 = v13;
-    dword_8B154C = v14;
+    qmemcpy(pad_keymap_dialog_copy, &pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection], sizeof(pad_keymap_dialog_copy));
+    saved_pad_joypad_buttons = v13;
+    saved_pad_mdec_disable_flag = v14;
     controller_set_keyboard(hDlg, 0xFFu);
     controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
     sprintf(String, "PAD NUMBER %d", (unsigned __int8)pad_number_menu_selection);
@@ -553,9 +553,9 @@ LABEL_78:
         return 0;
       case 1047:
         v27 = (unsigned __int8)pad_number_menu_selection;
-        v28 = dword_8B154C;
-        qmemcpy(&word_455FA8[16 * (unsigned __int8)pad_number_menu_selection], byte_8A9500, 0x20u);
-        dword_4FD884[2 * v27] = dword_8B1548;
+        v28 = saved_pad_mdec_disable_flag;
+        qmemcpy(&pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection], pad_keymap_dialog_copy, 0x20u);
+        joypad_button_map[2 * v27] = saved_pad_joypad_buttons;
         mdec_disable_flag[2 * v27] = v28;
         KillTimer(hDlg, 0);
         EndDialog(hDlg, 1);
@@ -685,16 +685,16 @@ LABEL_78:
           {
             if ( v26 == 1 )
             {
-              dword_4FD8C8[(unsigned __int8)pad_number_menu_selection] = 0;
+              pad4_small_motor_type[(unsigned __int8)pad_number_menu_selection] = 0;
             }
             else if ( v26 == 2 )
             {
-              dword_4FD8C8[(unsigned __int8)pad_number_menu_selection] = 2;
+              pad4_small_motor_type[(unsigned __int8)pad_number_menu_selection] = 2;
             }
           }
           else
           {
-            dword_4FD8C8[(unsigned __int8)pad_number_menu_selection] = 1;
+            pad4_small_motor_type[(unsigned __int8)pad_number_menu_selection] = 1;
           }
         }
         cfg_save_settings();
@@ -794,7 +794,7 @@ LABEL_203:
   {
     if ( g_KeyboardStatePrev[v17] && v15 != 0xFF )
       goto LABEL_107;
-    if ( byte_50ABE0[v17] && v15 != 0xFF )
+    if ( extended_key_states_1[v17] && v15 != 0xFF )
     {
       v17 += 32;
 LABEL_107:
@@ -802,9 +802,9 @@ LABEL_107:
       controller_set_keyboard(hDlg, v15);
       return 1;
     }
-    if ( byte_50AC00[v17] && v15 != 0xFF )
+    if ( extended_key_states_2[v17] && v15 != 0xFF )
       break;
-    if ( byte_50AC20[v17] && v15 != 0xFF )
+    if ( extended_key_states_3[v17] && v15 != 0xFF )
     {
       v17 += 96;
       goto LABEL_107;
@@ -814,17 +814,17 @@ LABEL_107:
       v17 = 256;
       while ( !g_KeyboardStatePrev[v17] || v15 == 0xFF )
       {
-        if ( byte_50ABE0[v17] && v15 != 0xFF )
+        if ( extended_key_states_1[v17] && v15 != 0xFF )
         {
           v18 = v17 + 32;
           goto LABEL_137;
         }
-        if ( byte_50AC00[v17] && v15 != 0xFF )
+        if ( extended_key_states_2[v17] && v15 != 0xFF )
         {
           v17 += 64;
           goto LABEL_107;
         }
-        if ( byte_50AC20[v17] && v15 != 0xFF )
+        if ( extended_key_states_3[v17] && v15 != 0xFF )
         {
           v17 += 96;
           goto LABEL_107;
@@ -834,19 +834,19 @@ LABEL_107:
           v18 = 384;
           while ( !g_KeyboardStatePrev[v18] || v15 == 0xFF )
           {
-            if ( byte_50ABE0[v18] && v15 != 0xFF )
+            if ( extended_key_states_1[v18] && v15 != 0xFF )
             {
               cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 32);
               controller_set_keyboard(hDlg, v15);
               return 1;
             }
-            if ( byte_50AC00[v18] && v15 != 0xFF )
+            if ( extended_key_states_2[v18] && v15 != 0xFF )
             {
               cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 64);
               controller_set_keyboard(hDlg, v15);
               return 1;
             }
-            if ( byte_50AC20[v18] && v15 != 0xFF )
+            if ( extended_key_states_3[v18] && v15 != 0xFF )
             {
               v18 += 96;
               goto LABEL_137;
@@ -1111,7 +1111,7 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     hFindFile = FindFirstFileA(FileName, &FindFileData);
     if ( hFindFile == (HANDLE)-1 )
       dbg_print("not video plugins found\n");
-    dword_45B8E4 = 0;
+    found_plugin_count = 0;
     do
     {
       sprintf(LibFileName, "%s%s", v35, FindFileData.cFileName);
@@ -1138,11 +1138,11 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 v21 = SendDlgItemMessageA(hDlg, 1017, 0x143u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)VideoPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(hDlg, 1017, 0x14Eu, v21, 0);
-                v22 = dword_45B8E4;
-                if ( v21 == dword_45B8E4 )
+                v22 = found_plugin_count;
+                if ( v21 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v24 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
+                  v24 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
                     v25 = *cFileName;
@@ -1153,10 +1153,10 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 }
                 else
                 {
-                  if ( v21 < dword_45B8E4 )
+                  if ( v21 < found_plugin_count )
                   {
-                    v26 = &byte_8A9140[1024 * dword_45B8E4];
-                    v27 = dword_45B8E4 - v21;
+                    v26 = &plugin_name_list_shift[1024 * found_plugin_count];
+                    v27 = found_plugin_count - v21;
                     do
                     {
                       v28 = v26;
@@ -1177,12 +1177,12 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                   do
                   {
                     v32 = *v31;
-                    byte_8A9540[v30 + (_DWORD)v31] = *v31;
+                    plugin_name_list[v30 + (_DWORD)v31] = *v31;
                     ++v31;
                   }
                   while ( v32 );
                 }
-                dword_45B8E4 = v22 + 1;
+                found_plugin_count = v22 + 1;
               }
             }
           }
@@ -1197,12 +1197,12 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     switch ( (__int16)a3 )
     {
       case 1018:
-        if ( !dword_45B8E4 )
+        if ( !found_plugin_count )
           return 0;
         v8 = SendDlgItemMessageA(hDlg, 1017, CB_GETCURSEL, 0, 0);
-        if ( v8 == -1 || v8 >= dword_45B8E4 )
+        if ( v8 == -1 || v8 >= found_plugin_count )
           return 0;
-        sprintf(LibFileName, "%s%s", v35, &byte_8A9540[1024 * v8]);
+        sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v8]);
         v9 = LoadLibraryA(LibFileName);
         GPUinit_0 = GetProcAddress(v9, "GPUinit");
         GPUtest_0 = GetProcAddress(v9, "GPUtest");
@@ -1226,12 +1226,12 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         }
         break;
       case 1019:
-        if ( !dword_45B8E4 )
+        if ( !found_plugin_count )
           return 0;
         v11 = SendDlgItemMessageA(hDlg, 1017, CB_GETCURSEL, 0, 0);
-        if ( v11 == -1 || v11 >= dword_45B8E4 )
+        if ( v11 == -1 || v11 >= found_plugin_count )
           return 0;
-        sprintf(LibFileName, "%s%s", v35, &byte_8A9540[1024 * v11]);
+        sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v11]);
         v12 = LoadLibraryA(LibFileName);
         GPUinit_0 = GetProcAddress(v12, "GPUinit");
         PSEconfigure = GetProcAddress(v12, "GPUconfigure");
@@ -1242,12 +1242,12 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         result = 0;
         break;
       case 1020:
-        if ( dword_45B8E4 )
+        if ( found_plugin_count )
         {
           v13 = SendDlgItemMessageA(hDlg, 1017, CB_GETCURSEL, 0, 0);
-          if ( v13 != -1 && v13 < dword_45B8E4 )
+          if ( v13 != -1 && v13 < found_plugin_count )
           {
-            sprintf(LibFileName, "%s%s", v35, &byte_8A9540[1024 * v13]);
+            sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v13]);
             v14 = LoadLibraryA(LibFileName);
             GPUinit_0 = GetProcAddress(v14, "GPUinit");
             GPUabout_0 = GetProcAddress(v14, "GPUabout");
@@ -1259,11 +1259,11 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         }
         return 0;
       case 1021:
-        if ( dword_45B8E4 )
+        if ( found_plugin_count )
         {
           v7 = SendDlgItemMessageA(hDlg, 1017, 0x147u, 0, 0);
-          if ( v7 != -1 && v7 < dword_45B8E4 )
-            sprintf((char *const)VideoPlugin, "%s", &byte_8A9540[1024 * v7]);
+          if ( v7 != -1 && v7 < found_plugin_count )
+            sprintf((char *const)VideoPlugin, "%s", &plugin_name_list[1024 * v7]);
           EndDialog(hDlg, 1);
           cfg_save_settings();
           result = 1;
@@ -1277,7 +1277,7 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         }
         break;
       case 1022:
-        if ( dword_45B8E4 )
+        if ( found_plugin_count )
         {
           EndDialog(hDlg, 1);
         }
@@ -1361,16 +1361,16 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     hFindFile = FindFirstFileA(FileName, &FindFileData);
     if ( hFindFile == (HANDLE)-1 )
       dbg_print("not net plugins found\n");
-    dword_45B8E4 = 0;
+    found_plugin_count = 0;
     sprintf(lParam, "Disabled Netplay");
     v18 = hDlg;
     v19 = SendDlgItemMessageA;
     v20 = SendDlgItemMessageA(hDlg, 1104, 0x143u, 0, (LPARAM)lParam);
     if ( !strcmp((const char *)NetPlugin, "DISABLED") )
       SendDlgItemMessageA(hDlg, 1104, 0x14Eu, v20, 0);
-    v21 = dword_45B8E4;
-    strcpy(&byte_8A9540[1024 * dword_45B8E4], "DISABLED");
-    dword_45B8E4 = v21 + 1;
+    v21 = found_plugin_count;
+    strcpy(&plugin_name_list[1024 * found_plugin_count], "DISABLED");
+    found_plugin_count = v21 + 1;
     while ( 1 )
     {
       sprintf(LibFileName, "%s%s", v42, FindFileData.cFileName);
@@ -1397,11 +1397,11 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 v28 = v19(v18, 1104, 0x143u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)NetPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(v18, 1104, CB_SETCURSEL, v28, 0);
-                v29 = dword_45B8E4;
-                if ( v28 == dword_45B8E4 )
+                v29 = found_plugin_count;
+                if ( v28 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v31 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
+                  v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
                     v32 = *cFileName;
@@ -1412,10 +1412,10 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 }
                 else
                 {
-                  if ( (unsigned int)v28 < dword_45B8E4 )
+                  if ( (unsigned int)v28 < found_plugin_count )
                   {
-                    v33 = &byte_8A9140[1024 * dword_45B8E4];
-                    v34 = dword_45B8E4 - v28;
+                    v33 = &plugin_name_list_shift[1024 * found_plugin_count];
+                    v34 = found_plugin_count - v28;
                     do
                     {
                       v35 = v33;
@@ -1436,12 +1436,12 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                   do
                   {
                     v39 = *v38;
-                    byte_8A9540[v37 + (_DWORD)v38] = *v38;
+                    plugin_name_list[v37 + (_DWORD)v38] = *v38;
                     ++v38;
                   }
                   while ( v39 );
                 }
-                dword_45B8E4 = v29 + 1;
+                found_plugin_count = v29 + 1;
                 v18 = hDlg;
               }
             }
@@ -1459,14 +1459,14 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     switch ( (__int16)a3 )
     {
       case 1099:
-        if ( !dword_45B8E4 )
+        if ( !found_plugin_count )
           return 0;
         v8 = SendDlgItemMessageA(hDlg, 1104, CB_GETCURSEL, 0, 0);
         if ( v8 == -1 )
           return 0;
-        if ( v8 >= dword_45B8E4 )
+        if ( v8 >= found_plugin_count )
           return 0;
-        v9 = &byte_8A9540[1024 * v8];
+        v9 = &plugin_name_list[1024 * v8];
         if ( !strcmp(v9, "DISABLED") )
           return 0;
         sprintf(LibFileName, "%s%s", v42, v9);
@@ -1488,14 +1488,14 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         }
         break;
       case 1100:
-        if ( !dword_45B8E4 )
+        if ( !found_plugin_count )
           return 0;
         v12 = SendDlgItemMessageA(hDlg, 1104, CB_GETCURSEL, 0, 0);
         if ( v12 == -1 )
           return 0;
-        if ( v12 >= dword_45B8E4 )
+        if ( v12 >= found_plugin_count )
           return 0;
-        v13 = &byte_8A9540[1024 * v12];
+        v13 = &plugin_name_list[1024 * v12];
         if ( !strcmp(v13, "DISABLED") )
           return 0;
         sprintf(LibFileName, "%s%s", v42, v13);
@@ -1505,12 +1505,12 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         result = 0;
         break;
       case 1101:
-        if ( dword_45B8E4 )
+        if ( found_plugin_count )
         {
           v15 = SendDlgItemMessageA(hDlg, 1104, 0x147u, 0, 0);
-          if ( v15 != -1 && v15 < dword_45B8E4 )
+          if ( v15 != -1 && v15 < found_plugin_count )
           {
-            v16 = &byte_8A9540[1024 * v15];
+            v16 = &plugin_name_list[1024 * v15];
             if ( strcmp(v16, "DISABLED") )
             {
               sprintf(LibFileName, "%s%s", v42, v16);
@@ -1522,11 +1522,11 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         }
         return 0;
       case 1102:
-        if ( dword_45B8E4 )
+        if ( found_plugin_count )
         {
           v7 = SendDlgItemMessageA(hDlg, 1104, 0x147u, 0, 0);
-          if ( v7 != -1 && v7 < dword_45B8E4 )
-            sprintf((char *const)NetPlugin, "%s", &byte_8A9540[1024 * v7]);
+          if ( v7 != -1 && v7 < found_plugin_count )
+            sprintf((char *const)NetPlugin, "%s", &plugin_name_list[1024 * v7]);
           EndDialog(hDlg, 1);
           cfg_save_settings();
           result = 1;
@@ -1540,7 +1540,7 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         }
         break;
       case 1103:
-        if ( dword_45B8E4 )
+        if ( found_plugin_count )
         {
           EndDialog(hDlg, 1);
         }
@@ -1579,9 +1579,9 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     W9x_init_aspi();
     W9x_free_winaspi_dll();
     v9 = 0;
-    if ( HIBYTE(dword_4FD9BC) )
+    if ( HIBYTE(w9x_cdrom_info) )
     {
-      v10 = byte_504FE9;
+      v10 = cd_device_product;
       do
       {
         sprintf(
@@ -1603,7 +1603,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         ++v9;
         v10 += 64;
       }
-      while ( v9 < HIBYTE(dword_4FD9BC) );
+      while ( v9 < HIBYTE(w9x_cdrom_info) );
     }
     SendDlgItemMessageA(hDlg, 1136, BM_SETCHECK, (unsigned __int8)SubchannelW9xCdromEnabled, 0);
     SendDlgItemMessageA(hDlg, 1137, BM_SETCHECK, (unsigned __int8)SubchannelW9xCaching, 0);
@@ -1617,12 +1617,12 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     if ( (unsigned __int16)a3 == 1079 )
     {
       v5 = SendDlgItemMessageA(hDlg, 1081, CB_GETCURSEL, 0, 0);
-      if ( v5 != -1 && v5 < HIBYTE(dword_4FD9BC) )
+      if ( v5 != -1 && v5 < HIBYTE(w9x_cdrom_info) )
       {
         v6 = v5 << 6;
-        v7 = *(int *)((char *)&dword_505018 + v6);
-        cdrom_haid = *(int *)((char *)&dword_505014 + v6);
-        v8 = *(int *)((char *)dword_50501C + v6);
+        v7 = *(int *)((char *)&cd_device_target + v6);
+        cdrom_haid = *(int *)((char *)&cd_device_haid + v6);
+        v8 = *(int *)((char *)cd_device_lun + v6);
         cdrom_target = v7;
         cdrom_lun = v8;
       }
@@ -1766,16 +1766,16 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   if ( a2 == 272 )
   {
     hFindFile = FindFirstFileA(FileName, &FindFileData);
-    dword_45B8E4 = 0;
+    found_plugin_count = 0;
     sprintf(lParam, "ePSXe CDR ASPI core 1.5.2.");
     v17 = hDlg;
     v18 = SendDlgItemMessageA;
     v19 = SendDlgItemMessageA(hDlg, 1000, 0x143u, 0, (LPARAM)lParam);
     if ( !strcmp((const char *)CdromPlugin, "W9XCDRCORE") )
       SendDlgItemMessageA(hDlg, 1000, 0x14Eu, v19, 0);
-    v20 = dword_45B8E4;
-    strcpy(&byte_8A9540[1024 * dword_45B8E4], "W9XCDRCORE");
-    dword_45B8E4 = v20 + 1;
+    v20 = found_plugin_count;
+    strcpy(&plugin_name_list[1024 * found_plugin_count], "W9XCDRCORE");
+    found_plugin_count = v20 + 1;
     memset(&VersionInformation, 0, sizeof(VersionInformation));
     VersionInformation.dwOSVersionInfoSize = 148;
     GetVersionExA(&VersionInformation);
@@ -1785,9 +1785,9 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       v21 = SendDlgItemMessageA(hDlg, 1000, 0x143u, 0, (LPARAM)lParam);
       if ( !strcmp((const char *)CdromPlugin, "W2KCDRCORE") )
         SendDlgItemMessageA(hDlg, 1000, 0x14Eu, v21, 0);
-      v22 = dword_45B8E4;
-      strcpy(&byte_8A9540[1024 * dword_45B8E4], "W2KCDRCORE");
-      dword_45B8E4 = v22 + 1;
+      v22 = found_plugin_count;
+      strcpy(&plugin_name_list[1024 * found_plugin_count], "W2KCDRCORE");
+      found_plugin_count = v22 + 1;
     }
     do
     {
@@ -1815,11 +1815,11 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 v29 = v18(v17, 1000, 0x143u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)CdromPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(v17, 1000, 0x14Eu, v29, 0);
-                v30 = dword_45B8E4;
-                if ( v29 == dword_45B8E4 )
+                v30 = found_plugin_count;
+                if ( v29 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v32 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
+                  v32 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
                     v33 = *cFileName;
@@ -1830,10 +1830,10 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 }
                 else
                 {
-                  if ( (unsigned int)v29 < dword_45B8E4 )
+                  if ( (unsigned int)v29 < found_plugin_count )
                   {
-                    v34 = &byte_8A9140[1024 * dword_45B8E4];
-                    v35 = dword_45B8E4 - v29;
+                    v34 = &plugin_name_list_shift[1024 * found_plugin_count];
+                    v35 = found_plugin_count - v29;
                     do
                     {
                       v36 = v34;
@@ -1854,13 +1854,13 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                   do
                   {
                     v40 = *v39;
-                    byte_8A9540[v38 + (_DWORD)v39] = *v39;
+                    plugin_name_list[v38 + (_DWORD)v39] = *v39;
                     ++v39;
                   }
                   while ( v40 );
                 }
                 v18 = SendDlgItemMessageA;
-                dword_45B8E4 = v30 + 1;
+                found_plugin_count = v30 + 1;
                 v17 = hDlg;
               }
             }
@@ -1879,9 +1879,9 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         v8 = SendDlgItemMessageA(hDlg, 1000, 0x147u, 0, 0);
         if ( v8 == -1 )
           return 0;
-        if ( v8 >= dword_45B8E4 )
+        if ( v8 >= found_plugin_count )
           return 0;
-        v9 = &byte_8A9540[1024 * v8];
+        v9 = &plugin_name_list[1024 * v8];
         if ( !strcmp(v9, "W9XCDRCORE") || !strcmp(v9, "W2KCDRCORE") )
           return 0;
         sprintf(LibFileName, "%s%s", v43, v9);
@@ -1892,9 +1892,9 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         break;
       case 1003:
         v11 = SendDlgItemMessageA(hDlg, 1000, 0x147u, 0, 0);
-        if ( v11 == -1 || v11 >= dword_45B8E4 )
+        if ( v11 == -1 || v11 >= found_plugin_count )
           return 0;
-        v12 = &byte_8A9540[1024 * v11];
+        v12 = &plugin_name_list[1024 * v11];
         if ( !strcmp(v12, "W9XCDRCORE") )
         {
           DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CDROMCORE9X", hDlg, w9x_cdrom_settings, 0);
@@ -1920,9 +1920,9 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         break;
       case 1004:
         v14 = SendDlgItemMessageA(hDlg, 1000, 0x147u, 0, 0);
-        if ( v14 != -1 && v14 < dword_45B8E4 )
+        if ( v14 != -1 && v14 < found_plugin_count )
         {
-          v15 = &byte_8A9540[1024 * v14];
+          v15 = &plugin_name_list[1024 * v14];
           if ( strcmp(v15, "W9XCDRCORE") )
           {
             if ( strcmp(v15, "W2KCDRCORE") )
@@ -1937,8 +1937,8 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         return 0;
       case 1023:
         v6 = SendDlgItemMessageA(hDlg, 1000, 0x147u, 0, 0);
-        if ( v6 != -1 && v6 < dword_45B8E4 )
-          sprintf((char *const)CdromPlugin, "%s", &byte_8A9540[1024 * v6]);
+        if ( v6 != -1 && v6 < found_plugin_count )
+          sprintf((char *const)CdromPlugin, "%s", &plugin_name_list[1024 * v6]);
         EndDialog(hDlg, 1);
         cfg_save_settings();
         result = 1;
@@ -2028,18 +2028,18 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   if ( a2 == 272 )
   {
     hFindFile = FindFirstFileA(FileName, &FindFileData);
-    dword_45B8E4 = 0;
+    found_plugin_count = 0;
     sprintf(lParam, "ePSXe SPU core 1.5.2.");
     v17 = hDlg;
     v18 = SendDlgItemMessageA;
     v19 = SendDlgItemMessageA(hDlg, 1010, 0x143u, 0, (LPARAM)lParam);
     if ( !strcmp((const char *)SoundPlugin, "SPUCORE") )
       SendDlgItemMessageA(hDlg, 1010, 0x14Eu, v19, 0);
-    v20 = dword_45B8E4;
-    v21 = dword_45B8E4 << 10;
-    *(_DWORD *)&byte_8A9540[v21] = *(_DWORD *)"SPUCORE";
-    strcpy(&byte_8A9544[v21], "ORE");
-    dword_45B8E4 = v20 + 1;
+    v20 = found_plugin_count;
+    v21 = found_plugin_count << 10;
+    *(_DWORD *)&plugin_name_list[v21] = *(_DWORD *)"SPUCORE";
+    strcpy(&plugin_name_list_tail[v21], "ORE");
+    found_plugin_count = v20 + 1;
     do
     {
       sprintf(LibFileName, "%s%s", v42, FindFileData.cFileName);
@@ -2066,11 +2066,11 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 v28 = v18(v17, 1010, 0x143u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)SoundPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(v17, 1010, 0x14Eu, v28, 0);
-                v29 = dword_45B8E4;
-                if ( v28 == dword_45B8E4 )
+                v29 = found_plugin_count;
+                if ( v28 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v31 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
+                  v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
                     v32 = *cFileName;
@@ -2081,10 +2081,10 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 }
                 else
                 {
-                  if ( (unsigned int)v28 < dword_45B8E4 )
+                  if ( (unsigned int)v28 < found_plugin_count )
                   {
-                    v33 = &byte_8A9140[1024 * dword_45B8E4];
-                    v34 = dword_45B8E4 - v28;
+                    v33 = &plugin_name_list_shift[1024 * found_plugin_count];
+                    v34 = found_plugin_count - v28;
                     do
                     {
                       v35 = v33;
@@ -2105,13 +2105,13 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                   do
                   {
                     v39 = *v38;
-                    byte_8A9540[v37 + (_DWORD)v38] = *v38;
+                    plugin_name_list[v37 + (_DWORD)v38] = *v38;
                     ++v38;
                   }
                   while ( v39 );
                 }
                 v18 = SendDlgItemMessageA;
-                dword_45B8E4 = v29 + 1;
+                found_plugin_count = v29 + 1;
                 v17 = hDlg;
               }
             }
@@ -2134,9 +2134,9 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         v8 = SendDlgItemMessageA(hDlg, 1010, 0x147u, 0, 0);
         if ( v8 == -1 )
           return 0;
-        if ( v8 >= dword_45B8E4 )
+        if ( v8 >= found_plugin_count )
           return 0;
-        v9 = &byte_8A9540[1024 * v8];
+        v9 = &plugin_name_list[1024 * v8];
         if ( !strcmp(v9, "SPUCORE") )
           return 0;
         sprintf(LibFileName, "%s%s", v42, v9);
@@ -2147,9 +2147,9 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         break;
       case 1012:
         v11 = SendDlgItemMessageA(hDlg, 1010, 0x147u, 0, 0);
-        if ( v11 == -1 || v11 >= dword_45B8E4 )
+        if ( v11 == -1 || v11 >= found_plugin_count )
           return 0;
-        v12 = &byte_8A9540[1024 * v11];
+        v12 = &plugin_name_list[1024 * v11];
         if ( !strcmp(v12, "SPUCORE") )
         {
           DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_SOUND9X", hDlg, spucore_configure_dialog_callback, 0);
@@ -2165,9 +2165,9 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         break;
       case 1013:
         v14 = SendDlgItemMessageA(hDlg, 1010, CB_GETCURSEL, 0, 0);
-        if ( v14 != -1 && v14 < dword_45B8E4 )
+        if ( v14 != -1 && v14 < found_plugin_count )
         {
-          v15 = &byte_8A9540[1024 * v14];
+          v15 = &plugin_name_list[1024 * v14];
           if ( strcmp(v15, "SPUCORE") )
           {
             sprintf(LibFileName, "%s%s", v42, v15);
@@ -2179,8 +2179,8 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         return 0;
       case 1014:
         v6 = SendDlgItemMessageA(hDlg, 1010, CB_GETCURSEL, 0, 0);
-        if ( v6 != -1 && v6 < dword_45B8E4 )
-          sprintf((char *const)SoundPlugin, "%s", &byte_8A9540[1024 * v6]);
+        if ( v6 != -1 && v6 < found_plugin_count )
+          sprintf((char *const)SoundPlugin, "%s", &plugin_name_list[1024 * v6]);
         sound_enabled = SendDlgItemMessageA(hDlg, 1005, 0xF0u, 0, 0);
         sound_use_xa = SendDlgItemMessageA(hDlg, 1006, 0xF0u, 0, 0);
         sound_use_cdda = SendDlgItemMessageA(hDlg, 1009, 0xF0u, 0, 0);
@@ -2310,20 +2310,20 @@ int (__cdecl *PSEgetLibType)();
 int (__cdecl *PSEgetLibVersion)();
 char aW[8];
 char asc_44E24C[64];
-unsigned char byte_50ABE0[1];
-unsigned char byte_50AC00[1];
-unsigned char byte_50AC20[0xa0];
-unsigned char byte_8A9140[0x380];
-unsigned char byte_8A9500[0x20];
-unsigned char byte_8A9540[0x4];
-unsigned char byte_8A9544[0x7ffc];
+unsigned char extended_key_states_1[1];
+unsigned char extended_key_states_2[1];
+unsigned char extended_key_states_3[0xa0];
+unsigned char plugin_name_list_shift[0x380];
+unsigned char pad_keymap_dialog_copy[0x20];
+unsigned char plugin_name_list[0x4];
+unsigned char plugin_name_list_tail[0x7ffc];
 unsigned int controller_port_modes[8];
-unsigned int dword_45B8E4 = 0x0;
-unsigned int dword_4FD884[1];
-unsigned int dword_4FD8C0;
-unsigned int dword_4FD8C8[1];
-unsigned int dword_8B1548;
-unsigned int dword_8B154C;
+unsigned int found_plugin_count = 0x0;
+unsigned int joypad_button_map[1];
+unsigned int pad2_small_motor_type;
+unsigned int pad4_small_motor_type[1];
+unsigned int saved_pad_joypad_buttons;
+unsigned int saved_pad_mdec_disable_flag;
 unsigned char edit_button_id = 0xff;
 unsigned int g_EffectType2[1];
 unsigned int g_PlayerDeviceMap4[1];
@@ -2333,5 +2333,5 @@ unsigned short nIDDlgItem = 0x41c;
 unsigned char pad_number_menu_selection = 0x1;
 unsigned char stru_44C148[13] = {0x4e, 0x4f, 0x4e, 0x45, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 unsigned char temp_path[0x400];
-unsigned short word_44DD1C[9] = {0x40a, 0x40c, 0x409, 0x40b, 0x412, 0x413, 0x414, 0x415, 0x408};
-unsigned short word_455FA8[4] = {0x1, 0x0, 0x0, 0x0};
+unsigned short controller_button_dlg_ids[9] = {0x40a, 0x40c, 0x409, 0x40b, 0x412, 0x413, 0x414, 0x415, 0x408};
+unsigned short pad_key_assignments[4] = {0x1, 0x0, 0x0, 0x0};

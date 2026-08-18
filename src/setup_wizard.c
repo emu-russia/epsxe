@@ -11,7 +11,7 @@ HANDLE setup_wizard_init()
   CHAR NewFileName[1024]; // [esp+55Ch] [ebp-400h] BYREF
 
   strcpy(v4, "plugins\\");
-  FileName[0] = byte_45B8CC;
+  FileName[0] = current_dir_path;
   strcat(FileName, "gpu*.dll");
   FirstFileA = FindFirstFileA(FileName, &FindFileData);
   if ( FirstFileA != (HANDLE)-1 )
@@ -23,7 +23,7 @@ HANDLE setup_wizard_init()
     }
     while ( FindNextFileA(FirstFileA, &FindFileData) );
   }
-  FileName[0] = byte_45B8CC;
+  FileName[0] = current_dir_path;
   strcat(FileName, "spu*.dll");
   v1 = FindFirstFileA(FileName, &FindFileData);
   if ( v1 != (HANDLE)-1 )
@@ -35,7 +35,7 @@ HANDLE setup_wizard_init()
     }
     while ( FindNextFileA(v1, &FindFileData) );
   }
-  FileName[0] = byte_45B8CC;
+  FileName[0] = current_dir_path;
   strcat(FileName, "cdr*.dll");
   result = FindFirstFileA(FileName, &FindFileData);
   v3 = result;
@@ -110,9 +110,9 @@ INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM
       if ( (unsigned __int16)a3 == 1108 )
       {
         v6 = SendDlgItemMessageA(hDlg, 1106, 0x188u, 0, 0);
-        if ( v6 != -1 && v6 < dword_45B8E4 )
+        if ( v6 != -1 && v6 < found_plugin_count )
         {
-          sprintf(byte_8A90C0, "%s", &byte_8A9540[1024 * v6]);
+          sprintf(bios_search_path, "%s", &plugin_name_list[1024 * v6]);
           ++setup_wizard_step;
           EndDialog(hDlg, 1);
           return 1;
@@ -135,7 +135,7 @@ INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM
       "e LEGALLY when you own a REAL Playstation",
       "psx bios not found",
       0x10u);
-  dword_45B8E4 = 0;
+  found_plugin_count = 0;
   do
   {
     sprintf(Buffer, "%s%s", v26, FindFileData.cFileName);
@@ -164,11 +164,11 @@ INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM
         {
           sprintf(lParam, "%s", (const char *)(36 * v8 + 4513104));
           v14 = SendDlgItemMessageA(hDlg, 1106, 0x180u, 0, (LPARAM)lParam);
-          v15 = dword_45B8E4;
-          if ( v14 == dword_45B8E4 )
+          v15 = found_plugin_count;
+          if ( v14 == found_plugin_count )
           {
             v16 = Buffer;
-            v17 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)Buffer];
+            v17 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)Buffer];
             do
             {
               v18 = *v16;
@@ -179,10 +179,10 @@ INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM
           }
           else
           {
-            if ( v14 < dword_45B8E4 )
+            if ( v14 < found_plugin_count )
             {
-              v19 = &byte_8A9140[1024 * dword_45B8E4];
-              v20 = dword_45B8E4 - v14;
+              v19 = &plugin_name_list_shift[1024 * found_plugin_count];
+              v20 = found_plugin_count - v14;
               do
               {
                 v21 = v19;
@@ -199,7 +199,7 @@ INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM
               while ( v20 );
             }
             v23 = Buffer;
-            v24 = &byte_8A9540[(v14 << 10) - (_DWORD)Buffer];
+            v24 = &plugin_name_list[(v14 << 10) - (_DWORD)Buffer];
             do
             {
               v25 = *v23;
@@ -208,13 +208,13 @@ INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM
             }
             while ( v25 );
           }
-          dword_45B8E4 = v15 + 1;
+          found_plugin_count = v15 + 1;
         }
       }
     }
   }
   while ( FindNextFileA(hFindFile, &FindFileData) );
-  if ( dword_45B8E4 == 1 )
+  if ( found_plugin_count == 1 )
   {
     SendDlgItemMessageA(hDlg, 1106, 0x186u, 0, 0);
     return 1;
@@ -287,7 +287,7 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
         "plugins and download the latest version from pages like www.psxemu.com or www.emulatronia.com",
         "GPU plugin not found",
         0x10u);
-    dword_45B8E4 = 0;
+    found_plugin_count = 0;
     do
     {
       sprintf(LibFileName, "%s%s", v35, FindFileData.cFileName);
@@ -314,11 +314,11 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
                 v21 = SendDlgItemMessageA(hDlg, 1124, 0x180u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)VideoPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(hDlg, 1124, 0x186u, v21, 0);
-                v22 = dword_45B8E4;
-                if ( v21 == dword_45B8E4 )
+                v22 = found_plugin_count;
+                if ( v21 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v24 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
+                  v24 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
                     v25 = *cFileName;
@@ -329,10 +329,10 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
                 }
                 else
                 {
-                  if ( v21 < dword_45B8E4 )
+                  if ( v21 < found_plugin_count )
                   {
-                    v26 = &byte_8A9140[1024 * dword_45B8E4];
-                    v27 = dword_45B8E4 - v21;
+                    v26 = &plugin_name_list_shift[1024 * found_plugin_count];
+                    v27 = found_plugin_count - v21;
                     do
                     {
                       v28 = v26;
@@ -353,12 +353,12 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
                   do
                   {
                     v32 = *v31;
-                    byte_8A9540[v30 + (_DWORD)v31] = *v31;
+                    plugin_name_list[v30 + (_DWORD)v31] = *v31;
                     ++v31;
                   }
                   while ( v32 );
                 }
-                dword_45B8E4 = v22 + 1;
+                found_plugin_count = v22 + 1;
               }
             }
           }
@@ -366,7 +366,7 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
       }
     }
     while ( FindNextFileA(hFindFile, &FindFileData) );
-    if ( dword_45B8E4 == 1 )
+    if ( found_plugin_count == 1 )
     {
       SendDlgItemMessageA(hDlg, 1124, 0x186u, 0, 0);
       return 1;
@@ -378,12 +378,12 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
   switch ( (__int16)a3 )
   {
     case 1125:
-      if ( !dword_45B8E4 )
+      if ( !found_plugin_count )
         return 0;
       v11 = SendDlgItemMessageA(hDlg, 1124, 0x188u, 0, 0);
-      if ( v11 == -1 || v11 >= dword_45B8E4 )
+      if ( v11 == -1 || v11 >= found_plugin_count )
         return 0;
-      sprintf(LibFileName, "%s%s", v35, &byte_8A9540[1024 * v11]);
+      sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v11]);
       v12 = LoadLibraryA(LibFileName);
       GPUinit_0 = GetProcAddress(v12, "GPUinit");
       PSEconfigure = GetProcAddress(v12, "GPUconfigure");
@@ -393,12 +393,12 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
       GPUshutdown_0();
       return 0;
     case 1126:
-      if ( !dword_45B8E4 )
+      if ( !found_plugin_count )
         return 0;
       v8 = SendDlgItemMessageA(hDlg, 1124, 0x188u, 0, 0);
-      if ( v8 == -1 || v8 >= dword_45B8E4 )
+      if ( v8 == -1 || v8 >= found_plugin_count )
         return 0;
-      sprintf(LibFileName, "%s%s", v35, &byte_8A9540[1024 * v8]);
+      sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v8]);
       v9 = LoadLibraryA(LibFileName);
       GPUinit_0 = GetProcAddress(v9, "GPUinit");
       GPUtest_0 = GetProcAddress(v9, "GPUtest");
@@ -425,12 +425,12 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
       EndDialog(hDlg, 1);
       return 1;
     case 1128:
-      if ( !dword_45B8E4 )
+      if ( !found_plugin_count )
         return 1;
       v6 = SendDlgItemMessageA(hDlg, 1124, 0x188u, 0, 0);
-      if ( v6 != -1 && v6 < dword_45B8E4 )
+      if ( v6 != -1 && v6 < found_plugin_count )
       {
-        sprintf(byte_8A84C0, "%s", &byte_8A9540[1024 * v6]);
+        sprintf(video_plugin_search_path, "%s", &plugin_name_list[1024 * v6]);
         ++setup_wizard_step;
         EndDialog(hDlg, 1);
         return 1;
@@ -443,12 +443,12 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
       result = 0;
       break;
     case 1129:
-      if ( dword_45B8E4 )
+      if ( found_plugin_count )
       {
         v13 = SendDlgItemMessageA(hDlg, 1124, 0x188u, 0, 0);
-        if ( v13 != -1 && v13 < dword_45B8E4 )
+        if ( v13 != -1 && v13 < found_plugin_count )
         {
-          sprintf(LibFileName, "%s%s", v35, &byte_8A9540[1024 * v13]);
+          sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v13]);
           v14 = LoadLibraryA(LibFileName);
           GPUinit_0 = GetProcAddress(v14, "GPUinit");
           GPUabout_0 = GetProcAddress(v14, "GPUabout");
@@ -530,18 +530,18 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
   if ( a2 == 272 )
   {
     hFindFile = FindFirstFileA(FileName, &FindFileData);
-    dword_45B8E4 = 0;
+    found_plugin_count = 0;
     sprintf(lParam, "ePSXe SPU core 1.5.2.");
     v17 = hDlg;
     v18 = SendDlgItemMessageA;
     v19 = SendDlgItemMessageA(hDlg, 1129, LB_ADDSTRING, 0, (LPARAM)lParam);
     if ( !strcmp((const char *)SoundPlugin, "SPUCORE") )
       SendDlgItemMessageA(hDlg, 1129, LB_SETCURSEL, v19, 0);
-    v20 = dword_45B8E4;
-    v21 = dword_45B8E4 << 10;
-    *(_DWORD *)&byte_8A9540[v21] = *(_DWORD *)"SPUCORE";
-    strcpy(&byte_8A9544[v21], "ORE");
-    dword_45B8E4 = v20 + 1;
+    v20 = found_plugin_count;
+    v21 = found_plugin_count << 10;
+    *(_DWORD *)&plugin_name_list[v21] = *(_DWORD *)"SPUCORE";
+    strcpy(&plugin_name_list_tail[v21], "ORE");
+    found_plugin_count = v20 + 1;
     while ( 1 )
     {
       sprintf(LibFileName, "%s%s", v42, FindFileData.cFileName);
@@ -568,11 +568,11 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
                 v28 = v18(v17, 1129, 0x180u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)SoundPlugin, FindFileData.cFileName) )
                   SendDlgItemMessageA(v17, 1129, 0x186u, v28, 0);
-                v29 = dword_45B8E4;
-                if ( v28 == dword_45B8E4 )
+                v29 = found_plugin_count;
+                if ( v28 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v31 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
+                  v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
                   do
                   {
                     v32 = *cFileName;
@@ -583,10 +583,10 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
                 }
                 else
                 {
-                  if ( (unsigned int)v28 < dword_45B8E4 )
+                  if ( (unsigned int)v28 < found_plugin_count )
                   {
-                    v33 = &byte_8A9140[1024 * dword_45B8E4];
-                    v34 = dword_45B8E4 - v28;
+                    v33 = &plugin_name_list_shift[1024 * found_plugin_count];
+                    v34 = found_plugin_count - v28;
                     do
                     {
                       v35 = v33;
@@ -607,12 +607,12 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
                   do
                   {
                     v39 = *v38;
-                    byte_8A9540[v37 + (_DWORD)v38] = *v38;
+                    plugin_name_list[v37 + (_DWORD)v38] = *v38;
                     ++v38;
                   }
                   while ( v39 );
                 }
-                dword_45B8E4 = v29 + 1;
+                found_plugin_count = v29 + 1;
                 v17 = hDlg;
               }
             }
@@ -623,7 +623,7 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
         break;
       v18 = SendDlgItemMessageA;
     }
-    if ( dword_45B8E4 == 1 )
+    if ( found_plugin_count == 1 )
     {
       SendDlgItemMessageA(v17, 1129, LB_SETCURSEL, 0, 0);
       return 1;
@@ -636,9 +636,9 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
   {
     case 1111:
       v11 = SendDlgItemMessageA(hDlg, 1129, LB_GETCURSEL, 0, 0);
-      if ( v11 == -1 || v11 >= dword_45B8E4 )
+      if ( v11 == -1 || v11 >= found_plugin_count )
         return 0;
-      v12 = &byte_8A9540[1024 * v11];
+      v12 = &plugin_name_list[1024 * v11];
       if ( !strcmp(v12, "SPUCORE") )
       {
         DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_SOUND9X", hDlg, spucore_configure_dialog_callback, 0);
@@ -655,9 +655,9 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
       v8 = SendDlgItemMessageA(hDlg, 1129, LB_GETCURSEL, 0, 0);
       if ( v8 == -1 )
         return 0;
-      if ( v8 >= dword_45B8E4 )
+      if ( v8 >= found_plugin_count )
         return 0;
-      v9 = &byte_8A9540[1024 * v8];
+      v9 = &plugin_name_list[1024 * v8];
       if ( !strcmp(v9, "SPUCORE") )
         return 0;
       sprintf(LibFileName, "%s%s", v42, v9);
@@ -667,9 +667,9 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
       return 0;
     case 1113:
       v14 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
-      if ( v14 != -1 && v14 < dword_45B8E4 )
+      if ( v14 != -1 && v14 < found_plugin_count )
       {
-        v15 = &byte_8A9540[1024 * v14];
+        v15 = &plugin_name_list[1024 * v14];
         if ( strcmp(v15, "SPUCORE") )
         {
           sprintf(LibFileName, "%s%s", v42, v15);
@@ -685,9 +685,9 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
       return 1;
     case 1131:
       v6 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
-      if ( v6 != -1 && v6 < dword_45B8E4 )
+      if ( v6 != -1 && v6 < found_plugin_count )
       {
-        sprintf(byte_8A88C0, "%s", &byte_8A9540[1024 * v6]);
+        sprintf(spu_plugin_search_path, "%s", &plugin_name_list[1024 * v6]);
         ++setup_wizard_step;
         EndDialog(hDlg, 1);
         return 1;
@@ -773,14 +773,14 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
       break;
     case 0x110u:
       hFindFile = FindFirstFileA(FileName, &FindFileData);
-      dword_45B8E4 = 0;
+      found_plugin_count = 0;
       sprintf(v51, "ePSXe CDR ASPI core 1.5.2.");
       v18 = SendDlgItemMessageA(hDlg, 1119, 0x180u, 0, (LPARAM)v51);
       if ( !strcmp((const char *)CdromPlugin, "W9XCDRCORE") )
         SendDlgItemMessageA(hDlg, 1119, 0x186u, v18, 0);
-      v19 = dword_45B8E4;
-      strcpy(&byte_8A9540[1024 * dword_45B8E4], "W9XCDRCORE");
-      dword_45B8E4 = v19 + 1;
+      v19 = found_plugin_count;
+      strcpy(&plugin_name_list[1024 * found_plugin_count], "W9XCDRCORE");
+      found_plugin_count = v19 + 1;
       memset(&VersionInformation, 0, sizeof(VersionInformation));
       VersionInformation.dwOSVersionInfoSize = 148;
       GetVersionExA(&VersionInformation);
@@ -790,9 +790,9 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
         v20 = SendDlgItemMessageA(hDlg, 1119, 0x180u, 0, (LPARAM)v51);
         if ( !strcmp((const char *)CdromPlugin, "W2KCDRCORE") )
           SendDlgItemMessageA(hDlg, 1119, 0x186u, v20, 0);
-        v21 = dword_45B8E4;
-        strcpy(&byte_8A9540[1024 * dword_45B8E4], "W2KCDRCORE");
-        dword_45B8E4 = v21 + 1;
+        v21 = found_plugin_count;
+        strcpy(&plugin_name_list[1024 * found_plugin_count], "W2KCDRCORE");
+        found_plugin_count = v21 + 1;
       }
       do
       {
@@ -820,11 +820,11 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
                   v28 = SendDlgItemMessageA(hDlg, 1119, 0x180u, 0, (LPARAM)v51);
                   if ( !strcmp((const char *)CdromPlugin, FindFileData.cFileName) )
                     SendDlgItemMessageA(hDlg, 1119, 0x186u, v28, 0);
-                  v29 = dword_45B8E4;
-                  if ( v28 == dword_45B8E4 )
+                  v29 = found_plugin_count;
+                  if ( v28 == found_plugin_count )
                   {
                     cFileName = FindFileData.cFileName;
-                    v31 = &byte_8A9540[(dword_45B8E4 << 10) - (_DWORD)FindFileData.cFileName];
+                    v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
                     do
                     {
                       v32 = *cFileName;
@@ -835,10 +835,10 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
                   }
                   else
                   {
-                    if ( (unsigned int)v28 < dword_45B8E4 )
+                    if ( (unsigned int)v28 < found_plugin_count )
                     {
-                      v33 = &byte_8A9140[1024 * dword_45B8E4];
-                      v34 = dword_45B8E4 - v28;
+                      v33 = &plugin_name_list_shift[1024 * found_plugin_count];
+                      v34 = found_plugin_count - v28;
                       do
                       {
                         v35 = v33;
@@ -859,12 +859,12 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
                     do
                     {
                       v39 = *v38;
-                      byte_8A9540[v37 + (_DWORD)v38] = *v38;
+                      plugin_name_list[v37 + (_DWORD)v38] = *v38;
                       ++v38;
                     }
                     while ( v39 );
                   }
-                  dword_45B8E4 = v29 + 1;
+                  found_plugin_count = v29 + 1;
                 }
               }
             }
@@ -887,7 +887,7 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
             SendDlgItemMessageA(hDlg, 1113, 0x14Eu, v42, 0);
         }
       }
-      if ( dword_45B8E4 == 1 )
+      if ( found_plugin_count == 1 )
       {
         SendDlgItemMessageA(hDlg, 1119, 0x186u, 0, 0);
         return 1;
@@ -898,10 +898,10 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
       {
         case 1120:
           v12 = SendDlgItemMessageA(hDlg, 1119, 0x188u, 0, 0);
-          if ( v12 == -1 || v12 >= dword_45B8E4 )
+          if ( v12 == -1 || v12 >= found_plugin_count )
             return 0;
-          v13 = &byte_8A9540[1024 * v12];
-          byte_8A94C0 = 1;
+          v13 = &plugin_name_list[1024 * v12];
+          cdrom_plugin_configured_flag = 1;
           if ( !strcmp(v13, "W9XCDRCORE") )
           {
             DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CDROMCORE9X", hDlg, w9x_cdrom_settings, 0);
@@ -920,9 +920,9 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
           v9 = SendDlgItemMessageA(hDlg, 1119, 0x188u, 0, 0);
           if ( v9 == -1 )
             return 0;
-          if ( v9 >= dword_45B8E4 )
+          if ( v9 >= found_plugin_count )
             return 0;
-          v10 = &byte_8A9540[1024 * v9];
+          v10 = &plugin_name_list[1024 * v9];
           if ( !strcmp(v10, "W9XCDRCORE") || !strcmp(v10, "W2KCDRCORE") )
             return 0;
           sprintf(LibFileName, "%s%s", v45, v10);
@@ -936,7 +936,7 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
           return 1;
         case 1123:
           v6 = SendDlgItemMessageA(hDlg, 1119, 0x188u, 0, 0);
-          if ( v6 == -1 || v6 >= dword_45B8E4 )
+          if ( v6 == -1 || v6 >= found_plugin_count )
           {
             MessageBoxA(
               nullptr,
@@ -945,7 +945,7 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
               0x10u);
             return 0;
           }
-          if ( !byte_8A94C0 && strcmp(&byte_8A9540[1024 * v6], "W2KCDRCORE") )
+          if ( !cdrom_plugin_configured_flag && strcmp(&plugin_name_list[1024 * v6], "W2KCDRCORE") )
           {
             MessageBoxA(
               nullptr,
@@ -954,7 +954,7 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
               0x10u);
             return 0;
           }
-          sprintf(byte_8A8CC0, "%s", &byte_8A9540[1024 * v6]);
+          sprintf(cdrom_plugin_search_path, "%s", &plugin_name_list[1024 * v6]);
           ++setup_wizard_step;
           v8 = SendDlgItemMessageA(hDlg, 1062, 0x147u, 0, 0);
           if ( v8 != -1 )
@@ -972,9 +972,9 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
           break;
         case 1124:
           v15 = SendDlgItemMessageA(hDlg, 1119, 0x188u, 0, 0);
-          if ( v15 != -1 && v15 < dword_45B8E4 )
+          if ( v15 != -1 && v15 < found_plugin_count )
           {
-            v16 = &byte_8A9540[1024 * v15];
+            v16 = &plugin_name_list[1024 * v15];
             if ( strcmp(v16, "W9XCDRCORE") )
             {
               if ( strcmp(v16, "W2KCDRCORE") )
@@ -1102,7 +1102,7 @@ int __cdecl setup_wizard_callback(HWND hWndParent)
 {
   int result; // eax
 
-  byte_8A94C0 = 0;
+  cdrom_plugin_configured_flag = 0;
   while ( 2 )
   {
     result = setup_wizard_step;
@@ -1131,10 +1131,10 @@ int __cdecl setup_wizard_callback(HWND hWndParent)
         DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_INSTALL_END", hWndParent, setup_wizard_end, 0);
         continue;
       case 7:
-        sprintf((char *const)VideoPlugin, "%s", byte_8A84C0);
-        sprintf((char *const)SoundPlugin, "%s", byte_8A88C0);
-        sprintf((char *const)CdromPlugin, "%s", byte_8A8CC0);
-        sprintf((char *const)bios_name, "%s", byte_8A90C0);
+        sprintf((char *const)VideoPlugin, "%s", video_plugin_search_path);
+        sprintf((char *const)SoundPlugin, "%s", spu_plugin_search_path);
+        sprintf((char *const)CdromPlugin, "%s", cdrom_plugin_search_path);
+        sprintf((char *const)bios_name, "%s", bios_search_path);
         result = cfg_save_settings();
         break;
       default:
@@ -1148,11 +1148,11 @@ int __cdecl setup_wizard_callback(HWND hWndParent)
 
 /* Decompiled globals (previously generated in src/_gen) */
 char FileName[256];
-unsigned char byte_8A84C0[0x400];
-unsigned char byte_8A88C0[0x400];
-unsigned char byte_8A8CC0[0x400];
-unsigned char byte_8A90C0[0x80];
-unsigned char byte_8A94C0;
+unsigned char video_plugin_search_path[0x400];
+unsigned char spu_plugin_search_path[0x400];
+unsigned char cdrom_plugin_search_path[0x400];
+unsigned char bios_search_path[0x80];
+unsigned char cdrom_plugin_configured_flag;
 BIOS_DESCR debug_bios = {0x0D, "dtlh3002 - PAL"};
 BIOS_DESCR retail_bioses = {0x0C8EC73C0, "scph1000 - JAP"};
 unsigned int setup_wizard_step = 0xffffffff;

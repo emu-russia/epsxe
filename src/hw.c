@@ -10,7 +10,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
 
   if ( a1 <= 0x1F801020 && a1 >= 0x1F801000 )
   {
-    *(_DWORD *)&byte_516600[(unsigned __int16)a1] = a2;
+    *(_DWORD *)&hw_regs[(unsigned __int16)a1] = a2;
     return;
   }
   if ( a1 <= 0x1F801138 && a1 >= 0x1F801100 )
@@ -28,11 +28,11 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
   {
     if ( a1 == 0x1F8010B8 )
     {
-      dword_51650C = a2;
-      if ( dword_5164D0[1] < 0 )
+      g_cdr_dma_channel_control = a2;
+      if ( dma_channel_status[1] < 0 )
       {
         cdr_dma();
-        dword_51650C = a2 & 0xFEFFFFFF;
+        g_cdr_dma_channel_control = a2 & 0xFEFFFFFF;
         irq_dma_assert_int(3u);
       }
     }
@@ -47,15 +47,15 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           sio_write_data_byte(a1, SHIBYTE(a2));
           break;
         case 0x1F801060u:
-          *(_DWORD *)&byte_516600[(unsigned __int16)a1] = a2;
+          *(_DWORD *)&hw_regs[(unsigned __int16)a1] = a2;
           break;
         case 0x1F801070u:
-          if ( *(_DWORD *)dword_4FD878 )
+          if ( *(_DWORD *)sio_irq_pending )
           {
-            if ( (unsigned int)hw_update_counter < *(_DWORD *)dword_4FD870 )
+            if ( (unsigned int)hw_update_counter < *(_DWORD *)sio_irq_timeout )
             {
-              *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
-              *(_DWORD *)dword_4FD878 = 0;
+              *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
+              *(_DWORD *)sio_irq_pending = 0;
             }
           }
           *(_DWORD *)int_reg &= a2 & int_mask;
@@ -75,7 +75,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           goto LABEL_37;
         case 0x1F801088u:
           mdec_dma_control[0] = a2;
-          if ( (dword_5164D0[0] & 8) != 0 )
+          if ( (dma_channel_status[0] & 8) != 0 )
           {
             mdec_dma_in_handler();
             mdec_dma_control[0] = a2 & 0xFEFFFFFF;
@@ -84,7 +84,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           break;
         case 0x1F801098u:
           mdec_dma_status = a2;
-          if ( dword_5164D0[0] < 0 )
+          if ( dma_channel_status[0] < 0 )
           {
             mdec_decode();
             if ( !mdectiming )
@@ -96,7 +96,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
           break;
         case 0x1F8010A8u:
           *(_DWORD *)gpu_dma_channel_status = a2;
-          if ( (dword_5164D0[1] & 8) != 0 )
+          if ( (dma_channel_status[1] & 8) != 0 )
             gpu_dma();
           break;
         default:
@@ -110,7 +110,7 @@ void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2)
     if ( a1 == 528486628 )
     {
 LABEL_37:
-      dword_5164E4[3 * ((unsigned __int8)a1 >> 4) - 24] = a2;
+      mdec_dma_bcr[3 * ((unsigned __int8)a1 >> 4) - 24] = a2;
     }
     else
     {
@@ -126,19 +126,19 @@ LABEL_32:
         case 0x1F8010D4u:
           goto LABEL_37;
         case 0x1F8010C8u:
-          *(_DWORD *)dword_516518 = a2;
-          if ( (*(_DWORD *)dword_5164D0 & 0x80000) != 0 )
+          *(_DWORD *)spu_dma_chcr_ptr = a2;
+          if ( (*(_DWORD *)dma_channel_status & 0x80000) != 0 )
           {
             spu_dma_cb();
-            *(_DWORD *)dword_516518 = a2 & 0xFEFFFFFF;
+            *(_DWORD *)spu_dma_chcr_ptr = a2 & 0xFEFFFFFF;
             irq_dma_assert_int(4u);
           }
           break;
         case 0x1F8010D8u:
-          dword_516524 = a2;
-          if ( ((unsigned int)&bios_image[37248] & *(_DWORD *)dword_5164D0) != 0 )
+          pio_dma_chcr = a2;
+          if ( ((unsigned int)&bios_image[37248] & *(_DWORD *)dma_channel_status) != 0 )
           {
-            dword_516524 = a2 & 0xFEFFFFFF;
+            pio_dma_chcr = a2 & 0xFEFFFFFF;
             irq_dma_assert_int(5u);
           }
           break;
@@ -175,27 +175,27 @@ LABEL_51:
   {
     if ( a1 == 528486640 )
     {
-      *(_DWORD *)dword_5164D0 = a2;
+      *(_DWORD *)dma_channel_status = a2;
       return;
     }
     if ( a1 == 528486644 )
     {
-      dword_50BFC8 = a2 & 0xFFFFFF | dword_50BFC8 & ~(a2 | 0xFFFFFF);
+      dma_int_ctrl = a2 & 0xFFFFFF | dma_int_ctrl & ~(a2 | 0xFFFFFF);
       return;
     }
     goto LABEL_51;
   }
   *(_DWORD *)gpu_dma6_status = a2;
-  if ( (*(_DWORD *)dword_5164D0 & 0x8000000) != 0 )
+  if ( (*(_DWORD *)dma_channel_status & 0x8000000) != 0 )
   {
-    v2 = dword_516528;
-    v3 = dword_51652C;
+    v2 = dma6_madr;
+    v3 = dma6_bcr;
     if ( *(_DWORD *)gpu_dma6_status == 285212674 )
     {
-      if ( dword_51652C )
+      if ( dma6_bcr )
       {
-        v4 = dword_516528 - 4;
-        v5 = dword_51652C;
+        v4 = dma6_madr - 4;
+        v5 = dma6_bcr;
         do
         {
           v6 = v4 & 0xFFFFFF;
@@ -248,15 +248,15 @@ __int16 __cdecl hw_reg_read_half(unsigned int a1)
       switch ( a1 )
       {
         case 0x1F801110u:
-          LOWORD(v1) = LOWORD(dword_50BFD0[4 * ((a1 >> 4) & 3)])
-                     + ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : cpu_speed_scale)
-                     - ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter);
+          LOWORD(v1) = LOWORD(rcnt_counter[4 * ((a1 >> 4) & 3)])
+                     + ((rcnt_mode[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : cpu_speed_scale)
+                     - ((rcnt_mode[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter);
           return v1;
         case 0x1F801114u:
         case 0x1F801124u:
         case 0x1F801134u:
 LABEL_33:
-          LOWORD(v1) = dword_50BFD4[4 * ((a1 >> 4) & 3)];
+          LOWORD(v1) = rcnt_mode[4 * ((a1 >> 4) & 3)];
           return v1;
         case 0x1F801118u:
         case 0x1F801128u:
@@ -265,8 +265,8 @@ LABEL_33:
         case 0x1F801120u:
           LOWORD(v9) = cpu_speed_scale;
           v10 = 4 * ((a1 >> 4) & 3);
-          v11 = dword_50BFD0[v10];
-          v12 = dword_50BFD4[v10] & 0x200;
+          v11 = rcnt_counter[v10];
+          v12 = rcnt_mode[v10] & 0x200;
           if ( v12 )
             v9 = (unsigned int)cpu_speed_scale >> 3;
           v13 = v9 + v11;
@@ -288,7 +288,7 @@ LABEL_36:
     else if ( a1 == 0x1F801108 )
     {
 LABEL_34:
-      LOWORD(v1) = dword_50BFD8[4 * ((a1 >> 4) & 3)];
+      LOWORD(v1) = rcnt_target[4 * ((a1 >> 4) & 3)];
     }
     else
     {
@@ -296,7 +296,7 @@ LABEL_34:
       switch ( a1 )
       {
         case 0x1F801014u:
-          LOWORD(v1) = *(_WORD *)&byte_516600[(unsigned __int16)a1];
+          LOWORD(v1) = *(_WORD *)&hw_regs[(unsigned __int16)a1];
           break;
         case 0x1F801040u:
           sio_read_data_byte();
@@ -323,10 +323,10 @@ LABEL_34:
           LOWORD(v1) = HIWORD(sio0_control_reg);
           break;
         case 0x1F801070u:
-          if ( *(_DWORD *)dword_4FD878 && (unsigned int)hw_update_counter < *(_DWORD *)dword_4FD870 )
+          if ( *(_DWORD *)sio_irq_pending && (unsigned int)hw_update_counter < *(_DWORD *)sio_irq_timeout )
           {
-            *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
-            *(_DWORD *)dword_4FD878 = 0;
+            *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
+            *(_DWORD *)sio_irq_pending = 0;
           }
           LOWORD(v1) = *(_WORD *)int_reg | forcepad;
           break;
@@ -335,8 +335,8 @@ LABEL_34:
           break;
         case 0x1F801100u:
           v5 = 4 * ((a1 >> 4) & 3);
-          LOWORD(v2) = dword_50BFD0[v5];
-          v6 = dword_50BFD4[v5] & 0x100;
+          LOWORD(v2) = rcnt_counter[v5];
+          v6 = rcnt_mode[v5] & 0x100;
           v7 = 512;
           if ( !v6 )
             v7 = cpu_speed_scale;
@@ -413,12 +413,12 @@ LABEL_44:
             case 0x1F801128u:
             case 0x1F801138u:
 LABEL_39:
-              result = dword_50BFD8[4 * ((a1 >> 4) & 3)];
+              result = rcnt_target[4 * ((a1 >> 4) & 3)];
               break;
             case 0x1F801130u:
               return 0;
             case 0x1F801134u:
-              return dword_50BFD4[4 * ((a1 >> 4) & 3)];
+              return rcnt_mode[4 * ((a1 >> 4) & 3)];
             default:
               goto LABEL_44;
           }
@@ -426,22 +426,22 @@ LABEL_39:
       }
       else if ( a1 == 0x1F801124 )
       {
-        return dword_50BFD4[4 * ((a1 >> 4) & 3)];
+        return rcnt_mode[4 * ((a1 >> 4) & 3)];
       }
       else
       {
         switch ( a1 )
         {
           case 0x1F8010F0u:
-            result = *(_DWORD *)dword_5164D0;
+            result = *(_DWORD *)dma_channel_status;
             break;
           case 0x1F8010F4u:
-            result = dword_50BFC8;
+            result = dma_int_ctrl;
             break;
           case 0x1F801100u:
             v5 = 4 * ((a1 >> 4) & 3);
-            v6 = dword_50BFD0[v5];
-            v7 = dword_50BFD4[v5] & 0x100;
+            v6 = rcnt_counter[v5];
+            v7 = rcnt_mode[v5] & 0x100;
             v8 = 512;
             if ( !v7 )
               v8 = cpu_speed_scale;
@@ -453,20 +453,20 @@ LABEL_39:
             break;
           case 0x1F801104u:
           case 0x1F801114u:
-            return dword_50BFD4[4 * ((a1 >> 4) & 3)];
+            return rcnt_mode[4 * ((a1 >> 4) & 3)];
           case 0x1F801108u:
           case 0x1F801118u:
             goto LABEL_39;
           case 0x1F801110u:
-            result = ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : cpu_speed_scale)
-                   - ((dword_50BFD4[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter)
-                   + dword_50BFD0[4 * ((a1 >> 4) & 3)];
+            result = ((rcnt_mode[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : cpu_speed_scale)
+                   - ((rcnt_mode[4 * ((a1 >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter)
+                   + rcnt_counter[4 * ((a1 >> 4) & 3)];
             break;
           case 0x1F801120u:
             v10 = cpu_speed_scale;
             v11 = 4 * ((a1 >> 4) & 3);
-            v12 = dword_50BFD0[v11];
-            v13 = dword_50BFD4[v11] & 0x200;
+            v12 = rcnt_counter[v11];
+            v13 = rcnt_mode[v11] & 0x200;
             if ( v13 )
               v10 = (unsigned int)cpu_speed_scale >> 3;
             v14 = v10 + v12;
@@ -499,19 +499,19 @@ LABEL_15:
       {
         case 0x1F801014u:
         case 0x1F801060u:
-          result = *(_DWORD *)&byte_516600[(unsigned __int16)a1];
+          result = *(_DWORD *)&hw_regs[(unsigned __int16)a1];
           break;
         case 0x1F801040u:
         case 0x1F801044u:
           result = sio_read_register(a1, 4);
           break;
         case 0x1F801070u:
-          if ( *(_DWORD *)dword_4FD878 )
+          if ( *(_DWORD *)sio_irq_pending )
           {
-            if ( (unsigned int)hw_update_counter < *(_DWORD *)dword_4FD870 )
+            if ( (unsigned int)hw_update_counter < *(_DWORD *)sio_irq_timeout )
             {
-              *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
-              *(_DWORD *)dword_4FD878 = 0;
+              *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
+              *(_DWORD *)sio_irq_pending = 0;
             }
           }
           result = *(_DWORD *)int_reg | forcepad;
@@ -556,10 +556,10 @@ int __cdecl hw_reg_freeze(const char *a1, int a2)
   sprintf(Buffer, "%s", a1);
   v4 = 65640;
   gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-  gzwrite(a2, (unsigned __int8 *)dword_5164D0, 4u);
-  gzwrite(a2, (unsigned __int8 *)dword_566964, 4u);
+  gzwrite(a2, (unsigned __int8 *)dma_channel_status, 4u);
+  gzwrite(a2, (unsigned __int8 *)hw_saved_state, 4u);
   gzwrite(a2, (unsigned __int8 *)mdec_dma_src, 0x60u);
-  return gzwrite(a2, (unsigned __int8 *)byte_516600, 0x10000u);
+  return gzwrite(a2, (unsigned __int8 *)hw_regs, 0x10000u);
 }
 
 int __cdecl hw_reg_unfreeze(int a1, _DWORD *a2)
@@ -567,26 +567,26 @@ int __cdecl hw_reg_unfreeze(int a1, _DWORD *a2)
   char v3[16]; // [esp+4h] [ebp-10h] BYREF
 
   gzread(a2, v3, 7);
-  gzread(a2, dword_5164D0, 4);
-  gzread(a2, dword_566964, 4);
+  gzread(a2, dma_channel_status, 4);
+  gzread(a2, hw_saved_state, 4);
   gzread(a2, (char *)mdec_dma_src, 96);
-  return gzread(a2, byte_516600, 0x10000);
+  return gzread(a2, hw_regs, 0x10000);
 }
 
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned char byte_516600[0x10000];
-unsigned int dword_4FD878;
-unsigned int dword_50BFC8;
-unsigned int dword_50BFD0[1];
-unsigned int dword_50BFD4[1];
-unsigned int dword_5164D0[1];
-unsigned int dword_5164E4[1];
-unsigned int dword_51650C;
-unsigned int dword_516524;
-unsigned int dword_516528;
-unsigned int dword_51652C;
-unsigned int dword_566964;
+unsigned char hw_regs[0x10000];
+unsigned int sio_irq_pending;
+unsigned int dma_int_ctrl;
+unsigned int rcnt_counter[1];
+unsigned int rcnt_mode[1];
+unsigned int dma_channel_status[1];
+unsigned int mdec_dma_bcr[1];
+unsigned int g_cdr_dma_channel_control;
+unsigned int pio_dma_chcr;
+unsigned int dma6_madr;
+unsigned int dma6_bcr;
+unsigned int hw_saved_state;
 unsigned int gpu_dma6_status;
 unsigned int hw_update_counter;
 unsigned int mdec_dma_control[1];

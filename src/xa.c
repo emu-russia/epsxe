@@ -161,10 +161,10 @@ int __cdecl xa_setup_adpcm_decoder(_DWORD *a1, int a2, int a3, int a4)
   v4 = 1;
   if ( a4 )
   {
-    byte_8B1960[0] = (*(_BYTE *)(a2 + 3) >> 2) & 3;
-    if ( byte_8B1960[0] )
+    xa_prev_sample_rate[0] = (*(_BYTE *)(a2 + 3) >> 2) & 3;
+    if ( xa_prev_sample_rate[0] )
     {
-      if ( byte_8B1960[0] == 1 )
+      if ( xa_prev_sample_rate[0] == 1 )
         *a1 = 18900;
       else
         *a1 = 0;
@@ -218,9 +218,9 @@ int __cdecl xa_setup_adpcm_decoder(_DWORD *a1, int a2, int a3, int a4)
   if ( spu_adpcm_flag )
     return 0;
   v8 = (*(_BYTE *)(a2 + 3) >> 2) & 3;
-  if ( byte_8B1960[0] == v8 )
+  if ( xa_prev_sample_rate[0] == v8 )
     return 0;
-  byte_8B1960[0] = (*(_BYTE *)(a2 + 3) >> 2) & 3;
+  xa_prev_sample_rate[0] = (*(_BYTE *)(a2 + 3) >> 2) & 3;
   if ( !v8 )
   {
     *a1 = 37800;
@@ -267,7 +267,7 @@ int __cdecl xa_decode_stereo_blocks(int a1, int a2)
   do
   {
     v4 = v2 + 16;
-    v5 = &byte_44C124;
+    v5 = &xa_stereo_nibble_offset_table;
     do
     {
       v6 = v22;
@@ -314,7 +314,7 @@ int __cdecl xa_decode_stereo_blocks(int a1, int a2)
       ++v4;
       v19 += 56;
     }
-    while ( (int)v5 < (int)dword_44C134 );
+    while ( (int)v5 < (int)xa_mono_nibble_offset_table );
     v2 = v20 + 128;
     result = v21 - 1;
     v17 = v21 == 1;
@@ -358,7 +358,7 @@ int xa_decode_mono_blocks(int a1, int a2, int a3)
   do
   {
     v5 = v4 + 16;
-    v6 = dword_44C134;
+    v6 = xa_mono_nibble_offset_table;
     do
     {
       v7 = v24;
@@ -404,7 +404,7 @@ int xa_decode_mono_blocks(int a1, int a2, int a3)
       ++v5;
       v20 += 56;
     }
-    while ( (int)v6 < (int)&dword_44C144 );
+    while ( (int)v6 < (int)&xa_mono_nibble_offset_table_end );
     v4 = v21 + 128;
     result = v23 - 1;
     v18 = v23 == 1;
@@ -417,7 +417,7 @@ int xa_decode_mono_blocks(int a1, int a2, int a3)
 
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned char byte_44C124 = 0x0;
-unsigned char byte_8B1960[0x20];
-unsigned int dword_44C134[4] = {0x0, 0x2, 0x8, 0xa};
-unsigned int dword_44C144 = 0x0;
+unsigned char xa_stereo_nibble_offset_table = 0x0;
+unsigned char xa_prev_sample_rate[0x20];
+unsigned int xa_mono_nibble_offset_table[4] = {0x0, 0x2, 0x8, 0xa};
+unsigned int xa_mono_nibble_offset_table_end = 0x0;

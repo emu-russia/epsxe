@@ -21,12 +21,12 @@ char select_cdrom_core()
       {
         W9x_init_aspi();
         W9x_free_winaspi_dll();
-        LOBYTE(win_aspi_silent) = HIBYTE(dword_4FD9BC);
-        if ( HIBYTE(dword_4FD9BC) )
+        LOBYTE(win_aspi_silent) = HIBYTE(w9x_cdrom_info);
+        if ( HIBYTE(w9x_cdrom_info) )
         {
-          cdrom_haid = dword_505014;
-          cdrom_target = dword_505018;
-          cdrom_lun = dword_50501C[0];
+          cdrom_haid = cd_device_haid;
+          cdrom_target = cd_device_target;
+          cdrom_lun = cd_device_lun[0];
           LOBYTE(win_aspi_silent) = sprintf((char *const)CdromPlugin, "W9XCDRCORE");
         }
       }
@@ -110,10 +110,10 @@ int select_plugins_backend()
     cdrom_verify_sub_cb = (int (__cdecl *)(_DWORD, _DWORD, _DWORD, _DWORD))ext_CDR_verify_subchannel_data;
     cdrom_subchannel_read_cb = (int (*)(void))nullsub_1;
   }
-  *(_DWORD *)dword_5164D0 = 0;
-  *(_DWORD *)dword_566964 = 0;
+  *(_DWORD *)dma_channel_status = 0;
+  *(_DWORD *)hw_saved_state = 0;
   memset(mdec_dma_src, 0, 0x60u);
-  memset(byte_516600, 0, 0x10000u);
+  memset(hw_regs, 0, 0x10000u);
   return 0;
 }
 

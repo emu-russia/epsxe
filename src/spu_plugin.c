@@ -119,10 +119,10 @@ char spu_destroy()
       if ( hSpuModule )
       {
         dbg_print(" * Closing spu ... \n");
-        if ( !byte_45B8F0 )
+        if ( !spu_plugin_closed_flag )
         {
           SPUclose();
-          byte_45B8F0 = 1;
+          spu_plugin_closed_flag = 1;
         }
         result = SPUshutdown();
         hSpuModule = nullptr;
@@ -146,7 +146,7 @@ char spu_close()
       if ( hSpuModule )
       {
         result = SPUclose();
-        byte_45B8F0 = 1;
+        spu_plugin_closed_flag = 1;
       }
     }
   }
@@ -167,7 +167,7 @@ char spu_open()
       if ( hSpuModule )
       {
         result = SPUopen(hOutputWnd);
-        byte_45B8F0 = 0;
+        spu_plugin_closed_flag = 0;
       }
     }
   }
@@ -190,13 +190,13 @@ void spu_dma()
   int i; // esi
   unsigned __int16 v12; // ax
 
-  v0 = dword_516510;
-  v1 = HIWORD(dword_516514);
-  v2 = (unsigned __int16)dword_516514;
-  v3 = mem_dma_read(dword_516510);
+  v0 = spu_dma_mem_addr;
+  v1 = HIWORD(spu_dma_block_size_count);
+  v2 = (unsigned __int16)spu_dma_block_size_count;
+  v3 = mem_dma_read(spu_dma_mem_addr);
   if ( sound_enabled )
   {
-    if ( *(_DWORD *)dword_516518 == 0x1000200 )
+    if ( *(_DWORD *)spu_dma_chcr_ptr == 0x1000200 )
     {
       v8 = v1 * v2;
       if ( spu_use_external_plugin == 1 )
@@ -218,20 +218,20 @@ void spu_dma()
           while ( v9 );
         }
         if ( dynarec_enabled == 1 && v8 )
-          dynarec_invalidate_range(dword_516510, v8);
+          dynarec_invalidate_range(spu_dma_mem_addr, v8);
       }
       else
       {
-        for ( i = 2 * v8; i; dword_8A8080 += 2 )
+        for ( i = 2 * v8; i; spu_transfer_addr += 2 )
         {
-          v12 = SPUgetOne(dword_8A8080);
+          v12 = SPUgetOne(spu_transfer_addr);
           mem_hw_reg_write_half(v0, v12);
           v0 += 2;
           --i;
         }
       }
     }
-    else if ( *(_DWORD *)dword_516518 == 0x1000201 )
+    else if ( *(_DWORD *)spu_dma_chcr_ptr == 0x1000201 )
     {
       if ( spu_use_external_plugin == 1 )
       {
@@ -249,18 +249,18 @@ void spu_dma()
       else
       {
         v6 = 2 * v1 * v2;
-        for ( k = (unsigned __int16 *)mem_dma_read(v0); v6; dword_8A8080 += 2 )
+        for ( k = (unsigned __int16 *)mem_dma_read(v0); v6; spu_transfer_addr += 2 )
         {
-          SPUputOne(dword_8A8080, *k++);
+          SPUputOne(spu_transfer_addr, *k++);
           --v6;
         }
       }
     }
-    else if ( (*(_DWORD *)dword_516518 & 0x1000000) != 0 )
+    else if ( (*(_DWORD *)spu_dma_chcr_ptr & 0x1000000) != 0 )
     {
       ui_error(
         "DMA[4] mode NOT implemented (%08x)\n addr (%08x) num (%04x) size (%04x)\n",
-        *(_DWORD *)dword_516518,
+        *(_DWORD *)spu_dma_chcr_ptr,
         v0,
         v1,
         v2);
@@ -357,19 +357,19 @@ LABEL_11:
           result = SPUstopChannels2((unsigned __int16)a2);
         break;
       case 0x1F801DA6u:
-        dword_8A8080 = 8 * (unsigned __int16)a2;
+        spu_transfer_addr = 8 * (unsigned __int16)a2;
         break;
       case 0x1F801DA8u:
         result = sound_enabled;
         if ( sound_enabled )
         {
-          result = SPUputOne(dword_8A8080, (unsigned __int16)a2);
-          dword_8A8080 += 2;
+          result = SPUputOne(spu_transfer_addr, (unsigned __int16)a2);
+          spu_transfer_addr += 2;
         }
         break;
       default:
 LABEL_26:
-        *(__int16 *)((char *)word_8A8084 + (a1 & 0x1FF)) = a2;
+        *(__int16 *)((char *)spu_register_cache + (a1 & 0x1FF)) = a2;
         result = a1;
         break;
     }
@@ -472,15 +472,15 @@ __int16 __cdecl spu_read_register(unsigned int a1)
           return v1;
         }
         if ( a1 == 0x1F801DA6 )
-          return (unsigned int)dword_8A8080 >> 3;
+          return (unsigned int)spu_transfer_addr >> 3;
 LABEL_15:
-        LOWORD(v1) = *(__int16 *)((char *)word_8A8084 + (a1 & 0x1FF));
+        LOWORD(v1) = *(__int16 *)((char *)spu_register_cache + (a1 & 0x1FF));
         return v1;
       }
       if ( sound_enabled )
       {
-        LOWORD(v1) = SPUgetOne(dword_8A8080);
-        dword_8A8080 += 2;
+        LOWORD(v1) = SPUgetOne(spu_transfer_addr);
+        spu_transfer_addr += 2;
         return v1;
       }
     }
@@ -501,9 +501,9 @@ char __cdecl spu_play_adpcm(int a1)
     LOBYTE(v1) = sound_use_xa;
     if ( sound_use_xa )
     {
-      v1 = xa_decode_wrapper(dword_4E7108, a1, spu_adpcm_flag);
-      if ( !v1 && (dword_4E7114 || (LOBYTE(v1) = spu_use_external_plugin) == 0) )
-        LOBYTE(v1) = SPUplayADPCMchannel(dword_4E7108);
+      v1 = xa_decode_wrapper(spu_xa_decode_buf_ptr, a1, spu_adpcm_flag);
+      if ( !v1 && (spu_xa_samples_left || (LOBYTE(v1) = spu_use_external_plugin) == 0) )
+        LOBYTE(v1) = SPUplayADPCMchannel(spu_xa_decode_buf_ptr);
       spu_adpcm_flag = 0;
     }
   }
@@ -631,12 +631,12 @@ int (__stdcall *SPUwriteDMA)();
 int (__stdcall *SPUwriteDMAMem)();
 int (__stdcall *SPUwriteRegister)();
 unsigned int Size[0x100];
-unsigned char byte_45B8F0 = 0x0;
-unsigned int dword_516518;
-unsigned int dword_8A8080;
+unsigned char spu_plugin_closed_flag = 0x0;
+unsigned int spu_dma_chcr_ptr;
+unsigned int spu_transfer_addr;
 unsigned int hSpuModule = 0x0;
 unsigned char sound_enabled = 0x1;
 unsigned int spu_adpcm_flag = 0x1;
 unsigned char spu_need_to_be_closed;
 unsigned char spu_use_external_plugin = 0x1;
-unsigned short word_8A8084[0x200];
+unsigned short spu_register_cache[0x200];

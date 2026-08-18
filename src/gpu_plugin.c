@@ -206,7 +206,7 @@ HWND gpu_load_plugin()
   GPUshowScreenPic = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUshowScreenPic");
   GPUcursor = (int (__stdcall *)(_DWORD, _DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUcursor");
   GPUclearDynarec = GetProcAddress(hGpuModule, "GPUclearDynarec");
-  dword_50ADD4 = (int)GPUclearDynarec;
+  gpu_clear_dynarec_ptr = (int)GPUclearDynarec;
   if ( GPUclearDynarec )
     ((void (__stdcall *)(void (*)()))GPUclearDynarec)(gpu_clear_dynarec_callback);
   v2 = GPUinit();
@@ -898,7 +898,7 @@ int (__stdcall *GPUwriteData)();
 int (__stdcall *GPUwriteDataMem)();
 int (__stdcall *GPUwriteStatus)();
 LARGE_INTEGER PerformanceCount;
-unsigned int dword_50ADD4;
+unsigned int gpu_clear_dynarec_ptr;
 MSG g_msg;
 unsigned char gpu_closed;
 unsigned char gpu_dma2_delay_counter;

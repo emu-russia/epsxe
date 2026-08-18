@@ -373,7 +373,7 @@ int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       v16 = g_uiNumJoysticks;
       if ( v11 )
       {
-        dword_4F7B68[g_uiNumJoysticks] = 1;
+        joystick_z_axis_positive_triggered[g_uiNumJoysticks] = 1;
         joystick_axis_2_negative_triggered[v16] = 1;
       }
       v17 = g_pJoystickDevices[v16];
@@ -643,8 +643,8 @@ LABEL_8:
       joystick_axis_1_negative_triggered[i] = 1;
     if ( !joystick_axis_2_positive_triggered[i] && *((int *)v0 + 1) < 0 )
       joystick_axis_2_positive_triggered[i] = 1;
-    if ( !dword_4F7B68[i] && *((int *)v0 + 2) > 0 )
-      dword_4F7B68[i] = 1;
+    if ( !joystick_z_axis_positive_triggered[i] && *((int *)v0 + 2) > 0 )
+      joystick_z_axis_positive_triggered[i] = 1;
     if ( !joystick_axis_2_negative_triggered[i] && *((int *)v0 + 2) < 0 )
       joystick_axis_2_negative_triggered[i] = 1;
     if ( !joystick_axis_4_positive_triggered[i] && *((int *)v0 + 4) > 0 )
@@ -667,38 +667,38 @@ LABEL_8:
       joystick_button_1_triggered[i] = 1;
     if ( !joystick_button_2_triggered[i] && v0[49] )
       joystick_button_2_triggered[i] = 1;
-    if ( !dword_4F7EE8[i] && v0[50] )
-      dword_4F7EE8[i] = 1;
-    if ( !dword_4F7F28[i] && v0[51] )
-      dword_4F7F28[i] = 1;
-    if ( !dword_4F7F68[i] && v0[52] )
-      dword_4F7F68[i] = 1;
-    if ( !dword_4F7FA8[i] && v0[53] )
-      dword_4F7FA8[i] = 1;
-    if ( !dword_4F7FE8[i] && v0[54] )
-      dword_4F7FE8[i] = 1;
-    if ( !dword_4F8028[i] && v0[55] )
-      dword_4F8028[i] = 1;
-    if ( !dword_4F8068[i] && v0[56] )
-      dword_4F8068[i] = 1;
-    if ( !dword_4F80A8[i] && v0[57] )
-      dword_4F80A8[i] = 1;
-    if ( !dword_4F80E8[i] && v0[58] )
-      dword_4F80E8[i] = 1;
-    if ( !dword_4F8128[i] && v0[59] )
-      dword_4F8128[i] = 1;
-    if ( !dword_4F8168[i] && v0[60] )
-      dword_4F8168[i] = 1;
-    if ( !dword_4F81A8[i] && v0[61] )
-      dword_4F81A8[i] = 1;
-    if ( !dword_4F81E8[i] && v0[62] )
-      dword_4F81E8[i] = 1;
-    result = dword_4F8228[i];
+    if ( !joystick_button_3_triggered[i] && v0[50] )
+      joystick_button_3_triggered[i] = 1;
+    if ( !joystick_button_4_triggered[i] && v0[51] )
+      joystick_button_4_triggered[i] = 1;
+    if ( !joystick_button_5_triggered[i] && v0[52] )
+      joystick_button_5_triggered[i] = 1;
+    if ( !joystick_button_6_triggered[i] && v0[53] )
+      joystick_button_6_triggered[i] = 1;
+    if ( !joystick_button_7_triggered[i] && v0[54] )
+      joystick_button_7_triggered[i] = 1;
+    if ( !joystick_button_8_triggered[i] && v0[55] )
+      joystick_button_8_triggered[i] = 1;
+    if ( !joystick_button_9_triggered[i] && v0[56] )
+      joystick_button_9_triggered[i] = 1;
+    if ( !joystick_button_10_triggered[i] && v0[57] )
+      joystick_button_10_triggered[i] = 1;
+    if ( !joystick_button_11_triggered[i] && v0[58] )
+      joystick_button_11_triggered[i] = 1;
+    if ( !joystick_button_12_triggered[i] && v0[59] )
+      joystick_button_12_triggered[i] = 1;
+    if ( !joystick_button_13_triggered[i] && v0[60] )
+      joystick_button_13_triggered[i] = 1;
+    if ( !joystick_button_14_triggered[i] && v0[61] )
+      joystick_button_14_triggered[i] = 1;
+    if ( !joystick_button_15_triggered[i] && v0[62] )
+      joystick_button_15_triggered[i] = 1;
+    result = joystick_button_16_triggered[i];
     if ( !result )
     {
       result = (unsigned __int8)v0[63];
       if ( (_BYTE)result )
-        dword_4F8228[i] = 1;
+        joystick_button_16_triggered[i] = 1;
     }
     goto LABEL_97;
   }
@@ -782,9 +782,9 @@ int diUpdateDeviceStates()
               result = *v5;
               if ( *v5 > 0 )
               {
-                byte_50ACC0[32 * j] = 1;
+                pad_axis_1_positive_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE02[8 * j] = *(_WORD *)v5;
+                pad_axis_1_value[8 * j] = *(_WORD *)v5;
               }
             }
             if ( !joystick_axis_1_positive_triggered[j] )
@@ -792,179 +792,179 @@ int diUpdateDeviceStates()
               result = *v5;
               if ( *v5 < 0 )
               {
-                byte_50ACC1[32 * j] = 1;
+                pad_axis_1_negative_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE02[8 * j] = *(_WORD *)v5;
+                pad_axis_1_value[8 * j] = *(_WORD *)v5;
               }
             }
             if ( !joystick_axis_1_negative_triggered[j] )
             {
-              result = dword_4F778C[20 * j];
+              result = joystick_axis_2_state[20 * j];
               if ( result > 0 )
               {
-                byte_50ACC2[32 * j] = 1;
+                pad_axis_2_positive_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE04[8 * j] = dword_4F778C[20 * j];
+                pad_axis_2_value[8 * j] = joystick_axis_2_state[20 * j];
               }
             }
             if ( !joystick_axis_2_positive_triggered[j] )
             {
-              result = dword_4F778C[20 * j];
+              result = joystick_axis_2_state[20 * j];
               if ( result < 0 )
               {
-                byte_50ACC3[32 * j] = 1;
+                pad_axis_2_negative_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE04[8 * j] = dword_4F778C[20 * j];
+                pad_axis_2_value[8 * j] = joystick_axis_2_state[20 * j];
               }
             }
-            if ( !dword_4F7B68[j] )
+            if ( !joystick_z_axis_positive_triggered[j] )
             {
-              result = dword_4F7790[20 * j];
+              result = joystick_axis_3_state[20 * j];
               if ( result > 0 )
               {
-                byte_50ACC4[32 * j] = 1;
+                pad_axis_3_positive_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE06[8 * j] = dword_4F7790[20 * j];
+                pad_axis_3_value[8 * j] = joystick_axis_3_state[20 * j];
               }
             }
             if ( !joystick_axis_2_negative_triggered[j] )
             {
-              result = dword_4F7790[20 * j];
+              result = joystick_axis_3_state[20 * j];
               if ( result < 0 )
               {
-                byte_50ACC5[32 * j] = 1;
+                pad_axis_3_negative_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE06[8 * j] = dword_4F7790[20 * j];
+                pad_axis_3_value[8 * j] = joystick_axis_3_state[20 * j];
               }
             }
             if ( !joystick_axis_4_positive_triggered[j] )
             {
-              result = dword_4F7798[20 * j];
+              result = joystick_axis_4_state[20 * j];
               if ( result > 0 )
               {
-                byte_50ACC6[32 * j] = 1;
+                pad_axis_4_positive_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE08[8 * j] = dword_4F7798[20 * j];
+                pad_axis_4_value[8 * j] = joystick_axis_4_state[20 * j];
               }
             }
             if ( !joystick_axis_4_negative_triggered[j] )
             {
-              result = dword_4F7798[20 * j];
+              result = joystick_axis_4_state[20 * j];
               if ( result < 0 )
               {
-                byte_50ACC7[32 * j] = 1;
+                pad_axis_4_negative_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE08[8 * j] = dword_4F7798[20 * j];
+                pad_axis_4_value[8 * j] = joystick_axis_4_state[20 * j];
               }
             }
             if ( !joystick_axis_5_positive_triggered[j] )
             {
-              result = dword_4F779C[20 * j];
+              result = joystick_axis_5_state[20 * j];
               if ( result > 0 )
               {
-                byte_50ACC8[32 * j] = 1;
+                pad_axis_5_positive_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE0A[8 * j] = dword_4F779C[20 * j];
+                pad_axis_5_value[8 * j] = joystick_axis_5_state[20 * j];
               }
             }
             if ( !joystick_axis_5_negative_triggered[j] )
             {
-              result = dword_4F779C[20 * j];
+              result = joystick_axis_5_state[20 * j];
               if ( result < 0 )
               {
-                byte_50ACC9[32 * j] = 1;
+                pad_axis_5_negative_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE0A[8 * j] = dword_4F779C[20 * j];
+                pad_axis_5_value[8 * j] = joystick_axis_5_state[20 * j];
               }
             }
             if ( !joystick_axis_6_positive_triggered[j] )
             {
-              result = dword_4F77A0[20 * j];
+              result = joystick_axis_6_state[20 * j];
               if ( result > 0 )
               {
-                byte_50ACCA[32 * j] = 1;
+                pad_axis_6_positive_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE0C[8 * j] = dword_4F77A0[20 * j];
+                pad_axis_6_value[8 * j] = joystick_axis_6_state[20 * j];
               }
             }
             if ( !joystick_axis_6_negative_triggered[j] )
             {
-              result = dword_4F77A0[20 * j];
+              result = joystick_axis_6_state[20 * j];
               if ( result < 0 )
               {
-                byte_50ACCB[32 * j] = 1;
+                pad_axis_6_negative_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE0C[8 * j] = dword_4F77A0[20 * j];
+                pad_axis_6_value[8 * j] = joystick_axis_6_state[20 * j];
               }
             }
             if ( !joystick_axis_7_positive_triggered[j] )
             {
-              result = dword_4F77A4[20 * j];
+              result = joystick_axis_7_state[20 * j];
               if ( result > 0 )
               {
-                byte_50ACCC[32 * j] = 1;
+                pad_axis_7_positive_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE0E[8 * j] = dword_4F77A4[20 * j];
+                pad_axis_7_value[8 * j] = joystick_axis_7_state[20 * j];
               }
             }
             if ( !joystick_axis_7_negative_triggered[j] )
             {
-              result = dword_4F77A4[20 * j];
+              result = joystick_axis_7_state[20 * j];
               if ( result < 0 )
               {
-                byte_50ACCD[32 * j] = 1;
+                pad_axis_7_negative_pressed[32 * j] = 1;
                 result = 16 * j;
-                word_50AE0E[8 * j] = dword_4F77A4[20 * j];
+                pad_axis_7_value[8 * j] = joystick_axis_7_state[20 * j];
               }
             }
-            if ( !joystick_button_1_triggered[j] && byte_4F77B8[80 * j] )
-              byte_50ACD0[32 * j] = 1;
-            if ( !joystick_button_2_triggered[j] && byte_4F77B9[80 * j] )
+            if ( !joystick_button_1_triggered[j] && joystick_button_1_state[80 * j] )
+              pad_button_1_pressed[32 * j] = 1;
+            if ( !joystick_button_2_triggered[j] && joystick_button_2_state[80 * j] )
             {
               result = 32 * j;
-              byte_50ACD1[32 * j] = 1;
+              pad_button_2_pressed[32 * j] = 1;
             }
-            if ( !dword_4F7EE8[j] && byte_4F77BA[80 * j] )
-              byte_50ACD2[32 * j] = 1;
-            if ( !dword_4F7F28[j] && byte_4F77BB[80 * j] )
-              byte_50ACD3[32 * j] = 1;
-            if ( !dword_4F7F68[j] && byte_4F77BC[80 * j] )
+            if ( !joystick_button_3_triggered[j] && joystick_button_3_state[80 * j] )
+              pad_button_3_pressed[32 * j] = 1;
+            if ( !joystick_button_4_triggered[j] && joystick_button_4_state[80 * j] )
+              pad_button_4_pressed[32 * j] = 1;
+            if ( !joystick_button_5_triggered[j] && joystick_button_5_state[80 * j] )
             {
               result = 32 * j;
-              byte_50ACD4[32 * j] = 1;
+              pad_button_5_pressed[32 * j] = 1;
             }
-            if ( !dword_4F7FA8[j] && byte_4F77BD[80 * j] )
-              byte_50ACD5[32 * j] = 1;
-            if ( !dword_4F7FE8[j] && byte_4F77BE[80 * j] )
-              byte_50ACD6[32 * j] = 1;
-            if ( !dword_4F8028[j] && byte_4F77BF[80 * j] )
+            if ( !joystick_button_6_triggered[j] && joystick_button_6_state[80 * j] )
+              pad_button_6_pressed[32 * j] = 1;
+            if ( !joystick_button_7_triggered[j] && joystick_button_7_state[80 * j] )
+              pad_button_7_pressed[32 * j] = 1;
+            if ( !joystick_button_8_triggered[j] && joystick_button_8_state[80 * j] )
             {
               result = 32 * j;
-              byte_50ACD7[32 * j] = 1;
+              pad_button_8_pressed[32 * j] = 1;
             }
-            if ( !dword_4F8068[j] && byte_4F77C0[80 * j] )
-              byte_50ACD8[32 * j] = 1;
-            if ( !dword_4F80A8[j] && byte_4F77C1[80 * j] )
-              byte_50ACD9[32 * j] = 1;
-            if ( !dword_4F80E8[j] && byte_4F77C2[80 * j] )
+            if ( !joystick_button_9_triggered[j] && joystick_button_9_state[80 * j] )
+              pad_button_9_pressed[32 * j] = 1;
+            if ( !joystick_button_10_triggered[j] && joystick_button_10_state[80 * j] )
+              pad_button_10_pressed[32 * j] = 1;
+            if ( !joystick_button_11_triggered[j] && joystick_button_11_state[80 * j] )
             {
               result = 32 * j;
-              byte_50ACDA[32 * j] = 1;
+              pad_button_11_pressed[32 * j] = 1;
             }
-            if ( !dword_4F8128[j] && byte_4F77C3[80 * j] )
-              byte_50ACDB[32 * j] = 1;
-            if ( !dword_4F8168[j] && byte_4F77C4[80 * j] )
-              byte_50ACDC[32 * j] = 1;
-            if ( !dword_4F81A8[j] && byte_4F77C5[80 * j] )
+            if ( !joystick_button_12_triggered[j] && joystick_button_12_state[80 * j] )
+              pad_button_12_pressed[32 * j] = 1;
+            if ( !joystick_button_13_triggered[j] && joystick_button_13_state[80 * j] )
+              pad_button_13_pressed[32 * j] = 1;
+            if ( !joystick_button_14_triggered[j] && joystick_button_14_state[80 * j] )
             {
               result = 32 * j;
-              byte_50ACDD[32 * j] = 1;
+              pad_button_14_pressed[32 * j] = 1;
             }
-            if ( !dword_4F81E8[j] && byte_4F77C6[80 * j] )
-              byte_50ACDE[32 * j] = 1;
-            if ( !dword_4F8228[j] && byte_4F77C7[80 * j] )
-              byte_50ACDF[32 * j] = 1;
-            v7 = dword_4F77A8[20 * j];
+            if ( !joystick_button_15_triggered[j] && joystick_button_15_state[80 * j] )
+              pad_button_15_pressed[32 * j] = 1;
+            if ( !joystick_button_16_triggered[j] && joystick_button_16_state[80 * j] )
+              pad_button_16_pressed[32 * j] = 1;
+            v7 = joystick_pov_hat_value[20 * j];
             if ( v7 > 0x4650 )
             {
               switch ( v7 )
@@ -975,18 +975,18 @@ int diUpdateDeviceStates()
                   *(_BYTE *)(result + 387) = 1;
                   break;
                 case 0x6978u:
-                  byte_50AD43[32 * j] = 1;
+                  pad_pov_left_pressed[32 * j] = 1;
                   break;
                 case 0x7B0Cu:
                   result = 32 * j;
-                  byte_50AD43[32 * j] = 1;
+                  pad_pov_left_pressed[32 * j] = 1;
                   *v9 = 1;
                   break;
               }
             }
             else if ( v7 == 18000 )
             {
-              byte_50AD42[32 * j] = 1;
+              pad_pov_down_pressed[32 * j] = 1;
             }
             else if ( v7 > 0x2328 )
             {
@@ -1000,7 +1000,7 @@ int diUpdateDeviceStates()
             else if ( v7 == 9000 )
             {
               result = 32 * j;
-              byte_50AD41[32 * j] = 1;
+              pad_pov_right_pressed[32 * j] = 1;
             }
             else if ( v7 )
             {
@@ -1008,7 +1008,7 @@ int diUpdateDeviceStates()
               {
                 result = (int)&g_JoystickButtonState[32 * j];
                 *v9 = 1;
-                byte_50AD41[32 * j] = 1;
+                pad_pov_right_pressed[32 * j] = 1;
               }
             }
             else
@@ -1090,7 +1090,7 @@ int diShutdownDirectInput()
       (*(void (__stdcall **)(int))(*(_DWORD *)*v0 + 8))(*v0);
     *v0++ = 0;
   }
-  while ( (int)v0 < (int)&byte_4F777C );
+  while ( (int)v0 < (int)&g_directinput_initialized );
   result = (*(int (__stdcall **)(int))(*(_DWORD *)g_pDirectInput + 8))(g_pDirectInput);
   g_pDirectInput = 0;
   g_uiNumJoysticks = 0;
@@ -1121,78 +1121,78 @@ int __cdecl diGetJoystickButtonState4(int a1)
 /* Decompiled globals (previously generated in src/_gen) */
 GUID GUID_Keyboard;
 GUID GUID_Mouse;
-unsigned char byte_4F777C;
-unsigned char byte_4F77B8[1];
-unsigned char byte_4F77B9[1];
-unsigned char byte_4F77BA[1];
-unsigned char byte_4F77BB[1];
-unsigned char byte_4F77BC[1];
-unsigned char byte_4F77BD[1];
-unsigned char byte_4F77BE[1];
-unsigned char byte_4F77BF[1];
-unsigned char byte_4F77C0[1];
-unsigned char byte_4F77C1[1];
-unsigned char byte_4F77C2[1];
-unsigned char byte_4F77C3[1];
-unsigned char byte_4F77C4[1];
-unsigned char byte_4F77C5[1];
-unsigned char byte_4F77C6[1];
-unsigned char byte_4F77C7[0x101];
-unsigned char byte_50ACC0[1];
-unsigned char byte_50ACC1[1];
-unsigned char byte_50ACC2[1];
-unsigned char byte_50ACC3[1];
-unsigned char byte_50ACC4[1];
-unsigned char byte_50ACC5[1];
-unsigned char byte_50ACC6[1];
-unsigned char byte_50ACC7[1];
-unsigned char byte_50ACC8[1];
-unsigned char byte_50ACC9[1];
-unsigned char byte_50ACCA[1];
-unsigned char byte_50ACCB[1];
-unsigned char byte_50ACCC[1];
-unsigned char byte_50ACCD[1];
-unsigned char byte_50ACD0[1];
-unsigned char byte_50ACD1[1];
-unsigned char byte_50ACD2[1];
-unsigned char byte_50ACD3[1];
-unsigned char byte_50ACD4[1];
-unsigned char byte_50ACD5[1];
-unsigned char byte_50ACD6[1];
-unsigned char byte_50ACD7[1];
-unsigned char byte_50ACD8[1];
-unsigned char byte_50ACD9[1];
-unsigned char byte_50ACDA[1];
-unsigned char byte_50ACDB[1];
-unsigned char byte_50ACDC[1];
-unsigned char byte_50ACDD[1];
-unsigned char byte_50ACDE[1];
-unsigned char byte_50ACDF[0x61];
-unsigned char byte_50AD41[1];
-unsigned char byte_50AD42[1];
-unsigned char byte_50AD43[0x7d];
-unsigned int dword_4F778C[1];
-unsigned int dword_4F7790[1];
-unsigned int dword_4F7798[1];
-unsigned int dword_4F779C[1];
-unsigned int dword_4F77A0[1];
-unsigned int dword_4F77A4[1];
-unsigned int dword_4F77A8[0x4];
-unsigned int dword_4F7B68[0x10];
-unsigned int dword_4F7EE8[0x10];
-unsigned int dword_4F7F28[0x10];
-unsigned int dword_4F7F68[0x10];
-unsigned int dword_4F7FA8[0x10];
-unsigned int dword_4F7FE8[0x10];
-unsigned int dword_4F8028[0x10];
-unsigned int dword_4F8068[0x10];
-unsigned int dword_4F80A8[0x10];
-unsigned int dword_4F80E8[0x10];
-unsigned int dword_4F8128[0x10];
-unsigned int dword_4F8168[0x10];
-unsigned int dword_4F81A8[0x10];
-unsigned int dword_4F81E8[0x10];
-unsigned int dword_4F8228[0x30];
+unsigned char g_directinput_initialized;
+unsigned char joystick_button_1_state[1];
+unsigned char joystick_button_2_state[1];
+unsigned char joystick_button_3_state[1];
+unsigned char joystick_button_4_state[1];
+unsigned char joystick_button_5_state[1];
+unsigned char joystick_button_6_state[1];
+unsigned char joystick_button_7_state[1];
+unsigned char joystick_button_8_state[1];
+unsigned char joystick_button_9_state[1];
+unsigned char joystick_button_10_state[1];
+unsigned char joystick_button_11_state[1];
+unsigned char joystick_button_12_state[1];
+unsigned char joystick_button_13_state[1];
+unsigned char joystick_button_14_state[1];
+unsigned char joystick_button_15_state[1];
+unsigned char joystick_button_16_state[0x101];
+unsigned char pad_axis_1_positive_pressed[1];
+unsigned char pad_axis_1_negative_pressed[1];
+unsigned char pad_axis_2_positive_pressed[1];
+unsigned char pad_axis_2_negative_pressed[1];
+unsigned char pad_axis_3_positive_pressed[1];
+unsigned char pad_axis_3_negative_pressed[1];
+unsigned char pad_axis_4_positive_pressed[1];
+unsigned char pad_axis_4_negative_pressed[1];
+unsigned char pad_axis_5_positive_pressed[1];
+unsigned char pad_axis_5_negative_pressed[1];
+unsigned char pad_axis_6_positive_pressed[1];
+unsigned char pad_axis_6_negative_pressed[1];
+unsigned char pad_axis_7_positive_pressed[1];
+unsigned char pad_axis_7_negative_pressed[1];
+unsigned char pad_button_1_pressed[1];
+unsigned char pad_button_2_pressed[1];
+unsigned char pad_button_3_pressed[1];
+unsigned char pad_button_4_pressed[1];
+unsigned char pad_button_5_pressed[1];
+unsigned char pad_button_6_pressed[1];
+unsigned char pad_button_7_pressed[1];
+unsigned char pad_button_8_pressed[1];
+unsigned char pad_button_9_pressed[1];
+unsigned char pad_button_10_pressed[1];
+unsigned char pad_button_11_pressed[1];
+unsigned char pad_button_12_pressed[1];
+unsigned char pad_button_13_pressed[1];
+unsigned char pad_button_14_pressed[1];
+unsigned char pad_button_15_pressed[1];
+unsigned char pad_button_16_pressed[0x61];
+unsigned char pad_pov_right_pressed[1];
+unsigned char pad_pov_down_pressed[1];
+unsigned char pad_pov_left_pressed[0x7d];
+unsigned int joystick_axis_2_state[1];
+unsigned int joystick_axis_3_state[1];
+unsigned int joystick_axis_4_state[1];
+unsigned int joystick_axis_5_state[1];
+unsigned int joystick_axis_6_state[1];
+unsigned int joystick_axis_7_state[1];
+unsigned int joystick_pov_hat_value[0x4];
+unsigned int joystick_z_axis_positive_triggered[0x10];
+unsigned int joystick_button_3_triggered[0x10];
+unsigned int joystick_button_4_triggered[0x10];
+unsigned int joystick_button_5_triggered[0x10];
+unsigned int joystick_button_6_triggered[0x10];
+unsigned int joystick_button_7_triggered[0x10];
+unsigned int joystick_button_8_triggered[0x10];
+unsigned int joystick_button_9_triggered[0x10];
+unsigned int joystick_button_10_triggered[0x10];
+unsigned int joystick_button_11_triggered[0x10];
+unsigned int joystick_button_12_triggered[0x10];
+unsigned int joystick_button_13_triggered[0x10];
+unsigned int joystick_button_14_triggered[0x10];
+unsigned int joystick_button_15_triggered[0x10];
+unsigned int joystick_button_16_triggered[0x30];
 void *force_feedback_effect_handles2[4];
 unsigned char g_EffectBuffer1[0x190];
 unsigned int g_EffectBuffer2[0x64];
@@ -1237,10 +1237,10 @@ int joystick_axis_7_positive_triggered[4];
 int joystick_button_1_triggered[4];
 int joystick_button_2_triggered[4];
 unsigned int point_device_enabled;
-unsigned short word_50AE02[1];
-unsigned short word_50AE04[1];
-unsigned short word_50AE06[1];
-unsigned short word_50AE08[1];
-unsigned short word_50AE0A[1];
-unsigned short word_50AE0C[1];
-unsigned short word_50AE0E[1];
+unsigned short pad_axis_1_value[1];
+unsigned short pad_axis_2_value[1];
+unsigned short pad_axis_3_value[1];
+unsigned short pad_axis_4_value[1];
+unsigned short pad_axis_5_value[1];
+unsigned short pad_axis_6_value[1];
+unsigned short pad_axis_7_value[1];

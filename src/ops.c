@@ -16,8 +16,8 @@ void op_UNKNOWN()
     (unsigned int)cpu_opcode >> 26,
     cpu_opcode,
     *(_DWORD *)reg_pc - 4,
-    dword_50C360,
-    dword_50C364,
+    frame_counter,
+    scanline_counter,
     hw_update_counter);
 }
 
@@ -977,26 +977,26 @@ void op_MTC0()
   if ( v0 == 13 )
   {
     result = cpu_gpr[v1];
-    dword_50C2A8 = result;
-    if ( (result & 0x100) != 0 && (dword_50C2A4 & 0x101) == 0x101 )
+    cop0_cause = result;
+    if ( (result & 0x100) != 0 && (cop0_sr & 0x101) == 0x101 )
     {
 LABEL_21:
-      result = dword_50C2A4;
-      if ( (dword_50C2A4 & 0x101) == 0x101 )
+      result = cop0_sr;
+      if ( (cop0_sr & 0x101) == 0x101 )
       {
-        result = dword_50C2A4 & 0xFFFFFFC0;
-        dword_50C2AC = *(_DWORD *)reg_pc;
-        dword_50C2A8 = 256;
+        result = cop0_sr & 0xFFFFFFC0;
+        cop0_epc = *(_DWORD *)reg_pc;
+        cop0_cause = 256;
         *(_DWORD *)reg_pc = 0x80000080;
-        dword_50C2A4 = dword_50C2A4 & 0xFFFFFFC0 | (4 * (dword_50C2A4 & 0xF));
+        cop0_sr = cop0_sr & 0xFFFFFFC0 | (4 * (cop0_sr & 0xF));
       }
     }
   }
   else if ( v0 == 12 )
   {
     result = cpu_gpr[v1];
-    dword_50C2A4 = result;
-    if ( (dword_50C2A8 & 0x100) != 0 )
+    cop0_sr = result;
+    if ( (cop0_cause & 0x100) != 0 )
     {
       result &= 0x101u;
       if ( result == 257 )
@@ -1007,18 +1007,18 @@ LABEL_21:
   {
     if ( v0 == 3 )
     {
-      if ( byte_4F8320 )
+      if ( xenogears_cd_detected )
       {
-        byte_4F8320 = 0;
+        xenogears_cd_detected = 0;
         cpu_gpr[v1] |= 1u;
       }
       else
       {
         v3 = cpu_gpr[v1];
-        if ( dword_50C280[0] != v3 )
+        if ( cop0_bpc_value[0] != v3 )
         {
           v4 = v3 | 1;
-          if ( dword_50C280[0] == v4 )
+          if ( cop0_bpc_value[0] == v4 )
             cpu_gpr[v1] = v4;
         }
       }
@@ -1042,11 +1042,11 @@ void op_RFE()
   unsigned int v0; // eax
   int result; // eax
 
-  v0 = dword_50C2A4;
-  if ( (dword_50C2A4 & 1) != 0 )
-    v0 = dword_50C2A4 | 4;
+  v0 = cop0_sr;
+  if ( (cop0_sr & 1) != 0 )
+    v0 = cop0_sr | 4;
   result = ((unsigned __int8)v0 ^ (unsigned __int8)(v0 >> 2)) & 0xF ^ v0;
-  dword_50C2A4 = result;
+  cop0_sr = result;
 }
 
 void op_SWC2()
@@ -1088,10 +1088,10 @@ void op_SYSCALL()
 {
   unsigned int result; // eax
 
-  dword_50C2AC = *(_DWORD *)reg_pc - 4;
-  result = dword_50C2A4 & 0xFFFFFFC0;
-  dword_50C2A8 = 32;
-  dword_50C2A4 = dword_50C2A4 & 0xFFFFFFC0 | (4 * (dword_50C2A4 & 0xF));
+  cop0_epc = *(_DWORD *)reg_pc - 4;
+  result = cop0_sr & 0xFFFFFFC0;
+  cop0_cause = 32;
+  cop0_sr = cop0_sr & 0xFFFFFFC0 | (4 * (cop0_sr & 0xF));
   *(_DWORD *)reg_pc = 0x80000080;
 }
 
@@ -1100,8 +1100,8 @@ void op_BREAK()
 }
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned char byte_4F8320;
+unsigned char xenogears_cd_detected;
 unsigned int cop0_regs[1];
-unsigned int dword_50C2A4;
-unsigned int dword_50C2A8;
-unsigned int dword_50C2AC;
+unsigned int cop0_sr;
+unsigned int cop0_cause;
+unsigned int cop0_epc;

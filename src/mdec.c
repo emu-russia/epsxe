@@ -348,8 +348,8 @@ char *__cdecl mdec_rl_decode(char *a1, int a2)
   _WORD *v8; // [esp+10h] [ebp-8h]
   int v9; // [esp+20h] [ebp+8h]
 
-  v8 = (_WORD *)byte_50C3E0;
-  memset(byte_50C3E0, 0, 4 * ((unsigned int)(768 * a2) >> 2));
+  v8 = (_WORD *)mdec_coeff_buffer;
+  memset(mdec_coeff_buffer, 0, 4 * ((unsigned int)(768 * a2) >> 2));
   v2 = 6 * a2;
   v9 = 0;
   if ( v2 <= 0 )
@@ -393,7 +393,7 @@ void __cdecl mdec_idct_blocks(int a1)
   v2 = 0;
   v6 = mdec_idct_buffer_end;
   v7 = mdec_idct_buffer;
-  for ( i = (__m64 *)byte_50C3E0; v2 < 6 * a1; v6 += 32 )
+  for ( i = (__m64 *)mdec_coeff_buffer; v2 < 6 * a1; v6 += 32 )
   {
     if ( mdec_nonzero_counts[v2] )
     {
@@ -1172,27 +1172,27 @@ void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
                   _m_psllqi(_m_pand(v20, _m_from_int64(qword_455C78)), 0x10u));
           v22 = _m_paddb(_m_from_int(*v4), _m_from_int64(qword_455C70));
           v7->m64_u64 = _m_packuswb(
-                                            _m_paddsw(_m_punpcklbw(v18, _m_from_int((int)dword_4FD858)), v16),
-                                            _m_paddsw(_m_punpcklbw(v19, _m_from_int((int)dword_4FD858)), v21)).m64_u64;
+                                            _m_paddsw(_m_punpcklbw(v18, _m_from_int((int)mdec_mono_expand_value)), v16),
+                                            _m_paddsw(_m_punpcklbw(v19, _m_from_int((int)mdec_mono_expand_value)), v21)).m64_u64;
           v23 = _m_punpcklbw(v22, v22);
-          v24 = _m_punpcklbw(_m_punpcklwd(v23, v22), _m_from_int((int)dword_4FD858));
+          v24 = _m_punpcklbw(_m_punpcklwd(v23, v22), _m_from_int((int)mdec_mono_expand_value));
           v25 = _m_psrlqi(v23, 0x10u);
           v8->m64_u64 = _m_packuswb(
                                             _m_paddsw(v24, v16),
                                             _m_paddsw(
-                                              _m_punpcklbw(_m_punpckldq(v25, v25), _m_from_int((int)dword_4FD858)),
+                                              _m_punpcklbw(_m_punpckldq(v25, v25), _m_from_int((int)mdec_mono_expand_value)),
                                               v21)).m64_u64;
           v26 = _m_psrlqi(_m_from_int(*v5), 0x10u);
           v27 = _m_paddsw(
                   _m_punpcklbw(
                     _m_punpcklwd(_m_psrlqi(v19, 0x18u), _m_psrlqi(v19, 0x20u)),
-                    _m_from_int((int)dword_4FD858)),
+                    _m_from_int((int)mdec_mono_expand_value)),
                   v20);
           v28 = _m_punpcklbw(v26, v26);
           v29 = _m_paddsw(
                   _m_punpcklbw(
                     _m_punpcklwd(_m_psrlqi(v25, 0x18u), _m_psrlqi(v25, 0x20u)),
-                    _m_from_int((int)dword_4FD858)),
+                    _m_from_int((int)mdec_mono_expand_value)),
                   v20);
           v30 = _m_punpcklwd(v28, v28);
           v31 = _m_psrlqi(_m_from_int(*v6), 0x10u);
@@ -1213,7 +1213,7 @@ void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
                                               _m_paddsw(
                                                 _m_punpcklbw(
                                                   _m_punpcklwd(_m_punpcklbw(v35, v35), v35),
-                                                  _m_from_int((int)dword_4FD858)),
+                                                  _m_from_int((int)mdec_mono_expand_value)),
                                                 v34)).m64_u64;
           v40 = _m_por(v36, v39);
           v41 = v38;
@@ -1231,14 +1231,14 @@ void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
           v47 = _m_paddsw(
                   _m_punpcklbw(
                     _m_punpcklwd(v46, _m_psrlqi(_m_punpcklbw(v46, v46), 0x10u)),
-                    _m_from_int((int)dword_4FD858)),
+                    _m_from_int((int)mdec_mono_expand_value)),
                   v37);
           v7[-10].m64_u64 = _m_packuswb(
                                                 _m_paddsw(_m_punpcklbw(_m_punpcklbw(v44, v44), _m_from_int(0)), v40),
                                                 _m_paddsw(
                                                   _m_punpcklbw(
                                                     _m_punpcklwd(v45, _m_psrlqi(_m_punpcklbw(v45, v45), 0x10u)),
-                                                    _m_from_int((int)dword_4FD858)),
+                                                    _m_from_int((int)mdec_mono_expand_value)),
                                                   v37)).m64_u64;
           v6 += 2;
           v8[-10].m64_u64 = _m_packuswb(_m_paddsw(_m_punpcklbw(_m_punpcklbw(v43, v43), _m_from_int(0)), v40), v47).m64_u64;
@@ -1274,8 +1274,8 @@ void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
 
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned char byte_50C3E0[0x5a00];
-unsigned int dword_4FD858;
+unsigned char mdec_coeff_buffer[0x5a00];
+unsigned int mdec_mono_expand_value;
 unsigned short mdec_bit15_flag;
 unsigned char mdec_color_lookup[0x80];
 unsigned int mdec_color_table_0[0x80];

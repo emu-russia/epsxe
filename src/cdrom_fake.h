@@ -1,10 +1,10 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
 extern unsigned int FileHandle;
-extern unsigned char byte_50A090;
-extern unsigned char byte_50A091;
+extern unsigned char fake_file_version;
+extern unsigned char fake_file_version2;
 extern unsigned int cdrom_fake_data;
-extern unsigned int dword_5056E0;
+extern unsigned int fake_file_sector_offset;
 
 /* Function prototypes (previously generated in src/_gen) */
 int __cdecl cdrom_fake_create_file(char *FileName);

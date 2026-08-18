@@ -29,7 +29,7 @@ char __cdecl irq_rcnt_write_reg(unsigned __int16 a1, int a2)
         if (!a2)
         {
             v2 = 16 * ((a1 >> 4) & 3);
-            *(int *)((char *)dword_50BFD0 + v2) = 0;
+            *(int *)((char *)rcnt_counter + v2) = 0;
         }
         break;
     case 0x1104u:
@@ -37,16 +37,16 @@ char __cdecl irq_rcnt_write_reg(unsigned __int16 a1, int a2)
     case 0x1124u:
     case 0x1134u:
         v2 = 16 * ((a1 >> 4) & 3);
-        *(int *)((char *)dword_50BFD0 + v2) = 0;
-        *(int *)((char *)dword_50BFD4 + v2) = a2 & 0x3FF | 0x1000;
-        if ((a2 & 8) != 0 && *(int *)((char *)dword_50BFD8 + v2))
+        *(int *)((char *)rcnt_counter + v2) = 0;
+        *(int *)((char *)rcnt_mode + v2) = a2 & 0x3FF | 0x1000;
+        if ((a2 & 8) != 0 && *(int *)((char *)rcnt_target + v2))
         {
-            *(int *)((char *)dword_50BFDC + v2) = (unsigned __int16)*(int *)((char *)dword_50BFD8 + v2);
+            *(int *)((char *)rcnt_compare + v2) = (unsigned __int16)*(int *)((char *)rcnt_target + v2);
             v3 = a1 == 4388;
         }
         else
         {
-            *(int *)((char *)dword_50BFDC + v2) = 0xFFFF;
+            *(int *)((char *)rcnt_compare + v2) = 0xFFFF;
             v3 = a1 == 4388;
         }
         goto LABEL_13;
@@ -55,18 +55,18 @@ char __cdecl irq_rcnt_write_reg(unsigned __int16 a1, int a2)
     case 0x1128u:
     case 0x1138u:
         v2 = 16 * ((a1 >> 4) & 3);
-        *(int *)((char *)dword_50BFD8 + v2) = a2;
-        if ((*((_BYTE *)dword_50BFD4 + v2) & 8) != 0 && a2)
-            *(int *)((char *)dword_50BFDC + v2) = (unsigned __int16)a2;
+        *(int *)((char *)rcnt_target + v2) = a2;
+        if ((*((_BYTE *)rcnt_mode + v2) & 8) != 0 && a2)
+            *(int *)((char *)rcnt_compare + v2) = (unsigned __int16)a2;
         else
-            *(int *)((char *)dword_50BFDC + v2) = 0xFFFF;
+            *(int *)((char *)rcnt_compare + v2) = 0xFFFF;
         v3 = a1 == 4392;
     LABEL_13:
         if (v3)
         {
             LOBYTE(v2) = parasite_eve_cheat;
             if (parasite_eve_cheat)
-                dword_50BFFC = (unsigned int)dword_50BFFC >> 2;
+                rcnt2_compare = (unsigned int)rcnt2_compare >> 2;
         }
         break;
     default:
@@ -83,12 +83,12 @@ int __cdecl irq_freeze(const char *a1, int a2)
     sprintf(Buffer, "%s", a1);
     v4 = 668;
     gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-    gzwrite(a2, (unsigned __int8 *)dword_4FD870, 4u);
-    gzwrite(a2, (unsigned __int8 *)dword_4FD874, 4u);
-    gzwrite(a2, (unsigned __int8 *)dword_4FD878, 4u);
-    dword_50C218 = sio_transfer_timeout;
-    dword_50C21C = dword_4FD868;
-    dword_50C220[0] = sio_transfer_pending;
+    gzwrite(a2, (unsigned __int8 *)sio_irq_timeout, 4u);
+    gzwrite(a2, (unsigned __int8 *)sio_irq_delay_time, 4u);
+    gzwrite(a2, (unsigned __int8 *)sio_irq_pending, 4u);
+    sio_transfer_timeout_saved = sio_transfer_timeout;
+    sio_pending_time_saved = sio_scheduled_transfer_timeout;
+    sio_transfer_pending_saved[0] = sio_transfer_pending;
     return gzwrite(a2, (unsigned __int8 *)int_reg, 0x290u);
 }
 

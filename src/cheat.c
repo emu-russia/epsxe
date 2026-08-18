@@ -13,7 +13,7 @@ MINI_CHEAT_ENTRY mini_cheat_db[200] = {
 
 // Internal cheat database for ePSXe
 CHEAT_DB_ENTRY cheat_db[200] = {
-    // {gameid, text, mdectiming, dword_50C374, forcespu, forcepad, byte_455946, parasite_eve_cheat, byte_455FA4, byte_4F75AA, nocdstatus, unk, byte_4FC4E6}
+    // {gameid, text, mdectiming, timing_value, forcespu, forcepad, cpu_overclock, parasite_eve_cheat, cd_increment, cd_setting, nocdstatus, unk, cd_extra}
     {"SCES_021.05", "NULL", 1, 0xFF, 2, 0xFF, 0xFF, 0, 0, 0, 0, 0, 0},
     {"SLES_025.58", "NULL", 0xFF, 0xFF, 0xFF, 0xFF, 0, 1, 0xFF, 0, 0, 0, 0},
     {"SLES_125.58", "NULL", 0xFF, 0xFF, 0xFF, 0xFF, 0, 1, 0xFF, 0, 0, 0, 0},

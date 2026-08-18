@@ -63,8 +63,8 @@ void op_SWC2();
 void op_UNKNOWN();
 
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned char byte_4F8320;
+extern unsigned char xenogears_cd_detected;
 extern unsigned int cop0_regs[1];
-extern unsigned int dword_50C2A4;
-extern unsigned int dword_50C2A8;
-extern unsigned int dword_50C2AC;
+extern unsigned int cop0_sr;
+extern unsigned int cop0_cause;
+extern unsigned int cop0_epc;

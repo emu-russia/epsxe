@@ -457,7 +457,7 @@ char __cdecl ext_CDR_verify_subchannel_data(unsigned __int8 a1, unsigned __int8 
   *(_DWORD *)(a4 + 4) = 0;
   v8 = 0;
   if ( CDRgetBufferSub
-    && ((v4 = CDRgetBufferSub(), !extsubchanhle) || (dword_50C280[0] & 0x1F000000) != 0x1F000000 || a1 == 3)
+    && ((v4 = CDRgetBufferSub(), !extsubchanhle) || (cop0_bpc_value[0] & 0x1F000000) != 0x1F000000 || a1 == 3)
     && v4 )
   {
     if ( a3 )
@@ -504,7 +504,7 @@ char __cdecl ext_CDR_verify_subchannel_data(unsigned __int8 a1, unsigned __int8 
       *(_DWORD *)(a4 + 2) = 0;
       *(_WORD *)(a4 + 6) = 0;
       if ( v5 == 3 )
-        byte_4F8320 = 1;
+        xenogears_cd_detected = 1;
     }
   }
   else

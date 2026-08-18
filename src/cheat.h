@@ -7,16 +7,16 @@ typedef struct _CHEAT_DB_ENTRY {
 	char gameid[14];
 	char text[56];
 	uint8_t mdectiming;
-	uint8_t dword_50C374;
+	uint8_t timing_value;
 	uint8_t forcespu;
 	uint8_t forcepad;
-	uint8_t byte_455946;
+	uint8_t cpu_overclock;
 	uint8_t parasite_eve_cheat;
-	uint8_t byte_455FA4;
-	uint8_t byte_4F75AA;
+	uint8_t cd_increment;
+	uint8_t cd_setting;
 	uint8_t nocdstatus;
 	uint8_t unk;
-	uint8_t byte_4FC4E6;
+	uint8_t cd_extra;
 	
 } CHEAT_DB_ENTRY;
 

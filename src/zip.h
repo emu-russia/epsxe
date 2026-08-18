@@ -86,8 +86,8 @@ typedef struct _ZipCentralDirectoryEntryInMem {
 } ZipCentralDirectoryEntryInMem;
 /* Decompiled globals (previously generated in src/_gen) */
 extern unsigned int Stream;
-extern unsigned char byte_4FA350[0x2000];
-extern unsigned char byte_4FC350[0x100];
+extern unsigned char zip_local_file_header_buffer[0x2000];
+extern unsigned char zip_path_buffer[0x100];
 extern unsigned short zip_bit_masks[12];
 extern unsigned char zip_central_dir_buffer[0x2000];
 extern unsigned int zip_code_length_order[14];
