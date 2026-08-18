@@ -1687,3 +1687,51 @@ LABEL_66:
   }
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char SubchannelW2kCaching;
+unsigned char byte_455945 = 0x5;
+unsigned char byte_457338 = 0x2;
+unsigned char byte_4FD9C8;
+unsigned char byte_4FD9D0;
+unsigned char byte_4FD9D4;
+unsigned char byte_4FD9E3;
+unsigned char byte_4FFC40;
+unsigned char byte_4FFC42;
+unsigned char byte_4FFC43;
+unsigned char byte_4FFC45[1];
+unsigned char byte_4FFC46[0x31e];
+unsigned char byte_4FFF84[1];
+unsigned char byte_4FFF90[0x924];
+unsigned char byte_5008B4[1];
+unsigned char byte_5008B7;
+unsigned char cdrom_letter;
+unsigned int dword_45733C = 0x4b;
+unsigned int dword_457340 = 0x0;
+unsigned int dword_457348 = 0xffffffff;
+unsigned int dword_45734C = 0x47;
+unsigned int dword_457350 = 0x0;
+unsigned int dword_457358 = 0x4b;
+unsigned int dword_45735C = 0x0;
+unsigned int dword_4FD9D8;
+unsigned int dword_4FD9DC;
+unsigned int dword_5008B8;
+unsigned int dword_5008BC;
+unsigned int dword_5008C0[0x10d1];
+unsigned int dword_504C04[1];
+unsigned int dword_504C08;
+unsigned int dword_504C0C;
+unsigned int dword_504C10[0x1d];
+unsigned int dword_504C84;
+unsigned int dword_504C88;
+unsigned int dword_504C8C;
+unsigned int dword_5053E0;
+unsigned int dword_5053E4;
+unsigned int dword_5053E8;
+unsigned int dword_5053EC;
+unsigned int dword_50C280[0x9];
+unsigned int hObject;
+unsigned char sound_use_cdda = 0x1;
+unsigned short word_457344 = 0x1;
+unsigned short word_457354 = 0x0;
+unsigned short word_457360 = 0x0;

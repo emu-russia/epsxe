@@ -180,3 +180,15 @@ struct PPFFileIdDiz {
 #define PPF_VALIDATION_OFFSET_GI     0x80A0
 
 #pragma pack(pop)
+
+/* Decompiled globals (previously generated in src/_gen) */
+extern unsigned char ppf_enabled;
+extern char *ppf_file_data;
+extern unsigned char ppf_filename[0xc00];
+extern unsigned int ppf_sector_lists;
+
+/* Function prototypes (previously generated in src/_gen) */
+void __cdecl ppf_apply_patch_to_sector(int a1, int a2);
+void ppf_free();
+char ppf_load_patch();
+int __cdecl ppf_parse_and_build(int a1, int a2, unsigned int a3);

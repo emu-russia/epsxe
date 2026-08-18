@@ -1034,3 +1034,47 @@ int __cdecl cdr_get_status(int a1)
   return result;
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+int adjust_timing;
+unsigned char byte_4FD881;
+unsigned char byte_50BF7C;
+unsigned int dword_50BF70;
+unsigned int dword_516504;
+unsigned int dword_516508;
+unsigned int g_cdr_cur_msf_pos;
+unsigned short g_cdr_cur_track;
+unsigned char g_cdr_data_buffer[0xc];
+unsigned int g_cdr_data_bytes_transferred;
+unsigned short g_cdr_delay_counter;
+unsigned char g_cdr_dma_active;
+unsigned char g_cdr_idle_counter;
+unsigned char g_cdr_irq_enabled;
+unsigned char g_cdr_irq_mode;
+unsigned char g_cdr_irq_pending;
+unsigned int g_cdr_last_lba_read;
+unsigned short g_cdr_param_fifo;
+unsigned char g_cdr_param_fifo_byte[0x3e];
+unsigned char g_cdr_param_fifo_count;
+unsigned int g_cdr_pending_response;
+unsigned int g_cdr_primary_response;
+unsigned short g_cdr_read_ahead_sectors;
+unsigned char g_cdr_region_code;
+unsigned int g_cdr_registers;
+unsigned int g_cdr_response_extra;
+unsigned int g_cdr_response_fifo[1];
+unsigned char g_cdr_response_index;
+unsigned char g_cdr_response_size;
+unsigned char g_cdr_retry_count;
+unsigned int g_cdr_secondary_response;
+unsigned char g_cdr_secondary_response_index;
+unsigned char g_cdr_secondary_response_size;
+unsigned short g_cdr_seek_target_msf;
+unsigned char g_cdr_spindown_counter;
+unsigned char g_cdr_status_regs[0x49];
+unsigned char g_cdr_xa_buffer[0xff2];
+unsigned char report_mode_enabled = 0x1;
+unsigned short word_455FA6 = 0xa;
+unsigned short word_4FD87C;
+unsigned short word_50BF7B;
+unsigned short word_50BF82;

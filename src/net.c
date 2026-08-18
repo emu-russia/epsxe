@@ -277,3 +277,42 @@ int net_fill_input()
 }
 
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+int (__stdcall *NETclose)();
+int (__stdcall *NETcompareData)();
+int (__stdcall *NETinit)();
+int (__stdcall *NETopen)();
+int (__stdcall *NETpadState)();
+int (__stdcall *NETpause)();
+int (__stdcall *NETqueryPlayer)();
+int (__stdcall *NETresume)();
+int (__stdcall *NETshutdown)();
+int (__stdcall *NETtransferData)();
+unsigned char byte_45696C = 0x1;
+unsigned char byte_50A1C4;
+unsigned char byte_50A1C5;
+unsigned char byte_50A1C6;
+unsigned char byte_50A1C7;
+unsigned char byte_50A1C8;
+unsigned char byte_50A1C9;
+unsigned char byte_50A1CA;
+unsigned char byte_50A1D4;
+unsigned char byte_50A1D5;
+unsigned char byte_50A1D6;
+unsigned char byte_50A1D7;
+unsigned char byte_50A200;
+unsigned char byte_50A201[0x41f];
+unsigned char byte_50A628;
+unsigned char byte_50A629;
+unsigned char byte_50A62A;
+unsigned char byte_50A62B[0x405];
+unsigned int dword_50A1C0;
+unsigned int dword_50A1D0;
+unsigned int dword_50A1D8;
+unsigned int dword_50A1E0;
+unsigned int dword_50A620;
+unsigned int dword_50A624;
+unsigned int hNetModule;
+unsigned int network_enabled;
+unsigned int unknown_timing_value;

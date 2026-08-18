@@ -219,3 +219,15 @@ int cpu_execute()
   }
   return result;
 }
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int dword_4FC4EC;
+unsigned int dword_4FD868;
+unsigned int dword_50BFE0;
+unsigned int dword_50BFE4;
+unsigned int dword_50BFEC;
+unsigned int dword_50BFF0;
+unsigned int dword_50C000;
+unsigned int dword_50C210;
+unsigned int dword_50C360;
+unsigned int dword_50C364;

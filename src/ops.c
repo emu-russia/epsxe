@@ -686,7 +686,7 @@ void op_MFHI()
   cpu_gpr[(unsigned __int16)cpu_opcode >> 11] = cpu_HI;
 }
 
-char op_MFLO()
+void op_MFLO()
 {
   char result; // al
 
@@ -718,7 +718,6 @@ void op_MTLO()
 void op_J()
 {
   int v0; // ecx
-  char result; // al
 
   op_jump_addr = cpu_opcode & 0x3FFFFFF;
   v0 = 4 * (cpu_opcode & 0x3FFFFFF);
@@ -731,7 +730,6 @@ void op_J()
 void op_JAL()
 {
   int v0; // ecx
-  char result; // al
 
   op_jump_addr = cpu_opcode & 0x3FFFFFF;
   v0 = 4 * (cpu_opcode & 0x3FFFFFF);
@@ -745,7 +743,6 @@ void op_JAL()
 void op_JR()
 {
   unsigned int v0; // edx
-  char result; // al
 
   op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   v0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
@@ -1101,3 +1098,10 @@ void op_SYSCALL()
 void op_BREAK()
 {
 }
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char byte_4F8320;
+unsigned int cop0_regs[1];
+unsigned int dword_50C2A4;
+unsigned int dword_50C2A8;
+unsigned int dword_50C2AC;

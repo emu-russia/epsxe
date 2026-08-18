@@ -1743,3 +1743,41 @@ char __cdecl W9x_verify_subchannel_data(unsigned int a1, unsigned __int8 a2, uns
 
 
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+DWORD (__stdcall *GetASPI32SupportInfo_cb)(void);
+int (__cdecl *SendASPI32Command_cb)(LPSRB);
+unsigned char SubchannelW9xCaching;
+unsigned char byte_504CA0;
+unsigned char byte_504CA2;
+unsigned char byte_504CA3;
+unsigned char byte_504CA5[1];
+unsigned char byte_504CA6[0x33a];
+unsigned char byte_504FE8[1];
+unsigned char byte_504FE9[0x10];
+unsigned char byte_504FF9[1];
+unsigned char byte_504FFE[1];
+unsigned char byte_504FFF[0x14];
+unsigned char byte_505013[1];
+unsigned int cdrom_haid = 0xffffffff;
+unsigned int cdrom_lun = 0xffffffff;
+unsigned int cdrom_target = 0xffffffff;
+unsigned int dword_456FB4 = 0x47;
+unsigned int dword_456FB8 = 0x0;
+unsigned int dword_456FC0 = 0x4b;
+unsigned int dword_456FC4 = 0x0;
+unsigned int dword_456FCC = 0x4b;
+unsigned int dword_456FD0 = 0x0;
+unsigned int dword_4FD9BC;
+unsigned int dword_4FD9C0;
+unsigned int dword_4FD9C4;
+unsigned int dword_4FFF80;
+unsigned int dword_504FE0;
+unsigned int dword_504FE4;
+unsigned int dword_504FFA;
+unsigned int dword_505014;
+unsigned int dword_505018;
+unsigned int dword_50501C[0xf1];
+unsigned short word_456FBC = 0x0;
+unsigned short word_456FC8 = 0x0;
+unsigned short word_456FD4 = 0x1;

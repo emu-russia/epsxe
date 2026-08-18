@@ -190,3 +190,9 @@ void __cdecl ppf_apply_patch_to_sector(int a1, int a2)
   }
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char ppf_enabled = 0x1;
+char *ppf_file_data;
+unsigned char ppf_filename[0xc00];
+unsigned int ppf_sector_lists;

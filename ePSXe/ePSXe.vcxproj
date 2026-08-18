@@ -34,6 +34,7 @@
     <ClInclude Include="..\src\cont.h" />
     <ClInclude Include="..\src\cpu.h" />
     <ClInclude Include="..\src\debug.h" />
+    <ClInclude Include="..\src\dinput_shim.h" />
     <ClInclude Include="..\src\dlg_callbacks.h" />
     <ClInclude Include="..\src\dynarec.h" />
     <ClInclude Include="..\src\gpu_plugin.h" />
@@ -41,11 +42,13 @@
     <ClInclude Include="..\src\hw.h" />
     <ClInclude Include="..\src\input.h" />
     <ClInclude Include="..\src\intr.h" />
+    <ClInclude Include="..\src\irq_misc.h" />
     <ClInclude Include="..\src\loader.h" />
     <ClInclude Include="..\src\main.h" />
     <ClInclude Include="..\src\mainwnd.h" />
     <ClInclude Include="..\src\mdec.h" />
     <ClInclude Include="..\src\mem.h" />
+    <ClInclude Include="..\src\mmx_compat.h" />
     <ClInclude Include="..\src\net.h" />
     <ClInclude Include="..\src\ops.h" />
     <ClInclude Include="..\src\op_tabs.h" />
@@ -121,7 +124,6 @@
     <ClCompile Include="..\src\sstates.c" />
     <ClCompile Include="..\src\zip.c" />
     <ClCompile Include="..\src\xa.c" />
-    <ClCompile Include="..\src\_gen\globals.c" />
     <ClCompile Include="..\src\dinput_shim.c" />
     <ClCompile Include="..\src\irq_misc.c" />
   </ItemGroup>
@@ -136,28 +138,28 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -187,7 +189,9 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Link>      <AdditionalDependencies>dsound.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>      <SubSystem>Windows</SubSystem>
+    <Link>
+      <AdditionalDependencies>dsound.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -203,7 +207,9 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Link>      <AdditionalDependencies>dsound.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>      <SubSystem>Windows</SubSystem>
+    <Link>
+      <AdditionalDependencies>dsound.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -217,7 +223,9 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Link>      <AdditionalDependencies>dsound.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>      <SubSystem>Windows</SubSystem>
+    <Link>
+      <AdditionalDependencies>dsound.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -233,7 +241,9 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Link>      <AdditionalDependencies>dsound.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>      <SubSystem>Windows</SubSystem>
+    <Link>
+      <AdditionalDependencies>dsound.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -241,8 +251,3 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>
-
-
-
-
-

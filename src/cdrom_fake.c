@@ -82,3 +82,10 @@ FILE *cdrom_fake_write()
   return result;
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int FileHandle;
+unsigned char byte_50A090;
+unsigned char byte_50A091;
+unsigned int cdrom_fake_data;
+unsigned int dword_5056E0;

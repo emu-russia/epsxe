@@ -264,3 +264,21 @@ int iso_close()
   return dbg_print(" * Closing ISO system. \n");
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char byte_505680[0xd];
+unsigned char byte_505691;
+unsigned char byte_505695[0x4b];
+unsigned char byte_505700[0x1160];
+unsigned char byte_50A1A4;
+unsigned char byte_50A1A5;
+unsigned char byte_50A1A6;
+unsigned int dword_456D74 = 0xffffffff;
+unsigned int dword_456D78 = 0x930;
+unsigned int dword_4FD9A8;
+unsigned int dword_4FD9AC;
+unsigned int dword_505400;
+unsigned int dword_50568D;
+unsigned int dword_50A098;
+unsigned char use_subchannel = 0x1;
+unsigned short word_505693;

@@ -125,3 +125,8 @@ char __cdecl check_state_exists(unsigned __int8 a1)
   return 0;
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int gpu_freeze_counter = 0x0;
+unsigned char save_state_ver = 0xff;
+unsigned char state_file_from_cmdline[0x400];

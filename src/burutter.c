@@ -89,3 +89,6 @@ int joy_issue_small_motor()
         return Small_Motor(1, 1);
     return result;
 }
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int dword_4FC45C;

@@ -125,3 +125,9 @@ unsigned __int8 __cdecl cdfs_load_executable(char *Buffer)
     return sprintf(Buffer, "SLUS_999.99");
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char byte_4FD9E8[1];
+unsigned char byte_4FD9F0[0xff8];
+unsigned char byte_4FE9E8[0x800];
+unsigned char byte_4FF1E8[0x800];
