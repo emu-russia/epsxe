@@ -1101,3 +1101,10 @@ void op_SYSCALL()
 void op_BREAK()
 {
 }
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char byte_4F8320;
+unsigned int cop0_regs[1];
+unsigned int dword_50C2A4;
+unsigned int dword_50C2A8;
+unsigned int dword_50C2AC;

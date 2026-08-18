@@ -200,3 +200,19 @@ int __cdecl irq_unfreeze(int a1, _DWORD *a2)
   return dword_50C220[0];
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int dword_4FD870;
+unsigned int dword_4FD874;
+unsigned int dword_50BFD8[1];
+unsigned int dword_50BFDC[1];
+unsigned int dword_50C010[1];
+unsigned int dword_50C014[1];
+unsigned int dword_50C018[1];
+unsigned int dword_50C01C[0x4d];
+unsigned int dword_50C150[1];
+unsigned int dword_50C154[1];
+unsigned int dword_50C158[0x2e];
+unsigned int dword_50C218;
+unsigned int dword_50C21C;
+unsigned int dword_50C220[0x10];

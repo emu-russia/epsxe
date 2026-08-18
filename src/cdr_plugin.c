@@ -528,3 +528,30 @@ char __cdecl ext_CDR_verify_subchannel_data(unsigned __int8 a1, unsigned __int8 
   return result;
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+int (__cdecl *CDRclose)();
+int (__cdecl *CDRgetBuffer)();
+int (__cdecl *CDRgetBufferSub)();
+int (__cdecl *CDRgetTD)();
+unsigned int CDRgetTN;
+int (__cdecl *CDRinit)();
+int (__cdecl *CDRopen)();
+unsigned int CDRplay;
+int (__cdecl *CDRreadTrack)();
+int (__cdecl *CDRshutdown)();
+int (__cdecl *CDRstop)();
+unsigned int CDRtest;
+unsigned char cdrom_fake_filename[0x100];
+unsigned short current_position_low;
+unsigned int current_position_msf;
+unsigned short first_last_tracks;
+unsigned int hCdrModule;
+unsigned int track_info_buffer;
+unsigned char track_minutes_table[1];
+unsigned char track_msf_minutes[1];
+unsigned char track_msf_seconds[1];
+unsigned char track_msf_sectors[1];
+unsigned char track_msf_table[1];
+unsigned char track_seconds_table[1];
+unsigned char track_sectors_table[0x139];

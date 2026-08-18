@@ -710,3 +710,14 @@ void save_load_state()
   }
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char bin_iso_file[0x100];
+unsigned char byte_45B8E8 = 0x0;
+unsigned int dword_44DF24[1] = {0xffffffff};
+unsigned int dword_45B8D8 = 0x0;
+unsigned char g_bDisableMouse = 0x1;
+unsigned int g_hInstance;
+unsigned int g_hWnd = 0x0;
+unsigned int h = 0x0;
+MSG stru_8A94E0;

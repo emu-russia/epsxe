@@ -467,3 +467,14 @@ int __cdecl mem_unfreeze(int a1, _DWORD *a2)
   return gzread(a2, dcache, 4096);
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int console_log_handle;
+unsigned char dcache[0x1000];
+unsigned char dummy_page[0x10000];
+unsigned char mem_handlers_inited = 0x1;
+unsigned int mem_read_hooks[0x10000];
+unsigned int mem_write_hooks[0x10000];
+unsigned char pio_mem[0x20000];
+unsigned char ram[0x200000];
+unsigned int sio0_control_reg;

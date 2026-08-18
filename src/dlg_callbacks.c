@@ -2298,3 +2298,40 @@ int __cdecl calc_bios_checksum(uint8_t *ptr, int size)
   return v2 ^ (v3 << 16);
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+int (__stdcall *GPUabout_0)();
+int (__stdcall *GPUinit_0)();
+int (__stdcall *GPUshutdown_0)();
+int (__stdcall *GPUtest_0)();
+int (__cdecl *PSEconfigure)();
+int (__cdecl *PSEgetLibName)();
+int (__cdecl *PSEgetLibType)();
+int (__cdecl *PSEgetLibVersion)();
+char aW[8];
+char asc_44E24C[64];
+unsigned char byte_50ABE0[1];
+unsigned char byte_50AC00[1];
+unsigned char byte_50AC20[0xa0];
+unsigned char byte_8A9140[0x380];
+unsigned char byte_8A9500[0x20];
+unsigned char byte_8A9540[0x4];
+unsigned char byte_8A9544[0x7ffc];
+unsigned int controller_port_modes[8];
+unsigned int dword_45B8E4 = 0x0;
+unsigned int dword_4FD884[1];
+unsigned int dword_4FD8C0;
+unsigned int dword_4FD8C8[1];
+unsigned int dword_8B1548;
+unsigned int dword_8B154C;
+unsigned char edit_button_id = 0xff;
+unsigned int g_EffectType2[1];
+unsigned int g_PlayerDeviceMap4[1];
+unsigned char joy_names[14] = {0x4a, 0x31, 0x5f, 0x4e, 0x4f, 0x4e, 0x45, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+unsigned char multitap_1;
+unsigned short nIDDlgItem = 0x41c;
+unsigned char pad_number_menu_selection = 0x1;
+unsigned char stru_44C148[13] = {0x4e, 0x4f, 0x4e, 0x45, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+unsigned char temp_path[0x400];
+unsigned short word_44DD1C[9] = {0x40a, 0x40c, 0x409, 0x40b, 0x412, 0x413, 0x414, 0x415, 0x408};
+unsigned short word_455FA8[4] = {0x1, 0x0, 0x0, 0x0};

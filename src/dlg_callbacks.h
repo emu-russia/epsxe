@@ -1,1 +1,55 @@
 #pragma once
+/* Decompiled globals (previously generated in src/_gen) */
+extern int (__stdcall *GPUabout_0)();
+extern int (__stdcall *GPUinit_0)();
+extern int (__stdcall *GPUshutdown_0)();
+extern int (__stdcall *GPUtest_0)();
+extern int (__cdecl *PSEconfigure)();
+extern int (__cdecl *PSEgetLibName)();
+extern int (__cdecl *PSEgetLibType)();
+extern int (__cdecl *PSEgetLibVersion)();
+extern char aW[8];
+extern char asc_44E24C[64];
+extern unsigned char byte_50ABE0[1];
+extern unsigned char byte_50AC00[1];
+extern unsigned char byte_50AC20[0xa0];
+extern unsigned char byte_8A9140[0x380];
+extern unsigned char byte_8A9500[0x20];
+extern unsigned char byte_8A9540[0x4];
+extern unsigned char byte_8A9544[0x7ffc];
+extern unsigned int controller_port_modes[8];
+extern unsigned int dword_45B8E4;
+extern unsigned int dword_4FD884[1];
+extern unsigned int dword_4FD8C0;
+extern unsigned int dword_4FD8C8[1];
+extern unsigned int dword_8B1548;
+extern unsigned int dword_8B154C;
+extern unsigned char edit_button_id;
+extern unsigned int g_EffectType2[1];
+extern unsigned int g_PlayerDeviceMap4[1];
+extern unsigned char joy_names[14];
+extern unsigned char multitap_1;
+extern unsigned short nIDDlgItem;
+extern unsigned char pad_number_menu_selection;
+extern unsigned char stru_44C148[13];
+extern unsigned char temp_path[0x400];
+extern unsigned short word_44DD1C[9];
+extern unsigned short word_455FA8[4];
+
+/* Function prototypes (previously generated in src/_gen) */
+int __stdcall about_callback(HWND hDlg, int a2, __int16 a3, int a4);
+INT_PTR __stdcall bios_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+int __cdecl calc_bios_checksum(uint8_t *ptr, int size);
+LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4);
+BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2);
+int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2);
+INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+BOOL __cdecl open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CHAR *a4, const CHAR *a5);
+INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+INT_PTR __stdcall spucore_configure_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);

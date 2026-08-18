@@ -559,3 +559,40 @@ typedef enum _GTERealCommand {
 
 
 void gte_exec_opcode();
+
+/* Decompiled globals (previously generated in src/_gen) */
+extern unsigned char byte_8A7EE0;
+extern unsigned char byte_8A8000;
+extern unsigned char byte_8A8001;
+extern unsigned int dword_44F950;
+extern unsigned int dword_8A8004;
+extern unsigned int dword_8A8008;
+extern unsigned int dword_8A800C;
+extern GTE_REGS gte_regs;
+extern unsigned __int64 qword_44F958;
+extern unsigned __int64 qword_44F960;
+
+/* Function prototypes (previously generated in src/_gen) */
+char gte_cc();
+char gte_cdp();
+int __cdecl gte_clamp(int a1, int a2);
+int gte_clear_regs();
+char __cdecl gte_convert_to_5bit(int a1);
+int __cdecl gte_count_leading_bits(int a1);
+char gte_dcpl();
+char gte_dpcs();
+GTE_REG gte_dpct();
+int __cdecl gte_freeze(const char *a1, int a2);
+char gte_nccs();
+char gte_ncct();
+char gte_ncds();
+char gte_ncdt();
+char gte_ncs();
+char gte_nct();
+int gte_op();
+GTE_REG gte_op_shifted();
+int __cdecl gte_read_data_register(unsigned __int8 a1);
+int gte_rtps();
+int gte_rtpt();
+int __cdecl gte_unfreeze(int a1, _DWORD *a2);
+GTE_REG __cdecl gte_write_data_register(unsigned __int8 a1, GTE_REG a2);

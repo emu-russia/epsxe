@@ -1,1 +1,56 @@
 #pragma once
+/* Decompiled globals (previously generated in src/_gen) */
+extern unsigned int SPUabout;
+extern int (__stdcall *SPUasync)();
+extern int (__stdcall *SPUclose)();
+extern unsigned int SPUconfigure;
+extern int (__stdcall *SPUfreeze)();
+extern int (__stdcall *SPUgetOne)();
+extern int (__stdcall *SPUinit)();
+extern int (__stdcall *SPUopen)();
+extern int (__stdcall *SPUplayADPCMchannel)();
+extern unsigned int SPUplaySample;
+extern int (__stdcall *SPUputOne)();
+extern int (__stdcall *SPUreadDMA)();
+extern int (__stdcall *SPUreadDMAMem)();
+extern int (__stdcall *SPUreadRegister)();
+extern int (__stdcall *SPUregisterCallback)();
+extern int (__stdcall *SPUsetAddr)();
+extern int (__stdcall *SPUsetPitch)();
+extern int (__stdcall *SPUsetVolumeL)();
+extern int (__stdcall *SPUsetVolumeR)();
+extern int (__stdcall *SPUshutdown)();
+extern int (__stdcall *SPUstartChannels1)();
+extern int (__stdcall *SPUstartChannels2)();
+extern int (__stdcall *SPUstopChannels1)();
+extern int (__stdcall *SPUstopChannels2)();
+extern unsigned int SPUtest;
+extern int (__stdcall *SPUupdate)();
+extern int (__stdcall *SPUwriteDMA)();
+extern int (__stdcall *SPUwriteDMAMem)();
+extern int (__stdcall *SPUwriteRegister)();
+extern unsigned int Size[0x100];
+extern unsigned char byte_45B8F0;
+extern unsigned int dword_516518;
+extern unsigned int dword_8A8080;
+extern unsigned int hSpuModule;
+extern unsigned char sound_enabled;
+extern unsigned int spu_adpcm_flag;
+extern unsigned char spu_need_to_be_closed;
+extern unsigned char spu_use_external_plugin;
+extern unsigned short word_8A8084[0x200];
+
+/* Function prototypes (previously generated in src/_gen) */
+int (*__cdecl spu_async_update(int a1))(void);
+char spu_close();
+char spu_destroy();
+void spu_dma();
+void __cdecl spu_freeze(const char *a1, int a2);
+char spu_load_plugin();
+char spu_open();
+char __cdecl spu_play_adpcm(int a1);
+__int16 __cdecl spu_read_register(unsigned int a1);
+void spu_set_adpcm_flag();
+void __cdecl spu_unfreeze(int a1, _DWORD *a2);
+int (*spu_update())(void);
+char __cdecl spu_write_register(unsigned int a1, __int16 a2);

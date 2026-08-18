@@ -573,3 +573,23 @@ int __cdecl hw_reg_unfreeze(int a1, _DWORD *a2)
   return gzread(a2, byte_516600, 0x10000);
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char byte_516600[0x10000];
+unsigned int dword_4FD878;
+unsigned int dword_50BFC8;
+unsigned int dword_50BFD0[1];
+unsigned int dword_50BFD4[1];
+unsigned int dword_5164D0[1];
+unsigned int dword_5164E4[1];
+unsigned int dword_51650C;
+unsigned int dword_516524;
+unsigned int dword_516528;
+unsigned int dword_51652C;
+unsigned int dword_566964;
+unsigned int gpu_dma6_status;
+unsigned int hw_update_counter;
+unsigned int mdec_dma_control[1];
+unsigned int mdec_dma_src[1];
+unsigned int mdec_dma_status;
+unsigned int mdec_param_count;

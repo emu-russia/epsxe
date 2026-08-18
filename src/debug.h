@@ -9,13 +9,13 @@
  * with proper plugin shutdown.
  */
 
-/*--- Global flags and handles (defined in cfg.c / main.c / etc.) ---*/
+/*--- Global flags and handles (defined in cfg.c / debug.c / etc.) ---*/
 
 extern unsigned char console_allocated;
 extern unsigned int console_log_handle;
 extern FILE *error_log_file;
 
-extern unsigned long last_tick_count;
+extern unsigned int last_tick_count;
 extern unsigned char dynarec_active;
 
 /*--- Flags defined in debug.c (at fixed memory addresses) ---*/
@@ -31,16 +31,6 @@ extern int (__cdecl *spu_destroy_cb)(unsigned long);
 
 /*--- CD-ROM deinit callback ---*/
 extern int (__cdecl *cdrom_deinit_cb)(unsigned long);
-
-/*--- Null stub used as a placeholder callback ---*/
-void nullsub_1(void);
-
-/*--- Plugin / subsystem cleanup helpers (defined elsewhere) ---*/
-void sio_memcard_both_save(void);
-HMODULE net_close(void);
-HMODULE gpu_destroy(void);
-void ppf_free(void);
-void dynarec_deinit(void);
 
 /*--- Console management ---*/
 

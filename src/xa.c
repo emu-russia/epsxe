@@ -415,3 +415,9 @@ int xa_decode_mono_blocks(int a1, int a2, int a3)
   return result;
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char byte_44C124 = 0x0;
+unsigned char byte_8B1960[0x20];
+unsigned int dword_44C134[4] = {0x0, 0x2, 0x8, 0xa};
+unsigned int dword_44C144 = 0x0;

@@ -24,6 +24,12 @@
     <ClInclude Include="..\src\cheat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\dinput_shim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\irq_misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\gte.h">
       <Filter>Header Files</Filter>
     </ClInclude>

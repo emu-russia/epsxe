@@ -657,3 +657,25 @@ LABEL_15:
   }
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char byte_4557A8 = 0x1;
+unsigned char byte_45B8CC = 0x0;
+unsigned char byte_4F831D;
+unsigned char byte_8B2580[0x400];
+unsigned char cheat_file_from_cmdline[0x400];
+unsigned char cpu_overclock_setting = 0x1;
+unsigned int dword_50C370;
+unsigned int dynarec_enabled;
+unsigned char extsubchanhle;
+unsigned char fastboot = 0x1;
+unsigned int forcepad;
+unsigned char forcespu = 0x0;
+unsigned char gtrace;
+unsigned char ignore_cmd = 0x1;
+unsigned int loaded_file_type;
+unsigned int mdectiming = 0x1;
+unsigned char nocd = 0x1;
+unsigned char old_auto_ppf_load;
+unsigned int reset_flag;
+unsigned char xa_read_enable = 0x1;

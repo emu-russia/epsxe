@@ -8547,3 +8547,15 @@ int __cdecl gte_unfreeze(int a1, _DWORD *a2)
 
 
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char byte_8A7EE0;
+unsigned char byte_8A8000;
+unsigned char byte_8A8001;
+unsigned int dword_44F950 = 0x8a7f00;
+unsigned int dword_8A8004;
+unsigned int dword_8A8008;
+unsigned int dword_8A800C;
+GTE_REGS gte_regs;
+unsigned __int64 qword_44F958 = 0x8080000081000000;
+unsigned __int64 qword_44F960 = 0x400000;

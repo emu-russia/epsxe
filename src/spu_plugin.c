@@ -599,3 +599,44 @@ void __cdecl spu_unfreeze(int a1, _DWORD *a2)
 }
 
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int SPUabout;
+int (__stdcall *SPUasync)();
+int (__stdcall *SPUclose)();
+unsigned int SPUconfigure;
+int (__stdcall *SPUfreeze)();
+int (__stdcall *SPUgetOne)();
+int (__stdcall *SPUinit)();
+int (__stdcall *SPUopen)();
+int (__stdcall *SPUplayADPCMchannel)();
+unsigned int SPUplaySample;
+int (__stdcall *SPUputOne)();
+int (__stdcall *SPUreadDMA)();
+int (__stdcall *SPUreadDMAMem)();
+int (__stdcall *SPUreadRegister)();
+int (__stdcall *SPUregisterCallback)();
+int (__stdcall *SPUsetAddr)();
+int (__stdcall *SPUsetPitch)();
+int (__stdcall *SPUsetVolumeL)();
+int (__stdcall *SPUsetVolumeR)();
+int (__stdcall *SPUshutdown)();
+int (__stdcall *SPUstartChannels1)();
+int (__stdcall *SPUstartChannels2)();
+int (__stdcall *SPUstopChannels1)();
+int (__stdcall *SPUstopChannels2)();
+unsigned int SPUtest;
+int (__stdcall *SPUupdate)();
+int (__stdcall *SPUwriteDMA)();
+int (__stdcall *SPUwriteDMAMem)();
+int (__stdcall *SPUwriteRegister)();
+unsigned int Size[0x100];
+unsigned char byte_45B8F0 = 0x0;
+unsigned int dword_516518;
+unsigned int dword_8A8080;
+unsigned int hSpuModule = 0x0;
+unsigned char sound_enabled = 0x1;
+unsigned int spu_adpcm_flag = 0x1;
+unsigned char spu_need_to_be_closed;
+unsigned char spu_use_external_plugin = 0x1;
+unsigned short word_8A8084[0x200];

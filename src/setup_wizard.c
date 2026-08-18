@@ -1145,3 +1145,14 @@ int __cdecl setup_wizard_callback(HWND hWndParent)
   return result;
 }
 
+
+/* Decompiled globals (previously generated in src/_gen) */
+char FileName[256];
+unsigned char byte_8A84C0[0x400];
+unsigned char byte_8A88C0[0x400];
+unsigned char byte_8A8CC0[0x400];
+unsigned char byte_8A90C0[0x80];
+unsigned char byte_8A94C0;
+BIOS_DESCR debug_bios = {0x0D, "dtlh3002 - PAL"};
+BIOS_DESCR retail_bioses = {0x0C8EC73C0, "scph1000 - JAP"};
+unsigned int setup_wizard_step = 0xffffffff;

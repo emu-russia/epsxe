@@ -29,3 +29,6 @@ typedef struct _MINI_CHEAT_ENTRY {
 } MINI_CHEAT_ENTRY;
 
 #pragma pack(pop)
+/* Decompiled globals (previously generated in src/_gen) */
+extern CHEAT_DB_ENTRY cheat_db[200];
+extern MINI_CHEAT_ENTRY mini_cheat_db[200];
