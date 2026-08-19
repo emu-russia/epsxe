@@ -36,7 +36,9 @@ OPTIMIZE_OUTPUT_FOR_C  = YES
 
 GENERATE_HTML          = YES
 HTML_OUTPUT            = html
-GENERATE_LATEX         = NO
+GENERATE_LATEX         = YES
+USE_PDFLATEX           = YES
+HAVE_DOT               = YES
 
 WARNINGS               = YES
 WARN_IF_UNDOCUMENTED   = NO
