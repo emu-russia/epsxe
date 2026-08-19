@@ -18,7 +18,7 @@ static BOOL W9x_resume_cdda();
 
 /* ASPI support: wnaspi32.lib is not shipped with modern SDKs, so load the
  * function from the system DLL at runtime. */
-static DWORD GetASPI32SupportInfo(void)
+DWORD GetASPI32SupportInfo(void)
 {
     static DWORD(WINAPI * real)(void) = NULL;
     if (!real)

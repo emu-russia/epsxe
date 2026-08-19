@@ -1536,7 +1536,7 @@ static int gte_count_leading_bits(int value)
   return 31 - bit_pos;
 }
 
-char gte_exec_opcode()
+void gte_exec_opcode()
 {
   int b_clamped;
   int flag;
@@ -1753,7 +1753,7 @@ char gte_exec_opcode()
           cpu_gpr[gpr_index] = gte_regs.data[data_index].s32;
         }
       }
-      return value;
+      return;
     case 2u:
       LOBYTE(value) = ((unsigned int)cpu_opcode >> 11) & 0x1F;
       gte_cpu_gpr_index = BYTE2(cpu_opcode) & 0x1F;
@@ -1763,7 +1763,7 @@ char gte_exec_opcode()
         value = BYTE2(cpu_opcode) & 0x1F;
         cpu_gpr[value] = gte_regs.ctrl[(uint16_t)cpu_opcode >> 11].s32;
       }
-      return value;
+      return;
     case 4u:
       LOBYTE(value) = ((unsigned int)cpu_opcode >> 11) & 0x1F;
       gte_cpu_gpr_index = BYTE2(cpu_opcode) & 0x1F;
@@ -1790,14 +1790,14 @@ char gte_exec_opcode()
           gte_regs.data[11].u32 = value;
           break;
       }
-      return value;
+      return;
     case 6u:
       LOBYTE(value) = ((unsigned int)cpu_opcode >> 11) & 0x1F;
       gte_cpu_gpr_index = BYTE2(cpu_opcode) & 0x1F;
       ctrl_value.u32 = cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
       gte_control_reg_index = value;
       gte_regs.ctrl[(uint8_t)value] = ctrl_value;
-      return value;
+      return;
     default:
       value = cpu_opcode & 0x1FFFFFF;
       gte_regs.ctrl[31].u32 = 0;
@@ -1882,11 +1882,11 @@ char gte_exec_opcode()
                           goto LABEL_630;
 LABEL_602:
                         LOBYTE(value) = gte_nccs();
-                        return value;
+                        return;
                       }
 LABEL_37:
                       LOBYTE(value) = gte_rtps();
-                      return value;
+                      return;
                     }
 LABEL_612:
                     value = gte_regs.data[14].s16.hi * (gte_regs.data[12].s16.lo - gte_regs.data[13].s16.lo);
@@ -1895,12 +1895,12 @@ LABEL_612:
                                           * (gte_regs.data[14].s16.lo - gte_regs.data[12].s16.lo)
                                           + gte_regs.data[12].s16.hi
                                           * (gte_regs.data[13].s16.lo - gte_regs.data[14].s16.lo);
-                    return value;
+                    return;
                   }
                   if ( value == 0x280030 )
                   {
                     LOBYTE(value) = gte_rtpt();
-                    return value;
+                    return;
                   }
                   if ( value == 0x400006 )
                     goto LABEL_612;
@@ -2487,13 +2487,13 @@ LABEL_541:
                 LOBYTE(value) = gte_regs.ctrl[31].u16.hi;
                 gte_regs.ctrl[31].u32 |= 0x400000u;
               }
-              return value;
+              return;
             }
 LABEL_558:
             gte_regs.data[11] = lm;
             LOBYTE(value) = gte_regs.ctrl[31].u16.hi;
             gte_regs.ctrl[31].u32 |= 0x400000u;
-            return value;
+            return;
           }
           if ( value > 0x42A412 )
           {
@@ -4075,7 +4075,7 @@ LABEL_573:
             LOBYTE(value) = gte_regs.ctrl[31].u16.hi;
             gte_regs.data[11].u32 = 0;
             gte_regs.ctrl[31].u32 |= 0x400000u;
-            return value;
+            return;
           }
           if ( value <= 0x4B6012 )
           {
@@ -4540,7 +4540,7 @@ LABEL_519:
         if ( value == 6815785 )
         {
           LOBYTE(value) = gte_dcpl();
-          return value;
+          return;
         }
         if ( value <= 0x4D2412 )
         {
@@ -5061,7 +5061,7 @@ LABEL_694:
           gte_regs.ctrl[31].u32 |= 0x80040000;
           gte_regs.data[7].u16.hi = 0;
         }
-        return value;
+        return;
       }
       if ( value > 0x118043F )
       {
@@ -5070,7 +5070,7 @@ LABEL_694:
           if ( value == 24641548 )
           {
             LOBYTE(value) = gte_op_shifted().u32;
-            return value;
+            return;
           }
           if ( value <= 0x158002D )
           {
@@ -5079,12 +5079,12 @@ LABEL_694:
               if ( value == 19399700 )
               {
                 LOBYTE(value) = gte_cdp();
-                return value;
+                return;
               }
               if ( value == 20448284 )
               {
                 LOBYTE(value) = gte_cc();
-                return value;
+                return;
               }
               if ( value != 20971526 )
                 goto LABEL_630;
@@ -5097,7 +5097,7 @@ LABEL_694:
             if ( value == 24117260 )
             {
               LOBYTE(value) = gte_op();
-              return value;
+              return;
             }
             goto LABEL_630;
           }
@@ -5228,7 +5228,7 @@ LABEL_694:
                 LOBYTE(gte_regs.data[22].s16.lo) = 0;
                 HIBYTE(gte_regs.data[22].u32) = HIBYTE(gte_regs.data[6].u32);
               }
-              return value;
+              return;
             }
             goto LABEL_630;
           }
@@ -5366,12 +5366,12 @@ LABEL_694:
           LOBYTE(gte_regs.data[22].s16.lo) = 0;
           HIBYTE(gte_regs.data[22].u32) = HIBYTE(gte_regs.data[6].u32);
         }
-        return value;
+        return;
       }
       if ( value == 18351167 )
       {
         LOBYTE(value) = gte_ncct();
-        return value;
+        return;
       }
       if ( value <= 0xA80428 )
       {
@@ -5434,7 +5434,7 @@ LABEL_694:
             gte_regs.ctrl[31].u32 |= 0x400000u;
             gte_regs.data[11].u32 = 0;
           }
-          return value;
+          return;
         }
         if ( value <= 0x980011 )
         {
@@ -5562,7 +5562,7 @@ LABEL_694:
               LOBYTE(gte_regs.data[22].s16.lo) = 0;
               HIBYTE(gte_regs.data[22].u32) = HIBYTE(gte_regs.data[6].u32);
             }
-            return value;
+            return;
           }
           if ( (int *)value != (int *)((char *)&ram[205947] + 2) )
           {
@@ -5691,11 +5691,11 @@ LABEL_704:
                 HIBYTE(gte_regs.data[22].u32) = HIBYTE(gte_regs.data[6].u32);
                 LOBYTE(value) = HIBYTE(gte_regs.data[6].u32);
               }
-              return value;
+              return;
             }
 LABEL_626:
             LOBYTE(value) = gte_dpcs();
-            return value;
+            return;
           }
 LABEL_699:
           gte_regs.data[24].u32 = gte_regs.ctrl[30].s16.hi
@@ -5721,7 +5721,7 @@ LABEL_699:
             gte_regs.ctrl[31].u32 |= 0x80040000;
             gte_regs.data[7].u16.hi = 0;
           }
-          return value;
+          return;
         }
         if ( value != 9961533 )
         {
@@ -5784,7 +5784,7 @@ LABEL_699:
               gte_regs.ctrl[31].u32 |= 0x400000u;
               gte_regs.data[11].u32 = 0;
             }
-            return value;
+            return;
           }
           goto LABEL_630;
         }
@@ -5909,7 +5909,7 @@ LABEL_735:
           HIBYTE(gte_regs.data[22].u32) = HIBYTE(gte_regs.data[6].u32);
           LOBYTE(value) = HIBYTE(gte_regs.data[6].u32);
         }
-        return value;
+        return;
       }
       if ( value <= 0xF8002A )
       {
@@ -5917,30 +5917,30 @@ LABEL_735:
         {
           case 0xF8002Au:
             LOBYTE(value) = gte_dpct().u32;
-            return value;
+            return;
           case 0xC8041Eu:
             LOBYTE(value) = gte_ncs();
-            return value;
+            return;
           case 0xD80420u:
             LOBYTE(value) = gte_nct();
-            return value;
+            return;
           case 0xE80413u:
             LOBYTE(value) = gte_ncds();
-            return value;
+            return;
         }
         goto LABEL_630;
       }
       if ( value == 0xF80416 )
       {
         LOBYTE(value) = gte_ncdt();
-        return value;
+        return;
       }
       if ( value == 0x108041B )
         goto LABEL_602;
 LABEL_630:
       if ( gtrace )
         LOBYTE(value) = dbg_print("CODE [%07x]\n", value);
-      return value;
+      return;
   }
 }
 

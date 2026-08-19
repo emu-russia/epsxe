@@ -50,7 +50,6 @@ typedef BOOLEAN bool;
 #define SHIBYTE(x) SBYTEn(x, 3)
 #define SLOWORD(x) (*((short*)&(x)))
 #define SHIWORD(x) (*((short*)&(x) + 1))
-#define __SET_PAIR__(hi, lo) ((((uint64_t)(hi)) << 32) | (uint32_t)(lo))
 
 /* IDA-style lvalue byte/word accessors (winnt.h versions are rvalues) */
 #undef LOBYTE

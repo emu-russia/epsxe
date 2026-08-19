@@ -615,7 +615,8 @@ void op_MULT()
   op_rt = BYTE2(cpu_opcode) & 0x1F;
   op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   product = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] * (int64_t)cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
-  __SET_PAIR__(cpu_HI, cpu_LO, product);
+  cpu_LO = (uint32_t)product;
+  cpu_HI = (uint32_t)(product >> 32);
 }
 
 void op_MULTU()
@@ -626,7 +627,8 @@ void op_MULTU()
   op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
   product = (unsigned int)cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]
           * (uint64_t)(unsigned int)cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
-  __SET_PAIR__(cpu_HI, cpu_LO, product);
+  cpu_LO = (uint32_t)product;
+  cpu_HI = (uint32_t)(product >> 32);
 }
 
 void op_DIV()
