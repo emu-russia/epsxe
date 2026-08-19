@@ -57,7 +57,7 @@ unsigned int irq_cpu_interrupt()
   return result;
 }
 
-char __cdecl rcnt_write_reg(unsigned __int16 a1, int a2)
+static char __cdecl rcnt_write_reg(unsigned __int16 a1, int a2)
 {
   int v2; // eax
   bool v3; // zf
@@ -118,12 +118,12 @@ LABEL_13:
   return v2;
 }
 
-void cdrom_assert_int()
+static void cdrom_assert_int()
 {
   *(_DWORD *)int_reg |= 4u;
 }
 
-void sio_assert_int()
+static void sio_assert_int()
 {
   *(_DWORD *)int_reg |= 0x80u;
 }
@@ -168,7 +168,7 @@ void irq_spu_registered_callback()
   ++spu_irq_pending_count;
 }
 
-int __cdecl sub_42B080(const char *a1, int a2)
+static int __cdecl sub_42B080(const char *a1, int a2)
 {
   char Buffer[3]; // [esp+4h] [ebp-40h] BYREF
   int v4; // [esp+7h] [ebp-3Dh]

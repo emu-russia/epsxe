@@ -1,10 +1,10 @@
 #include "pch.h"
-int __cdecl cdfs_read_le32(unsigned __int8 *a1)
+static int __cdecl cdfs_read_le32(unsigned __int8 *a1)
 {
   return *a1 | ((a1[1] | ((a1[2] | ((char)a1[3] << 8)) << 8)) << 8);
 }
 
-unsigned int __cdecl cdfs_read_data(int a1, int a2, unsigned int a3, void *a4)
+static unsigned int __cdecl cdfs_read_data(int a1, int a2, unsigned int a3, void *a4)
 {
   unsigned __int8 v5; // [esp+8h] [ebp-126Ch]
   unsigned __int8 v6; // [esp+Ch] [ebp-1268h]
@@ -26,7 +26,7 @@ unsigned int __cdecl cdfs_read_data(int a1, int a2, unsigned int a3, void *a4)
   return a3;
 }
 
-char *cdfs_read_root_directory()
+static char *cdfs_read_root_directory()
 {
   int le32; // esi
 
@@ -37,7 +37,7 @@ char *cdfs_read_root_directory()
   return root_directory_buffer;
 }
 
-int *__cdecl cdfs_find_file(const char *a1, int *a2, int **a3)
+static int *__cdecl cdfs_find_file(const char *a1, int *a2, int **a3)
 {
   int v3; // ebp
   char *v4; // edi
@@ -65,7 +65,7 @@ LABEL_8:
   return result;
 }
 
-unsigned __int8 __cdecl cdfs_parse_system_cnf_for_exec(int a1, int a2, char *Buffer, int *a4, int **a5)
+static unsigned __int8 __cdecl cdfs_parse_system_cnf_for_exec(int a1, int a2, char *Buffer, int *a4, int **a5)
 {
   int v5; // esi
   unsigned __int8 result; // al

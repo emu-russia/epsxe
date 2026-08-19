@@ -573,24 +573,8 @@ extern unsigned __int64 qword_44F958;
 extern unsigned __int64 qword_44F960;
 
 /* Function prototypes (previously generated in src/_gen) */
-char gte_cc();
-char gte_cdp();
-int __cdecl gte_clamp(int a1, int a2);
 int gte_clear_regs();
-char __cdecl gte_convert_to_5bit(int a1);
-int __cdecl gte_count_leading_bits(int a1);
-char gte_dcpl();
-char gte_dpcs();
-GTE_REG gte_dpct();
 int __cdecl gte_freeze(const char *a1, int a2);
-char gte_nccs();
-char gte_ncct();
-char gte_ncds();
-char gte_ncdt();
-char gte_ncs();
-char gte_nct();
-int gte_op();
-GTE_REG gte_op_shifted();
 int __cdecl gte_read_data_register(unsigned __int8 a1);
 int gte_rtps();
 int gte_rtpt();

@@ -1,12 +1,19 @@
 #include "pch.h"
-_DWORD *__cdecl xa_clear_adpcm_state(_DWORD *a1)
+
+/* static prototypes for internal functions */
+static int __cdecl xa_get_audio_mode(int a1);
+static int __cdecl xa_setup_adpcm_decoder(_DWORD *a1, int a2, int a3, int a4);
+static int __cdecl xa_decode_stereo_blocks(int a1, int a2);
+static int xa_decode_mono_blocks(int a1, int a2, int a3);
+
+static _DWORD *__cdecl xa_clear_adpcm_state(_DWORD *a1)
 {
   *a1 = 0;
   a1[1] = 0;
   return a1;
 }
 
-int *__cdecl xa_decode_adpcm_block(int *a1, unsigned __int8 a2, __int16 *a3, _WORD *a4, unsigned int a5)
+static int *__cdecl xa_decode_adpcm_block(int *a1, unsigned __int8 a2, __int16 *a3, _WORD *a4, unsigned int a5)
 {
   int v6; // ebp
   char v7; // bl
@@ -141,7 +148,7 @@ int __cdecl xa_decode_wrapper(_DWORD *a1, int a2, int a3)
     return -1;
 }
 
-int __cdecl xa_get_audio_mode(int a1)
+static int __cdecl xa_get_audio_mode(int a1)
 {
   if ( (*(_BYTE *)(a1 + 2) & 0x24) == 0x24 )
     return 2;
@@ -149,7 +156,7 @@ int __cdecl xa_get_audio_mode(int a1)
     return (*(_BYTE *)(a1 + 2) & 2) == 2;
 }
 
-int __cdecl xa_setup_adpcm_decoder(_DWORD *a1, int a2, int a3, int a4)
+static int __cdecl xa_setup_adpcm_decoder(_DWORD *a1, int a2, int a3, int a4)
 {
   int v4; // edx
   int v5; // eax
@@ -235,7 +242,7 @@ int __cdecl xa_setup_adpcm_decoder(_DWORD *a1, int a2, int a3, int a4)
   return 0;
 }
 
-int __cdecl xa_decode_stereo_blocks(int a1, int a2)
+static int __cdecl xa_decode_stereo_blocks(int a1, int a2)
 {
   int v2; // ebx
   int v3; // edx
@@ -325,7 +332,7 @@ int __cdecl xa_decode_stereo_blocks(int a1, int a2)
   return result;
 }
 
-int xa_decode_mono_blocks(int a1, int a2, int a3)
+static int xa_decode_mono_blocks(int a1, int a2, int a3)
 {
   int v3; // edx
   int v4; // ebx

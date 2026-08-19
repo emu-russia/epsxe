@@ -37,7 +37,5 @@ extern unsigned int version_setting;
 int cfg_cdrom_iso_set_path();
 int cfg_cdrom_set_hain_target_lun();
 int cfg_cdrom_set_letter();
-char __cdecl cfg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData);
 int cfg_load_settings();
 int cfg_save_settings();
-int __cdecl cfg_set_value(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpData);

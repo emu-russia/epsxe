@@ -28,7 +28,6 @@ void op_SLT();
 void op_SLTU();
 void op_MFC0();
 void op_MTC0();
-void op_RFE();
 void op_BLTZ();
 void op_BGEZ();
 void op_BLTZAL();

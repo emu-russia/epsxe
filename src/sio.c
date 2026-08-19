@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl sio_schedule_transfer(char a1, char *a2)
+static char __cdecl sio_schedule_transfer(char a1, char *a2)
 {
   int v2; // eax
 
@@ -37,7 +37,7 @@ char __cdecl sio_schedule_transfer(char a1, char *a2)
   return v2;
 }
 
-int __cdecl sio_handle_config_command(char a1, int a2, char a3)
+static int __cdecl sio_handle_config_command(char a1, int a2, char a3)
 {
   int v3; // eax
   int v4; // eax
@@ -137,7 +137,7 @@ LABEL_24:
   return a2 + 4;
 }
 
-unsigned int __cdecl sio_build_multitap_response(_BYTE *a1, _DWORD *a2)
+static unsigned int __cdecl sio_build_multitap_response(_BYTE *a1, _DWORD *a2)
 {
   int *v2; // ecx
   int *v3; // esi
@@ -171,7 +171,7 @@ unsigned int __cdecl sio_build_multitap_response(_BYTE *a1, _DWORD *a2)
   return result;
 }
 
-void __cdecl sio_command(char *a1)
+static void __cdecl sio_command(char *a1)
 {
   char v1; // bl
   int v2; // esi
@@ -646,7 +646,7 @@ bool __cdecl sio_controller_init(__int16 a1)
   return result;
 }
 
-char sio_reset_controller_state()
+static char sio_reset_controller_state()
 {
   unsigned int i; // eax
 
@@ -755,7 +755,7 @@ char sio_memcard_load()
   return (char)v0;
 }
 
-char sio_memcard1_save()
+static char sio_memcard1_save()
 {
   char result; // al
   FILE *v1; // esi
@@ -778,7 +778,7 @@ char sio_memcard1_save()
   return result;
 }
 
-char sio_memcard2_save()
+static char sio_memcard2_save()
 {
   char result; // al
   FILE *v1; // esi
@@ -881,7 +881,7 @@ void sio_read_data_byte()
     LOBYTE(sio0_mode_reg) = sio0_mode_reg & 0xFD;
 }
 
-__int16 __cdecl sio_read_halfword(int a1)
+static __int16 __cdecl sio_read_halfword(int a1)
 {
   char v1; // al
   __int16 v2; // bx
@@ -924,7 +924,7 @@ __int16 __cdecl sio_read_halfword(int a1)
   return result;
 }
 
-int __cdecl sio_read_word(int a1)
+static int __cdecl sio_read_word(int a1)
 {
   char v2; // al
   unsigned __int16 v3; // bx

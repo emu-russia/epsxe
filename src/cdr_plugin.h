@@ -27,10 +27,8 @@ extern unsigned char track_seconds_table[1];
 extern unsigned char track_sectors_table[0x139];
 
 /* Function prototypes (previously generated in src/_gen) */
-char __cdecl ext_CDR_bcd_to_binary(char a1, char a2);
 char __cdecl ext_CDR_get_first_last_track(_BYTE *a1, _BYTE *a2);
 unsigned __int8 __cdecl ext_CDR_lba_to_msf( unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, unsigned __int8 *a4, unsigned __int8 *a5, unsigned __int8 *a6);
-char __cdecl ext_CDR_lba_to_msf_with_track( unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, _BYTE *a4, _BYTE *a5, _BYTE *a6, _BYTE *a7);
 int __cdecl ext_CDR_read(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, char *Buffer);
 void ext_CDR_reset_state();
 char __cdecl ext_CDR_track_to_msf(__int16 a1, _BYTE *a2, _BYTE *a3, _BYTE *a4);

@@ -11,7 +11,6 @@ extern unsigned char ram[0x200000];
 extern unsigned int sio0_control_reg;
 
 /* Function prototypes (previously generated in src/_gen) */
-int clear_memory();
 int __cdecl mem_dma_read(unsigned int a1);
 int __cdecl mem_freeze(const char *a1, int a2);
 unsigned int __cdecl mem_gpu_dma_read(unsigned int a1);

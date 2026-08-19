@@ -1,5 +1,21 @@
 #include "pch.h"
-char W2k_find_cdrom_drive_letter()
+
+/* static prototypes for internal functions */
+static int W2k_send_read_subchannel_command();
+static bool __cdecl W2k_read_raw_sector(
+        unsigned __int8 a1,
+        unsigned __int8 a2,
+        unsigned __int8 a3,
+        unsigned __int8 a4,
+        DWORD a5);
+static bool __cdecl W2k_read_sector_mode1(
+        unsigned __int8 a1,
+        unsigned __int8 a2,
+        unsigned __int8 a3,
+        unsigned __int8 a4,
+        DWORD a5);
+
+static char W2k_find_cdrom_drive_letter()
 {
   int v0; // ebx
   CHAR RootPathName[4]; // [esp+8h] [ebp-4h] BYREF
@@ -16,7 +32,7 @@ char W2k_find_cdrom_drive_letter()
   return v0;
 }
 
-HANDLE __cdecl W2k_open_cdrom_device(unsigned __int8 a1)
+static HANDLE __cdecl W2k_open_cdrom_device(unsigned __int8 a1)
 {
   DWORD v1; // esi
   HANDLE result; // eax
@@ -36,7 +52,7 @@ HANDLE __cdecl W2k_open_cdrom_device(unsigned __int8 a1)
   return result;
 }
 
-int __cdecl W2k_get_scsi_address(unsigned __int8 a1, _DWORD *a2, _DWORD *a3, _DWORD *a4)
+static int __cdecl W2k_get_scsi_address(unsigned __int8 a1, _DWORD *a2, _DWORD *a3, _DWORD *a4)
 {
   HANDLE v4; // ebx
   unsigned __int8 v6; // cl
@@ -72,7 +88,7 @@ int __cdecl W2k_get_scsi_address(unsigned __int8 a1, _DWORD *a2, _DWORD *a3, _DW
   }
 }
 
-int __cdecl W2k_scsi_pass_through_direct(DWORD BytesReturned)
+static int __cdecl W2k_scsi_pass_through_direct(DWORD BytesReturned)
 {
   DWORD v1; // ebp
   int v2; // edx
@@ -112,7 +128,7 @@ int __cdecl W2k_scsi_pass_through_direct(DWORD BytesReturned)
   return *(unsigned __int8 *)(v1 + 1);
 }
 
-char W2k_cdrom_gettrackinfo()
+static char W2k_cdrom_gettrackinfo()
 {
   HANDLE EventA; // esi
   char result; // al
@@ -194,7 +210,7 @@ char W2k_cdrom_gettrackinfo()
   return result;
 }
 
-BOOL W2k_resume_cdrom()
+static BOOL W2k_resume_cdrom()
 {
   HANDLE EventA; // esi
   DWORD BytesReturned[20]; // [esp+8h] [ebp-50h] BYREF
@@ -340,7 +356,7 @@ HANDLE W2k_cdrom_deinit()
   return result;
 }
 
-char __cdecl W2k_find_track_by_min_sec(unsigned int a1, char a2)
+static char __cdecl W2k_find_track_by_min_sec(unsigned int a1, char a2)
 {
   char v2; // bl
   unsigned __int8 v4; // [esp+8h] [ebp-4h]
@@ -453,7 +469,7 @@ void W2k_reset_cdda_state()
   cdr_spinup_motor();
 }
 
-char __cdecl W2k_msf_to_lba(
+static char __cdecl W2k_msf_to_lba(
         unsigned int a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -643,7 +659,7 @@ unsigned __int8 __cdecl W2k_check_subchannel_data(unsigned int a1, unsigned __in
   return result;
 }
 
-bool __cdecl W2k_send_scsi_command(const void *a1, unsigned int a2, DWORD a3, DWORD a4)
+static bool __cdecl W2k_send_scsi_command(const void *a1, unsigned int a2, DWORD a3, DWORD a4)
 {
   HANDLE EventA; // ebx
   DWORD BytesReturned[20]; // [esp+Ch] [ebp-50h] BYREF
@@ -667,7 +683,7 @@ bool __cdecl W2k_send_scsi_command(const void *a1, unsigned int a2, DWORD a3, DW
   return BYTE1(BytesReturned[0]) != 1;
 }
 
-int W2k_send_read_toc_command()
+static int W2k_send_read_toc_command()
 {
   HANDLE EventA; // esi
   _BYTE v2[10]; // [esp+8h] [ebp-5Ch] BYREF
@@ -704,7 +720,7 @@ int W2k_send_read_toc_command()
   return BYTE1(BytesReturned[0]) != 1 ? 4 : 1;
 }
 
-int W2k_send_read_subchannel_command()
+static int W2k_send_read_subchannel_command()
 {
   HANDLE EventA; // esi
   _BYTE v2[4]; // [esp+8h] [ebp-5Ch] BYREF
@@ -742,7 +758,7 @@ int W2k_send_read_subchannel_command()
   return BYTE1(BytesReturned[0]) != 1 ? 4 : 1;
 }
 
-bool __cdecl W2k_read_raw_sector(
+static bool __cdecl W2k_read_raw_sector(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -773,7 +789,7 @@ bool __cdecl W2k_read_raw_sector(
   return W2k_send_scsi_command(&v6, 0xAu, a5, 2352 * a4);
 }
 
-bool __cdecl W2k_read_sector_with_subchannel_output(
+static bool __cdecl W2k_read_sector_with_subchannel_output(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -830,7 +846,7 @@ bool __cdecl W2k_read_sector_with_subchannel_output(
   return result;
 }
 
-bool __cdecl W2k_read_sector_mode1(
+static bool __cdecl W2k_read_sector_mode1(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -859,7 +875,7 @@ bool __cdecl W2k_read_sector_mode1(
   return W2k_send_scsi_command(&v6, 0xCu, a5, 2352 * a4);
 }
 
-bool __cdecl W2k_read_sector_mode2(
+static bool __cdecl W2k_read_sector_mode2(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -888,7 +904,7 @@ bool __cdecl W2k_read_sector_mode2(
   return W2k_send_scsi_command(&v6, 0xCu, a5, 2368 * a4);
 }
 
-bool __cdecl W2k_read_sector_mode3(
+static bool __cdecl W2k_read_sector_mode3(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -915,7 +931,7 @@ bool __cdecl W2k_read_sector_mode3(
   return W2k_send_scsi_command(&v6, 0xCu, a5, 16 * a4);
 }
 
-bool __cdecl W2k_send_subchannel_command(int a1)
+static bool __cdecl W2k_send_subchannel_command(int a1)
 {
   __int16 v2; // [esp+0h] [ebp-Ch] BYREF
   char v3; // [esp+2h] [ebp-Ah]
@@ -935,7 +951,7 @@ bool __cdecl W2k_send_subchannel_command(int a1)
   return W2k_send_scsi_command(&v2, 0xAu, 0, 0);
 }
 
-bool __cdecl W2k_get_subchannel_status(_DWORD *a1)
+static bool __cdecl W2k_get_subchannel_status(_DWORD *a1)
 {
   _DWORD v2[2]; // [esp+0h] [ebp-Ch] BYREF
   char v3[4]; // [esp+8h] [ebp-4h]

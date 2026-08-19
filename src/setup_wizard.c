@@ -1,5 +1,5 @@
 #include "pch.h"
-HANDLE setup_wizard_init()
+static HANDLE setup_wizard_init()
 {
   HANDLE FirstFileA; // edi
   HANDLE v1; // edi
@@ -52,7 +52,7 @@ HANDLE setup_wizard_init()
   return result;
 }
 
-INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   int v4; // eax
   char v5; // cl
@@ -222,7 +222,7 @@ INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM
   return 1;
 }
 
-INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   int v4; // eax
   char v5; // cl
@@ -465,7 +465,7 @@ INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3
   return result;
 }
 
-INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   int v4; // eax
   char v5; // cl
@@ -705,7 +705,7 @@ INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, 
   return result;
 }
 
-INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   int v4; // eax
   char v5; // cl
@@ -997,7 +997,7 @@ INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3
   return 1;
 }
 
-INT_PTR __stdcall setup_wizard_controllers(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_controllers(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   HDC DC; // esi
   int DeviceCaps; // ebx
@@ -1053,7 +1053,7 @@ LABEL_16:
   return 0;
 }
 
-INT_PTR __stdcall setup_wizard_end(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_end(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   if ( a2 == 16 )
   {
@@ -1070,7 +1070,7 @@ INT_PTR __stdcall setup_wizard_end(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   return 1;
 }
 
-INT_PTR __stdcall setup_wizard_begin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_begin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   if ( a2 == 16 )
   {

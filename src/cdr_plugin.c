@@ -260,7 +260,7 @@ int (*ext_cdrom_deinit())(void)
   return result;
 }
 
-char __cdecl ext_CDR_bcd_to_binary(char a1, char a2)
+static char __cdecl ext_CDR_bcd_to_binary(char a1, char a2)
 {
   unsigned __int8 v3; // [esp+4h] [ebp-4h]
 
@@ -314,7 +314,7 @@ void ext_CDR_reset_state()
   cdr_spinup_motor();
 }
 
-char __cdecl ext_CDR_lba_to_msf_with_track(
+static char __cdecl ext_CDR_lba_to_msf_with_track(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,

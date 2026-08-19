@@ -423,7 +423,7 @@ LABEL_20:
   return result;
 }
 
-int __cdecl gte_clamp(int a1, int a2)
+static int __cdecl gte_clamp(int a1, int a2)
 {
   int result; // eax
 
@@ -444,7 +444,7 @@ int __cdecl gte_clamp(int a1, int a2)
   return result;
 }
 
-char __cdecl gte_convert_to_5bit(int a1)
+static char __cdecl gte_convert_to_5bit(int a1)
 {
   int v1; // eax
 
@@ -462,7 +462,7 @@ char __cdecl gte_convert_to_5bit(int a1)
   return v1;
 }
 
-char gte_dcpl()
+static char gte_dcpl()
 {
   int v0; // esi
   int v1; // edi
@@ -595,7 +595,7 @@ char gte_dcpl()
   return v6;
 }
 
-char gte_dpcs()
+static char gte_dpcs()
 {
   int v0; // esi
   int v1; // edi
@@ -728,7 +728,7 @@ char gte_dpcs()
   return v6;
 }
 
-char gte_ncs()
+static char gte_ncs()
 {
   int v0; // edi
   int v1; // eax
@@ -941,7 +941,7 @@ char gte_ncs()
   return v7;
 }
 
-char gte_nct()
+static char gte_nct()
 {
   int v0; // ebp
   int v1; // eax
@@ -1453,7 +1453,7 @@ char gte_nct()
   return result;
 }
 
-char gte_ncds()
+static char gte_ncds()
 {
   int v0; // edi
   int v1; // eax
@@ -1727,7 +1727,7 @@ char gte_ncds()
   return v13;
 }
 
-char gte_ncdt()
+static char gte_ncdt()
 {
   int v0; // eax
   int v1; // ecx
@@ -2425,7 +2425,7 @@ char gte_ncdt()
   return v44;
 }
 
-GTE_REG gte_dpct()
+static GTE_REG gte_dpct()
 {
   GTE_REG v0; // esi
   int v1; // esi
@@ -2569,7 +2569,7 @@ GTE_REG gte_dpct()
   return result;
 }
 
-char gte_nccs()
+static char gte_nccs()
 {
   int v0; // edi
   int v1; // eax
@@ -2839,7 +2839,7 @@ char gte_nccs()
   return v10;
 }
 
-char gte_ncct()
+static char gte_ncct()
 {
   int v0; // ebp
   int v1; // eax
@@ -3504,7 +3504,7 @@ char gte_ncct()
   return result;
 }
 
-char gte_cdp()
+static char gte_cdp()
 {
   GTE_REG v0; // eax
   GTE_REG v1; // ecx
@@ -3709,7 +3709,7 @@ char gte_cdp()
   return v9;
 }
 
-char gte_cc()
+static char gte_cc()
 {
   signed int v0; // eax
   GTE_REG v1; // ecx
@@ -3910,7 +3910,7 @@ char gte_cc()
   return v6;
 }
 
-int gte_op()
+static int gte_op()
 {
   int result; // eax
   GTE_REG v1; // ecx
@@ -3979,7 +3979,7 @@ int gte_op()
   return result;
 }
 
-GTE_REG gte_op_shifted()
+static GTE_REG gte_op_shifted()
 {
   GTE_REG result; // eax
   int v1; // edx
@@ -4048,7 +4048,7 @@ GTE_REG gte_op_shifted()
   return result;
 }
 
-int __cdecl gte_count_leading_bits(int a1)
+static int __cdecl gte_count_leading_bits(int a1)
 {
   int v1; // eax
   int v2; // ecx

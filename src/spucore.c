@@ -1,5 +1,9 @@
 #include "pch.h"
-int spucore_init_dsound()
+
+/* static prototypes for internal functions */
+static unsigned int spucore_generate_samples();
+
+static int spucore_init_dsound()
 {
   int v0; // edx
   int v1; // eax
@@ -89,7 +93,7 @@ LABEL_11:
   return 1;
 }
 
-int spucore_update_dsound()
+static int spucore_update_dsound()
 {
   int result; // eax
   DWORD v1; // esi
@@ -188,7 +192,7 @@ int spucore_update_dsound()
   return result;
 }
 
-int spucore_init_gauss_table()
+static int spucore_init_gauss_table()
 {
   int v0; // ecx
   int result; // eax
@@ -218,7 +222,7 @@ int spucore_init_gauss_table()
   return result;
 }
 
-int __cdecl spucore_voice_key_on(int a1)
+static int __cdecl spucore_voice_key_on(int a1)
 {
   int result; // eax
   uint32_t adsr_sustain_dir; // edx
@@ -233,7 +237,7 @@ int __cdecl spucore_voice_key_on(int a1)
   return result * 296;
 }
 
-int __cdecl spucore_voice_key_off(int a1)
+static int __cdecl spucore_voice_key_off(int a1)
 {
   int result; // eax
 
@@ -250,7 +254,7 @@ int __cdecl spucore_voice_key_off(int a1)
   return result;
 }
 
-unsigned __int8 __cdecl spucore_decode_adpcm_block(int a1)
+static unsigned __int8 __cdecl spucore_decode_adpcm_block(int a1)
 {
   unsigned __int16 v1; // cx
   int32_t v2; // edi
@@ -349,7 +353,7 @@ LABEL_26:
   return result;
 }
 
-unsigned int spucore_generate_samples()
+static unsigned int spucore_generate_samples()
 {
   int v0; // ebp
   __int16 v1; // di
@@ -595,7 +599,7 @@ LABEL_41:
   return result;
 }
 
-int __cdecl spucore_set_voiceon(unsigned int a1)
+static int __cdecl spucore_set_voiceon(unsigned int a1)
 {
   int i; // esi
   int result; // eax
@@ -609,7 +613,7 @@ int __cdecl spucore_set_voiceon(unsigned int a1)
   return result;
 }
 
-int __cdecl spucore_set_pitchmod(unsigned int a1)
+static int __cdecl spucore_set_pitchmod(unsigned int a1)
 {
   int i; // esi
   int result; // eax
@@ -623,25 +627,25 @@ int __cdecl spucore_set_pitchmod(unsigned int a1)
   return result;
 }
 
-__int16 __cdecl spucore_write_cnt(__int16 a1)
+static __int16 __cdecl spucore_write_cnt(__int16 a1)
 {
   spu_cnt = a1;
   return a1;
 }
 
-__int16 __cdecl spucore_write_dma_ctrl(__int16 a1)
+static __int16 __cdecl spucore_write_dma_ctrl(__int16 a1)
 {
   spu_dma_ctrl = a1;
   return a1;
 }
 
-int __cdecl spucore_write_status_hi(__int16 a1)
+static int __cdecl spucore_write_status_hi(__int16 a1)
 {
   HIWORD(spu_ctrl_status) = a1 & 0xF800;
   return a1 & 0xF800;
 }
 
-int __cdecl spucore_set_dma_address(unsigned __int16 a1)
+static int __cdecl spucore_set_dma_address(unsigned __int16 a1)
 {
   int result; // eax
 
@@ -650,7 +654,7 @@ int __cdecl spucore_set_dma_address(unsigned __int16 a1)
   return result;
 }
 
-int __cdecl spucore_dma_write_fifo(__int16 a1)
+static int __cdecl spucore_dma_write_fifo(__int16 a1)
 {
   int v1; // eax
   int result; // eax
@@ -662,7 +666,7 @@ int __cdecl spucore_dma_write_fifo(__int16 a1)
   return result;
 }
 
-__int16 spucore_dma_read_fifo()
+static __int16 spucore_dma_read_fifo()
 {
   __int16 result; // ax
 
@@ -671,22 +675,22 @@ __int16 spucore_dma_read_fifo()
   return result;
 }
 
-__int16 spucore_read_cnt()
+static __int16 spucore_read_cnt()
 {
   return spu_cnt;
 }
 
-__int16 spucore_read_dma_ctrl()
+static __int16 spucore_read_dma_ctrl()
 {
   return spu_dma_ctrl;
 }
 
-__int16 spucore_read_status_hi()
+static __int16 spucore_read_status_hi()
 {
   return HIWORD(spu_ctrl_status);
 }
 
-int __cdecl spucore_write_voice_reg(int a1, int a2, unsigned __int16 a3)
+static int __cdecl spucore_write_voice_reg(int a1, int a2, unsigned __int16 a3)
 {
   __int64 v3; // rax
   int v4; // ecx
@@ -786,7 +790,7 @@ int __cdecl spucore_write_voice_reg(int a1, int a2, unsigned __int16 a3)
   return v3;
 }
 
-__int16 __cdecl spucore_read_voice_reg(int a1, int a2)
+static __int16 __cdecl spucore_read_voice_reg(int a1, int a2)
 {
   int v2; // eax
   signed int unknown17; // ecx

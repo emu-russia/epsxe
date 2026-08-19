@@ -38,7 +38,7 @@ BOOL __cdecl open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CH
   return result;
 }
 
-BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
+static BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
 {
   int v2; // ebp
   int *v3; // esi
@@ -77,7 +77,7 @@ BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
   return SetDlgItemTextA(hDlg, *((unsigned __int16 *)&nIDDlgItem + a2), String);
 }
 
-int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
+static int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
 {
   int v2; // ebp
   int *v3; // esi
@@ -1643,7 +1643,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   }
 }
 
-INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
   LRESULT v5; // eax
   LRESULT v6; // eax

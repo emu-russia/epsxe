@@ -1,5 +1,11 @@
 #include "pch.h"
 
+/* static prototypes for internal functions */
+static void op_SPECIAL();
+static void op_BCONDZ();
+static void op_COP0();
+
+
 // ==================== SPECIAL OPCODE TABLE (0x00) ====================
 // Index: bits 0-5 of the opcode (function field)
 OPCODE cpu_special_opcode_table[64] = {
@@ -74,18 +80,18 @@ OPCODE cpu_main_table[64] = {
 
 // Handler for SPECIAL opcode group (0x00)
 // Decodes the function field (bits 0-5) to determine the actual operation
-void op_SPECIAL() {
+static void op_SPECIAL() {
     cpu_special_opcode_table[cpu_opcode & 0x3F]();
 }
 
 // Handler for BCONDZ opcode group (0x01)
 // Decodes the rt field (bits 16-20) to determine the branch condition
-void op_BCONDZ() {
+static void op_BCONDZ() {
     cpu_bcond_opcode_table[(cpu_opcode >> 16) & 0x1F]();
 }
 
 // Handler for COP0 opcode group (0x10)
 // Decodes the rs field (bits 21-25) to determine the coprocessor operation
-void op_COP0() {
+static void op_COP0() {
     cpu_cop0_table[(cpu_opcode >> 21) & 0x1F]();
 }

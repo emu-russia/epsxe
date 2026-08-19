@@ -25,8 +25,3 @@ extern unsigned char xa_read_enable;
 
 /* Function prototypes (previously generated in src/_gen) */
 int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
-void epsxe_main_loop_runner();
-int __cdecl parse_command_line_options(int a1, int a2);
-void print_develop_options();
-void print_usage();
-void print_version();

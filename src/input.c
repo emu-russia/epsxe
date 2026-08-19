@@ -42,7 +42,7 @@ int diAcquireMouseDevice()
   return 1;
 }
 
-int diGetMouseState()
+static int diGetMouseState()
 {
   int v1; // eax
   int v2; // eax
@@ -74,7 +74,7 @@ int diGetMouseState()
   return 1;
 }
 
-int __stdcall diEnumEffectsCallback(_DWORD *a1, _DWORD *a2)
+static int __stdcall diEnumEffectsCallback(_DWORD *a1, _DWORD *a2)
 {
   if ( a2 )
   {
@@ -86,7 +86,7 @@ int __stdcall diEnumEffectsCallback(_DWORD *a1, _DWORD *a2)
   return 0;
 }
 
-unsigned int __cdecl diCreateEffectHelper(int a1, _DWORD *a2)
+static unsigned int __cdecl diCreateEffectHelper(int a1, _DWORD *a2)
 {
   int v3; // [esp+8h] [ebp-1Ch]
   _BYTE v4[16]; // [esp+14h] [ebp-10h] BYREF
@@ -107,7 +107,7 @@ unsigned int __cdecl diCreateEffectHelper(int a1, _DWORD *a2)
     return 0x80004005;
 }
 
-unsigned int __cdecl diSetupConstantForceEffect(int a1, int a2)
+static unsigned int __cdecl diSetupConstantForceEffect(int a1, int a2)
 {
   _DWORD *v2; // eax
   int v3; // edx
@@ -140,7 +140,7 @@ unsigned int __cdecl diSetupConstantForceEffect(int a1, int a2)
   return (diCreateEffectHelper(v3, v2) & 0x80000000) == 0 ? 0 : 0x80004005;
 }
 
-unsigned int __cdecl diSetupPeriodicForceEffect(_DWORD *a1, int a2)
+static unsigned int __cdecl diSetupPeriodicForceEffect(_DWORD *a1, int a2)
 {
   int v3; // [esp+0h] [ebp-20h] BYREF
   int v4; // [esp+8h] [ebp-18h] BYREF
@@ -173,7 +173,7 @@ unsigned int __cdecl diSetupPeriodicForceEffect(_DWORD *a1, int a2)
   return (diCreateEffectHelper(a2, a1) & 0x80000000) == 0 ? 0 : E_FAIL;
 }
 
-int __cdecl diSetConstantForceMagnitude(int a1, int a2)
+static int __cdecl diSetConstantForceMagnitude(int a1, int a2)
 {
   _DWORD *v2; // ebx
   int v3; // esi
@@ -194,7 +194,7 @@ int __cdecl diSetConstantForceMagnitude(int a1, int a2)
   return (*(int (__stdcall **)(_DWORD, int, _DWORD))(*(_DWORD *)*v2 + 28))(*v2, 1, 0);
 }
 
-int __cdecl diSetPeriodicForceMagnitude(_DWORD *a1, int a2)
+static int __cdecl diSetPeriodicForceMagnitude(_DWORD *a1, int a2)
 {
   int v2; // esi
   int v4; // [esp+8h] [ebp-48h] BYREF
@@ -214,7 +214,7 @@ int __cdecl diSetPeriodicForceMagnitude(_DWORD *a1, int a2)
   return (*(int (__stdcall **)(_DWORD, int, _DWORD))(*(_DWORD *)*a1 + 28))(*a1, 1, 0);
 }
 
-_DWORD *__cdecl diInitEffectStruct(_DWORD *a1)
+static _DWORD *__cdecl diInitEffectStruct(_DWORD *a1)
 {
   memset(a1 + 2, 0, 0x38u);
   a1[2] = 56;
@@ -260,7 +260,7 @@ int __cdecl diSetEffectMagnitude(int a1, int a2, int a3, int a4)
   return result;
 }
 
-int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
+static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
 {
   int v3; // ebp
   int v4; // edx
