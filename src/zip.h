@@ -1,5 +1,15 @@
 #pragma once
 
+/**
+ * \file zip.h
+ * \brief Declarations for the ZIP archive reader used to load ROM/demo images.
+ *
+ * Reads ZIP archives (stored or deflated entries) containing PS-X EXE/PLL
+ * demos: locates the end-of-central-directory record, parses the central
+ * directory and local file headers, and inflates the selected entry into
+ * memory.
+ */
+
 #define ZIP_SLIDING_WINDOW_SIZE     0x8000u   /* 32 KB */
 #define ZIP_READ_BUFFER_SIZE        0x2000u   /* 8 KB – used for reading from file */
 #define ZIP_MAX_FILENAME_LEN        256
@@ -8,6 +18,9 @@
 #define ZIP_CENTRAL_DIR_HEADER_SIG  0x02014b50u
 
 #pragma pack(push, 1)
+/**
+ * \brief On-disk ZIP local file header (start of a file entry in the archive).
+ */
 typedef struct _ZipLocalFileHeader {
     uint32_t signature;            /* 0x04034b50 */
     uint16_t version_needed;
@@ -25,6 +38,9 @@ typedef struct _ZipLocalFileHeader {
 #pragma pack(pop)
 
 #pragma pack(push, 1)
+/**
+ * \brief On-disk ZIP central directory entry (one per file in the archive).
+ */
 typedef struct _ZipCentralDirectoryEntry {
     uint32_t signature;            /* 0x02014b50 */
     uint16_t version_made_by;
@@ -47,6 +63,9 @@ typedef struct _ZipCentralDirectoryEntry {
 } ZipCentralDirectoryEntry;
 #pragma pack(pop)
 
+/**
+ * \brief In-memory ZIP local file header (with a pointer to the entry filename).
+ */
 typedef struct _ZipLocalFileHeaderInMem {
     uint32_t signature;            /* 0x04034b50 */
     uint16_t version_needed;
@@ -63,6 +82,9 @@ typedef struct _ZipLocalFileHeaderInMem {
     char *filename;
 } ZipLocalFileHeaderInMem;
 
+/**
+ * \brief In-memory ZIP central directory entry (with a pointer to the entry filename).
+ */
 typedef struct _ZipCentralDirectoryEntryInMem {
     uint32_t signature;            /* 0x02014b50 */
     uint16_t version_made_by;
@@ -85,8 +107,31 @@ typedef struct _ZipCentralDirectoryEntryInMem {
     char *filename;
 } ZipCentralDirectoryEntryInMem;
 /* Decompiled globals (previously generated in src/_gen) */
+/** \brief Global ZIP stream handle (a decompilation leftover; the ZIP reader functions take their FILE* explicitly). */
 extern unsigned int Stream;
 
 /* Function prototypes (previously generated in src/_gen) */
+/**
+ * \brief Extracts a named entry from a ZIP archive into a newly allocated buffer.
+ *
+ * Opens the archive, searches the central directory for \p search_name
+ * (case-insensitive), reads the local file header and either copies the
+ * stored data or inflates the deflated data into a malloc'd buffer.
+ *
+ * \param FileName    Path of the ZIP file.
+ * \param search_name Name of the entry to extract.
+ * \param out_data    Receives a pointer to the malloc'd uncompressed data.
+ * \param out_size    Receives the uncompressed size in bytes.
+ * \return 0 on success, non-zero on error.
+ */
 int zip_extract_file(char *FileName, char *search_name, LPVOID *out_data, size_t *out_size);
+/**
+ * \brief Loads the central directory and local file headers of a ZIP archive into memory.
+ *
+ * Opens the archive, locates the end-of-central-directory record and fills
+ * zip_entry_names / zip_num_entries_loaded with the entries found.
+ *
+ * \param FileName Path of the ZIP file.
+ * \return 0 on success, non-zero on error.
+ */
 int zip_load_file(char *FileName);

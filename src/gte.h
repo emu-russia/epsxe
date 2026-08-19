@@ -1,17 +1,20 @@
-/*
- * gte.h - Geometry Transformation Engine (GTE) definitions for PSX emulator
+/**
+ * \file gte.h
+ * \brief Geometry Transformation Engine (GTE) definitions for the PSX emulator.
  *
  * Based on the GTE documentation from docs/gte.txt, verified against
  * PSXSPX (https://psx-spx.consoledev.net/) geometrytransformationenginegte.md
  * and gtepipelinetimings.md (issue #24).
- *
  */
 
 #pragma once
 
-/* --------------------------------------------------------------------------
- * Core GTE state structure
- * -------------------------------------------------------------------------- */
+/**
+ * \brief A single 32-bit GTE register value (core GTE state structure).
+ *
+ * Exposes the register as unsigned/signed 16-bit halves (u16/s16) or as a
+ * full 32-bit unsigned/signed value (u32/s32).
+ */
 
 #pragma pack(push,1)
 
@@ -28,6 +31,12 @@ typedef union _GTE_REG {
     int32_t s32;
 } GTE_REG;
 
+/**
+ * \brief The complete GTE register file.
+ *
+ * Holds the 32 data registers (0..31) followed by the 32 control registers
+ * (0..31), mapped 1:1 from the hardware.
+ */
 typedef struct _GTE_REGS {
     GTE_REG data[32];   /* data registers 0..31 */
     GTE_REG ctrl[32];   /* control registers 0..31 (mapped 1:1 from hardware) */
@@ -35,10 +44,11 @@ typedef struct _GTE_REGS {
 
 #pragma pack(pop)
 
-/* --------------------------------------------------------------------------
- * Data Register Index Enum (0..31)
- * -------------------------------------------------------------------------- */
-
+/**
+ * \brief Data register index enum (0..31).
+ *
+ * Identifies each GTE data register slot in the data[] array.
+ */
 typedef enum _GTEDataReg {
     GTE_DATA_VXY0   = 0,   /* V0 X (lo), Y (hi) */
     GTE_DATA_VZ0    = 1,   /* V0 Z */
@@ -74,10 +84,11 @@ typedef enum _GTEDataReg {
     GTE_DATA_LZCR   = 31   /* Leading Zero Count Result */
 } GTEDataReg;
 
-/* --------------------------------------------------------------------------
- * Control Register Index Enum (0..31) – these map directly to the ctrl[] array
- * -------------------------------------------------------------------------- */
-
+/**
+ * \brief Control register index enum (0..31).
+ *
+ * These map directly to the ctrl[] array.
+ */
 typedef enum _GTECtrlReg {
     GTE_CTRL_RT11_RT12 = 0,   /* RT11 (lo), RT12 (hi) */
     GTE_CTRL_RT13_RT21 = 1,   /* RT13 (lo), RT21 (hi) */
@@ -113,10 +124,11 @@ typedef enum _GTECtrlReg {
     GTE_CTRL_FLAG      = 31   /* FLAG register (32-bit) */
 } GTECtrlReg;
 
-/* --------------------------------------------------------------------------
- * Fake Command Enum (bits 20-24) – ignored by hardware, used for SDK ordering
- * -------------------------------------------------------------------------- */
-
+/**
+ * \brief Fake command enum (bits 20-24).
+ *
+ * Ignored by the hardware; used for SDK ordering.
+ */
 typedef enum _GTEFakeCommand {
     GTE_FAKE_UNUSED_00   = 0x00,   /* Reserved */
     GTE_FAKE_RTPS        = 0x01,   /* RTPS */
@@ -190,10 +202,9 @@ typedef enum _GTEFakeCommand {
 #define GTE_MVMVA_CV_FC       2   /* Far color (FC) - buggy */
 #define GTE_MVMVA_CV_NONE     3   /* No translation */
 
-/* --------------------------------------------------------------------------
- * GTE Real Commands (bits 0-5 of instruction)
- * -------------------------------------------------------------------------- */
-
+/**
+ * \brief Real GTE command enum (bits 0-5 of the instruction).
+ */
 typedef enum _GTERealCommand {
     GTE_CMD_RTPS   = 0x01,   /* 15 cycles */
     GTE_CMD_NCLIP  = 0x06,   /* 8 cycles */
@@ -558,16 +569,95 @@ typedef enum _GTERealCommand {
 #define GTE_INSTR_GPF(sf) (GTE_BUILD_CMD(GTE_CMD_GPF, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_GPF))
 #define GTE_INSTR_GPL(sf) (GTE_BUILD_CMD(GTE_CMD_GPL, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_GPL))
 
+/**
+ * \brief Executes one COP2 (GTE) instruction.
+ *
+ * Dispatches on the current cpu_opcode: handles the MFC2/CFC2/MTC2/CTC2
+ * moves between CPU GPRs and the GTE data/control registers, and executes
+ * the actual GTE commands (RTPS, RTPT, NCS/NCT, NCDS/NCDT, NCCS/NCCT,
+ * DPCS/DPCT, DCPL, CDP, CC, OP, etc.) by dispatching to the individual
+ * command implementations. Unknown opcodes are logged via dbg_print()
+ * when the gtrace debug flag is set.
+ */
 void gte_exec_opcode();
 
 /* Decompiled globals (previously generated in src/_gen) */
+/** \brief Global GTE register file (32 data + 32 control registers). */
 extern GTE_REGS gte_regs;
 
 /* Function prototypes (previously generated in src/_gen) */
+/**
+ * \brief Resets all GTE registers to zero.
+ *
+ * Zeroes the entire gte_regs structure (data and control registers).
+ *
+ * \return Always 0.
+ */
 int gte_clear_regs();
+/**
+ * \brief Saves the GTE register state to a gzip stream.
+ *
+ * Writes the given filename (as a 7-byte tag) followed by the 256-byte
+ * gte_regs state to the gzip stream gz_file.
+ *
+ * \param filename Name tag written to the stream before the register data.
+ * \param gz_file  Open gzip stream to write the state to.
+ * \return Result of the final gzwrite() call (bytes written, or a negative zlib error code).
+ */
 int gte_freeze(const char *filename, int gz_file);
+/**
+ * \brief Reads a GTE data register.
+ *
+ * Returns the value of data register index. Register 31 (LZCR) returns the
+ * leading-zero count of LZCS, and register 29 (ORGB) returns the packed
+ * 5-bit color components of IR1/IR2/IR3.
+ *
+ * \param index Data register index (0..31).
+ * \return The register value, or the derived LZCR/ORGB value.
+ */
 int gte_read_data_register(uint8_t index);
+/**
+ * \brief Executes the RTPS (rotate/translate/project single vertex) GTE operation.
+ *
+ * Transforms vertex V0 through the rotation matrix and translation vector,
+ * performs the perspective divide (H*2^16/Z), stores the projected screen
+ * coordinates (SXY2/SXYP) and depth (SZ3), shifts the SZ/SXY FIFOs, and
+ * applies depth queuing to MAC0/IR0, updating the FLAG register.
+ *
+ * \return Bit 31 of the GTE FLAG register (the error bit), set when the
+ *         divide-overflow flag was raised, otherwise 0.
+ */
 int gte_rtps();
+/**
+ * \brief Executes the RTPT (rotate/translate/project three vertices) GTE operation.
+ *
+ * Like gte_rtps() but transforms the three vertices V0, V1, V2 in sequence,
+ * filling the SXY and SZ FIFOs and applying depth queuing for the last vertex.
+ *
+ * \return Bit 31 of the GTE FLAG register (the error bit), set when the
+ *         divide-overflow flag was raised, otherwise 0.
+ */
 int gte_rtpt();
+/**
+ * \brief Restores the GTE register state from a gzip stream.
+ *
+ * Reads the 7-byte filename tag followed by the 256-byte gte_regs state
+ * from the gzip stream gz_file, overwriting the current registers.
+ *
+ * \param unused  Unused parameter (kept for symmetry with gte_freeze).
+ * \param gz_file Open gzip stream to read the state from.
+ * \return Result of the final gzread() call (bytes read, or a negative zlib error code).
+ */
 int gte_unfreeze(int unused, uint32_t *gz_file);
+/**
+ * \brief Writes a GTE data register.
+ *
+ * Stores value into data register index, applying the hardware side effects:
+ * the SXY FIFO shift when writing SXY2, the SXYP mirror, and the 5-bit IRGB
+ * color expansion to IR1/IR2/IR3 for register 28.
+ *
+ * \param index Data register index (0..31).
+ * \param value Value to write to the register.
+ * \return The effective value stored (after side effects are applied).
+ */
 GTE_REG gte_write_data_register(uint8_t index, GTE_REG value);

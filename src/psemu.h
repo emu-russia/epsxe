@@ -1,5 +1,15 @@
 #pragma once
 
+/**
+ * \file psemu.h
+ * \brief Standard PlayStation emulator plugin API header.
+ *
+ * Defines the shared plugin interface: the plugin information queries
+ * (PSEgetLibType/PSEgetLibVersion/PSEgetLibName), the per-library open types,
+ * the GPU/CDR/PAD/NET function-pointer typedefs, and the freeze/status
+ * structures exchanged between the emulator and its plugins.
+ */
+
 // header version
 #define _PPDK_HEADER_VERSION		3
 
@@ -29,17 +39,30 @@
 #define PSE_NET_BLOCKING	0x00000000
 #define PSE_NET_NONBLOCKING	0x00000001
 
+/**
+ * \brief Plugin information query types.
+ *
+ * Every plugin DLL must export these three functions: PSEgetLibType returns
+ * the plugin type flags (PSE_LT_*), PSEgetLibVersion returns the interface
+ * version and PSEgetLibName returns the plugin's display name.
+ */
 typedef unsigned long (CALLBACK* PSEgetLibType)(void);
 typedef unsigned long (CALLBACK* PSEgetLibVersion)(void);
 typedef char *(CALLBACK* PSEgetLibName)(void);
 
+/**
+ * \brief Plugin "open" types.
+ *
+ * Each library (GPU/SPU/PAD/NET/SIO1) exports an open function that takes
+ * the emulator's output window handle.
+ */
 typedef long (CALLBACK* GPUopen)(HWND);
 typedef long (CALLBACK* SPUopen)(HWND);
 typedef long (CALLBACK* PADopen)(HWND);
 typedef long (CALLBACK* NETopen)(HWND);
 typedef long (CALLBACK* SIO1open)(HWND);
 
-// GPU Functions
+/** \brief GPU plugin function-pointer types. */
 typedef long (CALLBACK* GPUinit)(void);
 typedef long (CALLBACK* GPUshutdown)(void);
 typedef long (CALLBACK* GPUclose)(void);
@@ -57,6 +80,9 @@ typedef void (CALLBACK* GPUabout)(void);
 typedef void (CALLBACK* GPUmakeSnapshot)(void);
 typedef void (CALLBACK* GPUkeypressed)(int);
 typedef void (CALLBACK* GPUdisplayText)(char *);
+/**
+ * \brief GPU savestate (freeze) buffer layout: version, status and control/VRAM data.
+ */
 typedef struct {
 	uint32_t ulFreezeVersion;
 	uint32_t ulStatus;
@@ -74,7 +100,7 @@ typedef void (CALLBACK* GPUcursor)(int, int, int);
 typedef void (CALLBACK* GPUaddVertex)(short,short,int64_t, int64_t, int64_t);
 typedef void (CALLBACK* GPUsetSpeed)(float); // 1.0 = natural speed
 
-// CD-ROM Functions
+/** \brief CD-ROM plugin function-pointer types. */
 typedef long (CALLBACK* CDRinit)(void);
 typedef long (CALLBACK* CDRshutdown)(void);
 typedef long (CALLBACK* CDRopen)(void);
@@ -90,6 +116,9 @@ typedef void (CALLBACK* CDRabout)(void);
 typedef long (CALLBACK* CDRplay)(unsigned char *);
 typedef long (CALLBACK* CDRstop)(void);
 typedef long (CALLBACK* CDRsetfilename)(char *);
+/**
+ * \brief CD-ROM drive status report: media type, drive status and current MSF time.
+ */
 struct CdrStat {
 	uint32_t Type;
 	uint32_t Status;
@@ -97,6 +126,9 @@ struct CdrStat {
 };
 typedef long (CALLBACK* CDRgetStatus)(struct CdrStat *);
 typedef char* (CALLBACK* CDRgetDriveLetter)(void);
+/**
+ * \brief CD-ROM Q subchannel data layout: control/ADR, track/index numbers, addresses and CRC.
+ */
 struct SubQ {
 	char res0[12];
 	unsigned char ControlAndADR;
@@ -157,11 +189,12 @@ typedef long (CALLBACK* PADkeypressed)(void);
 typedef unsigned char (CALLBACK* PADstartPoll)(int);
 typedef unsigned char (CALLBACK* PADpoll)(unsigned char);
 #endif
+/** \brief PAD plugin function-pointer types (sensitivity setting and vibration/cursor registration callbacks). */
 typedef void (CALLBACK* PADsetSensitive)(int);
 typedef void (CALLBACK* PADregisterVibration)(void (CALLBACK *callback)(uint32_t, uint32_t));
 typedef void (CALLBACK* PADregisterCursor)(void (CALLBACK *callback)(int, int, int));
 
-// NET Functions
+/** \brief NET plugin function-pointer types. */
 typedef long (CALLBACK* NETinit)(void);
 typedef long (CALLBACK* NETshutdown)(void);
 typedef long (CALLBACK* NETclose)(void);
@@ -176,6 +209,12 @@ typedef long (CALLBACK* NETrecvData)(void *, int, int);
 typedef long (CALLBACK* NETsendPadData)(void *, int);
 typedef long (CALLBACK* NETrecvPadData)(void *, int);
 
+/**
+ * \brief Netplay information structure passed to the NET plugin via NETsetInfo.
+ *
+ * Carries the emulator name, disc ID/label, memory pointers, callback
+ * functions and the absolute paths to the plugin/BIOS/memcard files.
+ */
 typedef struct {
 	char EmuName[32];
 	char CdromID[9];	// ie. 'SCPH12345', no \0 trailing character

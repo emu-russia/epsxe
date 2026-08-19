@@ -1,5 +1,6 @@
-/*
- * PSX Hardware Register Definitions
+/**
+ * \file psxdefs.h
+ * \brief PlayStation hardware register and memory map definitions.
  *
  * Reference:
  *  - "Memory_Layout.pdf" (PSX memory map and I/O registers)

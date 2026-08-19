@@ -1,7 +1,25 @@
 #pragma once
 
+/**
+ * \file spucore.h
+ * \brief Internal (built-in) SPU core: software sound synthesis, XA/ADPCM playback and SPU DMA.
+ *
+ * Implements the PlayStation SPU entirely in software (no external plugin):
+ * voice mixing, ADSR envelopes, XA decoding, DirectSound output and the SPU
+ * DMA channel. Exposes the same interface as the external plugin wrapper
+ * (spu_plugin.c) and shares the SPU RAM and DMA state with it.
+ */
+
 #pragma pack(push, 1)
 // Total size: 74 elements * 4 bytes = 296 bytes
+/**
+ * \brief Per-voice SPU state: hardware voice registers plus extracted ADSR/ADPCM state.
+ *
+ * One entry per SPU voice (24 voices); the first eight fields mirror the
+ * hardware voice registers (1F801C00h + N*10h), while the remaining fields
+ * hold the extracted ADSR parameters, ADPCM decoder state, sample history and
+ * pitch-modulation values used by the software mixer.
+ */
 typedef struct _SPU_VOICE_PARAM {
     // Voice registers (1F801C00h + N*10h) - indices 0x00..0x07
     // [0x00] Volume Left (1F801C00h + N*10h)
@@ -155,20 +173,125 @@ typedef struct _SPU_VOICE_PARAM {
 } SPU_VOICE_PARAM;
 #pragma pack(pop)
 /* Decompiled globals (previously generated in src/_gen) */
+
+/** Shared buffer for decoded XA/ADPCM data, filled by xa_decode_wrapper() and consumed by the SPU playback path. */
 extern unsigned int spu_xa_decode_buf_ptr[1];
+
+/** Number of decoded XA samples still queued for playback. */
 extern unsigned int spu_xa_samples_left;
+
+/** Mute flag (1 = mute); zeroes the mixed output in the DirectSound update loop. */
 extern unsigned int spu_mute_flag;
+
+/** SPU DMA memory address: base PSX memory address of the current channel-4 DMA transfer. */
 extern unsigned int spu_dma_mem_addr;
+
+/** SPU DMA block size/count for channel 4: low word = block size, high word = block count (BCR register). */
 extern unsigned int spu_dma_block_size_count;
+
+/** The 512 KB SPU sample RAM used by the internal SPU core. */
 extern unsigned char spu_ram[0x80000];
 
 /* Function prototypes (previously generated in src/_gen) */
+
+/**
+ * \brief Shuts down the internal SPU core.
+ *
+ * Stops and releases the DirectSound buffer and DirectSound object when the
+ * core was previously initialized.
+ *
+ * \return The dbg_print() result, or 0 if the core was never initialized.
+ */
 int spucore_destroy();
+
+/**
+ * \brief Performs an SPU (DMA channel 4) transfer for the internal core.
+ *
+ * Reads the DMA address, block count and size from the shared SPU DMA state
+ * and copies the data between PSX memory and SPU RAM (FIFO reads for DMA
+ * reads, direct word copies for DMA writes). Invalidates the affected dynarec
+ * range when the dynarec is enabled.
+ */
 void spucore_dma();
+
+/**
+ * \brief Saves the full internal SPU state into a gzip savestate.
+ *
+ * Serializes the control registers, SPU RAM, XA decode buffer and all 24
+ * voice parameter blocks, and writes them to the gzip file.
+ *
+ * \param filename Savestate identifier string written to the file.
+ * \param file     File descriptor of the open gzip savestate.
+ * \return The result of the final gzwrite() call.
+ */
 int spucore_freeze(const char *filename, int file);
+
+/**
+ * \brief Initializes the internal SPU core.
+ *
+ * Sets up the SPU RAM pointer and gauss interpolation table, initializes
+ * DirectSound output, resets the XA sample counter and sets the init flag.
+ * Fails fatally (with a message box) when the sound handler cannot be opened.
+ *
+ * \return The result of the final dbg_print() call.
+ */
 int spucore_init();
+
+/**
+ * \brief Decodes and queues an XA/ADPCM block for playback.
+ *
+ * When sound and XA playback are enabled, decodes the ADPCM block at pcm_addr
+ * via xa_decode_wrapper() into the shared XA buffer, updates the playback
+ * position/rate and clears the pending ADPCM flag.
+ *
+ * \param pcm_addr Memory address of the XA/ADPCM data to play.
+ * \return Status of the operation (0 = success, non-zero = failure).
+ */
 char spucore_play_adpcm(int pcm_addr);
+
+/**
+ * \brief Reads an SPU register (voice or global) of the internal core.
+ *
+ * Dispatches voice-register reads to spucore_read_voice_reg() and serves the
+ * global registers (main/reverb volume, pitch mod, noise, DMA, counters, etc.)
+ * from the internal state.
+ *
+ * \param address SPU register address to read.
+ * \return The 16-bit register value.
+ */
 int16_t spucore_read_register(int16_t address);
+
+/**
+ * \brief Restores the internal SPU state from a gzip savestate.
+ *
+ * Reads the saved registers, SPU RAM, XA decode buffer and voice parameter
+ * blocks back and re-derives the ADSR/rate tables for all 24 voices.
+ *
+ * \param unused Unused parameter kept for prototype compatibility.
+ * \param file   File descriptor of the open gzip savestate.
+ * \return 0 when the "ISPU" magic matches, non-zero otherwise.
+ */
 int spucore_unfreeze(int unused, uint32_t *file);
+
+/**
+ * \brief Produces the next block of internal SPU sound output.
+ *
+ * Thunk that forwards to spucore_update_dsound(), which mixes the active
+ * voices into the DirectSound buffer (respecting the mute flag).
+ *
+ * \return The result of spucore_update_dsound().
+ */
 int spucore_update_thunk();
+
+/**
+ * \brief Writes an SPU register (voice or global) of the internal core.
+ *
+ * Dispatches voice-register writes to spucore_write_voice_reg() and handles
+ * the global registers (main/reverb volume, key on/off, pitch mod, noise,
+ * DMA control, CD/ext volumes, etc.).
+ *
+ * \param address SPU register address to write.
+ * \param value   16-bit value to write.
+ * \return The result of the write operation.
+ */
 int16_t spucore_write_register(int16_t address, int16_t value);

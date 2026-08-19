@@ -1,12 +1,13 @@
 /**
- * PPF (PlayStation Patch File) Format - C++ Structure Definition
- * 
+ * \file ppf.h
+ * \brief PPF (PlayStation Patch File) format - structure definitions.
+ *
  * The PPF format is used to patch PlayStation CD/DVD ROM images.
  * Unlike IPS patches (limited to 16MB), PPF supports full CD (700MB)
- * and DVD (4.7GB) images with minimal patch size[reference:1].
- * 
- * Versions: PPF1.0, PPF2.0, PPF3.0[reference:2]
- * 
+ * and DVD (4.7GB) images with minimal patch size.
+ *
+ * Versions: PPF1.0, PPF2.0, PPF3.0.
+ *
  * @see http://www.problemkaputt.de/psxspx-cdrom-patch-files.htm
  */
 
@@ -182,10 +183,42 @@ struct PPFFileIdDiz {
 #pragma pack(pop)
 
 /* Decompiled globals (previously generated in src/_gen) */
+/** \brief Enables/disables PPF patching (1 = on, 0 = off); toggled by the user and cleared when a patch file fails to load. */
 extern unsigned char ppf_enabled;
+/** \brief Path of the PPF patch file; the value "NULL" selects the default "patches\\default_filename" path (the loaded game's filename). */
 extern unsigned char ppf_filename[0xc00];
 
 /* Function prototypes (previously generated in src/_gen) */
+/**
+ * \brief Applies the loaded PPF patch entries to one CD-ROM sector buffer.
+ *
+ * Looks up the patch list for the given sector and copies the patched
+ * bytes from the in-memory patch file data into the sector buffer at
+ * their recorded offsets. Does nothing if patching is disabled or the
+ * sector has no patch entries.
+ *
+ * \param sector  CD-ROM sector index to patch.
+ * \param buffer  Address of the 2352-byte sector data to patch in place (passed as an int by the decompiled code).
+ */
 void ppf_apply_patch_to_sector(int sector, int buffer);
+
+/**
+ * \brief Frees the loaded PPF patch data.
+ *
+ * Releases the in-memory patch file buffer and the per-sector patch
+ * lists, but only while patching is enabled.
+ */
 void ppf_free();
+
+/**
+ * \brief Loads and parses a PPF patch file into the internal patch lists.
+ *
+ * Opens ppf_filename (defaulting to "patches\\default_filename" when it
+ * holds "NULL"), detects the PPF version (1.0, 2.0 or 3.0) and builds
+ * the per-sector patch lists consumed by ppf_apply_patch_to_sector().
+ * If the file is missing, does not start with "PPF", or uses an unknown
+ * version, patching is disabled (ppf_enabled = 0) and the buffer freed.
+ *
+ * \return Non-zero if the patch file was opened successfully, 0 otherwise.
+ */
 char ppf_load_patch();
