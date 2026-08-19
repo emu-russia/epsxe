@@ -2,11 +2,8 @@
 /* Decompiled globals (previously generated in src/_gen) */
 extern unsigned int console_log_handle;
 extern unsigned char dcache[0x1000];
-extern unsigned char dummy_page[0x10000];
-extern unsigned char mem_handlers_inited;
 extern unsigned int mem_read_hooks[0x10000];
 extern unsigned int mem_write_hooks[0x10000];
-extern unsigned char pio_mem[0x20000];
 extern unsigned char ram[0x200000];
 extern unsigned int sio0_control_reg;
 

@@ -2,46 +2,11 @@
 /* Decompiled globals (previously generated in src/_gen) */
 extern int adjust_timing;
 extern unsigned char cdr_randomize_response_flag;
-extern unsigned char g_cdr_seek_target_frame;
-extern unsigned int g_cdr_last_sector_header;
-extern unsigned int g_cdr_dma_address;
-extern unsigned int g_cdr_dma_block_control;
-extern unsigned int g_cdr_cur_msf_pos;
-extern unsigned short g_cdr_cur_track;
-extern unsigned char g_cdr_data_buffer[0xc];
 extern unsigned int g_cdr_data_bytes_transferred;
-extern unsigned short g_cdr_delay_counter;
-extern unsigned char g_cdr_dma_active;
-extern unsigned char g_cdr_idle_counter;
-extern unsigned char g_cdr_irq_enabled;
-extern unsigned char g_cdr_irq_mode;
 extern unsigned char g_cdr_irq_pending;
-extern unsigned int g_cdr_last_lba_read;
-extern unsigned short g_cdr_param_fifo;
-extern unsigned char g_cdr_param_fifo_byte[0x3e];
-extern unsigned char g_cdr_param_fifo_count;
-extern unsigned int g_cdr_pending_response;
-extern unsigned int g_cdr_primary_response;
-extern unsigned short g_cdr_read_ahead_sectors;
-extern unsigned char g_cdr_region_code;
-extern unsigned int g_cdr_registers;
-extern unsigned int g_cdr_response_extra;
-extern unsigned int g_cdr_response_fifo[1];
 extern unsigned char g_cdr_response_index;
 extern unsigned char g_cdr_response_size;
-extern unsigned char g_cdr_retry_count;
-extern unsigned int g_cdr_secondary_response;
-extern unsigned char g_cdr_secondary_response_index;
-extern unsigned char g_cdr_secondary_response_size;
-extern unsigned short g_cdr_seek_target_msf;
-extern unsigned char g_cdr_spindown_counter;
-extern unsigned char g_cdr_status_regs[0x49];
-extern unsigned char g_cdr_xa_buffer[0xff2];
 extern unsigned char report_mode_enabled;
-extern unsigned short g_cdr_response_delay;
-extern unsigned short g_cdr_response_delay_counter;
-extern unsigned short g_cdr_seek_target_sf;
-extern unsigned short g_cdr_tick_counter;
 
 /* Function prototypes (previously generated in src/_gen) */
 unsigned int cdr_dma();

@@ -1,4 +1,44 @@
 ﻿#include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+static int (__stdcall *NETclose)();
+static int (__stdcall *NETcompareData)();
+static int (__stdcall *NETinit)();
+static int (__stdcall *NETopen)();
+static int (__stdcall *NETpadState)();
+static int (__stdcall *NETpause)();
+static int (__stdcall *NETqueryPlayer)();
+static int (__stdcall *NETresume)();
+static int (__stdcall *NETshutdown)();
+static int (__stdcall *NETtransferData)();
+static unsigned char net_closed_flag = 0x1;
+static unsigned char netplay_pad2_reserved_1;
+static unsigned char netplay_pad2_reserved_2;
+static unsigned char netplay_pad2_reserved_3;
+static unsigned char netplay_pad2_reserved_4;
+static unsigned char netplay_pad2_reserved_5;
+static unsigned char netplay_pad2_reserved_6;
+static unsigned char netplay_pad2_reserved_7;
+static unsigned char netplay_joy1_state;
+static unsigned char netplay_joy2_state;
+static unsigned char netplay_joy3_state;
+static unsigned char netplay_joy4_state;
+static unsigned char netplay_sound_enabled;
+static unsigned char netplay_start_options[0x41f];
+static unsigned char netplay_config_mdectiming;
+static unsigned char netplay_config_mdec_disable;
+static unsigned char netplay_config_xa_read_enable;
+static unsigned char netplay_config_padding[0x405];
+static unsigned int netplay_pad2_state;
+static unsigned int netplay_pad1_state;
+static unsigned int netplay_mouse_state;
+static unsigned int netplay_player_count;
+static unsigned int netplay_config_packet;
+static unsigned int netplay_config_options;
+static unsigned int hNetModule;
+unsigned int network_enabled;
+unsigned int unknown_timing_value;
+
 int net_load_plugin()
 {
   int enabled;
@@ -275,44 +315,3 @@ int net_fill_input()
   }
   return status;
 }
-
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-int (__stdcall *NETclose)();
-int (__stdcall *NETcompareData)();
-int (__stdcall *NETinit)();
-int (__stdcall *NETopen)();
-int (__stdcall *NETpadState)();
-int (__stdcall *NETpause)();
-int (__stdcall *NETqueryPlayer)();
-int (__stdcall *NETresume)();
-int (__stdcall *NETshutdown)();
-int (__stdcall *NETtransferData)();
-unsigned char net_closed_flag = 0x1;
-unsigned char netplay_pad2_reserved_1;
-unsigned char netplay_pad2_reserved_2;
-unsigned char netplay_pad2_reserved_3;
-unsigned char netplay_pad2_reserved_4;
-unsigned char netplay_pad2_reserved_5;
-unsigned char netplay_pad2_reserved_6;
-unsigned char netplay_pad2_reserved_7;
-unsigned char netplay_joy1_state;
-unsigned char netplay_joy2_state;
-unsigned char netplay_joy3_state;
-unsigned char netplay_joy4_state;
-unsigned char netplay_sound_enabled;
-unsigned char netplay_start_options[0x41f];
-unsigned char netplay_config_mdectiming;
-unsigned char netplay_config_mdec_disable;
-unsigned char netplay_config_xa_read_enable;
-unsigned char netplay_config_padding[0x405];
-unsigned int netplay_pad2_state;
-unsigned int netplay_pad1_state;
-unsigned int netplay_mouse_state;
-unsigned int netplay_player_count;
-unsigned int netplay_config_packet;
-unsigned int netplay_config_options;
-unsigned int hNetModule;
-unsigned int network_enabled;
-unsigned int unknown_timing_value;

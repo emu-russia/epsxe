@@ -1,5 +1,54 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char SubchannelW2kCaching;
+unsigned char cd_speed = 0x5;
+static unsigned char scsi_port = 0x2;
+unsigned char subchannel_mode_enabled;
+static unsigned char scsi_target;
+static unsigned char scsi_lun;
+unsigned char track_count;
+static unsigned char w2k_toc_buffer;
+static unsigned char w2k_toc_first_track;
+static unsigned char w2k_toc_last_track;
+static unsigned char w2k_toc_track_control[1];
+static unsigned char w2k_toc_track_entries[0x31e];
+unsigned char cd_sector_cache[1];
+unsigned char cd_sector_cache_cont[0x924];
+unsigned char sub_q_cache[1];
+unsigned char sub_q_minute;
+unsigned char cdrom_letter;
+static unsigned int w2k_resume_cdb = 0x4b;
+static unsigned int w2k_resume_cdb2 = 0x0;
+static unsigned int w2k_cdda_pause_pos = 0xffffffff;
+static unsigned int w2k_play_cdb = 0x47;
+static unsigned int w2k_play_cdb2 = 0x0;
+static unsigned int w2k_stop_cdb = 0x4b;
+static unsigned int w2k_stop_cdb2 = 0x0;
+static unsigned int w2k_cdda_playing;
+static unsigned int w2k_cdda_resume_pending;
+unsigned int sub_q_sec_frame;
+unsigned int sub_q_asec_aframe;
+unsigned int sub_q_rest[0x10d1];
+unsigned int sub_q_block_cache[1];
+unsigned int sub_q_block_cache1;
+unsigned int sub_q_block_cache2;
+unsigned int sub_q_block_cache3[0x1d];
+unsigned int m3s_q_cache;
+unsigned int sector_stride;
+unsigned int cd_read_mode;
+unsigned int sub_q_cur0;
+unsigned int sub_q_cur1;
+unsigned int sub_q_cur2;
+unsigned int sub_q_cur3;
+unsigned int cop0_bpc_value[0x9];
+static unsigned int hObject;
+unsigned char sound_use_cdda = 0x1;
+static unsigned short w2k_resume_cdb3 = 0x1;
+static unsigned short w2k_play_cdb3 = 0x0;
+static unsigned short w2k_stop_cdb3 = 0x0;
+
+
 /* static prototypes for internal functions */
 static int W2k_send_read_subchannel_command();
 static bool W2k_read_raw_sector(
@@ -1712,52 +1761,3 @@ LABEL_66:
     return 0;
   }
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char SubchannelW2kCaching;
-unsigned char cd_speed = 0x5;
-unsigned char scsi_port = 0x2;
-unsigned char subchannel_mode_enabled;
-unsigned char scsi_target;
-unsigned char scsi_lun;
-unsigned char track_count;
-unsigned char w2k_toc_buffer;
-unsigned char w2k_toc_first_track;
-unsigned char w2k_toc_last_track;
-unsigned char w2k_toc_track_control[1];
-unsigned char w2k_toc_track_entries[0x31e];
-unsigned char cd_sector_cache[1];
-unsigned char cd_sector_cache_cont[0x924];
-unsigned char sub_q_cache[1];
-unsigned char sub_q_minute;
-unsigned char cdrom_letter;
-unsigned int w2k_resume_cdb = 0x4b;
-unsigned int w2k_resume_cdb2 = 0x0;
-unsigned int w2k_cdda_pause_pos = 0xffffffff;
-unsigned int w2k_play_cdb = 0x47;
-unsigned int w2k_play_cdb2 = 0x0;
-unsigned int w2k_stop_cdb = 0x4b;
-unsigned int w2k_stop_cdb2 = 0x0;
-unsigned int w2k_cdda_playing;
-unsigned int w2k_cdda_resume_pending;
-unsigned int sub_q_sec_frame;
-unsigned int sub_q_asec_aframe;
-unsigned int sub_q_rest[0x10d1];
-unsigned int sub_q_block_cache[1];
-unsigned int sub_q_block_cache1;
-unsigned int sub_q_block_cache2;
-unsigned int sub_q_block_cache3[0x1d];
-unsigned int m3s_q_cache;
-unsigned int sector_stride;
-unsigned int cd_read_mode;
-unsigned int sub_q_cur0;
-unsigned int sub_q_cur1;
-unsigned int sub_q_cur2;
-unsigned int sub_q_cur3;
-unsigned int cop0_bpc_value[0x9];
-unsigned int hObject;
-unsigned char sound_use_cdda = 0x1;
-unsigned short w2k_resume_cdb3 = 0x1;
-unsigned short w2k_play_cdb3 = 0x0;
-unsigned short w2k_stop_cdb3 = 0x0;

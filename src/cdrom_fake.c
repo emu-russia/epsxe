@@ -1,4 +1,12 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+static unsigned int FileHandle;
+static unsigned char fake_file_version;
+static unsigned char fake_file_version2;
+static unsigned int cdrom_fake_data;
+static unsigned int fake_file_sector_offset;
+
 int cdrom_fake_create_file(char *FileName)
 {
   FILE *fp;
@@ -81,11 +89,3 @@ FILE *cdrom_fake_write()
     return (FILE *)_close((int)FileHandle);
   return fp;
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned int FileHandle;
-unsigned char fake_file_version;
-unsigned char fake_file_version2;
-unsigned int cdrom_fake_data;
-unsigned int fake_file_sector_offset;

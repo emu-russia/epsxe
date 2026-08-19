@@ -1,5 +1,12 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+static unsigned char xa_stereo_nibble_offset_table = 0x0;
+static unsigned char xa_prev_sample_rate[0x20];
+static unsigned int xa_mono_nibble_offset_table[4] = {0x0, 0x2, 0x8, 0xa};
+static unsigned int xa_mono_nibble_offset_table_end = 0x0;
+
+
 /* static prototypes for internal functions */
 static int xa_get_audio_mode(int hdr);
 static int xa_setup_adpcm_decoder(uint32_t *out, int hdr, int soundbuf, int flag);
@@ -416,10 +423,3 @@ static int xa_decode_mono_blocks(int out, int soundbuf, int unused)
   while ( !done );
   return remaining;
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char xa_stereo_nibble_offset_table = 0x0;
-unsigned char xa_prev_sample_rate[0x20];
-unsigned int xa_mono_nibble_offset_table[4] = {0x0, 0x2, 0x8, 0xa};
-unsigned int xa_mono_nibble_offset_table_end = 0x0;

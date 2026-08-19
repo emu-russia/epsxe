@@ -1,4 +1,64 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+static unsigned char cdr_status_command_2[8];
+static unsigned char cdr_status_command_3[8];
+unsigned char dynarec_clear_needed;
+static int dynarec_clear_request;
+unsigned char g_KeyboardStatePrev[1];
+unsigned int g_MouseButtons;
+unsigned char gpu_keyboard_state[0x1b];
+static unsigned int guncon_position;
+static int increase_slot_state_request;
+unsigned char joystick_button_state1[4];
+unsigned char joystick_button_state2[4];
+unsigned char joystick_button_state3[4];
+unsigned char joystick_button_state4[4];
+static int keyboard_escape_pressed[2];
+static int load_state_request;
+static int make_snapshot_request[2];
+unsigned int mdec_disable_flag[1];
+static int mouse_accumulated_x;
+static int mouse_accumulated_y;
+unsigned int mouse_buttons_state;
+int mouse_delta_x;
+int mouse_delta_y;
+int netplay_reset_request;
+static unsigned short pad1_analog_joy2_x;
+static unsigned short pad1_analog_joy2_y;
+static unsigned short pad1_analog_joy_x;
+static unsigned short pad1_analog_joy_y;
+static unsigned short pad1_buttons_high;
+unsigned short pad1_buttons_low;
+static unsigned short pad2_analog_joy2_x;
+static unsigned short pad2_analog_joy2_y;
+static unsigned short pad2_analog_joy_x;
+static unsigned short pad2_analog_joy_y;
+static unsigned short pad2_buttons_high;
+unsigned short pad2_buttons_low;
+static unsigned short pad3_analog_joy2_x;
+static unsigned short pad3_analog_joy2_y;
+static unsigned short pad3_analog_joy_x;
+static unsigned short pad3_analog_joy_y;
+static unsigned short pad3_buttons_high;
+static unsigned short pad3_buttons_low;
+static unsigned short pad4_analog_joy2_x;
+static unsigned short pad4_analog_joy2_y;
+static unsigned short pad4_analog_joy_x;
+static unsigned short pad4_analog_joy_y;
+static unsigned short pad4_buttons_high;
+static unsigned short pad4_buttons_low;
+static int save_state_request;
+static int screen_pic_display_counter;
+static int selected_slot_for_mode_switch;
+static int sio_irq_assert_request[2];
+static int switch_controller_slot_request;
+static int toggle_pad_mode_request;
+static int toggle_sio_irq_request;
+static int toggle_xenogears_trick_request;
+static int ui_feedback_timer;
+unsigned char xenogears_trick_enabled = 0x1;
+
 uint8_t * cont_build_controller_response_digital(char port, uint8_t *response)
 {
   switch ( port )
@@ -643,63 +703,3 @@ int cont_reset_pad_state(uint8_t port)
   pad_state[1] = 0;
   return 0;
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char cdr_status_command_2[8];
-unsigned char cdr_status_command_3[8];
-unsigned char dynarec_clear_needed;
-int dynarec_clear_request;
-unsigned char g_KeyboardStatePrev[1];
-unsigned int g_MouseButtons;
-unsigned char gpu_keyboard_state[0x1b];
-unsigned int guncon_position;
-int increase_slot_state_request;
-unsigned char joystick_button_state1[4];
-unsigned char joystick_button_state2[4];
-unsigned char joystick_button_state3[4];
-unsigned char joystick_button_state4[4];
-int keyboard_escape_pressed[2];
-int load_state_request;
-int make_snapshot_request[2];
-unsigned int mdec_disable_flag[1];
-int mouse_accumulated_x;
-int mouse_accumulated_y;
-unsigned int mouse_buttons_state;
-int mouse_delta_x;
-int mouse_delta_y;
-int netplay_reset_request;
-unsigned short pad1_analog_joy2_x;
-unsigned short pad1_analog_joy2_y;
-unsigned short pad1_analog_joy_x;
-unsigned short pad1_analog_joy_y;
-unsigned short pad1_buttons_high;
-unsigned short pad1_buttons_low;
-unsigned short pad2_analog_joy2_x;
-unsigned short pad2_analog_joy2_y;
-unsigned short pad2_analog_joy_x;
-unsigned short pad2_analog_joy_y;
-unsigned short pad2_buttons_high;
-unsigned short pad2_buttons_low;
-unsigned short pad3_analog_joy2_x;
-unsigned short pad3_analog_joy2_y;
-unsigned short pad3_analog_joy_x;
-unsigned short pad3_analog_joy_y;
-unsigned short pad3_buttons_high;
-unsigned short pad3_buttons_low;
-unsigned short pad4_analog_joy2_x;
-unsigned short pad4_analog_joy2_y;
-unsigned short pad4_analog_joy_x;
-unsigned short pad4_analog_joy_y;
-unsigned short pad4_buttons_high;
-unsigned short pad4_buttons_low;
-int save_state_request;
-int screen_pic_display_counter;
-int selected_slot_for_mode_switch;
-int sio_irq_assert_request[2];
-int switch_controller_slot_request;
-int toggle_pad_mode_request;
-int toggle_sio_irq_request;
-int toggle_xenogears_trick_request;
-int ui_feedback_timer;
-unsigned char xenogears_trick_enabled = 0x1;

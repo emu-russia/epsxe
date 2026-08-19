@@ -1,4 +1,23 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+static unsigned char subchannel_buffer[0xd];
+static unsigned char subchannel_q_rel_frame;
+static unsigned char subchannel_q_abs_frame[0x4b];
+static unsigned char iso_sector_buffer[0x1160];
+static unsigned char subchannel_msf_minute;
+static unsigned char subchannel_msf_second;
+static unsigned char subchannel_msf_frame;
+static unsigned int iso_cache_start_lba = 0xffffffff;
+static unsigned int iso_sector_size = 0x930;
+static unsigned int iso_file_size;
+static unsigned int iso_data_start_offset;
+static unsigned int subchannel_file_handle;
+static unsigned int subchannel_q_track_rel;
+static unsigned int iso_file_handle;
+unsigned char use_subchannel = 0x1;
+static unsigned short subchannel_q_abs_ms;
+
 char iso_load(char *FileName)
 {
   FILE *fp;
@@ -263,22 +282,3 @@ int iso_close()
     _close((int)subchannel_file_handle);
   return dbg_print(" * Closing ISO system. \n");
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char subchannel_buffer[0xd];
-unsigned char subchannel_q_rel_frame;
-unsigned char subchannel_q_abs_frame[0x4b];
-unsigned char iso_sector_buffer[0x1160];
-unsigned char subchannel_msf_minute;
-unsigned char subchannel_msf_second;
-unsigned char subchannel_msf_frame;
-unsigned int iso_cache_start_lba = 0xffffffff;
-unsigned int iso_sector_size = 0x930;
-unsigned int iso_file_size;
-unsigned int iso_data_start_offset;
-unsigned int subchannel_file_handle;
-unsigned int subchannel_q_track_rel;
-unsigned int iso_file_handle;
-unsigned char use_subchannel = 0x1;
-unsigned short subchannel_q_abs_ms;

@@ -1,45 +1,7 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned char mdec_coeff_buffer[0x5a00];
-extern unsigned int mdec_mono_expand_value;
-extern unsigned short mdec_bit15_flag;
-extern unsigned char mdec_color_lookup[0x80];
-extern unsigned int mdec_color_table_0[0x80];
-extern unsigned int mdec_color_table_1[0x80];
-extern unsigned int mdec_color_table_2[0x80];
-extern unsigned int mdec_color_table_3[0x80];
-extern unsigned int mdec_color_table_4[0x80];
-extern unsigned int mdec_color_table_5[0x80];
-extern unsigned int mdec_color_table_6[0x80];
-extern unsigned int mdec_color_table_7[0x80];
-extern unsigned int mdec_command;
-extern unsigned int mdec_dma_dest;
-extern unsigned int mdec_idct_buffer[0xb40];
-extern unsigned char mdec_idct_buffer_end[0x1680];
-extern unsigned int mdec_image_size;
-extern unsigned int mdec_in_ptr;
-extern unsigned char mdec_mono_table_0[0x100];
-extern unsigned char mdec_mono_table_1[0x80];
-extern unsigned char mdec_mono_table_2[0x100];
-extern unsigned int mdec_nonzero_counts[0xb8];
-extern unsigned int mdec_out_addr;
-extern unsigned int mdec_param_word;
-extern unsigned int mdec_scale_table[0x20];
 extern unsigned int mdec_status;
-extern unsigned char mdec_timer;
 extern unsigned int mdec_timer_count;
-extern unsigned int mdec_zigzag[13];
-extern uint64_t qword_455C20;
-extern uint64_t qword_455C28;
-extern uint64_t qword_455C30;
-extern uint64_t qword_455C38;
-extern uint64_t qword_455C40;
-extern uint64_t qword_455C50;
-extern uint64_t qword_455C58;
-extern uint64_t qword_455C60;
-extern uint64_t qword_455C68;
-extern uint64_t qword_455C70;
-extern uint64_t qword_455C78;
 
 /* Function prototypes (previously generated in src/_gen) */
 int mdec_decode();

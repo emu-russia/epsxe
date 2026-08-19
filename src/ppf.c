@@ -1,4 +1,11 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char ppf_enabled = 0x1;
+static char *ppf_file_data;
+unsigned char ppf_filename[0xc00];
+static unsigned int ppf_sector_lists;
+
 static int ppf_parse_and_build(int size, int data, unsigned int offset)
 {
   unsigned int i;
@@ -189,10 +196,3 @@ void ppf_apply_patch_to_sector(int sector, int buffer)
     }
   }
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char ppf_enabled = 0x1;
-char *ppf_file_data;
-unsigned char ppf_filename[0xc00];
-unsigned int ppf_sector_lists;

@@ -1,5 +1,45 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+int (__stdcall *GPUabout_0)();
+int (__stdcall *GPUinit_0)();
+int (__stdcall *GPUshutdown_0)();
+int (__stdcall *GPUtest_0)();
+int ( *PSEconfigure)();
+int ( *PSEgetLibName)();
+int ( *PSEgetLibType)();
+int ( *PSEgetLibVersion)();
+static char aW[8];
+static char asc_44E24C[64];
+static unsigned char extended_key_states_1[1];
+static unsigned char extended_key_states_2[1];
+static unsigned char extended_key_states_3[0xa0];
+unsigned char plugin_name_list_shift[0x380];
+static unsigned char pad_keymap_dialog_copy[0x20];
+unsigned char plugin_name_list[0x4];
+unsigned char plugin_name_list_tail[0x7ffc];
+unsigned int controller_port_modes[8];
+unsigned int found_plugin_count = 0x0;
+static unsigned int joypad_button_map[1];
+unsigned int pad2_small_motor_type;
+unsigned int pad4_small_motor_type[1];
+static unsigned int saved_pad_joypad_buttons;
+static unsigned int saved_pad_mdec_disable_flag;
+static unsigned char edit_button_id = 0xff;
+unsigned int g_EffectType2[1];
+unsigned int g_PlayerDeviceMap4[1];
+static unsigned char joy_names[14] = {0x4a, 0x31, 0x5f, 0x4e, 0x4f, 0x4e, 0x45, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+unsigned char multitap_1;
+static unsigned short nIDDlgItem = IDC_CONTROLLER_AXIS_X1;
+unsigned char pad_number_menu_selection = 0x1;
+static unsigned char stru_44C148[13] = {0x4e, 0x4f, 0x4e, 0x45, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+unsigned char temp_path[0x400];
+static unsigned short controller_button_dlg_ids[9] = {IDC_CONTROLLER_LEFT, IDC_CONTROLLER_RIGHT, IDC_CONTROLLER_UP, IDC_CONTROLLER_DOWN,
+                        IDC_CONTROLLER_TRIANGLE, IDC_CONTROLLER_CIRCLE, IDC_CONTROLLER_CROSS,
+                        IDC_CONTROLLER_SQUARE, IDC_CONTROLLER_L1};
+unsigned short pad_key_assignments[4] = {0x1, 0x0, 0x0, 0x0};
+
+
 BOOL open_file_dialog(const CHAR *title, const CHAR *filter, CHAR *file_path, const CHAR *initial_dir, const CHAR *def_ext)
 {
   BOOL opened;
@@ -2298,43 +2338,3 @@ int calc_bios_checksum(uint8_t *ptr, int size)
   }
   return checksum ^ (sum << 16);
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-int (__stdcall *GPUabout_0)();
-int (__stdcall *GPUinit_0)();
-int (__stdcall *GPUshutdown_0)();
-int (__stdcall *GPUtest_0)();
-int ( *PSEconfigure)();
-int ( *PSEgetLibName)();
-int ( *PSEgetLibType)();
-int ( *PSEgetLibVersion)();
-char aW[8];
-char asc_44E24C[64];
-unsigned char extended_key_states_1[1];
-unsigned char extended_key_states_2[1];
-unsigned char extended_key_states_3[0xa0];
-unsigned char plugin_name_list_shift[0x380];
-unsigned char pad_keymap_dialog_copy[0x20];
-unsigned char plugin_name_list[0x4];
-unsigned char plugin_name_list_tail[0x7ffc];
-unsigned int controller_port_modes[8];
-unsigned int found_plugin_count = 0x0;
-unsigned int joypad_button_map[1];
-unsigned int pad2_small_motor_type;
-unsigned int pad4_small_motor_type[1];
-unsigned int saved_pad_joypad_buttons;
-unsigned int saved_pad_mdec_disable_flag;
-unsigned char edit_button_id = 0xff;
-unsigned int g_EffectType2[1];
-unsigned int g_PlayerDeviceMap4[1];
-unsigned char joy_names[14] = {0x4a, 0x31, 0x5f, 0x4e, 0x4f, 0x4e, 0x45, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-unsigned char multitap_1;
-unsigned short nIDDlgItem = IDC_CONTROLLER_AXIS_X1;
-unsigned char pad_number_menu_selection = 0x1;
-unsigned char stru_44C148[13] = {0x4e, 0x4f, 0x4e, 0x45, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-unsigned char temp_path[0x400];
-unsigned short controller_button_dlg_ids[9] = {IDC_CONTROLLER_LEFT, IDC_CONTROLLER_RIGHT, IDC_CONTROLLER_UP, IDC_CONTROLLER_DOWN,
-                        IDC_CONTROLLER_TRIANGLE, IDC_CONTROLLER_CIRCLE, IDC_CONTROLLER_CROSS,
-                        IDC_CONTROLLER_SQUARE, IDC_CONTROLLER_L1};
-unsigned short pad_key_assignments[4] = {0x1, 0x0, 0x0, 0x0};

@@ -1,44 +1,9 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned int SPUabout;
-extern int (__stdcall *SPUasync)();
-extern int (__stdcall *SPUclose)();
-extern unsigned int SPUconfigure;
-extern int (__stdcall *SPUfreeze)();
-extern int (__stdcall *SPUgetOne)();
-extern int (__stdcall *SPUinit)();
-extern int (__stdcall *SPUopen)();
-extern int (__stdcall *SPUplayADPCMchannel)();
-extern unsigned int SPUplaySample;
-extern int (__stdcall *SPUputOne)();
-extern int (__stdcall *SPUreadDMA)();
-extern int (__stdcall *SPUreadDMAMem)();
-extern int (__stdcall *SPUreadRegister)();
-extern int (__stdcall *SPUregisterCallback)();
-extern int (__stdcall *SPUsetAddr)();
-extern int (__stdcall *SPUsetPitch)();
-extern int (__stdcall *SPUsetVolumeL)();
-extern int (__stdcall *SPUsetVolumeR)();
-extern int (__stdcall *SPUshutdown)();
-extern int (__stdcall *SPUstartChannels1)();
-extern int (__stdcall *SPUstartChannels2)();
-extern int (__stdcall *SPUstopChannels1)();
-extern int (__stdcall *SPUstopChannels2)();
-extern unsigned int SPUtest;
-extern int (__stdcall *SPUupdate)();
-extern int (__stdcall *SPUwriteDMA)();
-extern int (__stdcall *SPUwriteDMAMem)();
-extern int (__stdcall *SPUwriteRegister)();
 extern unsigned int Size[0x100];
-extern unsigned char spu_plugin_closed_flag;
 extern unsigned int spu_dma_chcr_ptr;
-extern unsigned int spu_transfer_addr;
-extern unsigned int hSpuModule;
 extern unsigned char sound_enabled;
 extern unsigned int spu_adpcm_flag;
-extern unsigned char spu_need_to_be_closed;
-extern unsigned char spu_use_external_plugin;
-extern unsigned short spu_register_cache[0x200];
 
 /* Function prototypes (previously generated in src/_gen) */
 int (* spu_async_update(int cycles))(void);

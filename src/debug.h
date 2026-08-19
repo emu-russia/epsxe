@@ -13,18 +13,12 @@
 
 extern unsigned char console_allocated;
 extern unsigned int console_log_handle;
-extern FILE *error_log_file;
-
-extern unsigned int last_tick_count;
-extern unsigned char dynarec_active;
 
 /*--- Flags defined in debug.c (at fixed memory addresses) ---*/
 
 /** Flag at 0x4FF9F0: console-log-flush pending (set by sub_437030, cleared by sub_437040). */
-extern unsigned char console_log_flush_pending;
 
 /** Flag at 0x4FF9F2: console log enabled. */
-extern unsigned char console_log_enabled;
 
 /*--- SPU plugin destroy callback ---*/
 extern int ( *spu_destroy_cb)(unsigned long);

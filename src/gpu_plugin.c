@@ -1,4 +1,49 @@
 ﻿#include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+static LARGE_INTEGER Frequency;
+static unsigned int GPUabout;
+static int (__stdcall *GPUclose)();
+static unsigned int GPUconfigure;
+static int (__stdcall *GPUcursor)();
+static int (__stdcall *GPUdisplayFlags)();
+static int (__stdcall *GPUdmaChain)();
+static int (__stdcall *GPUfreeze)();
+static unsigned int GPUgetMode;
+static int (__stdcall *GPUgetScreenPic)();
+static int (__stdcall *GPUinit)();
+static int (__stdcall *GPUmakeSnapshot)();
+static int (__stdcall *GPUopen)();
+static int (__stdcall *GPUreadData)();
+static int (__stdcall *GPUreadDataMem)();
+static int (__stdcall *GPUreadStatus)();
+static unsigned int GPUsetMode;
+static int (__stdcall *GPUshowScreenPic)();
+static int (__stdcall *GPUshutdown)();
+static unsigned int GPUtest;
+static int (__stdcall *GPUupdateLace)();
+static int (__stdcall *GPUwriteData)();
+static int (__stdcall *GPUwriteDataMem)();
+static int (__stdcall *GPUwriteStatus)();
+static LARGE_INTEGER PerformanceCount;
+static unsigned int gpu_clear_dynarec_ptr;
+static MSG g_msg;
+static unsigned char gpu_closed;
+unsigned char gpu_dma2_delay_counter;
+unsigned char gpu_dma2_state;
+unsigned char gpu_dma6_delay_counter;
+static unsigned int gpu_dma_address;
+unsigned int gpu_dma_channel_status[1];
+static unsigned int gpu_dma_control;
+static unsigned int gpu_hInstance;
+static LARGE_INTEGER gpu_performance_counter;
+static uint64_t gpu_performance_threshold;
+static unsigned char gpu_save_pic_data[24] = {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0};
+static unsigned int hGpuModule;
+unsigned int hInst_For_DInput;
+unsigned int hOutputWnd;
+unsigned char use_performance_counters;
+
 char gpu_init_performance_counter()
 {
   int status;
@@ -865,49 +910,3 @@ void gpu_unfreeze(int unused, uint32_t *ArgList)
     dbg_print(" * GPU plugin doesn't support savestates. \n");
   }
 }
-
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-LARGE_INTEGER Frequency;
-unsigned int GPUabout;
-int (__stdcall *GPUclose)();
-unsigned int GPUconfigure;
-int (__stdcall *GPUcursor)();
-int (__stdcall *GPUdisplayFlags)();
-int (__stdcall *GPUdmaChain)();
-int (__stdcall *GPUfreeze)();
-unsigned int GPUgetMode;
-int (__stdcall *GPUgetScreenPic)();
-int (__stdcall *GPUinit)();
-int (__stdcall *GPUmakeSnapshot)();
-int (__stdcall *GPUopen)();
-int (__stdcall *GPUreadData)();
-int (__stdcall *GPUreadDataMem)();
-int (__stdcall *GPUreadStatus)();
-unsigned int GPUsetMode;
-int (__stdcall *GPUshowScreenPic)();
-int (__stdcall *GPUshutdown)();
-unsigned int GPUtest;
-int (__stdcall *GPUupdateLace)();
-int (__stdcall *GPUwriteData)();
-int (__stdcall *GPUwriteDataMem)();
-int (__stdcall *GPUwriteStatus)();
-LARGE_INTEGER PerformanceCount;
-unsigned int gpu_clear_dynarec_ptr;
-MSG g_msg;
-unsigned char gpu_closed;
-unsigned char gpu_dma2_delay_counter;
-unsigned char gpu_dma2_state;
-unsigned char gpu_dma6_delay_counter;
-unsigned int gpu_dma_address;
-unsigned int gpu_dma_channel_status[1];
-unsigned int gpu_dma_control;
-unsigned int gpu_hInstance;
-LARGE_INTEGER gpu_performance_counter;
-uint64_t gpu_performance_threshold;
-unsigned char gpu_save_pic_data[24] = {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0};
-unsigned int hGpuModule;
-unsigned int hInst_For_DInput;
-unsigned int hOutputWnd;
-unsigned char use_performance_counters;

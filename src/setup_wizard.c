@@ -1,5 +1,17 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+char FileName[256];
+static unsigned char video_plugin_search_path[0x400];
+static unsigned char spu_plugin_search_path[0x400];
+static unsigned char cdrom_plugin_search_path[0x400];
+static unsigned char bios_search_path[0x80];
+static unsigned char cdrom_plugin_configured_flag;
+static BIOS_DESCR debug_bios = {0x0D, "dtlh3002 - PAL"};
+static BIOS_DESCR retail_bioses = {0x0C8EC73C0, "scph1000 - JAP"};
+unsigned int setup_wizard_step = 0xffffffff;
+
+
 static HANDLE setup_wizard_init()
 {
   HANDLE hFindGpu;
@@ -1145,15 +1157,3 @@ int setup_wizard_callback(HWND hWndParent)
   }
   return ret;
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-char FileName[256];
-unsigned char video_plugin_search_path[0x400];
-unsigned char spu_plugin_search_path[0x400];
-unsigned char cdrom_plugin_search_path[0x400];
-unsigned char bios_search_path[0x80];
-unsigned char cdrom_plugin_configured_flag;
-BIOS_DESCR debug_bios = {0x0D, "dtlh3002 - PAL"};
-BIOS_DESCR retail_bioses = {0x0C8EC73C0, "scph1000 - JAP"};
-unsigned int setup_wizard_step = 0xffffffff;

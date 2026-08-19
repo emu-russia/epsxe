@@ -9,7 +9,6 @@ extern int ( *cdrom_reset_cb)();
 extern int ( *cdrom_stop_cb)();
 extern int ( *cdrom_subchannel_read_cb)();
 extern int ( *cdrom_track_to_msf)();
-extern unsigned int cdrom_unused_cb;
 extern int ( *cdrom_verify_sub_cb)();
 extern int ( *spu_async_update_cb)();
 extern int ( *spu_dma_cb)();

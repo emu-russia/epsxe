@@ -1,5 +1,18 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int spu_async_update_counter;
+unsigned int sio_scheduled_transfer_timeout;
+unsigned int rcnt1_counter;
+unsigned int rcnt1_mode;
+unsigned int rcnt1_compare;
+unsigned int rcnt2_counter;
+unsigned int rcnt3_counter;
+unsigned int spu_irq_pending_count;
+unsigned int frame_counter;
+unsigned int scanline_counter;
+
+
 uint32_t cpu_opcode;
 uint32_t cpu_gpr[32];
 uint32_t cpu_HI;
@@ -219,15 +232,3 @@ int cpu_execute()
   }
   return reset;
 }
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned int spu_async_update_counter;
-unsigned int sio_scheduled_transfer_timeout;
-unsigned int rcnt1_counter;
-unsigned int rcnt1_mode;
-unsigned int rcnt1_compare;
-unsigned int rcnt2_counter;
-unsigned int rcnt3_counter;
-unsigned int spu_irq_pending_count;
-unsigned int frame_counter;
-unsigned int scanline_counter;

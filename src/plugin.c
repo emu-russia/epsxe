@@ -1,4 +1,28 @@
 ﻿#include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+int ( *cdrom_get_first_last_TN_cb)();
+int ( *cdrom_init_cb)();
+int ( *cdrom_lba_to_msf_cb)();
+int ( *cdrom_play_cdda_cb)();
+int ( *cdrom_read_data_cb)();
+int ( *cdrom_reset_cb)();
+int ( *cdrom_stop_cb)();
+int ( *cdrom_subchannel_read_cb)();
+int ( *cdrom_track_to_msf)();
+static unsigned int cdrom_unused_cb;
+int ( *cdrom_verify_sub_cb)();
+int ( *spu_async_update_cb)();
+int ( *spu_dma_cb)();
+int ( *spu_freeze_cb)();
+int ( *spu_init_cb)();
+int ( *spu_play_adpcm_cb)();
+int ( *spu_read_register_cb)();
+int ( *spu_set_adpcm_flag_cb)();
+int ( *spu_unfreeze_cb)();
+int ( *spu_update_cb)();
+int ( *spu_write_register_cb)();
+
 char select_cdrom_core()
 {
   int win_aspi_silent;
@@ -116,29 +140,3 @@ int select_plugins_backend()
   memset(hw_regs, 0, 0x10000u);
   return 0;
 }
-
-
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-int ( *cdrom_get_first_last_TN_cb)();
-int ( *cdrom_init_cb)();
-int ( *cdrom_lba_to_msf_cb)();
-int ( *cdrom_play_cdda_cb)();
-int ( *cdrom_read_data_cb)();
-int ( *cdrom_reset_cb)();
-int ( *cdrom_stop_cb)();
-int ( *cdrom_subchannel_read_cb)();
-int ( *cdrom_track_to_msf)();
-unsigned int cdrom_unused_cb;
-int ( *cdrom_verify_sub_cb)();
-int ( *spu_async_update_cb)();
-int ( *spu_dma_cb)();
-int ( *spu_freeze_cb)();
-int ( *spu_init_cb)();
-int ( *spu_play_adpcm_cb)();
-int ( *spu_read_register_cb)();
-int ( *spu_set_adpcm_flag_cb)();
-int ( *spu_unfreeze_cb)();
-int ( *spu_update_cb)();
-int ( *spu_write_register_cb)();

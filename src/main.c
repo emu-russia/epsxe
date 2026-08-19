@@ -1,5 +1,28 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char memcard_enabled = 0x1;
+unsigned char current_dir_path = 0x0;
+static unsigned char load_pslib_flag;
+static unsigned char default_cdrom_plugin_name[0x400];
+static unsigned char cheat_file_from_cmdline[0x400];
+unsigned char cpu_overclock_setting = 0x1;
+static unsigned int unused_startup_flag;
+unsigned int dynarec_enabled;
+unsigned char extsubchanhle;
+unsigned char fastboot = 0x1;
+unsigned int forcepad;
+unsigned char forcespu = 0x0;
+unsigned char gtrace;
+static unsigned char ignore_cmd = 0x1;
+unsigned int loaded_file_type;
+unsigned int mdectiming = 0x1;
+unsigned char nocd = 0x1;
+static unsigned char old_auto_ppf_load;
+unsigned int reset_flag;
+unsigned char xa_read_enable = 0x1;
+
+
 uint8_t cd_savefake_flag = 0xff;
 
 void memset32(void* dst, unsigned int value, unsigned int count)
@@ -657,26 +680,3 @@ LABEL_15:
       goto LABEL_16;
   }
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char memcard_enabled = 0x1;
-unsigned char current_dir_path = 0x0;
-unsigned char load_pslib_flag;
-unsigned char default_cdrom_plugin_name[0x400];
-unsigned char cheat_file_from_cmdline[0x400];
-unsigned char cpu_overclock_setting = 0x1;
-unsigned int unused_startup_flag;
-unsigned int dynarec_enabled;
-unsigned char extsubchanhle;
-unsigned char fastboot = 0x1;
-unsigned int forcepad;
-unsigned char forcespu = 0x0;
-unsigned char gtrace;
-unsigned char ignore_cmd = 0x1;
-unsigned int loaded_file_type;
-unsigned int mdectiming = 0x1;
-unsigned char nocd = 0x1;
-unsigned char old_auto_ppf_load;
-unsigned int reset_flag;
-unsigned char xa_read_enable = 0x1;
