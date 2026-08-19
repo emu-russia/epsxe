@@ -52,20 +52,20 @@ void mem_hw_reg_read_byte(unsigned int addr)
     spu_read_register_cb(addr);
     return;
   }
-  if ( addr > 0x1F801801 )
+  if ( addr > PSX_REG_CD_RESPONSE )
   {
-    if ( addr == 0x1F801802 )
+    if ( addr == PSX_REG_CD_DATA )
     {
       ++g_cdr_data_bytes_transferred;
       return;
     }
-    if ( addr == 0x1F801803 )
+    if ( addr == PSX_REG_CD_INT )
       return;
 LABEL_19:
     dump_log(console_log_handle, "REG %s [%08x] -> %08x sizeof(%d)\n", "UNK", addr, 0, 1);
     return;
   }
-  if ( addr == 0x1F801801 )
+  if ( addr == PSX_REG_CD_RESPONSE )
   {
     if ( (uint8_t)g_cdr_response_index < (uint8_t)g_cdr_response_size )
     {
@@ -77,12 +77,12 @@ LABEL_19:
     }
     return;
   }
-  if ( addr == 528486464 )
+  if ( addr == PSX_REG_JOY_DATA )
   {
     sio_read_data_byte();
     return;
   }
-  if ( addr != 528486646 && addr != 528488448 )
+  if ( addr != PSX_REG_DMA_ICR + 2 && addr != PSX_REG_CD_INDEX_STATUS )
     goto LABEL_19;
 }
 
@@ -120,20 +120,20 @@ void mem_hw_reg_write_byte(unsigned int addr, char value)
       dcache[addr & 0xFFF] = value;
       return;
     }
-    if ( addr <= 0x1F801801 )
+    if ( addr <= PSX_REG_CD_COMMAND )
     {
       switch ( addr )
       {
-        case 0x1F801801u:
+        case PSX_REG_CD_COMMAND:
           cdr_reg1_write(value);
           return;
-        case 0x1F801040u:
-          sio_write_data_byte(0x1F801040, value);
+        case PSX_REG_JOY_DATA:
+          sio_write_data_byte(PSX_REG_JOY_DATA, value);
           return;
-        case 0x1F8010F6u:
+        case PSX_REG_DMA_ICR + 2:
           dma_int_ctrl = dma_int_ctrl & 0xFF00FFFF | ((uint8_t)value << 16);
           return;
-        case 0x1F801800u:
+        case PSX_REG_CD_INDEX_STATUS:
           cdr_reg0_write(value);
           return;
       }
@@ -141,14 +141,14 @@ void mem_hw_reg_write_byte(unsigned int addr, char value)
     }
     switch ( addr )
     {
-      case 0x1F801802u:
+      case PSX_REG_CD_PARAM:
         cdr_reg2_write(value);
         break;
-      case 0x1F801803u:
+      case PSX_REG_CD_REQUEST:
         cdr_reg3_write(value);
         break;
-      case 0x1F802041u:
-        hw_regs[8257] = value;
+      case PSX_REG_POST:
+        hw_regs[(uint16_t)PSX_REG_POST] = value;
         break;
       default:
 LABEL_27:
@@ -199,23 +199,25 @@ void mem_write_half(unsigned int addr, uint16_t value)
   {
     if ( (uint16_t)addr >= 0x1000u )
     {
-      if ( addr > 0x1F801138 || addr < 0x1F801100 )
+      /* Root counters 0..2 (1F801100h..1F801128h), plus ePSXe's legacy
+         "timer 3" (1F801130h..1F801138h) - not a real PSX register */
+      if ( addr > 0x1F801138 || addr < PSX_REG_T0_COUNT )
       {
         if ( addr > 0x1F801EEF || addr < 0x1F801C00 )
         {
           switch ( addr )
           {
-            case 0x1F801014u:
+            case PSX_REG_SPU_DELAY:
               *(uint16_t *)&hw_regs[(uint16_t)addr] = value;
               break;
-            case 0x1F801040u:
+            case PSX_REG_JOY_DATA:
               sio_write_data_byte(addr, value);
               sio_write_data_byte(addr, SHIBYTE(value));
               break;
-            case 0x1F801048u:
+            case PSX_REG_JOY_MODE:
               HIWORD(sio0_mode_reg) = value;
               break;
-            case 0x1F80104Au:
+            case PSX_REG_JOY_CTRL:
               LOWORD(sio0_control_reg) = value & 0xFFEF;
               if ( (value & 0x10) != 0 )
                 BYTE1(sio0_mode_reg) &= ~2u;
@@ -225,10 +227,10 @@ void mem_write_half(unsigned int addr, uint16_t value)
               sio_tx_fifo[0] = 1 << (BYTE1(sio0_control_reg) & 3);
               sio_tx_fifo[2] = 1 << (BYTE1(sio0_control_reg) & 3);
               break;
-            case 0x1F80104Eu:
+            case PSX_REG_JOY_BAUD:
               HIWORD(sio0_control_reg) = value;
               break;
-            case 0x1F801070u:
+            case PSX_REG_I_STAT:
               if ( *(uint32_t *)sio_irq_pending && (unsigned int)hw_update_counter < *(uint32_t *)sio_irq_timeout )
               {
                 *(uint32_t *)int_reg |= *(uint32_t *)sio_irq_pending;
@@ -236,7 +238,7 @@ void mem_write_half(unsigned int addr, uint16_t value)
               }
               *(uint32_t *)int_reg = (uint16_t)(int_mask & value & *(uint16_t *)int_reg);
               break;
-            case 0x1F801074u:
+            case PSX_REG_I_MASK:
               int_mask = value;
               break;
             default:
@@ -352,23 +354,25 @@ void mem_hw_reg_write_half(unsigned int addr, uint16_t value)
     {
       if ( addr >= 0x1F801000 )
       {
-        if ( addr > 0x1F801138 || addr < 0x1F801100 )
+        /* Root counters 0..2 (1F801100h..1F801128h), plus ePSXe's legacy
+           "timer 3" (1F801130h..1F801138h) - not a real PSX register */
+        if ( addr > 0x1F801138 || addr < PSX_REG_T0_COUNT )
         {
           if ( addr > 0x1F801EEF || addr < 0x1F801C00 )
           {
             switch ( addr )
             {
-              case 0x1F801014u:
+              case PSX_REG_SPU_DELAY:
                 *(uint16_t *)&hw_regs[(uint16_t)addr] = value;
                 break;
-              case 0x1F801040u:
+              case PSX_REG_JOY_DATA:
                 sio_write_data_byte(addr, value);
                 sio_write_data_byte(addr, SHIBYTE(value));
                 break;
-              case 0x1F801048u:
+              case PSX_REG_JOY_MODE:
                 HIWORD(sio0_mode_reg) = value;
                 break;
-              case 0x1F80104Au:
+              case PSX_REG_JOY_CTRL:
                 LOWORD(sio0_control_reg) = value & 0xFFEF;
                 if ( (value & 0x10) != 0 )
                   BYTE1(sio0_mode_reg) &= ~2u;
@@ -378,10 +382,10 @@ void mem_hw_reg_write_half(unsigned int addr, uint16_t value)
                 sio_tx_fifo[0] = 1 << (BYTE1(sio0_control_reg) & 3);
                 sio_tx_fifo[2] = 1 << (BYTE1(sio0_control_reg) & 3);
                 break;
-              case 0x1F80104Eu:
+              case PSX_REG_JOY_BAUD:
                 HIWORD(sio0_control_reg) = value;
                 break;
-              case 0x1F801070u:
+              case PSX_REG_I_STAT:
                 if ( *(uint32_t *)sio_irq_pending && (unsigned int)hw_update_counter < *(uint32_t *)sio_irq_timeout )
                 {
                   *(uint32_t *)int_reg |= *(uint32_t *)sio_irq_pending;
@@ -389,7 +393,7 @@ void mem_hw_reg_write_half(unsigned int addr, uint16_t value)
                 }
                 *(uint32_t *)int_reg = (uint16_t)(int_mask & value & *(uint16_t *)int_reg);
                 break;
-              case 0x1F801074u:
+              case PSX_REG_I_MASK:
                 int_mask = value;
                 break;
               default:

@@ -8,7 +8,7 @@ unsigned char *reg_pc;
 
 int cpu_clear_regs()
 {
-  *(uint32_t *)reg_pc = 0xBFC00000;
+  *(uint32_t *)reg_pc = PSX_BIOS_UNCACHED_BASE;
   memset(cpu_gpr, 0, 0x80u);
   memset(cop0_regs, 0, 0x40u);
   hw_update_counter = 0;

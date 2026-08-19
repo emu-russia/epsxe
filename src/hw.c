@@ -8,12 +8,14 @@ void hw_reg_write_word(unsigned int addr, unsigned int value)
   int data24;
   int addr24;
 
-  if ( addr <= 0x1F801020 && addr >= 0x1F801000 )
+  if ( addr <= PSX_REG_COM_DELAY && addr >= PSX_REG_EXP1_BASE )
   {
     *(uint32_t *)&hw_regs[(uint16_t)addr] = value;
     return;
   }
-  if ( addr <= 0x1F801138 && addr >= 0x1F801100 )
+  /* Root counters 0..2 (1F801100h..1F801128h), plus ePSXe's legacy "timer 3"
+     (1F801130h..1F801138h) - not a real PSX register, but emulated here */
+  if ( addr <= 0x1F801138 && addr >= PSX_REG_T0_COUNT )
   {
     irq_rcnt_write_reg(addr, value);
     return;
@@ -24,9 +26,9 @@ void hw_reg_write_word(unsigned int addr, unsigned int value)
     spu_write_register_cb(addr + 2, HIWORD(value));
     return;
   }
-  if ( addr <= 0x1F8010B8 )
+  if ( addr <= PSX_REG_CD_DMA_CHCR )
   {
-    if ( addr == 0x1F8010B8 )
+    if ( addr == PSX_REG_CD_DMA_CHCR )
     {
       g_cdr_dma_channel_control = value;
       if ( dma_channel_status[1] < 0 )
@@ -40,16 +42,16 @@ void hw_reg_write_word(unsigned int addr, unsigned int value)
     {
       switch ( addr )
       {
-        case 0x1F801040u:
+        case PSX_REG_JOY_DATA:
           sio_write_data_byte(addr, value);
           sio_write_data_byte(addr, SBYTE1(value));
           sio_write_data_byte(addr, SBYTE2(value));
           sio_write_data_byte(addr, SHIBYTE(value));
           break;
-        case 0x1F801060u:
+        case PSX_REG_RAM_SIZE:
           *(uint32_t *)&hw_regs[(uint16_t)addr] = value;
           break;
-        case 0x1F801070u:
+        case PSX_REG_I_STAT:
           if ( *(uint32_t *)sio_irq_pending )
           {
             if ( (unsigned int)hw_update_counter < *(uint32_t *)sio_irq_timeout )
@@ -60,20 +62,20 @@ void hw_reg_write_word(unsigned int addr, unsigned int value)
           }
           *(uint32_t *)int_reg &= value & int_mask;
           break;
-        case 0x1F801074u:
+        case PSX_REG_I_MASK:
           int_mask = value;
           break;
-        case 0x1F801080u:
-        case 0x1F801090u:
-        case 0x1F8010A0u:
-        case 0x1F8010B0u:
+        case PSX_REG_MDEC_IN_MADR:
+        case PSX_REG_MDEC_OUT_MADR:
+        case PSX_REG_GPU_DMA_MADR:
+        case PSX_REG_CD_DMA_MADR:
           goto LABEL_32;
-        case 0x1F801084u:
-        case 0x1F801094u:
-        case 0x1F8010A4u:
-        case 0x1F8010B4u:
+        case PSX_REG_MDEC_IN_BCR:
+        case PSX_REG_MDEC_OUT_BCR:
+        case PSX_REG_GPU_DMA_BCR:
+        case PSX_REG_CD_DMA_BCR:
           goto LABEL_37;
-        case 0x1F801088u:
+        case PSX_REG_MDEC_IN_CHCR:
           mdec_dma_control[0] = value;
           if ( (dma_channel_status[0] & 8) != 0 )
           {
@@ -82,7 +84,7 @@ void hw_reg_write_word(unsigned int addr, unsigned int value)
             irq_dma_assert_int(0);
           }
           break;
-        case 0x1F801098u:
+        case PSX_REG_MDEC_OUT_CHCR:
           mdec_dma_status = value;
           if ( dma_channel_status[0] < 0 )
           {
@@ -94,7 +96,7 @@ void hw_reg_write_word(unsigned int addr, unsigned int value)
             }
           }
           break;
-        case 0x1F8010A8u:
+        case PSX_REG_GPU_DMA_CHCR:
           *(uint32_t *)gpu_dma_channel_status = value;
           if ( (dma_channel_status[1] & 8) != 0 )
             gpu_dma();
@@ -105,9 +107,9 @@ void hw_reg_write_word(unsigned int addr, unsigned int value)
     }
     return;
   }
-  if ( addr <= 0x1F8010E4 )
+  if ( addr <= PSX_REG_OTC_DMA_BCR )
   {
-    if ( addr == 528486628 )
+    if ( addr == PSX_REG_OTC_DMA_BCR )
     {
 LABEL_37:
       mdec_dma_bcr[3 * ((uint8_t)addr >> 4) - 24] = value;
@@ -116,16 +118,16 @@ LABEL_37:
     {
       switch ( addr )
       {
-        case 0x1F8010C0u:
-        case 0x1F8010D0u:
-        case 0x1F8010E0u:
+        case PSX_REG_SPU_DMA_MADR:
+        case PSX_REG_PIO_DMA_MADR:
+        case PSX_REG_OTC_DMA_MADR:
 LABEL_32:
           mdec_dma_src[3 * ((uint8_t)addr >> 4) - 24] = value;
           break;
-        case 0x1F8010C4u:
-        case 0x1F8010D4u:
+        case PSX_REG_SPU_DMA_BCR:
+        case PSX_REG_PIO_DMA_BCR:
           goto LABEL_37;
-        case 0x1F8010C8u:
+        case PSX_REG_SPU_DMA_CHCR:
           *(uint32_t *)spu_dma_chcr_ptr = value;
           if ( (*(uint32_t *)dma_channel_status & 0x80000) != 0 )
           {
@@ -134,7 +136,7 @@ LABEL_32:
             irq_dma_assert_int(4u);
           }
           break;
-        case 0x1F8010D8u:
+        case PSX_REG_PIO_DMA_CHCR:
           pio_dma_chcr = value;
           if ( ((unsigned int)&bios_image[37248] & *(uint32_t *)dma_channel_status) != 0 )
           {
@@ -148,17 +150,17 @@ LABEL_32:
     }
     return;
   }
-  if ( addr > 0x1F801810 )
+  if ( addr > PSX_REG_GPU_GP0 )
   {
     switch ( addr )
     {
-      case 0x1F801814u:
+      case PSX_REG_GPU_GP1:
         gpu_writeStatus(value);
         return;
-      case 0x1F801820u:
+      case PSX_REG_MDEC_CMD:
         mdec_write_command(value);
         return;
-      case 0x1F801824u:
+      case PSX_REG_MDEC_STATUS:
         mdec_handle_special_command(value);
         return;
     }
@@ -166,19 +168,19 @@ LABEL_51:
     dump_log(console_log_handle, "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n", "UNK", addr, value, 4, *(uint32_t *)reg_pc);
     return;
   }
-  if ( addr == 528488464 )
+  if ( addr == PSX_REG_GPU_GP0 )
   {
     gpu_writeData(value);
     return;
   }
-  if ( addr != 528486632 )
+  if ( addr != PSX_REG_OTC_DMA_CHCR )
   {
-    if ( addr == 528486640 )
+    if ( addr == PSX_REG_DMA_PCR )
     {
       *(uint32_t *)dma_channel_status = value;
       return;
     }
-    if ( addr == 528486644 )
+    if ( addr == PSX_REG_DMA_ICR )
     {
       dma_int_ctrl = value & 0xFFFFFF | dma_int_ctrl & ~(value | 0xFFFFFF);
       return;
@@ -243,26 +245,26 @@ int16_t hw_reg_read_half(unsigned int addr)
 
   if ( addr < 0x1F801C00 || addr > 0x1F801EEF )
   {
-    if ( addr > 0x1F801108 )
+    if ( addr > PSX_REG_T0_TARGET )
     {
       switch ( addr )
       {
-        case 0x1F801110u:
+        case PSX_REG_T1_COUNT:
           LOWORD(value) = LOWORD(rcnt_counter[4 * ((addr >> 4) & 3)])
                          + ((rcnt_mode[4 * ((addr >> 4) & 3)] & 0x100) != 0 ? 0 : cpu_speed_scale)
                          - ((rcnt_mode[4 * ((addr >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter);
           return value;
-        case 0x1F801114u:
-        case 0x1F801124u:
-        case 0x1F801134u:
+        case PSX_REG_T1_MODE:
+        case PSX_REG_T2_MODE:
+        case 0x1F801134u:        /* legacy timer 3 mode */
 LABEL_33:
           LOWORD(value) = rcnt_mode[4 * ((addr >> 4) & 3)];
           return value;
-        case 0x1F801118u:
-        case 0x1F801128u:
-        case 0x1F801138u:
+        case PSX_REG_T1_TARGET:
+        case PSX_REG_T2_TARGET:
+        case 0x1F801138u:        /* legacy timer 3 target */
           goto LABEL_34;
-        case 0x1F801120u:
+        case PSX_REG_T2_COUNT:
           LOWORD(freq2) = cpu_speed_scale;
           index2 = 4 * ((addr >> 4) & 3);
           counter2 = rcnt_counter[index2];
@@ -275,7 +277,7 @@ LABEL_33:
             freq2 = (unsigned int)hw_update_counter >> 3;
           LOWORD(value) = total2 - freq2;
           return value;
-        case 0x1F801130u:
+        case 0x1F801130u:        /* legacy timer 3 count */
           goto LABEL_36;
         default:
 LABEL_35:
@@ -285,7 +287,7 @@ LABEL_36:
           break;
       }
     }
-    else if ( addr == 0x1F801108 )
+    else if ( addr == PSX_REG_T0_TARGET )
     {
 LABEL_34:
       LOWORD(value) = rcnt_target[4 * ((addr >> 4) & 3)];
@@ -295,17 +297,17 @@ LABEL_34:
       HIWORD(counter) = 0;
       switch ( addr )
       {
-        case 0x1F801014u:
+        case PSX_REG_SPU_DELAY:
           LOWORD(value) = *(uint16_t *)&hw_regs[(uint16_t)addr];
           break;
-        case 0x1F801040u:
+        case PSX_REG_JOY_DATA:
           sio_read_data_byte();
           HIBYTE(sio_val) = sio_byte;
           sio_read_data_byte();
           LOBYTE(sio_val) = value;
           LOWORD(value) = sio_val;
           break;
-        case 0x1F801044u:
+        case PSX_REG_JOY_STATUS:
           if ( sio_transfer_pending && hw_update_counter < (unsigned int)sio_transfer_timeout )
           {
             sio_transfer_pending = 0;
@@ -313,16 +315,16 @@ LABEL_34:
           }
           LOWORD(value) = sio0_mode_reg;
           break;
-        case 0x1F801048u:
+        case PSX_REG_JOY_MODE:
           LOWORD(value) = HIWORD(sio0_mode_reg);
           break;
-        case 0x1F80104Au:
+        case PSX_REG_JOY_CTRL:
           LOWORD(value) = sio0_control_reg;
           break;
-        case 0x1F80104Eu:
+        case PSX_REG_JOY_BAUD:
           LOWORD(value) = HIWORD(sio0_control_reg);
           break;
-        case 0x1F801070u:
+        case PSX_REG_I_STAT:
           if ( *(uint32_t *)sio_irq_pending && (unsigned int)hw_update_counter < *(uint32_t *)sio_irq_timeout )
           {
             *(uint32_t *)int_reg |= *(uint32_t *)sio_irq_pending;
@@ -330,10 +332,10 @@ LABEL_34:
           }
           LOWORD(value) = *(uint16_t *)int_reg | forcepad;
           break;
-        case 0x1F801074u:
+        case PSX_REG_I_MASK:
           LOWORD(value) = int_mask;
           break;
-        case 0x1F801100u:
+        case PSX_REG_T0_COUNT:
           index = 4 * ((addr >> 4) & 3);
           LOWORD(counter) = rcnt_counter[index];
           flag = rcnt_mode[index] & 0x100;
@@ -346,7 +348,7 @@ LABEL_34:
           else
             LOWORD(value) = total - hw_update_counter;
           break;
-        case 0x1F801104u:
+        case PSX_REG_T0_MODE:
           goto LABEL_33;
         default:
           goto LABEL_35;
@@ -380,19 +382,19 @@ int hw_reg_read_word(unsigned int addr)
 
   if ( addr < 0x1F801C00 || addr > 0x1F801E2F )
   {
-    if ( addr > 0x1F8010E8 )
+    if ( addr > PSX_REG_OTC_DMA_CHCR )
     {
-      if ( addr > 0x1F801124 )
+      if ( addr > PSX_REG_T2_MODE )
       {
-        if ( addr > 0x1F801810 )
+        if ( addr > PSX_REG_GPU_GP0 )
         {
           switch ( addr )
           {
-            case 0x1F801814u:
+            case PSX_REG_GPU_GP1:
               return gpu_readStatus();
-            case 0x1F801820u:
+            case PSX_REG_MDEC_CMD:
               return 0;
-            case 0x1F801824u:
+            case PSX_REG_MDEC_STATUS:
               value = mdec_param_count | mdec_status | mdec_timer_count;
               mdec_timer_count = 0;
               break;
@@ -402,7 +404,7 @@ LABEL_44:
               return 0;
           }
         }
-        else if ( addr == 0x1F801810 )
+        else if ( addr == PSX_REG_GPU_GP0 )
         {
           return gpu_readData();
         }
@@ -410,21 +412,21 @@ LABEL_44:
         {
           switch ( addr )
           {
-            case 0x1F801128u:
-            case 0x1F801138u:
+            case PSX_REG_T2_TARGET:
+            case 0x1F801138u:    /* legacy timer 3 target */
 LABEL_39:
               value = rcnt_target[4 * ((addr >> 4) & 3)];
               break;
-            case 0x1F801130u:
+            case 0x1F801130u:    /* legacy timer 3 count */
               return 0;
-            case 0x1F801134u:
+            case 0x1F801134u:    /* legacy timer 3 mode */
               return rcnt_mode[4 * ((addr >> 4) & 3)];
             default:
               goto LABEL_44;
           }
         }
       }
-      else if ( addr == 0x1F801124 )
+      else if ( addr == PSX_REG_T2_MODE )
       {
         return rcnt_mode[4 * ((addr >> 4) & 3)];
       }
@@ -432,13 +434,13 @@ LABEL_39:
       {
         switch ( addr )
         {
-          case 0x1F8010F0u:
+          case PSX_REG_DMA_PCR:
             value = *(uint32_t *)dma_channel_status;
             break;
-          case 0x1F8010F4u:
+          case PSX_REG_DMA_ICR:
             value = dma_int_ctrl;
             break;
-          case 0x1F801100u:
+          case PSX_REG_T0_COUNT:
             index = 4 * ((addr >> 4) & 3);
             counter = rcnt_counter[index];
             flag = rcnt_mode[index] & 0x100;
@@ -451,18 +453,18 @@ LABEL_39:
             else
               value = total - hw_update_counter;
             break;
-          case 0x1F801104u:
-          case 0x1F801114u:
+          case PSX_REG_T0_MODE:
+          case PSX_REG_T1_MODE:
             return rcnt_mode[4 * ((addr >> 4) & 3)];
-          case 0x1F801108u:
-          case 0x1F801118u:
+          case PSX_REG_T0_TARGET:
+          case PSX_REG_T1_TARGET:
             goto LABEL_39;
-          case 0x1F801110u:
+          case PSX_REG_T1_COUNT:
             value = ((rcnt_mode[4 * ((addr >> 4) & 3)] & 0x100) != 0 ? 0 : cpu_speed_scale)
                   - ((rcnt_mode[4 * ((addr >> 4) & 3)] & 0x100) != 0 ? 0 : hw_update_counter)
                   + rcnt_counter[4 * ((addr >> 4) & 3)];
             break;
-          case 0x1F801120u:
+          case PSX_REG_T2_COUNT:
             freq2 = cpu_speed_scale;
             index2 = 4 * ((addr >> 4) & 3);
             counter2 = rcnt_counter[index2];
@@ -480,7 +482,7 @@ LABEL_39:
         }
       }
     }
-    else if ( addr == 0x1F8010E8 )
+    else if ( addr == PSX_REG_OTC_DMA_CHCR )
     {
 LABEL_15:
       channel = (uint8_t)addr >> 4;
@@ -497,15 +499,15 @@ LABEL_15:
     {
       switch ( addr )
       {
-        case 0x1F801014u:
-        case 0x1F801060u:
+        case PSX_REG_SPU_DELAY:
+        case PSX_REG_RAM_SIZE:
           value = *(uint32_t *)&hw_regs[(uint16_t)addr];
           break;
-        case 0x1F801040u:
-        case 0x1F801044u:
+        case PSX_REG_JOY_DATA:
+        case PSX_REG_JOY_STATUS:
           value = sio_read_register(addr, 4);
           break;
-        case 0x1F801070u:
+        case PSX_REG_I_STAT:
           if ( *(uint32_t *)sio_irq_pending )
           {
             if ( (unsigned int)hw_update_counter < *(uint32_t *)sio_irq_timeout )
@@ -516,24 +518,24 @@ LABEL_15:
           }
           value = *(uint32_t *)int_reg | forcepad;
           break;
-        case 0x1F801074u:
+        case PSX_REG_I_MASK:
           value = int_mask;
           break;
-        case 0x1F801080u:
-        case 0x1F801090u:
-        case 0x1F8010A0u:
-        case 0x1F8010B0u:
-        case 0x1F8010C0u:
-        case 0x1F8010D0u:
-        case 0x1F8010E0u:
+        case PSX_REG_MDEC_IN_MADR:
+        case PSX_REG_MDEC_OUT_MADR:
+        case PSX_REG_GPU_DMA_MADR:
+        case PSX_REG_CD_DMA_MADR:
+        case PSX_REG_SPU_DMA_MADR:
+        case PSX_REG_PIO_DMA_MADR:
+        case PSX_REG_OTC_DMA_MADR:
           value = mdec_dma_src[3 * ((uint8_t)addr >> 4) - 24];
           break;
-        case 0x1F801088u:
-        case 0x1F801098u:
-        case 0x1F8010A8u:
-        case 0x1F8010B8u:
-        case 0x1F8010C8u:
-        case 0x1F8010D8u:
+        case PSX_REG_MDEC_IN_CHCR:
+        case PSX_REG_MDEC_OUT_CHCR:
+        case PSX_REG_GPU_DMA_CHCR:
+        case PSX_REG_CD_DMA_CHCR:
+        case PSX_REG_SPU_DMA_CHCR:
+        case PSX_REG_PIO_DMA_CHCR:
           goto LABEL_15;
         default:
           goto LABEL_44;

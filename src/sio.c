@@ -880,14 +880,14 @@ static int16_t sio_read_halfword(int address)
 
   switch ( address )
   {
-    case 0x1F801040:
+    case PSX_REG_JOY_DATA:
       sio_read_data_byte();
       HIBYTE(value) = hi_byte;
       sio_read_data_byte();
       LOBYTE(value) = lo_byte;
       reg_value = value;
       break;
-    case 0x1F801044:
+    case PSX_REG_JOY_STATUS:
       if ( sio_transfer_pending )
       {
         if ( hw_update_counter < (unsigned int)sio_transfer_timeout )
@@ -898,13 +898,13 @@ static int16_t sio_read_halfword(int address)
       }
       reg_value = sio0_mode_reg;
       break;
-    case 0x1F801048:
+    case PSX_REG_JOY_MODE:
       reg_value = HIWORD(sio0_mode_reg);
       break;
-    case 0x1F80104A:
+    case PSX_REG_JOY_CTRL:
       reg_value = sio0_control_reg;
       break;
-    case 0x1F80104E:
+    case PSX_REG_JOY_BAUD:
       reg_value = HIWORD(sio0_control_reg);
       break;
     default:
@@ -923,7 +923,7 @@ static int sio_read_word(int address)
   int value;
   uint8_t byte4;
 
-  if ( address == 0x1F801040 )
+  if ( address == PSX_REG_JOY_DATA )
   {
     sio_read_data_byte();
     HIBYTE(word) = byte1;
@@ -934,7 +934,7 @@ static int sio_read_word(int address)
     sio_read_data_byte();
     return value | byte4;
   }
-  else if ( address == 0x1F801044 )
+  else if ( address == PSX_REG_JOY_STATUS )
   {
     if ( sio_transfer_pending )
     {

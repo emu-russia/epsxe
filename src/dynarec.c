@@ -13,7 +13,7 @@ static char * dynarec_recompile_block(int code_addr)
     offset -= 0x40600000;
   *(uint32_t *)reg_pc = offset;
   dynarec_compile(offset, 0x5000u);
-  if ( (*(uint32_t *)reg_pc & 0xFFF00000) == 0xBFC00000 )
+  if ( (*(uint32_t *)reg_pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
     block_addr = (*(uint32_t *)reg_pc & 0x7FFFF) + 0x200000;
   else
     block_addr = *(uint32_t *)reg_pc & 0x1FFFFF;
@@ -37,7 +37,7 @@ static char *dynarec_hw_update()
   {
     if ( (*(uint32_t *)int_reg & int_mask) != 0 )
       irq_cpu_interrupt();
-    if ( (*(uint32_t *)reg_pc & 0xFFF00000) == 0xBFC00000 )
+    if ( (*(uint32_t *)reg_pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
       ret_offset = (*(uint32_t *)reg_pc & 0x7FFFF) + 0x200000;
     else
       ret_offset = *(uint32_t *)reg_pc & 0x1FFFFF;
@@ -141,7 +141,7 @@ static char *dynarec_hw_update()
       gpu_frame_update();
       if ( reset_flag )
       {
-        if ( (*(uint32_t *)reg_pc & 0xFFF00000) == 0xBFC00000 )
+        if ( (*(uint32_t *)reg_pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
           patch_offset = (*(uint32_t *)reg_pc & 0x7FFFF) + 0x200000;
         else
           patch_offset = *(uint32_t *)reg_pc & 0x1FFFFF;
@@ -156,7 +156,7 @@ static char *dynarec_hw_update()
         cdr_update_motor_status();
       sio_memcard_auto_save();
     }
-    if ( (*(uint32_t *)reg_pc & 0xFFF00000) == 0xBFC00000 )
+    if ( (*(uint32_t *)reg_pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
       pc_offset = (*(uint32_t *)reg_pc & 0x7FFFF) + 0x200000;
     else
       pc_offset = *(uint32_t *)reg_pc & 0x1FFFFF;
@@ -351,7 +351,7 @@ static int dynarec_compile(unsigned int pc, int max_insns)
       slot_flag = 1;
     if ( ++insn_count > limit )
       fatal_error_with_message_box(" ePSXe (error) recompile block too large \n");
-    offset = (pc & 0xFFF00000) == 0xBFC00000 ? (pc & 0x7FFFF) + 0x200000 : pc & 0x1FFFFF;
+    offset = (pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE ? (pc & 0x7FFFF) + 0x200000 : pc & 0x1FFFFF;
     if ( *(LPVOID *)((char *)recomp_code_base + offset) != recomp_buffer && !slot_flag )
       break;
     insn = *(uint32_t *)((uint16_t)pc + mem_read_hooks[HIWORD(pc)]);
@@ -1084,7 +1084,7 @@ LABEL_121:
 LABEL_151:
             code_ptr[14] = 7;
             code_ptr[15] = -72;
-            if ( (pc & 0xFFF00000) == 0xBFC00000 )
+            if ( (pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
               target_offset2 = (pc & 0x7FFFF) + 0x200000;
             else
               target_offset2 = pc & 0x1FFFFF;
@@ -1114,7 +1114,7 @@ LABEL_151:
             *code_ptr++ = 79;
             dynarec_compile(pc, 1u);
             *code_ptr = -72;
-            if ( (jump_word & 0xFFF00000 | pc & 0xF0000000) == 0xBFC00000 )
+            if ( (jump_word & 0xFFF00000 | pc & 0xF0000000) == PSX_BIOS_UNCACHED_BASE )
               target_offset3 = (jump_word & 0x7FFFF) + 0x200000;
             else
               target_offset3 = jump_word & 0x1FFFFF;
@@ -1165,7 +1165,7 @@ LABEL_151:
           code_ptr += 8;
           dynarec_compile(pc, 1u);
           *code_ptr = -72;
-          if ( (jump_word2 & 0xFFF00000 | pc & 0xF0000000) == 0xBFC00000 )
+          if ( (jump_word2 & 0xFFF00000 | pc & 0xF0000000) == PSX_BIOS_UNCACHED_BASE )
             target_offset4 = (jump_word2 & 0x7FFFF) + 0x200000;
           else
             target_offset4 = jump_word2 & 0x1FFFFF;
@@ -1274,7 +1274,7 @@ LABEL_151:
 LABEL_436:
         code_ptr[5] = 7;
         code_ptr[6] = -72;
-        if ( (pc & 0xFFF00000) == 0xBFC00000 )
+        if ( (pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
           target_offset7 = (pc & 0x7FFFF) + 0x200000;
         else
           target_offset7 = pc & 0x1FFFFF;
@@ -1286,7 +1286,7 @@ LABEL_436:
           insn = 1;
         *code_ptr = -72;
         target_pc = pc + 4 * insn;
-        if ( (target_pc & 0xFFF00000) == 0xBFC00000 )
+        if ( (target_pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
           target_offset6 = (target_pc & 0x7FFFF) + 0x200000;
         else
           target_offset6 = target_pc & 0x1FFFFF;
@@ -1335,7 +1335,7 @@ LABEL_436:
 LABEL_141:
         code_ptr[7] = 7;
         code_ptr[8] = -72;
-        if ( (pc & 0xFFF00000) == 0xBFC00000 )
+        if ( (pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
           target_offset = (pc & 0x7FFFF) + 0x200000;
         else
           target_offset = pc & 0x1FFFFF;
@@ -1349,7 +1349,7 @@ LABEL_428:
           insn = 1;
         *code_ptr = -72;
         target_pc2 = pc + 4 * insn;
-        if ( (target_pc2 & 0xFFF00000) == 0xBFC00000 )
+        if ( (target_pc2 & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
           target_offset6 = (target_pc2 & 0x7FFFF) + 0x200000;
         else
           target_offset6 = target_pc2 & 0x1FFFFF;
@@ -1846,44 +1846,44 @@ LABEL_286:
               if ( gte_opcode != 20971526 )
                 goto LABEL_304;
               *(uint16_t *)insn_start = 1479;
-              *(uint32_t *)(code_ptr + 2) = &gte_regs.ctrl[31];
+              *(uint32_t *)(code_ptr + 2) = &gte_regs.ctrl[GTE_CTRL_FLAG];
               *(uint32_t *)(code_ptr + 6) = 0;
               *((uint16_t *)code_ptr + 5) = -16625;
               code_ptr[12] = 5;
-              *(uint32_t *)(code_ptr + 13) = &gte_regs.data[13].s16.lo;
+              *(uint32_t *)(code_ptr + 13) = &gte_regs.data[GTE_DATA_SXY1].s16.lo;
               *(uint16_t *)(code_ptr + 17) = -16625;
               code_ptr[19] = 13;
-              *((uint32_t *)code_ptr + 5) = &gte_regs.data[14].s16.lo;
+              *((uint32_t *)code_ptr + 5) = &gte_regs.data[GTE_DATA_SXY2].s16.lo;
               *((uint16_t *)code_ptr + 12) = -16625;
               code_ptr[26] = 21;
-              *(uint32_t *)(code_ptr + 27) = &gte_regs.data[12];
+              *(uint32_t *)(code_ptr + 27) = &gte_regs.data[GTE_DATA_SXY0];
               *(uint16_t *)(code_ptr + 31) = -16085;
               *(uint16_t *)(code_ptr + 33) = -20721;
               code_ptr[35] = -62;
               *((uint16_t *)code_ptr + 18) = -10101;
               *((uint16_t *)code_ptr + 19) = -16625;
               code_ptr[40] = 5;
-              *(uint32_t *)(code_ptr + 41) = &gte_regs.data[12].s16.lo;
+              *(uint32_t *)(code_ptr + 41) = &gte_regs.data[GTE_DATA_SXY0].s16.lo;
               *(uint16_t *)(code_ptr + 45) = -16625;
               code_ptr[47] = 21;
-              *((uint32_t *)code_ptr + 12) = &gte_regs.data[13];
+              *((uint32_t *)code_ptr + 12) = &gte_regs.data[GTE_DATA_SXY1];
               *((uint16_t *)code_ptr + 26) = -14293;
               *((uint16_t *)code_ptr + 27) = -20721;
               code_ptr[56] = -54;
               *(uint16_t *)(code_ptr + 57) = -9981;
               *(uint16_t *)(code_ptr + 59) = -16625;
               code_ptr[61] = 13;
-              *(uint32_t *)(code_ptr + 62) = &gte_regs.data[13].s16.lo;
+              *(uint32_t *)(code_ptr + 62) = &gte_regs.data[GTE_DATA_SXY1].s16.lo;
               *((uint16_t *)code_ptr + 33) = -16625;
               code_ptr[68] = 21;
-              *(uint32_t *)(code_ptr + 69) = &gte_regs.data[14];
+              *(uint32_t *)(code_ptr + 69) = &gte_regs.data[GTE_DATA_SXY2];
               *(uint16_t *)(code_ptr + 73) = -16085;
               *(uint16_t *)(code_ptr + 75) = -20721;
               code_ptr[77] = -62;
               *((uint16_t *)code_ptr + 39) = -10237;
               *((uint16_t *)code_ptr + 40) = -15477;
               code_ptr[82] = -93;
-              *(uint32_t *)(code_ptr + 83) = &gte_regs.data[24];
+              *(uint32_t *)(code_ptr + 83) = &gte_regs.data[GTE_DATA_MAC0];
               *(uint16_t *)(code_ptr + 87) = 32653;
               code_ptr[89] = -4;
               code_ptr += 90;
@@ -2340,7 +2340,7 @@ LABEL_328:
         if ( max_insns != 1 )
         {
           *code20 = -72;
-          if ( (pc & 0xFFF00000) == 0xBFC00000 )
+          if ( (pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
             target_offset5 = (pc & 0x7FFFF) + 0x200000;
           else
             target_offset5 = pc & 0x1FFFFF;
@@ -2480,7 +2480,7 @@ LABEL_414:
   if ( limit == 1 )
     fatal_error_with_message_box("dynarec problem (slot_in and recompiled) [%08x] [%d]\n", pc, 1);
   *insn_start = -72;
-  if ( (pc & 0xFFF00000) == 0xBFC00000 )
+  if ( (pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
     target_offset8 = (pc & 0x7FFFF) + 0x200000;
   else
     target_offset8 = pc & 0x1FFFFF;
@@ -2501,7 +2501,7 @@ unsigned int dynarec_invalidate_range(int addr, int count)
   unsigned int current;
   unsigned int end;
 
-  if ( (addr & 0xFFF00000) == 0xBFC00000 )
+  if ( (addr & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
     offset = (addr & 0x7FFFC) + 0x200000;
   else
     offset = addr & 0x1FFFFC;
@@ -2534,7 +2534,7 @@ LABEL_8:
       base = (char *)recomp_code_base;
     }
   }
-  if ( (addr & 0xFFF00000) == 0xBFC00000 )
+  if ( (addr & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
     start = (addr & 0x7FFFC) + 0x200000;
   else
     start = addr & 0x1FFFFC;
@@ -2601,7 +2601,7 @@ uint8_t *dynarec_init()
   *((uint16_t *)code_ptr + 1) = -7551;
   *((uint32_t *)code_ptr + 1) = 0xFFF00000;
   *((uint16_t *)code_ptr + 4) = 0xFA81;
-  *(uint32_t *)(code_ptr + 10) = 0xBFC00000;
+  *(uint32_t *)(code_ptr + 10) = PSX_BIOS_UNCACHED_BASE;
   code_ptr[14] = 116;
   code_ptr[15] = 11;
   code_ptr[16] = 37;
@@ -2659,9 +2659,9 @@ uint8_t *dynarec_init()
   *((uint16_t *)code_ptr + 1) = 32653;
   code_ptr[4] = -5;
   *(uint16_t *)(code_ptr + 5) = -7551;
-  *(uint32_t *)(code_ptr + 7) = 0x1FC00000;
+  *(uint32_t *)(code_ptr + 7) = PSX_BIOS_BASE;
   *(uint16_t *)(code_ptr + 11) = 0xFA81;
-  *(uint32_t *)(code_ptr + 13) = 0x1F800000;
+  *(uint32_t *)(code_ptr + 13) = PSX_HW_BASE;
   code_ptr[17] = 116;
   code_ptr[18] = 21;
   *(uint16_t *)(code_ptr + 19) = -14197;
@@ -2699,9 +2699,9 @@ uint8_t *dynarec_init()
   *((uint16_t *)code_ptr + 1) = 32653;
   code_ptr[4] = -5;
   *(uint16_t *)(code_ptr + 5) = -7551;
-  *(uint32_t *)(code_ptr + 7) = 0x1FC00000;
+  *(uint32_t *)(code_ptr + 7) = PSX_BIOS_BASE;
   *(uint16_t *)(code_ptr + 11) = 0xFA81;
-  *(uint32_t *)(code_ptr + 13) = 0x1F800000;
+  *(uint32_t *)(code_ptr + 13) = PSX_HW_BASE;
   code_ptr[17] = 116;
   code_ptr[18] = 21;
   *(uint16_t *)(code_ptr + 19) = -14197;
@@ -2739,9 +2739,9 @@ uint8_t *dynarec_init()
   *((uint16_t *)code_ptr + 1) = 32653;
   code_ptr[4] = 0xFB;
   *(uint16_t *)(code_ptr + 5) = 0xE281;
-  *(uint32_t *)(code_ptr + 7) = 0x1FC00000;
+  *(uint32_t *)(code_ptr + 7) = PSX_BIOS_BASE;
   *(uint16_t *)(code_ptr + 11) = 0xFA81;
-  *(uint32_t *)(code_ptr + 13) = 0x1F800000;
+  *(uint32_t *)(code_ptr + 13) = PSX_HW_BASE;
   code_ptr[17] = 116;
   code_ptr[18] = 100;
   *(uint16_t *)(code_ptr + 19) = 3467;
@@ -2793,9 +2793,9 @@ uint8_t *dynarec_init()
   *((uint16_t *)code_ptr + 1) = 32653;
   code_ptr[4] = -5;
   *(uint16_t *)(code_ptr + 5) = -7551;
-  *(uint32_t *)(code_ptr + 7) = 0x1FC00000;
+  *(uint32_t *)(code_ptr + 7) = PSX_BIOS_BASE;
   *(uint16_t *)(code_ptr + 11) = 0xFA81;
-  *(uint32_t *)(code_ptr + 13) = 0x1F800000;
+  *(uint32_t *)(code_ptr + 13) = PSX_HW_BASE;
   code_ptr[17] = 116;
   code_ptr[18] = 101;
   *(uint16_t *)(code_ptr + 19) = 3467;
@@ -2848,9 +2848,9 @@ uint8_t *dynarec_init()
   *((uint16_t *)code_ptr + 1) = 32653;
   code_ptr[4] = -5;
   *(uint16_t *)(code_ptr + 5) = -7551;
-  *(uint32_t *)(code_ptr + 7) = 0x1FC00000;
+  *(uint32_t *)(code_ptr + 7) = PSX_BIOS_BASE;
   *(uint16_t *)(code_ptr + 11) = 0xFA81;
-  *(uint32_t *)(code_ptr + 13) = 0x1F800000;
+  *(uint32_t *)(code_ptr + 13) = PSX_HW_BASE;
   code_ptr[17] = 116;
   code_ptr[18] = 100;
   *(uint16_t *)(code_ptr + 19) = 3467;
@@ -2923,7 +2923,7 @@ int64_t dynarec_execute()
   code_ptr[5] = 0xBE;
   *(uint32_t *)(code_ptr + 6) = cpu_gpr;
   code_ptr[10] = 0xB8;
-  if ( (*(uint32_t *)reg_pc & 0xFFF00000) == 0xBFC00000 )
+  if ( (*(uint32_t *)reg_pc & 0xFFF00000) == PSX_BIOS_UNCACHED_BASE )
     offset = (*(uint32_t *)reg_pc & 0x7FFFF) + 0x200000;
   else
     offset = *(uint32_t *)reg_pc & 0x1FFFFF;
