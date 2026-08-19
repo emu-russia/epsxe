@@ -1,12 +1,12 @@
 ﻿#include "pch.h"
 char spu_load_plugin()
 {
-  char result;
+  char status;
   HMODULE LibraryA;
   CHAR LibFileName[1024];
 
   sprintf(LibFileName, "%s%s", "plugins\\", (const char *)SoundPlugin);
-  result = sound_enabled;
+  status = sound_enabled;
   spu_need_to_be_closed = 0;
   if ( sound_enabled )
   {
@@ -94,7 +94,7 @@ char spu_load_plugin()
     SPUinit();
     dbg_print(" * Spu open... \n");
     SPUopen(hOutputWnd);
-    result = (char)SPUregisterCallback;
+    status = (char)SPUregisterCallback;
     if ( SPUregisterCallback )
       return SPUregisterCallback(irq_spu_registered_callback);
   }
@@ -102,20 +102,20 @@ char spu_load_plugin()
   {
     spu_use_external_plugin = 0;
   }
-  return result;
+  return status;
 }
 
 char spu_destroy()
 {
-  char result;
+  char status;
 
-  result = sound_enabled;
+  status = sound_enabled;
   if ( sound_enabled )
   {
-    result = spu_need_to_be_closed;
+    status = spu_need_to_be_closed;
     if ( spu_need_to_be_closed )
     {
-      result = (char)hSpuModule;
+      status = (char)hSpuModule;
       if ( hSpuModule )
       {
         dbg_print(" * Closing spu ... \n");
@@ -124,109 +124,109 @@ char spu_destroy()
           SPUclose();
           spu_plugin_closed_flag = 1;
         }
-        result = SPUshutdown();
+        status = SPUshutdown();
         hSpuModule = nullptr;
       }
     }
   }
-  return result;
+  return status;
 }
 
 char spu_close()
 {
-  char result;
+  char status;
 
-  result = sound_enabled;
+  status = sound_enabled;
   if ( sound_enabled )
   {
-    result = spu_need_to_be_closed;
+    status = spu_need_to_be_closed;
     if ( spu_need_to_be_closed )
     {
-      result = (char)hSpuModule;
+      status = (char)hSpuModule;
       if ( hSpuModule )
       {
-        result = SPUclose();
+        status = SPUclose();
         spu_plugin_closed_flag = 1;
       }
     }
   }
-  return result;
+  return status;
 }
 
 char spu_open()
 {
-  char result;
+  char status;
 
-  result = sound_enabled;
+  status = sound_enabled;
   if ( sound_enabled )
   {
-    result = spu_need_to_be_closed;
+    status = spu_need_to_be_closed;
     if ( spu_need_to_be_closed )
     {
-      result = (char)hSpuModule;
+      status = (char)hSpuModule;
       if ( hSpuModule )
       {
-        result = SPUopen(hOutputWnd);
+        status = SPUopen(hOutputWnd);
         spu_plugin_closed_flag = 0;
       }
     }
   }
-  return result;
+  return status;
 }
 
 void spu_dma()
 {
-  unsigned int v0;
-  int v1;
-  int v2;
-  int v3;
-  int v4;
-  uint16_t *j;
-  int v6;
-  uint16_t *k;
-  int v8;
-  int v9;
-  uint16_t v10;
+  unsigned int dma_addr;
+  int count;
+  int size;
+  int src;
+  int write_halfwords;
+  uint16_t *src16;
+  int put_halfwords;
+  uint16_t *mem16;
+  int word_count;
+  int read_halfwords;
+  uint16_t data;
   int i;
-  uint16_t v12;
+  uint16_t sample;
 
-  v0 = spu_dma_mem_addr;
-  v1 = HIWORD(spu_dma_block_size_count);
-  v2 = (uint16_t)spu_dma_block_size_count;
-  v3 = mem_dma_read(spu_dma_mem_addr);
+  dma_addr = spu_dma_mem_addr;
+  count = HIWORD(spu_dma_block_size_count);
+  size = (uint16_t)spu_dma_block_size_count;
+  src = mem_dma_read(spu_dma_mem_addr);
   if ( sound_enabled )
   {
     if ( *(uint32_t *)spu_dma_chcr_ptr == 0x1000200 )
     {
-      v8 = v1 * v2;
+      word_count = count * size;
       if ( spu_use_external_plugin == 1 )
       {
         if ( SPUreadDMAMem )
         {
-          SPUreadDMAMem(v3, 2 * v8);
+          SPUreadDMAMem(src, 2 * word_count);
         }
-        else if ( 2 * v8 )
+        else if ( 2 * word_count )
         {
-          v9 = 2 * v8;
+          read_halfwords = 2 * word_count;
           do
           {
-            v10 = SPUreadDMA();
-            mem_hw_reg_write_half(v0, v10);
-            v0 += 2;
-            --v9;
+            data = SPUreadDMA();
+            mem_hw_reg_write_half(dma_addr, data);
+            dma_addr += 2;
+            --read_halfwords;
           }
-          while ( v9 );
+          while ( read_halfwords );
         }
-        if ( dynarec_enabled == 1 && v8 )
-          dynarec_invalidate_range(spu_dma_mem_addr, v8);
+        if ( dynarec_enabled == 1 && word_count )
+          dynarec_invalidate_range(spu_dma_mem_addr, word_count);
       }
       else
       {
-        for ( i = 2 * v8; i; spu_transfer_addr += 2 )
+        for ( i = 2 * word_count; i; spu_transfer_addr += 2 )
         {
-          v12 = SPUgetOne(spu_transfer_addr);
-          mem_hw_reg_write_half(v0, v12);
-          v0 += 2;
+          sample = SPUgetOne(spu_transfer_addr);
+          mem_hw_reg_write_half(dma_addr, sample);
+          dma_addr += 2;
           --i;
         }
       }
@@ -237,22 +237,22 @@ void spu_dma()
       {
         if ( SPUwriteDMAMem )
         {
-          SPUwriteDMAMem(v3, 2 * v1 * v2);
+          SPUwriteDMAMem(src, 2 * count * size);
         }
         else
         {
-          v4 = 2 * v1 * v2;
-          for ( j = (uint16_t *)mem_dma_read(v0); v4; --v4 )
-            SPUwriteDMA(*j++);
+          write_halfwords = 2 * count * size;
+          for ( src16 = (uint16_t *)mem_dma_read(dma_addr); write_halfwords; --write_halfwords )
+            SPUwriteDMA(*src16++);
         }
       }
       else
       {
-        v6 = 2 * v1 * v2;
-        for ( k = (uint16_t *)mem_dma_read(v0); v6; spu_transfer_addr += 2 )
+        put_halfwords = 2 * count * size;
+        for ( mem16 = (uint16_t *)mem_dma_read(dma_addr); put_halfwords; spu_transfer_addr += 2 )
         {
-          SPUputOne(spu_transfer_addr, *k++);
-          --v6;
+          SPUputOne(spu_transfer_addr, *mem16++);
+          --put_halfwords;
         }
       }
     }
@@ -261,23 +261,23 @@ void spu_dma()
       ui_error(
         "DMA[4] mode NOT implemented (%08x)\n addr (%08x) num (%04x) size (%04x)\n",
         *(uint32_t *)spu_dma_chcr_ptr,
-        v0,
-        v1,
-        v2);
+        dma_addr,
+        count,
+        size);
     }
   }
 }
 
-char spu_write_register(unsigned int a1, int16_t a2)
+char spu_write_register(unsigned int reg, int16_t value)
 {
-  char result;
+  char status;
 
   if ( spu_use_external_plugin == 1 )
-    return SPUwriteRegister(a1, (uint16_t)a2);
-  result = a1;
-  if ( a1 > 0x1F801CC6 )
+    return SPUwriteRegister(reg, (uint16_t)value);
+  status = reg;
+  if ( reg > 0x1F801CC6 )
   {
-    switch ( a1 )
+    switch ( reg )
     {
       case 0x1F801CD0u:
       case 0x1F801CE0u:
@@ -292,7 +292,7 @@ char spu_write_register(unsigned int a1, int16_t a2)
       case 0x1F801D70u:
 LABEL_7:
         if ( sound_enabled )
-          result = SPUsetVolumeL((a1 >> 4) & 0x1F, (uint16_t)a2);
+          status = SPUsetVolumeL((reg >> 4) & 0x1F, (uint16_t)value);
         break;
       case 0x1F801CD2u:
       case 0x1F801CE2u:
@@ -307,7 +307,7 @@ LABEL_7:
       case 0x1F801D72u:
 LABEL_9:
         if ( sound_enabled )
-          result = SPUsetVolumeR((a1 >> 4) & 0x1F, (uint16_t)a2);
+          status = SPUsetVolumeR((reg >> 4) & 0x1F, (uint16_t)value);
         break;
       case 0x1F801CD4u:
       case 0x1F801CE4u:
@@ -322,7 +322,7 @@ LABEL_9:
       case 0x1F801D74u:
 LABEL_11:
         if ( sound_enabled )
-          result = SPUsetPitch((a1 >> 4) & 0x1F, (uint16_t)a2);
+          status = SPUsetPitch((reg >> 4) & 0x1F, (uint16_t)value);
         break;
       case 0x1F801CD6u:
       case 0x1F801CE6u:
@@ -337,48 +337,48 @@ LABEL_11:
       case 0x1F801D76u:
         goto LABEL_13;
       case 0x1F801D88u:
-        result = sound_enabled;
+        status = sound_enabled;
         if ( sound_enabled )
-          result = SPUstartChannels1((uint16_t)a2);
+          status = SPUstartChannels1((uint16_t)value);
         break;
       case 0x1F801D8Au:
-        result = sound_enabled;
+        status = sound_enabled;
         if ( sound_enabled )
-          result = SPUstartChannels2((uint16_t)a2);
+          status = SPUstartChannels2((uint16_t)value);
         break;
       case 0x1F801D8Cu:
-        result = sound_enabled;
+        status = sound_enabled;
         if ( sound_enabled )
-          result = SPUstopChannels1((uint16_t)a2);
+          status = SPUstopChannels1((uint16_t)value);
         break;
       case 0x1F801D8Eu:
-        result = sound_enabled;
+        status = sound_enabled;
         if ( sound_enabled )
-          result = SPUstopChannels2((uint16_t)a2);
+          status = SPUstopChannels2((uint16_t)value);
         break;
       case 0x1F801DA6u:
-        spu_transfer_addr = 8 * (uint16_t)a2;
+        spu_transfer_addr = 8 * (uint16_t)value;
         break;
       case 0x1F801DA8u:
-        result = sound_enabled;
+        status = sound_enabled;
         if ( sound_enabled )
         {
-          result = SPUputOne(spu_transfer_addr, (uint16_t)a2);
+          status = SPUputOne(spu_transfer_addr, (uint16_t)value);
           spu_transfer_addr += 2;
         }
         break;
       default:
 LABEL_26:
-        *(int16_t *)((char *)spu_register_cache + (a1 & 0x1FF)) = a2;
-        result = a1;
+        *(int16_t *)((char *)spu_register_cache + (reg & 0x1FF)) = value;
+        status = reg;
         break;
     }
   }
   else
   {
-    if ( a1 != 0x1F801CC6 )
+    if ( reg != 0x1F801CC6 )
     {
-      switch ( a1 )
+      switch ( reg )
       {
         case 0x1F801C00u:
         case 0x1F801C10u:
@@ -441,73 +441,73 @@ LABEL_26:
     }
 LABEL_13:
     if ( sound_enabled )
-      return SPUsetAddr((a1 >> 4) & 0x1F, (uint16_t)a2);
+      return SPUsetAddr((reg >> 4) & 0x1F, (uint16_t)value);
   }
-  return result;
+  return status;
 }
 
-int16_t spu_read_register(unsigned int a1)
+int16_t spu_read_register(unsigned int reg)
 {
-  int v1;
+  int value;
 
-  if ( !unknown_cd_setting || (a1 & 0xF) != 0xC )
+  if ( !unknown_cd_setting || (reg & 0xF) != 0xC )
   {
     if ( spu_use_external_plugin == 1 )
     {
-      LOWORD(v1) = SPUreadRegister(a1);
-      return v1;
+      LOWORD(value) = SPUreadRegister(reg);
+      return value;
     }
-    if ( a1 > 0x1F801DA8 )
+    if ( reg > 0x1F801DA8 )
     {
-      if ( a1 != 0x1F801DAE )
+      if ( reg != 0x1F801DAE )
         goto LABEL_15;
     }
     else
     {
-      if ( a1 != 0x1F801DA8 )
+      if ( reg != 0x1F801DA8 )
       {
-        if ( a1 == 0x1F801C0C )
+        if ( reg == 0x1F801C0C )
         {
-          LOWORD(v1) = hw_update_counter;
-          return v1;
+          LOWORD(value) = hw_update_counter;
+          return value;
         }
-        if ( a1 == 0x1F801DA6 )
+        if ( reg == 0x1F801DA6 )
           return (unsigned int)spu_transfer_addr >> 3;
 LABEL_15:
-        LOWORD(v1) = *(int16_t *)((char *)spu_register_cache + (a1 & 0x1FF));
-        return v1;
+        LOWORD(value) = *(int16_t *)((char *)spu_register_cache + (reg & 0x1FF));
+        return value;
       }
       if ( sound_enabled )
       {
-        LOWORD(v1) = SPUgetOne(spu_transfer_addr);
+        LOWORD(value) = SPUgetOne(spu_transfer_addr);
         spu_transfer_addr += 2;
-        return v1;
+        return value;
       }
     }
-    LOWORD(v1) = 0;
-    return v1;
+    LOWORD(value) = 0;
+    return value;
   }
-  LOWORD(v1) = rand() & 1;
-  return v1;
+  LOWORD(value) = rand() & 1;
+  return value;
 }
 
-char spu_play_adpcm(int a1)
+char spu_play_adpcm(int hdr)
 {
-  int v1;
+  int status;
 
-  LOBYTE(v1) = sound_enabled;
+  LOBYTE(status) = sound_enabled;
   if ( sound_enabled )
   {
-    LOBYTE(v1) = sound_use_xa;
+    LOBYTE(status) = sound_use_xa;
     if ( sound_use_xa )
     {
-      v1 = xa_decode_wrapper(spu_xa_decode_buf_ptr, a1, spu_adpcm_flag);
-      if ( !v1 && (spu_xa_samples_left || (LOBYTE(v1) = spu_use_external_plugin) == 0) )
-        LOBYTE(v1) = SPUplayADPCMchannel(spu_xa_decode_buf_ptr);
+      status = xa_decode_wrapper(spu_xa_decode_buf_ptr, hdr, spu_adpcm_flag);
+      if ( !status && (spu_xa_samples_left || (LOBYTE(status) = spu_use_external_plugin) == 0) )
+        LOBYTE(status) = SPUplayADPCMchannel(spu_xa_decode_buf_ptr);
       spu_adpcm_flag = 0;
     }
   }
-  return v1;
+  return status;
 }
 
 void spu_set_adpcm_flag()
@@ -517,47 +517,45 @@ void spu_set_adpcm_flag()
 
 int (*spu_update())(void)
 {
-  int (*result)(void);
+  int (*fn)(void);
 
-  result = (int (*)(void))SPUupdate;
+  fn = (int (*)(void))SPUupdate;
   if ( SPUupdate )
     return SPUupdate();
-  return result;
+  return fn;
 }
 
-int (* spu_async_update(int a1))(void)
+int (* spu_async_update(int cycles))(void)
 {
-  int (*result)(void);
+  int (*fn)(void);
 
   if ( SPUasync )
-    return SPUasync(a1);
-  result = (int (*)(void))SPUupdate;
+    return SPUasync(cycles);
+  fn = (int (*)(void))SPUupdate;
   if ( SPUupdate )
     return SPUupdate();
-  return result;
+  return fn;
 }
 
-void spu_freeze(const char *a1, int a2)
+void spu_freeze(const char *id, int gzfile)
 {
-  size_t v2;
-  uint8_t *v3;
+  size_t write_size;
+  uint8_t *buf;
   char Buffer[3];
-  int v5;
   size_t Size;
 
-  sprintf(Buffer, "%s", a1);
-  v5 = 0;
-  gzwrite(a2, (uint8_t *)Buffer, 7u);
+  sprintf(Buffer, "%s", id);
+  gzwrite(gzfile, (uint8_t *)Buffer, 7u);
   if ( SPUfreeze )
   {
     SPUfreeze(2, Buffer);
-    v2 = Size;
+    write_size = Size;
     if ( Size )
     {
-      v3 = (uint8_t *)malloc(Size);
-      SPUfreeze(1, v3);
-      gzwrite(a2, v3, v2);
-      free(v3);
+      buf = (uint8_t *)malloc(Size);
+      SPUfreeze(1, buf);
+      gzwrite(gzfile, buf, write_size);
+      free(buf);
     }
   }
   else
@@ -566,30 +564,30 @@ void spu_freeze(const char *a1, int a2)
   }
 }
 
-void spu_unfreeze(int a1, uint32_t *a2)
+void spu_unfreeze(int unused, uint32_t *gzfile)
 {
-  size_t v2;
-  void *v3;
-  char v4[4];
-  int v5;
-  int v6;
+  size_t size;
+  void *buf;
+  char header[4];
+  int field1;
+  int field2;
   size_t Size;
 
-  gzread(a2, v4, 7);
+  gzread(gzfile, header, 7);
   if ( SPUfreeze )
   {
-    gzread(a2, v4, 16);
-    v2 = Size;
+    gzread(gzfile, header, 16);
+    size = Size;
     if ( Size )
     {
-      v3 = malloc(Size);
-      *(uint32_t *)v3 = *(uint32_t *)v4;
-      *((uint32_t *)v3 + 1) = v5;
-      *((uint32_t *)v3 + 2) = v6;
-      *((uint32_t *)v3 + 3) = Size;
-      gzread(a2, (char *)v3 + 16, v2 - 16);
-      SPUfreeze(0, v3);
-      free(v3);
+      buf = malloc(Size);
+      *(uint32_t *)buf = *(uint32_t *)header;
+      *((uint32_t *)buf + 1) = field1;
+      *((uint32_t *)buf + 2) = field2;
+      *((uint32_t *)buf + 3) = Size;
+      gzread(gzfile, (char *)buf + 16, size - 16);
+      SPUfreeze(0, buf);
+      free(buf);
     }
   }
   else

@@ -574,9 +574,9 @@ extern uint64_t qword_44F960;
 
 /* Function prototypes (previously generated in src/_gen) */
 int gte_clear_regs();
-int gte_freeze(const char *a1, int a2);
-int gte_read_data_register(uint8_t a1);
+int gte_freeze(const char *filename, int gz_file);
+int gte_read_data_register(uint8_t index);
 int gte_rtps();
 int gte_rtpt();
-int gte_unfreeze(int a1, uint32_t *a2);
-GTE_REG gte_write_data_register(uint8_t a1, GTE_REG a2);
+int gte_unfreeze(int unused, uint32_t *gz_file);
+GTE_REG gte_write_data_register(uint8_t index, GTE_REG value);

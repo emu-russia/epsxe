@@ -1,26 +1,26 @@
 ﻿#include "pch.h"
 int net_load_plugin()
 {
-  int result;
-  HMODULE LibraryA;
-  CHAR LibFileName[1024];
+  int enabled;
+  HMODULE hModule;
+  CHAR path[1024];
 
-  sprintf(LibFileName, "%s%s", "plugins\\", (const char *)NetPlugin);
+  sprintf(path, "%s%s", "plugins\\", (const char *)NetPlugin);
   if ( !strcmp((const char *)NetPlugin, "DISABLED") )
   {
-    result = network_enabled;
+    enabled = network_enabled;
     if ( !network_enabled )
-      return result;
+      return enabled;
   }
   else
   {
     network_enabled = 1;
   }
-  LibraryA = LoadLibraryA(LibFileName);
-  hNetModule = LibraryA;
-  if ( !LibraryA )
-    fatal_error_with_message_box(" * Error loading [%s] \n", LibFileName);
-  NETinit = GetProcAddress(LibraryA, "NETinit");
+  hModule = LoadLibraryA(path);
+  hNetModule = hModule;
+  if ( !hModule )
+    fatal_error_with_message_box(" * Error loading [%s] \n", path);
+  NETinit = GetProcAddress(hModule, "NETinit");
   if ( !NETinit )
     ui_error(" * GetProcAddress error NETinit\n");
   NETshutdown = (int (__stdcall *)(void))GetProcAddress(hNetModule, "NETshutdown");
@@ -57,33 +57,33 @@ int net_load_plugin()
 
 int net_open()
 {
-  int result;
+  int status;
 
-  result = network_enabled;
+  status = network_enabled;
   if ( network_enabled )
   {
     dbg_print(" * Netplugin open... ");
     NETopen(hOutputWnd);
-    result = dbg_print(" ok \n");
+    status = dbg_print(" ok \n");
     net_closed_flag = 0;
   }
-  return result;
+  return status;
 }
 
 char net_netplay_handler()
 {
-  char result;
-  FILE *v1;
-  FILE *v2;
-  signed int v3;
-  void *v4;
-  char *v5;
-  char *v6;
-  char *v7;
-  char *v8;
-  char Buffer[1024];
+  char enabled;
+  FILE *fp;
+  FILE *fp2;
+  signed int size;
+  void *data;
+  char *memcard1;
+  char *memcard1_data;
+  char *memcard2;
+  char *memcard2_data;
+  char buffer[1024];
 
-  result = network_enabled;
+  enabled = network_enabled;
   if ( network_enabled )
   {
     netplay_player_count = NETqueryPlayer();
@@ -99,49 +99,49 @@ char net_netplay_handler()
     {
       if ( !strncmp("SPUCORE", (const char *)SoundPlugin, 7u) )
       {
-        sprintf(Buffer, "SPUCORE140");
-        if ( (uint8_t)NETcompareData(Buffer, 10) )
+        sprintf(buffer, "SPUCORE140");
+        if ( (uint8_t)NETcompareData(buffer, 10) )
           fatal_error_with_message_box(" * NETPLAY: Error spu plugin is different in every site. \n");
       }
       else
       {
-        sprintf(Buffer, "%s%s", "plugins\\", (const char *)SoundPlugin);
-        v1 = fopen(Buffer, "rb");
-        v2 = v1;
-        if ( v1 )
+        sprintf(buffer, "%s%s", "plugins\\", (const char *)SoundPlugin);
+        fp = fopen(buffer, "rb");
+        fp2 = fp;
+        if ( fp )
         {
-          fseek(v1, 0, 2);
-          v3 = ftell(v2);
-          if ( v3 <= 0 )
+          fseek(fp, 0, 2);
+          size = ftell(fp2);
+          if ( size <= 0 )
             fatal_error_with_message_box(" * NETPLAY: Error reading spu plugin \n");
-          fseek(v2, 0, 0);
-          v4 = malloc(v3);
-          fread(v4, 1u, v3, v2);
-          fclose(v2);
-          if ( (uint8_t)NETcompareData(v4, v3) )
+          fseek(fp2, 0, 0);
+          data = malloc(size);
+          fread(data, 1u, size, fp2);
+          fclose(fp2);
+          if ( (uint8_t)NETcompareData(data, size) )
           {
-            free(v4);
+            free(data);
             fatal_error_with_message_box(" * NETPLAY: Error spu plugin is different in every site. \n");
           }
-          free(v4);
+          free(data);
         }
       }
     }
     if ( (uint8_t)NETcompareData(bios_image, 0x80000) )
       fatal_error_with_message_box(" * NETPLAY: Error psx bios is different in every site. \n");
-    v5 = sio_for_netplay(1u);
-    if ( (uint8_t)NETcompareData(v5, 0x20000) )
+    memcard1 = sio_for_netplay(1u);
+    if ( (uint8_t)NETcompareData(memcard1, 0x20000) )
     {
-      v6 = sio_for_netplay(1u);
-      NETtransferData("Transfer Memcard 1", v6, 0x20000);
+      memcard1_data = sio_for_netplay(1u);
+      NETtransferData("Transfer Memcard 1", memcard1_data, 0x20000);
       if ( netplay_player_count == 2 )
         save_temp_memcard1();
     }
-    v7 = sio_for_netplay(2u);
-    if ( (uint8_t)NETcompareData(v7, 0x20000) )
+    memcard2 = sio_for_netplay(2u);
+    if ( (uint8_t)NETcompareData(memcard2, 0x20000) )
     {
-      v8 = sio_for_netplay(2u);
-      NETtransferData("Transfer Memcard 2", v8, 0x20000);
+      memcard2_data = sio_for_netplay(2u);
+      NETtransferData("Transfer Memcard 2", memcard2_data, 0x20000);
       if ( netplay_player_count == 2 )
         save_temp_memcard2();
     }
@@ -168,17 +168,17 @@ char net_netplay_handler()
     mdec_disable = (uint8_t)netplay_config_mdec_disable;
     return netplay_config_xa_read_enable;
   }
-  return result;
+  return enabled;
 }
 
 HMODULE net_close()
 {
-  HMODULE result;
+  HMODULE module;
 
-  result = (HMODULE)network_enabled;
+  module = (HMODULE)network_enabled;
   if ( network_enabled )
   {
-    result = hNetModule;
+    module = hNetModule;
     if ( hNetModule )
     {
       if ( !net_closed_flag )
@@ -191,42 +191,42 @@ HMODULE net_close()
       return NETshutdown();
     }
   }
-  return result;
+  return module;
 }
 
 HMODULE net_pause()
 {
-  HMODULE result;
+  HMODULE module;
 
-  result = (HMODULE)network_enabled;
+  module = (HMODULE)network_enabled;
   if ( network_enabled )
   {
-    result = hNetModule;
+    module = hNetModule;
     if ( hNetModule )
       return NETpause();
   }
-  return result;
+  return module;
 }
 
 HMODULE net_resume()
 {
-  HMODULE result;
+  HMODULE module;
 
-  result = (HMODULE)network_enabled;
+  module = (HMODULE)network_enabled;
   if ( network_enabled )
   {
-    result = hNetModule;
+    module = hNetModule;
     if ( hNetModule )
       return (HMODULE)NETresume(hOutputWnd);
   }
-  return result;
+  return module;
 }
 
 int net_fill_input()
 {
-  int result;
+  int status;
 
-  result = 0;
+  status = 0;
   if ( network_enabled )
   {
     HIWORD(netplay_pad1_state) = pad1_buttons_low;
@@ -273,7 +273,7 @@ int net_fill_input()
       return 0;
     }
   }
-  return result;
+  return status;
 }
 
 

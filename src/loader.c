@@ -1,17 +1,17 @@
 #include "pch.h"
-static char loader_mini_cheat_find(int a1, int a2)
+static char loader_mini_cheat_find(int id, int attr)
 {
-  uint8_t v2;
-  int v3;
+  uint8_t count;
+  int index;
 
-  v2 = 0;
+  count = 0;
   if ( mini_cheat_count <= 0 )
     return 0;
-  v3 = 0;
-  while ( a1 != mini_cheat_id_array[2 * v3] || a2 != *(uint32_t *)((unsigned char *)&mini_cheat_db + 24 * v3 + 20) )
+  index = 0;
+  while ( id != mini_cheat_id_array[2 * index] || attr != *(uint32_t *)((unsigned char *)&mini_cheat_db + 24 * index + 20) )
   {
-    v3 = ++v2;
-    if ( v2 >= mini_cheat_count )
+    index = ++count;
+    if ( count >= mini_cheat_count )
       return 0;
   }
   return 1;
@@ -19,128 +19,124 @@ static char loader_mini_cheat_find(int a1, int a2)
 
 FILE *loader_load_cheats()
 {
-  FILE *v0;
-  FILE *v1;
-  int v2;
-  FILE *result;
-  FILE *v4;
-  int v5;
+  FILE *db_fp;
+  int db_index;
+  FILE *conf_fp;
+  int conf_index;
 
-  v0 = fopen("cheats\\database.dat", "rb");
-  v1 = v0;
-  if ( v0 )
+  db_fp = fopen("cheats\\database.dat", "rb");
+  if ( db_fp )
   {
-    if ( !feof(v0) )
+    if ( !feof(db_fp) )
     {
-      v2 = mini_cheat_count;
+      db_index = mini_cheat_count;
       do
       {
-        if ( v2 >= 200 )
+        if ( db_index >= 200 )
           break;
-        fread((void *)(24 * v2 + 4520368), 1u, 0x18u, v1);
-        v2 = mini_cheat_count;
+        fread((void *)(24 * db_index + 4520368), 1u, 0x18u, db_fp);
+        db_index = mini_cheat_count;
         if ( !loader_mini_cheat_find(
                 *(uint32_t *)((unsigned char *)&mini_cheat_db + 24 * mini_cheat_count + 16),
                 *(uint32_t *)((unsigned char *)&mini_cheat_db + 24 * mini_cheat_count + 20)) )
-          mini_cheat_count = ++v2;
+          mini_cheat_count = ++db_index;
       }
-      while ( !feof(v1) );
+      while ( !feof(db_fp) );
     }
-    fclose(v1);
+    fclose(db_fp);
   }
-  result = fopen("cheats\\dataconf.dat", "rb");
-  v4 = result;
-  if ( result )
+  conf_fp = fopen("cheats\\dataconf.dat", "rb");
+  if ( conf_fp )
   {
-    if ( !feof(result) )
+    if ( !feof(conf_fp) )
     {
-      v5 = cheat_entries_count;
+      conf_index = cheat_entries_count;
       do
       {
-        if ( v5 >= 200 )
+        if ( conf_index >= 200 )
           break;
-        fread(&cheat_db[v5], 1u, 81u, v4);
-        v5 = ++cheat_entries_count;
+        fread(&cheat_db[conf_index], 1u, 81u, conf_fp);
+        conf_index = ++cheat_entries_count;
       }
-      while ( !feof(v4) );
+      while ( !feof(conf_fp) );
     }
-    return (FILE *)fclose(v4);
+    return (FILE *)fclose(conf_fp);
   }
-  return result;
+  return conf_fp;
 }
 
-static char loader_mini_cheat_find_by_id(int a1, int a2)
+static char loader_mini_cheat_find_by_id(int id, int attr)
 {
-  uint8_t v2;
-  uint8_t v4;
+  uint8_t count;
+  uint8_t index;
 
-  v2 = 0;
-  v4 = 0;
+  count = 0;
+  index = 0;
   if ( !active_mini_cheat_count )
     return 0;
-  while ( a1 != mini_cheat_id_array[2 * v4] || a2 != *(uint32_t *)((unsigned char *)&mini_cheat_db + 24 * v4 + 20) )
+  while ( id != mini_cheat_id_array[2 * index] || attr != *(uint32_t *)((unsigned char *)&mini_cheat_db + 24 * index + 20) )
   {
-    v4 = ++v2;
-    if ( v2 >= (uint8_t)active_mini_cheat_count )
+    index = ++count;
+    if ( count >= (uint8_t)active_mini_cheat_count )
       return 0;
   }
   return 1;
 }
 
-static char loader_apply_mini_cheats(const char *a1)
+static char loader_apply_mini_cheats(const char *gameid)
 {
-  char result;
-  int *v2;
-  int v3;
-  int v4;
-  int v5;
-  char v6;
-  bool v7;
-  const char *v8;
-  int v9;
+  char ret;
+  int *entry;
+  int attr;
+  int id;
+  int index;
+  char new_count;
+  bool done;
+  const char *entry_ptr;
+  int count;
 
-  result = noauto;
+  ret = noauto;
   if ( !noauto )
   {
-    result = mini_cheat_count;
+    ret = mini_cheat_count;
     if ( mini_cheat_count )
     {
-      v2 = (int *)((unsigned char *)&mini_cheat_db + 20);
-      v8 = (const char *)&mini_cheat_db + 20;
-      v9 = mini_cheat_count;
+      entry = (int *)((unsigned char *)&mini_cheat_db + 20);
+      entry_ptr = (const char *)&mini_cheat_db + 20;
+      count = mini_cheat_count;
       do
       {
-        if ( !strcmp(a1, (const char *)v2 - 20) && (uint8_t)active_mini_cheat_count < 0x10u )
+        if ( !strcmp(gameid, (const char *)entry - 20) && (uint8_t)active_mini_cheat_count < 0x10u )
         {
-          v3 = *v2;
-          v4 = *(v2 - 1);
-          v5 = 2 * (uint8_t)active_mini_cheat_count;
-          mini_cheat_attr_array[v5] = v3;
-          mini_cheat_id_array[v5] = v4;
-          if ( !loader_mini_cheat_find_by_id(v4, v3) )
+          attr = *entry;
+          id = *(entry - 1);
+          index = 2 * (uint8_t)active_mini_cheat_count;
+          mini_cheat_attr_array[index] = attr;
+          mini_cheat_id_array[index] = id;
+          if ( !loader_mini_cheat_find_by_id(id, attr) )
           {
-            v6 = active_mini_cheat_count + 1;
-            mini_cheat_attr_array[v5] = v3;
-            mini_cheat_id_array[v5] = v4;
-            active_mini_cheat_count = v6;
+            new_count = active_mini_cheat_count + 1;
+            mini_cheat_attr_array[index] = attr;
+            mini_cheat_id_array[index] = id;
+            active_mini_cheat_count = new_count;
           }
-          v2 = (int *)v8;
+          entry = (int *)entry_ptr;
         }
-        v2 += 6;
-        result = v9 - 1;
-        v7 = v9 == 1;
-        v8 = (const char *)v2;
-        --v9;
+        entry += 6;
+        ret = count - 1;
+        done = count == 1;
+        entry_ptr = (const char *)entry;
+        --count;
       }
-      while ( !v7 );
+      while ( !done );
     }
   }
-  return result;
+  return ret;
 }
 
-static char loader_parse_cheat_entry(const char *a1, char *Buffer)
+static char loader_parse_cheat_entry(const char *gameid, char *Buffer)
 {
-  int v2;
+  int index;
   CHEAT_DB_ENTRY *i;
   int8_t mdec_timing;
   int8_t timing_value;
@@ -149,305 +145,294 @@ static char loader_parse_cheat_entry(const char *a1, char *Buffer)
 
   if ( noauto )
     return 0;
-  v2 = 0;
+  index = 0;
   if ( !cheat_entries_count )
     return 0;
-  for ( i = cheat_db; strcmp(a1, i->gameid); ++i )
+  for ( i = cheat_db; strcmp(gameid, i->gameid); ++i )
   {
-    if ( ++v2 >= cheat_entries_count )
+    if ( ++index >= cheat_entries_count )
       return 0;
   }
-  mdec_timing = cheat_db[v2].mdectiming;
+  mdec_timing = cheat_db[index].mdectiming;
   if ( mdec_timing != -1 )
     mdectiming = mdec_timing;
-  timing_value = cheat_db[v2].timing_value;
+  timing_value = cheat_db[index].timing_value;
   if ( timing_value != -1 )
     unknown_timing_value = timing_value;
-  if ( cheat_db[v2].forcespu != 0xFF )
-    forcespu = cheat_db[v2].forcespu;
-  force_pad = cheat_db[v2].forcepad;
+  if ( cheat_db[index].forcespu != 0xFF )
+    forcespu = cheat_db[index].forcespu;
+  force_pad = cheat_db[index].forcepad;
   if ( force_pad != -1 )
     forcepad = force_pad;
-  if ( cheat_db[v2].cpu_overclock != 0xFF )
-    cpu_overclock_setting = cheat_db[v2].cpu_overclock;
-  if ( cheat_db[v2].parasite_eve_cheat != 0xFF )
-    parasite_eve_cheat = cheat_db[v2].parasite_eve_cheat;
-  if ( cheat_db[v2].cd_increment != 0xFF )
-    cd_inc = cheat_db[v2].cd_increment;
-  if ( cheat_db[v2].cd_setting != 0xFF )
-    unknown_cd_setting = cheat_db[v2].cd_setting;
-  if ( cheat_db[v2].nocdstatus != 0xFF )
-    nocdstatus = cheat_db[v2].nocdstatus;
-  if ( cheat_db[v2].cd_extra != 0xFF )
-    cd_extra_setting = cheat_db[v2].cd_extra;
-  text = cheat_db[v2].text;
+  if ( cheat_db[index].cpu_overclock != 0xFF )
+    cpu_overclock_setting = cheat_db[index].cpu_overclock;
+  if ( cheat_db[index].parasite_eve_cheat != 0xFF )
+    parasite_eve_cheat = cheat_db[index].parasite_eve_cheat;
+  if ( cheat_db[index].cd_increment != 0xFF )
+    cd_inc = cheat_db[index].cd_increment;
+  if ( cheat_db[index].cd_setting != 0xFF )
+    unknown_cd_setting = cheat_db[index].cd_setting;
+  if ( cheat_db[index].nocdstatus != 0xFF )
+    nocdstatus = cheat_db[index].nocdstatus;
+  if ( cheat_db[index].cd_extra != 0xFF )
+    cd_extra_setting = cheat_db[index].cd_extra;
+  text = cheat_db[index].text;
   if ( !strcmp("NULL", text) )
     return 0;
   sprintf(Buffer, "%s", text);
   return 1;
 }
 
-int loader_set_bios_name(const char *a1)
+int loader_set_bios_name(const char *name)
 {
-  return sprintf((char *const)bios_name, "%s", a1);
+  return sprintf((char *const)bios_name, "%s", name);
 }
 
-int loader_set_filename(const char *a1)
+int loader_set_filename(const char *name)
 {
-  return sprintf(FileName, "%s", a1);
+  return sprintf(FileName, "%s", name);
 }
 
 void loader_load_bios()
 {
-  FILE *v0;
-  FILE *v1;
+  FILE *fp;
   char Buffer[256];
 
   sprintf(Buffer, "%s", (const char *)bios_name);
-  v0 = fopen(Buffer, "rb");
-  v1 = v0;
-  if ( !v0 )
+  fp = fopen(Buffer, "rb");
+  if ( !fp )
     fatal_error_with_message_box(" * !Error: PSX BIOS not found [%s]. \n", (const char *)bios_name);
-  fread(bios_image, 1u, 0x80000u, v0);
-  fclose(v1);
+  fread(bios_image, 1u, 0x80000u, fp);
+  fclose(fp);
   dbg_print_no_flush(" * ePSXe: PSX BIOS loaded [%s]. \n", (const char *)bios_name);
 }
 
 int loader_check_bios_file_exists()
 {
-  FILE *v0;
+  FILE *fp;
   char Buffer[256];
 
   sprintf(Buffer, "%s", (const char *)bios_name);
-  v0 = fopen(Buffer, "rb");
-  if ( !v0 )
+  fp = fopen(Buffer, "rb");
+  if ( !fp )
     return -1;
-  fclose(v0);
+  fclose(fp);
   return 0;
 }
 
-static void loader_check_demo_header(FILE *Stream, int a2)
+static void loader_check_demo_header(FILE *Stream, int load_size)
 {
-  int v2;
+  int real_size;
 
   fseek(Stream, 0, 2);
-  v2 = ftell(Stream) - 2048;
-  if ( a2 != v2 )
-    dump_log((FILE *)console_log_handle, " ePSXe: (Demo bugged header) Real: %x Load: %x \n", v2, a2);
+  real_size = ftell(Stream) - 2048;
+  if ( load_size != real_size )
+    dump_log((FILE *)console_log_handle, " ePSXe: (Demo bugged header) Real: %x Load: %x \n", real_size, load_size);
 }
 
 int loader_load_demo(char *FileName)
 {
-  FILE *v1;
-  FILE *v2;
-  char Str2[16];
-  int v5;
-  int v6;
-  int v7;
-  size_t ElementCount;
+  FILE *fp;
+  char exe_header[16];
+  int initial_pc;
+  int initial_gp;
+  int load_addr;
+  size_t file_size;
 
-  v1 = fopen(FileName, "rb");
-  v2 = v1;
-  if ( !v1 )
+  fp = fopen(FileName, "rb");
+  if ( !fp )
     fatal_error_with_message_box(" * ePSXe: DEMO not found [%s]. \n", FileName);
-  fread(Str2, 1u, 0x4Cu, v1);
-  if ( strncmp("PS-X EXE", Str2, 8u) )
+  fread(exe_header, 1u, 0x4Cu, fp);
+  if ( strncmp("PS-X EXE", exe_header, 8u) )
     fatal_error_with_message_box(" * ePSXe: [%s] is not a EXE file. \n", FileName);
-  loader_check_demo_header(v2, (int)ElementCount);
-  fseek(v2, 2048, 0);
-  fread((char *)ram + (v7 & 0x1FFFFF), 1u, ElementCount, v2);
+  loader_check_demo_header(fp, (int)file_size);
+  fseek(fp, 2048, 0);
+  fread((char *)ram + (load_addr & 0x1FFFFF), 1u, file_size, fp);
   cpu_gpr[29] = 0x801FFF00;
   cpu_gpr[30] = 0x801FFF00;
-  cpu_gpr[28] = v6;
+  cpu_gpr[28] = initial_gp;
   cpu_gpr[31] = 0;
-  *(uint32_t *)reg_pc = v5;
-  return fclose(v2);
+  *(uint32_t *)reg_pc = initial_pc;
+  return fclose(fp);
 }
 
-static int loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, const char *a4, int a5)
+static int loader_pll_parse_section(int base, unsigned int *offset, unsigned int size, const char *out_name, int out_addr)
 {
-  unsigned int v5;
-  int v6;
-  int v7;
-  unsigned int v8;
-  unsigned int v9;
-  unsigned int v10;
-  unsigned int v12;
-  unsigned int v13;
+  unsigned int scan_off;
+  int data_cmp;
+  int section_off;
+  unsigned int skip_off;
+  unsigned int name_end;
+  unsigned int skip_off2;
+  unsigned int skip_off3;
+  unsigned int skip_off4;
 
-  if ( strncmp((const char *)(a1 + *a2), "DATA", 4u) )
+  if ( strncmp((const char *)(base + *offset), "DATA", 4u) )
   {
     do
     {
-      if ( !strncmp((const char *)(a1 + *a2), "LOAD", 4u) )
+      if ( !strncmp((const char *)(base + *offset), "LOAD", 4u) )
         break;
-      if ( *a2 >= a3 )
+      if ( *offset >= size )
         return 0;
-      v5 = *a2 + 1;
-      *a2 = v5;
+      scan_off = *offset + 1;
+      *offset = scan_off;
     }
-    while ( strncmp((const char *)(a1 + v5), "DATA", 4u) );
+    while ( strncmp((const char *)(base + scan_off), "DATA", 4u) );
   }
-  if ( *a2 >= a3 )
+  if ( *offset >= size )
     return 0;
-  v6 = strncmp((const char *)(a1 + *a2), "DATA", 4u);
-  v7 = *a2;
-  if ( !v6 )
+  data_cmp = strncmp((const char *)(base + *offset), "DATA", 4u);
+  section_off = *offset;
+  if ( !data_cmp )
   {
-    *a2 = v7 + 5;
-    if ( *(uint8_t *)(v7 + 5 + a1) == 32 )
+    *offset = section_off + 5;
+    if ( *(uint8_t *)(section_off + 5 + base) == 32 )
     {
       do
       {
-        v8 = *a2 + 1;
-        *a2 = v8;
+        skip_off = *offset + 1;
+        *offset = skip_off;
       }
-      while ( *(uint8_t *)(v8 + a1) == 32 );
+      while ( *(uint8_t *)(skip_off + base) == 32 );
     }
-    sscanf((const char *const)(a1 + *a2), "%s ", (char *)a4);
-    v9 = (unsigned int)strlen(a4) + *a2;
-    *a2 = v9;
-    if ( *(uint8_t *)(v9 + a1) == 32 )
+    sscanf((const char *const)(base + *offset), "%s ", (char *)out_name);
+    name_end = (unsigned int)strlen(out_name) + *offset;
+    *offset = name_end;
+    if ( *(uint8_t *)(name_end + base) == 32 )
     {
       do
       {
-        v10 = *a2 + 1;
-        *a2 = v10;
+        skip_off2 = *offset + 1;
+        *offset = skip_off2;
       }
-      while ( *(uint8_t *)(v10 + a1) == 32 );
+      while ( *(uint8_t *)(skip_off2 + base) == 32 );
     }
-    sscanf((const char *const)(a1 + *a2), "%x", (unsigned int *)a5);
+    sscanf((const char *const)(base + *offset), "%x", (unsigned int *)out_addr);
     return 1;
   }
-  if ( strncmp((const char *)(a1 + v7), "LOAD", 4u) )
+  if ( strncmp((const char *)(base + section_off), "LOAD", 4u) )
     return 0;
-  v12 = *a2 + 5;
-  *a2 = v12;
-  if ( *(uint8_t *)(v12 + a1) == 32 )
+  skip_off3 = *offset + 5;
+  *offset = skip_off3;
+  if ( *(uint8_t *)(skip_off3 + base) == 32 )
   {
     do
     {
-      v13 = *a2 + 1;
-      *a2 = v13;
+      skip_off4 = *offset + 1;
+      *offset = skip_off4;
     }
-    while ( *(uint8_t *)(v13 + a1) == 32 );
+    while ( *(uint8_t *)(skip_off4 + base) == 32 );
   }
-  sscanf((const char *const)(a1 + *a2), "%s\n", (char *)a4);
-  *a2 += (unsigned int)strlen(a4);
+  sscanf((const char *const)(base + *offset), "%s\n", (char *)out_name);
+  *offset += (unsigned int)strlen(out_name);
   return 2;
 }
 
-static size_t loader_pll_get_file_size(const char *a1)
+static size_t loader_pll_get_file_size(const char *name)
 {
-  size_t result;
-  unsigned int v2;
-  const char *v3;
-  size_t v4;
+  size_t default_size;
+  unsigned int index;
+  const char *entry_name;
+  size_t size;
 
-  result = 0x100000;
-  v2 = 0;
-  v4 = 0x100000;
+  default_size = 0x100000;
+  index = 0;
+  size = 0x100000;
   if ( zip_num_entries_loaded )
   {
-    v3 = zip_entry_names;
+    entry_name = zip_entry_names;
     do
     {
-      if ( !strcmp(v3, a1) )
-        v4 = Size[v2];
-      ++v2;
-      v3 += 256;
+      if ( !strcmp(entry_name, name) )
+        size = Size[index];
+      ++index;
+      entry_name += 256;
     }
-    while ( v2 < zip_num_entries_loaded );
-    return v4;
+    while ( index < zip_num_entries_loaded );
+    return size;
   }
-  return result;
+  return default_size;
 }
 
-static void loader_load_file(char *a1, size_t Size)
+static void loader_load_file(char *name, size_t Size)
 {
-  char v2;
-  int v3;
+  char section;
+  int section_idx;
   size_t file_size;
-  char *v5;
-  char *v6;
-  size_t v7;
-  char *Str2;
-  LPVOID lpMem;
-  int v10;
-  int v11;
-  unsigned int v12;
-  int v13;
+  size_t load_size;
+  char *exe_data;
+  LPVOID pll_data;
+  int load_addr;
+  int pll_size;
+  unsigned int offset;
+  int extracted_size;
   char ArgList[256];
 
-  lpMem = malloc(Size);
-  v12 = 0;
-  if ( zip_extract_file(FileName, a1, &lpMem, (size_t *)&v11) )
+  pll_data = malloc(Size);
+  offset = 0;
+  if ( zip_extract_file(FileName, name, &pll_data, (size_t *)&pll_size) )
     fatal_error_with_message_box(" * EPSX: error loading .pll file.");
-  v2 = loader_pll_parse_section((int)lpMem, &v12, v11, ArgList, (int)&v10);
-  if ( v2 )
+  section = loader_pll_parse_section((int)pll_data, &offset, pll_size, ArgList, (int)&load_addr);
+  if ( section )
   {
     while ( 1 )
     {
-      v3 = v2 - 1;
-      if ( !v3 )
+      section_idx = section - 1;
+      if ( !section_idx )
         break;
-      if ( v3 == 1 )
+      if ( section_idx == 1 )
       {
         file_size = loader_pll_get_file_size(ArgList);
-        Str2 = (char *)malloc(file_size);
-        if ( zip_extract_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
+        exe_data = (char *)malloc(file_size);
+        if ( zip_extract_file(FileName, ArgList, (LPVOID *)&exe_data, (size_t *)&extracted_size) )
           fatal_error_with_message_box(" * EPSX: error loading .exe file in pll/zip.");
-        v5 = Str2;
-        if ( strncmp("PS-X EXE", Str2, 8u) )
+        if ( strncmp("PS-X EXE", exe_data, 8u) )
           fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", ArgList);
-        v6 = Str2;
-        qmemcpy((char *)ram + (*((uint32_t *)v5 + 6) & 0x1FFFFF), Str2 + 2048, *((uint32_t *)v5 + 7));
-        cpu_gpr[28] = *((uint32_t *)v5 + 5);
+        qmemcpy((char *)ram + (*((uint32_t *)exe_data + 6) & 0x1FFFFF), exe_data + 2048, *((uint32_t *)exe_data + 7));
+        cpu_gpr[28] = *((uint32_t *)exe_data + 5);
         cpu_gpr[29] = 0x801FFF00;
         cpu_gpr[30] = 0x801FFF00;
         cpu_gpr[31] = 0;
-        *(uint32_t *)reg_pc = *((uint32_t *)v5 + 4);
+        *(uint32_t *)reg_pc = *((uint32_t *)exe_data + 4);
 LABEL_14:
-        free(v6);
+        free(exe_data);
       }
-      v2 = loader_pll_parse_section((int)lpMem, &v12, v11, ArgList, (int)&v10);
-      if ( !v2 )
+      section = loader_pll_parse_section((int)pll_data, &offset, pll_size, ArgList, (int)&load_addr);
+      if ( !section )
         goto LABEL_16;
     }
-    v7 = loader_pll_get_file_size(ArgList);
-    Str2 = (char *)malloc(v7);
-    if ( zip_extract_file(FileName, ArgList, (LPVOID *)&Str2, (size_t *)&v13) )
+    load_size = loader_pll_get_file_size(ArgList);
+    exe_data = (char *)malloc(load_size);
+    if ( zip_extract_file(FileName, ArgList, (LPVOID *)&exe_data, (size_t *)&extracted_size) )
       fatal_error_with_message_box(" * EPSX: error loading %s.", ArgList);
-    v6 = Str2;
-    qmemcpy((char *)ram + (v10 & 0x1FFFFF), Str2, v13);
+    qmemcpy((char *)ram + (load_addr & 0x1FFFFF), exe_data, extracted_size);
     goto LABEL_14;
   }
 LABEL_16:
-  free(lpMem);
+  free(pll_data);
 }
 
 void loader_load_zip()
 {
-  char *v0;
-  void *v1;
-  char *v2;
-  char *v3;
-  uint8_t v4;
-  int v5;
-  const char *v6;
-  char *Str2;
-  int v8;
+  char *ext;
+  void *scratch;
+  uint8_t count;
+  int index;
+  const char *entry_name;
+  char *exe_data;
+  int tmp;
 
-  v0 = &FileName[-3];
-  if ( !strncmp(&FileName[strlen(FileName) - 3], "zip", 3u) || !strncmp(&v0[strlen(FileName)], "ZIP", 3u) )
+  ext = &FileName[-3];
+  if ( !strncmp(&FileName[strlen(FileName) - 3], "zip", 3u) || !strncmp(&ext[strlen(FileName)], "ZIP", 3u) )
   {
-    if ( !strncmp(&v0[strlen(FileName)], "zip", 3u) || !strncmp(&v0[strlen(FileName)], "ZIP", 3u) )
+    if ( !strncmp(&ext[strlen(FileName)], "zip", 3u) || !strncmp(&ext[strlen(FileName)], "ZIP", 3u) )
     {
-      v1 = malloc(0x2000u);
-      memset(v1, 0, 0x2000u);
+      scratch = malloc(0x2000u);
+      memset(scratch, 0, 0x2000u);
       if ( zip_load_file(FileName) )
         fatal_error_with_message_box(" * EPSX: error loading .zip file.");
-      free(v1);
+      free(scratch);
       if ( !zip_num_entries_loaded )
         fatal_error_with_message_box(" * EPSX: error loading .zip file.");
       if ( zip_num_entries_loaded == 1 )
@@ -457,41 +442,39 @@ void loader_load_zip()
         {
           fatal_error_with_message_box("* EPSX: DEMO not found [%s]. \n", zip_entry_names);
         }
-        Str2 = (char *)malloc(Size[0]);
-        if ( zip_extract_file(FileName, zip_entry_names, (LPVOID *)&Str2, (size_t *)&v8) )
+        exe_data = (char *)malloc(Size[0]);
+        if ( zip_extract_file(FileName, zip_entry_names, (LPVOID *)&exe_data, (size_t *)&tmp) )
           fatal_error_with_message_box(" * EPSX: error loading .zip file.");
-        v2 = Str2;
-        if ( strncmp("PS-X EXE", Str2, 8u) )
+        if ( strncmp("PS-X EXE", exe_data, 8u) )
           fatal_error_with_message_box(" * EPSX: [%s] is not a EXE file. \n", zip_entry_names);
-        v3 = Str2;
-        qmemcpy((char *)ram + (*((uint32_t *)v2 + 6) & 0x1FFFFF), Str2 + 2048, *((uint32_t *)v2 + 7));
-        cpu_gpr[28] = *((uint32_t *)v2 + 5);
+        qmemcpy((char *)ram + (*((uint32_t *)exe_data + 6) & 0x1FFFFF), exe_data + 2048, *((uint32_t *)exe_data + 7));
+        cpu_gpr[28] = *((uint32_t *)exe_data + 5);
         cpu_gpr[29] = 0x801FFF00;
         cpu_gpr[30] = 0x801FFF00;
         cpu_gpr[31] = 0;
-        *(uint32_t *)reg_pc = *((uint32_t *)v2 + 4);
-        free(v3);
+        *(uint32_t *)reg_pc = *((uint32_t *)exe_data + 4);
+        free(exe_data);
       }
       else
       {
-        v4 = 0;
-        LOBYTE(Str2) = -1;
+        count = 0;
+        LOBYTE(exe_data) = -1;
         if ( zip_num_entries_loaded <= 0 )
           goto LABEL_26;
-        v5 = 0;
+        index = 0;
         do
         {
-          v6 = &zip_entry_names[256 * v5];
-          if ( !strncmp(&v6[strlen(v6) - 3], "pll", 3u) || !strncmp(&v6[strlen(v6) - 3], "PLL", 3u) )
-            LOBYTE(Str2) = v4;
-          LOBYTE(v8) = ++v4;
-          v5 = v4;
+          entry_name = &zip_entry_names[256 * index];
+          if ( !strncmp(&entry_name[strlen(entry_name) - 3], "pll", 3u) || !strncmp(&entry_name[strlen(entry_name) - 3], "PLL", 3u) )
+            LOBYTE(exe_data) = count;
+          LOBYTE(tmp) = ++count;
+          index = count;
         }
-        while ( v4 < zip_num_entries_loaded );
-        if ( (uint8_t)Str2 == 0xFF )
+        while ( count < zip_num_entries_loaded );
+        if ( (uint8_t)exe_data == 0xFF )
 LABEL_26:
           fatal_error_with_message_box("* EPSX: DEMO .pll not found. \n");
-        loader_load_file(&zip_entry_names[256 * (uint8_t)Str2], Size[(uint8_t)Str2]);
+        loader_load_file(&zip_entry_names[256 * (uint8_t)exe_data], Size[(uint8_t)exe_data]);
       }
     }
   }
@@ -503,32 +486,32 @@ LABEL_26:
 
 int loader_touch_demo_file()
 {
-  FILE *v0;
+  FILE *fp;
 
   if ( !strncmp(FileName, "NULL", 4u) )
     return 0;
-  v0 = fopen(FileName, "rb");
-  if ( !v0 )
+  fp = fopen(FileName, "rb");
+  if ( !fp )
     fatal_error_with_message_box(" * EPSX: DEMO not found [%s]. \n", FileName);
-  fclose(v0);
+  fclose(fp);
   return 1;
 }
 
 int loader_cdrom_detect_region()
 {
-  int result;
+  int ret;
   unsigned int i;
-  const char *v2;
+  const char *msg;
   char Buffer[1024];
 
   if ( loaded_file_type != 3 && loaded_file_type != 1 )
   {
     sprintf(Buffer, "DEMO_999.99");
-    result = sprintf(default_filename, "%s", Buffer);
+    ret = sprintf(default_filename, "%s", Buffer);
     video_scanlines = 262;
     cpu_speed_scale = 2154;
     country_setting = 0;
-    return result;
+    return ret;
   }
   cdfs_load_executable(Buffer);
   if ( Buffer[strlen(Buffer) - 2] == ';' )
@@ -540,7 +523,7 @@ int loader_cdrom_detect_region()
   loader_apply_mini_cheats(default_filename);
   if ( country_setting == 1 )
   {
-    v2 = " * Force PAL cdrom detected. \n";
+    msg = " * Force PAL cdrom detected. \n";
   }
   else
   {
@@ -558,48 +541,44 @@ int loader_cdrom_detect_region()
       return dbg_print(" * NTSC cdrom detected. \n");
     }
     country_setting = 1;
-    v2 = " * PAL cdrom detected. \n";
+    msg = " * PAL cdrom detected. \n";
   }
   video_scanlines = 312;
   cpu_speed_scale = old_timing != 0 ? 1923 : 2171;
-  return dbg_print(v2);
+  return dbg_print(msg);
 }
 
 FILE * loader_load_cheat_file(char *FileName)
 {
-  FILE *result;
-  FILE *v2;
-  int v3;
-  int v4;
-  int v5;
-  int v6;
+  FILE *fp;
+  int id;
+  int attr;
+  int index;
   char Buffer[1024];
 
   active_mini_cheat_count = 0;
-  result = fopen(FileName, "r");
-  v2 = result;
-  if ( result )
+  fp = fopen(FileName, "r");
+  if ( fp )
   {
-    if ( !feof(result) )
+    if ( !feof(fp) )
     {
       do
       {
         sprintf(Buffer, " ");
-        fgets(Buffer, 1024, v2);
-        if ( Buffer[0] != '#' && sscanf(Buffer, "%x %x", &v6, &v5) == 2 )
+        fgets(Buffer, 1024, fp);
+        if ( Buffer[0] != '#' && sscanf(Buffer, "%x %x", &id, &attr) == 2 )
         {
-          v3 = v5;
-          v4 = 2 * (uint8_t)active_mini_cheat_count;
-          mini_cheat_id_array[v4] = v6;
-          mini_cheat_attr_array[v4] = v3;
+          index = 2 * (uint8_t)active_mini_cheat_count;
+          mini_cheat_id_array[index] = id;
+          mini_cheat_attr_array[index] = attr;
           ++active_mini_cheat_count;
         }
       }
-      while ( !feof(v2) );
+      while ( !feof(fp) );
     }
-    return (FILE *)fclose(v2);
+    return (FILE *)fclose(fp);
   }
-  return result;
+  return fp;
 }
 
 

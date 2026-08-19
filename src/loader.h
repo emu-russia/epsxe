@@ -28,6 +28,6 @@ FILE * loader_load_cheat_file(char *FileName);
 FILE *loader_load_cheats();
 int loader_load_demo(char *FileName);
 void loader_load_zip();
-int loader_set_bios_name(const char *a1);
-int loader_set_filename(const char *a1);
+int loader_set_bios_name(const char *name);
+int loader_set_filename(const char *name);
 int loader_touch_demo_file();

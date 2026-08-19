@@ -27,13 +27,13 @@ extern unsigned char track_seconds_table[1];
 extern unsigned char track_sectors_table[0x139];
 
 /* Function prototypes (previously generated in src/_gen) */
-char ext_CDR_get_first_last_track(uint8_t *a1, uint8_t *a2);
-uint8_t ext_CDR_lba_to_msf( uint8_t a1, uint8_t a2, uint8_t a3, uint8_t *a4, uint8_t *a5, uint8_t *a6);
-int ext_CDR_read(uint8_t a1, uint8_t a2, uint8_t a3, char *Buffer);
+char ext_CDR_get_first_last_track(uint8_t *first_track, uint8_t *last_track);
+uint8_t ext_CDR_lba_to_msf( uint8_t min, uint8_t sec, uint8_t frame, uint8_t *out_min, uint8_t *out_sec, uint8_t *out_frame);
+int ext_CDR_read(uint8_t min, uint8_t sec, uint8_t frame, char *Buffer);
 void ext_CDR_reset_state();
-char ext_CDR_track_to_msf(int16_t a1, uint8_t *a2, uint8_t *a3, uint8_t *a4);
-char ext_CDR_verify_subchannel_data(uint8_t a1, uint8_t a2, uint8_t a3, int a4);
-char ext_CDRplay(int a1, char a2);
+char ext_CDR_track_to_msf(int16_t track, uint8_t *min, uint8_t *sec, uint8_t *frame);
+char ext_CDR_verify_subchannel_data(uint8_t min, uint8_t sec, uint8_t frame, int buffer);
+char ext_CDRplay(int track_msf, char sec);
 char ext_CDRstop();
 int (*ext_cdrom_deinit())(void);
 char ext_cdrom_load_plugin();

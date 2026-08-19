@@ -44,11 +44,11 @@ extern uint64_t qword_455C78;
 /* Function prototypes (previously generated in src/_gen) */
 int mdec_decode();
 void mdec_dma_in_handler();
-int mdec_freeze(const char *a1, int a2);
-int mdec_freeze2(const char *a1, int a2);
-int mdec_handle_special_command(int a1);
+int mdec_freeze(const char *filename, int file);
+int mdec_freeze2(const char *filename, int file);
+int mdec_handle_special_command(int command);
 int mdec_init();
 char mdec_timer_handler();
-int mdec_unfreeze(int a1, uint32_t *a2);
-int mdec_unfreeze2(int a1, uint32_t *a2);
-int16_t mdec_write_command(unsigned int a1);
+int mdec_unfreeze(int unused, uint32_t *file);
+int mdec_unfreeze2(int unused, uint32_t *file);
+int16_t mdec_write_command(unsigned int command);

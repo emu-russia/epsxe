@@ -4,86 +4,86 @@
 static char cdr_read_data_sector();
 static int16_t cdr_init_report_mode();
 
-static int cdr_bcd_to_hex(uint8_t a1)
+static int cdr_bcd_to_hex(uint8_t bcd)
 {
-  return a1 % 10 + 16 * (a1 / 10);
+  return bcd % 10 + 16 * (bcd / 10);
 }
 
-static int cdr_hex_to_bcd(uint8_t a1)
+static int cdr_hex_to_bcd(uint8_t hex)
 {
-  return (a1 & 0xF) + 10 * (a1 >> 4);
+  return (hex & 0xF) + 10 * (hex >> 4);
 }
 
-char cdr_reg0_write(char a1)
+char cdr_reg0_write(char command)
 {
-  char result;
+  char status;
 
-  result = g_cdr_param_fifo_count;
+  status = g_cdr_param_fifo_count;
   if ( !g_cdr_param_fifo_count )
   {
-    result = a1 - 1;
-    if ( a1 == 1 )
+    status = command - 1;
+    if ( command == 1 )
     {
       g_cdr_irq_pending = 1;
     }
     else
     {
-      result = a1 - 2;
-      if ( a1 == 2 )
+      status = command - 2;
+      if ( command == 2 )
       {
         g_cdr_param_fifo_count = 1;
-        g_cdr_status_regs[64] = a1 & 1;
-        return result;
+        g_cdr_status_regs[64] = command & 1;
+        return status;
       }
     }
-    g_cdr_status_regs[64] = a1 & 1;
+    g_cdr_status_regs[64] = command & 1;
   }
-  return result;
+  return status;
 }
 
-void cdr_reg1_write(uint8_t a1)
+void cdr_reg1_write(uint8_t command)
 {
-  int v1;
-  char v2;
-  char v3;
-  uint8_t v4;
-  uint8_t v5;
-  uint8_t v6;
-  uint8_t v7;
-  int v8;
-  uint8_t v9;
-  int v10;
-  int v11;
-  int v12;
-  int v13;
+  int file_type;
+  char status;
+  char uninit;
+  uint8_t min;
+  uint8_t sec_bcd;
+  uint8_t sec_adj;
+  uint8_t min_hex;
+  int frame;
+  uint8_t track_bcd;
+  int sec;
+  int sec_hex;
+  int out2;
+  int out3;
 
-  v1 = loaded_file_type;
+  file_type = loaded_file_type;
   if ( loaded_file_type != 4 && !g_cdr_param_fifo_count )
   {
-    BYTE1(g_cdr_registers) = a1;
+    BYTE1(g_cdr_registers) = command;
     g_cdr_status_regs[61] = 0;
-    switch ( a1 )
+    switch ( command )
     {
       case 0u:
         goto LABEL_93;
       case 1u:
-        v2 = g_cdr_status_regs[68] == 0 ? 0 : 2;
-        g_cdr_status_regs[66] = v2;
+        status = g_cdr_status_regs[68] == 0 ? 0 : 2;
+        g_cdr_status_regs[66] = status;
         if ( g_cdr_status_regs[69] )
         {
-          v2 |= 0x10u;
-          g_cdr_status_regs[66] = v2;
+          status |= 0x10u;
+          g_cdr_status_regs[66] = status;
         }
         if ( g_cdr_status_regs[63] )
         {
           g_cdr_secondary_response_size = 3;
-          LOBYTE(g_cdr_secondary_response) = v2 | g_cdr_status_regs[67] | g_cdr_status_regs[70];
+          LOBYTE(g_cdr_secondary_response) = status | g_cdr_status_regs[67] | g_cdr_status_regs[70];
           g_cdr_secondary_response_index = 1;
         }
         else
         {
           g_cdr_status_regs[63] = 3;
-          LOBYTE(g_cdr_primary_response) = v2 | g_cdr_status_regs[67] | g_cdr_status_regs[70];
+          LOBYTE(g_cdr_primary_response) = status | g_cdr_status_regs[67] | g_cdr_status_regs[70];
 LABEL_8:
           g_cdr_status_regs[60] = 1;
         }
@@ -97,13 +97,13 @@ LABEL_8:
         BYTE1(g_cdr_cur_msf_pos) = cdr_hex_to_bcd(HIBYTE(g_cdr_param_fifo));
         BYTE2(g_cdr_cur_msf_pos) = cdr_hex_to_bcd(g_cdr_param_fifo_byte[0]);
         if ( !(uint16_t)g_cdr_cur_msf_pos )
-          BYTE1(g_cdr_cur_msf_pos) = v3;
+          BYTE1(g_cdr_cur_msf_pos) = uninit;
         sub_q_cur0 = 0;
         sub_q_cur1 = 0;
         sub_q_cur2 = 0;
         g_cdr_status_regs[62] = 0;
         g_cdr_status_regs[63] = 3;
-        LOBYTE(g_cdr_primary_response) = v3;
+        LOBYTE(g_cdr_primary_response) = uninit;
         g_cdr_status_regs[60] = 1;
         g_cdr_response_size = 0;
         g_cdr_response_index = 0;
@@ -113,26 +113,26 @@ LABEL_8:
       case 3u:
         if ( !g_cdr_status_regs[70] )
         {
-          v10 = (uint8_t)cdr_bcd_to_hex(BYTE1(g_cdr_cur_msf_pos));
-          v4 = cdr_bcd_to_hex(g_cdr_cur_msf_pos);
-          cdrom_lba_to_msf_cb(v4, v10, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &g_cdr_seek_target_frame);
-          v5 = BYTE1(g_cdr_cur_msf_pos);
+          sec = (uint8_t)cdr_bcd_to_hex(BYTE1(g_cdr_cur_msf_pos));
+          min = cdr_bcd_to_hex(g_cdr_cur_msf_pos);
+          cdrom_lba_to_msf_cb(min, sec, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &g_cdr_seek_target_frame);
+          sec_bcd = BYTE1(g_cdr_cur_msf_pos);
           if ( g_cdr_seek_target_msf == (uint16_t)g_cdr_cur_msf_pos )
           {
-            v6 = BYTE1(g_cdr_cur_msf_pos) + 2;
-            BYTE1(g_cdr_cur_msf_pos) = v6;
-            if ( v6 >= 0x3Cu )
+            sec_adj = BYTE1(g_cdr_cur_msf_pos) + 2;
+            BYTE1(g_cdr_cur_msf_pos) = sec_adj;
+            if ( sec_adj >= 0x3Cu )
             {
-              v6 -= 60;
-              BYTE1(g_cdr_cur_msf_pos) = v6;
+              sec_adj -= 60;
+              BYTE1(g_cdr_cur_msf_pos) = sec_adj;
               LOBYTE(g_cdr_cur_msf_pos) = g_cdr_cur_msf_pos + 1;
             }
-            v11 = (uint8_t)cdr_bcd_to_hex(v6);
-            v7 = cdr_bcd_to_hex(g_cdr_cur_msf_pos);
-            cdrom_lba_to_msf_cb(v7, v11, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &g_cdr_seek_target_frame);
-            v5 = BYTE1(g_cdr_cur_msf_pos);
+            sec_hex = (uint8_t)cdr_bcd_to_hex(sec_adj);
+            min_hex = cdr_bcd_to_hex(g_cdr_cur_msf_pos);
+            cdrom_lba_to_msf_cb(min_hex, sec_hex, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &g_cdr_seek_target_frame);
+            sec_bcd = BYTE1(g_cdr_cur_msf_pos);
           }
-          cdrom_play_cdda_cb((uint8_t)g_cdr_cur_msf_pos, v5, BYTE2(g_cdr_cur_msf_pos));
+          cdrom_play_cdda_cb((uint8_t)g_cdr_cur_msf_pos, sec_bcd, BYTE2(g_cdr_cur_msf_pos));
         }
         g_cdr_status_regs[68] = 1;
         g_cdr_status_regs[67] = 0;
@@ -309,11 +309,11 @@ LABEL_8:
         if ( g_cdr_read_ahead_sectors != g_cdr_delay_counter && g_cdr_status_regs[67] )
         {
           cdr_read_data_sector();
-          v1 = loaded_file_type;
+          file_type = loaded_file_type;
         }
         if ( !g_cdr_status_regs[62] )
         {
-          if ( v1 == 3 )
+          if ( file_type == 3 )
           {
             iso_verify_sub(
               g_cdr_cur_msf_pos,
@@ -335,11 +335,11 @@ LABEL_8:
           g_cdr_status_regs[62] = 3;
           goto LABEL_10;
         }
-        v8 = 0;
+        frame = 0;
         if ( g_cdr_status_regs[63] )
         {
-          LOBYTE(v8) = BYTE2(g_cdr_cur_msf_pos);
-          if ( v1 == 3 )
+          LOBYTE(frame) = BYTE2(g_cdr_cur_msf_pos);
+          if ( file_type == 3 )
           {
             iso_verify_sub(
               g_cdr_cur_msf_pos,
@@ -352,7 +352,7 @@ LABEL_8:
             cdrom_verify_sub_cb(
               (uint8_t)g_cdr_cur_msf_pos,
               BYTE1(g_cdr_cur_msf_pos),
-              v8,
+              frame,
               &g_cdr_secondary_response);
             BYTE1(g_cdr_secondary_response) = g_cdr_status_regs[70] != 0;
           }
@@ -361,8 +361,8 @@ LABEL_8:
         }
         else
         {
-          LOBYTE(v8) = BYTE1(g_cdr_cur_msf_pos);
-          if ( v1 == 3 )
+          LOBYTE(frame) = BYTE1(g_cdr_cur_msf_pos);
+          if ( file_type == 3 )
           {
             iso_verify_sub(
               g_cdr_cur_msf_pos,
@@ -374,7 +374,7 @@ LABEL_8:
           {
             cdrom_verify_sub_cb(
               (uint8_t)g_cdr_cur_msf_pos,
-              v8,
+              frame,
               BYTE2(g_cdr_cur_msf_pos),
               &g_cdr_primary_response);
             BYTE1(g_cdr_primary_response) = g_cdr_status_regs[70] != 0;
@@ -384,30 +384,30 @@ LABEL_8:
         }
         goto LABEL_9;
       case 0x13u:
-        cdrom_get_first_last_TN_cb(&a1, &v12);
+        cdrom_get_first_last_TN_cb(&command, &out2);
         if ( loaded_file_type == 3 )
         {
-          a1 = 1;
-          LOBYTE(v12) = 1;
+          command = 1;
+          LOBYTE(out2) = 1;
         }
         g_cdr_status_regs[66] = 2;
         g_cdr_status_regs[68] = 1;
         g_cdr_status_regs[63] = 3;
         LOBYTE(g_cdr_primary_response) = g_cdr_status_regs[67] | 2;
-        BYTE1(g_cdr_primary_response) = cdr_bcd_to_hex(a1);
-        BYTE2(g_cdr_primary_response) = cdr_bcd_to_hex(v12);
+        BYTE1(g_cdr_primary_response) = cdr_bcd_to_hex(command);
+        BYTE2(g_cdr_primary_response) = cdr_bcd_to_hex(out2);
         g_cdr_status_regs[60] = 3;
         goto LABEL_9;
       case 0x14u:
-        v9 = cdr_hex_to_bcd(g_cdr_param_fifo);
-        cdrom_track_to_msf(v9, &a1, &v12, &v13);
+        track_bcd = cdr_hex_to_bcd(g_cdr_param_fifo);
+        cdrom_track_to_msf(track_bcd, &command, &out2, &out3);
         g_cdr_status_regs[68] = 1;
         g_cdr_status_regs[66] = g_cdr_status_regs[67] | 2;
         g_cdr_status_regs[63] = 3;
         LOBYTE(g_cdr_primary_response) = g_cdr_status_regs[67] | 2;
-        BYTE1(g_cdr_primary_response) = cdr_bcd_to_hex(a1);
-        BYTE2(g_cdr_primary_response) = cdr_bcd_to_hex(v12);
-        HIBYTE(g_cdr_primary_response) = cdr_bcd_to_hex(v13);
+        BYTE1(g_cdr_primary_response) = cdr_bcd_to_hex(command);
+        BYTE2(g_cdr_primary_response) = cdr_bcd_to_hex(out2);
+        HIBYTE(g_cdr_primary_response) = cdr_bcd_to_hex(out3);
         g_cdr_status_regs[60] = 4;
         goto LABEL_9;
       case 0x15u:
@@ -526,7 +526,7 @@ LABEL_34:
         g_cdr_secondary_response_index = 1;
         goto LABEL_9;
       default:
-        if ( a1 > 0x1Du )
+        if ( command > 0x1Du )
           return;
 LABEL_93:
         g_cdr_status_regs[66] = 2;
@@ -539,52 +539,53 @@ LABEL_93:
   }
 }
 
-char cdr_reg2_write(char a1)
+char cdr_reg2_write(char command)
 {
-  char result;
+  char status;
 
-  result = g_cdr_param_fifo_count;
+  status = g_cdr_param_fifo_count;
   if ( !g_cdr_param_fifo_count )
   {
-    result = g_cdr_status_regs[64];
+    status = g_cdr_status_regs[64];
     if ( g_cdr_status_regs[64] == 2 )
     {
-      if ( a1 == 7 && g_cdr_status_regs[61] )
+      if ( command == 7 && g_cdr_status_regs[61] )
       {
         g_cdr_irq_pending = 1;
         g_cdr_status_regs[61] = 0;
         g_cdr_status_regs[64] = 0;
-        return result;
+        return status;
       }
-      goto LABEL_7;
+      g_cdr_irq_mode = command;
+      g_cdr_status_regs[64] = 0;
+      return status;
     }
     if ( g_cdr_status_regs[64] )
     {
-LABEL_7:
-      g_cdr_irq_mode = a1;
+      g_cdr_irq_mode = command;
       g_cdr_status_regs[64] = 0;
-      return result;
+      return status;
     }
-    result = g_cdr_status_regs[61];
-    *((uint8_t *)&g_cdr_param_fifo + (uint8_t)g_cdr_status_regs[61]++) = a1;
+    status = g_cdr_status_regs[61];
+    *((uint8_t *)&g_cdr_param_fifo + (uint8_t)g_cdr_status_regs[61]++) = command;
     g_cdr_status_regs[64] = 0;
   }
-  return result;
+  return status;
 }
 
-void cdr_reg3_write(char a1)
+void cdr_reg3_write(char command)
 {
   if ( g_cdr_param_fifo_count )
   {
-    if ( a1 == 32 )
+    if ( command == 32 )
       g_cdr_param_fifo_count = 0;
   }
   else
   {
     g_cdr_status_regs[65] |= 0x40u;
-    if ( g_cdr_status_regs[64] != 1 || (g_cdr_status_regs[64] = 2, a1 != 7) )
+    if ( g_cdr_status_regs[64] != 1 || (g_cdr_status_regs[64] = 2, command != 7) )
       g_cdr_status_regs[64] = 0;
-    if ( g_cdr_irq_pending && a1 == 7 )
+    if ( g_cdr_irq_pending && command == 7 )
     {
       if ( g_cdr_status_regs[62] == 1 && g_cdr_retry_count )
         --g_cdr_retry_count;
@@ -620,74 +621,74 @@ void cdr_reg3_write(char a1)
   }
 }
 
-int cdr_msf_to_lba(uint8_t a1, uint8_t a2, uint8_t a3)
+int cdr_msf_to_lba(uint8_t minute, uint8_t second, uint8_t frame)
 {
-  int v3;
-  int v4;
+  int seconds;
+  int minutes;
 
-  v3 = a2 - 2;
-  v4 = a1;
-  if ( v3 < 0 )
+  seconds = second - 2;
+  minutes = minute;
+  if ( seconds < 0 )
   {
-    v3 += 60;
-    v4 = a1 - 1;
+    seconds += 60;
+    minutes = minute - 1;
   }
-  return a3 + 75 * (v3 + 60 * v4);
+  return frame + 75 * (seconds + 60 * minutes);
 }
 
 static char cdr_read_data_sector()
 {
-  int16_t v0;
-  int v1;
+  int16_t msf;
+  int lba;
 
-  v0 = g_cdr_cur_msf_pos;
-  v1 = cdr_msf_to_lba(g_cdr_cur_msf_pos, BYTE1(g_cdr_cur_msf_pos), BYTE2(g_cdr_cur_msf_pos));
-  if ( g_cdr_last_lba_read != v1 )
+  msf = g_cdr_cur_msf_pos;
+  lba = cdr_msf_to_lba(g_cdr_cur_msf_pos, BYTE1(g_cdr_cur_msf_pos), BYTE2(g_cdr_cur_msf_pos));
+  if ( g_cdr_last_lba_read != lba )
   {
-    cdrom_read_data_cb((uint8_t)v0, HIBYTE(v0), BYTE2(g_cdr_cur_msf_pos), g_cdr_data_buffer);
+    cdrom_read_data_cb((uint8_t)msf, HIBYTE(msf), BYTE2(g_cdr_cur_msf_pos), g_cdr_data_buffer);
     g_cdr_last_lba_read = cdr_msf_to_lba(g_cdr_cur_msf_pos, BYTE1(g_cdr_cur_msf_pos), BYTE2(g_cdr_cur_msf_pos));
-    LOBYTE(v1) = g_cdr_status_regs[72];
+    LOBYTE(lba) = g_cdr_status_regs[72];
     g_cdr_data_bytes_transferred = (g_cdr_status_regs[72] & 0x20) != 0 ? 12 : 24;
     if ( (g_cdr_xa_buffer[2] & 0xF) == 4 )
     {
-      LOBYTE(v1) = g_cdr_status_regs[72] & 0x48;
+      LOBYTE(lba) = g_cdr_status_regs[72] & 0x48;
       if ( (g_cdr_status_regs[72] & 0x48) == 0x40
-        || (uint8_t)v1 == 72
+        || (uint8_t)lba == 72
         && g_cdr_xa_buffer[0] == (uint8_t)g_cdr_cur_track
-        && (LOBYTE(v1) = g_cdr_xa_buffer[1], g_cdr_xa_buffer[1] == HIBYTE(g_cdr_cur_track)) )
+        && (LOBYTE(lba) = g_cdr_xa_buffer[1], g_cdr_xa_buffer[1] == HIBYTE(g_cdr_cur_track)) )
       {
-        LOBYTE(v1) = spu_play_adpcm_cb(g_cdr_xa_buffer);
+        LOBYTE(lba) = spu_play_adpcm_cb(g_cdr_xa_buffer);
       }
     }
   }
-  return v1;
+  return lba;
 }
 
 static char cdr_increment_msf()
 {
-  char result;
-  bool v1;
+  char value;
+  bool carry;
 
-  result = ++BYTE2(g_cdr_cur_msf_pos);
+  value = ++BYTE2(g_cdr_cur_msf_pos);
   if ( BYTE2(g_cdr_cur_msf_pos) == 75 )
   {
-    result = BYTE1(g_cdr_cur_msf_pos) + 1;
-    v1 = BYTE1(g_cdr_cur_msf_pos)++ == 59;
+    value = BYTE1(g_cdr_cur_msf_pos) + 1;
+    carry = BYTE1(g_cdr_cur_msf_pos)++ == 59;
     *(uint16_t *)((char *)&g_cdr_cur_msf_pos + 1) = BYTE1(g_cdr_cur_msf_pos);
-    if ( v1 )
+    if ( carry )
     {
-      result = g_cdr_cur_msf_pos + 1;
+      value = g_cdr_cur_msf_pos + 1;
       LOBYTE(g_cdr_cur_msf_pos) = g_cdr_cur_msf_pos + 1;
       LOWORD(g_cdr_cur_msf_pos) = (uint8_t)g_cdr_cur_msf_pos;
     }
   }
-  return result;
+  return value;
 }
 
-static char cdr_set_nocd(char a1)
+static char cdr_set_nocd(char flag)
 {
-  LOBYTE(g_cdr_registers) = a1;
-  return a1;
+  LOBYTE(g_cdr_registers) = flag;
+  return flag;
 }
 
 char cdr_reset_controller()
@@ -755,57 +756,57 @@ static void cdr_queue_response()
 
 char cdr_process_delays()
 {
-  char result;
+  char status;
 
-  result = g_cdr_status_regs[62];
-  if ( !g_cdr_status_regs[62] && (g_cdr_status_regs[63] || (result = g_cdr_secondary_response_size) != 0) )
+  status = g_cdr_status_regs[62];
+  if ( !g_cdr_status_regs[62] && (g_cdr_status_regs[63] || (status = g_cdr_secondary_response_size) != 0) )
   {
-    result = ++g_cdr_response_delay_counter;
+    status = ++g_cdr_response_delay_counter;
     if ( (uint16_t)g_cdr_response_delay_counter >= (uint16_t)g_cdr_response_delay )
     {
       cdr_queue_response();
-      result = 10;
+      status = 10;
       g_cdr_response_delay_counter = 0;
       if ( (uint16_t)g_cdr_response_delay > 0xAu )
         g_cdr_response_delay = 10;
     }
   }
-  return result;
+  return status;
 }
 
 static int16_t cdr_init_report_mode()
 {
-  int16_t result;
+  int16_t region;
 
   g_cdr_irq_enabled = 1;
   g_cdr_tick_counter = 0;
   g_cdr_spindown_counter = 0;
   g_cdr_dma_active = 0;
   if ( country_setting == 1 )
-    LOBYTE(result) = g_cdr_status_regs[72] < 0 ? 104 : -48;
+    LOBYTE(region) = g_cdr_status_regs[72] < 0 ? 104 : -48;
   else
-    LOBYTE(result) = g_cdr_status_regs[72] < 0 ? 104 : -47;
-  g_cdr_region_code = result;
-  result = (uint8_t)result;
-  g_cdr_read_ahead_sectors = result;
-  g_cdr_delay_counter = (uint8_t)result;
+    LOBYTE(region) = g_cdr_status_regs[72] < 0 ? 104 : -47;
+  g_cdr_region_code = region;
+  region = (uint8_t)region;
+  g_cdr_read_ahead_sectors = region;
+  g_cdr_delay_counter = (uint8_t)region;
   if ( !g_cdr_status_regs[70] )
   {
-    result = 3 * (uint8_t)result;
-    g_cdr_delay_counter = result;
+    region = 3 * (uint8_t)region;
+    g_cdr_delay_counter = region;
   }
-  return result;
+  return region;
 }
 
 void cdr_play_tick()
 {
-  char v0;
+  char status;
 
   if ( g_cdr_status_regs[70] )
   {
     if ( (uint16_t)++g_cdr_tick_counter >= (uint16_t)g_cdr_delay_counter )
     {
-      v0 = g_cdr_status_regs[72];
+      status = g_cdr_status_regs[72];
       if ( (g_cdr_status_regs[72] & 4) == 4 )
       {
         if ( g_cdr_status_regs[62] )
@@ -841,10 +842,10 @@ void cdr_play_tick()
           g_cdr_response_index = 0;
           g_cdr_irq_pending = 1;
           irq_cdrom_assert_int();
-          v0 = g_cdr_status_regs[72];
+          status = g_cdr_status_regs[72];
         }
       }
-      if ( (v0 & 2) == 2
+      if ( (status & 2) == 2
         && g_cdr_seek_target_msf == (uint8_t)g_cdr_cur_msf_pos
         && g_cdr_seek_target_sf == *(uint16_t *)((char *)&g_cdr_cur_msf_pos + 1)
         && loaded_file_type != 3 )
@@ -913,35 +914,35 @@ void cdr_play_tick()
 
 unsigned int cdr_dma()
 {
-  int v0;
-  unsigned int result;
-  unsigned int v2;
-  unsigned int v3;
-  int v4;
+  int blocks;
+  unsigned int block_size;
+  unsigned int dma_addr;
+  unsigned int byte_count;
+  int data_offset;
 
-  v0 = HIWORD(g_cdr_dma_block_control);
-  result = (uint16_t)g_cdr_dma_block_control;
-  v2 = g_cdr_dma_address;
+  blocks = HIWORD(g_cdr_dma_block_control);
+  block_size = (uint16_t)g_cdr_dma_block_control;
+  dma_addr = g_cdr_dma_address;
   if ( (g_cdr_dma_channel_control & 0x11000000) == 0x11000000 )
   {
     if ( !HIWORD(g_cdr_dma_block_control) )
-      v0 = 1;
+      blocks = 1;
     if ( !(uint16_t)g_cdr_dma_block_control )
-      result = 512;
-    v3 = 4 * v0 * result;
-    v4 = g_cdr_data_bytes_transferred;
-    result = v3 + g_cdr_data_bytes_transferred;
-    g_cdr_data_bytes_transferred += v3;
+      block_size = 512;
+    byte_count = 4 * blocks * block_size;
+    data_offset = g_cdr_data_bytes_transferred;
+    block_size = byte_count + g_cdr_data_bytes_transferred;
+    g_cdr_data_bytes_transferred += byte_count;
     if ( dynarec_enabled == 1 )
-      result = dynarec_invalidate_range(g_cdr_dma_address, v3 >> 2);
-    if ( v3 + (v2 & 0x1FFFFF) <= 0x200000 )
+      block_size = dynarec_invalidate_range(g_cdr_dma_address, byte_count >> 2);
+    if ( byte_count + (dma_addr & 0x1FFFFF) <= 0x200000 )
     {
-      result = mem_dma_read(v2);
-      qmemcpy((void *)result, &g_cdr_data_buffer[v4], v3);
+      block_size = mem_dma_read(dma_addr);
+      qmemcpy((void *)block_size, &g_cdr_data_buffer[data_offset], byte_count);
     }
     g_cdr_dma_active = 1;
   }
-  return result;
+  return block_size;
 }
 
 void cdr_spinup_motor()
@@ -968,9 +969,9 @@ void cdr_spinup_motor()
 
 char cdr_update_motor_status()
 {
-  char result;
+  char motor_state;
 
-  result = g_cdr_status_regs[69];
+  motor_state = g_cdr_status_regs[69];
   if ( g_cdr_status_regs[69] == 1 )
   {
     g_cdr_status_regs[68] = 1;
@@ -981,28 +982,26 @@ char cdr_update_motor_status()
   {
     return --g_cdr_status_regs[69];
   }
-  return result;
+  return motor_state;
 }
 
-int cdr_freeze(const char *a1, int a2)
+int cdr_freeze(const char *tag, int gz_file)
 {
   char Buffer[3];
-  int v4;
 
-  sprintf(Buffer, "%s", a1);
-  v4 = 4396;
+  sprintf(Buffer, "%s", tag);
   g_cdr_idle_counter = g_cdr_response_delay_counter;
   g_cdr_spindown_counter = g_cdr_tick_counter;
-  gzwrite(a2, (uint8_t *)Buffer, 7u);
-  return gzwrite(a2, (uint8_t *)g_cdr_response_fifo, 0x112Cu);
+  gzwrite(gz_file, (uint8_t *)Buffer, 7u);
+  return gzwrite(gz_file, (uint8_t *)g_cdr_response_fifo, 0x112Cu);
 }
 
-int cdr_unfreeze_new(int a1, uint32_t *a2)
+int cdr_unfreeze_new(int unused, uint32_t *gz_file)
 {
-  char v3[16];
+  char hdr[16];
 
-  gzread(a2, v3, 7);
-  gzread(a2, g_cdr_response_fifo, 4396);
+  gzread(gz_file, hdr, 7);
+  gzread(gz_file, g_cdr_response_fifo, 4396);
   g_cdr_response_delay_counter = (uint8_t)g_cdr_idle_counter;
   if ( g_cdr_status_regs[70] )
     return cdrom_play_cdda_cb((uint8_t)g_cdr_cur_msf_pos, BYTE1(g_cdr_cur_msf_pos), BYTE2(g_cdr_cur_msf_pos));
@@ -1010,12 +1009,12 @@ int cdr_unfreeze_new(int a1, uint32_t *a2)
     return cdrom_stop_cb();
 }
 
-int cdr_unfreeze(int a1, uint32_t *a2)
+int cdr_unfreeze(int unused, uint32_t *gz_file)
 {
-  char v3[16];
+  char hdr[16];
 
-  gzread(a2, v3, 7);
-  gzread(a2, g_cdr_response_fifo, 4396);
+  gzread(gz_file, hdr, 7);
+  gzread(gz_file, g_cdr_response_fifo, 4396);
   g_cdr_read_ahead_sectors = (uint8_t)g_cdr_region_code;
   g_cdr_delay_counter = (uint8_t)g_cdr_region_code;
   g_cdr_response_delay_counter = (uint8_t)g_cdr_idle_counter;
@@ -1026,17 +1025,17 @@ int cdr_unfreeze(int a1, uint32_t *a2)
     return cdrom_stop_cb();
 }
 
-int cdr_get_status(int a1)
+int cdr_get_status(int status)
 {
-  int result;
+  int value;
 
-  result = a1;
-  g_cdr_status_regs[62] = a1;
+  value = status;
+  g_cdr_status_regs[62] = status;
   g_cdr_response_index = 0;
   g_cdr_response_size = 1;
-  if ( a1 == 1 )
+  if ( status == 1 )
     g_cdr_response_fifo[0] = 2;
-  return result;
+  return value;
 }
 
 

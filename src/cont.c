@@ -1,300 +1,287 @@
 #include "pch.h"
-uint8_t * cont_build_controller_response_digital(char a1, uint8_t *a2)
+uint8_t * cont_build_controller_response_digital(char port, uint8_t *response)
 {
-  uint8_t *result;
-
-  switch ( a1 )
+  switch ( port )
   {
     case 0:
-      *a2 = 0;
-      a2[1] = 65;
-      a2[2] = 90;
-      a2[3] = pad1_buttons_high;
-      a2[4] = pad1_buttons_low;
-      result = a2;
+      *response = 0;
+      response[1] = 65;
+      response[2] = 90;
+      response[3] = pad1_buttons_high;
+      response[4] = pad1_buttons_low;
       break;
     case 1:
-      *a2 = 0;
-      a2[1] = 65;
-      a2[2] = 90;
-      a2[3] = pad2_buttons_high;
-      a2[4] = pad2_buttons_low;
-      result = a2;
+      *response = 0;
+      response[1] = 65;
+      response[2] = 90;
+      response[3] = pad2_buttons_high;
+      response[4] = pad2_buttons_low;
       break;
     case 2:
-      *a2 = 0;
-      a2[1] = 65;
-      a2[2] = 90;
-      a2[3] = pad3_buttons_high;
-      a2[4] = pad3_buttons_low;
-      result = a2;
+      *response = 0;
+      response[1] = 65;
+      response[2] = 90;
+      response[3] = pad3_buttons_high;
+      response[4] = pad3_buttons_low;
       break;
     case 3:
-      *a2 = 0;
-      a2[1] = 65;
-      a2[2] = 90;
-      a2[3] = pad4_buttons_high;
-      a2[4] = pad4_buttons_low;
-      result = a2;
+      *response = 0;
+      response[1] = 65;
+      response[2] = 90;
+      response[3] = pad4_buttons_high;
+      response[4] = pad4_buttons_low;
       break;
     default:
-      *a2 = 0;
-      a2[1] = -1;
-      a2[2] = -1;
-      a2[3] = -1;
-      a2[4] = -1;
-      result = a2;
+      *response = 0;
+      response[1] = -1;
+      response[2] = -1;
+      response[3] = -1;
+      response[4] = -1;
       break;
   }
-  return result;
+  return response;
 }
 
-char cont_build_controller_response_analog(char a1, uint8_t *a2)
+char cont_build_controller_response_analog(char port, uint8_t *response)
 {
-  char result;
-  int16_t v3;
-  char v4;
-  int v5;
-  int v6;
+  char ret;
+  int16_t clamped_x;
+  char clamped_y;
+  int tripled_delta_x;
+  int tripled_delta_y;
 
-  switch ( a1 )
+  switch ( port )
   {
     case 0:
-      *a2 = 0;
-      a2[1] = 115;
-      a2[2] = 90;
-      a2[3] = pad1_buttons_high;
-      a2[4] = pad1_buttons_low;
-      a2[8] = 0x80;
-      a2[7] = 0x80;
-      a2[6] = 0x80;
-      a2[5] = 0x80;
+      *response = 0;
+      response[1] = 115;
+      response[2] = 90;
+      response[3] = pad1_buttons_high;
+      response[4] = pad1_buttons_low;
+      response[8] = 0x80;
+      response[7] = 0x80;
+      response[6] = 0x80;
+      response[5] = 0x80;
       if ( controller_port_modes[0] == 4 )
       {
-        a2[7] = LOBYTE(joystick_button_state1[0]) + 0x80;
-        a2[8] = LOBYTE(joystick_button_state2[0]) + 0x80;
-        a2[5] = LOBYTE(joystick_button_state3[0]) + 0x80;
-        result = LOBYTE(joystick_button_state4[0]) + 0x80;
-        a2[6] = LOBYTE(joystick_button_state4[0]) + 0x80;
-        return result;
+        response[7] = LOBYTE(joystick_button_state1[0]) + 0x80;
+        response[8] = LOBYTE(joystick_button_state2[0]) + 0x80;
+        response[5] = LOBYTE(joystick_button_state3[0]) + 0x80;
+        ret = LOBYTE(joystick_button_state4[0]) + 0x80;
+        response[6] = LOBYTE(joystick_button_state4[0]) + 0x80;
+        return ret;
       }
       if ( controller_port_modes[0] != 5 )
       {
-        result = LOBYTE(controller_port_modes[0]) - 6;
+        ret = LOBYTE(controller_port_modes[0]) - 6;
         if ( controller_port_modes[0] != 6 )
-          return result;
+          return ret;
         if ( (mouse_buttons_state & 3) != 0 )
         {
           mouse_accumulated_x += mouse_delta_x / 3;
-          LOBYTE(v3) = mouse_accumulated_x;
+          LOBYTE(clamped_x) = mouse_accumulated_x;
           if ( mouse_accumulated_x <= 127 )
           {
             if ( mouse_accumulated_x >= -128 )
               goto LABEL_12;
-            v3 = -128;
+            clamped_x = -128;
           }
           else
           {
-            v3 = 127;
+            clamped_x = 127;
           }
         }
         else
         {
-          v3 = 0;
+          clamped_x = 0;
         }
-        mouse_accumulated_x = v3;
+        mouse_accumulated_x = clamped_x;
 LABEL_12:
-        a2[7] = v3 + 0x80;
+        response[7] = clamped_x + 0x80;
         if ( (mouse_buttons_state & 3) != 0 )
         {
           mouse_accumulated_y += mouse_delta_y / 3;
-          v4 = mouse_accumulated_y;
+          clamped_y = mouse_accumulated_y;
           if ( mouse_accumulated_y <= 127 )
           {
             if ( mouse_accumulated_y < -128 )
             {
-              v4 = 0x80;
+              clamped_y = 0x80;
               mouse_accumulated_y = -128;
             }
-            result = v4 + 0x80;
-            a2[8] = result;
+            ret = clamped_y + 0x80;
+            response[8] = ret;
           }
           else
           {
             mouse_accumulated_y = 127;
-            a2[8] = -1;
+            response[8] = -1;
             return -1;
           }
         }
         else
         {
           mouse_accumulated_y = 0;
-          a2[8] = 0x80;
+          response[8] = 0x80;
           return 0x80;
         }
-        return result;
+        return ret;
       }
-      v5 = 3 * mouse_delta_x;
+      tripled_delta_x = 3 * mouse_delta_x;
       mouse_delta_x *= 3;
       if ( mouse_delta_x <= 127 )
       {
-        if ( v5 >= -128 )
+        if ( tripled_delta_x >= -128 )
           goto LABEL_24;
-        v5 = -128;
+        tripled_delta_x = -128;
       }
       else
       {
-        v5 = 127;
+        tripled_delta_x = 127;
       }
-      mouse_delta_x = v5;
+      mouse_delta_x = tripled_delta_x;
 LABEL_24:
-      a2[7] = v5 + 0x80;
-      v6 = 3 * mouse_delta_y;
+      response[7] = tripled_delta_x + 0x80;
+      tripled_delta_y = 3 * mouse_delta_y;
       mouse_delta_y *= 3;
       if ( mouse_delta_y <= 127 )
       {
-        if ( v6 < -128 )
+        if ( tripled_delta_y < -128 )
         {
-          LOBYTE(v6) = 0x80;
+          LOBYTE(tripled_delta_y) = 0x80;
           mouse_delta_y = -128;
         }
-        result = v6 + 0x80;
-        a2[8] = result;
+        ret = tripled_delta_y + 0x80;
+        response[8] = ret;
       }
       else
       {
         mouse_delta_y = 127;
-        a2[8] = -1;
+        response[8] = -1;
         return -1;
       }
-      return result;
+      return ret;
     case 1:
-      *a2 = 0;
-      a2[1] = 115;
-      a2[2] = 90;
-      a2[3] = pad2_buttons_high;
-      a2[4] = pad2_buttons_low;
-      a2[7] = pad1_analog_joy_x + 0x80;
-      a2[8] = pad1_analog_joy_y + 0x80;
-      a2[5] = pad1_analog_joy2_x + 0x80;
-      a2[6] = pad1_analog_joy2_y + 0x80;
-      return (char)a2;
+      *response = 0;
+      response[1] = 115;
+      response[2] = 90;
+      response[3] = pad2_buttons_high;
+      response[4] = pad2_buttons_low;
+      response[7] = pad1_analog_joy_x + 0x80;
+      response[8] = pad1_analog_joy_y + 0x80;
+      response[5] = pad1_analog_joy2_x + 0x80;
+      response[6] = pad1_analog_joy2_y + 0x80;
+      return (char)response;
     case 2:
-      *a2 = 0;
-      a2[1] = 115;
-      a2[2] = 90;
-      a2[3] = pad3_buttons_high;
-      a2[4] = pad3_buttons_low;
-      a2[7] = pad2_analog_joy_x + 0x80;
-      a2[8] = pad2_analog_joy_y + 0x80;
-      a2[5] = pad2_analog_joy2_x + 0x80;
-      a2[6] = pad2_analog_joy2_y + 0x80;
-      return (char)a2;
+      *response = 0;
+      response[1] = 115;
+      response[2] = 90;
+      response[3] = pad3_buttons_high;
+      response[4] = pad3_buttons_low;
+      response[7] = pad2_analog_joy_x + 0x80;
+      response[8] = pad2_analog_joy_y + 0x80;
+      response[5] = pad2_analog_joy2_x + 0x80;
+      response[6] = pad2_analog_joy2_y + 0x80;
+      return (char)response;
     case 3:
-      *a2 = 0;
-      a2[1] = 115;
-      a2[2] = 90;
-      a2[3] = pad4_buttons_high;
-      a2[4] = pad4_buttons_low;
-      a2[7] = pad3_analog_joy_x + 0x80;
-      a2[8] = pad3_analog_joy_y + 0x80;
-      a2[5] = pad3_analog_joy2_x + 0x80;
-      a2[6] = pad3_analog_joy2_y + 0x80;
-      return (char)a2;
+      *response = 0;
+      response[1] = 115;
+      response[2] = 90;
+      response[3] = pad4_buttons_high;
+      response[4] = pad4_buttons_low;
+      response[7] = pad3_analog_joy_x + 0x80;
+      response[8] = pad3_analog_joy_y + 0x80;
+      response[5] = pad3_analog_joy2_x + 0x80;
+      response[6] = pad3_analog_joy2_y + 0x80;
+      return (char)response;
     default:
-      *a2 = 0;
-      a2[1] = -1;
-      a2[2] = 90;
-      a2[3] = -1;
-      a2[4] = -1;
-      a2[8] = 0x80;
-      a2[7] = 0x80;
-      a2[6] = 0x80;
-      a2[5] = 0x80;
-      return (char)a2;
+      *response = 0;
+      response[1] = -1;
+      response[2] = 90;
+      response[3] = -1;
+      response[4] = -1;
+      response[8] = 0x80;
+      response[7] = 0x80;
+      response[6] = 0x80;
+      response[5] = 0x80;
+      return (char)response;
   }
 }
 
-uint8_t * cont_build_mouse_response(char a1, uint8_t *a2)
+uint8_t * cont_build_mouse_response(char port, uint8_t *response)
 {
-  uint8_t *result;
-
-  if ( a1 )
+  if ( port )
   {
-    result = a2;
-    a2[3] = -1;
-    a2[2] = 90;
-    a2[1] = 18;
-    *a2 = 0;
-    if ( a1 != 1 )
+    response[3] = -1;
+    response[2] = 90;
+    response[1] = 18;
+    *response = 0;
+    if ( port != 1 )
     {
-      a2[4] = -1;
-      a2[6] = -1;
-      a2[5] = -1;
-      return result;
+      response[4] = -1;
+      response[6] = -1;
+      response[5] = -1;
+      return response;
     }
   }
   else
   {
-    result = a2;
-    *a2 = 0;
-    a2[1] = 18;
-    a2[2] = 90;
-    a2[3] = -1;
+    *response = 0;
+    response[1] = 18;
+    response[2] = 90;
+    response[3] = -1;
   }
-  result[4] = -4;
+  response[4] = -4;
   if ( (mouse_buttons_state & 1) != 0 )
-    result[4] = -12;
+    response[4] = -12;
   if ( (mouse_buttons_state & 2) != 0 )
-    result[4] &= ~4u;
-  result[5] = mouse_delta_x;
-  result[6] = mouse_delta_y;
-  return result;
+    response[4] &= ~4u;
+  response[5] = mouse_delta_x;
+  response[6] = mouse_delta_y;
+  return response;
 }
 
-uint8_t * cont_build_guncon_response(char a1, uint8_t *a2)
+uint8_t * cont_build_guncon_response(char port, uint8_t *response)
 {
-  uint8_t *result;
-  int16_t v3;
-  int v4;
-  int v5;
-  int v6;
-  int v7;
+  int16_t gun_y;
+  int cursor_x;
+  int cursor_y;
+  int cursor_x2;
+  int cursor_y2;
 
-  if ( a1 )
+  if ( port )
   {
-    result = a2;
-    a2[7] = 0;
-    a2[6] = 0;
-    a2[5] = 0;
-    a2[4] = -1;
-    a2[3] = -1;
-    a2[2] = 90;
-    *a2 = 0;
-    if ( a1 == 1 )
+    response[7] = 0;
+    response[6] = 0;
+    response[5] = 0;
+    response[4] = -1;
+    response[3] = -1;
+    response[2] = 90;
+    *response = 0;
+    if ( port == 1 )
     {
-      a2[1] = -1;
-      a2[8] = -1;
+      response[1] = -1;
+      response[8] = -1;
     }
     else
     {
-      a2[8] = 0;
-      a2[1] = 99;
+      response[8] = 0;
+      response[1] = 99;
     }
   }
   else
   {
-    *a2 = 0;
-    a2[1] = 99;
-    a2[2] = 90;
-    *(uint16_t *)(a2 + 3) = -1;
-    a2[8] = 0;
-    a2[7] = 0;
-    a2[6] = 0;
-    a2[5] = 0;
-    v3 = mouse_delta_y / 2 + HIWORD(guncon_position);
+    *response = 0;
+    response[1] = 99;
+    response[2] = 90;
+    *(uint16_t *)(response + 3) = -1;
+    response[8] = 0;
+    response[7] = 0;
+    response[6] = 0;
+    response[5] = 0;
+    gun_y = mouse_delta_y / 2 + HIWORD(guncon_position);
     LOWORD(guncon_position) = mouse_delta_x / 2 + guncon_position;
-    HIWORD(guncon_position) = v3;
+    HIWORD(guncon_position) = gun_y;
     if ( (int16_t)guncon_position <= 511 )
     {
       if ( (guncon_position & 0x8000u) != 0 )
@@ -304,9 +291,9 @@ uint8_t * cont_build_guncon_response(char a1, uint8_t *a2)
     {
       LOWORD(guncon_position) = 511;
     }
-    if ( v3 <= 255 )
+    if ( gun_y <= 255 )
     {
-      if ( v3 < 0 )
+      if ( gun_y < 0 )
         HIWORD(guncon_position) = 0;
     }
     else
@@ -314,112 +301,112 @@ uint8_t * cont_build_guncon_response(char a1, uint8_t *a2)
       HIWORD(guncon_position) = 255;
     }
     if ( (mouse_buttons_state & 1) != 0 )
-      a2[4] &= ~0x20u;
+      response[4] &= ~0x20u;
     if ( (mouse_buttons_state & 2) != 0 )
-      a2[3] &= ~8u;
+      response[3] &= ~8u;
     if ( (mouse_buttons_state & 4) != 0 )
-      a2[4] &= ~0x40u;
-    *(uint16_t *)(a2 + 5) = guncon_position;
-    a2[7] = BYTE2(guncon_position);
+      response[4] &= ~0x40u;
+    *(uint16_t *)(response + 5) = guncon_position;
+    response[7] = BYTE2(guncon_position);
     if ( (guncon_position & 0x100) != 0 )
     {
-      v4 = (int16_t)guncon_position + ((int16_t)guncon_position - 255) / 2;
-      v5 = SHIWORD(guncon_position) - 40;
-      if ( v4 <= 511 )
+      cursor_x = (int16_t)guncon_position + ((int16_t)guncon_position - 255) / 2;
+      cursor_y = SHIWORD(guncon_position) - 40;
+      if ( cursor_x <= 511 )
       {
-        if ( v4 < 0 )
-          v4 = 0;
+        if ( cursor_x < 0 )
+          cursor_x = 0;
       }
       else
       {
-        v4 = 511;
+        cursor_x = 511;
       }
-      if ( v5 <= 255 )
+      if ( cursor_y <= 255 )
       {
-        if ( v5 < 0 )
-          v5 = 0;
-        return gpu_cursor(0, v4, v5);
+        if ( cursor_y < 0 )
+          cursor_y = 0;
+        return gpu_cursor(0, cursor_x, cursor_y);
       }
       else
       {
-        return gpu_cursor(0, v4, 255);
+        return gpu_cursor(0, cursor_x, 255);
       }
     }
     else
     {
-      v6 = (int16_t)guncon_position - (255 - (int16_t)guncon_position) / 2;
-      v7 = SHIWORD(guncon_position) - 40;
-      if ( v6 <= 511 )
+      cursor_x2 = (int16_t)guncon_position - (255 - (int16_t)guncon_position) / 2;
+      cursor_y2 = SHIWORD(guncon_position) - 40;
+      if ( cursor_x2 <= 511 )
       {
-        if ( v6 < 0 )
-          v6 = 0;
+        if ( cursor_x2 < 0 )
+          cursor_x2 = 0;
       }
       else
       {
-        v6 = 511;
+        cursor_x2 = 511;
       }
-      if ( v7 <= 255 )
+      if ( cursor_y2 <= 255 )
       {
-        if ( v7 < 0 )
-          v7 = 0;
-        return gpu_cursor(0, v6, v7);
+        if ( cursor_y2 < 0 )
+          cursor_y2 = 0;
+        return gpu_cursor(0, cursor_x2, cursor_y2);
       }
       else
       {
-        return gpu_cursor(0, v6, 255);
+        return gpu_cursor(0, cursor_x2, 255);
       }
     }
   }
-  return result;
+  return response;
 }
 
-int (__stdcall * cont_update_led_and_mode(uint8_t a1))(uint32_t)
+int (__stdcall * cont_update_led_and_mode(uint8_t port))(uint32_t)
 {
-  int v1;
-  int (__stdcall *result)(uint32_t);
+  int mode;
+  int (__stdcall *callback)(uint32_t);
 
-  v1 = controller_port_modes[a1];
-  if ( v1 == 4 || v1 == 5 || v1 == 6 )
-    gpu_display_flags(((a1 + 1) << 12) | ((pad_analog_mode_flags[a1] != 0) << 8));
-  if ( controller_port_modes[a1] == 2 )
-    gpu_display_flags(((a1 + 1) << 12) | ((pad_analog_mode_flags[a1] != 0 ? 2 : 0) << 8));
-  if ( controller_port_modes[a1] == 3 )
-    gpu_display_flags(((a1 + 1) << 12) | ((pad_analog_mode_flags[a1] != 0 ? 3 : 0) << 8));
-  result = (int (__stdcall *)(uint32_t))controller_port_modes[a1];
-  if ( (unsigned int)result <= 1 )
-    return gpu_display_flags((a1 + 1) << 12);
-  return result;
+  mode = controller_port_modes[port];
+  if ( mode == 4 || mode == 5 || mode == 6 )
+    gpu_display_flags(((port + 1) << 12) | ((pad_analog_mode_flags[port] != 0) << 8));
+  if ( controller_port_modes[port] == 2 )
+    gpu_display_flags(((port + 1) << 12) | ((pad_analog_mode_flags[port] != 0 ? 2 : 0) << 8));
+  if ( controller_port_modes[port] == 3 )
+    gpu_display_flags(((port + 1) << 12) | ((pad_analog_mode_flags[port] != 0 ? 3 : 0) << 8));
+  callback = (int (__stdcall *)(uint32_t))controller_port_modes[port];
+  if ( (unsigned int)callback <= 1 )
+    return gpu_display_flags((port + 1) << 12);
+  return callback;
 }
 
 int cont_process_input()
 {
-  int v0;
-  int v1;
-  int v2;
-  uint8_t v3;
-  int v4;
-  char *v5;
-  uint16_t *v6;
-  int v7;
-  uint16_t v8;
-  int result;
+  int port;
+  int joy_count;
+  int freeze_counter;
+  uint8_t freeze_counter_byte;
+  int slot;
+  char *pad_buttons;
+  uint16_t *key_map;
+  int pad_count;
+  uint16_t key;
+  int net_result;
 
   diUpdateDeviceStates();
   mouse_delta_x = diGetClampedMouseX();
   mouse_delta_y = diGetClampedMouseY();
   mouse_buttons_state = g_MouseButtons;
-  v0 = 0;
-  v1 = 2;
+  port = 0;
+  joy_count = 2;
   do
   {
-    joystick_button_state1[v0] = diGetJoystickButtonState1(v0);
-    joystick_button_state2[v0] = diGetJoystickButtonState2(v0);
-    joystick_button_state3[v0] = diGetJoystickButtonState3(v0);
-    joystick_button_state4[v0] = diGetJoystickButtonState4(v0);
-    ++v0;
-    --v1;
+    joystick_button_state1[port] = diGetJoystickButtonState1(port);
+    joystick_button_state2[port] = diGetJoystickButtonState2(port);
+    joystick_button_state3[port] = diGetJoystickButtonState3(port);
+    joystick_button_state4[port] = diGetJoystickButtonState4(port);
+    ++port;
+    --joy_count;
   }
-  while ( v1 );
+  while ( joy_count );
   if ( keyboard_escape_pressed[0] )
   {
     if ( !create_window_flag )
@@ -462,10 +449,10 @@ int cont_process_input()
   }
   if ( increase_slot_state_request )
   {
-    LOBYTE(v2) = gpu_freeze_with_counter();
-    v3 = v2;
-    dbg_print(" * Increased SlotState! (%d)\n", v2);
-    gpu_show_screen_pic(v3);
+    LOBYTE(freeze_counter) = gpu_freeze_with_counter();
+    freeze_counter_byte = freeze_counter;
+    dbg_print(" * Increased SlotState! (%d)\n", freeze_counter);
+    gpu_show_screen_pic(freeze_counter_byte);
     ui_feedback_timer = 25;
     screen_pic_display_counter = 150;
     goto LABEL_51;
@@ -506,16 +493,16 @@ int cont_process_input()
   if ( toggle_pad_mode_request )
   {
     pad_analog_mode_flags[(uint8_t)selected_slot_for_mode_switch] ^= 1u;
-    LOBYTE(v4) = selected_slot_for_mode_switch;
+    LOBYTE(slot) = selected_slot_for_mode_switch;
 LABEL_42:
-    cont_update_led_and_mode(v4);
+    cont_update_led_and_mode(slot);
     ui_feedback_timer = 25;
     goto LABEL_51;
   }
   if ( switch_controller_slot_request )
   {
-    v4 = ((uint8_t)selected_slot_for_mode_switch + 1) % (2 * (multitap_1 != 0) + 2);
-    LOBYTE(selected_slot_for_mode_switch) = v4;
+    slot = ((uint8_t)selected_slot_for_mode_switch + 1) % (2 * (multitap_1 != 0) + 2);
+    LOBYTE(selected_slot_for_mode_switch) = slot;
     goto LABEL_42;
   }
   if ( toggle_xenogears_trick_request )
@@ -534,63 +521,63 @@ LABEL_42:
     ui_feedback_timer = 25;
   }
 LABEL_51:
-  v5 = &pad1_buttons_low;
-  v6 = (uint16_t *)(Keys1 + 10);
-  v7 = 4;
+  pad_buttons = &pad1_buttons_low;
+  key_map = (uint16_t *)(Keys1 + 10);
+  pad_count = 4;
   do
   {
-    v8 = *(v6 - 5);
-    *(uint32_t *)v5 = -1;
-    if ( v8 )
+    key = *(key_map - 5);
+    *(uint32_t *)pad_buttons = -1;
+    if ( key )
     {
-      if ( g_KeyboardStatePrev[v6[1]] )
-        *(uint32_t *)v5 = -65;
-      if ( g_KeyboardStatePrev[*v6] )
-        *(uint32_t *)v5 &= ~0x20u;
-      if ( g_KeyboardStatePrev[v6[2]] )
-        *(uint32_t *)v5 &= ~0x80u;
-      if ( g_KeyboardStatePrev[*(v6 - 1)] )
-        *(uint32_t *)v5 &= ~0x10u;
-      if ( g_KeyboardStatePrev[v6[7]] )
-        *(uint32_t *)v5 &= ~0x800u;
-      if ( g_KeyboardStatePrev[v6[8]] )
-        *(uint32_t *)v5 &= ~0x100u;
-      if ( g_KeyboardStatePrev[*(v6 - 3)] )
-        *(uint32_t *)v5 &= ~0x1000u;
-      if ( g_KeyboardStatePrev[*(v6 - 2)] )
-        *(uint32_t *)v5 &= ~0x4000u;
-      if ( g_KeyboardStatePrev[v8] )
-        *(uint32_t *)v5 &= ~0x8000u;
-      if ( g_KeyboardStatePrev[*(v6 - 4)] )
-        *(uint32_t *)v5 &= ~0x2000u;
-      if ( g_KeyboardStatePrev[v6[3]] )
-        *(uint32_t *)v5 &= ~4u;
-      if ( g_KeyboardStatePrev[v6[4]] )
-        *(uint32_t *)v5 &= ~1u;
-      if ( g_KeyboardStatePrev[v6[5]] )
-        *(uint32_t *)v5 &= ~8u;
-      if ( g_KeyboardStatePrev[v6[6]] )
-        *(uint32_t *)v5 &= ~2u;
-      if ( g_KeyboardStatePrev[v6[9]] )
-        *(uint32_t *)v5 &= ~0x200u;
-      if ( g_KeyboardStatePrev[v6[10]] )
-        *(uint32_t *)v5 &= ~0x400u;
+      if ( g_KeyboardStatePrev[key_map[1]] )
+        *(uint32_t *)pad_buttons = -65;
+      if ( g_KeyboardStatePrev[*key_map] )
+        *(uint32_t *)pad_buttons &= ~0x20u;
+      if ( g_KeyboardStatePrev[key_map[2]] )
+        *(uint32_t *)pad_buttons &= ~0x80u;
+      if ( g_KeyboardStatePrev[*(key_map - 1)] )
+        *(uint32_t *)pad_buttons &= ~0x10u;
+      if ( g_KeyboardStatePrev[key_map[7]] )
+        *(uint32_t *)pad_buttons &= ~0x800u;
+      if ( g_KeyboardStatePrev[key_map[8]] )
+        *(uint32_t *)pad_buttons &= ~0x100u;
+      if ( g_KeyboardStatePrev[*(key_map - 3)] )
+        *(uint32_t *)pad_buttons &= ~0x1000u;
+      if ( g_KeyboardStatePrev[*(key_map - 2)] )
+        *(uint32_t *)pad_buttons &= ~0x4000u;
+      if ( g_KeyboardStatePrev[key] )
+        *(uint32_t *)pad_buttons &= ~0x8000u;
+      if ( g_KeyboardStatePrev[*(key_map - 4)] )
+        *(uint32_t *)pad_buttons &= ~0x2000u;
+      if ( g_KeyboardStatePrev[key_map[3]] )
+        *(uint32_t *)pad_buttons &= ~4u;
+      if ( g_KeyboardStatePrev[key_map[4]] )
+        *(uint32_t *)pad_buttons &= ~1u;
+      if ( g_KeyboardStatePrev[key_map[5]] )
+        *(uint32_t *)pad_buttons &= ~8u;
+      if ( g_KeyboardStatePrev[key_map[6]] )
+        *(uint32_t *)pad_buttons &= ~2u;
+      if ( g_KeyboardStatePrev[key_map[9]] )
+        *(uint32_t *)pad_buttons &= ~0x200u;
+      if ( g_KeyboardStatePrev[key_map[10]] )
+        *(uint32_t *)pad_buttons &= ~0x400u;
     }
-    v6 += 16;
-    v5 += 4;
-    --v7;
+    key_map += 16;
+    pad_buttons += 4;
+    --pad_count;
   }
-  while ( v7 );
+  while ( pad_count );
   if ( LOBYTE(mdec_disable_flag[0]) )
   {
     LOBYTE(mdec_disable_flag[0]) = 0;
     *(uint32_t *)&pad1_buttons_low &= 0xFFFFF7BF;
   }
-  result = network_enabled;
+  net_result = network_enabled;
   if ( network_enabled )
   {
-    result = net_fill_input();
-    if ( result )
+    net_result = net_fill_input();
+    if ( net_result )
     {
       netplay_reset_request = 0;
       save_load_state();
@@ -598,34 +585,28 @@ LABEL_51:
       return 0;
     }
   }
-  return result;
+  return net_result;
 }
 
-int16_t cont_map_axis_state(uint16_t a1, int16_t a2)
+int16_t cont_map_axis_state(uint16_t axis, int16_t value)
 {
-  int16_t result;
-
-  result = a2;
-  if ( a2 )
-    *((uint16_t *)GamepadAxis + a1) = a2;
-  return result;
+  if ( value )
+    *((uint16_t *)GamepadAxis + axis) = value;
+  return value;
 }
 
-int16_t cont_map_button_state(uint16_t a1, int16_t a2)
+int16_t cont_map_button_state(uint16_t key, int16_t value)
 {
-  int16_t result;
-
-  result = a2;
-  if ( a2 != 1 )
-    Keys1[a1] = a2;
-  return result;
+  if ( value != 1 )
+    Keys1[key] = value;
+  return value;
 }
 
-int cont_set_default(uint8_t a1)
+int cont_set_default(uint8_t port)
 {
   int result;
 
-  if ( a1 == 1 )
+  if ( port == 1 )
   {
     Keys1[0] = 203;
     Keys1[1] = 205;
@@ -644,22 +625,22 @@ int cont_set_default(uint8_t a1)
     Keys1[14] = 16;
     Keys1[15] = 21;
   }
-  else if ( a1 > 1u && a1 < 4u )
+  else if ( port > 1u && port < 4u )
   {
-    memset(&pad_key_assignments[16 * a1], 0, 0x20u);
+    memset(&pad_key_assignments[16 * port], 0, 0x20u);
     return 0;
   }
   return result;
 }
 
-int cont_reset_pad_state(uint8_t a1)
+int cont_reset_pad_state(uint8_t port)
 {
-  uint32_t *v2;
+  uint32_t *pad_state;
 
-  memset(&pad_key_assignments[16 * a1], 0, 0x20u);
-  v2 = (uint32_t *)(8 * a1 + 5232772);
-  *v2 = 0;
-  v2[1] = 0;
+  memset(&pad_key_assignments[16 * port], 0, 0x20u);
+  pad_state = (uint32_t *)(8 * port + 5232772);
+  *pad_state = 0;
+  pad_state[1] = 0;
   return 0;
 }
 

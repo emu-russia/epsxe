@@ -20,12 +20,12 @@ int alloc_console(void)
 
 static int free_console(void)
 {
-    char result;
+    char allocated;
 
-    result = console_allocated;
+    allocated = console_allocated;
     if (console_allocated)
         return FreeConsole();
-    return result;
+    return allocated;
 }
 
 unsigned long get_tick_count(void)

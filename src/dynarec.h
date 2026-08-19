@@ -35,5 +35,5 @@ void dynarec_deinit();
 int64_t dynarec_execute();
 uint8_t *dynarec_init();
 char *dynarec_invalidate();
-unsigned int dynarec_invalidate_range(int a1, int a2);
+unsigned int dynarec_invalidate_range(int addr, int count);
 void nullsub_1();

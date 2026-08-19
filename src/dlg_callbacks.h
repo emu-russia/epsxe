@@ -37,16 +37,16 @@ extern unsigned short controller_button_dlg_ids[9];
 extern unsigned short pad_key_assignments[4];
 
 /* Function prototypes (previously generated in src/_gen) */
-int __stdcall about_callback(HWND hDlg, int a2, int16_t a3, int a4);
-INT_PTR __stdcall bios_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+int __stdcall about_callback(HWND hDlg, int uMsg, int16_t wParam, int lParam);
+INT_PTR __stdcall bios_dialog_callback(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int calc_bios_checksum(uint8_t *ptr, int size);
-LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, int16_t a3, int a4);
-INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
-INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
-BOOL open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CHAR *a4, const CHAR *a5);
-INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
-INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
-INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
-INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
-INT_PTR __stdcall spucore_configure_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
-INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4);
+LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int uMsg, int16_t wParam, int lParam);
+INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall memcard_settings(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+BOOL open_file_dialog(const CHAR *title, const CHAR *filter, CHAR *file_path, const CHAR *initial_dir, const CHAR *def_ext);
+INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall spucore_configure_dialog_callback(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

@@ -12,16 +12,16 @@ extern unsigned int sio0_control_reg;
 
 /* Function prototypes (previously generated in src/_gen) */
 int mem_clear_memory();
-int mem_dma_read(unsigned int a1);
-int mem_freeze(const char *a1, int a2);
-unsigned int mem_gpu_dma_read(unsigned int a1);
-void mem_gpu_dma_write(unsigned int a1, unsigned int a2);
-void mem_hw_reg_read_byte(unsigned int a1);
-void mem_hw_reg_write_byte(unsigned int a1, char a2);
-void mem_hw_reg_write_half(unsigned int a1, uint16_t a2);
+int mem_dma_read(unsigned int addr);
+int mem_freeze(const char *name, int gzf);
+unsigned int mem_gpu_dma_read(unsigned int addr);
+void mem_gpu_dma_write(unsigned int addr, unsigned int value);
+void mem_hw_reg_read_byte(unsigned int addr);
+void mem_hw_reg_write_byte(unsigned int addr, char value);
+void mem_hw_reg_write_half(unsigned int addr, uint16_t value);
 void mem_init_memory_handlers();
-int16_t mem_read_half(unsigned int a1);
-int mem_read_word(unsigned int a1);
-int mem_unfreeze(int a1, uint32_t *a2);
-void mem_write_half(unsigned int a1, uint16_t a2);
-void mem_write_word(unsigned int a1, unsigned int a2);
+int16_t mem_read_half(unsigned int addr);
+int mem_read_word(unsigned int addr);
+int mem_unfreeze(int unused, uint32_t *gzf);
+void mem_write_half(unsigned int addr, uint16_t value);
+void mem_write_word(unsigned int addr, unsigned int value);

@@ -4,35 +4,35 @@ uint8_t console_allocated;
 
 static char cfg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
 {
-  char v3;
+  char ret;
   HKEY hKey;
   HKEY phkResult;
   DWORD cbData;
   DWORD Type;
 
-  v3 = -1;
+  ret = -1;
   if ( !RegConnectRegistryA(nullptr, HKEY_CURRENT_USER, &phkResult) )
   {
     if ( !RegOpenKeyA(phkResult, lpSubKey, &hKey) )
     {
       cbData = 1024;
       if ( !RegQueryValueExA(hKey, lpValueName, nullptr, &Type, lpData, &cbData) )
-        v3 = 0;
+        ret = 0;
       RegCloseKey(hKey);
     }
     RegCloseKey(phkResult);
   }
-  return v3;
+  return ret;
 }
 
 static int cfg_set_value(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpData)
 {
-  int result;
+  int ret;
   HKEY hKey;
   HKEY phkResult;
 
-  result = RegConnectRegistryA(nullptr, HKEY_CURRENT_USER, &phkResult);
-  if ( !result )
+  ret = RegConnectRegistryA(nullptr, HKEY_CURRENT_USER, &phkResult);
+  if ( !ret )
   {
     if ( !RegOpenKeyA(phkResult, lpSubKey, &hKey) || !RegCreateKeyA(phkResult, lpSubKey, &hKey) )
     {
@@ -41,13 +41,13 @@ static int cfg_set_value(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpData)
     }
     return RegCloseKey(phkResult);
   }
-  return result;
+  return ret;
 }
 
 int cfg_load_settings()
 {
-  int v1;
-  unsigned int v2;
+  int value;
+  unsigned int version;
   char Buffer[1024];
 
   if ( cfg_get_value("Software\\epsxe\\config", "VideoPlugin", (LPBYTE)Buffer) )
@@ -70,48 +70,48 @@ int cfg_load_settings()
     sprintf((char *const)bios_name, "bios\\scph1001.bin");
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW9xCdromEnabled", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW9xCdromEnabled = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW9xCdromEnabled = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW9xCaching", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW9xCaching = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW9xCaching = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW9xCachingLG", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW9xCachingLG = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW9xCachingLG = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW2kCdromEnabled", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW2kCdromEnabled = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW2kCdromEnabled = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW2kCaching", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW2kCaching = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW2kCaching = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW2kCachingLG", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW2kCachingLG = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW2kCachingLG = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SoundEnabled", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    sound_enabled = v1;
+    sscanf(Buffer, "%d", &value);
+    sound_enabled = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SoundXA", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    sound_use_xa = v1;
+    sscanf(Buffer, "%d", &value);
+    sound_use_xa = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SoundCDDA", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    sound_use_cdda = v1;
+    sscanf(Buffer, "%d", &value);
+    sound_use_cdda = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "Keys1", (LPBYTE)Buffer) )
     sscanf(
@@ -195,24 +195,24 @@ int cfg_load_settings()
       &Keys4[15]);
   if ( !cfg_get_value("Software\\epsxe\\config", "CdromLetter", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    cdrom_letter = v1;
+    sscanf(Buffer, "%d", &value);
+    cdrom_letter = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "Logswindow", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    console_allocated = v1;
+    sscanf(Buffer, "%d", &value);
+    console_allocated = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "AutoPpfLoad", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    if ( (uint8_t)v1 )
+    sscanf(Buffer, "%d", &value);
+    if ( (uint8_t)value )
       ppf_enabled = 1;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "Multitap1", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    if ( (uint8_t)v1 )
+    sscanf(Buffer, "%d", &value);
+    if ( (uint8_t)value )
       multitap_1 = 1;
   }
   if ( !cfg_get_value("Software\\epsxe\\config\\cdrom9x", "CdromHain", (LPBYTE)Buffer) )
@@ -231,8 +231,8 @@ int cfg_load_settings()
     sprintf((char *const)Memcard2, "%s", Buffer);
   if ( !cfg_get_value("Software\\epsxe\\config", "Country", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    country_setting = (uint8_t)v1;
+    sscanf(Buffer, "%d", &value);
+    country_setting = (uint8_t)value;
   }
   if ( cfg_get_value("Software\\epsxe\\config", "Version", (LPBYTE)Buffer) )
   {
@@ -246,9 +246,9 @@ int cfg_load_settings()
   }
   else
   {
-    sscanf(Buffer, "%d", &v2);
-    version_setting = v2;
-    if ( v2 < 0x10600 )
+    sscanf(Buffer, "%d", &version);
+    version_setting = version;
+    if ( version < 0x10600 )
     {
       if ( create_window_flag )
         setup_wizard_required = 1;
