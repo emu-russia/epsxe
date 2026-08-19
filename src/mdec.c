@@ -1,14 +1,258 @@
 #include "pch.h"
 
+/* ---------------------------------------------------------------------------
+ * The decompiled MDEC code below used x86 MMX intrinsics (__m64, _m_paddw,
+ * _m_pmulhw, ...).  They are reimplemented here as plain portable C helpers
+ * operating on a 64-bit "vector": 16-bit lane i occupies bits [16*i, 16*i+16),
+ * 8-bit lane i occupies bits [8*i, 8*i+8) -- the same lane layout the MMX
+ * instructions used.  The helpers reproduce the exact MMX semantics (wrapping
+ * adds/subs, saturating ops, signed pmulhw rounding, arithmetic shifts), so
+ * the converted code behaves identically to the original, while being fully
+ * portable -- modern compilers can auto-vectorize this scalar code.
+ * ------------------------------------------------------------------------- */
+typedef uint64_t mdec_v64;
+
+/* load 4 consecutive 16-bit values (lane 0 = first element) */
+static inline mdec_v64 md_load4(const unsigned short *p)
+{
+    mdec_v64 v = 0;
+    int i;
+    for (i = 0; i < 4; i++)
+        v |= (mdec_v64)p[i] << (16 * i);
+    return v;
+}
+
+/* store 8 bytes; byte i of the vector goes to address p+i */
+static inline void md_store8(void *p, mdec_v64 v)
+{
+    unsigned char *d = (unsigned char *)p;
+    int i;
+    for (i = 0; i < 8; i++)
+        d[i] = (unsigned char)(v >> (8 * i));
+}
+
+/* _m_from_int / _m_from_int64 */
+static inline mdec_v64 md_from_int(unsigned int x)
+{
+    return (mdec_v64)x;
+}
+
+static inline mdec_v64 md_from_int64(mdec_v64 x)
+{
+    return x;
+}
+
+/* _m_paddb: 8-bit wrapping add */
+static inline mdec_v64 md_paddb(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 8; i++)
+        r |= (mdec_v64)(unsigned char)((unsigned char)(a >> (8 * i)) + (unsigned char)(b >> (8 * i))) << (8 * i);
+    return r;
+}
+
+/* _m_paddw / _m_psubw: 16-bit wrapping add/sub */
+static inline mdec_v64 md_paddw(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 4; i++)
+        r |= (mdec_v64)(unsigned short)((unsigned short)(a >> (16 * i)) + (unsigned short)(b >> (16 * i))) << (16 * i);
+    return r;
+}
+
+static inline mdec_v64 md_psubw(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 4; i++)
+        r |= (mdec_v64)(unsigned short)((unsigned short)(a >> (16 * i)) - (unsigned short)(b >> (16 * i))) << (16 * i);
+    return r;
+}
+
+/* _m_paddsw: saturating 16-bit add */
+static inline mdec_v64 md_paddsw(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 4; i++)
+    {
+        long s = (long)(short)(a >> (16 * i)) + (long)(short)(b >> (16 * i));
+        if (s > 32767) s = 32767;
+        if (s < -32768) s = -32768;
+        r |= (mdec_v64)(unsigned short)(short)s << (16 * i);
+    }
+    return r;
+}
+
+/* _m_pmulhw: high 16 bits of the signed 16x16 product */
+static inline mdec_v64 md_pmulhw(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 4; i++)
+        r |= (mdec_v64)(unsigned short)(((long)(short)(a >> (16 * i)) * (long)(short)(b >> (16 * i))) >> 16) << (16 * i);
+    return r;
+}
+
+/* _m_psllwi / _m_psllqi / _m_psrlqi */
+static inline mdec_v64 md_psllwi(mdec_v64 a, int count)
+{
+    mdec_v64 r = 0;
+    int i;
+    count &= 15;
+    for (i = 0; i < 4; i++)
+        r |= (mdec_v64)(unsigned short)((unsigned short)(a >> (16 * i)) << count) << (16 * i);
+    return r;
+}
+
+static inline mdec_v64 md_psllqi(mdec_v64 a, int count)
+{
+    return a << (count & 63);
+}
+
+static inline mdec_v64 md_psrlqi(mdec_v64 a, int count)
+{
+    return a >> (count & 63);
+}
+
+/* _m_psrawi: per-lane arithmetic right shift (portable formulation) */
+static inline mdec_v64 md_psrawi(mdec_v64 a, int count)
+{
+    mdec_v64 r = 0;
+    int i;
+    count &= 15;
+    for (i = 0; i < 4; i++)
+    {
+        unsigned short x = (unsigned short)(a >> (16 * i));
+        unsigned short s = (x & 0x8000u)
+                         ? (unsigned short)~((unsigned short)~x >> count)
+                         : (unsigned short)(x >> count);
+        r |= (mdec_v64)(unsigned short)(short)s << (16 * i);
+    }
+    return r;
+}
+
+/* _m_pand / _m_por */
+static inline mdec_v64 md_pand(mdec_v64 a, mdec_v64 b)
+{
+    return a & b;
+}
+
+static inline mdec_v64 md_por(mdec_v64 a, mdec_v64 b)
+{
+    return a | b;
+}
+
+/* _m_packsswb: saturate the 4 words of a into bytes 0-3 and the 4 words of b
+ * into bytes 4-7 */
+static inline mdec_v64 md_packsswb(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 4; i++)
+    {
+        long va = (long)(short)(a >> (16 * i));
+        long vb = (long)(short)(b >> (16 * i));
+        if (va > 127) va = 127;
+        if (va < -128) va = -128;
+        if (vb > 127) vb = 127;
+        if (vb < -128) vb = -128;
+        r |= (mdec_v64)(unsigned char)(signed char)va << (8 * i);
+        r |= (mdec_v64)(unsigned char)(signed char)vb << (8 * (i + 4));
+    }
+    return r;
+}
+
+/* _m_packuswb: saturate the 4 words of a into bytes 0-3 and the 4 words of b
+ * into bytes 4-7 (unsigned) */
+static inline mdec_v64 md_packuswb(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 4; i++)
+    {
+        long va = (long)(short)(a >> (16 * i));
+        long vb = (long)(short)(b >> (16 * i));
+        if (va > 255) va = 255;
+        if (va < 0) va = 0;
+        if (vb > 255) vb = 255;
+        if (vb < 0) vb = 0;
+        r |= (mdec_v64)(unsigned char)va << (8 * i);
+        r |= (mdec_v64)(unsigned char)vb << (8 * (i + 4));
+    }
+    return r;
+}
+
+/* _m_punpcklbw / _m_punpckhbw / _m_punpcklwd / _m_punpckhwd /
+ * _m_punpckldq / _m_punpckhdq */
+static inline mdec_v64 md_punpcklbw(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 4; i++)
+    {
+        r |= (mdec_v64)(unsigned char)(a >> (8 * i)) << (16 * i);
+        r |= (mdec_v64)(unsigned char)(b >> (8 * i)) << (16 * i + 8);
+    }
+    return r;
+}
+
+static inline mdec_v64 md_punpckhbw(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 4; i++)
+    {
+        r |= (mdec_v64)(unsigned char)(a >> (8 * (i + 4))) << (16 * i);
+        r |= (mdec_v64)(unsigned char)(b >> (8 * (i + 4))) << (16 * i + 8);
+    }
+    return r;
+}
+
+static inline mdec_v64 md_punpcklwd(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 2; i++)
+    {
+        r |= (mdec_v64)(unsigned short)(a >> (16 * i)) << (32 * i);
+        r |= (mdec_v64)(unsigned short)(b >> (16 * i)) << (32 * i + 16);
+    }
+    return r;
+}
+
+static inline mdec_v64 md_punpckhwd(mdec_v64 a, mdec_v64 b)
+{
+    mdec_v64 r = 0;
+    int i;
+    for (i = 0; i < 2; i++)
+    {
+        r |= (mdec_v64)(unsigned short)(a >> (16 * (i + 2))) << (32 * i);
+        r |= (mdec_v64)(unsigned short)(b >> (16 * (i + 2))) << (32 * i + 16);
+    }
+    return r;
+}
+
+static inline mdec_v64 md_punpckldq(mdec_v64 a, mdec_v64 b)
+{
+    return (a & 0xFFFFFFFFu) | ((b & 0xFFFFFFFFu) << 32);
+}
+
+static inline mdec_v64 md_punpckhdq(mdec_v64 a, mdec_v64 b)
+{
+    return (a >> 32) | (b & 0xFFFFFFFF00000000ull);
+}
+
 /* static prototypes for internal functions */
 static int __cdecl mdec_set_scale_table(int a1);
 static char *__cdecl mdec_rl_decode(char *a1, int a2);
 static void __cdecl mdec_idct_blocks(int a1);
 static int mdec_init_color_tables();
 static _WORD *__cdecl mdec_yuv_to_rgb(char *a1, _WORD *a2, _WORD *a3);
-static int __cdecl mdec_idct_sse(__m64 *a1, int a2);
-static void mdec_sse_m_empty();
-static void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3);
+static void __cdecl mdec_idct_sse(const unsigned short *a1, int a2);
+static void __cdecl mdec_y_to_mono(unsigned int *a1, unsigned char *a2, int a3);
 
 static char *mdec_init_pointers()
 {
@@ -128,7 +372,7 @@ int mdec_decode()
 {
   int result; // eax
   char *v1; // ebx
-  __m64 *v2; // esi
+  unsigned char *v2; // esi
   int v3; // ebp
   int v4; // ecx
   int v5; // edi
@@ -147,7 +391,7 @@ int mdec_decode()
         LOBYTE(mdec_disable_flag[0]) = 1;
         return result;
       }
-      v2 = (__m64 *)((char *)ram + (mdec_dma_dest & 0x1FFFFF));
+      v2 = (unsigned char *)ram + (mdec_dma_dest & 0x1FFFFF);
       v3 = *(_DWORD *)mdec_command & 0x8000000;
       v4 = 3 * result;
       if ( (*(_DWORD *)mdec_command & 0x8000000) == 0 )
@@ -167,13 +411,13 @@ int mdec_decode()
           mdec_idct_blocks(30);
           if ( v3 )
           {
-            mdec_yuv_to_rgb((char *)mdec_idct_buffer, v2, (_WORD *)0x1E);
-            v2 += 1920;
+            mdec_yuv_to_rgb((char *)mdec_idct_buffer, (_WORD *)v2, (_WORD *)0x1E);
+            v2 += 15360;
           }
           else
           {
             mdec_y_to_mono((unsigned int *)mdec_idct_buffer, v2, 30);
-            v2 += 2880;
+            v2 += 23040;
           }
           v1 = (char *)mdec_in_ptr;
           --v8;
@@ -186,7 +430,7 @@ LABEL_15:
         mdec_in_ptr = (int)mdec_rl_decode(v1, v5);
         mdec_idct_blocks(v5);
         if ( v3 )
-          mdec_yuv_to_rgb((char *)mdec_idct_buffer, v2, (_WORD *)v5);
+          mdec_yuv_to_rgb((char *)mdec_idct_buffer, (_WORD *)v2, (_WORD *)v5);
         else
           mdec_y_to_mono((unsigned int *)mdec_idct_buffer, v2, v5);
       }
@@ -394,7 +638,7 @@ static void __cdecl mdec_idct_blocks(int a1)
 {
   int *v1; // edi
   int v2; // esi
-  __m64 *i; // ebx
+  const unsigned short *i; // ebx
   int v4; // edx
   int v5; // eax
   char *v6; // [esp+10h] [ebp-8h]
@@ -404,7 +648,7 @@ static void __cdecl mdec_idct_blocks(int a1)
   v2 = 0;
   v6 = mdec_idct_buffer_end;
   v7 = mdec_idct_buffer;
-  for ( i = (__m64 *)mdec_coeff_buffer; v2 < 6 * a1; v6 += 32 )
+  for ( i = (const unsigned short *)mdec_coeff_buffer; v2 < 6 * a1; v6 += 32 )
   {
     if ( mdec_nonzero_counts[v2] )
     {
@@ -412,18 +656,17 @@ static void __cdecl mdec_idct_blocks(int a1)
     }
     else
     {
-      v4 = (int)i->m64_u16[0] >> 5;
+      v4 = (int)i[0] >> 5;
       BYTE1(v4) = v4;
       v5 = v4 << 16;
       LOWORD(v5) = v4;
       memset32(v1, v5, 0x10u);
     }
     v1 = v7 + 16;
-    i += 16;
+    i += 64;
     ++v2;
     v7 += 16;
   }
-  mdec_sse_m_empty();
 }
 
 static int mdec_init_color_tables()
@@ -641,506 +884,501 @@ int __cdecl mdec_unfreeze2(int a1, _DWORD *a2)
   return gzread(a2, mdec_command, 96);
 }
 
-static int __cdecl mdec_idct_sse(__m64 *a1, int a2)
+static void __cdecl mdec_idct_sse(const unsigned short *a1, int a2)
 {
-  __m64 v2; // mm0
-  __m64 v3; // mm2
-  __m64 v4; // mm4
-  __m64 v5; // mm1
-  __m64 v6; // mm0
-  __m64 v7; // mm2
-  __m64 v8; // mm5
-  __m64 v9; // mm3
-  __m64 v10; // mm6
-  __m64 v11; // mm5
-  __m64 v12; // mm4
-  __m64 v13; // mm3
-  __m64 v14; // mm0
-  __m64 v15; // mm2
-  __m64 v16; // mm5
-  __m64 v17; // mm6
-  __m64 v18; // mm5
-  __m64 v19; // mm4
-  __m64 v20; // mm1
-  __m64 v21; // mm4
-  __m64 v22; // mm7
-  __m64 v23; // mm4
-  __m64 v24; // mm5
-  __m64 v25; // mm0
-  __m64 v26; // mm3
-  __m64 v27; // mm0
-  __m64 v28; // mm2
-  __m64 v29; // mm4
-  __m64 v30; // mm1
-  __m64 v31; // mm0
-  __m64 v32; // mm2
-  __m64 v33; // mm5
-  __m64 v34; // mm3
-  __m64 v35; // mm6
-  __m64 v36; // mm5
-  __m64 v37; // mm4
-  __m64 v38; // mm3
-  __m64 v39; // mm0
-  __m64 v40; // mm2
-  __m64 v41; // mm5
-  __m64 v42; // mm6
-  __m64 v43; // mm7
-  __m64 v44; // mm5
-  __m64 v45; // mm4
-  __m64 v46; // mm1
-  __m64 v47; // mm4
-  __m64 v48; // mm7
-  __m64 v49; // mm4
-  __m64 v50; // mm5
-  __m64 v51; // mm0
-  __m64 v52; // mm3
-  __m64 v53; // mm2
-  __m64 v54; // mm6
-  __m64 v55; // mm3
-  __m64 v56; // mm5
-  __m64 v57; // mm0
-  __m64 v58; // mm1
-  __m64 v59; // mm6
-  __m64 v60; // mm5
-  __m64 v61; // mm2
-  __m64 v62; // mm7
-  __m64 v63; // mm3
-  __m64 v64; // mm4
-  __m64 v65; // mm2
-  __m64 v66; // mm7
-  __m64 v67; // mm0
-  __m64 v68; // mm7
-  __m64 v69; // mm6
-  __m64 v70; // mm5
-  __m64 v71; // mm1
-  __m64 v72; // mm5
-  __m64 v73; // mm3
-  __m64 v74; // mm4
-  __m64 v75; // mm2
-  __m64 v76; // mm3
-  __m64 v77; // mm0
-  __m64 v78; // mm1
-  __m64 v79; // mm6
-  __m64 v80; // mm1
-  __m64 v81; // mm0
-  __m64 v82; // mm3
-  __m64 v83; // mm7
-  __m64 v84; // mm2
-  __m64 v85; // mm6
-  __m64 v86; // mm2
-  __m64 v87; // mm4
-  __m64 v88; // mm7
-  __m64 v89; // mm1
-  __m64 v90; // mm7
-  __m64 v91; // mm4
-  __m64 v92; // mm2
-  __m64 v93; // mm5
-  __m64 v94; // mm0
-  __m64 v95; // mm5
-  __m64 v96; // mm4
-  __m64 v97; // mm1
-  __m64 v98; // mm5
-  __m64 v99; // mm0
-  __m64 v100; // mm3
-  __m64 v101; // mm7
-  __m64 v102; // mm6
-  __m64 v103; // mm3
-  __m64 v104; // mm1
-  __m64 v105; // mm0
-  __m64 v106; // mm2
-  __m64 v107; // mm7
-  __m64 v108; // mm6
-  __m64 v109; // mm7
-  __m64 v110; // mm4
-  __m64 v111; // mm1
-  __m64 v112; // mm5
-  __m64 v113; // mm7
-  __m64 v114; // mm2
-  __m64 v115; // mm6
-  __m64 *v116; // ebx
-  __m64 v117; // mm3
-  __m64 v118; // mm7
-  __m64 *v119; // ecx
-  __m64 *v120; // ebx
-  __m64 v121; // mm2
-  __m64 v122; // mm6
-  __m64 v123; // mm3
-  __m64 v124; // mm5
-  __m64 v125; // mm0
-  __m64 v126; // mm1
-  __m64 v127; // mm6
-  __m64 v128; // mm5
-  __m64 v129; // mm2
-  __m64 v130; // mm7
-  __m64 v131; // mm3
-  __m64 v132; // mm4
-  __m64 v133; // mm2
-  __m64 v134; // mm7
-  __m64 v135; // mm0
-  __m64 v136; // mm7
-  __m64 v137; // mm6
-  __m64 v138; // mm5
-  __m64 v139; // mm1
-  __m64 v140; // mm5
-  __m64 v141; // mm3
-  __m64 v142; // mm4
-  __m64 v143; // mm2
-  __m64 v144; // mm3
-  __m64 v145; // mm0
-  __m64 v146; // mm1
-  __m64 v147; // mm6
-  __m64 v148; // mm1
-  __m64 v149; // mm0
-  __m64 v150; // mm3
-  __m64 v151; // mm7
-  __m64 v152; // mm2
-  __m64 v153; // mm6
-  __m64 v154; // mm2
-  __m64 v155; // mm4
-  __m64 v156; // mm7
-  __m64 v157; // mm1
-  __m64 v158; // mm7
-  __m64 v159; // mm4
-  __m64 v160; // mm2
-  __m64 v161; // mm5
-  __m64 v162; // mm0
-  __m64 v163; // mm5
-  __m64 v164; // mm4
-  __m64 v165; // mm1
-  __m64 v166; // mm5
-  __m64 v167; // mm0
-  __m64 v168; // mm3
-  __m64 v169; // mm7
-  __m64 v170; // mm6
-  __m64 v171; // mm3
-  __m64 v172; // mm1
-  __m64 v173; // mm0
-  __m64 v174; // mm2
-  __m64 v175; // mm7
-  __m64 v176; // mm6
-  __m64 v177; // mm7
-  __m64 v178; // mm4
-  __m64 v179; // mm1
-  __m64 v180; // mm5
-  __m64 v181; // mm7
-  __m64 v182; // mm2
-  __m64 v183; // mm6
-  __m64 *v184; // ebx
-  __m64 v185; // mm3
-  __m64 v186; // mm7
-  __m64 *v187; // ecx
-  __m64 *v189; // ebx
-  __m64 v190; // [esp+10h] [ebp-84h]
-  __m64 v191; // [esp+10h] [ebp-84h]
-  __m64 v192; // [esp+10h] [ebp-84h]
-  __m64 v193; // [esp+18h] [ebp-7Ch]
-  __m64 v194; // [esp+18h] [ebp-7Ch]
-  __m64 v195; // [esp+18h] [ebp-7Ch]
-  __m64 v196; // [esp+20h] [ebp-74h]
-  __m64 v197; // [esp+20h] [ebp-74h]
-  __m64 v198; // [esp+20h] [ebp-74h]
-  __m64 v199; // [esp+28h] [ebp-6Ch]
-  __m64 v200; // [esp+28h] [ebp-6Ch]
-  __m64 v201; // [esp+28h] [ebp-6Ch]
-  __m64 v202; // [esp+30h] [ebp-64h]
-  __m64 v203; // [esp+30h] [ebp-64h]
-  __m64 v204; // [esp+38h] [ebp-5Ch]
-  __m64 v205; // [esp+38h] [ebp-5Ch]
-  __m64 v206; // [esp+40h] [ebp-54h]
-  __m64 v207; // [esp+48h] [ebp-4Ch]
-  __m64 v208; // [esp+50h] [ebp-44h]
-  __m64 v209; // [esp+50h] [ebp-44h]
-  __m64 v210; // [esp+58h] [ebp-3Ch]
-  __m64 v211; // [esp+58h] [ebp-3Ch]
-  __m64 v212; // [esp+60h] [ebp-34h]
-  __m64 v213; // [esp+60h] [ebp-34h]
-  __m64 v214; // [esp+68h] [ebp-2Ch]
-  __m64 v215; // [esp+68h] [ebp-2Ch]
-  __m64 v216; // [esp+70h] [ebp-24h]
-  __m64 v217; // [esp+78h] [ebp-1Ch]
-  __m64 v218; // [esp+80h] [ebp-14h]
-  __m64 v219; // [esp+88h] [ebp-Ch]
+  mdec_v64 v2; // mm0
+  mdec_v64 v3; // mm2
+  mdec_v64 v4; // mm4
+  mdec_v64 v5; // mm1
+  mdec_v64 v6; // mm0
+  mdec_v64 v7; // mm2
+  mdec_v64 v8; // mm5
+  mdec_v64 v9; // mm3
+  mdec_v64 v10; // mm6
+  mdec_v64 v11; // mm5
+  mdec_v64 v12; // mm4
+  mdec_v64 v13; // mm3
+  mdec_v64 v14; // mm0
+  mdec_v64 v15; // mm2
+  mdec_v64 v16; // mm5
+  mdec_v64 v17; // mm6
+  mdec_v64 v18; // mm5
+  mdec_v64 v19; // mm4
+  mdec_v64 v20; // mm1
+  mdec_v64 v21; // mm4
+  mdec_v64 v22; // mm7
+  mdec_v64 v23; // mm4
+  mdec_v64 v24; // mm5
+  mdec_v64 v25; // mm0
+  mdec_v64 v26; // mm3
+  mdec_v64 v27; // mm0
+  mdec_v64 v28; // mm2
+  mdec_v64 v29; // mm4
+  mdec_v64 v30; // mm1
+  mdec_v64 v31; // mm0
+  mdec_v64 v32; // mm2
+  mdec_v64 v33; // mm5
+  mdec_v64 v34; // mm3
+  mdec_v64 v35; // mm6
+  mdec_v64 v36; // mm5
+  mdec_v64 v37; // mm4
+  mdec_v64 v38; // mm3
+  mdec_v64 v39; // mm0
+  mdec_v64 v40; // mm2
+  mdec_v64 v41; // mm5
+  mdec_v64 v42; // mm6
+  mdec_v64 v43; // mm7
+  mdec_v64 v44; // mm5
+  mdec_v64 v45; // mm4
+  mdec_v64 v46; // mm1
+  mdec_v64 v47; // mm4
+  mdec_v64 v48; // mm7
+  mdec_v64 v49; // mm4
+  mdec_v64 v50; // mm5
+  mdec_v64 v51; // mm0
+  mdec_v64 v52; // mm3
+  mdec_v64 v53; // mm2
+  mdec_v64 v54; // mm6
+  mdec_v64 v55; // mm3
+  mdec_v64 v56; // mm5
+  mdec_v64 v57; // mm0
+  mdec_v64 v58; // mm1
+  mdec_v64 v59; // mm6
+  mdec_v64 v60; // mm5
+  mdec_v64 v61; // mm2
+  mdec_v64 v62; // mm7
+  mdec_v64 v63; // mm3
+  mdec_v64 v64; // mm4
+  mdec_v64 v65; // mm2
+  mdec_v64 v66; // mm7
+  mdec_v64 v67; // mm0
+  mdec_v64 v68; // mm7
+  mdec_v64 v69; // mm6
+  mdec_v64 v70; // mm5
+  mdec_v64 v71; // mm1
+  mdec_v64 v72; // mm5
+  mdec_v64 v73; // mm3
+  mdec_v64 v74; // mm4
+  mdec_v64 v75; // mm2
+  mdec_v64 v76; // mm3
+  mdec_v64 v77; // mm0
+  mdec_v64 v78; // mm1
+  mdec_v64 v79; // mm6
+  mdec_v64 v80; // mm1
+  mdec_v64 v81; // mm0
+  mdec_v64 v82; // mm3
+  mdec_v64 v83; // mm7
+  mdec_v64 v84; // mm2
+  mdec_v64 v85; // mm6
+  mdec_v64 v86; // mm2
+  mdec_v64 v87; // mm4
+  mdec_v64 v88; // mm7
+  mdec_v64 v89; // mm1
+  mdec_v64 v90; // mm7
+  mdec_v64 v91; // mm4
+  mdec_v64 v92; // mm2
+  mdec_v64 v93; // mm5
+  mdec_v64 v94; // mm0
+  mdec_v64 v95; // mm5
+  mdec_v64 v96; // mm4
+  mdec_v64 v97; // mm1
+  mdec_v64 v98; // mm5
+  mdec_v64 v99; // mm0
+  mdec_v64 v100; // mm3
+  mdec_v64 v101; // mm7
+  mdec_v64 v102; // mm6
+  mdec_v64 v103; // mm3
+  mdec_v64 v104; // mm1
+  mdec_v64 v105; // mm0
+  mdec_v64 v106; // mm2
+  mdec_v64 v107; // mm7
+  mdec_v64 v108; // mm6
+  mdec_v64 v109; // mm7
+  mdec_v64 v110; // mm4
+  mdec_v64 v111; // mm1
+  mdec_v64 v112; // mm5
+  mdec_v64 v113; // mm7
+  mdec_v64 v114; // mm2
+  mdec_v64 v115; // mm6
+  void *v116; // ebx
+  mdec_v64 v117; // mm3
+  mdec_v64 v118; // mm7
+  void *v119; // ecx
+  void *v120; // ebx
+  mdec_v64 v121; // mm2
+  mdec_v64 v122; // mm6
+  mdec_v64 v123; // mm3
+  mdec_v64 v124; // mm5
+  mdec_v64 v125; // mm0
+  mdec_v64 v126; // mm1
+  mdec_v64 v127; // mm6
+  mdec_v64 v128; // mm5
+  mdec_v64 v129; // mm2
+  mdec_v64 v130; // mm7
+  mdec_v64 v131; // mm3
+  mdec_v64 v132; // mm4
+  mdec_v64 v133; // mm2
+  mdec_v64 v134; // mm7
+  mdec_v64 v135; // mm0
+  mdec_v64 v136; // mm7
+  mdec_v64 v137; // mm6
+  mdec_v64 v138; // mm5
+  mdec_v64 v139; // mm1
+  mdec_v64 v140; // mm5
+  mdec_v64 v141; // mm3
+  mdec_v64 v142; // mm4
+  mdec_v64 v143; // mm2
+  mdec_v64 v144; // mm3
+  mdec_v64 v145; // mm0
+  mdec_v64 v146; // mm1
+  mdec_v64 v147; // mm6
+  mdec_v64 v148; // mm1
+  mdec_v64 v149; // mm0
+  mdec_v64 v150; // mm3
+  mdec_v64 v151; // mm7
+  mdec_v64 v152; // mm2
+  mdec_v64 v153; // mm6
+  mdec_v64 v154; // mm2
+  mdec_v64 v155; // mm4
+  mdec_v64 v156; // mm7
+  mdec_v64 v157; // mm1
+  mdec_v64 v158; // mm7
+  mdec_v64 v159; // mm4
+  mdec_v64 v160; // mm2
+  mdec_v64 v161; // mm5
+  mdec_v64 v162; // mm0
+  mdec_v64 v163; // mm5
+  mdec_v64 v164; // mm4
+  mdec_v64 v165; // mm1
+  mdec_v64 v166; // mm5
+  mdec_v64 v167; // mm0
+  mdec_v64 v168; // mm3
+  mdec_v64 v169; // mm7
+  mdec_v64 v170; // mm6
+  mdec_v64 v171; // mm3
+  mdec_v64 v172; // mm1
+  mdec_v64 v173; // mm0
+  mdec_v64 v174; // mm2
+  mdec_v64 v175; // mm7
+  mdec_v64 v176; // mm6
+  mdec_v64 v177; // mm7
+  mdec_v64 v178; // mm4
+  mdec_v64 v179; // mm1
+  mdec_v64 v180; // mm5
+  mdec_v64 v181; // mm7
+  mdec_v64 v182; // mm2
+  mdec_v64 v183; // mm6
+  void *v184; // ebx
+  mdec_v64 v185; // mm3
+  mdec_v64 v186; // mm7
+  void *v187; // ecx
+  void *v189; // ebx
+  mdec_v64 v190; // [esp+10h] [ebp-84h]
+  mdec_v64 v191; // [esp+10h] [ebp-84h]
+  mdec_v64 v192; // [esp+10h] [ebp-84h]
+  mdec_v64 v193; // [esp+18h] [ebp-7Ch]
+  mdec_v64 v194; // [esp+18h] [ebp-7Ch]
+  mdec_v64 v195; // [esp+18h] [ebp-7Ch]
+  mdec_v64 v196; // [esp+20h] [ebp-74h]
+  mdec_v64 v197; // [esp+20h] [ebp-74h]
+  mdec_v64 v198; // [esp+20h] [ebp-74h]
+  mdec_v64 v199; // [esp+28h] [ebp-6Ch]
+  mdec_v64 v200; // [esp+28h] [ebp-6Ch]
+  mdec_v64 v201; // [esp+28h] [ebp-6Ch]
+  mdec_v64 v202; // [esp+30h] [ebp-64h]
+  mdec_v64 v203; // [esp+30h] [ebp-64h]
+  mdec_v64 v204; // [esp+38h] [ebp-5Ch]
+  mdec_v64 v205; // [esp+38h] [ebp-5Ch]
+  mdec_v64 v206; // [esp+40h] [ebp-54h]
+  mdec_v64 v207; // [esp+48h] [ebp-4Ch]
+  mdec_v64 v208; // [esp+50h] [ebp-44h]
+  mdec_v64 v209; // [esp+50h] [ebp-44h]
+  mdec_v64 v210; // [esp+58h] [ebp-3Ch]
+  mdec_v64 v211; // [esp+58h] [ebp-3Ch]
+  mdec_v64 v212; // [esp+60h] [ebp-34h]
+  mdec_v64 v213; // [esp+60h] [ebp-34h]
+  mdec_v64 v214; // [esp+68h] [ebp-2Ch]
+  mdec_v64 v215; // [esp+68h] [ebp-2Ch]
+  mdec_v64 v216; // [esp+70h] [ebp-24h]
+  mdec_v64 v217; // [esp+78h] [ebp-1Ch]
+  mdec_v64 v218; // [esp+80h] [ebp-14h]
+  mdec_v64 v219; // [esp+88h] [ebp-Ch]
 
-  v2 = a1[6];
-  v3 = a1[10];
-  v4 = a1[14];
-  v5 = _m_paddw(v3, v2);
-  v6 = _m_psllwi(_m_psubw(v3, v2), 2u);
-  v7 = _m_pmulhw(v6, _m_from_int64(qword_455C28));
-  v8 = a1[2];
-  v9 = _m_paddw(v8, v4);
-  v10 = _m_psubw(v9, v5);
-  v11 = _m_psllwi(_m_psubw(v8, v4), 2u);
-  v12 = a1[12];
-  v13 = _m_paddw(v9, v5);
-  v14 = _m_paddw(_m_pmulhw(v6, _m_from_int64(qword_455C38)), _m_pmulhw(v11, _m_from_int64(qword_455C40)));
-  v15 = _m_psubw(_m_paddw(v7, _m_pmulhw(v11, _m_from_int64(qword_455C30))), v13);
-  v16 = a1[4];
-  v17 = _m_psubw(_m_pmulhw(_m_psllwi(v10, 2u), _m_from_int64(qword_455C20)), v15);
-  v190 = _m_paddw(v16, v12);
-  v18 = _m_pmulhw(_m_psllwi(_m_psubw(v16, v12), 2u), _m_from_int64(qword_455C20));
-  v19 = a1[8];
-  v202 = _m_paddw(v14, v17);
-  v196 = _m_psubw(v18, v190);
-  v20 = _m_psubw(*a1, v19);
-  v21 = _m_paddw(*a1, v19);
-  v22 = _m_paddw(v21, v190);
-  v23 = _m_psubw(v21, v190);
-  v24 = _m_psubw(v20, v196);
-  v25 = _m_psubw(v22, v13);
-  v191 = _m_paddw(v22, v13);
-  v26 = _m_paddw(v20, v196);
+  v2 = md_load4(a1 + 24);              /* a1[6] */
+  v3 = md_load4(a1 + 40);              /* a1[10] */
+  v4 = md_load4(a1 + 56);              /* a1[14] */
+  v5 = md_paddw(v3, v2);
+  v6 = md_psllwi(md_psubw(v3, v2), 2u);
+  v7 = md_pmulhw(v6, md_from_int64(qword_455C28));
+  v8 = md_load4(a1 + 8);               /* a1[2] */
+  v9 = md_paddw(v8, v4);
+  v10 = md_psubw(v9, v5);
+  v11 = md_psllwi(md_psubw(v8, v4), 2u);
+  v12 = md_load4(a1 + 48);             /* a1[12] */
+  v13 = md_paddw(v9, v5);
+  v14 = md_paddw(md_pmulhw(v6, md_from_int64(qword_455C38)), md_pmulhw(v11, md_from_int64(qword_455C40)));
+  v15 = md_psubw(md_paddw(v7, md_pmulhw(v11, md_from_int64(qword_455C30))), v13);
+  v16 = md_load4(a1 + 16);             /* a1[4] */
+  v17 = md_psubw(md_pmulhw(md_psllwi(v10, 2u), md_from_int64(qword_455C20)), v15);
+  v190 = md_paddw(v16, v12);
+  v18 = md_pmulhw(md_psllwi(md_psubw(v16, v12), 2u), md_from_int64(qword_455C20));
+  v19 = md_load4(a1 + 32);             /* a1[8] */
+  v202 = md_paddw(v14, v17);
+  v196 = md_psubw(v18, v190);
+  v20 = md_psubw(md_load4(a1), v19);
+  v21 = md_paddw(md_load4(a1), v19);
+  v22 = md_paddw(v21, v190);
+  v23 = md_psubw(v21, v190);
+  v24 = md_psubw(v20, v196);
+  v25 = md_psubw(v22, v13);
+  v191 = md_paddw(v22, v13);
+  v26 = md_paddw(v20, v196);
   v218 = v25;
-  v197 = _m_paddw(v26, v15);
-  v216 = _m_psubw(v26, v15);
-  v208 = _m_paddw(v23, v202);
-  v206 = _m_psubw(v23, v202);
-  v203 = _m_paddw(v24, v17);
-  v212 = _m_psubw(v24, v17);
-  v27 = a1[7];
-  v28 = a1[11];
-  v29 = a1[15];
-  v30 = _m_paddw(v28, v27);
-  v31 = _m_psllwi(_m_psubw(v28, v27), 2u);
-  v32 = _m_pmulhw(v31, _m_from_int64(qword_455C28));
-  v33 = a1[3];
-  v34 = _m_paddw(v33, v29);
-  v35 = _m_psubw(v34, v30);
-  v36 = _m_psllwi(_m_psubw(v33, v29), 2u);
-  v37 = a1[13];
-  v38 = _m_paddw(v34, v30);
-  v39 = _m_paddw(_m_pmulhw(v31, _m_from_int64(qword_455C38)), _m_pmulhw(v36, _m_from_int64(qword_455C40)));
-  v40 = _m_psubw(_m_paddw(v32, _m_pmulhw(v36, _m_from_int64(qword_455C30))), v38);
-  v41 = a1[5];
-  v42 = _m_psubw(_m_pmulhw(_m_psllwi(v35, 2u), _m_from_int64(qword_455C20)), v40);
-  v193 = _m_paddw(v41, v37);
-  v43 = a1[1];
-  v44 = _m_pmulhw(_m_psllwi(_m_psubw(v41, v37), 2u), _m_from_int64(qword_455C20));
-  v45 = a1[9];
-  v204 = _m_paddw(v39, v42);
-  v199 = _m_psubw(v44, v193);
-  v46 = _m_psubw(v43, v45);
-  v47 = _m_paddw(v43, v45);
-  v48 = _m_paddw(v47, v193);
-  v49 = _m_psubw(v47, v193);
-  v50 = _m_psubw(v46, v199);
-  v51 = _m_psubw(v48, v38);
-  v194 = _m_paddw(v48, v38);
-  v52 = _m_paddw(v46, v199);
+  v197 = md_paddw(v26, v15);
+  v216 = md_psubw(v26, v15);
+  v208 = md_paddw(v23, v202);
+  v206 = md_psubw(v23, v202);
+  v203 = md_paddw(v24, v17);
+  v212 = md_psubw(v24, v17);
+  v27 = md_load4(a1 + 28);             /* a1[7] */
+  v28 = md_load4(a1 + 44);             /* a1[11] */
+  v29 = md_load4(a1 + 60);             /* a1[15] */
+  v30 = md_paddw(v28, v27);
+  v31 = md_psllwi(md_psubw(v28, v27), 2u);
+  v32 = md_pmulhw(v31, md_from_int64(qword_455C28));
+  v33 = md_load4(a1 + 12);             /* a1[3] */
+  v34 = md_paddw(v33, v29);
+  v35 = md_psubw(v34, v30);
+  v36 = md_psllwi(md_psubw(v33, v29), 2u);
+  v37 = md_load4(a1 + 52);             /* a1[13] */
+  v38 = md_paddw(v34, v30);
+  v39 = md_paddw(md_pmulhw(v31, md_from_int64(qword_455C38)), md_pmulhw(v36, md_from_int64(qword_455C40)));
+  v40 = md_psubw(md_paddw(v32, md_pmulhw(v36, md_from_int64(qword_455C30))), v38);
+  v41 = md_load4(a1 + 20);             /* a1[5] */
+  v42 = md_psubw(md_pmulhw(md_psllwi(v35, 2u), md_from_int64(qword_455C20)), v40);
+  v193 = md_paddw(v41, v37);
+  v43 = md_load4(a1 + 4);              /* a1[1] */
+  v44 = md_pmulhw(md_psllwi(md_psubw(v41, v37), 2u), md_from_int64(qword_455C20));
+  v45 = md_load4(a1 + 36);             /* a1[9] */
+  v204 = md_paddw(v39, v42);
+  v199 = md_psubw(v44, v193);
+  v46 = md_psubw(v43, v45);
+  v47 = md_paddw(v43, v45);
+  v48 = md_paddw(v47, v193);
+  v49 = md_psubw(v47, v193);
+  v50 = md_psubw(v46, v199);
+  v51 = md_psubw(v48, v38);
+  v194 = md_paddw(v48, v38);
+  v52 = md_paddw(v46, v199);
   v219 = v51;
-  v200 = _m_paddw(v52, v40);
-  v217 = _m_psubw(v52, v40);
-  v210 = _m_paddw(v49, v204);
-  v207 = _m_psubw(v49, v204);
-  v205 = _m_paddw(v50, v42);
-  v214 = _m_psubw(v50, v42);
-  v53 = _m_psubw(v191, v194);
-  v54 = _m_paddw(v191, v194);
-  v55 = _m_paddw(v197, v200);
-  v56 = _m_psubw(v197, v200);
-  v57 = _m_punpckldq(_m_punpcklwd(v54, v55), _m_punpckhwd(v54, v55));
-  v58 = _m_punpckldq(_m_punpcklwd(v53, v56), _m_punpckhwd(v53, v56));
-  v59 = _m_paddw(v206, v207);
-  v60 = _m_paddw(v203, v205);
-  v61 = _m_psubw(v206, v207);
-  v62 = _m_psubw(v203, v205);
-  v63 = _m_punpckldq(_m_punpcklwd(v60, v59), _m_punpckhwd(v60, v59));
-  v64 = _m_punpckldq(_m_punpcklwd(v62, v61), _m_punpckhwd(v62, v61));
-  v65 = _m_punpckhdq(v57, v63);
-  v66 = _m_punpckldq(v57, v63);
-  v67 = _m_paddw(v66, v65);
-  v68 = _m_psubw(v66, v65);
-  v69 = _m_psubw(_m_pmulhw(_m_psllwi(_m_punpckhdq(v58, v64), 2u), _m_from_int64(qword_455C20)), v65);
-  v70 = _m_punpckldq(v58, v64);
-  v71 = _m_paddw(v70, v69);
-  v72 = _m_psubw(v70, v69);
-  v73 = _m_punpckldq(v191, v194);
-  v74 = _m_punpckhdq(v194, v191);
+  v200 = md_paddw(v52, v40);
+  v217 = md_psubw(v52, v40);
+  v210 = md_paddw(v49, v204);
+  v207 = md_psubw(v49, v204);
+  v205 = md_paddw(v50, v42);
+  v214 = md_psubw(v50, v42);
+  v53 = md_psubw(v191, v194);
+  v54 = md_paddw(v191, v194);
+  v55 = md_paddw(v197, v200);
+  v56 = md_psubw(v197, v200);
+  v57 = md_punpckldq(md_punpcklwd(v54, v55), md_punpckhwd(v54, v55));
+  v58 = md_punpckldq(md_punpcklwd(v53, v56), md_punpckhwd(v53, v56));
+  v59 = md_paddw(v206, v207);
+  v60 = md_paddw(v203, v205);
+  v61 = md_psubw(v206, v207);
+  v62 = md_psubw(v203, v205);
+  v63 = md_punpckldq(md_punpcklwd(v60, v59), md_punpckhwd(v60, v59));
+  v64 = md_punpckldq(md_punpcklwd(v62, v61), md_punpckhwd(v62, v61));
+  v65 = md_punpckhdq(v57, v63);
+  v66 = md_punpckldq(v57, v63);
+  v67 = md_paddw(v66, v65);
+  v68 = md_psubw(v66, v65);
+  v69 = md_psubw(md_pmulhw(md_psllwi(md_punpckhdq(v58, v64), 2u), md_from_int64(qword_455C20)), v65);
+  v70 = md_punpckldq(v58, v64);
+  v71 = md_paddw(v70, v69);
+  v72 = md_psubw(v70, v69);
+  v73 = md_punpckldq(v191, v194);
+  v74 = md_punpckhdq(v194, v191);
   v192 = v67;
-  v75 = _m_paddw(v73, v74);
-  v76 = _m_psubw(v73, v74);
+  v75 = md_paddw(v73, v74);
+  v76 = md_psubw(v73, v74);
   v195 = v71;
-  v77 = _m_punpckhdq(v200, v197);
-  v78 = _m_punpckldq(v197, v200);
-  v79 = _m_paddw(v78, v77);
+  v77 = md_punpckhdq(v200, v197);
+  v78 = md_punpckldq(v197, v200);
+  v79 = md_paddw(v78, v77);
   v198 = v72;
-  v80 = _m_psubw(v78, v77);
+  v80 = md_psubw(v78, v77);
   v201 = v68;
-  v81 = _m_punpckhdq(_m_punpckhwd(v76, v80), _m_punpcklwd(v75, v79));
-  v82 = _m_punpckhdq(_m_punpcklwd(v76, v80), _m_punpckhwd(v75, v79));
-  v83 = _m_punpckhdq(v205, v203);
-  v84 = _m_punpckldq(v203, v205);
-  v85 = _m_paddw(v84, v83);
-  v86 = _m_psubw(v84, v83);
-  v87 = _m_punpckhdq(v207, v206);
-  v88 = _m_punpckldq(v206, v207);
-  v89 = _m_paddw(v88, v87);
-  v90 = _m_psubw(v88, v87);
-  v91 = _m_punpckhdq(_m_punpckhwd(v86, v90), _m_punpcklwd(v85, v89));
-  v92 = _m_punpckhdq(_m_punpcklwd(v86, v90), _m_punpckhwd(v85, v89));
+  v81 = md_punpckhdq(md_punpckhwd(v76, v80), md_punpcklwd(v75, v79));
+  v82 = md_punpckhdq(md_punpcklwd(v76, v80), md_punpckhwd(v75, v79));
+  v83 = md_punpckhdq(v205, v203);
+  v84 = md_punpckldq(v203, v205);
+  v85 = md_paddw(v84, v83);
+  v86 = md_psubw(v84, v83);
+  v87 = md_punpckhdq(v207, v206);
+  v88 = md_punpckldq(v206, v207);
+  v89 = md_paddw(v88, v87);
+  v90 = md_psubw(v88, v87);
+  v91 = md_punpckhdq(md_punpckhwd(v86, v90), md_punpcklwd(v85, v89));
+  v92 = md_punpckhdq(md_punpcklwd(v86, v90), md_punpckhwd(v85, v89));
   v93 = v81;
-  v94 = _m_punpckldq(v81, v91);
-  v95 = _m_punpckhdq(v93, v91);
-  v96 = _m_punpckhdq(v82, v92);
-  v97 = _m_psubw(v95, v96);
-  v98 = _m_paddw(v95, v96);
-  v99 = _m_psllwi(v94, 2u);
-  v100 = _m_psllwi(_m_punpckldq(v82, v92), 2u);
-  v101 = _m_pmulhw(v99, _m_from_int64(qword_455C38));
-  v102 = _m_pmulhw(v100, _m_from_int64(qword_455C40));
-  v103 = _m_psubw(_m_paddw(_m_pmulhw(v100, _m_from_int64(qword_455C30)), _m_pmulhw(v99, _m_from_int64(qword_455C28))), v98);
-  v104 = _m_psubw(_m_pmulhw(_m_psllwi(v97, 2u), _m_from_int64(qword_455C20)), v103);
-  v105 = _m_packsswb(_m_psrawi(_m_paddw(v195, v103), 5u), _m_psrawi(_m_psubw(v192, v98), 5u));
-  v106 = _m_packsswb(_m_psrawi(_m_paddw(v192, v98), 5u), _m_psrawi(_m_psubw(v195, v103), 5u));
-  v107 = _m_paddw(_m_paddw(v101, v102), v104);
-  v108 = _m_packsswb(_m_psrawi(_m_psubw(v201, v107), 5u), _m_psrawi(_m_psubw(v198, v104), 5u));
-  v109 = _m_packsswb(_m_psrawi(_m_paddw(v198, v104), 5u), _m_psrawi(_m_paddw(v201, v107), 5u));
-  v110 = _m_punpckhbw(v106, v105);
-  v111 = _m_punpcklbw(v106, v105);
-  v112 = _m_punpcklbw(v109, v108);
-  v113 = _m_punpckhbw(v109, v108);
-  v114 = _m_punpcklwd(v111, v112);
-  v115 = _m_punpcklwd(v113, v110);
-  v116 = *(__m64 **)(a2 + 4);
-  v117 = _m_punpckhwd(v111, v112);
-  v118 = _m_punpckhwd(v113, v110);
-  *(__m64 *)*(_DWORD *)a2 = _m_punpckldq(v114, v115);
-  v119 = *(__m64 **)(a2 + 8);
-  v116->m64_u64 = _m_punpckhdq(v114, v115).m64_u64;
-  v120 = *(__m64 **)(a2 + 12);
-  v119->m64_u64 = _m_punpckldq(v117, v118).m64_u64;
-  v120->m64_u64 = _m_punpckhdq(v117, v118).m64_u64;
-  v121 = _m_psubw(v208, v210);
-  v122 = _m_paddw(v208, v210);
-  v123 = _m_paddw(v212, v214);
-  v124 = _m_psubw(v212, v214);
-  v125 = _m_punpckldq(_m_punpcklwd(v122, v123), _m_punpckhwd(v122, v123));
-  v126 = _m_punpckldq(_m_punpcklwd(v121, v124), _m_punpckhwd(v121, v124));
-  v127 = _m_paddw(v218, v219);
-  v128 = _m_paddw(v216, v217);
-  v129 = _m_psubw(v218, v219);
-  v130 = _m_psubw(v216, v217);
-  v131 = _m_punpckldq(_m_punpcklwd(v128, v127), _m_punpckhwd(v128, v127));
-  v132 = _m_punpckldq(_m_punpcklwd(v130, v129), _m_punpckhwd(v130, v129));
-  v133 = _m_punpckhdq(v125, v131);
-  v134 = _m_punpckldq(v125, v131);
-  v135 = _m_paddw(v134, v133);
-  v136 = _m_psubw(v134, v133);
-  v137 = _m_psubw(_m_pmulhw(_m_psllwi(_m_punpckhdq(v126, v132), 2u), _m_from_int64(qword_455C20)), v133);
-  v138 = _m_punpckldq(v126, v132);
-  v139 = _m_paddw(v138, v137);
-  v140 = _m_psubw(v138, v137);
-  v141 = _m_punpckldq(v208, v210);
-  v142 = _m_punpckhdq(v210, v208);
+  v94 = md_punpckldq(v81, v91);
+  v95 = md_punpckhdq(v93, v91);
+  v96 = md_punpckhdq(v82, v92);
+  v97 = md_psubw(v95, v96);
+  v98 = md_paddw(v95, v96);
+  v99 = md_psllwi(v94, 2u);
+  v100 = md_psllwi(md_punpckldq(v82, v92), 2u);
+  v101 = md_pmulhw(v99, md_from_int64(qword_455C38));
+  v102 = md_pmulhw(v100, md_from_int64(qword_455C40));
+  v103 = md_psubw(md_paddw(md_pmulhw(v100, md_from_int64(qword_455C30)), md_pmulhw(v99, md_from_int64(qword_455C28))), v98);
+  v104 = md_psubw(md_pmulhw(md_psllwi(v97, 2u), md_from_int64(qword_455C20)), v103);
+  v105 = md_packsswb(md_psrawi(md_paddw(v195, v103), 5u), md_psrawi(md_psubw(v192, v98), 5u));
+  v106 = md_packsswb(md_psrawi(md_paddw(v192, v98), 5u), md_psrawi(md_psubw(v195, v103), 5u));
+  v107 = md_paddw(md_paddw(v101, v102), v104);
+  v108 = md_packsswb(md_psrawi(md_psubw(v201, v107), 5u), md_psrawi(md_psubw(v198, v104), 5u));
+  v109 = md_packsswb(md_psrawi(md_paddw(v198, v104), 5u), md_psrawi(md_paddw(v201, v107), 5u));
+  v110 = md_punpckhbw(v106, v105);
+  v111 = md_punpcklbw(v106, v105);
+  v112 = md_punpcklbw(v109, v108);
+  v113 = md_punpckhbw(v109, v108);
+  v114 = md_punpcklwd(v111, v112);
+  v115 = md_punpcklwd(v113, v110);
+  v116 = (void *)*(unsigned int *)(a2 + 4);       /* was *(__m64 **)(a2 + 4) */
+  v117 = md_punpckhwd(v111, v112);
+  v118 = md_punpckhwd(v113, v110);
+  md_store8((void *)*(unsigned int *)a2, md_punpckldq(v114, v115));
+  v119 = (void *)*(unsigned int *)(a2 + 8);       /* was *(__m64 **)(a2 + 8) */
+  md_store8(v116, md_punpckhdq(v114, v115));
+  v120 = (void *)*(unsigned int *)(a2 + 12);      /* was *(__m64 **)(a2 + 12) */
+  md_store8(v119, md_punpckldq(v117, v118));
+  md_store8(v120, md_punpckhdq(v117, v118));
+  v121 = md_psubw(v208, v210);
+  v122 = md_paddw(v208, v210);
+  v123 = md_paddw(v212, v214);
+  v124 = md_psubw(v212, v214);
+  v125 = md_punpckldq(md_punpcklwd(v122, v123), md_punpckhwd(v122, v123));
+  v126 = md_punpckldq(md_punpcklwd(v121, v124), md_punpckhwd(v121, v124));
+  v127 = md_paddw(v218, v219);
+  v128 = md_paddw(v216, v217);
+  v129 = md_psubw(v218, v219);
+  v130 = md_psubw(v216, v217);
+  v131 = md_punpckldq(md_punpcklwd(v128, v127), md_punpckhwd(v128, v127));
+  v132 = md_punpckldq(md_punpcklwd(v130, v129), md_punpckhwd(v130, v129));
+  v133 = md_punpckhdq(v125, v131);
+  v134 = md_punpckldq(v125, v131);
+  v135 = md_paddw(v134, v133);
+  v136 = md_psubw(v134, v133);
+  v137 = md_psubw(md_pmulhw(md_psllwi(md_punpckhdq(v126, v132), 2u), md_from_int64(qword_455C20)), v133);
+  v138 = md_punpckldq(v126, v132);
+  v139 = md_paddw(v138, v137);
+  v140 = md_psubw(v138, v137);
+  v141 = md_punpckldq(v208, v210);
+  v142 = md_punpckhdq(v210, v208);
   v209 = v135;
-  v143 = _m_paddw(v141, v142);
-  v144 = _m_psubw(v141, v142);
+  v143 = md_paddw(v141, v142);
+  v144 = md_psubw(v141, v142);
   v211 = v139;
-  v145 = _m_punpckhdq(v214, v212);
-  v146 = _m_punpckldq(v212, v214);
-  v147 = _m_paddw(v146, v145);
+  v145 = md_punpckhdq(v214, v212);
+  v146 = md_punpckldq(v212, v214);
+  v147 = md_paddw(v146, v145);
   v213 = v140;
-  v148 = _m_psubw(v146, v145);
+  v148 = md_psubw(v146, v145);
   v215 = v136;
-  v149 = _m_punpckhdq(_m_punpckhwd(v144, v148), _m_punpcklwd(v143, v147));
-  v150 = _m_punpckhdq(_m_punpcklwd(v144, v148), _m_punpckhwd(v143, v147));
-  v151 = _m_punpckhdq(v217, v216);
-  v152 = _m_punpckldq(v216, v217);
-  v153 = _m_paddw(v152, v151);
-  v154 = _m_psubw(v152, v151);
-  v155 = _m_punpckhdq(v219, v218);
-  v156 = _m_punpckldq(v218, v219);
-  v157 = _m_paddw(v156, v155);
-  v158 = _m_psubw(v156, v155);
-  v159 = _m_punpckhdq(_m_punpckhwd(v154, v158), _m_punpcklwd(v153, v157));
-  v160 = _m_punpckhdq(_m_punpcklwd(v154, v158), _m_punpckhwd(v153, v157));
+  v149 = md_punpckhdq(md_punpckhwd(v144, v148), md_punpcklwd(v143, v147));
+  v150 = md_punpckhdq(md_punpcklwd(v144, v148), md_punpckhwd(v143, v147));
+  v151 = md_punpckhdq(v217, v216);
+  v152 = md_punpckldq(v216, v217);
+  v153 = md_paddw(v152, v151);
+  v154 = md_psubw(v152, v151);
+  v155 = md_punpckhdq(v219, v218);
+  v156 = md_punpckldq(v218, v219);
+  v157 = md_paddw(v156, v155);
+  v158 = md_psubw(v156, v155);
+  v159 = md_punpckhdq(md_punpckhwd(v154, v158), md_punpcklwd(v153, v157));
+  v160 = md_punpckhdq(md_punpcklwd(v154, v158), md_punpckhwd(v153, v157));
   v161 = v149;
-  v162 = _m_punpckldq(v149, v159);
-  v163 = _m_punpckhdq(v161, v159);
-  v164 = _m_punpckhdq(v150, v160);
-  v165 = _m_psubw(v163, v164);
-  v166 = _m_paddw(v163, v164);
-  v167 = _m_psllwi(v162, 2u);
-  v168 = _m_psllwi(_m_punpckldq(v150, v160), 2u);
-  v169 = _m_pmulhw(v167, _m_from_int64(qword_455C38));
-  v170 = _m_pmulhw(v168, _m_from_int64(qword_455C40));
-  v171 = _m_psubw(_m_paddw(_m_pmulhw(v168, _m_from_int64(qword_455C30)), _m_pmulhw(v167, _m_from_int64(qword_455C28))), v166);
-  v172 = _m_psubw(_m_pmulhw(_m_psllwi(v165, 2u), _m_from_int64(qword_455C20)), v171);
-  v173 = _m_packsswb(_m_psrawi(_m_paddw(v211, v171), 5u), _m_psrawi(_m_psubw(v209, v166), 5u));
-  v174 = _m_packsswb(_m_psrawi(_m_paddw(v209, v166), 5u), _m_psrawi(_m_psubw(v211, v171), 5u));
-  v175 = _m_paddw(_m_paddw(v169, v170), v172);
-  v176 = _m_packsswb(_m_psrawi(_m_psubw(v215, v175), 5u), _m_psrawi(_m_psubw(v213, v172), 5u));
-  v177 = _m_packsswb(_m_psrawi(_m_paddw(v213, v172), 5u), _m_psrawi(_m_paddw(v215, v175), 5u));
-  v178 = _m_punpckhbw(v174, v173);
-  v179 = _m_punpcklbw(v174, v173);
-  v180 = _m_punpcklbw(v177, v176);
-  v181 = _m_punpckhbw(v177, v176);
-  v182 = _m_punpcklwd(v179, v180);
-  v183 = _m_punpcklwd(v181, v178);
-  v184 = *(__m64 **)(a2 + 20);
-  v185 = _m_punpckhwd(v179, v180);
-  v186 = _m_punpckhwd(v181, v178);
-  *(__m64 *)*(_DWORD *)(a2 + 16) = _m_punpckldq(v182, v183);
-  v187 = *(__m64 **)(a2 + 24);
-  v184->m64_u64 = _m_punpckhdq(v182, v183).m64_u64;
-  v189 = *(__m64 **)(a2 + 28);
-  v187->m64_u64 = _m_punpckldq(v185, v186).m64_u64;
-  v189->m64_u64 = _m_punpckhdq(v185, v186).m64_u64;
-  return a2 + 28;
+  v162 = md_punpckldq(v149, v159);
+  v163 = md_punpckhdq(v161, v159);
+  v164 = md_punpckhdq(v150, v160);
+  v165 = md_psubw(v163, v164);
+  v166 = md_paddw(v163, v164);
+  v167 = md_psllwi(v162, 2u);
+  v168 = md_psllwi(md_punpckldq(v150, v160), 2u);
+  v169 = md_pmulhw(v167, md_from_int64(qword_455C38));
+  v170 = md_pmulhw(v168, md_from_int64(qword_455C40));
+  v171 = md_psubw(md_paddw(md_pmulhw(v168, md_from_int64(qword_455C30)), md_pmulhw(v167, md_from_int64(qword_455C28))), v166);
+  v172 = md_psubw(md_pmulhw(md_psllwi(v165, 2u), md_from_int64(qword_455C20)), v171);
+  v173 = md_packsswb(md_psrawi(md_paddw(v211, v171), 5u), md_psrawi(md_psubw(v209, v166), 5u));
+  v174 = md_packsswb(md_psrawi(md_paddw(v209, v166), 5u), md_psrawi(md_psubw(v211, v171), 5u));
+  v175 = md_paddw(md_paddw(v169, v170), v172);
+  v176 = md_packsswb(md_psrawi(md_psubw(v215, v175), 5u), md_psrawi(md_psubw(v213, v172), 5u));
+  v177 = md_packsswb(md_psrawi(md_paddw(v213, v172), 5u), md_psrawi(md_paddw(v215, v175), 5u));
+  v178 = md_punpckhbw(v174, v173);
+  v179 = md_punpcklbw(v174, v173);
+  v180 = md_punpcklbw(v177, v176);
+  v181 = md_punpckhbw(v177, v176);
+  v182 = md_punpcklwd(v179, v180);
+  v183 = md_punpcklwd(v181, v178);
+  v184 = (void *)*(unsigned int *)(a2 + 20);      /* was *(__m64 **)(a2 + 20) */
+  v185 = md_punpckhwd(v179, v180);
+  v186 = md_punpckhwd(v181, v178);
+  md_store8((void *)*(unsigned int *)(a2 + 16), md_punpckldq(v182, v183));
+  v187 = (void *)*(unsigned int *)(a2 + 24);      /* was *(__m64 **)(a2 + 24) */
+  md_store8(v184, md_punpckhdq(v182, v183));
+  v189 = (void *)*(unsigned int *)(a2 + 28);      /* was *(__m64 **)(a2 + 28) */
+  md_store8(v187, md_punpckldq(v185, v186));
+  md_store8(v189, md_punpckhdq(v185, v186));
 }
 
-static void mdec_sse_m_empty()
-{
-  _m_empty();
-}
 
-static void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
+static void __cdecl mdec_y_to_mono(unsigned int *a1, unsigned char *a2, int a3)
 {
   unsigned int *v3; // esi
   unsigned int *v4; // eax
   unsigned int *v5; // ebx
   unsigned int *v6; // ecx
-  __m64 *v7; // edi
-  __m64 *v8; // edx
-  __m64 v9; // mm0
-  __m64 v10; // mm0
-  __m64 v11; // mm4
-  __m64 v12; // mm1
-  __m64 v13; // mm1
-  __m64 v14; // mm5
-  __m64 v15; // mm6
-  __m64 v16; // mm0
-  __m64 v17; // mm1
-  __m64 v18; // mm7
-  __m64 v19; // mm1
-  __m64 v20; // mm4
-  __m64 v21; // mm2
-  __m64 v22; // mm6
-  __m64 v23; // mm5
-  __m64 v24; // mm3
-  __m64 v25; // mm5
-  __m64 v26; // mm0
-  __m64 v27; // mm1
-  __m64 v28; // mm0
-  __m64 v29; // mm5
-  __m64 v30; // mm4
-  __m64 v31; // mm3
-  __m64 v32; // mm3
-  __m64 v33; // mm7
-  __m64 v34; // mm0
-  __m64 v35; // mm6
-  __m64 v36; // mm2
-  __m64 v37; // mm4
-  __m64 v38; // mm3
-  __m64 v39; // mm7
-  __m64 v40; // mm2
-  __m64 v41; // mm7
-  __m64 v42; // mm3
-  __m64 v43; // mm0
-  __m64 v44; // mm3
-  __m64 v45; // mm1
-  __m64 v46; // mm5
-  __m64 v47; // mm5
+  unsigned char *v7; // edi
+  unsigned char *v8; // edx
+  mdec_v64 v9; // mm0
+  mdec_v64 v10; // mm0
+  mdec_v64 v11; // mm4
+  mdec_v64 v12; // mm1
+  mdec_v64 v13; // mm1
+  mdec_v64 v14; // mm5
+  mdec_v64 v15; // mm6
+  mdec_v64 v16; // mm0
+  mdec_v64 v17; // mm1
+  mdec_v64 v18; // mm7
+  mdec_v64 v19; // mm1
+  mdec_v64 v20; // mm4
+  mdec_v64 v21; // mm2
+  mdec_v64 v22; // mm6
+  mdec_v64 v23; // mm5
+  mdec_v64 v24; // mm3
+  mdec_v64 v25; // mm5
+  mdec_v64 v26; // mm0
+  mdec_v64 v27; // mm1
+  mdec_v64 v28; // mm0
+  mdec_v64 v29; // mm5
+  mdec_v64 v30; // mm4
+  mdec_v64 v31; // mm3
+  mdec_v64 v32; // mm3
+  mdec_v64 v33; // mm7
+  mdec_v64 v34; // mm0
+  mdec_v64 v35; // mm6
+  mdec_v64 v36; // mm2
+  mdec_v64 v37; // mm4
+  mdec_v64 v38; // mm3
+  mdec_v64 v39; // mm7
+  mdec_v64 v40; // mm2
+  mdec_v64 v41; // mm7
+  mdec_v64 v42; // mm3
+  mdec_v64 v43; // mm0
+  mdec_v64 v44; // mm3
+  mdec_v64 v45; // mm1
+  mdec_v64 v46; // mm5
+  mdec_v64 v47; // mm5
   int v48; // [esp+Ch] [ebp-1Ch]
   int v49; // [esp+10h] [ebp-18h]
   int v50; // [esp+14h] [ebp-14h]
@@ -1150,7 +1388,7 @@ static void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
   v5 = a1;
   v6 = a1 + 16;
   v7 = a2;
-  v8 = a2 + 6;
+  v8 = a2 + 48;                       /* was a2 + 6 (__m64) */
   do
   {
     v48 = 2;
@@ -1162,111 +1400,111 @@ static void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
         v50 = 4;
         do
         {
-          v9 = _m_from_int(*v5);
-          v10 = _m_punpcklbw(v9, v9);
-          v11 = _m_punpcklwd(v10, v10);
-          v12 = _m_from_int(*v6);
-          v13 = _m_punpcklbw(v12, v12);
-          v14 = _m_punpcklwd(v13, v13);
-          v15 = _m_paddb(_m_from_int(*v3), _m_from_int64(qword_455C70));
-          v16 = _m_paddsw(
-                  _m_pmulhw(_m_psrawi(_m_punpckldq(v11, v11), 6u), _m_from_int64(qword_455C50)),
-                  _m_pmulhw(_m_psrawi(_m_punpckldq(v14, v14), 6u), _m_from_int64(qword_455C58)));
-          v17 = _m_punpcklbw(v15, v15);
-          v18 = _m_punpcklwd(v17, v15);
-          v19 = _m_psrlqi(v17, 0x10u);
-          v20 = _m_paddsw(
-                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v11, v11), 6u), _m_from_int64(qword_455C60)),
-                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v14, v14), 6u), _m_from_int64(qword_455C68)));
-          v21 = _m_por(
-                  _m_psrlqi(_m_pand(v16, _m_from_int64(qword_455C78)), 0x10u),
-                  _m_psllqi(_m_pand(v20, _m_from_int64(qword_455C78)), 0x10u));
-          v22 = _m_paddb(_m_from_int(*v4), _m_from_int64(qword_455C70));
-          v7->m64_u64 = _m_packuswb(
-                                            _m_paddsw(_m_punpcklbw(v18, _m_from_int((int)mdec_mono_expand_value)), v16),
-                                            _m_paddsw(_m_punpcklbw(v19, _m_from_int((int)mdec_mono_expand_value)), v21)).m64_u64;
-          v23 = _m_punpcklbw(v22, v22);
-          v24 = _m_punpcklbw(_m_punpcklwd(v23, v22), _m_from_int((int)mdec_mono_expand_value));
-          v25 = _m_psrlqi(v23, 0x10u);
-          v8->m64_u64 = _m_packuswb(
-                                            _m_paddsw(v24, v16),
-                                            _m_paddsw(
-                                              _m_punpcklbw(_m_punpckldq(v25, v25), _m_from_int((int)mdec_mono_expand_value)),
-                                              v21)).m64_u64;
-          v26 = _m_psrlqi(_m_from_int(*v5), 0x10u);
-          v27 = _m_paddsw(
-                  _m_punpcklbw(
-                    _m_punpcklwd(_m_psrlqi(v19, 0x18u), _m_psrlqi(v19, 0x20u)),
-                    _m_from_int((int)mdec_mono_expand_value)),
+          v9 = md_from_int(*v5);
+          v10 = md_punpcklbw(v9, v9);
+          v11 = md_punpcklwd(v10, v10);
+          v12 = md_from_int(*v6);
+          v13 = md_punpcklbw(v12, v12);
+          v14 = md_punpcklwd(v13, v13);
+          v15 = md_paddb(md_from_int(*v3), md_from_int64(qword_455C70));
+          v16 = md_paddsw(
+                  md_pmulhw(md_psrawi(md_punpckldq(v11, v11), 6u), md_from_int64(qword_455C50)),
+                  md_pmulhw(md_psrawi(md_punpckldq(v14, v14), 6u), md_from_int64(qword_455C58)));
+          v17 = md_punpcklbw(v15, v15);
+          v18 = md_punpcklwd(v17, v15);
+          v19 = md_psrlqi(v17, 0x10u);
+          v20 = md_paddsw(
+                  md_pmulhw(md_psrawi(md_punpckhdq(v11, v11), 6u), md_from_int64(qword_455C60)),
+                  md_pmulhw(md_psrawi(md_punpckhdq(v14, v14), 6u), md_from_int64(qword_455C68)));
+          v21 = md_por(
+                  md_psrlqi(md_pand(v16, md_from_int64(qword_455C78)), 0x10u),
+                  md_psllqi(md_pand(v20, md_from_int64(qword_455C78)), 0x10u));
+          v22 = md_paddb(md_from_int(*v4), md_from_int64(qword_455C70));
+          md_store8(v7, md_packuswb(
+                          md_paddsw(md_punpcklbw(v18, md_from_int(mdec_mono_expand_value)), v16),
+                          md_paddsw(md_punpcklbw(v19, md_from_int(mdec_mono_expand_value)), v21)));
+          v23 = md_punpcklbw(v22, v22);
+          v24 = md_punpcklbw(md_punpcklwd(v23, v22), md_from_int(mdec_mono_expand_value));
+          v25 = md_psrlqi(v23, 0x10u);
+          md_store8(v8, md_packuswb(
+                          md_paddsw(v24, v16),
+                          md_paddsw(
+                            md_punpcklbw(md_punpckldq(v25, v25), md_from_int(mdec_mono_expand_value)),
+                            v21)));
+          v26 = md_psrlqi(md_from_int(*v5), 0x10u);
+          v27 = md_paddsw(
+                  md_punpcklbw(
+                    md_punpcklwd(md_psrlqi(v19, 0x18u), md_psrlqi(v19, 0x20u)),
+                    md_from_int(mdec_mono_expand_value)),
                   v20);
-          v28 = _m_punpcklbw(v26, v26);
-          v29 = _m_paddsw(
-                  _m_punpcklbw(
-                    _m_punpcklwd(_m_psrlqi(v25, 0x18u), _m_psrlqi(v25, 0x20u)),
-                    _m_from_int((int)mdec_mono_expand_value)),
+          v28 = md_punpcklbw(v26, v26);
+          v29 = md_paddsw(
+                  md_punpcklbw(
+                    md_punpcklwd(md_psrlqi(v25, 0x18u), md_psrlqi(v25, 0x20u)),
+                    md_from_int(mdec_mono_expand_value)),
                   v20);
-          v30 = _m_punpcklwd(v28, v28);
-          v31 = _m_psrlqi(_m_from_int(*v6), 0x10u);
-          v32 = _m_punpcklbw(v31, v31);
-          v33 = _m_punpcklwd(v32, v32);
-          v34 = _m_paddsw(
-                  _m_pmulhw(_m_psrawi(_m_punpckldq(v30, v30), 6u), _m_from_int64(qword_455C50)),
-                  _m_pmulhw(_m_psrawi(_m_punpckldq(v33, v33), 6u), _m_from_int64(qword_455C58)));
-          v35 = _m_paddb(_m_from_int(v3[1]), _m_from_int64(qword_455C70));
-          v36 = _m_psrlqi(_m_pand(v34, _m_from_int64(qword_455C78)), 0x10u);
-          v37 = _m_paddsw(
-                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v30, v30), 6u), _m_from_int64(qword_455C60)),
-                  _m_pmulhw(_m_psrawi(_m_punpckhdq(v33, v33), 6u), _m_from_int64(qword_455C68)));
-          v38 = _m_paddb(_m_from_int(v4[1]), _m_from_int64(qword_455C70));
-          v39 = _m_psllqi(_m_pand(v37, _m_from_int64(qword_455C78)), 0x10u);
-          v7[1].m64_u64 = _m_packuswb(
-                                              v27,
-                                              _m_paddsw(
-                                                _m_punpcklbw(
-                                                  _m_punpcklwd(_m_punpcklbw(v35, v35), v35),
-                                                  _m_from_int((int)mdec_mono_expand_value)),
-                                                v34)).m64_u64;
-          v40 = _m_por(v36, v39);
+          v30 = md_punpcklwd(v28, v28);
+          v31 = md_psrlqi(md_from_int(*v6), 0x10u);
+          v32 = md_punpcklbw(v31, v31);
+          v33 = md_punpcklwd(v32, v32);
+          v34 = md_paddsw(
+                  md_pmulhw(md_psrawi(md_punpckldq(v30, v30), 6u), md_from_int64(qword_455C50)),
+                  md_pmulhw(md_psrawi(md_punpckldq(v33, v33), 6u), md_from_int64(qword_455C58)));
+          v35 = md_paddb(md_from_int(v3[1]), md_from_int64(qword_455C70));
+          v36 = md_psrlqi(md_pand(v34, md_from_int64(qword_455C78)), 0x10u);
+          v37 = md_paddsw(
+                  md_pmulhw(md_psrawi(md_punpckhdq(v30, v30), 6u), md_from_int64(qword_455C60)),
+                  md_pmulhw(md_psrawi(md_punpckhdq(v33, v33), 6u), md_from_int64(qword_455C68)));
+          v38 = md_paddb(md_from_int(v4[1]), md_from_int64(qword_455C70));
+          v39 = md_psllqi(md_pand(v37, md_from_int64(qword_455C78)), 0x10u);
+          md_store8(v7 + 8, md_packuswb(
+                              v27,
+                              md_paddsw(
+                                md_punpcklbw(
+                                  md_punpcklwd(md_punpcklbw(v35, v35), v35),
+                                  md_from_int(mdec_mono_expand_value)),
+                                v34)));
+          v40 = md_por(v36, v39);
           v41 = v38;
-          v42 = _m_paddsw(_m_punpcklbw(_m_punpcklwd(_m_punpcklbw(v38, v38), v38), _m_from_int(0)), v34);
-          v43 = _m_psrlqi(v41, 8u);
-          v8[1].m64_u64 = _m_packuswb(v29, v42).m64_u64;
-          v44 = _m_psrlqi(v35, 8u);
-          v45 = _m_psrlqi(v44, 8u);
+          v42 = md_paddsw(md_punpcklbw(md_punpcklwd(md_punpcklbw(v38, v38), v38), md_from_int(0)), v34);
+          v43 = md_psrlqi(v41, 8u);
+          md_store8(v8 + 8, md_packuswb(v29, v42));
+          v44 = md_psrlqi(v35, 8u);
+          v45 = md_psrlqi(v44, 8u);
           v3 += 4;
           v4 += 4;
-          v46 = _m_psrlqi(v43, 8u);
-          v7 += 12;
-          v8 += 12;
+          v46 = md_psrlqi(v43, 8u);
+          v7 += 96;                   /* was v7 += 12 (__m64) */
+          v8 += 96;
           v5 += 2;
-          v47 = _m_paddsw(
-                  _m_punpcklbw(
-                    _m_punpcklwd(v46, _m_psrlqi(_m_punpcklbw(v46, v46), 0x10u)),
-                    _m_from_int((int)mdec_mono_expand_value)),
+          v47 = md_paddsw(
+                  md_punpcklbw(
+                    md_punpcklwd(v46, md_psrlqi(md_punpcklbw(v46, v46), 0x10u)),
+                    md_from_int(mdec_mono_expand_value)),
                   v37);
-          v7[-10].m64_u64 = _m_packuswb(
-                                                _m_paddsw(_m_punpcklbw(_m_punpcklbw(v44, v44), _m_from_int(0)), v40),
-                                                _m_paddsw(
-                                                  _m_punpcklbw(
-                                                    _m_punpcklwd(v45, _m_psrlqi(_m_punpcklbw(v45, v45), 0x10u)),
-                                                    _m_from_int((int)mdec_mono_expand_value)),
-                                                  v37)).m64_u64;
+          md_store8(v7 - 80, md_packuswb(        /* was v7[-10] */
+                                            md_paddsw(md_punpcklbw(md_punpcklbw(v44, v44), md_from_int(0)), v40),
+                                            md_paddsw(
+                                              md_punpcklbw(
+                                                md_punpcklwd(v45, md_psrlqi(md_punpcklbw(v45, v45), 0x10u)),
+                                                md_from_int(mdec_mono_expand_value)),
+                                              v37)));
           v6 += 2;
-          v8[-10].m64_u64 = _m_packuswb(_m_paddsw(_m_punpcklbw(_m_punpcklbw(v43, v43), _m_from_int(0)), v40), v47).m64_u64;
+          md_store8(v8 - 80, md_packuswb(md_paddsw(md_punpcklbw(md_punpcklbw(v43, v43), md_from_int(0)), v40), v47));  /* was v8[-10] */
           --v50;
         }
         while ( v50 );
         v5 -= 7;
         v6 -= 7;
-        v7 -= 45;
-        v8 -= 45;
+        v7 -= 360;                  /* was v7 -= 45 (__m64) */
+        v8 -= 360;
         --v49;
       }
       while ( v49 );
       v5 += 6;
       v6 += 6;
-      v7 += 42;
-      v8 += 42;
+      v7 += 336;                    /* was v7 += 42 (__m64) */
+      v8 += 336;
       --v48;
     }
     while ( v48 );
@@ -1277,7 +1515,6 @@ static void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
     --a3;
   }
   while ( a3 );
-  mdec_sse_m_empty();
 }
 
 
