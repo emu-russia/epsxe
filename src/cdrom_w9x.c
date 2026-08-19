@@ -16,6 +16,22 @@ static char __cdecl W9x_read_cd_data_only(
         BYTE *a5);
 static BOOL W9x_resume_cdda();
 
+/* ASPI support: wnaspi32.lib is not shipped with modern SDKs, so load the
+ * function from the system DLL at runtime. */
+static DWORD GetASPI32SupportInfo(void)
+{
+    static DWORD(WINAPI * real)(void) = NULL;
+    if (!real)
+    {
+        HMODULE m = LoadLibraryA("WNASPI32.DLL");
+        if (m)
+            real = (DWORD(WINAPI*)(void))GetProcAddress(m, "GetASPI32SupportInfo");
+    }
+    if (!real)
+        return 0;
+    return real();
+}
+
 static char __cdecl W9x_exec_scsi_cmd(const void *a1, unsigned int a2, BYTE *a3, DWORD a4)
 {
   HANDLE EventA; // ebx

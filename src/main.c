@@ -2,6 +2,13 @@
 
 uint8_t cd_savefake_flag = 0xff;
 
+void memset32(void* dst, unsigned int value, unsigned int count)
+{
+    unsigned int* p = (unsigned int*)dst;
+    while (count--)
+        *p++ = value;
+}
+
 static void epsxe_main_loop_runner()
 {
   if ( create_window_flag )

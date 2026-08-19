@@ -27,9 +27,6 @@
     <ClInclude Include="..\src\dinput_shim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\irq_misc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\gte.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -289,9 +286,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\dinput_shim.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\irq_misc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

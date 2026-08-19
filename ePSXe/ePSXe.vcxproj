@@ -42,7 +42,6 @@
     <ClInclude Include="..\src\hw.h" />
     <ClInclude Include="..\src\input.h" />
     <ClInclude Include="..\src\intr.h" />
-    <ClInclude Include="..\src\irq_misc.h" />
     <ClInclude Include="..\src\loader.h" />
     <ClInclude Include="..\src\main.h" />
     <ClInclude Include="..\src\mainwnd.h" />
@@ -125,7 +124,6 @@
     <ClCompile Include="..\src\zip.c" />
     <ClCompile Include="..\src\xa.c" />
     <ClCompile Include="..\src\dinput_shim.c" />
-    <ClCompile Include="..\src\irq_misc.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

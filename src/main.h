@@ -24,4 +24,5 @@ extern unsigned int reset_flag;
 extern unsigned char xa_read_enable;
 
 /* Function prototypes (previously generated in src/_gen) */
+void memset32(void* dst, unsigned int value, unsigned int count);
 int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);

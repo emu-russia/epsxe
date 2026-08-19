@@ -244,7 +244,6 @@ typedef BOOLEAN bool;
 #include "gpu_plugin.h"
 #include "hw.h"
 #include "intr.h"
-#include "irq_misc.h"
 #include "loader.h"
 #include "mainwnd.h"
 #include "mdec.h"

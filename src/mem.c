@@ -1,10 +1,10 @@
 #include "pch.h"
-static int clear_memory()
+int mem_clear_memory()
 {
-  memset(ram, 0, 0x200000u);
-  memset(pio_mem, 0xFFu, 0x20000u);
-  memset(dcache, 0, sizeof(dcache));
-  return 0;
+    memset(ram, 0, 0x200000u);
+    memset(pio_mem, 0xFFu, 0x20000u);
+    memset(dcache, 0, sizeof(dcache));
+    return 0;
 }
 
 void mem_init_memory_handlers()

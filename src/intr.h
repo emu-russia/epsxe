@@ -22,3 +22,7 @@ int __cdecl irq_dma_assert_int(unsigned __int8 a1);
 int irq_sio_update();
 void irq_spu_registered_callback();
 int __cdecl irq_unfreeze(int a1, _DWORD *a2);
+void irq_cdrom_assert_int();
+void irq_sio_assert_int();
+char __cdecl irq_rcnt_write_reg(unsigned __int16 a1, int a2);
+int __cdecl irq_freeze(const char* a1, int a2);
