@@ -13,10 +13,10 @@
 
 /* _m_from_int64 is not provided by MSVC even on x86 (only _m_from_int is);
  * it is used by the decompiled IDCT code on all platforms. */
-static __inline __m64 _m_from_int64(__int64 _I)
+static __inline __m64 _m_from_int64(int64_t _I)
 {
     __m64 r;
-    r.m64_u64 = (unsigned __int64)_I;
+    r.m64_u64 = (uint64_t)_I;
     return r;
 }
 

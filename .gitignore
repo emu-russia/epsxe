@@ -11,3 +11,8 @@ Release
 *.nam
 *.til
 *.log
+
+# Local tooling for decompilation cleanup (never committed)
+.aptdl/
+.buildcheck/
+.check/

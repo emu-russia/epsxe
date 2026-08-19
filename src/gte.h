@@ -569,14 +569,14 @@ extern unsigned int gte_color_r;
 extern unsigned int gte_color_g;
 extern unsigned int gte_color_b;
 extern GTE_REGS gte_regs;
-extern unsigned __int64 qword_44F958;
-extern unsigned __int64 qword_44F960;
+extern uint64_t qword_44F958;
+extern uint64_t qword_44F960;
 
 /* Function prototypes (previously generated in src/_gen) */
 int gte_clear_regs();
-int __cdecl gte_freeze(const char *a1, int a2);
-int __cdecl gte_read_data_register(unsigned __int8 a1);
+int gte_freeze(const char *filename, int gz_file);
+int gte_read_data_register(uint8_t index);
 int gte_rtps();
 int gte_rtpt();
-int __cdecl gte_unfreeze(int a1, _DWORD *a2);
-GTE_REG __cdecl gte_write_data_register(unsigned __int8 a1, GTE_REG a2);
+int gte_unfreeze(int unused, uint32_t *gz_file);
+GTE_REG gte_write_data_register(uint8_t index, GTE_REG value);

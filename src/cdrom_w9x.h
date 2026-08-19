@@ -1,7 +1,7 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
 extern DWORD (__stdcall *GetASPI32SupportInfo_cb)(void);
-extern int (__cdecl *SendASPI32Command_cb)(LPSRB);
+extern int ( *SendASPI32Command_cb)(LPSRB);
 extern unsigned char SubchannelW9xCaching;
 extern unsigned char w9x_toc_buffer;
 extern unsigned char w9x_toc_first_track;
@@ -38,19 +38,19 @@ extern unsigned short w9x_stop_cdb3;
 extern unsigned short w9x_resume_cdb3;
 
 /* Function prototypes (previously generated in src/_gen) */
-_DWORD *__cdecl W9x_bcd_to_dword(_DWORD *a1, unsigned __int8 *a2);
+uint32_t * W9x_bcd_to_dword(uint32_t *dest, uint8_t *src);
 HMODULE W9x_cdrom_deinit();
 char W9x_cdrom_init();
-int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, char *Buffer);
+int W9x_cdrom_read_data(uint8_t minute, uint8_t second, uint8_t frame, char *Buffer);
 char W9x_cdrom_stop();
 char W9x_cdrom_subchannel_read();
 HMODULE W9x_free_winaspi_dll();
-char __cdecl W9x_get_first_last_track(_BYTE *a1, _BYTE *a2);
-unsigned __int8 __cdecl W9x_get_track_start_lba( unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, unsigned __int8 *a4, unsigned __int8 *a5, unsigned __int8 *a6);
+char W9x_get_first_last_track(uint8_t *first_track, uint8_t *last_track);
+uint8_t W9x_get_track_start_lba( uint8_t minute, uint8_t second, uint8_t frame, uint8_t *minute_out, uint8_t *second_out, uint8_t *frame_out);
 char W9x_init_aspi();
 int W9x_load_win_aspi_silent();
-int (__cdecl *W9x_load_winaspi_dll())(LPSRB);
-char __cdecl W9x_play_cdda(unsigned int a1, int a2, unsigned __int8 track_by_msf);
+int ( *W9x_load_winaspi_dll())(LPSRB);
+char W9x_play_cdda(unsigned int minute, int second, uint8_t track);
 void W9x_reset_cdrom_state();
-unsigned int __cdecl W9x_track_to_msf(__int16 a1, _BYTE *a2, _BYTE *a3, _BYTE *a4);
-char __cdecl W9x_verify_subchannel_data(unsigned int a1, unsigned __int8 a2, unsigned __int8 a3, int a4);
+unsigned int W9x_track_to_msf(int16_t track, uint8_t *minute, uint8_t *second, uint8_t *frame);
+char W9x_verify_subchannel_data(unsigned int minute, uint8_t second, uint8_t frame, int buffer);

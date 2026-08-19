@@ -18,11 +18,11 @@ extern unsigned int sio_transfer_pending_saved[0x10];
 /* Function prototypes (previously generated in src/_gen) */
 char irq_clear_hw_regs();
 unsigned int irq_cpu_interrupt();
-int __cdecl irq_dma_assert_int(unsigned __int8 a1);
+int irq_dma_assert_int(uint8_t channel);
 int irq_sio_update();
 void irq_spu_registered_callback();
-int __cdecl irq_unfreeze(int a1, _DWORD *a2);
+int irq_unfreeze(int magic, uint32_t *fp);
 void irq_cdrom_assert_int();
 void irq_sio_assert_int();
-char __cdecl irq_rcnt_write_reg(unsigned __int16 a1, int a2);
-int __cdecl irq_freeze(const char* a1, int a2);
+char irq_rcnt_write_reg(uint16_t reg, int value);
+int irq_freeze(const char* magic, int fp);

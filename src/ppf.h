@@ -188,6 +188,6 @@ extern unsigned char ppf_filename[0xc00];
 extern unsigned int ppf_sector_lists;
 
 /* Function prototypes (previously generated in src/_gen) */
-void __cdecl ppf_apply_patch_to_sector(int a1, int a2);
+void ppf_apply_patch_to_sector(int sector, int buffer);
 void ppf_free();
 char ppf_load_patch();

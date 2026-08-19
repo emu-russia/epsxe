@@ -2,37 +2,37 @@
 
 uint8_t console_allocated;
 
-static char __cdecl cfg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
+static char cfg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
 {
-  char v3; // bl
-  HKEY hKey; // [esp+4h] [ebp-10h] BYREF
-  HKEY phkResult; // [esp+8h] [ebp-Ch] BYREF
-  DWORD cbData; // [esp+Ch] [ebp-8h] BYREF
-  DWORD Type; // [esp+10h] [ebp-4h] BYREF
+  char ret;
+  HKEY hKey;
+  HKEY phkResult;
+  DWORD cbData;
+  DWORD Type;
 
-  v3 = -1;
+  ret = -1;
   if ( !RegConnectRegistryA(nullptr, HKEY_CURRENT_USER, &phkResult) )
   {
     if ( !RegOpenKeyA(phkResult, lpSubKey, &hKey) )
     {
       cbData = 1024;
       if ( !RegQueryValueExA(hKey, lpValueName, nullptr, &Type, lpData, &cbData) )
-        v3 = 0;
+        ret = 0;
       RegCloseKey(hKey);
     }
     RegCloseKey(phkResult);
   }
-  return v3;
+  return ret;
 }
 
-static int __cdecl cfg_set_value(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpData)
+static int cfg_set_value(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpData)
 {
-  int result; // eax
-  HKEY hKey; // [esp+0h] [ebp-8h] BYREF
-  HKEY phkResult; // [esp+4h] [ebp-4h] BYREF
+  int ret;
+  HKEY hKey;
+  HKEY phkResult;
 
-  result = RegConnectRegistryA(nullptr, HKEY_CURRENT_USER, &phkResult);
-  if ( !result )
+  ret = RegConnectRegistryA(nullptr, HKEY_CURRENT_USER, &phkResult);
+  if ( !ret )
   {
     if ( !RegOpenKeyA(phkResult, lpSubKey, &hKey) || !RegCreateKeyA(phkResult, lpSubKey, &hKey) )
     {
@@ -41,14 +41,14 @@ static int __cdecl cfg_set_value(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpDa
     }
     return RegCloseKey(phkResult);
   }
-  return result;
+  return ret;
 }
 
 int cfg_load_settings()
 {
-  int v1; // [esp+0h] [ebp-408h] BYREF
-  unsigned int v2; // [esp+4h] [ebp-404h] BYREF
-  char Buffer[1024]; // [esp+8h] [ebp-400h] BYREF
+  int value;
+  unsigned int version;
+  char Buffer[1024];
 
   if ( cfg_get_value("Software\\epsxe\\config", "VideoPlugin", (LPBYTE)Buffer) )
     sprintf((char *const)VideoPlugin, "NULL");
@@ -70,48 +70,48 @@ int cfg_load_settings()
     sprintf((char *const)bios_name, "bios\\scph1001.bin");
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW9xCdromEnabled", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW9xCdromEnabled = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW9xCdromEnabled = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW9xCaching", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW9xCaching = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW9xCaching = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW9xCachingLG", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW9xCachingLG = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW9xCachingLG = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW2kCdromEnabled", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW2kCdromEnabled = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW2kCdromEnabled = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW2kCaching", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW2kCaching = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW2kCaching = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SubchannelW2kCachingLG", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    SubchannelW2kCachingLG = v1;
+    sscanf(Buffer, "%d", &value);
+    SubchannelW2kCachingLG = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SoundEnabled", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    sound_enabled = v1;
+    sscanf(Buffer, "%d", &value);
+    sound_enabled = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SoundXA", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    sound_use_xa = v1;
+    sscanf(Buffer, "%d", &value);
+    sound_use_xa = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "SoundCDDA", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    sound_use_cdda = v1;
+    sscanf(Buffer, "%d", &value);
+    sound_use_cdda = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "Keys1", (LPBYTE)Buffer) )
     sscanf(
@@ -195,24 +195,24 @@ int cfg_load_settings()
       &Keys4[15]);
   if ( !cfg_get_value("Software\\epsxe\\config", "CdromLetter", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    cdrom_letter = v1;
+    sscanf(Buffer, "%d", &value);
+    cdrom_letter = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "Logswindow", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    console_allocated = v1;
+    sscanf(Buffer, "%d", &value);
+    console_allocated = value;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "AutoPpfLoad", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    if ( (_BYTE)v1 )
+    sscanf(Buffer, "%d", &value);
+    if ( (uint8_t)value )
       ppf_enabled = 1;
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "Multitap1", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    if ( (_BYTE)v1 )
+    sscanf(Buffer, "%d", &value);
+    if ( (uint8_t)value )
       multitap_1 = 1;
   }
   if ( !cfg_get_value("Software\\epsxe\\config\\cdrom9x", "CdromHain", (LPBYTE)Buffer) )
@@ -231,8 +231,8 @@ int cfg_load_settings()
     sprintf((char *const)Memcard2, "%s", Buffer);
   if ( !cfg_get_value("Software\\epsxe\\config", "Country", (LPBYTE)Buffer) )
   {
-    sscanf(Buffer, "%d", &v1);
-    country_setting = (unsigned __int8)v1;
+    sscanf(Buffer, "%d", &value);
+    country_setting = (uint8_t)value;
   }
   if ( cfg_get_value("Software\\epsxe\\config", "Version", (LPBYTE)Buffer) )
   {
@@ -246,9 +246,9 @@ int cfg_load_settings()
   }
   else
   {
-    sscanf(Buffer, "%d", &v2);
-    version_setting = v2;
-    if ( v2 < 0x10600 )
+    sscanf(Buffer, "%d", &version);
+    version_setting = version;
+    if ( version < 0x10600 )
     {
       if ( create_window_flag )
         setup_wizard_required = 1;
@@ -313,7 +313,7 @@ int cfg_load_settings()
 
 int cfg_save_settings()
 {
-  char Buffer[1024]; // [esp+0h] [ebp-400h] BYREF
+  char Buffer[1024];
 
   cfg_set_value("Software\\epsxe\\config", "VideoPlugin", VideoPlugin);
   cfg_set_value("Software\\epsxe\\config", "SoundPlugin", SoundPlugin);
@@ -322,91 +322,91 @@ int cfg_save_settings()
   cfg_set_value("Software\\epsxe\\config", "BiosName", bios_name);
   cfg_set_value("Software\\epsxe\\config", "Memcard1", Memcard1);
   cfg_set_value("Software\\epsxe\\config", "Memcard2", Memcard2);
-  sprintf(Buffer, "%d", (unsigned __int8)sound_enabled);
+  sprintf(Buffer, "%d", (uint8_t)sound_enabled);
   cfg_set_value("Software\\epsxe\\config", "SoundEnabled", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)sound_use_xa);
+  sprintf(Buffer, "%d", (uint8_t)sound_use_xa);
   cfg_set_value("Software\\epsxe\\config", "SoundXA", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)sound_use_cdda);
+  sprintf(Buffer, "%d", (uint8_t)sound_use_cdda);
   cfg_set_value("Software\\epsxe\\config", "SoundCDDA", (BYTE *)Buffer);
   sprintf(
     Buffer,
     "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
-    (unsigned __int16)Keys1[0],
-    (unsigned __int16)Keys1[1],
-    (unsigned __int16)Keys1[2],
-    (unsigned __int16)Keys1[3],
-    (unsigned __int16)Keys1[4],
-    (unsigned __int16)Keys1[5],
-    (unsigned __int16)Keys1[6],
-    (unsigned __int16)Keys1[7],
-    (unsigned __int16)Keys1[8],
-    (unsigned __int16)Keys1[9],
-    (unsigned __int16)Keys1[10],
-    (unsigned __int16)Keys1[11],
-    (unsigned __int16)Keys1[12],
-    (unsigned __int16)Keys1[13],
-    (unsigned __int16)Keys1[14],
-    (unsigned __int16)Keys1[15]);
+    (uint16_t)Keys1[0],
+    (uint16_t)Keys1[1],
+    (uint16_t)Keys1[2],
+    (uint16_t)Keys1[3],
+    (uint16_t)Keys1[4],
+    (uint16_t)Keys1[5],
+    (uint16_t)Keys1[6],
+    (uint16_t)Keys1[7],
+    (uint16_t)Keys1[8],
+    (uint16_t)Keys1[9],
+    (uint16_t)Keys1[10],
+    (uint16_t)Keys1[11],
+    (uint16_t)Keys1[12],
+    (uint16_t)Keys1[13],
+    (uint16_t)Keys1[14],
+    (uint16_t)Keys1[15]);
   cfg_set_value("Software\\epsxe\\config", "Keys1", (BYTE *)Buffer);
   sprintf(
     Buffer,
     "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
-    (unsigned __int16)Keys2[0],
-    (unsigned __int16)Keys2[1],
-    (unsigned __int16)Keys2[2],
-    (unsigned __int16)Keys2[3],
-    (unsigned __int16)Keys2[4],
-    (unsigned __int16)Keys2[5],
-    (unsigned __int16)Keys2[6],
-    (unsigned __int16)Keys2[7],
-    (unsigned __int16)Keys2[8],
-    (unsigned __int16)Keys2[9],
-    (unsigned __int16)Keys2[10],
-    (unsigned __int16)Keys2[11],
-    (unsigned __int16)Keys2[12],
-    (unsigned __int16)Keys2[13],
-    (unsigned __int16)Keys2[14],
-    (unsigned __int16)Keys2[15]);
+    (uint16_t)Keys2[0],
+    (uint16_t)Keys2[1],
+    (uint16_t)Keys2[2],
+    (uint16_t)Keys2[3],
+    (uint16_t)Keys2[4],
+    (uint16_t)Keys2[5],
+    (uint16_t)Keys2[6],
+    (uint16_t)Keys2[7],
+    (uint16_t)Keys2[8],
+    (uint16_t)Keys2[9],
+    (uint16_t)Keys2[10],
+    (uint16_t)Keys2[11],
+    (uint16_t)Keys2[12],
+    (uint16_t)Keys2[13],
+    (uint16_t)Keys2[14],
+    (uint16_t)Keys2[15]);
   cfg_set_value("Software\\epsxe\\config", "Keys2", (BYTE *)Buffer);
   sprintf(
     Buffer,
     "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
-    (unsigned __int16)Keys3[0],
-    (unsigned __int16)Keys3[1],
-    (unsigned __int16)Keys3[2],
-    (unsigned __int16)Keys3[3],
-    (unsigned __int16)Keys3[4],
-    (unsigned __int16)Keys3[5],
-    (unsigned __int16)Keys3[6],
-    (unsigned __int16)Keys3[7],
-    (unsigned __int16)Keys3[8],
-    (unsigned __int16)Keys3[9],
-    (unsigned __int16)Keys3[10],
-    (unsigned __int16)Keys3[11],
-    (unsigned __int16)Keys3[12],
-    (unsigned __int16)Keys3[13],
-    (unsigned __int16)Keys3[14],
-    (unsigned __int16)Keys3[15]);
+    (uint16_t)Keys3[0],
+    (uint16_t)Keys3[1],
+    (uint16_t)Keys3[2],
+    (uint16_t)Keys3[3],
+    (uint16_t)Keys3[4],
+    (uint16_t)Keys3[5],
+    (uint16_t)Keys3[6],
+    (uint16_t)Keys3[7],
+    (uint16_t)Keys3[8],
+    (uint16_t)Keys3[9],
+    (uint16_t)Keys3[10],
+    (uint16_t)Keys3[11],
+    (uint16_t)Keys3[12],
+    (uint16_t)Keys3[13],
+    (uint16_t)Keys3[14],
+    (uint16_t)Keys3[15]);
   cfg_set_value("Software\\epsxe\\config", "Keys3", (BYTE *)Buffer);
   sprintf(
     Buffer,
     "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
-    (unsigned __int16)Keys4[0],
-    (unsigned __int16)Keys4[1],
-    (unsigned __int16)Keys4[2],
-    (unsigned __int16)Keys4[3],
-    (unsigned __int16)Keys4[4],
-    (unsigned __int16)Keys4[5],
-    (unsigned __int16)Keys4[6],
-    (unsigned __int16)Keys4[7],
-    (unsigned __int16)Keys4[8],
-    (unsigned __int16)Keys4[9],
-    (unsigned __int16)Keys4[10],
-    (unsigned __int16)Keys4[11],
-    (unsigned __int16)Keys4[12],
-    (unsigned __int16)Keys4[13],
-    (unsigned __int16)Keys4[14],
-    (unsigned __int16)Keys4[15]);
+    (uint16_t)Keys4[0],
+    (uint16_t)Keys4[1],
+    (uint16_t)Keys4[2],
+    (uint16_t)Keys4[3],
+    (uint16_t)Keys4[4],
+    (uint16_t)Keys4[5],
+    (uint16_t)Keys4[6],
+    (uint16_t)Keys4[7],
+    (uint16_t)Keys4[8],
+    (uint16_t)Keys4[9],
+    (uint16_t)Keys4[10],
+    (uint16_t)Keys4[11],
+    (uint16_t)Keys4[12],
+    (uint16_t)Keys4[13],
+    (uint16_t)Keys4[14],
+    (uint16_t)Keys4[15]);
   cfg_set_value("Software\\epsxe\\config", "Keys4", (BYTE *)Buffer);
   sprintf(Buffer, "%d", country_setting);
   cfg_set_value("Software\\epsxe\\config", "Country", (BYTE *)Buffer);
@@ -448,29 +448,29 @@ int cfg_save_settings()
   cfg_set_value("Software\\epsxe\\config", "GamepadSMotorType", (BYTE *)Buffer);
   sprintf(Buffer, "%d,%d,%d,%d", g_EffectType1[0], pad2_big_motor_type, pad3_big_motor_type, pad4_big_motor_type);
   cfg_set_value("Software\\epsxe\\config", "GamepadBMotorType", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)ppf_enabled);
+  sprintf(Buffer, "%d", (uint8_t)ppf_enabled);
   cfg_set_value("Software\\epsxe\\config", "AutoPpfLoad", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)multitap_1);
+  sprintf(Buffer, "%d", (uint8_t)multitap_1);
   cfg_set_value("Software\\epsxe\\config", "Multitap1", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)SubchannelW9xCdromEnabled);
+  sprintf(Buffer, "%d", (uint8_t)SubchannelW9xCdromEnabled);
   cfg_set_value("Software\\epsxe\\config", "SubchannelW9xCdromEnabled", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)SubchannelW9xCaching);
+  sprintf(Buffer, "%d", (uint8_t)SubchannelW9xCaching);
   cfg_set_value("Software\\epsxe\\config", "SubchannelW9xCaching", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)SubchannelW9xCachingLG);
+  sprintf(Buffer, "%d", (uint8_t)SubchannelW9xCachingLG);
   cfg_set_value("Software\\epsxe\\config", "SubchannelW9xCachingLG", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)SubchannelW2kCdromEnabled);
+  sprintf(Buffer, "%d", (uint8_t)SubchannelW2kCdromEnabled);
   cfg_set_value("Software\\epsxe\\config", "SubchannelW2kCdromEnabled", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)SubchannelW2kCaching);
+  sprintf(Buffer, "%d", (uint8_t)SubchannelW2kCaching);
   cfg_set_value("Software\\epsxe\\config", "SubchannelW2kCaching", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)SubchannelW2kCachingLG);
+  sprintf(Buffer, "%d", (uint8_t)SubchannelW2kCachingLG);
   cfg_set_value("Software\\epsxe\\config", "SubchannelW2kCachingLG", (BYTE *)Buffer);
-  sprintf(Buffer, "%d", (unsigned __int8)console_allocated);
+  sprintf(Buffer, "%d", (uint8_t)console_allocated);
   return cfg_set_value("Software\\epsxe\\config", "Logswindow", (BYTE *)Buffer);
 }
 
 int cfg_cdrom_set_hain_target_lun()
 {
-  char Buffer[1024]; // [esp+0h] [ebp-400h] BYREF
+  char Buffer[1024];
 
   sprintf(Buffer, "%d", cdrom_haid);
   cfg_set_value("Software\\epsxe\\config\\cdrom9x", "CdromHain", (BYTE *)Buffer);
@@ -482,7 +482,7 @@ int cfg_cdrom_set_hain_target_lun()
 
 int cfg_cdrom_set_letter()
 {
-  char Buffer[1024]; // [esp+0h] [ebp-400h] BYREF
+  char Buffer[1024];
 
   sprintf(Buffer, "%d", cdrom_letter);
   return cfg_set_value("Software\\epsxe\\config", "CdromLetter", (BYTE *)Buffer);

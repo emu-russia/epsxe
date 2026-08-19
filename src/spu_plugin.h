@@ -41,16 +41,16 @@ extern unsigned char spu_use_external_plugin;
 extern unsigned short spu_register_cache[0x200];
 
 /* Function prototypes (previously generated in src/_gen) */
-int (*__cdecl spu_async_update(int a1))(void);
+int (* spu_async_update(int cycles))(void);
 char spu_close();
 char spu_destroy();
 void spu_dma();
-void __cdecl spu_freeze(const char *a1, int a2);
+void spu_freeze(const char *id, int gzfile);
 char spu_load_plugin();
 char spu_open();
-char __cdecl spu_play_adpcm(int a1);
-__int16 __cdecl spu_read_register(unsigned int a1);
+char spu_play_adpcm(int hdr);
+int16_t spu_read_register(unsigned int reg);
 void spu_set_adpcm_flag();
-void __cdecl spu_unfreeze(int a1, _DWORD *a2);
+void spu_unfreeze(int unused, uint32_t *gzfile);
 int (*spu_update())(void);
-char __cdecl spu_write_register(unsigned int a1, __int16 a2);
+char spu_write_register(unsigned int reg, int16_t value);

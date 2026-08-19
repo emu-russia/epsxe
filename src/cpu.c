@@ -8,7 +8,7 @@ unsigned char *reg_pc;
 
 int cpu_clear_regs()
 {
-  *(_DWORD *)reg_pc = 0xBFC00000;
+  *(uint32_t *)reg_pc = 0xBFC00000;
   memset(cpu_gpr, 0, 0x80u);
   memset(cop0_regs, 0, 0x40u);
   hw_update_counter = 0;
@@ -21,111 +21,111 @@ int cpu_clear_regs()
 
 unsigned int cpu_load_bios_shell()
 {
-  int v0; // ecx
-  unsigned int result; // eax
-  int v2; // eax
+  int pc;
+  unsigned int opcode;
+  int counter;
 
-  v0 = *(_DWORD *)reg_pc;
-  result = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
-  for ( cpu_opcode = result; *(_DWORD *)reg_pc != 0x80030000; cpu_opcode = result )
+  pc = *(uint32_t *)reg_pc;
+  opcode = *(uint32_t *)(*(uint16_t *)reg_pc + mem_read_hooks[*(uint16_t *)&reg_pc[2]]);
+  for ( cpu_opcode = opcode; *(uint32_t *)reg_pc != 0x80030000; cpu_opcode = opcode )
   {
-    *(_DWORD *)reg_pc = v0 + 4;
-    cpu_main_table[result >> 26]();
-    v2 = --hw_update_counter;
+    *(uint32_t *)reg_pc = pc + 4;
+    cpu_main_table[opcode >> 26]();
+    counter = --hw_update_counter;
     if ( hw_update_counter < 0 )
     {
-      hw_update_counter = cpu_speed_scale + v2;
+      hw_update_counter = cpu_speed_scale + counter;
       if ( ++scanline_counter >= (unsigned int)video_scanlines )
       {
         scanline_counter = 0;
         ++frame_counter;
       }
     }
-    v0 = *(_DWORD *)reg_pc;
-    result = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+    pc = *(uint32_t *)reg_pc;
+    opcode = *(uint32_t *)(*(uint16_t *)reg_pc + mem_read_hooks[*(uint16_t *)&reg_pc[2]]);
   }
-  return result;
+  return opcode;
 }
 
 int cpu_execute()
 {
-  unsigned int v0; // esi
-  unsigned __int8 v1; // dl
-  unsigned __int8 v2; // bl
-  int v3; // edi
-  int v4; // ecx
-  unsigned __int8 v5; // cl
-  _DWORD *v6; // eax
-  int v7; // ecx
-  int v8; // eax
-  bool v9; // zf
-  unsigned int v10; // eax
-  int v11; // ecx
-  int v12; // ecx
-  unsigned int v13; // esi
-  int v14; // edx
-  int result; // eax
-  unsigned __int8 v16; // [esp+10h] [ebp-4h]
+  unsigned int opcode;
+  uint8_t cheat_count;
+  uint8_t index;
+  int addr;
+  int cheat;
+  uint8_t next;
+  uint32_t *entry;
+  int count;
+  int counter;
+  bool spu_update;
+  unsigned int rcnt2_inc;
+  int rcnt_inc;
+  int rcnt1_inc;
+  unsigned int scanlines;
+  int irq;
+  int reset;
+  uint8_t index2;
 
   while ( 1 )
   {
     while ( 1 )
     {
-      v0 = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
-      v1 = active_mini_cheat_count;
-      cpu_opcode = v0;
+      opcode = *(uint32_t *)(*(uint16_t *)reg_pc + mem_read_hooks[*(uint16_t *)&reg_pc[2]]);
+      cheat_count = active_mini_cheat_count;
+      cpu_opcode = opcode;
       if ( active_mini_cheat_count )
       {
-        v2 = 0;
-        v16 = 0;
-        v3 = *(_DWORD *)reg_pc & 0x1FFFFF;
+        index = 0;
+        index2 = 0;
+        addr = *(uint32_t *)reg_pc & 0x1FFFFF;
         do
         {
-          v4 = mini_cheat_id_array[2 * v16];
-          if ( (v4 & 0x1FFFFF) == v3 )
+          cheat = mini_cheat_id_array[2 * index2];
+          if ( (cheat & 0x1FFFFF) == addr )
           {
-            v0 = mini_cheat_attr_array[2 * v16];
-            if ( (v4 & 0xF0000000) == 0 )
+            opcode = mini_cheat_attr_array[2 * index2];
+            if ( (cheat & 0xF0000000) == 0 )
             {
-              v5 = v2 + 1;
-              if ( (unsigned __int8)(v2 + 1) < v1 )
+              next = index + 1;
+              if ( (uint8_t)(index + 1) < cheat_count )
               {
-                v6 = (_DWORD *)(8 * v5 + 5991868);
-                v7 = (unsigned __int8)(v1 - v5);
+                entry = (uint32_t *)(8 * next + 5991868);
+                count = (uint8_t)(cheat_count - next);
                 do
                 {
-                  *(v6 - 1) = v6[1];
-                  *v6 = v6[2];
-                  v6 += 2;
-                  --v7;
+                  *(entry - 1) = entry[1];
+                  *entry = entry[2];
+                  entry += 2;
+                  --count;
                 }
-                while ( v7 );
-                v2 = v16;
+                while ( count );
+                index = index2;
               }
-              --v1;
+              --cheat_count;
             }
           }
-          v16 = ++v2;
+          index2 = ++index;
         }
-        while ( v2 < v1 );
-        active_mini_cheat_count = v1;
-        cpu_opcode = v0;
+        while ( index < cheat_count );
+        active_mini_cheat_count = cheat_count;
+        cpu_opcode = opcode;
       }
-      if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0x1F800000 )
+      if ( (*(uint32_t *)reg_pc & 0xFFF00000) == 0x1F800000 )
         ui_error("out of line\n");
-      *(_DWORD *)reg_pc += 4;
-      cpu_main_table[v0 >> 26]();
+      *(uint32_t *)reg_pc += 4;
+      cpu_main_table[opcode >> 26]();
       cpu_gpr[0] = 0;
-      if ( (*(_DWORD *)int_reg & int_mask & 0x3FB) != 0 && (cop0_sr & 0x401) == 0x401 )
+      if ( (*(uint32_t *)int_reg & int_mask & 0x3FB) != 0 && (cop0_sr & 0x401) == 0x401 )
         irq_cpu_interrupt();
-      v8 = --hw_update_counter;
+      counter = --hw_update_counter;
       if ( hw_update_counter < 0 )
       {
-        v9 = (((_BYTE)spu_async_update_counter + 1) & 0x1F) == 0;
-        hw_update_counter = cpu_speed_scale + v8;
+        spu_update = (((uint8_t)spu_async_update_counter + 1) & 0x1F) == 0;
+        hw_update_counter = cpu_speed_scale + counter;
         ++scanline_counter;
         ++spu_async_update_counter;
-        if ( v9 )
+        if ( spu_update )
           spu_async_update_cb(32 * cpu_speed_scale);
         if ( mdectiming )
           mdec_timer_handler();
@@ -134,22 +134,22 @@ int cpu_execute()
         cdr_play_tick();
         cdr_process_delays();
         if ( (int_reg[0] & 4) == 0 && cdr_get_response_status() )
-          *(_DWORD *)int_reg |= 4u;
-        if ( spu_irq_pending_count && (*(_WORD *)int_reg & 0x200) == 0 )
+          *(uint32_t *)int_reg |= 4u;
+        if ( spu_irq_pending_count && (*(uint16_t *)int_reg & 0x200) == 0 )
         {
-          *(_DWORD *)int_reg |= 0x200u;
+          *(uint32_t *)int_reg |= 0x200u;
           --spu_irq_pending_count;
         }
-        if ( *(_DWORD *)sio_irq_pending )
+        if ( *(uint32_t *)sio_irq_pending )
         {
-          *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
-          *(_DWORD *)sio_irq_pending = 0;
+          *(uint32_t *)int_reg |= *(uint32_t *)sio_irq_pending;
+          *(uint32_t *)sio_irq_pending = 0;
         }
-        else if ( *(_DWORD *)sio_irq_delay_time )
+        else if ( *(uint32_t *)sio_irq_delay_time )
         {
-          *(_DWORD *)sio_irq_pending = 128;
-          *(_DWORD *)sio_irq_timeout = *(_DWORD *)sio_irq_delay_time;
-          *(_DWORD *)sio_irq_delay_time = 0;
+          *(uint32_t *)sio_irq_pending = 128;
+          *(uint32_t *)sio_irq_timeout = *(uint32_t *)sio_irq_delay_time;
+          *(uint32_t *)sio_irq_delay_time = 0;
         }
         if ( sio_transfer_pending )
         {
@@ -162,47 +162,47 @@ int cpu_execute()
           sio_transfer_timeout = sio_scheduled_transfer_timeout;
           sio_scheduled_transfer_timeout = 0;
         }
-        v10 = cpu_speed_scale;
-        v11 = 512;
+        rcnt2_inc = cpu_speed_scale;
+        rcnt_inc = 512;
         if ( (rcnt_mode[0] & 0x100) == 0 )
-          v11 = cpu_speed_scale;
-        rcnt_counter[0] += v11;
+          rcnt_inc = cpu_speed_scale;
+        rcnt_counter[0] += rcnt_inc;
         if ( rcnt_counter[0] >= (unsigned int)rcnt_compare[0] )
         {
           rcnt_counter[0] = 0;
           if ( (rcnt_mode[0] & 0x50) == 0x50 )
-            *(_DWORD *)int_reg |= 0x10u;
+            *(uint32_t *)int_reg |= 0x10u;
         }
-        v12 = 1;
+        rcnt1_inc = 1;
         if ( (rcnt1_mode & 0x100) == 0 )
-          v12 = cpu_speed_scale;
-        rcnt1_counter += v12;
+          rcnt1_inc = cpu_speed_scale;
+        rcnt1_counter += rcnt1_inc;
         if ( rcnt1_counter >= (unsigned int)rcnt1_compare )
         {
           rcnt1_counter = 0;
           if ( (rcnt1_mode & 0x50) == 0x50 )
-            *(_DWORD *)int_reg |= 0x20u;
+            *(uint32_t *)int_reg |= 0x20u;
         }
         if ( (rcnt2_mode & 0x200) != 0 )
-          v10 = (unsigned int)cpu_speed_scale >> 3;
-        rcnt2_counter += v10;
+          rcnt2_inc = (unsigned int)cpu_speed_scale >> 3;
+        rcnt2_counter += rcnt2_inc;
         if ( rcnt2_counter >= (unsigned int)rcnt2_compare )
         {
           rcnt2_counter = 0;
           if ( (rcnt2_mode & 0x50) == 0x50 )
-            *(_DWORD *)int_reg |= 0x40u;
+            *(uint32_t *)int_reg |= 0x40u;
         }
-        v13 = video_scanlines;
+        scanlines = video_scanlines;
         if ( scanline_counter == video_scanlines - 22 )
         {
-          v14 = *(_DWORD *)int_reg | 1;
-          *(_DWORD *)int_reg |= 1u;
+          irq = *(uint32_t *)int_reg | 1;
+          *(uint32_t *)int_reg |= 1u;
           if ( (int_mask & 0x200) != 0 && forcespu && (frame_counter & 3) == 0 )
-            *(_DWORD *)int_reg = v14 | 0x200;
+            *(uint32_t *)int_reg = irq | 0x200;
         }
-        if ( (int_mask & *(_DWORD *)int_reg) != 0 )
+        if ( (int_mask & *(uint32_t *)int_reg) != 0 )
           irq_cpu_interrupt();
-        if ( scanline_counter >= v13 )
+        if ( scanline_counter >= scanlines )
           break;
       }
     }
@@ -210,14 +210,14 @@ int cpu_execute()
     ++frame_counter;
     ++rcnt3_counter;
     gpu_frame_update();
-    result = reset_flag;
+    reset = reset_flag;
     if ( reset_flag )
       break;
     if ( (frame_counter & 0x3F) == 0 )
       cdr_update_motor_status();
     sio_memcard_auto_save();
   }
-  return result;
+  return reset;
 }
 
 /* Decompiled globals (previously generated in src/_gen) */

@@ -2,37 +2,37 @@
 
 static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-  LRESULT result; // eax
-  HDC v5; // edi
-  HDC CompatibleDC; // esi
-  int v7; // eax
-  char v8; // cl
-  int v9; // ecx
-  int v10; // eax
-  char v11; // cl
-  HMENU v12; // eax
-  HDC DC; // esi
-  int DeviceCaps; // ebp
-  HDC v15; // esi
-  int v16; // ebp
-  HDC v17; // edi
-  int v18; // ebp
-  HDC v19; // edi
-  HMENU v20; // esi
-  HMENU v21; // eax
-  HMENU Menu; // esi
-  HMENU v23; // esi
-  HMENU v24; // esi
-  HMENU v25; // esi
-  int v26; // eax
-  int v27; // eax
-  int v28; // eax
-  int v29; // eax
-  int v30; // eax
-  HWND v31; // [esp-Ch] [ebp-420h]
-  HWND v32; // [esp-Ch] [ebp-420h]
-  LPSTR FilePart; // [esp+10h] [ebp-404h] BYREF
-  CHAR Buffer[1024]; // [esp+14h] [ebp-400h] BYREF
+  LRESULT ret;
+  HDC hdc;
+  HDC CompatibleDC;
+  int i;
+  char ch;
+  int uninit;
+  int j;
+  char c;
+  HMENU logs_menu;
+  HDC pad_dc;
+  int device_caps;
+  HDC cap_dc2;
+  int device_caps2;
+  HDC cap_dc3;
+  int device_caps3;
+  HDC cap_dc4;
+  HMENU multitap_menu;
+  HMENU ppf_menu;
+  HMENU country_menu;
+  HMENU ntsc_menu;
+  HMENU pal_menu;
+  HMENU popup_menu;
+  int state0_exists;
+  int state1_exists;
+  int state2_exists;
+  int state3_exists;
+  int state4_exists;
+  HWND dialog_parent;
+  HWND dialog_parent2;
+  LPSTR FilePart;
+  CHAR Buffer[1024];
 
   if ( Msg > 0xF )
   {
@@ -41,15 +41,15 @@ static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam
       case 0x100u:
         if ( wParam == 16 )
           shift_key_pressed = 1;
-        result = 0;
+        ret = 0;
         break;
       case 0x101u:
         if ( wParam == 16 )
           shift_key_pressed = 0;
-        result = 0;
+        ret = 0;
         break;
       case 0x111u:
-        switch ( (unsigned __int16)wParam )
+        switch ( (uint16_t)wParam )
         {
           case IDM_RUN_CDROM:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
@@ -120,13 +120,13 @@ LABEL_30:
             PostQuitMessage(0);
             if ( shift_key_pressed )
               fastboot = 0;
-            v7 = 0;
+            i = 0;
             do
             {
-              v8 = temp_path[v7];
-              bin_iso_file[v7++] = v8;
+              ch = temp_path[i];
+              bin_iso_file[i++] = ch;
             }
-            while ( v8 );
+            while ( ch );
             loader_set_filename("NULL");
             loaded_file_type = 3;
             g_bDisableMouse = 0;
@@ -173,18 +173,18 @@ LABEL_30:
             goto LABEL_41;
           case IDM_PAD1:
             pad_number_menu_selection = 1;
-            DC = GetDC(hWnd);
-            DeviceCaps = GetDeviceCaps(DC, 88);
-            ReleaseDC(hWnd, DC);
-            v31 = hWnd;
+            pad_dc = GetDC(hWnd);
+            device_caps = GetDeviceCaps(pad_dc, 88);
+            ReleaseDC(hWnd, pad_dc);
+            dialog_parent = hWnd;
             goto LABEL_65;
           case IDM_PAD2:
             pad_number_menu_selection = 2;
-            v15 = GetDC(hWnd);
-            v16 = GetDeviceCaps(v15, 88);
-            ReleaseDC(hWnd, v15);
-            v32 = hWnd;
-            if ( v16 <= 96 )
+            cap_dc2 = GetDC(hWnd);
+            device_caps2 = GetDeviceCaps(cap_dc2, 88);
+            ReleaseDC(hWnd, cap_dc2);
+            dialog_parent2 = hWnd;
+            if ( device_caps2 <= 96 )
               goto LABEL_70;
             goto LABEL_71;
           case IDM_MEMORY_CARD:
@@ -204,14 +204,14 @@ LABEL_30:
             *FilePart = 0;
             sprintf(IsoDirectory, "%s", temp_path);
             cfg_cdrom_iso_set_path();
-            cdrom_deinit_cb(v9);
-            v10 = 0;
+            cdrom_deinit_cb(uninit);
+            j = 0;
             do
             {
-              v11 = temp_path[v10];
-              bin_iso_file[v10++] = v11;
+              c = temp_path[j];
+              bin_iso_file[j++] = c;
             }
-            while ( v11 );
+            while ( c );
             loader_set_filename("NULL");
             loaded_file_type = 3;
 LABEL_40:
@@ -225,58 +225,58 @@ LABEL_41:
             PostQuitMessage(0);
             return 1;
           case IDM_COUNTRY_AUTODETECT:
-            Menu = GetMenu(hWnd);
-            CheckMenuItem(Menu, IDM_COUNTRY_AUTODETECT, 8u);
-            CheckMenuItem(Menu, IDM_COUNTRY_NTSC, 0);
-            CheckMenuItem(Menu, IDM_COUNTRY_PAL, 0);
+            country_menu = GetMenu(hWnd);
+            CheckMenuItem(country_menu, IDM_COUNTRY_AUTODETECT, 8u);
+            CheckMenuItem(country_menu, IDM_COUNTRY_NTSC, 0);
+            CheckMenuItem(country_menu, IDM_COUNTRY_PAL, 0);
             country_setting = 255;
             cfg_save_settings();
             return 1;
           case IDM_COUNTRY_NTSC:
-            v23 = GetMenu(hWnd);
-            CheckMenuItem(v23, IDM_COUNTRY_AUTODETECT, 0);
-            CheckMenuItem(v23, IDM_COUNTRY_NTSC, 0);
-            CheckMenuItem(v23, IDM_COUNTRY_PAL, 8u);
+            ntsc_menu = GetMenu(hWnd);
+            CheckMenuItem(ntsc_menu, IDM_COUNTRY_AUTODETECT, 0);
+            CheckMenuItem(ntsc_menu, IDM_COUNTRY_NTSC, 0);
+            CheckMenuItem(ntsc_menu, IDM_COUNTRY_PAL, 8u);
             country_setting = 0;
             cfg_save_settings();
             return 1;
           case IDM_COUNTRY_PAL:
-            v24 = GetMenu(hWnd);
-            CheckMenuItem(v24, IDM_COUNTRY_AUTODETECT, 0);
-            CheckMenuItem(v24, IDM_COUNTRY_NTSC, 0);
-            CheckMenuItem(v24, IDM_COUNTRY_PAL, 8u);
+            pal_menu = GetMenu(hWnd);
+            CheckMenuItem(pal_menu, IDM_COUNTRY_AUTODETECT, 0);
+            CheckMenuItem(pal_menu, IDM_COUNTRY_NTSC, 0);
+            CheckMenuItem(pal_menu, IDM_COUNTRY_PAL, 8u);
             country_setting = 1;
             cfg_save_settings();
             return 1;
           case IDM_SAVE_STATE_1:
-            *(_DWORD *)save_load_state_slot = 10;
+            *(uint32_t *)save_load_state_slot = 10;
             goto LABEL_41;
           case IDM_SAVE_STATE_2:
-            *(_DWORD *)save_load_state_slot = 11;
+            *(uint32_t *)save_load_state_slot = 11;
             goto LABEL_41;
           case IDM_SAVE_STATE_3:
-            *(_DWORD *)save_load_state_slot = 12;
+            *(uint32_t *)save_load_state_slot = 12;
             goto LABEL_41;
           case IDM_SAVE_STATE_4:
-            *(_DWORD *)save_load_state_slot = 13;
+            *(uint32_t *)save_load_state_slot = 13;
             goto LABEL_41;
           case IDM_SAVE_STATE_5:
-            *(_DWORD *)save_load_state_slot = 14;
+            *(uint32_t *)save_load_state_slot = 14;
             goto LABEL_41;
           case IDM_LOAD_STATE_1:
-            *(_DWORD *)save_load_state_slot = 0;
+            *(uint32_t *)save_load_state_slot = 0;
             goto LABEL_41;
           case IDM_LOAD_STATE_2:
-            *(_DWORD *)save_load_state_slot = 1;
+            *(uint32_t *)save_load_state_slot = 1;
             goto LABEL_41;
           case IDM_LOAD_STATE_3:
-            *(_DWORD *)save_load_state_slot = 2;
+            *(uint32_t *)save_load_state_slot = 2;
             goto LABEL_41;
           case IDM_LOAD_STATE_4:
-            *(_DWORD *)save_load_state_slot = 3;
+            *(uint32_t *)save_load_state_slot = 3;
             goto LABEL_41;
           case IDM_LOAD_STATE_5:
-            *(_DWORD *)save_load_state_slot = 4;
+            *(uint32_t *)save_load_state_slot = 4;
             goto LABEL_41;
           case IDM_CONFIG_GUIDE_EN:
             ShellExecuteA(hWnd, "open", "http://www.epsxe.com/step/step.html", nullptr, nullptr, 3);
@@ -293,78 +293,78 @@ LABEL_41:
             return 1;
           case IDM_PPF_AUTOLOAD:
             ppf_enabled ^= 1u;
-            v21 = GetMenu(hWnd);
+            ppf_menu = GetMenu(hWnd);
             if ( ppf_enabled )
-              CheckMenuItem(v21, IDM_PPF_AUTOLOAD, 8u);
+              CheckMenuItem(ppf_menu, IDM_PPF_AUTOLOAD, 8u);
             else
-              CheckMenuItem(v21, IDM_PPF_AUTOLOAD, 0);
+              CheckMenuItem(ppf_menu, IDM_PPF_AUTOLOAD, 0);
             goto LABEL_83;
           case IDM_HELP_CONTENTS:
             ShellExecuteA(hWnd, "open", "epsxe.chm", nullptr, nullptr, 3);
             return 1;
           case IDM_ENABLE_LOGS:
             console_allocated ^= 1u;
-            v12 = GetMenu(hWnd);
+            logs_menu = GetMenu(hWnd);
             if ( console_allocated )
-              CheckMenuItem(v12, IDM_ENABLE_LOGS, 8u);
+              CheckMenuItem(logs_menu, IDM_ENABLE_LOGS, 8u);
             else
-              CheckMenuItem(v12, IDM_ENABLE_LOGS, 0);
-            if ( (unsigned __int8)console_allocated > 1u )
+              CheckMenuItem(logs_menu, IDM_ENABLE_LOGS, 0);
+            if ( (uint8_t)console_allocated > 1u )
               console_allocated = 1;
             goto LABEL_83;
           case IDM_PAD3:
             pad_number_menu_selection = 3;
             if ( !multitap_1 )
               return 1;
-            v17 = GetDC(hWnd);
-            v18 = GetDeviceCaps(v17, 88);
-            ReleaseDC(hWnd, v17);
-            v32 = hWnd;
-            if ( v18 <= 96 )
+            cap_dc3 = GetDC(hWnd);
+            device_caps3 = GetDeviceCaps(cap_dc3, 88);
+            ReleaseDC(hWnd, cap_dc3);
+            dialog_parent2 = hWnd;
+            if ( device_caps3 <= 96 )
             {
 LABEL_70:
               DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", hWnd, controller_setup_callback, 0);
               goto LABEL_68;
             }
 LABEL_71:
-            DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", v32, controller_setup_callback, 0);
-            result = 1;
+            DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", dialog_parent2, controller_setup_callback, 0);
+            ret = 1;
             break;
           case IDM_PAD4:
             pad_number_menu_selection = 4;
             if ( !multitap_1 )
               return 1;
-            v19 = GetDC(hWnd);
-            DeviceCaps = GetDeviceCaps(v19, 88);
-            ReleaseDC(hWnd, v19);
-            v31 = hWnd;
+            cap_dc4 = GetDC(hWnd);
+            device_caps = GetDeviceCaps(cap_dc4, 88);
+            ReleaseDC(hWnd, cap_dc4);
+            dialog_parent = hWnd;
 LABEL_65:
-            if ( DeviceCaps > 96 )
+            if ( device_caps > 96 )
             {
-              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", v31, controller_setup_callback, 0);
+              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", dialog_parent, controller_setup_callback, 0);
 LABEL_68:
-              result = 1;
+              ret = 1;
             }
             else
             {
-              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", v31, controller_setup_callback, 0);
-              result = 1;
+              DialogBoxParamA(g_hInstance, "IDD_CONTROLLER", dialog_parent, controller_setup_callback, 0);
+              ret = 1;
             }
             break;
           case IDM_MULTITAP:
             multitap_1 ^= 1u;
-            v20 = GetMenu(hWnd);
+            multitap_menu = GetMenu(hWnd);
             if ( multitap_1 )
             {
-              EnableMenuItem(v20, IDM_PAD3, 0);
-              EnableMenuItem(v20, IDM_PAD4, 0);
-              CheckMenuItem(v20, IDM_MULTITAP, 8u);
+              EnableMenuItem(multitap_menu, IDM_PAD3, 0);
+              EnableMenuItem(multitap_menu, IDM_PAD4, 0);
+              CheckMenuItem(multitap_menu, IDM_MULTITAP, 8u);
             }
             else
             {
-              CheckMenuItem(v20, IDM_MULTITAP, 0);
-              EnableMenuItem(v20, IDM_PAD3, 3u);
-              EnableMenuItem(v20, IDM_PAD4, 3u);
+              CheckMenuItem(multitap_menu, IDM_MULTITAP, 0);
+              EnableMenuItem(multitap_menu, IDM_PAD3, 3u);
+              EnableMenuItem(multitap_menu, IDM_PAD4, 3u);
             }
 LABEL_83:
             cfg_save_settings();
@@ -374,127 +374,127 @@ LABEL_83:
         }
         break;
       case 0x116u:
-        v25 = GetMenu(hWnd);
+        popup_menu = GetMenu(hWnd);
         if ( !multitap_1 )
         {
-          EnableMenuItem(v25, IDM_PAD3, 3u);
-          EnableMenuItem(v25, IDM_PAD4, 3u);
+          EnableMenuItem(popup_menu, IDM_PAD3, 3u);
+          EnableMenuItem(popup_menu, IDM_PAD4, 3u);
         }
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, IDM_CONFIG_VIDEO, 3u);
+        EnableMenuItem(popup_menu, IDM_CONFIG_VIDEO, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, IDM_CONFIG_SOUND, 3u);
+        EnableMenuItem(popup_menu, IDM_CONFIG_SOUND, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, IDM_CONFIG_CDROM, 3u);
+        EnableMenuItem(popup_menu, IDM_CONFIG_CDROM, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, IDM_WIZARD_GUIDE, 3u);
+        EnableMenuItem(popup_menu, IDM_WIZARD_GUIDE, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, IDM_NETPLAY, 3u);
+        EnableMenuItem(popup_menu, IDM_NETPLAY, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, IDM_CONFIG_BIOS, 3u);
+        EnableMenuItem(popup_menu, IDM_CONFIG_BIOS, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, IDM_PAD1, 3u);
+        EnableMenuItem(popup_menu, IDM_PAD1, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, IDM_PAD2, 3u);
+        EnableMenuItem(popup_menu, IDM_PAD2, 3u);
         if ( g_bDisableMouse
-          || (EnableMenuItem(v25, IDM_PAD3, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, IDM_PAD4, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, IDM_MULTITAP, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, IDM_RUN_CDROM, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, IDM_RUN_BIOS, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, IDM_RUN_ISO, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, IDM_RUN_PS_EXE, 3u), g_bDisableMouse) )
+          || (EnableMenuItem(popup_menu, IDM_PAD3, 3u), g_bDisableMouse)
+          || (EnableMenuItem(popup_menu, IDM_PAD4, 3u), g_bDisableMouse)
+          || (EnableMenuItem(popup_menu, IDM_MULTITAP, 3u), g_bDisableMouse)
+          || (EnableMenuItem(popup_menu, IDM_RUN_CDROM, 3u), g_bDisableMouse)
+          || (EnableMenuItem(popup_menu, IDM_RUN_BIOS, 3u), g_bDisableMouse)
+          || (EnableMenuItem(popup_menu, IDM_RUN_ISO, 3u), g_bDisableMouse)
+          || (EnableMenuItem(popup_menu, IDM_RUN_PS_EXE, 3u), g_bDisableMouse) )
         {
 LABEL_122:
-          EnableMenuItem(v25, IDM_CHANGE_DISC_CDROM, 3u);
+          EnableMenuItem(popup_menu, IDM_CHANGE_DISC_CDROM, 3u);
         }
         else
         {
-          EnableMenuItem(v25, IDM_CHANGE_DISC_CDROM, 0);
+          EnableMenuItem(popup_menu, IDM_CHANGE_DISC_CDROM, 0);
         }
         if ( g_bDisableMouse )
-          EnableMenuItem(v25, IDM_CHANGE_DISC_ISO, 3u);
+          EnableMenuItem(popup_menu, IDM_CHANGE_DISC_ISO, 3u);
         else
-          EnableMenuItem(v25, IDM_CHANGE_DISC_ISO, 0);
+          EnableMenuItem(popup_menu, IDM_CHANGE_DISC_ISO, 0);
         if ( g_bDisableMouse )
-          EnableMenuItem(v25, IDM_CONTINUE, 3u);
+          EnableMenuItem(popup_menu, IDM_CONTINUE, 3u);
         else
-          EnableMenuItem(v25, IDM_CONTINUE, 0);
+          EnableMenuItem(popup_menu, IDM_CONTINUE, 0);
         if ( g_bDisableMouse )
-          EnableMenuItem(v25, IDM_RESET, 3u);
+          EnableMenuItem(popup_menu, IDM_RESET, 3u);
         else
-          EnableMenuItem(v25, IDM_RESET, 0);
+          EnableMenuItem(popup_menu, IDM_RESET, 0);
         if ( g_bDisableMouse )
         {
-          EnableMenuItem(v25, IDM_PPF_AUTOLOAD, 0);
+          EnableMenuItem(popup_menu, IDM_PPF_AUTOLOAD, 0);
           if ( ppf_enabled )
-            CheckMenuItem(v25, IDM_PPF_AUTOLOAD, 8u);
+            CheckMenuItem(popup_menu, IDM_PPF_AUTOLOAD, 8u);
           else
-            CheckMenuItem(v25, IDM_PPF_AUTOLOAD, 0);
+            CheckMenuItem(popup_menu, IDM_PPF_AUTOLOAD, 0);
         }
         else
         {
-          EnableMenuItem(v25, IDM_PPF_AUTOLOAD, 3u);
+          EnableMenuItem(popup_menu, IDM_PPF_AUTOLOAD, 3u);
         }
         if ( g_bDisableMouse )
         {
-          EnableMenuItem(v25, IDM_MULTITAP, 0);
+          EnableMenuItem(popup_menu, IDM_MULTITAP, 0);
           if ( multitap_1 )
-            CheckMenuItem(v25, IDM_MULTITAP, 8u);
+            CheckMenuItem(popup_menu, IDM_MULTITAP, 8u);
           else
-            CheckMenuItem(v25, IDM_MULTITAP, 0);
+            CheckMenuItem(popup_menu, IDM_MULTITAP, 0);
         }
         else
         {
-          EnableMenuItem(v25, IDM_MULTITAP, 3u);
+          EnableMenuItem(popup_menu, IDM_MULTITAP, 3u);
         }
         if ( g_bDisableMouse )
         {
-          EnableMenuItem(v25, IDM_ENABLE_LOGS, 0);
+          EnableMenuItem(popup_menu, IDM_ENABLE_LOGS, 0);
           if ( console_allocated )
-            CheckMenuItem(v25, IDM_ENABLE_LOGS, 8u);
+            CheckMenuItem(popup_menu, IDM_ENABLE_LOGS, 8u);
           else
-            CheckMenuItem(v25, IDM_ENABLE_LOGS, 0);
+            CheckMenuItem(popup_menu, IDM_ENABLE_LOGS, 0);
         }
         else
         {
-          EnableMenuItem(v25, IDM_ENABLE_LOGS, 3u);
+          EnableMenuItem(popup_menu, IDM_ENABLE_LOGS, 3u);
         }
         if ( g_bDisableMouse )
         {
-          EnableMenuItem(v25, IDM_SAVE_STATE_1, 3u);
-          EnableMenuItem(v25, IDM_SAVE_STATE_2, 3u);
-          EnableMenuItem(v25, IDM_SAVE_STATE_3, 3u);
-          EnableMenuItem(v25, IDM_SAVE_STATE_4, 3u);
-          EnableMenuItem(v25, IDM_SAVE_STATE_5, 3u);
-          EnableMenuItem(v25, IDM_LOAD_STATE_1, 3u);
-          EnableMenuItem(v25, IDM_LOAD_STATE_2, 3u);
-          EnableMenuItem(v25, IDM_LOAD_STATE_3, 3u);
-          EnableMenuItem(v25, IDM_LOAD_STATE_4, 3u);
-          EnableMenuItem(v25, IDM_LOAD_STATE_5, 3u);
-          CheckMenuItem(v25, IDM_COUNTRY_AUTODETECT, 0);
-          CheckMenuItem(v25, IDM_COUNTRY_NTSC, 0);
-          CheckMenuItem(v25, IDM_COUNTRY_PAL, 0);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_1, 3u);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_2, 3u);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_3, 3u);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_4, 3u);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_5, 3u);
+          EnableMenuItem(popup_menu, IDM_LOAD_STATE_1, 3u);
+          EnableMenuItem(popup_menu, IDM_LOAD_STATE_2, 3u);
+          EnableMenuItem(popup_menu, IDM_LOAD_STATE_3, 3u);
+          EnableMenuItem(popup_menu, IDM_LOAD_STATE_4, 3u);
+          EnableMenuItem(popup_menu, IDM_LOAD_STATE_5, 3u);
+          CheckMenuItem(popup_menu, IDM_COUNTRY_AUTODETECT, 0);
+          CheckMenuItem(popup_menu, IDM_COUNTRY_NTSC, 0);
+          CheckMenuItem(popup_menu, IDM_COUNTRY_PAL, 0);
           switch ( country_setting )
           {
             case 0:
-              CheckMenuItem(v25, IDM_COUNTRY_NTSC, 8u);
+              CheckMenuItem(popup_menu, IDM_COUNTRY_NTSC, 8u);
               return 1;
             case 1:
-              CheckMenuItem(v25, IDM_COUNTRY_PAL, 8u);
-              result = 1;
+              CheckMenuItem(popup_menu, IDM_COUNTRY_PAL, 8u);
+              ret = 1;
               break;
             case 255:
-              CheckMenuItem(v25, IDM_COUNTRY_AUTODETECT, 8u);
-              result = 1;
+              CheckMenuItem(popup_menu, IDM_COUNTRY_AUTODETECT, 8u);
+              ret = 1;
               break;
             default:
               return 1;
@@ -502,45 +502,45 @@ LABEL_122:
         }
         else
         {
-          EnableMenuItem(v25, IDM_COUNTRY_AUTODETECT, 3u);
-          EnableMenuItem(v25, IDM_COUNTRY_NTSC, 3u);
-          EnableMenuItem(v25, IDM_COUNTRY_PAL, 3u);
-          EnableMenuItem(v25, IDM_SAVE_STATE_1, 0);
-          EnableMenuItem(v25, IDM_SAVE_STATE_2, 0);
-          EnableMenuItem(v25, IDM_SAVE_STATE_3, 0);
-          EnableMenuItem(v25, IDM_SAVE_STATE_4, 0);
-          EnableMenuItem(v25, IDM_SAVE_STATE_5, 0);
-          LOBYTE(v26) = check_state_exists(0);
-          if ( v26 )
-            EnableMenuItem(v25, IDM_LOAD_STATE_1, 3u);
+          EnableMenuItem(popup_menu, IDM_COUNTRY_AUTODETECT, 3u);
+          EnableMenuItem(popup_menu, IDM_COUNTRY_NTSC, 3u);
+          EnableMenuItem(popup_menu, IDM_COUNTRY_PAL, 3u);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_1, 0);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_2, 0);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_3, 0);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_4, 0);
+          EnableMenuItem(popup_menu, IDM_SAVE_STATE_5, 0);
+          LOBYTE(state0_exists) = check_state_exists(0);
+          if ( state0_exists )
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_1, 3u);
           else
-            EnableMenuItem(v25, IDM_LOAD_STATE_1, 0);
-          LOBYTE(v27) = check_state_exists(1u);
-          if ( v27 )
-            EnableMenuItem(v25, IDM_LOAD_STATE_2, 3u);
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_1, 0);
+          LOBYTE(state1_exists) = check_state_exists(1u);
+          if ( state1_exists )
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_2, 3u);
           else
-            EnableMenuItem(v25, IDM_LOAD_STATE_2, 0);
-          LOBYTE(v28) = check_state_exists(2u);
-          if ( v28 )
-            EnableMenuItem(v25, IDM_LOAD_STATE_3, 3u);
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_2, 0);
+          LOBYTE(state2_exists) = check_state_exists(2u);
+          if ( state2_exists )
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_3, 3u);
           else
-            EnableMenuItem(v25, IDM_LOAD_STATE_3, 0);
-          LOBYTE(v29) = check_state_exists(3u);
-          if ( v29 )
-            EnableMenuItem(v25, IDM_LOAD_STATE_4, 3u);
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_3, 0);
+          LOBYTE(state3_exists) = check_state_exists(3u);
+          if ( state3_exists )
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_4, 3u);
           else
-            EnableMenuItem(v25, IDM_LOAD_STATE_4, 0);
-          LOBYTE(v30) = check_state_exists(4u);
-          if ( v30 )
-            EnableMenuItem(v25, IDM_LOAD_STATE_5, 3u);
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_4, 0);
+          LOBYTE(state4_exists) = check_state_exists(4u);
+          if ( state4_exists )
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_5, 3u);
           else
-            EnableMenuItem(v25, IDM_LOAD_STATE_5, 0);
-          result = 1;
+            EnableMenuItem(popup_menu, IDM_LOAD_STATE_5, 0);
+          ret = 1;
         }
         break;
       default:
 LABEL_178:
-        result = DefWindowProcA(hWnd, Msg, wParam, lParam);
+        ret = DefWindowProcA(hWnd, Msg, wParam, lParam);
         break;
     }
   }
@@ -549,13 +549,13 @@ LABEL_178:
     ValidateRect(hWnd, nullptr);
     if ( main_window_bitmap )
     {
-      v5 = GetDC(hWnd);
-      CompatibleDC = CreateCompatibleDC(v5);
+      hdc = GetDC(hWnd);
+      CompatibleDC = CreateCompatibleDC(hdc);
       SelectObject(CompatibleDC, h);
-      StretchBlt(v5, 0, 0, 400, 255, CompatibleDC, 0, 0, 10, 10, 0xCC0020u);
+      StretchBlt(hdc, 0, 0, 400, 255, CompatibleDC, 0, 0, 10, 10, 0xCC0020u);
       SelectObject(CompatibleDC, main_window_bitmap);
-      BitBlt(v5, 50, 30, 400, 300, CompatibleDC, 0, 0, 0xCC0020u);
-      ReleaseDC(hWnd, v5);
+      BitBlt(hdc, 50, 30, 400, 300, CompatibleDC, 0, 0, 0xCC0020u);
+      ReleaseDC(hWnd, hdc);
       DeleteDC(CompatibleDC);
       return 1;
     }
@@ -574,7 +574,7 @@ LABEL_178:
         setup_wizard_required = 0;
         setup_wizard_step = 0;
         setup_wizard_callback(hWnd);
-        result = 1;
+        ret = 1;
         break;
       case 2u:
         ui_error(" * Going out from gui (destroy). \n");
@@ -588,31 +588,31 @@ LABEL_178:
         goto LABEL_178;
     }
   }
-  return result;
+  return ret;
 }
 
 static BOOL register_win_class()
 {
-  WNDCLASSEXA v1; // [esp+8h] [ebp-30h] BYREF
+  WNDCLASSEXA wc;
 
-  v1.cbSize = 48;
-  v1.style = 0;
-  v1.cbClsExtra = 0;
-  v1.cbWndExtra = 0;
-  v1.hIcon = LoadIconA(nullptr, (LPCSTR)IDI_APP);
-  v1.hIconSm = LoadIconA(g_hInstance, (LPCSTR)IDI_APP);
-  v1.hCursor = nullptr;
-  v1.hInstance = g_hInstance;
-  v1.lpfnWndProc = main_window_callback;
-  v1.hbrBackground = (HBRUSH)GetStockObject(0);
-  v1.lpszMenuName = "EPSXMENU";
-  v1.lpszClassName = "EPSXGUI";
-  return RegisterClassExA(&v1) != 0;
+  wc.cbSize = 48;
+  wc.style = 0;
+  wc.cbClsExtra = 0;
+  wc.cbWndExtra = 0;
+  wc.hIcon = LoadIconA(nullptr, (LPCSTR)IDI_APP);
+  wc.hIconSm = LoadIconA(g_hInstance, (LPCSTR)IDI_APP);
+  wc.hCursor = nullptr;
+  wc.hInstance = g_hInstance;
+  wc.lpfnWndProc = main_window_callback;
+  wc.hbrBackground = (HBRUSH)GetStockObject(0);
+  wc.lpszMenuName = "EPSXMENU";
+  wc.lpszClassName = "EPSXGUI";
+  return RegisterClassExA(&wc) != 0;
 }
 
 BOOL create_main_window()
 {
-  HWND Window; // eax
+  HWND window;
 
   shift_key_pressed = 0;
   g_hInstance = GetModuleHandleA(nullptr);
@@ -620,7 +620,7 @@ BOOL create_main_window()
     ui_error(" * Error registering window.\n");
   main_window_bitmap = LoadBitmapA(g_hInstance, (LPCSTR)IDB_MAIN_WINDOW);
   h = LoadBitmapA(g_hInstance, (LPCSTR)IDB_MAIN_WINDOW_BG);
-  Window = CreateWindowExA(
+  window = CreateWindowExA(
              0,
              "EPSXGUI",
              " ePSXe - Enhanced PSX emulator",
@@ -633,10 +633,10 @@ BOOL create_main_window()
              nullptr,
              g_hInstance,
              nullptr);
-  g_hWnd = Window;
-  if ( !Window )
+  g_hWnd = window;
+  if ( !window )
     ui_error(" * Error creating window.\n");
-  ShowWindow(Window, 5);
+  ShowWindow(window, 5);
   UpdateWindow(g_hWnd);
   while ( GetMessageA(&stru_8A94E0, nullptr, 0, 0) )
   {
@@ -648,21 +648,21 @@ BOOL create_main_window()
 
 void save_load_state()
 {
-  int v0; // esi
-  char v1; // [esp+8h] [ebp-4h]
-  char gpu_freeze_counter; // [esp+8h] [ebp-4h]
+  int count;
+  char freeze_counter;
+  char gpu_freeze_counter;
 
-  *(_DWORD *)save_load_state_slot = 255;
+  *(uint32_t *)save_load_state_slot = 255;
   shift_key_pressed = 0;
   spu_mute_flag = 1;
-  v0 = 20;
+  count = 20;
   do
   {
     spu_update_cb();
     Sleep(10u);
-    --v0;
+    --count;
   }
-  while ( v0 );
+  while ( count );
   spu_update_cb();
   sio_memcard_both_save();
   spu_close();
@@ -695,19 +695,19 @@ void save_load_state()
       gpu_freeze_counter = get_gpu_freeze_counter();
       set_gpu_freeze_counter(save_load_state_slot[0] - 10);
       state_save();
-      dbg_print(" * SaveState Done! (%d)\n", *(_DWORD *)save_load_state_slot - 10);
+      dbg_print(" * SaveState Done! (%d)\n", *(uint32_t *)save_load_state_slot - 10);
       set_gpu_freeze_counter(gpu_freeze_counter);
       PostQuitMessage(0);
     }
   }
   else
   {
-    v1 = get_gpu_freeze_counter();
+    freeze_counter = get_gpu_freeze_counter();
     set_gpu_freeze_counter(save_load_state_slot[0]);
     state_load();
     dynarec_invalidate();
-    dbg_print(" * LoadState Done! (%d)\n", *(_DWORD *)save_load_state_slot);
-    set_gpu_freeze_counter(v1);
+    dbg_print(" * LoadState Done! (%d)\n", *(uint32_t *)save_load_state_slot);
+    set_gpu_freeze_counter(freeze_counter);
   }
 }
 

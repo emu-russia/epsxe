@@ -45,18 +45,18 @@ extern unsigned short g_cdr_tick_counter;
 
 /* Function prototypes (previously generated in src/_gen) */
 unsigned int cdr_dma();
-int __cdecl cdr_freeze(const char *a1, int a2);
+int cdr_freeze(const char *tag, int gz_file);
 int cdr_get_response_status();
-int __cdecl cdr_get_status(int a1);
-int __cdecl cdr_msf_to_lba(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3);
+int cdr_get_status(int status);
+int cdr_msf_to_lba(uint8_t minute, uint8_t second, uint8_t frame);
 void cdr_play_tick();
 char cdr_process_delays();
-char __cdecl cdr_reg0_write(char a1);
-void __cdecl cdr_reg1_write(unsigned __int8 a1);
-char __cdecl cdr_reg2_write(char a1);
-void __cdecl cdr_reg3_write(char a1);
+char cdr_reg0_write(char command);
+void cdr_reg1_write(uint8_t command);
+char cdr_reg2_write(char command);
+void cdr_reg3_write(char command);
 char cdr_reset_controller();
 void cdr_spinup_motor();
-int __cdecl cdr_unfreeze(int a1, _DWORD *a2);
-int __cdecl cdr_unfreeze_new(int a1, _DWORD *a2);
+int cdr_unfreeze(int unused, uint32_t *gz_file);
+int cdr_unfreeze_new(int unused, uint32_t *gz_file);
 char cdr_update_motor_status();

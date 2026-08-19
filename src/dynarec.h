@@ -32,8 +32,8 @@ extern unsigned short recomp_hw_write_tail_word;
 
 /* Function prototypes (previously generated in src/_gen) */
 void dynarec_deinit();
-__int64 dynarec_execute();
+int64_t dynarec_execute();
 uint8_t *dynarec_init();
 char *dynarec_invalidate();
-unsigned int __cdecl dynarec_invalidate_range(int a1, int a2);
+unsigned int dynarec_invalidate_range(int addr, int count);
 void nullsub_1();

@@ -2,17 +2,17 @@
 int diAcquireAllDevices()
 {
   if ( g_pJoystickDevices[0] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[0] + 28))(g_pJoystickDevices[0]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[0] + 28))(g_pJoystickDevices[0]);
   if ( g_pJoystickDevices[1] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[1] + 28))(g_pJoystickDevices[1]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[1] + 28))(g_pJoystickDevices[1]);
   if ( g_pJoystickDevices[2] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[2] + 28))(g_pJoystickDevices[2]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[2] + 28))(g_pJoystickDevices[2]);
   if ( g_pJoystickDevices[3] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[3] + 28))(g_pJoystickDevices[3]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[3] + 28))(g_pJoystickDevices[3]);
   if ( g_pMouseDevice )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pMouseDevice + 28))(g_pMouseDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pMouseDevice + 28))(g_pMouseDevice);
   if ( g_pKeyboardDevice )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pKeyboardDevice + 28))(g_pKeyboardDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pKeyboardDevice + 28))(g_pKeyboardDevice);
   g_bDevicesAcquired = 1;
   return 1;
 }
@@ -20,17 +20,17 @@ int diAcquireAllDevices()
 int diUnacquireAllDevices()
 {
   if ( g_pMouseDevice && point_device_enabled )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pMouseDevice + 32))(g_pMouseDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pMouseDevice + 32))(g_pMouseDevice);
   if ( g_pKeyboardDevice )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pKeyboardDevice + 32))(g_pKeyboardDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pKeyboardDevice + 32))(g_pKeyboardDevice);
   if ( g_pJoystickDevices[0] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[0] + 32))(g_pJoystickDevices[0]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[0] + 32))(g_pJoystickDevices[0]);
   if ( g_pJoystickDevices[1] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[1] + 32))(g_pJoystickDevices[1]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[1] + 32))(g_pJoystickDevices[1]);
   if ( g_pJoystickDevices[2] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[2] + 32))(g_pJoystickDevices[2]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[2] + 32))(g_pJoystickDevices[2]);
   if ( g_pJoystickDevices[3] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[3] + 32))(g_pJoystickDevices[3]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[3] + 32))(g_pJoystickDevices[3]);
   g_bDevicesAcquired = 0;
   return 1;
 }
@@ -38,460 +38,460 @@ int diUnacquireAllDevices()
 int diAcquireMouseDevice()
 {
   if ( g_pMouseDevice && point_device_enabled )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pMouseDevice + 28))(g_pMouseDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pMouseDevice + 28))(g_pMouseDevice);
   return 1;
 }
 
 static int diGetMouseState()
 {
-  int v1; // eax
-  int v2; // eax
-  _DWORD v3[3]; // [esp+Ch] [ebp-14h] BYREF
-  _BYTE v4[8]; // [esp+18h] [ebp-8h]
+  int device;
+  int result;
+  uint32_t state[3];
+  uint8_t buttons[8];
 
   if ( !point_device_enabled )
     return 0;
-  v1 = g_pMouseDevice;
+  device = g_pMouseDevice;
   g_MouseX = 0;
   g_MouseY[0] = 0;
   if ( g_pMouseDevice && g_bDevicesAcquired == 1 )
   {
     while ( 1 )
     {
-      v2 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v1 + 36))(v1, 16, v3);
-      if ( v2 != DIERR_INPUTLOST )
+      result = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)device + 36))(device, 16, state);
+      if ( result != DIERR_INPUTLOST )
         break;
-      if ( (*(int (__stdcall **)(int))(*(_DWORD *)g_pMouseDevice + 28))(g_pMouseDevice) < 0 )
+      if ( (*(int (__stdcall **)(int))(*(uint32_t *)g_pMouseDevice + 28))(g_pMouseDevice) < 0 )
         return 0;
-      v1 = g_pMouseDevice;
+      device = g_pMouseDevice;
     }
-    if ( v2 < 0 )
+    if ( result < 0 )
       return 0;
-    g_MouseX = 3 * v3[0];
-    g_MouseY[0] = 3 * v3[1];
-    g_MouseButtons = (v4[3] | ((v4[2] | ((unsigned int)(v4[1] | (v4[0] >> 1)) >> 1)) >> 1)) >> 4;
+    g_MouseX = 3 * state[0];
+    g_MouseY[0] = 3 * state[1];
+    g_MouseButtons = (buttons[3] | ((buttons[2] | ((unsigned int)(buttons[1] | (buttons[0] >> 1)) >> 1)) >> 1)) >> 4;
   }
   return 1;
 }
 
-static int __stdcall diEnumEffectsCallback(_DWORD *a1, _DWORD *a2)
+static int __stdcall diEnumEffectsCallback(uint32_t *effectInfo, uint32_t *out)
 {
-  if ( a2 )
+  if ( out )
   {
-    *a2 = a1[1];
-    a2[1] = a1[2];
-    a2[2] = a1[3];
-    a2[3] = a1[4];
+    *out = effectInfo[1];
+    out[1] = effectInfo[2];
+    out[2] = effectInfo[3];
+    out[3] = effectInfo[4];
   }
   return 0;
 }
 
-static unsigned int __cdecl diCreateEffectHelper(int a1, _DWORD *a2)
+static unsigned int diCreateEffectHelper(int device, uint32_t *effect)
 {
-  int v3; // [esp+8h] [ebp-1Ch]
-  _BYTE v4[16]; // [esp+14h] [ebp-10h] BYREF
+  int flags;
+  uint8_t guid[16];
 
-  if ( *a2 )
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)*a2 + 8))(*a2);
-  v3 = a2[1];
-  *a2 = 0;
-  if ( (*(int (__stdcall **)(int, int (__stdcall *)(_DWORD *, _DWORD *), _BYTE *, int))(*(_DWORD *)a1 + 76))(
-         a1,
+  if ( *effect )
+    (*(void (__stdcall **)(uint32_t))(*(uint32_t *)*effect + 8))(*effect);
+  flags = effect[1];
+  *effect = 0;
+  if ( (*(int (__stdcall **)(int, int (__stdcall *)(uint32_t *, uint32_t *), uint8_t *, int))(*(uint32_t *)device + 76))(
+         device,
          diEnumEffectsCallback,
-         v4,
-         v3) >= 0 )
-    return (*(int (__stdcall **)(int, _BYTE *, _DWORD *, _DWORD *, _DWORD))(*(_DWORD *)a1 + 72))(a1, v4, a2 + 2, a2, 0) >= 0
+         guid,
+         flags) >= 0 )
+    return (*(int (__stdcall **)(int, uint8_t *, uint32_t *, uint32_t *, uint32_t))(*(uint32_t *)device + 72))(device, guid, effect + 2, effect, 0) >= 0
          ? 0
          : 0x80004005;
   else
     return 0x80004005;
 }
 
-static unsigned int __cdecl diSetupConstantForceEffect(int a1, int a2)
+static unsigned int diSetupConstantForceEffect(int effect, int device)
 {
-  _DWORD *v2; // eax
-  int v3; // edx
-  _DWORD v5[2]; // [esp+0h] [ebp-10h] BYREF
-  _DWORD v6[2]; // [esp+8h] [ebp-8h] BYREF
+  uint32_t *effectData;
+  int deviceCopy;
+  uint32_t envelope[2];
+  uint32_t typeParams[2];
 
-  v2 = (_DWORD *)a1;
-  if ( !a1 )
+  effectData = (uint32_t *)effect;
+  if ( !effect )
     return E_FAIL;
-  v3 = a2;
-  if ( !a2 )
+  deviceCopy = device;
+  if ( !device )
     return E_FAIL;
-  *(_DWORD *)(a1 + 40) = v5;
-  v2[5] = 0;
-  v2[8] = 0;
-  v2[11] = v6;
-  v5[0] = 0;
-  v6[0] = 0;
-  v6[1] = 0;
-  v2[12] = 0;
-  v2[7] = -1;
-  a1 = 10000;
-  v5[1] = 4;
-  v2[3] = 34;
-  v2[4] = 20000;
-  v2[9] = 2;
-  v2[13] = 4;
-  v2[14] = &a1;
-  v2[1] = 1;
-  return (diCreateEffectHelper(v3, v2) & 0x80000000) == 0 ? 0 : 0x80004005;
+  *(uint32_t *)(effect + 40) = envelope;
+  effectData[5] = 0;
+  effectData[8] = 0;
+  effectData[11] = typeParams;
+  envelope[0] = 0;
+  typeParams[0] = 0;
+  typeParams[1] = 0;
+  effectData[12] = 0;
+  effectData[7] = -1;
+  effect = 10000;
+  envelope[1] = 4;
+  effectData[3] = 34;
+  effectData[4] = 20000;
+  effectData[9] = 2;
+  effectData[13] = 4;
+  effectData[14] = &effect;
+  effectData[1] = 1;
+  return (diCreateEffectHelper(deviceCopy, effectData) & 0x80000000) == 0 ? 0 : 0x80004005;
 }
 
-static unsigned int __cdecl diSetupPeriodicForceEffect(_DWORD *a1, int a2)
+static unsigned int diSetupPeriodicForceEffect(uint32_t *effect, int device)
 {
-  int v3; // [esp+0h] [ebp-20h] BYREF
-  int v4; // [esp+8h] [ebp-18h] BYREF
-  _DWORD v5[4]; // [esp+10h] [ebp-10h] BYREF
+  int tmp1;
+  int tmp2;
+  uint32_t periodicParams[4];
 
-  if ( !a1 || !a2 )
+  if ( !effect || !device )
     return E_FAIL;
-  a1[5] = 0;
-  a1[8] = 0;
-  a1[17] = 0;
-  a1[18] = 0;
-  a1[19] = 0;
-  v5[1] = 0;
-  v5[2] = 0;
-  v3 = 0;
-  v4 = 0;
-  a1[10] = &v3;
-  a1[12] = a1 + 16;
-  a1[7] = -1;
-  a1[11] = &v4;
-  a1[20] = 1000000;
-  v5[0] = 10000;
-  v5[3] = 100000;
-  a1[3] = 18;
-  a1[4] = 20000;
-  a1[9] = 1;
-  a1[13] = 16;
-  a1[14] = v5;
-  a1[1] = 3;
-  return (diCreateEffectHelper(a2, a1) & 0x80000000) == 0 ? 0 : E_FAIL;
+  effect[5] = 0;
+  effect[8] = 0;
+  effect[17] = 0;
+  effect[18] = 0;
+  effect[19] = 0;
+  periodicParams[1] = 0;
+  periodicParams[2] = 0;
+  tmp1 = 0;
+  tmp2 = 0;
+  effect[10] = &tmp1;
+  effect[12] = effect + 16;
+  effect[7] = -1;
+  effect[11] = &tmp2;
+  effect[20] = 1000000;
+  periodicParams[0] = 10000;
+  periodicParams[3] = 100000;
+  effect[3] = 18;
+  effect[4] = 20000;
+  effect[9] = 1;
+  effect[13] = 16;
+  effect[14] = periodicParams;
+  effect[1] = 3;
+  return (diCreateEffectHelper(device, effect) & 0x80000000) == 0 ? 0 : E_FAIL;
 }
 
-static int __cdecl diSetConstantForceMagnitude(int a1, int a2)
+static int diSetConstantForceMagnitude(int effect, int magnitude)
 {
-  _DWORD *v2; // ebx
-  int v3; // esi
-  _DWORD v5[14]; // [esp+8h] [ebp-38h] BYREF
+  uint32_t *effectData;
+  int effectHandle;
+  uint32_t params[14];
 
-  v2 = (_DWORD *)a1;
-  if ( !a1 )
+  effectData = (uint32_t *)effect;
+  if ( !effect )
     return E_INVALIDARG;
-  v3 = *(_DWORD *)a1;
-  if ( !*(_DWORD *)a1 )
+  effectHandle = *(uint32_t *)effect;
+  if ( !*(uint32_t *)effect )
     return E_INVALIDARG;
-  memset(v5, 0, sizeof(v5));
-  a1 = 10000 * a2 / 255;
-  v5[0] = 56;
-  v5[11] = 4;
-  v5[12] = &a1;
-  (*(void (__stdcall **)(int, _DWORD *, int))(*(_DWORD *)v3 + 24))(v3, v5, 256);
-  return (*(int (__stdcall **)(_DWORD, int, _DWORD))(*(_DWORD *)*v2 + 28))(*v2, 1, 0);
+  memset(params, 0, sizeof(params));
+  effect = 10000 * magnitude / 255;
+  params[0] = 56;
+  params[11] = 4;
+  params[12] = &effect;
+  (*(void (__stdcall **)(int, uint32_t *, int))(*(uint32_t *)effectHandle + 24))(effectHandle, params, 256);
+  return (*(int (__stdcall **)(uint32_t, int, uint32_t))(*(uint32_t *)*effectData + 28))(*effectData, 1, 0);
 }
 
-static int __cdecl diSetPeriodicForceMagnitude(_DWORD *a1, int a2)
+static int diSetPeriodicForceMagnitude(uint32_t *effect, int magnitude)
 {
-  int v2; // esi
-  int v4; // [esp+8h] [ebp-48h] BYREF
-  _DWORD v5[14]; // [esp+18h] [ebp-38h] BYREF
+  int effectHandle;
+  int scaledMagnitude;
+  uint32_t params[14];
 
-  if ( !a1 )
+  if ( !effect )
     return E_INVALIDARG;
-  v2 = *a1;
-  if ( !*a1 )
+  effectHandle = *effect;
+  if ( !*effect )
     return E_INVALIDARG;
-  memset(v5, 0, sizeof(v5));
-  v4 = 10000 * a2 / 255;
-  v5[0] = 56;
-  v5[11] = 16;
-  v5[12] = &v4;
-  (*(void (__stdcall **)(int, _DWORD *, int))(*(_DWORD *)v2 + 24))(v2, v5, 256);
-  return (*(int (__stdcall **)(_DWORD, int, _DWORD))(*(_DWORD *)*a1 + 28))(*a1, 1, 0);
+  memset(params, 0, sizeof(params));
+  scaledMagnitude = 10000 * magnitude / 255;
+  params[0] = 56;
+  params[11] = 16;
+  params[12] = &scaledMagnitude;
+  (*(void (__stdcall **)(int, uint32_t *, int))(*(uint32_t *)effectHandle + 24))(effectHandle, params, 256);
+  return (*(int (__stdcall **)(uint32_t, int, uint32_t))(*(uint32_t *)*effect + 28))(*effect, 1, 0);
 }
 
-static _DWORD *__cdecl diInitEffectStruct(_DWORD *a1)
+static uint32_t * diInitEffectStruct(uint32_t *effect)
 {
-  memset(a1 + 2, 0, 0x38u);
-  a1[2] = 56;
-  a1[6] = 7500;
-  a1[16] = 0;
-  a1[17] = 0;
-  a1[18] = 0;
-  a1[19] = 0;
-  a1[20] = 0;
-  a1[16] = 20;
-  *a1 = 0;
-  return a1 + 16;
+  memset(effect + 2, 0, 0x38u);
+  effect[2] = 56;
+  effect[6] = 7500;
+  effect[16] = 0;
+  effect[17] = 0;
+  effect[18] = 0;
+  effect[19] = 0;
+  effect[20] = 0;
+  effect[16] = 20;
+  *effect = 0;
+  return effect + 16;
 }
 
-int __cdecl diSetEffectMagnitude(int a1, int a2, int a3, int a4)
+int diSetEffectMagnitude(int effectSet, int magnitude, int unused, int port)
 {
-  int result; // eax
+  int effectType;
 
-  if ( a1 )
+  if ( effectSet )
   {
-    result = g_EffectType1[a4];
-    if ( result == 1 )
+    effectType = g_EffectType1[port];
+    if ( effectType == 1 )
     {
-      return diSetConstantForceMagnitude(g_MouseY[g_PlayerDeviceMap1[a4]], a2);
+      return diSetConstantForceMagnitude(g_MouseY[g_PlayerDeviceMap1[port]], magnitude);
     }
-    else if ( result == 2 )
+    else if ( effectType == 2 )
     {
-      return diSetPeriodicForceMagnitude((_DWORD *)g_MouseY[g_PlayerDeviceMap1[a4]], a2);
+      return diSetPeriodicForceMagnitude((uint32_t *)g_MouseY[g_PlayerDeviceMap1[port]], magnitude);
     }
   }
   else
   {
-    result = g_EffectType2[a4];
-    if ( result == 1 )
+    effectType = g_EffectType2[port];
+    if ( effectType == 1 )
     {
-      return diSetConstantForceMagnitude(force_feedback_effect_handles2[g_PlayerDeviceMap1[a4]], a2);
+      return diSetConstantForceMagnitude(force_feedback_effect_handles2[g_PlayerDeviceMap1[port]], magnitude);
     }
-    else if ( result == 2 )
+    else if ( effectType == 2 )
     {
-      return diSetPeriodicForceMagnitude((_DWORD *)force_feedback_effect_handles2[g_PlayerDeviceMap1[a4]], a2);
+      return diSetPeriodicForceMagnitude((uint32_t *)force_feedback_effect_handles2[g_PlayerDeviceMap1[port]], magnitude);
     }
   }
-  return result;
+  return effectType;
 }
 
-static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
+static int diEnumDevicesCallback(int deviceInstance, uint32_t *dinput, int flags)
 {
-  int v3; // ebp
-  int v4; // edx
-  int i; // eax
-  int *v7; // eax
-  int v8; // ecx
-  int v9; // eax
-  int v10; // eax
-  bool v11; // sf
-  int v12; // eax
-  int v13; // eax
-  int v14; // eax
-  int v15; // eax
-  int v16; // eax
-  int v17; // eax
-  int v18; // eax
-  int v19; // eax
-  int v20; // eax
-  int v21; // eax
-  int v22; // eax
-  int v23; // eax
-  int v24; // eax
-  int v25; // eax
-  int v26; // eax
-  int v27; // eax
-  int v28; // eax
-  int v29; // eax
-  int v30; // eax
-  int v31; // eax
-  int v32; // eax
-  int v33; // eax
-  int v34; // eax
-  int v35; // eax
-  int v36; // ecx
-  int *v37; // eax
-  int v38; // eax
-  int v39; // ebp
-  char *v40; // [esp+C4h] [ebp-64h]
-  _DWORD v41[4]; // [esp+D8h] [ebp-50h] BYREF
-  int v42; // [esp+E8h] [ebp-40h] BYREF
-  int v43; // [esp+ECh] [ebp-3Ch]
-  int v44; // [esp+F0h] [ebp-38h]
-  int v45; // [esp+F4h] [ebp-34h]
-  int v46; // [esp+F8h] [ebp-30h]
-  _DWORD v47[5]; // [esp+FCh] [ebp-2Ch] BYREF
-  int v48; // [esp+110h] [ebp-18h] BYREF
-  _DWORD v49[2]; // [esp+114h] [ebp-14h] BYREF
-  int v50; // [esp+11Ch] [ebp-Ch]
-  int v51; // [esp+120h] [ebp-8h]
-  int v52; // [esp+124h] [ebp-4h]
-  int a1a; // [esp+12Ch] [ebp+4h]
+  int tmp;
+  int guidTmp;
+  int i;
+  int *devicePtr;
+  int vtable;
+  int hr;
+  int device;
+  bool failed;
+  int idx1;
+  int deviceY;
+  int idx2;
+  int deviceZ;
+  int idx3;
+  int deviceRx;
+  int idx4;
+  int deviceRy;
+  int idx5;
+  int deviceRz;
+  int idx6;
+  int deviceS0;
+  int idx7;
+  int deviceS1;
+  int idx8;
+  int deadzoneDevice;
+  int deadzoneY;
+  int deadzoneZ;
+  int deadzoneRx;
+  int deadzoneRy;
+  int deadzoneRz;
+  int deadzoneS0;
+  int deadzoneS1;
+  int ffDevice;
+  int idx;
+  int *effectBuffer2;
+  int effectType1;
+  int effectType2;
+  char *effectBuffer1;
+  uint32_t deviceGuid[4];
+  int propSize;
+  int propHeaderSize;
+  int propObj;
+  int propHow;
+  int propData;
+  uint32_t ffLoad[5];
+  int rangeSize;
+  uint32_t rangeHeader[2];
+  int rangeObj;
+  int rangeMin;
+  int rangeMax;
+  int playerIndex;
 
-  v4 = *(_DWORD *)(a1 + 8);
-  v41[0] = *(_DWORD *)(a1 + 4);
-  v41[2] = *(_DWORD *)(a1 + 12);
-  v41[1] = v4;
-  v41[3] = *(_DWORD *)(a1 + 16);
-  a1a = -1;
+  guidTmp = *(uint32_t *)(deviceInstance + 8);
+  deviceGuid[0] = *(uint32_t *)(deviceInstance + 4);
+  deviceGuid[2] = *(uint32_t *)(deviceInstance + 12);
+  deviceGuid[1] = guidTmp;
+  deviceGuid[3] = *(uint32_t *)(deviceInstance + 16);
+  playerIndex = -1;
   if ( (unsigned int)g_uiNumJoysticks <= 3 )
   {
     for ( i = 0; i < 4; ++i )
     {
       if ( g_PlayerDeviceMap1[i] == g_uiNumJoysticks + 1 )
-        a1a = i;
+        playerIndex = i;
     }
-    if ( !(*(int (__stdcall **)(_DWORD *, _DWORD *, GUID *, int, _DWORD))(*a2 + 36))(
-            a2,
-            v41,
+    if ( !(*(int (__stdcall **)(uint32_t *, uint32_t *, GUID *, int, uint32_t))(*dinput + 36))(
+            dinput,
+            deviceGuid,
             &GUID_Joystick,
             4 * g_uiNumJoysticks + 5207916,
             0) )
     {
-      if ( (*(int (__stdcall **)(int, char *))(*(_DWORD *)g_pJoystickDevices[g_uiNumJoysticks] + 44))(
+      if ( (*(int (__stdcall **)(int, char *))(*(uint32_t *)g_pJoystickDevices[g_uiNumJoysticks] + 44))(
              g_pJoystickDevices[g_uiNumJoysticks],
              &g_JoystickDataFormat)
-        || ((v7 = (int *)g_pJoystickDevices[g_uiNumJoysticks], v8 = *v7, a1a == -1)
-          ? (v9 = (*(int (__stdcall **)(int *, int, int))(v8 + 52))(v7, hDlgInput, 6))
-          : (v9 = (*(int (__stdcall **)(int *, int, int))(v8 + 52))(v7, hDlgInput, 5)),
-            v9) )
+        || ((devicePtr = (int *)g_pJoystickDevices[g_uiNumJoysticks], vtable = *devicePtr, playerIndex == -1)
+          ? (hr = (*(int (__stdcall **)(int *, int, int))(vtable + 52))(devicePtr, hDlgInput, 6))
+          : (hr = (*(int (__stdcall **)(int *, int, int))(vtable + 52))(devicePtr, hDlgInput, 5)),
+            hr) )
       {
-        (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[g_uiNumJoysticks] + 8))(g_pJoystickDevices[g_uiNumJoysticks]);
+        (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[g_uiNumJoysticks] + 8))(g_pJoystickDevices[g_uiNumJoysticks]);
         return 1;
       }
-      v10 = g_pJoystickDevices[g_uiNumJoysticks];
-      v48 = 24;
-      v49[0] = 16;
-      v49[1] = 0;
-      v50 = 1;
-      v51 = -128;
-      v52 = 127;
-      v11 = (*(int (__stdcall **)(int, int, int *, int))(*(_DWORD *)v10 + 24))(v10, 4, &v48, v3) < 0;
-      v12 = g_uiNumJoysticks;
-      if ( v11 )
+      device = g_pJoystickDevices[g_uiNumJoysticks];
+      rangeSize = 24;
+      rangeHeader[0] = 16;
+      rangeHeader[1] = 0;
+      rangeObj = 1;
+      rangeMin = -128;
+      rangeMax = 127;
+      failed = (*(int (__stdcall **)(int, int, int *, int))(*(uint32_t *)device + 24))(device, 4, &rangeSize, tmp) < 0;
+      idx1 = g_uiNumJoysticks;
+      if ( failed )
       {
         g_JoystickStateFlags[g_uiNumJoysticks] = 1;
-        joystick_axis_1_positive_triggered[v12] = 1;
+        joystick_axis_1_positive_triggered[idx1] = 1;
       }
-      v13 = g_pJoystickDevices[v12];
-      v50 = 4;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v13 + 24))(v13, 4, v49) < 0;
-      v14 = g_uiNumJoysticks;
-      if ( v11 )
+      deviceY = g_pJoystickDevices[idx1];
+      rangeObj = 4;
+      failed = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)deviceY + 24))(deviceY, 4, rangeHeader) < 0;
+      idx2 = g_uiNumJoysticks;
+      if ( failed )
       {
         joystick_axis_1_negative_triggered[g_uiNumJoysticks] = 1;
-        joystick_axis_2_positive_triggered[v14] = 1;
+        joystick_axis_2_positive_triggered[idx2] = 1;
       }
-      v15 = g_pJoystickDevices[v14];
-      v50 = 8;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v15 + 24))(v15, 4, v49) < 0;
-      v16 = g_uiNumJoysticks;
-      if ( v11 )
+      deviceZ = g_pJoystickDevices[idx2];
+      rangeObj = 8;
+      failed = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)deviceZ + 24))(deviceZ, 4, rangeHeader) < 0;
+      idx3 = g_uiNumJoysticks;
+      if ( failed )
       {
         joystick_z_axis_positive_triggered[g_uiNumJoysticks] = 1;
-        joystick_axis_2_negative_triggered[v16] = 1;
+        joystick_axis_2_negative_triggered[idx3] = 1;
       }
-      v17 = g_pJoystickDevices[v16];
-      v50 = 12;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v17 + 24))(v17, 4, v49) < 0;
-      v18 = g_uiNumJoysticks;
-      if ( v11 )
+      deviceRx = g_pJoystickDevices[idx3];
+      rangeObj = 12;
+      failed = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)deviceRx + 24))(deviceRx, 4, rangeHeader) < 0;
+      idx4 = g_uiNumJoysticks;
+      if ( failed )
       {
         joystick_axis_3_positive_triggered[g_uiNumJoysticks] = 1;
-        joystick_axis_3_negative_triggered[v18] = 1;
+        joystick_axis_3_negative_triggered[idx4] = 1;
       }
-      v19 = g_pJoystickDevices[v18];
-      v50 = 16;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v19 + 24))(v19, 4, v49) < 0;
-      v20 = g_uiNumJoysticks;
-      if ( v11 )
+      deviceRy = g_pJoystickDevices[idx4];
+      rangeObj = 16;
+      failed = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)deviceRy + 24))(deviceRy, 4, rangeHeader) < 0;
+      idx5 = g_uiNumJoysticks;
+      if ( failed )
       {
         joystick_axis_4_positive_triggered[g_uiNumJoysticks] = 1;
-        joystick_axis_4_negative_triggered[v20] = 1;
+        joystick_axis_4_negative_triggered[idx5] = 1;
       }
-      v21 = g_pJoystickDevices[v20];
-      v50 = 20;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v21 + 24))(v21, 4, v49) < 0;
-      v22 = g_uiNumJoysticks;
-      if ( v11 )
+      deviceRz = g_pJoystickDevices[idx5];
+      rangeObj = 20;
+      failed = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)deviceRz + 24))(deviceRz, 4, rangeHeader) < 0;
+      idx6 = g_uiNumJoysticks;
+      if ( failed )
       {
         joystick_axis_5_positive_triggered[g_uiNumJoysticks] = 1;
-        joystick_axis_5_negative_triggered[v22] = 1;
+        joystick_axis_5_negative_triggered[idx6] = 1;
       }
-      v23 = g_pJoystickDevices[v22];
-      v50 = 24;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v23 + 24))(v23, 4, v49) < 0;
-      v24 = g_uiNumJoysticks;
-      if ( v11 )
+      deviceS0 = g_pJoystickDevices[idx6];
+      rangeObj = 24;
+      failed = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)deviceS0 + 24))(deviceS0, 4, rangeHeader) < 0;
+      idx7 = g_uiNumJoysticks;
+      if ( failed )
       {
         joystick_axis_6_positive_triggered[g_uiNumJoysticks] = 1;
-        joystick_axis_6_negative_triggered[v24] = 1;
+        joystick_axis_6_negative_triggered[idx7] = 1;
       }
-      v25 = g_pJoystickDevices[v24];
-      v50 = 28;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v25 + 24))(v25, 4, v49) < 0;
-      v26 = g_uiNumJoysticks;
-      if ( v11 )
+      deviceS1 = g_pJoystickDevices[idx7];
+      rangeObj = 28;
+      failed = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)deviceS1 + 24))(deviceS1, 4, rangeHeader) < 0;
+      idx8 = g_uiNumJoysticks;
+      if ( failed )
       {
         joystick_axis_7_positive_triggered[g_uiNumJoysticks] = 1;
-        joystick_axis_7_negative_triggered[v26] = 1;
+        joystick_axis_7_negative_triggered[idx8] = 1;
       }
-      v27 = g_pJoystickDevices[v26];
-      v43 = 20;
-      v44 = 16;
-      v46 = 1;
-      v47[0] = 2500;
-      v45 = 0;
-      (*(void (__stdcall **)(int, int))(*(_DWORD *)v27 + 24))(v27, 5);
-      v28 = g_pJoystickDevices[g_uiNumJoysticks];
-      v44 = 4;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v28 + 24))(v28, 5, &v42);
-      v29 = g_pJoystickDevices[g_uiNumJoysticks];
-      v44 = 8;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v29 + 24))(v29, 5, &v42);
-      v30 = g_pJoystickDevices[g_uiNumJoysticks];
-      v44 = 12;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v30 + 24))(v30, 5, &v42);
-      v31 = g_pJoystickDevices[g_uiNumJoysticks];
-      v44 = 16;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v31 + 24))(v31, 5, &v42);
-      v32 = g_pJoystickDevices[g_uiNumJoysticks];
-      v44 = 20;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v32 + 24))(v32, 5, &v42);
-      v33 = g_pJoystickDevices[g_uiNumJoysticks];
-      v44 = 24;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v33 + 24))(v33, 5, &v42);
-      v34 = g_pJoystickDevices[g_uiNumJoysticks];
-      v44 = 28;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v34 + 24))(v34, 5, &v42);
-      v42 = 20;
-      v43 = 16;
-      v45 = 0;
-      v46 = 0;
-      v44 = 0;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)g_pJoystickDevices[g_uiNumJoysticks] + 24))(
+      deadzoneDevice = g_pJoystickDevices[idx8];
+      propHeaderSize = 20;
+      propObj = 16;
+      propData = 1;
+      ffLoad[0] = 2500;
+      propHow = 0;
+      (*(void (__stdcall **)(int, int))(*(uint32_t *)deadzoneDevice + 24))(deadzoneDevice, 5);
+      deadzoneY = g_pJoystickDevices[g_uiNumJoysticks];
+      propObj = 4;
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)deadzoneY + 24))(deadzoneY, 5, &propSize);
+      deadzoneZ = g_pJoystickDevices[g_uiNumJoysticks];
+      propObj = 8;
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)deadzoneZ + 24))(deadzoneZ, 5, &propSize);
+      deadzoneRx = g_pJoystickDevices[g_uiNumJoysticks];
+      propObj = 12;
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)deadzoneRx + 24))(deadzoneRx, 5, &propSize);
+      deadzoneRy = g_pJoystickDevices[g_uiNumJoysticks];
+      propObj = 16;
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)deadzoneRy + 24))(deadzoneRy, 5, &propSize);
+      deadzoneRz = g_pJoystickDevices[g_uiNumJoysticks];
+      propObj = 20;
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)deadzoneRz + 24))(deadzoneRz, 5, &propSize);
+      deadzoneS0 = g_pJoystickDevices[g_uiNumJoysticks];
+      propObj = 24;
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)deadzoneS0 + 24))(deadzoneS0, 5, &propSize);
+      deadzoneS1 = g_pJoystickDevices[g_uiNumJoysticks];
+      propObj = 28;
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)deadzoneS1 + 24))(deadzoneS1, 5, &propSize);
+      propSize = 20;
+      propHeaderSize = 16;
+      propHow = 0;
+      propData = 0;
+      propObj = 0;
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)g_pJoystickDevices[g_uiNumJoysticks] + 24))(
         g_pJoystickDevices[g_uiNumJoysticks],
         2,
-        &v42);
-      if ( a1a != -1 )
+        &propSize);
+      if ( playerIndex != -1 )
       {
-        v35 = g_pJoystickDevices[g_uiNumJoysticks];
-        v47[0] = 20;
-        v47[1] = 16;
-        memset(&v47[2], 0, 12);
-        (*(void (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v35 + 24))(v35, 9, v47);
-        v36 = g_uiNumJoysticks;
-        v37 = &g_EffectBuffer2[25 * g_uiNumJoysticks];
-        v40 = &g_EffectBuffer1[100 * g_uiNumJoysticks];
-        g_pEffectStructs[g_uiNumJoysticks] = (int)v40;
-        g_pEffectStructs2[v36] = (int)v37;
-        diInitEffectStruct(v40);
-        diInitEffectStruct((_DWORD *)g_pEffectStructs2[g_uiNumJoysticks]);
-        *(_DWORD *)(g_pEffectStructs[g_uiNumJoysticks] + 24) = 100 * g_EffectScaleFactor;
-        *(_DWORD *)(g_pEffectStructs2[g_uiNumJoysticks] + 24) = 100 * g_EffectScaleFactor;
-        v38 = g_EffectType1[a1a];
-        if ( v38 == 1 )
+        ffDevice = g_pJoystickDevices[g_uiNumJoysticks];
+        ffLoad[0] = 20;
+        ffLoad[1] = 16;
+        memset(&ffLoad[2], 0, 12);
+        (*(void (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)ffDevice + 24))(ffDevice, 9, ffLoad);
+        idx = g_uiNumJoysticks;
+        effectBuffer2 = &g_EffectBuffer2[25 * g_uiNumJoysticks];
+        effectBuffer1 = &g_EffectBuffer1[100 * g_uiNumJoysticks];
+        g_pEffectStructs[g_uiNumJoysticks] = (int)effectBuffer1;
+        g_pEffectStructs2[idx] = (int)effectBuffer2;
+        diInitEffectStruct(effectBuffer1);
+        diInitEffectStruct((uint32_t *)g_pEffectStructs2[g_uiNumJoysticks]);
+        *(uint32_t *)(g_pEffectStructs[g_uiNumJoysticks] + 24) = 100 * g_EffectScaleFactor;
+        *(uint32_t *)(g_pEffectStructs2[g_uiNumJoysticks] + 24) = 100 * g_EffectScaleFactor;
+        effectType1 = g_EffectType1[playerIndex];
+        if ( effectType1 == 1 )
         {
           diSetupConstantForceEffect(g_pEffectStructs[g_uiNumJoysticks], g_pJoystickDevices[g_uiNumJoysticks]);
         }
-        else if ( v38 == 2 )
+        else if ( effectType1 == 2 )
         {
-          diSetupPeriodicForceEffect((_DWORD *)g_pEffectStructs[g_uiNumJoysticks], g_pJoystickDevices[g_uiNumJoysticks]);
+          diSetupPeriodicForceEffect((uint32_t *)g_pEffectStructs[g_uiNumJoysticks], g_pJoystickDevices[g_uiNumJoysticks]);
         }
-        v39 = g_EffectType2[a1a];
-        if ( v39 == 1 )
+        effectType2 = g_EffectType2[playerIndex];
+        if ( effectType2 == 1 )
         {
           diSetupConstantForceEffect(g_pEffectStructs2[g_uiNumJoysticks], g_pJoystickDevices[g_uiNumJoysticks]);
         }
-        else if ( v39 == 2 )
+        else if ( effectType2 == 2 )
         {
           diSetupPeriodicForceEffect(
-            (_DWORD *)g_pEffectStructs2[g_uiNumJoysticks],
+            (uint32_t *)g_pEffectStructs2[g_uiNumJoysticks],
             g_pJoystickDevices[g_uiNumJoysticks]);
         }
       }
@@ -503,41 +503,41 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
 
 int diInitDirectInput()
 {
-  HRESULT hr; // edi
-  CHAR Text[256]; // [esp+8h] [ebp-100h] BYREF
+  HRESULT hr;
+  CHAR Text[256];
 
   hr = DirectInputCreateA(hInst_For_DInput, 0x700, (int)&g_pDirectInput, 0);
   if ( hr >= 0 )
   {
-    if ( (*(int (__stdcall **)(int, GUID *, int *, _DWORD))(*(_DWORD *)g_pDirectInput + 12))(
+    if ( (*(int (__stdcall **)(int, GUID *, int *, uint32_t))(*(uint32_t *)g_pDirectInput + 12))(
            g_pDirectInput,
            &GUID_Keyboard,
            &g_pKeyboardDevice,
            0) < 0 )
       return 0;
-    if ( (*(int (__stdcall **)(int, char *))(*(_DWORD *)g_pKeyboardDevice + 44))(
+    if ( (*(int (__stdcall **)(int, char *))(*(uint32_t *)g_pKeyboardDevice + 44))(
            g_pKeyboardDevice,
            &g_KeyboardDataFormat) < 0 )
       return 0;
-    (*(void (__stdcall **)(int, int, int))(*(_DWORD *)g_pKeyboardDevice + 52))(g_pKeyboardDevice, hDlgInput, 6);
+    (*(void (__stdcall **)(int, int, int))(*(uint32_t *)g_pKeyboardDevice + 52))(g_pKeyboardDevice, hDlgInput, 6);
     if ( !point_device_enabled || g_bDisableMouse )
       goto LABEL_25;
-    if ( (*(int (__stdcall **)(int, GUID *, int *, _DWORD))(*(_DWORD *)g_pDirectInput + 12))(
+    if ( (*(int (__stdcall **)(int, GUID *, int *, uint32_t))(*(uint32_t *)g_pDirectInput + 12))(
            g_pDirectInput,
            &GUID_Mouse,
            &g_pMouseDevice,
            0) < 0 )
       return 0;
-    if ( (*(int (__stdcall **)(int, char *))(*(_DWORD *)g_pMouseDevice + 44))(g_pMouseDevice, &g_MouseDataFormat) < 0 )
+    if ( (*(int (__stdcall **)(int, char *))(*(uint32_t *)g_pMouseDevice + 44))(g_pMouseDevice, &g_MouseDataFormat) < 0 )
       return 0;
-    if ( (*(int (__stdcall **)(int, int, int))(*(_DWORD *)g_pMouseDevice + 52))(g_pMouseDevice, hDlgInput, 5) >= 0 )
+    if ( (*(int (__stdcall **)(int, int, int))(*(uint32_t *)g_pMouseDevice + 52))(g_pMouseDevice, hDlgInput, 5) >= 0 )
     {
 LABEL_25:
       g_pJoystickDevices[0] = 0;
       g_pJoystickDevices[1] = 0;
       g_pJoystickDevices[2] = 0;
       g_pJoystickDevices[3] = 0;
-      (*(void (__stdcall **)(int, int, int (*)(int, _DWORD *, int), int, int))(*(_DWORD *)g_pDirectInput + 16))(
+      (*(void (__stdcall **)(int, int, int (*)(int, uint32_t *, int), int, int))(*(uint32_t *)g_pDirectInput + 16))(
         g_pDirectInput,
         4,
         diEnumDevicesCallback,
@@ -547,7 +547,7 @@ LABEL_25:
          || g_PlayerDeviceMap2 && (unsigned int)g_PlayerDeviceMap2 <= 4
          || g_PlayerDeviceMap3 && (unsigned int)g_PlayerDeviceMap3 <= 4
          || g_PlayerDeviceMap4[0] && g_PlayerDeviceMap4[0] <= 4u)
-        && (*(int (__stdcall **)(int, int, int (*)(int, _DWORD *, int), int, int))(*(_DWORD *)g_pDirectInput + 16))(
+        && (*(int (__stdcall **)(int, int, int (*)(int, uint32_t *, int), int, int))(*(uint32_t *)g_pDirectInput + 16))(
              g_pDirectInput,
              4,
              diEnumDevicesCallback,
@@ -606,98 +606,98 @@ LABEL_10:
 
 int diUpdateJoystickStates()
 {
-  char *v0; // edi
-  int i; // esi
-  int result; // eax
-  int v3; // eax
+  char *buffer;
+  int i;
+  int result;
+  int device;
 
-  v0 = g_JoystickStateBuffer;
+  buffer = g_JoystickStateBuffer;
   for ( i = 0; ; ++i )
   {
     result = g_pJoystickDevices[i];
     if ( result )
       break;
 LABEL_97:
-    v0 += 80;
-    if ( (int)v0 >= (int)g_EffectBuffer2 )
+    buffer += 80;
+    if ( (int)buffer >= (int)g_EffectBuffer2 )
       return result;
   }
-  (*(void (__stdcall **)(int))(*(_DWORD *)result + 100))(g_pJoystickDevices[i]);
-  if ( (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)g_pJoystickDevices[i] + 36))(g_pJoystickDevices[i], 80, v0) != -2147024866 )
+  (*(void (__stdcall **)(int))(*(uint32_t *)result + 100))(g_pJoystickDevices[i]);
+  if ( (*(int (__stdcall **)(int, int, char *))(*(uint32_t *)g_pJoystickDevices[i] + 36))(g_pJoystickDevices[i], 80, buffer) != -2147024866 )
     goto LABEL_8;
-  v3 = g_pJoystickDevices[i];
-  if ( v3 )
-    (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 28))(g_pJoystickDevices[i]);
-  result = (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)g_pJoystickDevices[i] + 36))(
+  device = g_pJoystickDevices[i];
+  if ( device )
+    (*(void (__stdcall **)(int))(*(uint32_t *)device + 28))(g_pJoystickDevices[i]);
+  result = (*(int (__stdcall **)(int, int, char *))(*(uint32_t *)g_pJoystickDevices[i] + 36))(
              g_pJoystickDevices[i],
              80,
-             v0);
+             buffer);
   if ( result >= 0 )
   {
 LABEL_8:
-    if ( !g_JoystickStateFlags[i] && *(int *)v0 > 0 )
+    if ( !g_JoystickStateFlags[i] && *(int *)buffer > 0 )
       g_JoystickStateFlags[i] = 1;
-    if ( !joystick_axis_1_positive_triggered[i] && *(int *)v0 < 0 )
+    if ( !joystick_axis_1_positive_triggered[i] && *(int *)buffer < 0 )
       joystick_axis_1_positive_triggered[i] = 1;
-    if ( !joystick_axis_1_negative_triggered[i] && *((int *)v0 + 1) > 0 )
+    if ( !joystick_axis_1_negative_triggered[i] && *((int *)buffer + 1) > 0 )
       joystick_axis_1_negative_triggered[i] = 1;
-    if ( !joystick_axis_2_positive_triggered[i] && *((int *)v0 + 1) < 0 )
+    if ( !joystick_axis_2_positive_triggered[i] && *((int *)buffer + 1) < 0 )
       joystick_axis_2_positive_triggered[i] = 1;
-    if ( !joystick_z_axis_positive_triggered[i] && *((int *)v0 + 2) > 0 )
+    if ( !joystick_z_axis_positive_triggered[i] && *((int *)buffer + 2) > 0 )
       joystick_z_axis_positive_triggered[i] = 1;
-    if ( !joystick_axis_2_negative_triggered[i] && *((int *)v0 + 2) < 0 )
+    if ( !joystick_axis_2_negative_triggered[i] && *((int *)buffer + 2) < 0 )
       joystick_axis_2_negative_triggered[i] = 1;
-    if ( !joystick_axis_4_positive_triggered[i] && *((int *)v0 + 4) > 0 )
+    if ( !joystick_axis_4_positive_triggered[i] && *((int *)buffer + 4) > 0 )
       joystick_axis_4_positive_triggered[i] = 1;
-    if ( !joystick_axis_4_negative_triggered[i] && *((int *)v0 + 4) < 0 )
+    if ( !joystick_axis_4_negative_triggered[i] && *((int *)buffer + 4) < 0 )
       joystick_axis_4_negative_triggered[i] = 1;
-    if ( !joystick_axis_5_positive_triggered[i] && *((int *)v0 + 5) > 0 )
+    if ( !joystick_axis_5_positive_triggered[i] && *((int *)buffer + 5) > 0 )
       joystick_axis_5_positive_triggered[i] = 1;
-    if ( !joystick_axis_5_negative_triggered[i] && *((int *)v0 + 5) < 0 )
+    if ( !joystick_axis_5_negative_triggered[i] && *((int *)buffer + 5) < 0 )
       joystick_axis_5_negative_triggered[i] = 1;
-    if ( !joystick_axis_6_positive_triggered[i] && *((int *)v0 + 6) > 0 )
+    if ( !joystick_axis_6_positive_triggered[i] && *((int *)buffer + 6) > 0 )
       joystick_axis_6_positive_triggered[i] = 1;
-    if ( !joystick_axis_6_negative_triggered[i] && *((int *)v0 + 6) < 0 )
+    if ( !joystick_axis_6_negative_triggered[i] && *((int *)buffer + 6) < 0 )
       joystick_axis_6_negative_triggered[i] = 1;
-    if ( !joystick_axis_7_positive_triggered[i] && *((int *)v0 + 7) > 0 )
+    if ( !joystick_axis_7_positive_triggered[i] && *((int *)buffer + 7) > 0 )
       joystick_axis_7_positive_triggered[i] = 1;
-    if ( !joystick_axis_7_negative_triggered[i] && *((int *)v0 + 7) < 0 )
+    if ( !joystick_axis_7_negative_triggered[i] && *((int *)buffer + 7) < 0 )
       joystick_axis_7_negative_triggered[i] = 1;
-    if ( !joystick_button_1_triggered[i] && v0[48] )
+    if ( !joystick_button_1_triggered[i] && buffer[48] )
       joystick_button_1_triggered[i] = 1;
-    if ( !joystick_button_2_triggered[i] && v0[49] )
+    if ( !joystick_button_2_triggered[i] && buffer[49] )
       joystick_button_2_triggered[i] = 1;
-    if ( !joystick_button_3_triggered[i] && v0[50] )
+    if ( !joystick_button_3_triggered[i] && buffer[50] )
       joystick_button_3_triggered[i] = 1;
-    if ( !joystick_button_4_triggered[i] && v0[51] )
+    if ( !joystick_button_4_triggered[i] && buffer[51] )
       joystick_button_4_triggered[i] = 1;
-    if ( !joystick_button_5_triggered[i] && v0[52] )
+    if ( !joystick_button_5_triggered[i] && buffer[52] )
       joystick_button_5_triggered[i] = 1;
-    if ( !joystick_button_6_triggered[i] && v0[53] )
+    if ( !joystick_button_6_triggered[i] && buffer[53] )
       joystick_button_6_triggered[i] = 1;
-    if ( !joystick_button_7_triggered[i] && v0[54] )
+    if ( !joystick_button_7_triggered[i] && buffer[54] )
       joystick_button_7_triggered[i] = 1;
-    if ( !joystick_button_8_triggered[i] && v0[55] )
+    if ( !joystick_button_8_triggered[i] && buffer[55] )
       joystick_button_8_triggered[i] = 1;
-    if ( !joystick_button_9_triggered[i] && v0[56] )
+    if ( !joystick_button_9_triggered[i] && buffer[56] )
       joystick_button_9_triggered[i] = 1;
-    if ( !joystick_button_10_triggered[i] && v0[57] )
+    if ( !joystick_button_10_triggered[i] && buffer[57] )
       joystick_button_10_triggered[i] = 1;
-    if ( !joystick_button_11_triggered[i] && v0[58] )
+    if ( !joystick_button_11_triggered[i] && buffer[58] )
       joystick_button_11_triggered[i] = 1;
-    if ( !joystick_button_12_triggered[i] && v0[59] )
+    if ( !joystick_button_12_triggered[i] && buffer[59] )
       joystick_button_12_triggered[i] = 1;
-    if ( !joystick_button_13_triggered[i] && v0[60] )
+    if ( !joystick_button_13_triggered[i] && buffer[60] )
       joystick_button_13_triggered[i] = 1;
-    if ( !joystick_button_14_triggered[i] && v0[61] )
+    if ( !joystick_button_14_triggered[i] && buffer[61] )
       joystick_button_14_triggered[i] = 1;
-    if ( !joystick_button_15_triggered[i] && v0[62] )
+    if ( !joystick_button_15_triggered[i] && buffer[62] )
       joystick_button_15_triggered[i] = 1;
     result = joystick_button_16_triggered[i];
     if ( !result )
     {
-      result = (unsigned __int8)v0[63];
-      if ( (_BYTE)result )
+      result = (uint8_t)buffer[63];
+      if ( (uint8_t)result )
         joystick_button_16_triggered[i] = 1;
     }
     goto LABEL_97;
@@ -707,34 +707,34 @@ LABEL_8:
 
 int diUpdateDeviceStates()
 {
-  int result; // eax
-  int i; // eax
-  int j; // esi
-  int v3; // ecx
-  char *v4; // edx
-  int *v5; // ebp
-  int v6; // eax
-  unsigned int v7; // edi
-  char *v8; // ecx
-  char *v9; // [esp+2Ch] [ebp-104h]
-  _BYTE v10[256]; // [esp+30h] [ebp-100h] BYREF
+  int result;
+  int i;
+  int port;
+  int device;
+  char *buttonState;
+  int *stateBuffer;
+  int dev;
+  unsigned int povValue;
+  char *buttonState2;
+  char *buttonPtr;
+  uint8_t keyState[256];
 
   memset(g_KeyboardState, 0, 0x40u);
-  memset(v10, 0, sizeof(v10));
+  memset(keyState, 0, sizeof(keyState));
   result = g_pKeyboardDevice;
   if ( g_pKeyboardDevice )
   {
     if ( g_bDevicesAcquired == 1 )
     {
-      result = (*(int (__stdcall **)(int, int, _BYTE *))(*(_DWORD *)g_pKeyboardDevice + 36))(
+      result = (*(int (__stdcall **)(int, int, uint8_t *))(*(uint32_t *)g_pKeyboardDevice + 36))(
                  g_pKeyboardDevice,
                  256,
-                 v10);
+                 keyState);
       if ( result >= 0 )
       {
         for ( i = 0; i < 256; ++i )
         {
-          if ( v10[i] )
+          if ( keyState[i] )
           {
             if ( !g_KeyboardStatePrev[i] )
               g_KeyboardStatePrev[i] = 1;
@@ -745,284 +745,284 @@ int diUpdateDeviceStates()
           }
         }
         g_KeyboardStatePrev[0] = 0;
-        for ( j = 0; j < 4; ++j )
+        for ( port = 0; port < 4; ++port )
         {
-          v3 = g_pJoystickDevices[j];
+          device = g_pJoystickDevices[port];
           result = 0;
-          if ( v3 )
+          if ( device )
           {
-            v4 = &g_JoystickButtonState[32 * j];
-            v9 = v4;
+            buttonState = &g_JoystickButtonState[32 * port];
+            buttonPtr = buttonState;
             do
             {
-              v4[result - 128] = 0;
-              v4[result++] = 0;
+              buttonState[result - 128] = 0;
+              buttonState[result++] = 0;
             }
             while ( result < 32 );
-            (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 100))(v3);
-            v5 = (int *)&g_JoystickStateBuffer[80 * j];
-            result = (*(int (__stdcall **)(int, int, int *))(*(_DWORD *)g_pJoystickDevices[j] + 36))(
-                       g_pJoystickDevices[j],
+            (*(void (__stdcall **)(int))(*(uint32_t *)device + 100))(device);
+            stateBuffer = (int *)&g_JoystickStateBuffer[80 * port];
+            result = (*(int (__stdcall **)(int, int, int *))(*(uint32_t *)g_pJoystickDevices[port] + 36))(
+                       g_pJoystickDevices[port],
                        80,
-                       v5);
+                       stateBuffer);
             if ( result == -2147024866 )
             {
-              v6 = g_pJoystickDevices[j];
-              if ( v6 )
-                (*(void (__stdcall **)(int))(*(_DWORD *)v6 + 28))(g_pJoystickDevices[j]);
-              result = (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)g_pJoystickDevices[j] + 36))(
-                         g_pJoystickDevices[j],
+              dev = g_pJoystickDevices[port];
+              if ( dev )
+                (*(void (__stdcall **)(int))(*(uint32_t *)dev + 28))(g_pJoystickDevices[port]);
+              result = (*(int (__stdcall **)(int, int, char *))(*(uint32_t *)g_pJoystickDevices[port] + 36))(
+                         g_pJoystickDevices[port],
                          80,
-                         &g_JoystickStateBuffer[80 * j]);
+                         &g_JoystickStateBuffer[80 * port]);
               if ( result < 0 )
                 return result;
             }
-            if ( !g_JoystickStateFlags[j] )
+            if ( !g_JoystickStateFlags[port] )
             {
-              result = *v5;
-              if ( *v5 > 0 )
+              result = *stateBuffer;
+              if ( *stateBuffer > 0 )
               {
-                pad_axis_1_positive_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_1_value[8 * j] = *(_WORD *)v5;
+                pad_axis_1_positive_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_1_value[8 * port] = *(uint16_t *)stateBuffer;
               }
             }
-            if ( !joystick_axis_1_positive_triggered[j] )
+            if ( !joystick_axis_1_positive_triggered[port] )
             {
-              result = *v5;
-              if ( *v5 < 0 )
+              result = *stateBuffer;
+              if ( *stateBuffer < 0 )
               {
-                pad_axis_1_negative_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_1_value[8 * j] = *(_WORD *)v5;
+                pad_axis_1_negative_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_1_value[8 * port] = *(uint16_t *)stateBuffer;
               }
             }
-            if ( !joystick_axis_1_negative_triggered[j] )
+            if ( !joystick_axis_1_negative_triggered[port] )
             {
-              result = joystick_axis_2_state[20 * j];
+              result = joystick_axis_2_state[20 * port];
               if ( result > 0 )
               {
-                pad_axis_2_positive_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_2_value[8 * j] = joystick_axis_2_state[20 * j];
+                pad_axis_2_positive_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_2_value[8 * port] = joystick_axis_2_state[20 * port];
               }
             }
-            if ( !joystick_axis_2_positive_triggered[j] )
+            if ( !joystick_axis_2_positive_triggered[port] )
             {
-              result = joystick_axis_2_state[20 * j];
+              result = joystick_axis_2_state[20 * port];
               if ( result < 0 )
               {
-                pad_axis_2_negative_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_2_value[8 * j] = joystick_axis_2_state[20 * j];
+                pad_axis_2_negative_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_2_value[8 * port] = joystick_axis_2_state[20 * port];
               }
             }
-            if ( !joystick_z_axis_positive_triggered[j] )
+            if ( !joystick_z_axis_positive_triggered[port] )
             {
-              result = joystick_axis_3_state[20 * j];
+              result = joystick_axis_3_state[20 * port];
               if ( result > 0 )
               {
-                pad_axis_3_positive_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_3_value[8 * j] = joystick_axis_3_state[20 * j];
+                pad_axis_3_positive_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_3_value[8 * port] = joystick_axis_3_state[20 * port];
               }
             }
-            if ( !joystick_axis_2_negative_triggered[j] )
+            if ( !joystick_axis_2_negative_triggered[port] )
             {
-              result = joystick_axis_3_state[20 * j];
+              result = joystick_axis_3_state[20 * port];
               if ( result < 0 )
               {
-                pad_axis_3_negative_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_3_value[8 * j] = joystick_axis_3_state[20 * j];
+                pad_axis_3_negative_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_3_value[8 * port] = joystick_axis_3_state[20 * port];
               }
             }
-            if ( !joystick_axis_4_positive_triggered[j] )
+            if ( !joystick_axis_4_positive_triggered[port] )
             {
-              result = joystick_axis_4_state[20 * j];
+              result = joystick_axis_4_state[20 * port];
               if ( result > 0 )
               {
-                pad_axis_4_positive_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_4_value[8 * j] = joystick_axis_4_state[20 * j];
+                pad_axis_4_positive_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_4_value[8 * port] = joystick_axis_4_state[20 * port];
               }
             }
-            if ( !joystick_axis_4_negative_triggered[j] )
+            if ( !joystick_axis_4_negative_triggered[port] )
             {
-              result = joystick_axis_4_state[20 * j];
+              result = joystick_axis_4_state[20 * port];
               if ( result < 0 )
               {
-                pad_axis_4_negative_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_4_value[8 * j] = joystick_axis_4_state[20 * j];
+                pad_axis_4_negative_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_4_value[8 * port] = joystick_axis_4_state[20 * port];
               }
             }
-            if ( !joystick_axis_5_positive_triggered[j] )
+            if ( !joystick_axis_5_positive_triggered[port] )
             {
-              result = joystick_axis_5_state[20 * j];
+              result = joystick_axis_5_state[20 * port];
               if ( result > 0 )
               {
-                pad_axis_5_positive_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_5_value[8 * j] = joystick_axis_5_state[20 * j];
+                pad_axis_5_positive_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_5_value[8 * port] = joystick_axis_5_state[20 * port];
               }
             }
-            if ( !joystick_axis_5_negative_triggered[j] )
+            if ( !joystick_axis_5_negative_triggered[port] )
             {
-              result = joystick_axis_5_state[20 * j];
+              result = joystick_axis_5_state[20 * port];
               if ( result < 0 )
               {
-                pad_axis_5_negative_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_5_value[8 * j] = joystick_axis_5_state[20 * j];
+                pad_axis_5_negative_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_5_value[8 * port] = joystick_axis_5_state[20 * port];
               }
             }
-            if ( !joystick_axis_6_positive_triggered[j] )
+            if ( !joystick_axis_6_positive_triggered[port] )
             {
-              result = joystick_axis_6_state[20 * j];
+              result = joystick_axis_6_state[20 * port];
               if ( result > 0 )
               {
-                pad_axis_6_positive_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_6_value[8 * j] = joystick_axis_6_state[20 * j];
+                pad_axis_6_positive_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_6_value[8 * port] = joystick_axis_6_state[20 * port];
               }
             }
-            if ( !joystick_axis_6_negative_triggered[j] )
+            if ( !joystick_axis_6_negative_triggered[port] )
             {
-              result = joystick_axis_6_state[20 * j];
+              result = joystick_axis_6_state[20 * port];
               if ( result < 0 )
               {
-                pad_axis_6_negative_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_6_value[8 * j] = joystick_axis_6_state[20 * j];
+                pad_axis_6_negative_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_6_value[8 * port] = joystick_axis_6_state[20 * port];
               }
             }
-            if ( !joystick_axis_7_positive_triggered[j] )
+            if ( !joystick_axis_7_positive_triggered[port] )
             {
-              result = joystick_axis_7_state[20 * j];
+              result = joystick_axis_7_state[20 * port];
               if ( result > 0 )
               {
-                pad_axis_7_positive_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_7_value[8 * j] = joystick_axis_7_state[20 * j];
+                pad_axis_7_positive_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_7_value[8 * port] = joystick_axis_7_state[20 * port];
               }
             }
-            if ( !joystick_axis_7_negative_triggered[j] )
+            if ( !joystick_axis_7_negative_triggered[port] )
             {
-              result = joystick_axis_7_state[20 * j];
+              result = joystick_axis_7_state[20 * port];
               if ( result < 0 )
               {
-                pad_axis_7_negative_pressed[32 * j] = 1;
-                result = 16 * j;
-                pad_axis_7_value[8 * j] = joystick_axis_7_state[20 * j];
+                pad_axis_7_negative_pressed[32 * port] = 1;
+                result = 16 * port;
+                pad_axis_7_value[8 * port] = joystick_axis_7_state[20 * port];
               }
             }
-            if ( !joystick_button_1_triggered[j] && joystick_button_1_state[80 * j] )
-              pad_button_1_pressed[32 * j] = 1;
-            if ( !joystick_button_2_triggered[j] && joystick_button_2_state[80 * j] )
+            if ( !joystick_button_1_triggered[port] && joystick_button_1_state[80 * port] )
+              pad_button_1_pressed[32 * port] = 1;
+            if ( !joystick_button_2_triggered[port] && joystick_button_2_state[80 * port] )
             {
-              result = 32 * j;
-              pad_button_2_pressed[32 * j] = 1;
+              result = 32 * port;
+              pad_button_2_pressed[32 * port] = 1;
             }
-            if ( !joystick_button_3_triggered[j] && joystick_button_3_state[80 * j] )
-              pad_button_3_pressed[32 * j] = 1;
-            if ( !joystick_button_4_triggered[j] && joystick_button_4_state[80 * j] )
-              pad_button_4_pressed[32 * j] = 1;
-            if ( !joystick_button_5_triggered[j] && joystick_button_5_state[80 * j] )
+            if ( !joystick_button_3_triggered[port] && joystick_button_3_state[80 * port] )
+              pad_button_3_pressed[32 * port] = 1;
+            if ( !joystick_button_4_triggered[port] && joystick_button_4_state[80 * port] )
+              pad_button_4_pressed[32 * port] = 1;
+            if ( !joystick_button_5_triggered[port] && joystick_button_5_state[80 * port] )
             {
-              result = 32 * j;
-              pad_button_5_pressed[32 * j] = 1;
+              result = 32 * port;
+              pad_button_5_pressed[32 * port] = 1;
             }
-            if ( !joystick_button_6_triggered[j] && joystick_button_6_state[80 * j] )
-              pad_button_6_pressed[32 * j] = 1;
-            if ( !joystick_button_7_triggered[j] && joystick_button_7_state[80 * j] )
-              pad_button_7_pressed[32 * j] = 1;
-            if ( !joystick_button_8_triggered[j] && joystick_button_8_state[80 * j] )
+            if ( !joystick_button_6_triggered[port] && joystick_button_6_state[80 * port] )
+              pad_button_6_pressed[32 * port] = 1;
+            if ( !joystick_button_7_triggered[port] && joystick_button_7_state[80 * port] )
+              pad_button_7_pressed[32 * port] = 1;
+            if ( !joystick_button_8_triggered[port] && joystick_button_8_state[80 * port] )
             {
-              result = 32 * j;
-              pad_button_8_pressed[32 * j] = 1;
+              result = 32 * port;
+              pad_button_8_pressed[32 * port] = 1;
             }
-            if ( !joystick_button_9_triggered[j] && joystick_button_9_state[80 * j] )
-              pad_button_9_pressed[32 * j] = 1;
-            if ( !joystick_button_10_triggered[j] && joystick_button_10_state[80 * j] )
-              pad_button_10_pressed[32 * j] = 1;
-            if ( !joystick_button_11_triggered[j] && joystick_button_11_state[80 * j] )
+            if ( !joystick_button_9_triggered[port] && joystick_button_9_state[80 * port] )
+              pad_button_9_pressed[32 * port] = 1;
+            if ( !joystick_button_10_triggered[port] && joystick_button_10_state[80 * port] )
+              pad_button_10_pressed[32 * port] = 1;
+            if ( !joystick_button_11_triggered[port] && joystick_button_11_state[80 * port] )
             {
-              result = 32 * j;
-              pad_button_11_pressed[32 * j] = 1;
+              result = 32 * port;
+              pad_button_11_pressed[32 * port] = 1;
             }
-            if ( !joystick_button_12_triggered[j] && joystick_button_12_state[80 * j] )
-              pad_button_12_pressed[32 * j] = 1;
-            if ( !joystick_button_13_triggered[j] && joystick_button_13_state[80 * j] )
-              pad_button_13_pressed[32 * j] = 1;
-            if ( !joystick_button_14_triggered[j] && joystick_button_14_state[80 * j] )
+            if ( !joystick_button_12_triggered[port] && joystick_button_12_state[80 * port] )
+              pad_button_12_pressed[32 * port] = 1;
+            if ( !joystick_button_13_triggered[port] && joystick_button_13_state[80 * port] )
+              pad_button_13_pressed[32 * port] = 1;
+            if ( !joystick_button_14_triggered[port] && joystick_button_14_state[80 * port] )
             {
-              result = 32 * j;
-              pad_button_14_pressed[32 * j] = 1;
+              result = 32 * port;
+              pad_button_14_pressed[32 * port] = 1;
             }
-            if ( !joystick_button_15_triggered[j] && joystick_button_15_state[80 * j] )
-              pad_button_15_pressed[32 * j] = 1;
-            if ( !joystick_button_16_triggered[j] && joystick_button_16_state[80 * j] )
-              pad_button_16_pressed[32 * j] = 1;
-            v7 = joystick_pov_hat_value[20 * j];
-            if ( v7 > 0x4650 )
+            if ( !joystick_button_15_triggered[port] && joystick_button_15_state[80 * port] )
+              pad_button_15_pressed[32 * port] = 1;
+            if ( !joystick_button_16_triggered[port] && joystick_button_16_state[80 * port] )
+              pad_button_16_pressed[32 * port] = 1;
+            povValue = joystick_pov_hat_value[20 * port];
+            if ( povValue > 0x4650 )
             {
-              switch ( v7 )
+              switch ( povValue )
               {
                 case 0x57E4u:
-                  result = (int)&g_KeyboardStatePrev[32 * j];
-                  *(_BYTE *)(result + 386) = 1;
-                  *(_BYTE *)(result + 387) = 1;
+                  result = (int)&g_KeyboardStatePrev[32 * port];
+                  *(uint8_t *)(result + 386) = 1;
+                  *(uint8_t *)(result + 387) = 1;
                   break;
                 case 0x6978u:
-                  pad_pov_left_pressed[32 * j] = 1;
+                  pad_pov_left_pressed[32 * port] = 1;
                   break;
                 case 0x7B0Cu:
-                  result = 32 * j;
-                  pad_pov_left_pressed[32 * j] = 1;
-                  *v9 = 1;
+                  result = 32 * port;
+                  pad_pov_left_pressed[32 * port] = 1;
+                  *buttonPtr = 1;
                   break;
               }
             }
-            else if ( v7 == 18000 )
+            else if ( povValue == 18000 )
             {
-              pad_pov_down_pressed[32 * j] = 1;
+              pad_pov_down_pressed[32 * port] = 1;
             }
-            else if ( v7 > 0x2328 )
+            else if ( povValue > 0x2328 )
             {
-              if ( v7 == 13500 )
+              if ( povValue == 13500 )
               {
-                result = (int)&g_KeyboardStatePrev[32 * j];
-                *(_BYTE *)(result + 385) = 1;
-                *(_BYTE *)(result + 386) = 1;
+                result = (int)&g_KeyboardStatePrev[32 * port];
+                *(uint8_t *)(result + 385) = 1;
+                *(uint8_t *)(result + 386) = 1;
               }
             }
-            else if ( v7 == 9000 )
+            else if ( povValue == 9000 )
             {
-              result = 32 * j;
-              pad_pov_right_pressed[32 * j] = 1;
+              result = 32 * port;
+              pad_pov_right_pressed[32 * port] = 1;
             }
-            else if ( v7 )
+            else if ( povValue )
             {
-              if ( v7 == 4500 )
+              if ( povValue == 4500 )
               {
-                result = (int)&g_JoystickButtonState[32 * j];
-                *v9 = 1;
-                pad_pov_right_pressed[32 * j] = 1;
+                result = (int)&g_JoystickButtonState[32 * port];
+                *buttonPtr = 1;
+                pad_pov_right_pressed[32 * port] = 1;
               }
             }
             else
             {
-              *v9 = 1;
+              *buttonPtr = 1;
             }
           }
           else
           {
-            v8 = &g_JoystickButtonState[32 * j];
+            buttonState2 = &g_JoystickButtonState[32 * port];
             do
             {
-              v8[result - 128] = 0;
-              v8[result++] = 0;
+              buttonState2[result - 128] = 0;
+              buttonState2[result++] = 0;
             }
             while ( result < 32 );
           }
@@ -1035,86 +1035,86 @@ int diUpdateDeviceStates()
 
 int diGetClampedMouseX()
 {
-  int result; // eax
+  int value;
 
   if ( !point_device_enabled )
     return 0;
   diGetMouseState();
-  result = g_MouseX;
+  value = g_MouseX;
   if ( g_MouseX < g_MouseMinX )
   {
-    result = g_MouseMinX;
+    value = g_MouseMinX;
     g_MouseX = g_MouseMinX;
   }
-  if ( result > g_MouseMaxX )
+  if ( value > g_MouseMaxX )
   {
     g_MouseX = g_MouseMaxX;
     return g_MouseMaxX;
   }
-  return result;
+  return value;
 }
 
 int diGetClampedMouseY()
 {
-  int result; // eax
+  int value;
 
   if ( !point_device_enabled )
     return 0;
-  result = g_MouseY[0];
+  value = g_MouseY[0];
   if ( g_MouseY[0] < g_MouseMinY )
   {
-    result = g_MouseMinY;
+    value = g_MouseMinY;
     g_MouseY[0] = g_MouseMinY;
   }
-  if ( result > g_MouseMaxY )
+  if ( value > g_MouseMaxY )
   {
     g_MouseY[0] = g_MouseMaxY;
     return g_MouseMaxY;
   }
-  return result;
+  return value;
 }
 
 int diShutdownDirectInput()
 {
-  int *v0; // esi
-  int result; // eax
+  int *device;
+  int hr;
 
   diUnacquireAllDevices();
   if ( g_pKeyboardDevice )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pKeyboardDevice + 8))(g_pKeyboardDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pKeyboardDevice + 8))(g_pKeyboardDevice);
   g_pKeyboardDevice = 0;
-  v0 = g_pJoystickDevices;
+  device = g_pJoystickDevices;
   do
   {
-    if ( *v0 )
-      (*(void (__stdcall **)(int))(*(_DWORD *)*v0 + 8))(*v0);
-    *v0++ = 0;
+    if ( *device )
+      (*(void (__stdcall **)(int))(*(uint32_t *)*device + 8))(*device);
+    *device++ = 0;
   }
-  while ( (int)v0 < (int)&g_directinput_initialized );
-  result = (*(int (__stdcall **)(int))(*(_DWORD *)g_pDirectInput + 8))(g_pDirectInput);
+  while ( (int)device < (int)&g_directinput_initialized );
+  hr = (*(int (__stdcall **)(int))(*(uint32_t *)g_pDirectInput + 8))(g_pDirectInput);
   g_pDirectInput = 0;
   g_uiNumJoysticks = 0;
-  return result;
+  return hr;
 }
 
-int __cdecl diGetJoystickButtonState1(int a1)
+int diGetJoystickButtonState1(int port)
 {
-  return g_KeyboardState[LOWORD(GamepadAxis[2 * a1])];
+  return g_KeyboardState[LOWORD(GamepadAxis[2 * port])];
 }
 
-int __cdecl diGetJoystickButtonState2(int a1)
+int diGetJoystickButtonState2(int port)
 {
-  return g_KeyboardState[HIWORD(GamepadAxis[2 * a1])];
+  return g_KeyboardState[HIWORD(GamepadAxis[2 * port])];
 }
 
-int __cdecl diGetJoystickButtonState3(int a1)
+int diGetJoystickButtonState3(int port)
 {
-  return g_KeyboardState[LOWORD(GamepadAxis[2 * a1 + 1])];
+  return g_KeyboardState[LOWORD(GamepadAxis[2 * port + 1])];
 }
 
-int __cdecl diGetJoystickButtonState4(int a1)
+int diGetJoystickButtonState4(int port)
 {
-  return g_KeyboardState[HIWORD(GamepadAxis[2 * a1 + 1])];
+  return g_KeyboardState[HIWORD(GamepadAxis[2 * port + 1])];
 }
 
 

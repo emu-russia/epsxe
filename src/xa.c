@@ -1,425 +1,420 @@
 #include "pch.h"
 
 /* static prototypes for internal functions */
-static int __cdecl xa_get_audio_mode(int a1);
-static int __cdecl xa_setup_adpcm_decoder(_DWORD *a1, int a2, int a3, int a4);
-static int __cdecl xa_decode_stereo_blocks(int a1, int a2);
-static int xa_decode_mono_blocks(int a1, int a2, int a3);
+static int xa_get_audio_mode(int hdr);
+static int xa_setup_adpcm_decoder(uint32_t *out, int hdr, int soundbuf, int flag);
+static int xa_decode_stereo_blocks(int out, int soundbuf);
+static int xa_decode_mono_blocks(int out, int soundbuf, int unused);
 
-static _DWORD *__cdecl xa_clear_adpcm_state(_DWORD *a1)
+static uint32_t * xa_clear_adpcm_state(uint32_t *state)
 {
-  *a1 = 0;
-  a1[1] = 0;
-  return a1;
+  *state = 0;
+  state[1] = 0;
+  return state;
 }
 
-static int *__cdecl xa_decode_adpcm_block(int *a1, unsigned __int8 a2, __int16 *a3, _WORD *a4, unsigned int a5)
+static int * xa_decode_adpcm_block(int *state, uint8_t header, int16_t *src, uint16_t *dst, unsigned int step)
 {
-  int v6; // ebp
-  char v7; // bl
-  int v8; // edi
-  int v9; // eax
-  int v10; // esi
-  int v11; // edx
-  int v12; // ecx
-  int v13; // ebx
-  _WORD *v14; // ecx
-  _WORD *v15; // ecx
-  _WORD *v16; // ecx
-  __int16 *v18; // [esp+10h] [ebp-Ch]
-  int v19; // [esp+14h] [ebp-8h]
-  unsigned int v20; // [esp+18h] [ebp-4h]
-  char v21; // [esp+24h] [ebp+8h]
-  int v22; // [esp+28h] [ebp+Ch]
-  int v23; // [esp+30h] [ebp+14h]
+  int prev1;
+  int shift;
+  int s3;
+  int s2;
+  int s1;
+  int s0;
+  int prod1;
+  int prod2;
+  uint16_t *dst1;
+  uint16_t *dst2;
+  uint16_t *dst3;
+  int16_t *next_src;
+  int filter;
+  int prev2;
+  int count;
 
-  v19 = a2 >> 4;
-  v6 = *a1;
-  v7 = a2 & 0xF;
-  v22 = a1[1];
-  v21 = a2 & 0xF;
-  v20 = a5;
-  v23 = 7;
+  filter = header >> 4;
+  prev1 = *state;
+  shift = header & 0xF;
+  prev2 = state[1];
+  count = 7;
   while ( 1 )
   {
-    v18 = a3 + 1;
-    v8 = 16 * ((int)(*a3 & 0xFFFFF000) >> v7);
-    v9 = 16 * ((__int16)(16 * (*a3 & 0xFF00)) >> v7);
-    v10 = 16 * ((__int16)(*a3 & 0xF000) >> v21);
-    v11 = 16 * ((__int16)(*a3 << 12) >> v21);
-    switch ( v19 )
+    next_src = src + 1;
+    s3 = 16 * ((int)(*src & 0xFFFFF000) >> shift);
+    s2 = 16 * ((int16_t)(16 * (*src & 0xFF00)) >> shift);
+    s1 = 16 * ((int16_t)(*src & 0xF000) >> shift);
+    s0 = 16 * ((int16_t)(*src << 12) >> shift);
+    switch ( filter )
     {
       case 0:
         goto LABEL_9;
       case 1:
-        v11 -= (-960 * v6) >> 10;
-        v10 -= (-960 * v11) >> 10;
-        v9 -= (-960 * v10) >> 10;
-        v8 -= (-960 * v9) >> 10;
+        s0 -= (-960 * prev1) >> 10;
+        s1 -= (-960 * s0) >> 10;
+        s2 -= (-960 * s1) >> 10;
+        s3 -= (-960 * s2) >> 10;
         goto LABEL_9;
       case 2:
-        v11 -= (832 * v22 - 1840 * v6) >> 10;
-        v10 -= (832 * v6 - 1840 * v11) >> 10;
-        v9 -= (832 * v11 - 1840 * v10) >> 10;
-        v12 = 1840 * v9;
-        v13 = 832 * v10;
+        s0 -= (832 * prev2 - 1840 * prev1) >> 10;
+        s1 -= (832 * prev1 - 1840 * s0) >> 10;
+        s2 -= (832 * s0 - 1840 * s1) >> 10;
+        prod1 = 1840 * s2;
+        prod2 = 832 * s1;
         goto LABEL_8;
       case 3:
-        v11 -= (880 * v22 - 1568 * v6) >> 10;
-        v10 -= (880 * v6 - 1568 * v11) >> 10;
-        v9 -= (880 * v11 - 1568 * v10) >> 10;
-        v12 = 1568 * v9;
-        v13 = 880 * v10;
+        s0 -= (880 * prev2 - 1568 * prev1) >> 10;
+        s1 -= (880 * prev1 - 1568 * s0) >> 10;
+        s2 -= (880 * s0 - 1568 * s1) >> 10;
+        prod1 = 1568 * s2;
+        prod2 = 880 * s1;
         goto LABEL_8;
       case 4:
-        v11 -= (960 * v22 - 1952 * v6) >> 10;
-        v10 -= (960 * v6 - 1952 * v11) >> 10;
-        v9 -= (960 * v11 - 1952 * v10) >> 10;
-        v12 = 1952 * v9;
-        v13 = 960 * v10;
+        s0 -= (960 * prev2 - 1952 * prev1) >> 10;
+        s1 -= (960 * prev1 - 1952 * s0) >> 10;
+        s2 -= (960 * s0 - 1952 * s1) >> 10;
+        prod1 = 1952 * s2;
+        prod2 = 960 * s1;
 LABEL_8:
-        v8 -= (v13 - v12) >> 10;
+        s3 -= (prod2 - prod1) >> 10;
 LABEL_9:
-        v22 = v9;
-        v6 = v8;
+        prev2 = s2;
+        prev1 = s3;
         break;
       default:
         break;
     }
-    if ( v11 >= -524288 )
+    if ( s0 >= -524288 )
     {
-      if ( v11 > 524272 )
-        v11 = 524272;
+      if ( s0 > 524272 )
+        s0 = 524272;
     }
     else
     {
-      v11 = -524288;
+      s0 = -524288;
     }
-    *a4 = v11 >> 4;
-    v14 = &a4[v20];
-    if ( v10 >= -524288 )
+    *dst = s0 >> 4;
+    dst1 = &dst[step];
+    if ( s1 >= -524288 )
     {
-      if ( v10 > 524272 )
-        v10 = 524272;
+      if ( s1 > 524272 )
+        s1 = 524272;
     }
     else
     {
-      v10 = -524288;
+      s1 = -524288;
     }
-    *v14 = v10 >> 4;
-    v15 = &v14[v20];
-    if ( v9 >= -524288 )
+    *dst1 = s1 >> 4;
+    dst2 = &dst1[step];
+    if ( s2 >= -524288 )
     {
-      if ( v9 > 524272 )
-        v9 = 524272;
+      if ( s2 > 524272 )
+        s2 = 524272;
     }
     else
     {
-      v9 = -524288;
+      s2 = -524288;
     }
-    *v15 = v9 >> 4;
-    v16 = &v15[v20];
-    if ( v8 >= -524288 )
+    *dst2 = s2 >> 4;
+    dst3 = &dst2[step];
+    if ( s3 >= -524288 )
     {
-      if ( v8 > 524272 )
-        v8 = 524272;
+      if ( s3 > 524272 )
+        s3 = 524272;
     }
     else
     {
-      v8 = -524288;
+      s3 = -524288;
     }
-    *v16 = v8 >> 4;
-    a4 = &v16[v20];
-    if ( !--v23 )
+    *dst3 = s3 >> 4;
+    dst = &dst3[step];
+    if ( !--count )
       break;
-    a3 = v18;
-    v7 = v21;
+    src = next_src;
   }
-  *a1 = v6;
-  a1[1] = v22;
-  return a1;
+  *state = prev1;
+  state[1] = prev2;
+  return state;
 }
 
-int __cdecl xa_decode_wrapper(_DWORD *a1, int a2, int a3)
+int xa_decode_wrapper(uint32_t *out, int hdr, int flag)
 {
-  if ( xa_get_audio_mode(a2) == 2 )
-    return -(xa_setup_adpcm_decoder(a1, a2, a2 + 8, a3) != 0);
+  if ( xa_get_audio_mode(hdr) == 2 )
+    return -(xa_setup_adpcm_decoder(out, hdr, hdr + 8, flag) != 0);
   else
     return -1;
 }
 
-static int __cdecl xa_get_audio_mode(int a1)
+static int xa_get_audio_mode(int hdr)
 {
-  if ( (*(_BYTE *)(a1 + 2) & 0x24) == 0x24 )
+  if ( (*(uint8_t *)(hdr + 2) & 0x24) == 0x24 )
     return 2;
   else
-    return (*(_BYTE *)(a1 + 2) & 2) == 2;
+    return (*(uint8_t *)(hdr + 2) & 2) == 2;
 }
 
-static int __cdecl xa_setup_adpcm_decoder(_DWORD *a1, int a2, int a3, int a4)
+static int xa_setup_adpcm_decoder(uint32_t *out, int hdr, int soundbuf, int flag)
 {
-  int v4; // edx
-  int v5; // eax
-  int v7; // ecx
-  char v8; // al
-  int v9; // [esp-4h] [ebp-10h]
-  int v10; // [esp+0h] [ebp-Ch]
+  int stereo;
+  int bits;
+  int tmp1;
+  char rate;
+  int tmp2;
+  int tmp3;
 
-  v4 = 1;
-  if ( a4 )
+  stereo = 1;
+  if ( flag )
   {
-    xa_prev_sample_rate[0] = (*(_BYTE *)(a2 + 3) >> 2) & 3;
+    xa_prev_sample_rate[0] = (*(uint8_t *)(hdr + 3) >> 2) & 3;
     if ( xa_prev_sample_rate[0] )
     {
       if ( xa_prev_sample_rate[0] == 1 )
-        *a1 = 18900;
+        *out = 18900;
       else
-        *a1 = 0;
+        *out = 0;
     }
     else
     {
-      *a1 = 37800;
+      *out = 37800;
     }
-    v5 = (*(unsigned __int8 *)(a2 + 3) >> 4) & 3;
-    if ( v5 )
+    bits = (*(uint8_t *)(hdr + 3) >> 4) & 3;
+    if ( bits )
     {
-      if ( v5 == 1 )
-        a1[1] = 8;
+      if ( bits == 1 )
+        out[1] = 8;
       else
-        a1[1] = 0;
+        out[1] = 0;
     }
     else
     {
-      a1[1] = 4;
+      out[1] = 4;
     }
-    a1[2] = (*(_BYTE *)(a2 + 3) & 3) != 0 && (*(_BYTE *)(a2 + 3) & 3) == 1;
-    if ( !*a1 )
+    out[2] = (*(uint8_t *)(hdr + 3) & 3) != 0 && (*(uint8_t *)(hdr + 3) & 3) == 1;
+    if ( !*out )
       return -1;
-    if ( !a1[2] )
+    if ( !out[2] )
     {
-      xa_clear_adpcm_state(a1 + 4);
-      a1[3] = 4032;
-      xa_decode_mono_blocks((int)a1, a3, v9);
+      xa_clear_adpcm_state(out + 4);
+      out[3] = 4032;
+      xa_decode_mono_blocks((int)out, soundbuf, tmp2);
       return 0;
     }
-    xa_clear_adpcm_state(a1 + 4);
-    xa_clear_adpcm_state(a1 + 6);
-    if ( a1[1] != v7 || *a1 != 37800 && *a1 != 18900 )
+    xa_clear_adpcm_state(out + 4);
+    xa_clear_adpcm_state(out + 6);
+    if ( out[1] != tmp1 || *out != 37800 && *out != 18900 )
       return -1;
-    a1[3] = 2016;
+    out[3] = 2016;
   }
-  if ( (*(_BYTE *)(a2 + 3) & 3) == (_BYTE)v4 )
+  if ( (*(uint8_t *)(hdr + 3) & 3) == (uint8_t)stereo )
   {
-    a1[2] = v4;
-    a1[3] = 2016;
+    out[2] = stereo;
+    out[3] = 2016;
   }
   else
   {
-    a1[2] = 0;
-    a1[3] = 4032;
+    out[2] = 0;
+    out[3] = 4032;
   }
-  if ( a1[2] )
-    xa_decode_stereo_blocks((int)a1, a3);
+  if ( out[2] )
+    xa_decode_stereo_blocks((int)out, soundbuf);
   else
-    xa_decode_mono_blocks((int)a1, a3, v10);
+    xa_decode_mono_blocks((int)out, soundbuf, tmp3);
   if ( spu_adpcm_flag )
     return 0;
-  v8 = (*(_BYTE *)(a2 + 3) >> 2) & 3;
-  if ( xa_prev_sample_rate[0] == v8 )
+  rate = (*(uint8_t *)(hdr + 3) >> 2) & 3;
+  if ( xa_prev_sample_rate[0] == rate )
     return 0;
-  xa_prev_sample_rate[0] = (*(_BYTE *)(a2 + 3) >> 2) & 3;
-  if ( !v8 )
+  xa_prev_sample_rate[0] = (*(uint8_t *)(hdr + 3) >> 2) & 3;
+  if ( !rate )
   {
-    *a1 = 37800;
+    *out = 37800;
     spu_set_adpcm_flag_cb();
     return 0;
   }
-  if ( v8 == 1 )
-    *a1 = 18900;
+  if ( rate == 1 )
+    *out = 18900;
   else
-    *a1 = 0;
+    *out = 0;
   spu_set_adpcm_flag_cb();
   return 0;
 }
 
-static int __cdecl xa_decode_stereo_blocks(int a1, int a2)
+static int xa_decode_stereo_blocks(int out, int soundbuf)
 {
-  int v2; // ebx
-  int v3; // edx
-  int v4; // ebp
-  char *v5; // esi
-  __int16 *v6; // ecx
-  int v7; // eax
-  int v8; // edi
-  int v9; // edx
-  int v10; // edx
-  int v11; // edx
-  __int16 *v12; // ecx
-  int v13; // eax
-  int v14; // edi
-  int v15; // edx
-  int v16; // edx
-  bool v17; // zf
-  int result; // eax
-  _WORD *v19; // [esp+10h] [ebp-2014h]
-  int v20; // [esp+14h] [ebp-2010h]
-  int v21; // [esp+18h] [ebp-200Ch]
-  __int16 v22[4096]; // [esp+24h] [ebp-2000h] BYREF
+  int tmp;
+  int sample;
+  int block;
+  char *table;
+  int16_t *dst;
+  int p;
+  int count;
+  int tmp1;
+  int tmp2;
+  int sample2;
+  int16_t *dst2;
+  int p2;
+  int count2;
+  int tmp3;
+  int tmp4;
+  bool done;
+  int remaining;
+  uint16_t *outp;
+  int src;
+  int blocks;
+  int16_t samples[4096];
 
-  v2 = a2;
-  v3 = a1 + 16;
-  v19 = (_WORD *)(a1 + 32);
-  v20 = a2;
-  v21 = 18;
+  tmp = soundbuf;
+  sample = out + 16;
+  outp = (uint16_t *)(out + 32);
+  src = soundbuf;
+  blocks = 18;
   do
   {
-    v4 = v2 + 16;
-    v5 = &xa_stereo_nibble_offset_table;
+    block = tmp + 16;
+    table = &xa_stereo_nibble_offset_table;
     do
     {
-      v6 = v22;
-      v7 = v4;
-      v8 = 7;
+      dst = samples;
+      p = block;
+      count = 7;
       do
       {
-        LOWORD(v2) = *(unsigned __int8 *)(v7 + 12);
-        LOWORD(v3) = *(_BYTE *)(v7 + 8) & 0xF;
-        ++v6;
-        v7 += 16;
-        v2 *= 16;
-        v9 = v2 | v3;
-        LOWORD(v2) = *(_BYTE *)(v7 - 12) & 0xF;
-        v10 = v2 | (16 * v9);
-        LOWORD(v2) = *(_BYTE *)(v7 - 16) & 0xF;
-        v3 = v2 | (16 * v10);
-        --v8;
-        *(v6 - 1) = v3;
+        LOWORD(tmp) = *(uint8_t *)(p + 12);
+        LOWORD(sample) = *(uint8_t *)(p + 8) & 0xF;
+        ++dst;
+        p += 16;
+        tmp *= 16;
+        tmp1 = tmp | sample;
+        LOWORD(tmp) = *(uint8_t *)(p - 12) & 0xF;
+        tmp2 = tmp | (16 * tmp1);
+        LOWORD(tmp) = *(uint8_t *)(p - 16) & 0xF;
+        sample = tmp | (16 * tmp2);
+        --count;
+        *(dst - 1) = sample;
       }
-      while ( v8 );
-      xa_decode_adpcm_block((int *)(a1 + 16), *(_BYTE *)(v20 + *(_DWORD *)v5), v22, v19, 2u);
-      v12 = v22;
-      v13 = v4;
-      v14 = 7;
+      while ( count );
+      xa_decode_adpcm_block((int *)(out + 16), *(uint8_t *)(src + *(uint32_t *)table), samples, outp, 2u);
+      dst2 = samples;
+      p2 = block;
+      count2 = 7;
       do
       {
-        LOWORD(v2) = *(_BYTE *)(v13 + 8) >> 4;
-        LOWORD(v11) = *(_BYTE *)(v13 + 12) >> 4;
-        ++v12;
-        v13 += 16;
-        v15 = v2 | (16 * v11);
-        LOWORD(v2) = *(_BYTE *)(v13 - 12) >> 4;
-        v16 = v2 | (16 * v15);
-        LOWORD(v2) = *(_BYTE *)(v13 - 16) >> 4;
-        v11 = v2 | (16 * v16);
-        --v14;
-        *(v12 - 1) = v11;
+        LOWORD(tmp) = *(uint8_t *)(p2 + 8) >> 4;
+        LOWORD(sample2) = *(uint8_t *)(p2 + 12) >> 4;
+        ++dst2;
+        p2 += 16;
+        tmp3 = tmp | (16 * sample2);
+        LOWORD(tmp) = *(uint8_t *)(p2 - 12) >> 4;
+        tmp4 = tmp | (16 * tmp3);
+        LOWORD(tmp) = *(uint8_t *)(p2 - 16) >> 4;
+        sample2 = tmp | (16 * tmp4);
+        --count2;
+        *(dst2 - 1) = sample2;
       }
-      while ( v14 );
-      HIWORD(v2) = HIWORD(v20);
-      xa_decode_adpcm_block((int *)(a1 + 24), *(_BYTE *)(v20 + *(_DWORD *)v5 + 1), v22, v19 + 1, 2u);
-      v5 += 4;
-      ++v4;
-      v19 += 56;
+      while ( count2 );
+      HIWORD(tmp) = HIWORD(src);
+      xa_decode_adpcm_block((int *)(out + 24), *(uint8_t *)(src + *(uint32_t *)table + 1), samples, outp + 1, 2u);
+      table += 4;
+      ++block;
+      outp += 56;
     }
-    while ( (int)v5 < (int)xa_mono_nibble_offset_table );
-    v2 = v20 + 128;
-    result = v21 - 1;
-    v17 = v21 == 1;
-    v20 += 128;
-    --v21;
+    while ( (int)table < (int)xa_mono_nibble_offset_table );
+    tmp = src + 128;
+    remaining = blocks - 1;
+    done = blocks == 1;
+    src += 128;
+    --blocks;
   }
-  while ( !v17 );
-  return result;
+  while ( !done );
+  return remaining;
 }
 
-static int xa_decode_mono_blocks(int a1, int a2, int a3)
+static int xa_decode_mono_blocks(int out, int soundbuf, int unused)
 {
-  int v3; // edx
-  int v4; // ebx
-  int v5; // ebp
-  _DWORD *v6; // esi
-  __int16 *v7; // ecx
-  int v8; // eax
-  int v9; // edi
-  int v10; // edx
-  int v11; // edx
-  int v12; // edx
-  __int16 *v13; // ecx
-  int v14; // eax
-  int v15; // edi
-  int v16; // edx
-  int v17; // edx
-  bool v18; // zf
-  int result; // eax
-  _WORD *v20; // [esp+10h] [ebp-2010h]
-  int v21; // [esp+14h] [ebp-200Ch]
-  int *v22; // [esp+18h] [ebp-2008h]
-  int v23; // [esp+1Ch] [ebp-2004h]
-  __int16 v24[4096]; // [esp+20h] [ebp-2000h] BYREF
+  int sample;
+  int tmp;
+  int block;
+  uint32_t *table;
+  int16_t *dst;
+  int p;
+  int count;
+  int tmp1;
+  int tmp2;
+  int sample2;
+  int16_t *dst2;
+  int p2;
+  int count2;
+  int tmp3;
+  int tmp4;
+  bool done;
+  int remaining;
+  uint16_t *outp;
+  int src;
+  int *state;
+  int blocks;
+  int16_t samples[4096];
 
-  v4 = a2;
-  v20 = (_WORD *)(a1 + 32);
-  v22 = (int *)(a1 + 16);
-  v21 = a2;
-  v23 = 18;
+  tmp = soundbuf;
+  outp = (uint16_t *)(out + 32);
+  state = (int *)(out + 16);
+  src = soundbuf;
+  blocks = 18;
   do
   {
-    v5 = v4 + 16;
-    v6 = xa_mono_nibble_offset_table;
+    block = tmp + 16;
+    table = xa_mono_nibble_offset_table;
     do
     {
-      v7 = v24;
-      v8 = v5;
-      v9 = 7;
+      dst = samples;
+      p = block;
+      count = 7;
       do
       {
-        LOWORD(v4) = *(unsigned __int8 *)(v8 + 12);
-        LOWORD(v3) = *(_BYTE *)(v8 + 8) & 0xF;
-        ++v7;
-        v8 += 16;
-        v4 *= 16;
-        v10 = v4 | v3;
-        LOWORD(v4) = *(_BYTE *)(v8 - 12) & 0xF;
-        v11 = v4 | (16 * v10);
-        LOWORD(v4) = *(_BYTE *)(v8 - 16) & 0xF;
-        v3 = v4 | (16 * v11);
-        --v9;
-        *(v7 - 1) = v3;
+        LOWORD(tmp) = *(uint8_t *)(p + 12);
+        LOWORD(sample) = *(uint8_t *)(p + 8) & 0xF;
+        ++dst;
+        p += 16;
+        tmp *= 16;
+        tmp1 = tmp | sample;
+        LOWORD(tmp) = *(uint8_t *)(p - 12) & 0xF;
+        tmp2 = tmp | (16 * tmp1);
+        LOWORD(tmp) = *(uint8_t *)(p - 16) & 0xF;
+        sample = tmp | (16 * tmp2);
+        --count;
+        *(dst - 1) = sample;
       }
-      while ( v9 );
-      xa_decode_adpcm_block(v22, *(_BYTE *)(v21 + *v6), v24, v20, 1u);
-      v13 = v24;
-      v14 = v5;
-      v15 = 7;
+      while ( count );
+      xa_decode_adpcm_block(state, *(uint8_t *)(src + *table), samples, outp, 1u);
+      dst2 = samples;
+      p2 = block;
+      count2 = 7;
       do
       {
-        LOWORD(v4) = *(_BYTE *)(v14 + 8) >> 4;
-        LOWORD(v12) = *(_BYTE *)(v14 + 12) >> 4;
-        ++v13;
-        v14 += 16;
-        v16 = v4 | (16 * v12);
-        LOWORD(v4) = *(_BYTE *)(v14 - 12) >> 4;
-        v17 = v4 | (16 * v16);
-        LOWORD(v4) = *(_BYTE *)(v14 - 16) >> 4;
-        v12 = v4 | (16 * v17);
-        --v15;
-        *(v13 - 1) = v12;
+        LOWORD(tmp) = *(uint8_t *)(p2 + 8) >> 4;
+        LOWORD(sample2) = *(uint8_t *)(p2 + 12) >> 4;
+        ++dst2;
+        p2 += 16;
+        tmp3 = tmp | (16 * sample2);
+        LOWORD(tmp) = *(uint8_t *)(p2 - 12) >> 4;
+        tmp4 = tmp | (16 * tmp3);
+        LOWORD(tmp) = *(uint8_t *)(p2 - 16) >> 4;
+        sample2 = tmp | (16 * tmp4);
+        --count2;
+        *(dst2 - 1) = sample2;
       }
-      while ( v15 );
-      HIWORD(v4) = HIWORD(v21);
-      xa_decode_adpcm_block(v22, *(_BYTE *)(v21 + *v6++ + 1), v24, v20 + 28, 1u);
-      ++v5;
-      v20 += 56;
+      while ( count2 );
+      HIWORD(tmp) = HIWORD(src);
+      xa_decode_adpcm_block(state, *(uint8_t *)(src + *table++ + 1), samples, outp + 28, 1u);
+      ++block;
+      outp += 56;
     }
-    while ( (int)v6 < (int)&xa_mono_nibble_offset_table_end );
-    v4 = v21 + 128;
-    result = v23 - 1;
-    v18 = v23 == 1;
-    v21 += 128;
-    --v23;
+    while ( (int)table < (int)&xa_mono_nibble_offset_table_end );
+    tmp = src + 128;
+    remaining = blocks - 1;
+    done = blocks == 1;
+    src += 128;
+    --blocks;
   }
-  while ( !v18 );
-  return result;
+  while ( !done );
+  return remaining;
 }
 
 

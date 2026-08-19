@@ -20,8 +20,8 @@ extern unsigned int mdec_dma_status;
 extern unsigned int mdec_param_count;
 
 /* Function prototypes (previously generated in src/_gen) */
-int __cdecl hw_reg_freeze(const char *a1, int a2);
-__int16 __cdecl hw_reg_read_half(unsigned int a1);
-int __cdecl hw_reg_read_word(unsigned int a1);
-int __cdecl hw_reg_unfreeze(int a1, _DWORD *a2);
-void __cdecl hw_reg_write_word(unsigned int a1, unsigned int a2);
+int hw_reg_freeze(const char *name, int gzf);
+int16_t hw_reg_read_half(unsigned int addr);
+int hw_reg_read_word(unsigned int addr);
+int hw_reg_unfreeze(int unused, uint32_t *gzf);
+void hw_reg_write_word(unsigned int addr, unsigned int value);

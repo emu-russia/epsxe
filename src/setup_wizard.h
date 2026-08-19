@@ -11,4 +11,4 @@ extern BIOS_DESCR retail_bioses;
 extern unsigned int setup_wizard_step;
 
 /* Function prototypes (previously generated in src/_gen) */
-int __cdecl setup_wizard_callback(HWND hWndParent);
+int setup_wizard_callback(HWND hWndParent);

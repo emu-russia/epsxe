@@ -20,12 +20,12 @@ int alloc_console(void)
 
 static int free_console(void)
 {
-    char result;
+    char allocated;
 
-    result = console_allocated;
+    allocated = console_allocated;
     if (console_allocated)
         return FreeConsole();
-    return result;
+    return allocated;
 }
 
 unsigned long get_tick_count(void)
@@ -186,10 +186,10 @@ void dump_log(FILE *Stream, const char *Format, ...)
 }
 
 /* Decompiled globals (previously generated in src/_gen) */
-int (__cdecl *cdrom_deinit_cb)();
+int ( *cdrom_deinit_cb)();
 unsigned char console_log_enabled;
 unsigned char console_log_flush_pending;
 unsigned char dynarec_active;
 FILE *error_log_file;
 unsigned int last_tick_count;
-int (__cdecl *spu_destroy_cb)();
+int ( *spu_destroy_cb)();

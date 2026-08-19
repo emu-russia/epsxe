@@ -2,118 +2,118 @@
 
 static HANDLE setup_wizard_init()
 {
-  HANDLE FirstFileA; // edi
-  HANDLE v1; // edi
-  HANDLE result; // eax
-  HANDLE v3; // edi
-  char v4[12]; // [esp+10h] [ebp-94Ch] BYREF
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+1Ch] [ebp-940h] BYREF
-  CHAR FileName[1024]; // [esp+15Ch] [ebp-800h] BYREF
-  CHAR NewFileName[1024]; // [esp+55Ch] [ebp-400h] BYREF
+  HANDLE hFindGpu;
+  HANDLE hFindSpu;
+  HANDLE hFindCdr;
+  HANDLE hFindCdrCopy;
+  char pluginPath[12];
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR FileName[1024];
+  CHAR NewFileName[1024];
 
-  strcpy(v4, "plugins\\");
+  strcpy(pluginPath, "plugins\\");
   FileName[0] = current_dir_path;
   strcat(FileName, "gpu*.dll");
-  FirstFileA = FindFirstFileA(FileName, &FindFileData);
-  if ( FirstFileA != (HANDLE)-1 )
+  hFindGpu = FindFirstFileA(FileName, &FindFileData);
+  if ( hFindGpu != (HANDLE)-1 )
   {
     do
     {
-      sprintf(NewFileName, "%s%s", v4, FindFileData.cFileName);
+      sprintf(NewFileName, "%s%s", pluginPath, FindFileData.cFileName);
       MoveFileA(FindFileData.cFileName, NewFileName);
     }
-    while ( FindNextFileA(FirstFileA, &FindFileData) );
+    while ( FindNextFileA(hFindGpu, &FindFileData) );
   }
   FileName[0] = current_dir_path;
   strcat(FileName, "spu*.dll");
-  v1 = FindFirstFileA(FileName, &FindFileData);
-  if ( v1 != (HANDLE)-1 )
+  hFindSpu = FindFirstFileA(FileName, &FindFileData);
+  if ( hFindSpu != (HANDLE)-1 )
   {
     do
     {
-      sprintf(NewFileName, "%s%s", v4, FindFileData.cFileName);
+      sprintf(NewFileName, "%s%s", pluginPath, FindFileData.cFileName);
       MoveFileA(FindFileData.cFileName, NewFileName);
     }
-    while ( FindNextFileA(v1, &FindFileData) );
+    while ( FindNextFileA(hFindSpu, &FindFileData) );
   }
   FileName[0] = current_dir_path;
   strcat(FileName, "cdr*.dll");
-  result = FindFirstFileA(FileName, &FindFileData);
-  v3 = result;
-  if ( result != (HANDLE)-1 )
+  hFindCdr = FindFirstFileA(FileName, &FindFileData);
+  hFindCdrCopy = hFindCdr;
+  if ( hFindCdr != (HANDLE)-1 )
   {
     do
     {
-      sprintf(NewFileName, "%s%s", v4, FindFileData.cFileName);
+      sprintf(NewFileName, "%s%s", pluginPath, FindFileData.cFileName);
       MoveFileA(FindFileData.cFileName, NewFileName);
-      result = (HANDLE)FindNextFileA(v3, &FindFileData);
+      hFindCdr = (HANDLE)FindNextFileA(hFindCdrCopy, &FindFileData);
     }
-    while ( result );
+    while ( hFindCdr );
   }
-  return result;
+  return hFindCdr;
 }
 
-static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  int v8; // ebx
-  FILE *v9; // edi
-  uint8_t *v10; // esi
-  int v11; // edi
-  uint32_t v12; // eax
-  _BIOS_DESCR *v13; // ecx
-  LRESULT v14; // eax
-  int v15; // ebp
-  char *v16; // eax
-  char *v17; // edx
-  char v18; // cl
-  char *v19; // edi
-  int v20; // ebx
-  char *v21; // ecx
-  char v22; // dl
-  char *v23; // ecx
-  char *v24; // edx
-  char v25; // al
-  char v26[8]; // [esp+0h] [ebp-D4Ch] BYREF
-  HANDLE hFindFile; // [esp+8h] [ebp-D44h]
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+Ch] [ebp-D40h] BYREF
-  char Buffer[1024]; // [esp+14Ch] [ebp-C00h] BYREF
-  CHAR FileName[1024]; // [esp+54Ch] [ebp-800h] BYREF
-  char lParam[1024]; // [esp+94Ch] [ebp-400h] BYREF
+  int index;
+  char ch;
+  unsigned int selection;
+  int matchIndex;
+  FILE *file;
+  uint8_t *biosData;
+  int checksum;
+  uint32_t count;
+  _BIOS_DESCR *biosDesc;
+  LRESULT itemIndex;
+  int pluginCount;
+  char *src;
+  char *dstOffset;
+  char ch2;
+  char *shiftPtr;
+  int shiftCount;
+  char *p;
+  char ch3;
+  char *insSrc;
+  char *insOffset;
+  char ch4;
+  char biosPath[8];
+  HANDLE hFindFile;
+  struct _WIN32_FIND_DATAA FindFileData;
+  char Buffer[1024];
+  CHAR FileName[1024];
+  char strBuf[1024];
 
-  strcpy(v26, "bios\\");
-  v4 = 0;
+  strcpy(biosPath, "bios\\");
+  index = 0;
   do
   {
-    v5 = v26[v4];
-    FileName[v4++] = v5;
+    ch = biosPath[index];
+    FileName[index++] = ch;
   }
-  while ( v5 );
+  while ( ch );
   strcat(FileName, "*.bin");
-  if ( a2 == 16 )
+  if ( msg == 16 )
   {
     setup_wizard_step = 8;
     EndDialog(hDlg, 1);
     return 1;
   }
-  if ( a2 != 272 )
+  if ( msg != 272 )
   {
-    if ( a2 == 273 )
+    if ( msg == 273 )
     {
-      if ( (unsigned __int16)a3 == 1107 )
+      if ( (uint16_t)wParam == 1107 )
       {
         --setup_wizard_step;
         EndDialog(hDlg, 1);
         return 1;
       }
-      if ( (unsigned __int16)a3 == 1108 )
+      if ( (uint16_t)wParam == 1108 )
       {
-        v6 = SendDlgItemMessageA(hDlg, IDC_INSTALL_BIOS_LIST, 0x188u, 0, 0);
-        if ( v6 != -1 && v6 < found_plugin_count )
+        selection = SendDlgItemMessageA(hDlg, IDC_INSTALL_BIOS_LIST, 0x188u, 0, 0);
+        if ( selection != -1 && selection < found_plugin_count )
         {
-          sprintf(bios_search_path, "%s", &plugin_name_list[1024 * v6]);
+          sprintf(bios_search_path, "%s", &plugin_name_list[1024 * selection]);
           ++setup_wizard_step;
           EndDialog(hDlg, 1);
           return 1;
@@ -139,77 +139,77 @@ static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3,
   found_plugin_count = 0;
   do
   {
-    sprintf(Buffer, "%s%s", v26, FindFileData.cFileName);
-    v8 = -1;
-    v9 = fopen(Buffer, "rb");
-    if ( v9 )
+    sprintf(Buffer, "%s%s", biosPath, FindFileData.cFileName);
+    matchIndex = -1;
+    file = fopen(Buffer, "rb");
+    if ( file )
     {
-      v10 = (uint8_t *)malloc(0x80000u);
-      fread(v10, 0x80000u, 1u, v9);
-      fclose(v9);
-      v11 = calc_bios_checksum(v10, 0x80000);
-      free(v10);
-      v12 = 0;
+      biosData = (uint8_t *)malloc(0x80000u);
+      fread(biosData, 0x80000u, 1u, file);
+      fclose(file);
+      checksum = calc_bios_checksum(biosData, 0x80000);
+      free(biosData);
+      count = 0;
       if ( debug_bios.crc )
       {
-        v13 = &retail_bioses;
+        biosDesc = &retail_bioses;
         do
         {
-          if ( v11 == v13->crc )
-            v8 = v12;
-          ++v12;
-          ++v13;
+          if ( checksum == biosDesc->crc )
+            matchIndex = count;
+          ++count;
+          ++biosDesc;
         }
-        while ( v12 < debug_bios.crc );
-        if ( v8 != -1 )
+        while ( count < debug_bios.crc );
+        if ( matchIndex != -1 )
         {
-          sprintf(lParam, "%s", (const char *)(36 * v8 + 4513104));
-          v14 = SendDlgItemMessageA(hDlg, IDC_INSTALL_BIOS_LIST, 0x180u, 0, (LPARAM)lParam);
-          v15 = found_plugin_count;
-          if ( v14 == found_plugin_count )
+          sprintf(strBuf, "%s", (const char *)(36 * matchIndex + 4513104));
+          itemIndex = SendDlgItemMessageA(hDlg, IDC_INSTALL_BIOS_LIST, 0x180u, 0, (LPARAM)strBuf);
+          pluginCount = found_plugin_count;
+          if ( itemIndex == found_plugin_count )
           {
-            v16 = Buffer;
-            v17 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)Buffer];
+            src = Buffer;
+            dstOffset = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)Buffer];
             do
             {
-              v18 = *v16;
-              v16[(_DWORD)v17] = *v16;
-              ++v16;
+              ch2 = *src;
+              src[(uint32_t)dstOffset] = *src;
+              ++src;
             }
-            while ( v18 );
+            while ( ch2 );
           }
           else
           {
-            if ( v14 < found_plugin_count )
+            if ( itemIndex < found_plugin_count )
             {
-              v19 = &plugin_name_list_shift[1024 * found_plugin_count];
-              v20 = found_plugin_count - v14;
+              shiftPtr = &plugin_name_list_shift[1024 * found_plugin_count];
+              shiftCount = found_plugin_count - itemIndex;
               do
               {
-                v21 = v19;
+                p = shiftPtr;
                 do
                 {
-                  v22 = *v21;
-                  v21[1024] = *v21;
-                  ++v21;
+                  ch3 = *p;
+                  p[1024] = *p;
+                  ++p;
                 }
-                while ( v22 );
-                v19 -= 1024;
-                --v20;
+                while ( ch3 );
+                shiftPtr -= 1024;
+                --shiftCount;
               }
-              while ( v20 );
+              while ( shiftCount );
             }
-            v23 = Buffer;
-            v24 = &plugin_name_list[(v14 << 10) - (_DWORD)Buffer];
+            insSrc = Buffer;
+            insOffset = &plugin_name_list[(itemIndex << 10) - (uint32_t)Buffer];
             do
             {
-              v25 = *v23;
-              v23[(_DWORD)v24] = *v23;
-              ++v23;
+              ch4 = *insSrc;
+              insSrc[(uint32_t)insOffset] = *insSrc;
+              ++insSrc;
             }
-            while ( v25 );
+            while ( ch4 );
           }
-          found_plugin_count = v15 + 1;
+          found_plugin_count = pluginCount + 1;
         }
       }
     }
@@ -223,62 +223,62 @@ static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3,
   return 1;
 }
 
-static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  INT_PTR result; // eax
-  unsigned int v8; // eax
-  HMODULE v9; // esi
-  char v10; // al
-  unsigned int v11; // eax
-  HMODULE v12; // esi
-  unsigned int v13; // eax
-  HMODULE v14; // esi
-  HMODULE LibraryA; // eax
-  HMODULE v16; // esi
-  FARPROC PSEgetLibVersionProc; // eax
-  unsigned __int8 v18; // al
-  int v19; // eax
-  const char *v20; // eax
-  LRESULT v21; // ebp
-  int v22; // ebx
-  CHAR *cFileName; // eax
-  char *v24; // edx
-  CHAR v25; // cl
-  char *v26; // esi
-  int v27; // edi
-  char *v28; // eax
-  char v29; // cl
-  int v30; // ebp
-  CHAR *v31; // eax
-  char v32; // cl
-  int v33; // [esp-18h] [ebp-D68h]
-  int v34; // [esp-14h] [ebp-D64h]
-  char v35[12]; // [esp+0h] [ebp-D50h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
-  CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
-  CHAR FileName[1024]; // [esp+550h] [ebp-800h] BYREF
-  char lParam[1024]; // [esp+950h] [ebp-400h] BYREF
+  int index;
+  char ch;
+  unsigned int selection;
+  INT_PTR ret;
+  unsigned int testSelection;
+  HMODULE hTestLib;
+  char testResult;
+  unsigned int configSelection;
+  HMODULE hConfigLib;
+  unsigned int aboutSelection;
+  HMODULE hAboutLib;
+  HMODULE LibraryA;
+  HMODULE hLib;
+  FARPROC PSEgetLibVersionProc;
+  uint8_t versionByte;
+  int version;
+  const char *libName;
+  LRESULT itemIndex;
+  int pluginCount;
+  CHAR *cFileName;
+  char *dstOffset;
+  CHAR ch2;
+  char *shiftPtr;
+  int shiftCount;
+  char *p;
+  CHAR ch3;
+  int insOffset;
+  CHAR *insSrc;
+  char ch4;
+  int versionMajor;
+  int versionMinor;
+  char pluginPath[12];
+  HANDLE hFindFile;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR LibFileName[1024];
+  CHAR FileName[1024];
+  char strBuf[1024];
 
-  strcpy(v35, "plugins\\");
-  v4 = 0;
+  strcpy(pluginPath, "plugins\\");
+  index = 0;
   do
   {
-    v5 = v35[v4];
-    FileName[v4++] = v5;
+    ch = pluginPath[index];
+    FileName[index++] = ch;
   }
-  while ( v5 );
+  while ( ch );
   strcat(FileName, "*.dll");
-  if ( a2 == 16 )
+  if ( msg == 16 )
   {
     setup_wizard_step = 8;
     EndDialog(hDlg, 1);
     return 1;
   }
-  if ( a2 == 272 )
+  if ( msg == 272 )
   {
     hFindFile = FindFirstFileA(FileName, &FindFileData);
     if ( hFindFile == (HANDLE)-1 )
@@ -291,75 +291,75 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
     found_plugin_count = 0;
     do
     {
-      sprintf(LibFileName, "%s%s", v35, FindFileData.cFileName);
+      sprintf(LibFileName, "%s%s", pluginPath, FindFileData.cFileName);
       LibraryA = LoadLibraryA(LibFileName);
-      v16 = LibraryA;
+      hLib = LibraryA;
       if ( LibraryA )
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v16, "PSEgetLibName");
-        PSEgetLibVersionProc = GetProcAddress(v16, "PSEgetLibVersion");
-        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersionProc;
+        PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(hLib, "PSEgetLibName");
+        PSEgetLibVersionProc = GetProcAddress(hLib, "PSEgetLibVersion");
+        PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersionProc;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
           {
             if ( PSEgetLibVersionProc )
             {
-              v18 = PSEgetLibVersionProc();
-              v19 = PSEgetLibVersion(v18);
-              v20 = (const char *)PSEgetLibName(BYTE1(v19));
-              sprintf(lParam, "%s %d.%d", v20, v33, v34);
+              versionByte = PSEgetLibVersionProc();
+              version = PSEgetLibVersion(versionByte);
+              libName = (const char *)PSEgetLibName(BYTE1(version));
+              sprintf(strBuf, "%s %d.%d", libName, versionMajor, versionMinor);
               if ( PSEgetLibType() == 2 )
               {
-                v21 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x180u, 0, (LPARAM)lParam);
+                itemIndex = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x180u, 0, (LPARAM)strBuf);
                 if ( !strcmp((const char *)VideoPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x186u, v21, 0);
-                v22 = found_plugin_count;
-                if ( v21 == found_plugin_count )
+                  SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x186u, itemIndex, 0);
+                pluginCount = found_plugin_count;
+                if ( itemIndex == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v24 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                  dstOffset = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                   do
                   {
-                    v25 = *cFileName;
-                    cFileName[(_DWORD)v24] = *cFileName;
+                    ch2 = *cFileName;
+                    cFileName[(uint32_t)dstOffset] = *cFileName;
                     ++cFileName;
                   }
-                  while ( v25 );
+                  while ( ch2 );
                 }
                 else
                 {
-                  if ( v21 < found_plugin_count )
+                  if ( itemIndex < found_plugin_count )
                   {
-                    v26 = &plugin_name_list_shift[1024 * found_plugin_count];
-                    v27 = found_plugin_count - v21;
+                    shiftPtr = &plugin_name_list_shift[1024 * found_plugin_count];
+                    shiftCount = found_plugin_count - itemIndex;
                     do
                     {
-                      v28 = v26;
+                      p = shiftPtr;
                       do
                       {
-                        v29 = *v28;
-                        v28[1024] = *v28;
-                        ++v28;
+                        ch3 = *p;
+                        p[1024] = *p;
+                        ++p;
                       }
-                      while ( v29 );
-                      v26 -= 1024;
-                      --v27;
+                      while ( ch3 );
+                      shiftPtr -= 1024;
+                      --shiftCount;
                     }
-                    while ( v27 );
+                    while ( shiftCount );
                   }
-                  v30 = (v21 << 10) - (_DWORD)FindFileData.cFileName;
-                  v31 = FindFileData.cFileName;
+                  insOffset = (itemIndex << 10) - (uint32_t)FindFileData.cFileName;
+                  insSrc = FindFileData.cFileName;
                   do
                   {
-                    v32 = *v31;
-                    plugin_name_list[v30 + (_DWORD)v31] = *v31;
-                    ++v31;
+                    ch4 = *insSrc;
+                    plugin_name_list[insOffset + (uint32_t)insSrc] = *insSrc;
+                    ++insSrc;
                   }
-                  while ( v32 );
+                  while ( ch4 );
                 }
-                found_plugin_count = v22 + 1;
+                found_plugin_count = pluginCount + 1;
               }
             }
           }
@@ -374,21 +374,21 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
     }
     return 1;
   }
-  if ( a2 != 273 )
+  if ( msg != 273 )
     return 0;
-  switch ( (__int16)a3 )
+  switch ( (int16_t)wParam )
   {
     case IDC_INSTALL_GPU_CONFIG:
       if ( !found_plugin_count )
         return 0;
-      v11 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
-      if ( v11 == -1 || v11 >= found_plugin_count )
+      configSelection = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
+      if ( configSelection == -1 || configSelection >= found_plugin_count )
         return 0;
-      sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v11]);
-      v12 = LoadLibraryA(LibFileName);
-      GPUinit_0 = GetProcAddress(v12, "GPUinit");
-      PSEconfigure = GetProcAddress(v12, "GPUconfigure");
-      GPUshutdown_0 = GetProcAddress(v12, "GPUshutdown");
+      sprintf(LibFileName, "%s%s", pluginPath, &plugin_name_list[1024 * configSelection]);
+      hConfigLib = LoadLibraryA(LibFileName);
+      GPUinit_0 = GetProcAddress(hConfigLib, "GPUinit");
+      PSEconfigure = GetProcAddress(hConfigLib, "GPUconfigure");
+      GPUshutdown_0 = GetProcAddress(hConfigLib, "GPUshutdown");
       GPUinit_0();
       PSEconfigure();
       GPUshutdown_0();
@@ -396,19 +396,19 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
     case IDC_INSTALL_GPU_TEST:
       if ( !found_plugin_count )
         return 0;
-      v8 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
-      if ( v8 == -1 || v8 >= found_plugin_count )
+      testSelection = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
+      if ( testSelection == -1 || testSelection >= found_plugin_count )
         return 0;
-      sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v8]);
-      v9 = LoadLibraryA(LibFileName);
-      GPUinit_0 = GetProcAddress(v9, "GPUinit");
-      GPUtest_0 = GetProcAddress(v9, "GPUtest");
-      GPUshutdown_0 = GetProcAddress(v9, "GPUshutdown");
+      sprintf(LibFileName, "%s%s", pluginPath, &plugin_name_list[1024 * testSelection]);
+      hTestLib = LoadLibraryA(LibFileName);
+      GPUinit_0 = GetProcAddress(hTestLib, "GPUinit");
+      GPUtest_0 = GetProcAddress(hTestLib, "GPUtest");
+      GPUshutdown_0 = GetProcAddress(hTestLib, "GPUshutdown");
       GPUinit_0();
-      v10 = GPUtest_0();
-      if ( v10 )
+      testResult = GPUtest_0();
+      if ( testResult )
       {
-        if ( v10 == -1 )
+        if ( testResult == -1 )
           MessageBoxA(nullptr, "   Plugin NOT working, try configuring it.  ", "Testing GPU Plugin", 0x10u);
         else
           MessageBoxA(nullptr, "UNK value", "Testing GPU Plugin", 0x40u);
@@ -428,10 +428,10 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
     case IDC_INSTALL_GPU_NEXT:
       if ( !found_plugin_count )
         return 1;
-      v6 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
-      if ( v6 != -1 && v6 < found_plugin_count )
+      selection = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
+      if ( selection != -1 && selection < found_plugin_count )
       {
-        sprintf(video_plugin_search_path, "%s", &plugin_name_list[1024 * v6]);
+        sprintf(video_plugin_search_path, "%s", &plugin_name_list[1024 * selection]);
         ++setup_wizard_step;
         EndDialog(hDlg, 1);
         return 1;
@@ -441,19 +441,19 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
         "ePSXe detected that you haven't selected a GPU plugin. Please, select your favourite plugin and hit on config button",
         "GPU plugin not selected",
         0x10u);
-      result = 0;
+      ret = 0;
       break;
     case IDC_INSTALL_GPU_ABOUT:
       if ( found_plugin_count )
       {
-        v13 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
-        if ( v13 != -1 && v13 < found_plugin_count )
+        aboutSelection = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
+        if ( aboutSelection != -1 && aboutSelection < found_plugin_count )
         {
-          sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v13]);
-          v14 = LoadLibraryA(LibFileName);
-          GPUinit_0 = GetProcAddress(v14, "GPUinit");
-          GPUabout_0 = GetProcAddress(v14, "GPUabout");
-          GPUshutdown_0 = GetProcAddress(v14, "GPUshutdown");
+          sprintf(LibFileName, "%s%s", pluginPath, &plugin_name_list[1024 * aboutSelection]);
+          hAboutLib = LoadLibraryA(LibFileName);
+          GPUinit_0 = GetProcAddress(hAboutLib, "GPUinit");
+          GPUabout_0 = GetProcAddress(hAboutLib, "GPUabout");
+          GPUshutdown_0 = GetProcAddress(hAboutLib, "GPUshutdown");
           GPUinit_0();
           GPUabout_0();
           GPUshutdown_0();
@@ -463,158 +463,158 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
     default:
       return 0;
   }
-  return result;
+  return ret;
 }
 
-static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  INT_PTR result; // eax
-  unsigned int v8; // eax
-  const char *v9; // eax
-  HMODULE v10; // eax
-  unsigned int v11; // eax
-  const char *v12; // eax
-  HMODULE v13; // eax
-  unsigned int v14; // eax
-  const char *v15; // eax
-  HMODULE v16; // eax
-  HWND v17; // ebx
-  LRESULT (__stdcall *v18)(HWND, int, UINT, WPARAM, LPARAM); // ebp
-  LRESULT v19; // eax
-  int v20; // eax
-  int v21; // ecx
-  HMODULE LibraryA; // eax
-  HMODULE v23; // esi
-  FARPROC PSEgetLibVersionProc; // eax
-  unsigned __int8 v25; // al
-  int v26; // eax
-  const char *v27; // eax
-  signed int v28; // ebp
-  int v29; // ebx
-  CHAR *cFileName; // eax
-  char *v31; // edx
-  CHAR v32; // cl
-  char *v33; // esi
-  int v34; // edi
-  char *v35; // eax
-  char v36; // cl
-  int v37; // ebp
-  CHAR *v38; // eax
-  char v39; // cl
-  int v40; // [esp-18h] [ebp-D68h]
-  int v41; // [esp-14h] [ebp-D64h]
-  char v42[12]; // [esp+0h] [ebp-D50h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
-  CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
-  char lParam[1024]; // [esp+550h] [ebp-800h] BYREF
-  CHAR FileName[1024]; // [esp+950h] [ebp-400h] BYREF
+  int index;
+  char ch;
+  unsigned int selection;
+  INT_PTR ret;
+  unsigned int testSelection;
+  const char *testLibName;
+  HMODULE hTestLib;
+  unsigned int configSelection;
+  const char *configLibName;
+  HMODULE hConfigLib;
+  unsigned int aboutSelection;
+  const char *aboutLibName;
+  HMODULE hAboutLib;
+  HWND hwnd;
+  LRESULT (__stdcall *sendDlgItemMsg)(HWND, int, UINT, WPARAM, LPARAM);
+  LRESULT coreItem;
+  int coreCount;
+  int nameOffset;
+  HMODULE LibraryA;
+  HMODULE hLib;
+  FARPROC PSEgetLibVersionProc;
+  uint8_t versionByte;
+  int version;
+  const char *libName;
+  signed int itemIndex;
+  int pluginCount;
+  CHAR *cFileName;
+  char *dstOffset;
+  CHAR ch2;
+  char *shiftPtr;
+  int shiftCount;
+  char *p;
+  char ch3;
+  int insOffset;
+  CHAR *insSrc;
+  char ch4;
+  int versionMajor;
+  int versionMinor;
+  char pluginPath[12];
+  HANDLE hFindFile;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR LibFileName[1024];
+  char strBuf[1024];
+  CHAR FileName[1024];
 
-  strcpy(v42, "plugins\\");
-  v4 = 0;
+  strcpy(pluginPath, "plugins\\");
+  index = 0;
   do
   {
-    v5 = v42[v4];
-    FileName[v4++] = v5;
+    ch = pluginPath[index];
+    FileName[index++] = ch;
   }
-  while ( v5 );
+  while ( ch );
   strcat(FileName, "*.dll");
-  if ( a2 == 16 )
+  if ( msg == 16 )
   {
     setup_wizard_step = 8;
     EndDialog(hDlg, 1);
     return 1;
   }
-  if ( a2 == 272 )
+  if ( msg == 272 )
   {
     hFindFile = FindFirstFileA(FileName, &FindFileData);
     found_plugin_count = 0;
-    sprintf(lParam, "ePSXe SPU core 1.5.2.");
-    v17 = hDlg;
-    v18 = SendDlgItemMessageA;
-    v19 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_ADDSTRING, 0, (LPARAM)lParam);
+    sprintf(strBuf, "ePSXe SPU core 1.5.2.");
+    hwnd = hDlg;
+    sendDlgItemMsg = SendDlgItemMessageA;
+    coreItem = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_ADDSTRING, 0, (LPARAM)strBuf);
     if ( !strcmp((const char *)SoundPlugin, "SPUCORE") )
-      SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_SETCURSEL, v19, 0);
-    v20 = found_plugin_count;
-    v21 = found_plugin_count << 10;
-    *(_DWORD *)&plugin_name_list[v21] = *(_DWORD *)"SPUCORE";
-    strcpy(&plugin_name_list_tail[v21], "ORE");
-    found_plugin_count = v20 + 1;
+      SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_SETCURSEL, coreItem, 0);
+    coreCount = found_plugin_count;
+    nameOffset = found_plugin_count << 10;
+    *(uint32_t *)&plugin_name_list[nameOffset] = *(uint32_t *)"SPUCORE";
+    strcpy(&plugin_name_list_tail[nameOffset], "ORE");
+    found_plugin_count = coreCount + 1;
     while ( 1 )
     {
-      sprintf(LibFileName, "%s%s", v42, FindFileData.cFileName);
+      sprintf(LibFileName, "%s%s", pluginPath, FindFileData.cFileName);
       LibraryA = LoadLibraryA(LibFileName);
-      v23 = LibraryA;
+      hLib = LibraryA;
       if ( LibraryA )
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
-        PSEgetLibVersionProc = GetProcAddress(v23, "PSEgetLibVersion");
-        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersionProc;
+        PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(hLib, "PSEgetLibName");
+        PSEgetLibVersionProc = GetProcAddress(hLib, "PSEgetLibVersion");
+        PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersionProc;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
           {
             if ( PSEgetLibVersionProc )
             {
-              v25 = PSEgetLibVersionProc();
-              v26 = PSEgetLibVersion(v25);
-              v27 = (const char *)PSEgetLibName(BYTE1(v26));
-              sprintf(lParam, "%s %d.%d", v27, v40, v41);
+              versionByte = PSEgetLibVersionProc();
+              version = PSEgetLibVersion(versionByte);
+              libName = (const char *)PSEgetLibName(BYTE1(version));
+              sprintf(strBuf, "%s %d.%d", libName, versionMajor, versionMinor);
               if ( PSEgetLibType() == 4 )
               {
-                v28 = v18(v17, IDC_INSTALL_SPU_LIST, 0x180u, 0, (LPARAM)lParam);
+                itemIndex = sendDlgItemMsg(hwnd, IDC_INSTALL_SPU_LIST, 0x180u, 0, (LPARAM)strBuf);
                 if ( !strcmp((const char *)SoundPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(v17, IDC_INSTALL_SPU_LIST, 0x186u, v28, 0);
-                v29 = found_plugin_count;
-                if ( v28 == found_plugin_count )
+                  SendDlgItemMessageA(hwnd, IDC_INSTALL_SPU_LIST, 0x186u, itemIndex, 0);
+                pluginCount = found_plugin_count;
+                if ( itemIndex == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                  dstOffset = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                   do
                   {
-                    v32 = *cFileName;
-                    cFileName[(_DWORD)v31] = *cFileName;
+                    ch2 = *cFileName;
+                    cFileName[(uint32_t)dstOffset] = *cFileName;
                     ++cFileName;
                   }
-                  while ( v32 );
+                  while ( ch2 );
                 }
                 else
                 {
-                  if ( (unsigned int)v28 < found_plugin_count )
+                  if ( (unsigned int)itemIndex < found_plugin_count )
                   {
-                    v33 = &plugin_name_list_shift[1024 * found_plugin_count];
-                    v34 = found_plugin_count - v28;
+                    shiftPtr = &plugin_name_list_shift[1024 * found_plugin_count];
+                    shiftCount = found_plugin_count - itemIndex;
                     do
                     {
-                      v35 = v33;
+                      p = shiftPtr;
                       do
                       {
-                        v36 = *v35;
-                        v35[1024] = *v35;
-                        ++v35;
+                        ch3 = *p;
+                        p[1024] = *p;
+                        ++p;
                       }
-                      while ( v36 );
-                      v33 -= 1024;
-                      --v34;
+                      while ( ch3 );
+                      shiftPtr -= 1024;
+                      --shiftCount;
                     }
-                    while ( v34 );
+                    while ( shiftCount );
                   }
-                  v37 = (v28 << 10) - (_DWORD)FindFileData.cFileName;
-                  v38 = FindFileData.cFileName;
+                  insOffset = (itemIndex << 10) - (uint32_t)FindFileData.cFileName;
+                  insSrc = FindFileData.cFileName;
                   do
                   {
-                    v39 = *v38;
-                    plugin_name_list[v37 + (_DWORD)v38] = *v38;
-                    ++v38;
+                    ch4 = *insSrc;
+                    plugin_name_list[insOffset + (uint32_t)insSrc] = *insSrc;
+                    ++insSrc;
                   }
-                  while ( v39 );
+                  while ( ch4 );
                 }
-                found_plugin_count = v29 + 1;
-                v17 = hDlg;
+                found_plugin_count = pluginCount + 1;
+                hwnd = hDlg;
               }
             }
           }
@@ -622,60 +622,60 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
       }
       if ( !FindNextFileA(hFindFile, &FindFileData) )
         break;
-      v18 = SendDlgItemMessageA;
+      sendDlgItemMsg = SendDlgItemMessageA;
     }
     if ( found_plugin_count == 1 )
     {
-      SendDlgItemMessageA(v17, IDC_INSTALL_SPU_LIST, LB_SETCURSEL, 0, 0);
+      SendDlgItemMessageA(hwnd, IDC_INSTALL_SPU_LIST, LB_SETCURSEL, 0, 0);
       return 1;
     }
     return 1;
   }
-  if ( a2 != 273 )
+  if ( msg != 273 )
     return 0;
-  switch ( (__int16)a3 )
+  switch ( (int16_t)wParam )
   {
     case IDC_INSTALL_SPU_CONFIG:
-      v11 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_GETCURSEL, 0, 0);
-      if ( v11 == -1 || v11 >= found_plugin_count )
+      configSelection = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_GETCURSEL, 0, 0);
+      if ( configSelection == -1 || configSelection >= found_plugin_count )
         return 0;
-      v12 = &plugin_name_list[1024 * v11];
-      if ( !strcmp(v12, "SPUCORE") )
+      configLibName = &plugin_name_list[1024 * configSelection];
+      if ( !strcmp(configLibName, "SPUCORE") )
       {
         DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_SOUND9X", hDlg, spucore_configure_dialog_callback, 0);
       }
       else
       {
-        sprintf(LibFileName, "%s%s", v42, v12);
-        v13 = LoadLibraryA(LibFileName);
-        PSEconfigure = GetProcAddress(v13, "SPUconfigure");
+        sprintf(LibFileName, "%s%s", pluginPath, configLibName);
+        hConfigLib = LoadLibraryA(LibFileName);
+        PSEconfigure = GetProcAddress(hConfigLib, "SPUconfigure");
         PSEconfigure();
       }
       return 0;
     case IDC_INSTALL_SPU_TEST:
-      v8 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_GETCURSEL, 0, 0);
-      if ( v8 == -1 )
+      testSelection = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_GETCURSEL, 0, 0);
+      if ( testSelection == -1 )
         return 0;
-      if ( v8 >= found_plugin_count )
+      if ( testSelection >= found_plugin_count )
         return 0;
-      v9 = &plugin_name_list[1024 * v8];
-      if ( !strcmp(v9, "SPUCORE") )
+      testLibName = &plugin_name_list[1024 * testSelection];
+      if ( !strcmp(testLibName, "SPUCORE") )
         return 0;
-      sprintf(LibFileName, "%s%s", v42, v9);
-      v10 = LoadLibraryA(LibFileName);
-      GPUtest_0 = GetProcAddress(v10, "SPUtest");
+      sprintf(LibFileName, "%s%s", pluginPath, testLibName);
+      hTestLib = LoadLibraryA(LibFileName);
+      GPUtest_0 = GetProcAddress(hTestLib, "SPUtest");
       GPUtest_0();
       return 0;
     case IDC_INSTALL_SPU_ABOUT:
-      v14 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, 0x188u, 0, 0);
-      if ( v14 != -1 && v14 < found_plugin_count )
+      aboutSelection = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, 0x188u, 0, 0);
+      if ( aboutSelection != -1 && aboutSelection < found_plugin_count )
       {
-        v15 = &plugin_name_list[1024 * v14];
-        if ( strcmp(v15, "SPUCORE") )
+        aboutLibName = &plugin_name_list[1024 * aboutSelection];
+        if ( strcmp(aboutLibName, "SPUCORE") )
         {
-          sprintf(LibFileName, "%s%s", v42, v15);
-          v16 = LoadLibraryA(LibFileName);
-          GPUabout_0 = GetProcAddress(v16, "SPUabout");
+          sprintf(LibFileName, "%s%s", pluginPath, aboutLibName);
+          hAboutLib = LoadLibraryA(LibFileName);
+          GPUabout_0 = GetProcAddress(hAboutLib, "SPUabout");
           GPUabout_0();
         }
       }
@@ -685,10 +685,10 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
       EndDialog(hDlg, 1);
       return 1;
     case IDC_INSTALL_SPU_NEXT:
-      v6 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, 0x188u, 0, 0);
-      if ( v6 != -1 && v6 < found_plugin_count )
+      selection = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, 0x188u, 0, 0);
+      if ( selection != -1 && selection < found_plugin_count )
       {
-        sprintf(spu_plugin_search_path, "%s", &plugin_name_list[1024 * v6]);
+        sprintf(spu_plugin_search_path, "%s", &plugin_name_list[1024 * selection]);
         ++setup_wizard_step;
         EndDialog(hDlg, 1);
         return 1;
@@ -698,75 +698,75 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
         "ePSXe detected that you haven't selected a SPU plugin. Please, select your favourite plugin and hit on config button",
         "SPU plugin not selected",
         0x10u);
-      result = 0;
+      ret = 0;
       break;
     default:
       return 0;
   }
-  return result;
+  return ret;
 }
 
-static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  LRESULT v8; // eax
-  unsigned int v9; // eax
-  const char *v10; // eax
-  HMODULE v11; // eax
-  unsigned int v12; // eax
-  const char *v13; // eax
-  HMODULE v14; // esi
-  unsigned int v15; // eax
-  const char *v16; // eax
-  HMODULE v17; // eax
-  LRESULT v18; // eax
-  int v19; // eax
-  LRESULT v20; // eax
-  int v21; // eax
-  HMODULE LibraryA; // eax
-  HMODULE v23; // esi
-  FARPROC PSEgetLibVersionProc; // eax
-  unsigned __int8 v25; // al
-  int v26; // eax
-  const char *v27; // eax
-  LRESULT v28; // ebp
-  int v29; // ebx
-  CHAR *cFileName; // eax
-  char *v31; // edx
-  CHAR v32; // cl
-  char *v33; // esi
-  int v34; // edi
-  char *v35; // eax
-  char v36; // cl
-  int v37; // ebp
-  CHAR *v38; // eax
-  char v39; // cl
-  LRESULT v40; // eax
-  int i; // esi
-  LRESULT v42; // eax
-  int v43; // [esp-18h] [ebp-11FCh]
-  int v44; // [esp-14h] [ebp-11F8h]
-  char v45[12]; // [esp+0h] [ebp-11E4h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-11D8h]
-  struct _OSVERSIONINFOA VersionInformation; // [esp+10h] [ebp-11D4h] BYREF
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+A4h] [ebp-1140h] BYREF
-  CHAR lParam[1024]; // [esp+1E4h] [ebp-1000h] BYREF
-  CHAR LibFileName[1024]; // [esp+5E4h] [ebp-C00h] BYREF
-  char v51[1024]; // [esp+9E4h] [ebp-800h] BYREF
-  CHAR FileName[1024]; // [esp+DE4h] [ebp-400h] BYREF
+  int index;
+  char ch;
+  unsigned int selection;
+  LRESULT letterSel;
+  unsigned int testSelection;
+  const char *testLibName;
+  HMODULE hTestLib;
+  unsigned int configSelection;
+  const char *configLibName;
+  HMODULE hConfigLib;
+  unsigned int aboutSelection;
+  const char *aboutLibName;
+  HMODULE hAboutLib;
+  LRESULT coreItem;
+  int coreCount;
+  LRESULT coreItem2;
+  int coreCount2;
+  HMODULE LibraryA;
+  HMODULE hLib;
+  FARPROC PSEgetLibVersionProc;
+  uint8_t versionByte;
+  int version;
+  const char *libName;
+  LRESULT itemIndex;
+  int pluginCount;
+  CHAR *cFileName;
+  char *dstOffset;
+  CHAR ch2;
+  char *shiftPtr;
+  int shiftCount;
+  char *p;
+  char ch3;
+  int insOffset;
+  CHAR *insSrc;
+  char ch4;
+  LRESULT firstCdromItem;
+  int i;
+  LRESULT driveItem;
+  int versionMajor;
+  int versionMinor;
+  char pluginPath[12];
+  HANDLE hFindFile;
+  struct _OSVERSIONINFOA VersionInformation;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR driveBuf[1024];
+  CHAR LibFileName[1024];
+  char coreBuf[1024];
+  CHAR FileName[1024];
 
-  strcpy(v45, "plugins\\");
-  v4 = 0;
+  strcpy(pluginPath, "plugins\\");
+  index = 0;
   do
   {
-    v5 = v45[v4];
-    FileName[v4++] = v5;
+    ch = pluginPath[index];
+    FileName[index++] = ch;
   }
-  while ( v5 );
+  while ( ch );
   strcat(FileName, "*.dll");
-  switch ( a2 )
+  switch ( msg )
   {
     case 0x10u:
       setup_wizard_step = 8;
@@ -775,97 +775,97 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
     case 0x110u:
       hFindFile = FindFirstFileA(FileName, &FindFileData);
       found_plugin_count = 0;
-      sprintf(v51, "ePSXe CDR ASPI core 1.5.2.");
-      v18 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x180u, 0, (LPARAM)v51);
+      sprintf(coreBuf, "ePSXe CDR ASPI core 1.5.2.");
+      coreItem = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x180u, 0, (LPARAM)coreBuf);
       if ( !strcmp((const char *)CdromPlugin, "W9XCDRCORE") )
-        SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, v18, 0);
-      v19 = found_plugin_count;
+        SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, coreItem, 0);
+      coreCount = found_plugin_count;
       strcpy(&plugin_name_list[1024 * found_plugin_count], "W9XCDRCORE");
-      found_plugin_count = v19 + 1;
+      found_plugin_count = coreCount + 1;
       memset(&VersionInformation, 0, sizeof(VersionInformation));
       VersionInformation.dwOSVersionInfoSize = 148;
       GetVersionExA(&VersionInformation);
       if ( VersionInformation.dwPlatformId == 2 )
       {
-        sprintf(v51, "ePSXe CDR WNT/W2K core 1.5.2.");
-        v20 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x180u, 0, (LPARAM)v51);
+        sprintf(coreBuf, "ePSXe CDR WNT/W2K core 1.5.2.");
+        coreItem2 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x180u, 0, (LPARAM)coreBuf);
         if ( !strcmp((const char *)CdromPlugin, "W2KCDRCORE") )
-          SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, v20, 0);
-        v21 = found_plugin_count;
+          SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, coreItem2, 0);
+        coreCount2 = found_plugin_count;
         strcpy(&plugin_name_list[1024 * found_plugin_count], "W2KCDRCORE");
-        found_plugin_count = v21 + 1;
+        found_plugin_count = coreCount2 + 1;
       }
       do
       {
-        sprintf(LibFileName, "%s%s", v45, FindFileData.cFileName);
+        sprintf(LibFileName, "%s%s", pluginPath, FindFileData.cFileName);
         LibraryA = LoadLibraryA(LibFileName);
-        v23 = LibraryA;
+        hLib = LibraryA;
         if ( LibraryA )
         {
           PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-          PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
-          PSEgetLibVersionProc = GetProcAddress(v23, "PSEgetLibVersion");
-          PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersionProc;
+          PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(hLib, "PSEgetLibName");
+          PSEgetLibVersionProc = GetProcAddress(hLib, "PSEgetLibVersion");
+          PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersionProc;
           if ( PSEgetLibType )
           {
             if ( PSEgetLibName )
             {
               if ( PSEgetLibVersionProc )
               {
-                v25 = PSEgetLibVersionProc();
-                v26 = PSEgetLibVersion(v25);
-                v27 = (const char *)PSEgetLibName(BYTE1(v26));
-                sprintf(v51, "%s %d.%d", v27, v43, v44);
+                versionByte = PSEgetLibVersionProc();
+                version = PSEgetLibVersion(versionByte);
+                libName = (const char *)PSEgetLibName(BYTE1(version));
+                sprintf(coreBuf, "%s %d.%d", libName, versionMajor, versionMinor);
                 if ( PSEgetLibType() == 1 )
                 {
-                  v28 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x180u, 0, (LPARAM)v51);
+                  itemIndex = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x180u, 0, (LPARAM)coreBuf);
                   if ( !strcmp((const char *)CdromPlugin, FindFileData.cFileName) )
-                    SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, v28, 0);
-                  v29 = found_plugin_count;
-                  if ( v28 == found_plugin_count )
+                    SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, itemIndex, 0);
+                  pluginCount = found_plugin_count;
+                  if ( itemIndex == found_plugin_count )
                   {
                     cFileName = FindFileData.cFileName;
-                    v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                    dstOffset = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                     do
                     {
-                      v32 = *cFileName;
-                      cFileName[(_DWORD)v31] = *cFileName;
+                      ch2 = *cFileName;
+                      cFileName[(uint32_t)dstOffset] = *cFileName;
                       ++cFileName;
                     }
-                    while ( v32 );
+                    while ( ch2 );
                   }
                   else
                   {
-                    if ( (unsigned int)v28 < found_plugin_count )
+                    if ( (unsigned int)itemIndex < found_plugin_count )
                     {
-                      v33 = &plugin_name_list_shift[1024 * found_plugin_count];
-                      v34 = found_plugin_count - v28;
+                      shiftPtr = &plugin_name_list_shift[1024 * found_plugin_count];
+                      shiftCount = found_plugin_count - itemIndex;
                       do
                       {
-                        v35 = v33;
+                        p = shiftPtr;
                         do
                         {
-                          v36 = *v35;
-                          v35[1024] = *v35;
-                          ++v35;
+                          ch3 = *p;
+                          p[1024] = *p;
+                          ++p;
                         }
-                        while ( v36 );
-                        v33 -= 1024;
-                        --v34;
+                        while ( ch3 );
+                        shiftPtr -= 1024;
+                        --shiftCount;
                       }
-                      while ( v34 );
+                      while ( shiftCount );
                     }
-                    v37 = (v28 << 10) - (_DWORD)FindFileData.cFileName;
-                    v38 = FindFileData.cFileName;
+                    insOffset = (itemIndex << 10) - (uint32_t)FindFileData.cFileName;
+                    insSrc = FindFileData.cFileName;
                     do
                     {
-                      v39 = *v38;
-                      plugin_name_list[v37 + (_DWORD)v38] = *v38;
-                      ++v38;
+                      ch4 = *insSrc;
+                      plugin_name_list[insOffset + (uint32_t)insSrc] = *insSrc;
+                      ++insSrc;
                     }
-                    while ( v39 );
+                    while ( ch4 );
                   }
-                  found_plugin_count = v29 + 1;
+                  found_plugin_count = pluginCount + 1;
                 }
               }
             }
@@ -873,19 +873,19 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
         }
       }
       while ( FindNextFileA(hFindFile, &FindFileData) );
-      sprintf(lParam, "FirstCdrom");
-      v40 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x143u, 0, (LPARAM)lParam);
+      sprintf(driveBuf, "FirstCdrom");
+      firstCdromItem = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x143u, 0, (LPARAM)driveBuf);
       if ( !cdrom_letter )
-        SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x14Eu, v40, 0);
+        SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x14Eu, firstCdromItem, 0);
       for ( i = 65; i <= 90; ++i )
       {
-        sprintf(lParam, "%c:\\", i);
-        if ( GetDriveTypeA(lParam) == 5 )
+        sprintf(driveBuf, "%c:\\", i);
+        if ( GetDriveTypeA(driveBuf) == 5 )
         {
-          sprintf(lParam, "--%c:--", i);
-          v42 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x143u, 0, (LPARAM)lParam);
+          sprintf(driveBuf, "--%c:--", i);
+          driveItem = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x143u, 0, (LPARAM)driveBuf);
           if ( i == cdrom_letter )
-            SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x14Eu, v42, 0);
+            SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x14Eu, driveItem, 0);
         }
       }
       if ( found_plugin_count == 1 )
@@ -895,40 +895,40 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
       }
       break;
     case 0x111u:
-      switch ( (__int16)a3 )
+      switch ( (int16_t)wParam )
       {
         case IDC_INSTALL_CDROM_CONFIG:
-          v12 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
-          if ( v12 == -1 || v12 >= found_plugin_count )
+          configSelection = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
+          if ( configSelection == -1 || configSelection >= found_plugin_count )
             return 0;
-          v13 = &plugin_name_list[1024 * v12];
+          configLibName = &plugin_name_list[1024 * configSelection];
           cdrom_plugin_configured_flag = 1;
-          if ( !strcmp(v13, "W9XCDRCORE") )
+          if ( !strcmp(configLibName, "W9XCDRCORE") )
           {
             DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CDROMCORE9X", hDlg, w9x_cdrom_settings, 0);
             return 0;
           }
-          if ( !strcmp(v13, "W2KCDRCORE") )
+          if ( !strcmp(configLibName, "W2KCDRCORE") )
             return 0;
-          sprintf(LibFileName, "%s%s", v45, v13);
-          v14 = LoadLibraryA(LibFileName);
-          GPUinit_0 = GetProcAddress(v14, "CDRinit");
+          sprintf(LibFileName, "%s%s", pluginPath, configLibName);
+          hConfigLib = LoadLibraryA(LibFileName);
+          GPUinit_0 = GetProcAddress(hConfigLib, "CDRinit");
           GPUinit_0();
-          PSEconfigure = GetProcAddress(v14, "CDRconfigure");
+          PSEconfigure = GetProcAddress(hConfigLib, "CDRconfigure");
           PSEconfigure();
           return 0;
         case IDC_INSTALL_CDROM_TEST:
-          v9 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
-          if ( v9 == -1 )
+          testSelection = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
+          if ( testSelection == -1 )
             return 0;
-          if ( v9 >= found_plugin_count )
+          if ( testSelection >= found_plugin_count )
             return 0;
-          v10 = &plugin_name_list[1024 * v9];
-          if ( !strcmp(v10, "W9XCDRCORE") || !strcmp(v10, "W2KCDRCORE") )
+          testLibName = &plugin_name_list[1024 * testSelection];
+          if ( !strcmp(testLibName, "W9XCDRCORE") || !strcmp(testLibName, "W2KCDRCORE") )
             return 0;
-          sprintf(LibFileName, "%s%s", v45, v10);
-          v11 = LoadLibraryA(LibFileName);
-          GPUtest_0 = GetProcAddress(v11, "CDRtest");
+          sprintf(LibFileName, "%s%s", pluginPath, testLibName);
+          hTestLib = LoadLibraryA(LibFileName);
+          GPUtest_0 = GetProcAddress(hTestLib, "CDRtest");
           GPUtest_0();
           return 0;
         case IDC_INSTALL_CDROM_BACK:
@@ -936,8 +936,8 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
           EndDialog(hDlg, 1);
           return 1;
         case IDC_INSTALL_CDROM_NEXT:
-          v6 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
-          if ( v6 == -1 || v6 >= found_plugin_count )
+          selection = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
+          if ( selection == -1 || selection >= found_plugin_count )
           {
             MessageBoxA(
               nullptr,
@@ -946,7 +946,7 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
               0x10u);
             return 0;
           }
-          if ( !cdrom_plugin_configured_flag && strcmp(&plugin_name_list[1024 * v6], "W2KCDRCORE") )
+          if ( !cdrom_plugin_configured_flag && strcmp(&plugin_name_list[1024 * selection], "W2KCDRCORE") )
           {
             MessageBoxA(
               nullptr,
@@ -955,15 +955,15 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
               0x10u);
             return 0;
           }
-          sprintf(cdrom_plugin_search_path, "%s", &plugin_name_list[1024 * v6]);
+          sprintf(cdrom_plugin_search_path, "%s", &plugin_name_list[1024 * selection]);
           ++setup_wizard_step;
-          v8 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER_ALT, 0x147u, 0, 0);
-          if ( v8 != -1 )
+          letterSel = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER_ALT, 0x147u, 0, 0);
+          if ( letterSel != -1 )
           {
-            SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER_ALT, 0x148u, v8, (LPARAM)lParam);
-            if ( strncmp(lParam, "FirstCdrom", 4u) )
+            SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER_ALT, 0x148u, letterSel, (LPARAM)driveBuf);
+            if ( strncmp(driveBuf, "FirstCdrom", 4u) )
             {
-              sscanf(lParam, "--%c:--", &cdrom_letter);
+              sscanf(driveBuf, "--%c:--", &cdrom_letter);
               EndDialog(hDlg, 1);
               return 1;
             }
@@ -972,17 +972,17 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
           EndDialog(hDlg, 1);
           break;
         case IDC_INSTALL_CDROM_ABOUT:
-          v15 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
-          if ( v15 != -1 && v15 < found_plugin_count )
+          aboutSelection = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
+          if ( aboutSelection != -1 && aboutSelection < found_plugin_count )
           {
-            v16 = &plugin_name_list[1024 * v15];
-            if ( strcmp(v16, "W9XCDRCORE") )
+            aboutLibName = &plugin_name_list[1024 * aboutSelection];
+            if ( strcmp(aboutLibName, "W9XCDRCORE") )
             {
-              if ( strcmp(v16, "W2KCDRCORE") )
+              if ( strcmp(aboutLibName, "W2KCDRCORE") )
               {
-                sprintf(LibFileName, "%s%s", v45, v16);
-                v17 = LoadLibraryA(LibFileName);
-                GPUabout_0 = GetProcAddress(v17, "CDRabout");
+                sprintf(LibFileName, "%s%s", pluginPath, aboutLibName);
+                hAboutLib = LoadLibraryA(LibFileName);
+                GPUabout_0 = GetProcAddress(hAboutLib, "CDRabout");
                 GPUabout_0();
               }
             }
@@ -998,14 +998,14 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
   return 1;
 }
 
-static INT_PTR __stdcall setup_wizard_controllers(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_controllers(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  HDC DC; // esi
-  int DeviceCaps; // ebx
-  HDC v7; // esi
-  int v8; // ebx
+  HDC hdc;
+  int deviceCaps;
+  HDC hdc2;
+  int deviceCaps2;
 
-  switch ( a2 )
+  switch ( msg )
   {
     case 0x10u:
       setup_wizard_step = 8;
@@ -1015,7 +1015,7 @@ LABEL_16:
     case 0x110u:
       return 1;
     case 0x111u:
-      switch ( (__int16)a3 )
+      switch ( (int16_t)wParam )
       {
         case IDC_INSTALL_PAD_BACK:
           --setup_wizard_step;
@@ -1026,20 +1026,20 @@ LABEL_16:
           goto LABEL_16;
         case IDC_INSTALL_PAD_1:
           pad_number_menu_selection = 1;
-          DC = GetDC(hDlg);
-          DeviceCaps = GetDeviceCaps(DC, 88);
-          ReleaseDC(hDlg, DC);
-          if ( DeviceCaps > 96 )
+          hdc = GetDC(hDlg);
+          deviceCaps = GetDeviceCaps(hdc, 88);
+          ReleaseDC(hDlg, hdc);
+          if ( deviceCaps > 96 )
             DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CONTROLLER_LARGE", hDlg, controller_setup_callback, 0);
           else
             DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CONTROLLER", hDlg, controller_setup_callback, 0);
           return 0;
         case IDC_INSTALL_PAD_2:
           pad_number_menu_selection = 2;
-          v7 = GetDC(hDlg);
-          v8 = GetDeviceCaps(v7, 88);
-          ReleaseDC(hDlg, v7);
-          if ( v8 <= 96 )
+          hdc2 = GetDC(hDlg);
+          deviceCaps2 = GetDeviceCaps(hdc2, 88);
+          ReleaseDC(hDlg, hdc2);
+          if ( deviceCaps2 <= 96 )
           {
             DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CONTROLLER", hDlg, controller_setup_callback, 0);
             return 0;
@@ -1054,36 +1054,36 @@ LABEL_16:
   return 0;
 }
 
-static INT_PTR __stdcall setup_wizard_end(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_end(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  if ( a2 == 16 )
+  if ( msg == 16 )
   {
     setup_wizard_step = 8;
     EndDialog(hDlg, 1);
     return 1;
   }
-  if ( a2 == 272 )
+  if ( msg == 272 )
     return 1;
-  if ( a2 != 273 || (_WORD)a3 != 1114 )
+  if ( msg != 273 || (uint16_t)wParam != 1114 )
     return 0;
   ++setup_wizard_step;
   EndDialog(hDlg, 1);
   return 1;
 }
 
-static INT_PTR __stdcall setup_wizard_begin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
+static INT_PTR __stdcall setup_wizard_begin(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  if ( a2 == 16 )
+  if ( msg == 16 )
   {
     setup_wizard_step = 8;
     EndDialog(hDlg, 1);
     return 1;
   }
-  if ( a2 == 272 )
+  if ( msg == 272 )
     return 1;
-  if ( a2 != 273 )
+  if ( msg != 273 )
     return 0;
-  if ( (unsigned __int16)a3 == 1109 )
+  if ( (uint16_t)wParam == 1109 )
   {
     --setup_wizard_step;
     EndDialog(hDlg, 1);
@@ -1091,7 +1091,7 @@ static INT_PTR __stdcall setup_wizard_begin(HWND hDlg, UINT a2, WPARAM a3, LPARA
   }
   else
   {
-    if ( (unsigned __int16)a3 != 1110 )
+    if ( (uint16_t)wParam != 1110 )
       return 0;
     ++setup_wizard_step;
     EndDialog(hDlg, 1);
@@ -1099,14 +1099,14 @@ static INT_PTR __stdcall setup_wizard_begin(HWND hDlg, UINT a2, WPARAM a3, LPARA
   }
 }
 
-int __cdecl setup_wizard_callback(HWND hWndParent)
+int setup_wizard_callback(HWND hWndParent)
 {
-  int result; // eax
+  int ret;
 
   cdrom_plugin_configured_flag = 0;
   while ( 2 )
   {
-    result = setup_wizard_step;
+    ret = setup_wizard_step;
     switch ( setup_wizard_step )
     {
       case 0:
@@ -1136,14 +1136,14 @@ int __cdecl setup_wizard_callback(HWND hWndParent)
         sprintf((char *const)SoundPlugin, "%s", spu_plugin_search_path);
         sprintf((char *const)CdromPlugin, "%s", cdrom_plugin_search_path);
         sprintf((char *const)bios_name, "%s", bios_search_path);
-        result = cfg_save_settings();
+        ret = cfg_save_settings();
         break;
       default:
-        return result;
+        return ret;
     }
     break;
   }
-  return result;
+  return ret;
 }
 
 
