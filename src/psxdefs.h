@@ -46,8 +46,8 @@
 #define PSX_SCRATCH_BASE            0x1F800000
 #define PSX_SCRATCH_SIZE            0x400               /* 1 KB */
 
-/* Base address of the hardware I/O ports region (registers are at
- * 0x1F801000..0x1F803FFF) */
+/* Base of the hardware region: scratchpad at 0x1F800000, hardware I/O
+ * ports at 0x1F801000..0x1F803FFF */
 #define PSX_HW_BASE                 0x1F800000
 
 /*==============================================================================

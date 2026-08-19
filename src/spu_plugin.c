@@ -336,30 +336,30 @@ LABEL_11:
       case 0x1F801D66u:
       case 0x1F801D76u:
         goto LABEL_13;
-      case 0x1F801D88u:
+      case PSX_REG_SPU_KON_L:
         status = sound_enabled;
         if ( sound_enabled )
           status = SPUstartChannels1((uint16_t)value);
         break;
-      case 0x1F801D8Au:
+      case PSX_REG_SPU_KON_R:
         status = sound_enabled;
         if ( sound_enabled )
           status = SPUstartChannels2((uint16_t)value);
         break;
-      case 0x1F801D8Cu:
+      case PSX_REG_SPU_KOFF_L:
         status = sound_enabled;
         if ( sound_enabled )
           status = SPUstopChannels1((uint16_t)value);
         break;
-      case 0x1F801D8Eu:
+      case PSX_REG_SPU_KOFF_R:
         status = sound_enabled;
         if ( sound_enabled )
           status = SPUstopChannels2((uint16_t)value);
         break;
-      case 0x1F801DA6u:
+      case PSX_REG_SPU_TRANS_ADDR:
         spu_transfer_addr = 8 * (uint16_t)value;
         break;
-      case 0x1F801DA8u:
+      case PSX_REG_SPU_TRANS_FIFO:
         status = sound_enabled;
         if ( sound_enabled )
         {
@@ -457,21 +457,21 @@ int16_t spu_read_register(unsigned int reg)
       LOWORD(value) = SPUreadRegister(reg);
       return value;
     }
-    if ( reg > 0x1F801DA8 )
+    if ( reg > PSX_REG_SPU_TRANS_FIFO )
     {
-      if ( reg != 0x1F801DAE )
+      if ( reg != PSX_REG_SPU_STAT )
         goto LABEL_15;
     }
     else
     {
-      if ( reg != 0x1F801DA8 )
+      if ( reg != PSX_REG_SPU_TRANS_FIFO )
       {
         if ( reg == 0x1F801C0C )
         {
           LOWORD(value) = hw_update_counter;
           return value;
         }
-        if ( reg == 0x1F801DA6 )
+        if ( reg == PSX_REG_SPU_TRANS_ADDR )
           return (unsigned int)spu_transfer_addr >> 3;
 LABEL_15:
         LOWORD(value) = *(int16_t *)((char *)spu_register_cache + (reg & 0x1FF));
