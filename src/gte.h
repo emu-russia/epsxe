@@ -1,14 +1,16 @@
 /*
  * gte.h - Geometry Transformation Engine (GTE) definitions for PSX emulator
  *
- * Based on the GTE documentation from gte.txt.
+ * Based on the GTE documentation from docs/gte.txt, verified against
+ * PSXSPX (https://psx-spx.consoledev.net/) geometrytransformationenginegte.md
+ * and gtepipelinetimings.md (issue #24).
  *
  */
 
 #pragma once
 
 /* --------------------------------------------------------------------------
- * Core GTE state structure (as defined by the user)
+ * Core GTE state structure
  * -------------------------------------------------------------------------- */
 
 #pragma pack(push,1)
@@ -47,9 +49,9 @@ typedef enum _GTEDataReg {
     GTE_DATA_RGBC   = 6,   /* Color/code (R,G,B,CODE as bytes) */
     GTE_DATA_OTZ    = 7,   /* Average Z (unsigned 16-bit) */
     GTE_DATA_IR0    = 8,   /* Interpolation factor (signed 16-bit) */
-    GTE_DATA_IR1    = 9,   /* Accumulator 1 (signed 16-bit) */
-    GTE_DATA_IR2    = 10,  /* Accumulator 2 (signed 16-bit) */
-    GTE_DATA_IR3    = 11,  /* Accumulator 3 (signed 16-bit) */
+    GTE_DATA_IR1    = 9,   /* Interpolation register 1 (signed 16-bit) */
+    GTE_DATA_IR2    = 10,  /* Interpolation register 2 (signed 16-bit) */
+    GTE_DATA_IR3    = 11,  /* Interpolation register 3 (signed 16-bit) */
     GTE_DATA_SXY0   = 12,  /* Screen XY FIFO 0 (oldest) – SX0 lo, SY0 hi */
     GTE_DATA_SXY1   = 13,  /* Screen XY FIFO 1 – SX1 lo, SY1 hi */
     GTE_DATA_SXY2   = 14,  /* Screen XY FIFO 2 (newest) – SX2 lo, SY2 hi */
@@ -124,7 +126,7 @@ typedef enum _GTEFakeCommand {
     GTE_FAKE_UNUSED_05   = 0x05,
     GTE_FAKE_DCPL        = 0x06,   /* DCPL */
     GTE_FAKE_DPCS        = 0x07,   /* DPCS */
-    GTE_FAKE_DPCT        = 0x08,   /* DPCT (should be 8, but SDK uses 0F) */
+    GTE_FAKE_DPCT        = 0x08,   /* DPCT (SDK accidentally uses 0Fh here, same as NCDT) */
     GTE_FAKE_INTPL       = 0x09,   /* INTPL */
     GTE_FAKE_SQR         = 0x0A,   /* SQR */
     GTE_FAKE_UNUSED_0B   = 0x0B,
