@@ -2,17 +2,17 @@
 
 /* static prototypes for internal functions */
 static int W9x_disable_subchannel_mode();
-static char __cdecl W9x_read_cd_sectors(
-        unsigned __int8 a1,
-        unsigned __int8 a2,
-        unsigned __int8 a3,
-        unsigned __int8 a4,
+static char W9x_read_cd_sectors(
+        uint8_t a1,
+        uint8_t a2,
+        uint8_t a3,
+        uint8_t a4,
         BYTE *a5);
-static char __cdecl W9x_read_cd_data_only(
-        unsigned __int8 a1,
-        unsigned __int8 a2,
-        unsigned __int8 a3,
-        unsigned __int8 a4,
+static char W9x_read_cd_data_only(
+        uint8_t a1,
+        uint8_t a2,
+        uint8_t a3,
+        uint8_t a4,
         BYTE *a5);
 static BOOL W9x_resume_cdda();
 
@@ -32,10 +32,10 @@ static DWORD GetASPI32SupportInfo(void)
     return real();
 }
 
-static char __cdecl W9x_exec_scsi_cmd(const void *a1, unsigned int a2, BYTE *a3, DWORD a4)
+static char W9x_exec_scsi_cmd(const void *a1, unsigned int a2, BYTE *a3, DWORD a4)
 {
-  HANDLE EventA; // ebx
-  SRB_ExecSCSICmd v6; // [esp+Ch] [ebp-50h] BYREF
+  HANDLE EventA;
+  SRB_ExecSCSICmd v6;
 
   EventA = CreateEventA(nullptr, 1, 0, nullptr);
   memset(&v6, 0, sizeof(v6));
@@ -59,16 +59,16 @@ static char __cdecl W9x_exec_scsi_cmd(const void *a1, unsigned int a2, BYTE *a3,
   return 0;
 }
 
-static int __cdecl W9x_add_cdrom_device_info(BYTE a1, BYTE a2, BYTE a3)
+static int W9x_add_cdrom_device_info(BYTE a1, BYTE a2, BYTE a3)
 {
-  HANDLE EventA; // esi
-  int result; // eax
-  char v5; // dl
-  int v6; // esi
-  char *v7; // ecx
-  int v8; // ecx
-  SRB_ExecSCSICmd v9; // [esp+Ch] [ebp-B4h] BYREF
-  _DWORD v10[25]; // [esp+5Ch] [ebp-64h] BYREF
+  HANDLE EventA;
+  int result;
+  char v5;
+  int v6;
+  char *v7;
+  int v8;
+  SRB_ExecSCSICmd v9;
+  uint32_t v10[25];
 
   EventA = CreateEventA(nullptr, 1, 0, nullptr);
   memset(&v9, 0, sizeof(v9));
@@ -98,10 +98,10 @@ static int __cdecl W9x_add_cdrom_device_info(BYTE a1, BYTE a2, BYTE a3)
     *(int *)((char *)&cd_device_vendor2 + result) = v10[3];
     cd_device_reserved0[result] = 0;
     v7 = &cd_device_product[result];
-    *(_DWORD *)v7 = v6;
-    *((_DWORD *)v7 + 1) = v10[5];
-    *((_DWORD *)v7 + 2) = v10[6];
-    *((_DWORD *)v7 + 3) = v10[7];
+    *(uint32_t *)v7 = v6;
+    *((uint32_t *)v7 + 1) = v10[5];
+    *((uint32_t *)v7 + 2) = v10[6];
+    *((uint32_t *)v7 + 3) = v10[7];
     v8 = v10[8];
     cd_device_reserved1[result] = 0;
     *(int *)((char *)&cd_device_revision + result) = v8;
@@ -118,19 +118,19 @@ static int __cdecl W9x_add_cdrom_device_info(BYTE a1, BYTE a2, BYTE a3)
 
 char W9x_init_aspi()
 {
-  char result; // al
-  __int16 ASPI32SupportInfo; // ax
-  BYTE v2; // bl
-  char v3; // al
-  unsigned __int8 v4; // bl
-  BYTE v5; // [esp+4h] [ebp-54h]
-  BYTE i; // [esp+8h] [ebp-50h]
-  BYTE v7; // [esp+Ch] [ebp-4Ch]
-  _DWORD v8[2]; // [esp+10h] [ebp-48h] BYREF
-  BYTE v9; // [esp+18h] [ebp-40h]
-  unsigned __int8 v10; // [esp+19h] [ebp-3Fh]
-  __int16 v11; // [esp+1Ah] [ebp-3Eh]
-  _BYTE v12[60]; // [esp+1Ch] [ebp-3Ch] BYREF
+  char result;
+  int16_t ASPI32SupportInfo;
+  BYTE v2;
+  char v3;
+  uint8_t v4;
+  BYTE v5;
+  BYTE i;
+  BYTE v7;
+  uint32_t v8[2];
+  BYTE v9;
+  uint8_t v10;
+  int16_t v11;
+  uint8_t v12[60];
 
   result = HIBYTE(w9x_cdrom_info);
   if ( !HIBYTE(w9x_cdrom_info) )
@@ -172,7 +172,7 @@ char W9x_init_aspi()
               v9 = v5;
               v10 = v4;
               SendASPI32Command_cb(v8);
-              if ( BYTE1(v8[0]) == 1 && (_BYTE)v11 == 5 )
+              if ( BYTE1(v8[0]) == 1 && (uint8_t)v11 == 5 )
                 W9x_add_cdrom_device_info(i, v5, v7);
               v7 = ++v4;
             }
@@ -190,23 +190,23 @@ char W9x_init_aspi()
   return result;
 }
 
-_DWORD *__cdecl W9x_bcd_to_dword(_DWORD *a1, unsigned __int8 *a2)
+uint32_t * W9x_bcd_to_dword(uint32_t *a1, uint8_t *a2)
 {
   *a1 = a2[3] + ((a2[2] + ((a2[1] + (*a2 << 8)) << 8)) << 8);
   return a1;
 }
 
-static _DWORD *W9x_cdrom_gettrackinfo()
+static uint32_t *W9x_cdrom_gettrackinfo()
 {
-  char v0; // bl
-  bool v1; // al
-  unsigned __int8 v3; // bl
-  int v4; // esi
-  unsigned int v5; // [esp+8h] [ebp-1Ch] BYREF
-  int v6; // [esp+Ch] [ebp-18h]
-  int v7; // [esp+10h] [ebp-14h]
-  int v8; // [esp+14h] [ebp-10h] BYREF
-  _DWORD v9[3]; // [esp+18h] [ebp-Ch] BYREF
+  char v0;
+  bool v1;
+  uint8_t v3;
+  int v4;
+  unsigned int v5;
+  int v6;
+  int v7;
+  int v8;
+  uint32_t v9[3];
 
   v9[0] = 0x43;
   v9[1] = 0x3000000;
@@ -220,11 +220,11 @@ static _DWORD *W9x_cdrom_gettrackinfo()
     if ( !++v0 )
     {
       if ( v1 )
-        return (_DWORD *)dbg_print(" * Cdrom gettrackinfo error.\n");
+        return (uint32_t *)dbg_print(" * Cdrom gettrackinfo error.\n");
       break;
     }
   }
-  dbg_print(" * First/Last track: %d %d\n", (unsigned __int8)w9x_toc_first_track, (unsigned __int8)w9x_toc_last_track);
+  dbg_print(" * First/Last track: %d %d\n", (uint8_t)w9x_toc_first_track, (uint8_t)w9x_toc_last_track);
   v3 = 0;
   LOBYTE(v7) = w9x_toc_last_track - w9x_toc_first_track + 1;
   LOBYTE(w9x_cdrom_info) = v7;
@@ -233,8 +233,8 @@ static _DWORD *W9x_cdrom_gettrackinfo()
   {
     do
     {
-      v4 = (unsigned __int8)v6;
-      dbg_print(" * Track %d: ", (unsigned __int8)w9x_toc_track_entries[8 * (unsigned __int8)v6]);
+      v4 = (uint8_t)v6;
+      dbg_print(" * Track %d: ", (uint8_t)w9x_toc_track_entries[8 * (uint8_t)v6]);
       if ( (w9x_toc_track_control[8 * v4] & 4) != 0 )
       {
         dbg_print("(DATA)  -");
@@ -245,30 +245,30 @@ static _DWORD *W9x_cdrom_gettrackinfo()
         if ( !v3 )
           nocd = 2;
       }
-      W9x_bcd_to_dword(&v5, (unsigned __int8 *)(8 * v4 + 5262504));
+      W9x_bcd_to_dword(&v5, (uint8_t *)(8 * v4 + 5262504));
       v5 += 150;
-      dbg_print(" Start %d: (%02d,%02d,%02d) - ", v4, (unsigned __int8)(v5 / 0x4B / 0x3C), v5 / 0x4B % 0x3C, v5 % 0x4B);
-      W9x_bcd_to_dword(&v5, (unsigned __int8 *)(8 * v4 + 5262504));
-      W9x_bcd_to_dword(&v8, (unsigned __int8 *)(8 * v4 + 5262512));
+      dbg_print(" Start %d: (%02d,%02d,%02d) - ", v4, (uint8_t)(v5 / 0x4B / 0x3C), v5 / 0x4B % 0x3C, v5 % 0x4B);
+      W9x_bcd_to_dword(&v5, (uint8_t *)(8 * v4 + 5262504));
+      W9x_bcd_to_dword(&v8, (uint8_t *)(8 * v4 + 5262512));
       dbg_print(" Length %02d:%02d\n", (v8 - v5) / 0x4B / 0x3C, (v8 - v5) / 0x4B % 0x3C);
       LOBYTE(v6) = ++v3;
     }
-    while ( v3 < (unsigned __int8)v7 );
+    while ( v3 < (uint8_t)v7 );
   }
-  return W9x_bcd_to_dword(&v8, (unsigned __int8 *)(8 * (unsigned __int8)v7 + 5262504));
+  return W9x_bcd_to_dword(&v8, (uint8_t *)(8 * (uint8_t)v7 + 5262504));
 }
 
-int (__cdecl *W9x_load_winaspi_dll())(LPSRB)
+int ( *W9x_load_winaspi_dll())(LPSRB)
 {
-  HMODULE LibraryA; // eax
-  int (__cdecl *result)(LPSRB); // eax
+  HMODULE LibraryA;
+  int ( *result)(LPSRB);
 
   LibraryA = LoadLibraryA("WNASPI32.DLL");
   hCdrModule = LibraryA;
   if ( !LibraryA )
     fatal_error_with_message_box(" * Error loading WNASPI32.DLL\n");
   GetASPI32SupportInfo_cb = GetProcAddress(LibraryA, "GetASPI32SupportInfo");
-  result = (int (__cdecl *)(LPSRB))GetProcAddress(hCdrModule, "SendASPI32Command");
+  result = (int ( *)(LPSRB))GetProcAddress(hCdrModule, "SendASPI32Command");
   SendASPI32Command_cb = result;
   if ( !GetASPI32SupportInfo_cb || !result )
     fatal_error_with_message_box("Error loading WNASPI32.DLL\n");
@@ -277,14 +277,14 @@ int (__cdecl *W9x_load_winaspi_dll())(LPSRB)
 
 int W9x_load_win_aspi_silent()
 {
-  HMODULE LibraryA; // eax
-  int (__cdecl *SendASPI32Command)(LPSRB); // eax
+  HMODULE LibraryA;
+  int ( *SendASPI32Command)(LPSRB);
 
   LibraryA = LoadLibraryA("WNASPI32.DLL");
   hCdrModule = LibraryA;
   if ( LibraryA
     && (GetASPI32SupportInfo_cb = GetProcAddress(LibraryA, "GetASPI32SupportInfo"),
-        SendASPI32Command = (int (__cdecl *)(LPSRB))GetProcAddress(hCdrModule, "SendASPI32Command"),
+        SendASPI32Command = (int ( *)(LPSRB))GetProcAddress(hCdrModule, "SendASPI32Command"),
         SendASPI32Command_cb = SendASPI32Command,
         GetASPI32SupportInfo_cb)
     && SendASPI32Command )
@@ -299,7 +299,7 @@ int W9x_load_win_aspi_silent()
 
 HMODULE W9x_free_winaspi_dll()
 {
-  HMODULE result; // eax
+  HMODULE result;
 
   result = hCdrModule;
   if ( hCdrModule )
@@ -316,9 +316,9 @@ HMODULE W9x_free_winaspi_dll()
 
 char W9x_cdrom_init()
 {
-  char result; // al
-  void *v1; // esp
-  BYTE v2[8092]; // [esp+0h] [ebp-1F9Ch] BYREF
+  char result;
+  void *v1;
+  BYTE v2[8092];
 
   if ( !cd_savefake_flag )
     return cdrom_fake_load_file(cdrom_fake_filename);
@@ -366,9 +366,9 @@ char W9x_cdrom_init()
   return result;
 }
 
-char __cdecl W9x_get_first_last_track(_BYTE *a1, _BYTE *a2)
+char W9x_get_first_last_track(uint8_t *a1, uint8_t *a2)
 {
-  char result; // al
+  char result;
 
   *a1 = w9x_toc_first_track;
   result = w9x_cdrom_info;
@@ -376,21 +376,21 @@ char __cdecl W9x_get_first_last_track(_BYTE *a1, _BYTE *a2)
   return result;
 }
 
-unsigned int __cdecl W9x_track_to_msf(__int16 a1, _BYTE *a2, _BYTE *a3, _BYTE *a4)
+unsigned int W9x_track_to_msf(int16_t a1, uint8_t *a2, uint8_t *a3, uint8_t *a4)
 {
-  unsigned int result; // eax
-  unsigned int v5; // eax
-  unsigned int v6; // et2
-  int v7; // [esp+0h] [ebp-4h] BYREF
+  unsigned int result;
+  unsigned int v5;
+  unsigned int v6;
+  int v7;
 
-  result = (unsigned __int8)w9x_cdrom_info;
+  result = (uint8_t)w9x_cdrom_info;
   v7 = 0;
-  if ( a1 <= (int)(unsigned __int8)w9x_cdrom_info )
+  if ( a1 <= (int)(uint8_t)w9x_cdrom_info )
   {
     if ( a1 )
-      W9x_bcd_to_dword(&v7, (unsigned __int8 *)(8 * a1 + 5262496));
+      W9x_bcd_to_dword(&v7, (uint8_t *)(8 * a1 + 5262496));
     else
-      W9x_bcd_to_dword(&v7, (unsigned __int8 *)(8 * (unsigned __int8)w9x_cdrom_info + 5262504));
+      W9x_bcd_to_dword(&v7, (uint8_t *)(8 * (uint8_t)w9x_cdrom_info + 5262504));
     v5 = (v7 + 150) / 0x4Bu;
     *a4 = (v7 + 150) % 0x4Bu;
     v6 = v5 % 0x3C;
@@ -419,10 +419,10 @@ HMODULE W9x_cdrom_deinit()
 
 static int W9x_enable_subchannel_mode()
 {
-  HANDLE EventA; // esi
-  _BYTE v2[10]; // [esp+8h] [ebp-5Ch] BYREF
-  _BYTE v3[2]; // [esp+12h] [ebp-52h] BYREF
-  _DWORD v4[20]; // [esp+14h] [ebp-50h] BYREF
+  HANDLE EventA;
+  uint8_t v2[10];
+  uint8_t v3[2];
+  uint32_t v4[20];
 
   v2[0] = 0;
   v2[1] = 0;
@@ -456,10 +456,10 @@ static int W9x_enable_subchannel_mode()
 
 static int W9x_disable_subchannel_mode()
 {
-  HANDLE EventA; // esi
-  _BYTE v2[4]; // [esp+8h] [ebp-5Ch] BYREF
-  char v3[8]; // [esp+Ch] [ebp-58h] BYREF
-  _DWORD v4[20]; // [esp+14h] [ebp-50h] BYREF
+  HANDLE EventA;
+  uint8_t v2[4];
+  char v3[8];
+  uint32_t v4[20];
 
   v2[0] = 0;
   v2[1] = 0;
@@ -492,20 +492,20 @@ static int W9x_disable_subchannel_mode()
   return BYTE1(v4[0]) != 1 ? 4 : 1;
 }
 
-static char __cdecl W9x_read_cd_sectors(
-        unsigned __int8 a1,
-        unsigned __int8 a2,
-        unsigned __int8 a3,
-        unsigned __int8 a4,
+static char W9x_read_cd_sectors(
+        uint8_t a1,
+        uint8_t a2,
+        uint8_t a3,
+        uint8_t a4,
         BYTE *a5)
 {
-  char v6; // [esp+4h] [ebp-Ch] BYREF
-  __int16 v7; // [esp+5h] [ebp-Bh]
-  char v8; // [esp+7h] [ebp-9h]
-  char v9; // [esp+8h] [ebp-8h]
-  __int16 v10; // [esp+9h] [ebp-7h]
-  char v11; // [esp+Bh] [ebp-5h]
-  int v12; // [esp+Ch] [ebp-4h]
+  char v6;
+  int16_t v7;
+  char v8;
+  char v9;
+  int16_t v10;
+  char v11;
+  int v12;
 
   if ( !subchannel_mode_enabled )
   {
@@ -518,31 +518,31 @@ static char __cdecl W9x_read_cd_sectors(
   v12 = a4;
   v8 = (75 * (a2 + 60 * a1) + (unsigned int)a3 - 150) >> 16;
   v6 = 40;
-  v9 = (unsigned __int16)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
-  v10 = (unsigned __int8)(75 * (a2 + 60 * a1) + a3 + 106);
+  v9 = (uint16_t)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
+  v10 = (uint8_t)(75 * (a2 + 60 * a1) + a3 + 106);
   return W9x_exec_scsi_cmd(&v6, 0xAu, a5, 2352 * a4);
 }
 
-static char __cdecl W9x_read_cd_with_subchannel(
-        unsigned __int8 a1,
-        unsigned __int8 a2,
-        unsigned __int8 a3,
-        unsigned __int8 a4,
+static char W9x_read_cd_with_subchannel(
+        uint8_t a1,
+        uint8_t a2,
+        uint8_t a3,
+        uint8_t a4,
         BYTE *a5,
-        _DWORD *a6)
+        uint32_t *a6)
 {
-  char result; // al
-  int v7; // esi
-  BYTE *v9; // ecx
-  _DWORD *v10; // ebx
-  int v11; // edi
-  char v12; // [esp+4h] [ebp-Ch] BYREF
-  __int16 v13; // [esp+5h] [ebp-Bh]
-  char v14; // [esp+7h] [ebp-9h]
-  char v15; // [esp+8h] [ebp-8h]
-  __int16 v16; // [esp+9h] [ebp-7h]
-  char v17; // [esp+Bh] [ebp-5h]
-  int v18; // [esp+Ch] [ebp-4h]
+  char result;
+  int v7;
+  BYTE *v9;
+  uint32_t *v10;
+  int v11;
+  char v12;
+  int16_t v13;
+  char v14;
+  char v15;
+  int16_t v16;
+  char v17;
+  int v18;
 
   if ( !subchannel_mode_enabled )
   {
@@ -551,13 +551,13 @@ static char __cdecl W9x_read_cd_with_subchannel(
     subchannel_mode_enabled = 1;
   }
   v17 = 0;
-  v16 = (unsigned __int8)(75 * (a2 + 60 * a1) + a3 + 106);
+  v16 = (uint8_t)(75 * (a2 + 60 * a1) + a3 + 106);
   v18 = 0x10000;
   v13 = 0;
   v7 = a4;
   v14 = (75 * (a2 + 60 * a1) + (unsigned int)a3 - 150) >> 16;
   v12 = -40;
-  v15 = (unsigned __int16)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
+  v15 = (uint16_t)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
   BYTE1(v18) = a4;
   result = W9x_exec_scsi_cmd(&v12, 0xCu, a5, 2368 * a4);
   if ( a4 )
@@ -566,10 +566,10 @@ static char __cdecl W9x_read_cd_with_subchannel(
     do
     {
       v10 = a6;
-      *a6 = *(_DWORD *)v9;
-      a6[1] = *((_DWORD *)v9 + 1);
-      a6[2] = *((_DWORD *)v9 + 2);
-      v11 = *((_DWORD *)v9 + 3);
+      *a6 = *(uint32_t *)v9;
+      a6[1] = *((uint32_t *)v9 + 1);
+      a6[2] = *((uint32_t *)v9 + 2);
+      v11 = *((uint32_t *)v9 + 3);
       v9 += 2368;
       a6 += 4;
       --v7;
@@ -580,100 +580,100 @@ static char __cdecl W9x_read_cd_with_subchannel(
   return result;
 }
 
-static char __cdecl W9x_read_cd_data_only(
-        unsigned __int8 a1,
-        unsigned __int8 a2,
-        unsigned __int8 a3,
-        unsigned __int8 a4,
+static char W9x_read_cd_data_only(
+        uint8_t a1,
+        uint8_t a2,
+        uint8_t a3,
+        uint8_t a4,
         BYTE *a5)
 {
-  char v6; // [esp+0h] [ebp-Ch] BYREF
-  __int16 v7; // [esp+1h] [ebp-Bh]
-  char v8; // [esp+3h] [ebp-9h]
-  char v9; // [esp+4h] [ebp-8h]
-  __int16 v10; // [esp+5h] [ebp-7h]
-  char v11; // [esp+7h] [ebp-5h]
-  unsigned __int8 v12; // [esp+8h] [ebp-4h]
-  char v13; // [esp+9h] [ebp-3h]
-  __int16 v14; // [esp+Ah] [ebp-2h]
+  char v6;
+  int16_t v7;
+  char v8;
+  char v9;
+  int16_t v10;
+  char v11;
+  uint8_t v12;
+  char v13;
+  int16_t v14;
 
   v11 = 0;
   v14 = 0;
-  v10 = (unsigned __int8)(75 * (a2 + 60 * a1) + a3 + 106);
+  v10 = (uint8_t)(75 * (a2 + 60 * a1) + a3 + 106);
   v7 = 0;
   v12 = a4;
   v8 = (75 * (a2 + 60 * a1) + (unsigned int)a3 - 150) >> 16;
   v6 = -66;
-  v9 = (unsigned __int16)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
+  v9 = (uint16_t)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
   v13 = -8;
   return W9x_exec_scsi_cmd(&v6, 0xCu, a5, 2352 * a4);
 }
 
-static char __cdecl W9x_read_cd_subchannel(
-        unsigned __int8 a1,
-        unsigned __int8 a2,
-        unsigned __int8 a3,
-        unsigned __int8 a4,
+static char W9x_read_cd_subchannel(
+        uint8_t a1,
+        uint8_t a2,
+        uint8_t a3,
+        uint8_t a4,
         BYTE *a5)
 {
-  char v6; // [esp+0h] [ebp-Ch] BYREF
-  __int16 v7; // [esp+1h] [ebp-Bh]
-  char v8; // [esp+3h] [ebp-9h]
-  char v9; // [esp+4h] [ebp-8h]
-  __int16 v10; // [esp+5h] [ebp-7h]
-  char v11; // [esp+7h] [ebp-5h]
-  unsigned __int8 v12; // [esp+8h] [ebp-4h]
-  char v13; // [esp+9h] [ebp-3h]
-  __int16 v14; // [esp+Ah] [ebp-2h]
+  char v6;
+  int16_t v7;
+  char v8;
+  char v9;
+  int16_t v10;
+  char v11;
+  uint8_t v12;
+  char v13;
+  int16_t v14;
 
   v11 = 0;
-  v10 = (unsigned __int8)(75 * (a2 + 60 * a1) + a3 + 106);
+  v10 = (uint8_t)(75 * (a2 + 60 * a1) + a3 + 106);
   v7 = 0;
   v12 = a4;
   v8 = (75 * (a2 + 60 * a1) + (unsigned int)a3 - 150) >> 16;
   v6 = -66;
-  v9 = (unsigned __int16)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
+  v9 = (uint16_t)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
   v13 = -8;
   v14 = 2;
   return W9x_exec_scsi_cmd(&v6, 0xCu, a5, 2368 * a4);
 }
 
-static char __cdecl W9x_read_cd_subchannel2(
-        unsigned __int8 a1,
-        unsigned __int8 a2,
-        unsigned __int8 a3,
-        unsigned __int8 a4,
+static char W9x_read_cd_subchannel2(
+        uint8_t a1,
+        uint8_t a2,
+        uint8_t a3,
+        uint8_t a4,
         BYTE *a5)
 {
-  char v6; // [esp+0h] [ebp-Ch] BYREF
-  __int16 v7; // [esp+1h] [ebp-Bh]
-  char v8; // [esp+3h] [ebp-9h]
-  char v9; // [esp+4h] [ebp-8h]
-  __int16 v10; // [esp+5h] [ebp-7h]
-  char v11; // [esp+7h] [ebp-5h]
-  __int16 v12; // [esp+8h] [ebp-4h]
-  __int16 v13; // [esp+Ah] [ebp-2h]
+  char v6;
+  int16_t v7;
+  char v8;
+  char v9;
+  int16_t v10;
+  char v11;
+  int16_t v12;
+  int16_t v13;
 
   v11 = 0;
-  v10 = (unsigned __int8)(75 * (a2 + 60 * a1) + a3 + 106);
+  v10 = (uint8_t)(75 * (a2 + 60 * a1) + a3 + 106);
   v12 = a4;
   v8 = (75 * (a2 + 60 * a1) + (unsigned int)a3 - 150) >> 16;
   v6 = -66;
   v7 = 4;
-  v9 = (unsigned __int16)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
+  v9 = (uint16_t)(75 * (a2 + 60 * a1) + a3 - 150) >> 8;
   v13 = 2;
   return W9x_exec_scsi_cmd(&v6, 0xCu, a5, 16 * a4);
 }
 
-static char __cdecl W9x_seek_cd(int a1)
+static char W9x_seek_cd(int a1)
 {
-  __int16 v2; // [esp+0h] [ebp-Ch] BYREF
-  char v3; // [esp+2h] [ebp-Ah]
-  char v4; // [esp+3h] [ebp-9h]
-  char v5; // [esp+4h] [ebp-8h]
-  char v6; // [esp+5h] [ebp-7h]
-  __int16 v7; // [esp+6h] [ebp-6h]
-  __int16 v8; // [esp+8h] [ebp-4h]
+  int16_t v2;
+  char v3;
+  char v4;
+  char v5;
+  char v6;
+  int16_t v7;
+  int16_t v8;
 
   v7 = 0;
   v8 = 0;
@@ -685,17 +685,17 @@ static char __cdecl W9x_seek_cd(int a1)
   return W9x_exec_scsi_cmd(&v2, 0xAu, nullptr, 0);
 }
 
-static char __cdecl W9x_read_subchannel_status(BYTE *a1)
+static char W9x_read_subchannel_status(BYTE *a1)
 {
-  _DWORD v2[2]; // [esp+0h] [ebp-Ch] BYREF
-  char v3[4]; // [esp+8h] [ebp-4h]
+  uint32_t v2[2];
+  char v3[4];
 
   v2[1] = 0;
   v3[1] = 0;
-  *(_DWORD *)a1 = 0;
-  *((_DWORD *)a1 + 1) = 0;
-  *((_DWORD *)a1 + 2) = 0;
-  *((_DWORD *)a1 + 3) = 0;
+  *(uint32_t *)a1 = 0;
+  *((uint32_t *)a1 + 1) = 0;
+  *((uint32_t *)a1 + 2) = 0;
+  *((uint32_t *)a1 + 3) = 0;
   v2[0] = 20972098;
   v3[0] = 16;
   return W9x_exec_scsi_cmd(v2, 0xAu, a1, 0x10u);
@@ -703,54 +703,54 @@ static char __cdecl W9x_read_subchannel_status(BYTE *a1)
 
 char W9x_cdrom_subchannel_read()
 {
-  char result; // al
-  int v1; // ebp
-  FILE *v2; // esi
-  int v3; // esi
-  int v4; // ebx
-  int v5; // edi
-  _DWORD *v6; // eax
-  int v7; // ecx
-  int v8; // edi
-  int v9; // esi
-  _DWORD *v10; // eax
-  FILE *v11; // eax
-  FILE *v12; // esi
-  int v13; // ebp
-  unsigned __int8 i; // bl
-  char *v15; // edi
-  FILE *v16; // eax
-  FILE *v17; // esi
-  int v18; // esi
-  unsigned __int8 v19; // al
-  int v20; // ecx
-  _DWORD *v21; // esi
-  int v22; // ebp
-  _DWORD *v23; // edx
-  int v24; // eax
-  bool v25; // cf
-  FILE *v26; // esi
-  int v27; // esi
-  unsigned __int8 j; // bl
-  int v29; // eax
-  _DWORD *v30; // ecx
-  int v31; // edx
-  _DWORD *v32; // esi
-  int v33; // edi
-  FILE *v34; // eax
-  int v35; // ebp
-  unsigned __int8 k; // bl
-  char *v37; // edi
-  FILE *v38; // esi
-  int v39; // [esp+10h] [ebp-5208h]
-  unsigned __int8 v40; // [esp+10h] [ebp-5208h]
-  unsigned __int8 v41; // [esp+10h] [ebp-5208h]
-  unsigned __int8 v42; // [esp+10h] [ebp-5208h]
-  unsigned __int8 v43; // [esp+10h] [ebp-5208h]
-  char v44; // [esp+14h] [ebp-5204h]
-  _DWORD v45[256]; // [esp+18h] [ebp-5200h] BYREF
-  char Buffer[1024]; // [esp+418h] [ebp-4E00h] BYREF
-  _WORD v47[9472]; // [esp+818h] [ebp-4A00h] BYREF
+  char result;
+  int v1;
+  FILE *v2;
+  int v3;
+  int v4;
+  int v5;
+  uint32_t *v6;
+  int v7;
+  int v8;
+  int v9;
+  uint32_t *v10;
+  FILE *v11;
+  FILE *v12;
+  int v13;
+  uint8_t i;
+  char *v15;
+  FILE *v16;
+  FILE *v17;
+  int v18;
+  uint8_t v19;
+  int v20;
+  uint32_t *v21;
+  int v22;
+  uint32_t *v23;
+  int v24;
+  bool v25;
+  FILE *v26;
+  int v27;
+  uint8_t j;
+  int v29;
+  uint32_t *v30;
+  int v31;
+  uint32_t *v32;
+  int v33;
+  FILE *v34;
+  int v35;
+  uint8_t k;
+  char *v37;
+  FILE *v38;
+  int v39;
+  uint8_t v40;
+  uint8_t v41;
+  uint8_t v42;
+  uint8_t v43;
+  char v44;
+  uint32_t v45[256];
+  char Buffer[1024];
+  uint16_t v47[9472];
 
   result = cd_savefake_flag;
   cached_sector_lba = -1;
@@ -855,16 +855,16 @@ char W9x_cdrom_subchannel_read()
           do
           {
             v10 = (char *)m3s_q_cache + v7;
-            v45[0] = *(_DWORD *)((char *)m3s_q_cache + v7);
-            v45[1] = *(_DWORD *)((char *)m3s_q_cache + v7 + 4);
-            v45[2] = *(_DWORD *)((char *)m3s_q_cache + v7 + 8);
-            v45[3] = *(_DWORD *)((char *)m3s_q_cache + v7 + 12);
+            v45[0] = *(uint32_t *)((char *)m3s_q_cache + v7);
+            v45[1] = *(uint32_t *)((char *)m3s_q_cache + v7 + 4);
+            v45[2] = *(uint32_t *)((char *)m3s_q_cache + v7 + 8);
+            v45[3] = *(uint32_t *)((char *)m3s_q_cache + v7 + 12);
             *v10 = 0;
             v10[1] = 0;
             v10[2] = 0;
             v10[3] = 0;
-            *((_BYTE *)m3s_q_cache + v7) = 65;
-            *(_WORD *)((char *)m3s_q_cache + v7 + 1) = HIWORD(v45[1]);
+            *((uint8_t *)m3s_q_cache + v7) = 65;
+            *(uint16_t *)((char *)m3s_q_cache + v7 + 1) = HIWORD(v45[1]);
             v7 += 16;
             *((char *)m3s_q_cache + v7 - 13) = BYTE1(v45[3]) % 10 + 16 * (BYTE1(v45[3]) / 10);
             *((char *)m3s_q_cache + v7 - 12) = BYTE2(v45[3]) % 10 + 16 * (BYTE2(v45[3]) / 10);
@@ -903,7 +903,7 @@ char W9x_cdrom_subchannel_read()
         if ( LOWORD(v45[2]) != 5634 )
           return result;
         result = HIBYTE(v45[5]);
-        if ( *(_WORD *)((char *)&v45[5] + 3) != 512 || BYTE1(v45[6]) != 23 )
+        if ( *(uint16_t *)((char *)&v45[5] + 3) != 512 || BYTE1(v45[6]) != 23 )
           return result;
         cd_read_mode = 8;
         sector_stride = 2352;
@@ -944,13 +944,13 @@ LABEL_101:
       }
       memset(v47, 0xAAu, 0x1F9Cu);
       W9x_read_cd_subchannel(0, 2u, 0x10u, 2u, (BYTE *)v47);
-      if ( !LOBYTE(v47[6]) && *(_WORD *)((char *)&v47[6] + 1) == 5634 )
+      if ( !LOBYTE(v47[6]) && *(uint16_t *)((char *)&v47[6] + 1) == 5634 )
       {
         if ( !(HIBYTE(v47[1179]) % 10 + 16 * (HIBYTE(v47[1179]) / 10))
           && LOBYTE(v47[1180]) % 10 + 16 * (LOBYTE(v47[1180]) / 10) == 2
           && HIBYTE(v47[1180]) % 10 + 16 * (HIBYTE(v47[1180]) / 10) == 22
           && !LOBYTE(v47[1190])
-          && *(_WORD *)((char *)&v47[1190] + 1) == 5890
+          && *(uint16_t *)((char *)&v47[1190] + 1) == 5890
           && !(HIBYTE(v47[2363]) % 10 + 16 * (HIBYTE(v47[2363]) / 10))
           && LOBYTE(v47[2364]) % 10 + 16 * (LOBYTE(v47[2364]) / 10) == 2
           && HIBYTE(v47[2364]) % 10 + 16 * (HIBYTE(v47[2364]) / 10) == 23 )
@@ -981,25 +981,25 @@ LABEL_101:
                 v23[1] = v21[1];
                 v23[2] = v21[2];
                 v23[3] = v21[3];
-                v24 = *((unsigned __int8 *)m3s_q_cache + v20 + 3);
+                v24 = *((uint8_t *)m3s_q_cache + v20 + 3);
                 v20 += 16;
                 v21 += 592;
                 *((char *)m3s_q_cache + v20 - 13) = v24 % 10 + 16 * (v24 / 10);
-                *((char *)m3s_q_cache + v20 - 12) = (unsigned __int8)*((char *)m3s_q_cache + v20 - 12) % 10
-                                                   + 16 * ((unsigned __int8)*((char *)m3s_q_cache + v20 - 12) / 10);
-                *((char *)m3s_q_cache + v20 - 11) = (unsigned __int8)*((char *)m3s_q_cache + v20 - 11) % 10
-                                                   + 16 * ((unsigned __int8)*((char *)m3s_q_cache + v20 - 11) / 10);
-                *((char *)m3s_q_cache + v20 - 9) = (unsigned __int8)*((char *)m3s_q_cache + v20 - 9) % 10
-                                                  + 16 * ((unsigned __int8)*((char *)m3s_q_cache + v20 - 9) / 10);
-                *((char *)m3s_q_cache + v20 - 8) = (unsigned __int8)*((char *)m3s_q_cache + v20 - 8) % 10
-                                                  + 16 * ((unsigned __int8)*((char *)m3s_q_cache + v20 - 8) / 10);
+                *((char *)m3s_q_cache + v20 - 12) = (uint8_t)*((char *)m3s_q_cache + v20 - 12) % 10
+                                                   + 16 * ((uint8_t)*((char *)m3s_q_cache + v20 - 12) / 10);
+                *((char *)m3s_q_cache + v20 - 11) = (uint8_t)*((char *)m3s_q_cache + v20 - 11) % 10
+                                                   + 16 * ((uint8_t)*((char *)m3s_q_cache + v20 - 11) / 10);
+                *((char *)m3s_q_cache + v20 - 9) = (uint8_t)*((char *)m3s_q_cache + v20 - 9) % 10
+                                                  + 16 * ((uint8_t)*((char *)m3s_q_cache + v20 - 9) / 10);
+                *((char *)m3s_q_cache + v20 - 8) = (uint8_t)*((char *)m3s_q_cache + v20 - 8) % 10
+                                                  + 16 * ((uint8_t)*((char *)m3s_q_cache + v20 - 8) / 10);
                 --v22;
-                *((char *)m3s_q_cache + v20 - 7) = (unsigned __int8)*((char *)m3s_q_cache + v20 - 7) % 10
-                                                  + 16 * ((unsigned __int8)*((char *)m3s_q_cache + v20 - 7) / 10);
+                *((char *)m3s_q_cache + v20 - 7) = (uint8_t)*((char *)m3s_q_cache + v20 - 7) % 10
+                                                  + 16 * ((uint8_t)*((char *)m3s_q_cache + v20 - 7) / 10);
               }
               while ( v22 );
               v19 = v44 + 5;
-              v25 = (unsigned __int8)(v44 + 5) < 0x4Bu;
+              v25 = (uint8_t)(v44 + 5) < 0x4Bu;
               v44 += 5;
               v18 = v20;
             }
@@ -1073,9 +1073,9 @@ LABEL_88:
       }
       memset(v47, 0xAAu, 0x1F9Cu);
       W9x_read_cd_subchannel2(0, 2u, 0x10u, 2u, (BYTE *)v47);
-      if ( *(_WORD *)((char *)&v47[3] + 1) != 512
+      if ( *(uint16_t *)((char *)&v47[3] + 1) != 512
         || HIBYTE(v47[4]) != 22
-        || *(_WORD *)((char *)&v47[11] + 1) != 512
+        || *(uint16_t *)((char *)&v47[11] + 1) != 512
         || HIBYTE(v47[12]) != 23 )
       {
         return dbg_print(" NO.\n");
@@ -1119,41 +1119,41 @@ LABEL_36:
   return result;
 }
 
-int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, char *Buffer)
+int W9x_cdrom_read_data(uint8_t a1, uint8_t a2, uint8_t a3, char *Buffer)
 {
-  unsigned __int8 v4; // dl
-  unsigned __int8 v6; // bl
-  int v7; // edi
-  int v9; // eax
-  char *v10; // ebp
-  unsigned int v11; // eax
-  int *v12; // eax
-  int *v13; // edx
-  int v14; // ecx
-  int v15; // esi
-  __int64 v16; // rax
-  __int64 v17; // rax
-  __int64 v18; // rax
-  __int64 v19; // rax
-  int *v20; // edx
-  int v21; // ecx
-  int v22; // eax
-  int v23; // ecx
-  int *v24; // eax
-  int v25; // ecx
-  int v26; // edx
-  int v27; // eax
-  int v28; // edx
-  int *v29; // ecx
-  int *v30; // ecx
-  char *v31; // eax
-  int *v32; // eax
-  int *v33; // ecx
-  char *v34; // eax
-  int v35; // eax
-  int v36; // [esp+18h] [ebp-4h]
-  int v37; // [esp+18h] [ebp-4h]
-  unsigned int v38; // [esp+28h] [ebp+Ch]
+  uint8_t v4;
+  uint8_t v6;
+  int v7;
+  int v9;
+  char *v10;
+  unsigned int v11;
+  int *v12;
+  int *v13;
+  int v14;
+  int v15;
+  int64_t v16;
+  int64_t v17;
+  int64_t v18;
+  int64_t v19;
+  int *v20;
+  int v21;
+  int v22;
+  int v23;
+  int *v24;
+  int v25;
+  int v26;
+  int v27;
+  int v28;
+  int *v29;
+  int *v30;
+  char *v31;
+  int *v32;
+  int *v33;
+  char *v34;
+  int v35;
+  int v36;
+  int v37;
+  unsigned int v38;
 
   v4 = a1;
   v6 = a2;
@@ -1196,20 +1196,20 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
             if ( W9x_read_cd_subchannel(v4, a2, a3, 8u, (BYTE *)cd_sector_cache) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
             sub_q_cur3 = sub_q_rest[0];
-            sub_q_cur0 = *(_DWORD *)sub_q_cache;
+            sub_q_cur0 = *(uint32_t *)sub_q_cache;
             sub_q_cur1 = sub_q_sec_frame;
             sub_q_cur2 = sub_q_asec_aframe;
-            HIBYTE(sub_q_cur0) = (unsigned __int8)sub_q_minute % 10 + 16 * ((unsigned __int8)sub_q_minute / 10);
-            LOBYTE(sub_q_cur1) = (unsigned __int8)sub_q_sec_frame % 10 + 16 * ((unsigned __int8)sub_q_sec_frame / 10);
+            HIBYTE(sub_q_cur0) = (uint8_t)sub_q_minute % 10 + 16 * ((uint8_t)sub_q_minute / 10);
+            LOBYTE(sub_q_cur1) = (uint8_t)sub_q_sec_frame % 10 + 16 * ((uint8_t)sub_q_sec_frame / 10);
             BYTE1(sub_q_cur1) = BYTE1(sub_q_sec_frame) % 10 + 16 * (BYTE1(sub_q_sec_frame) / 10);
             HIBYTE(sub_q_cur1) = HIBYTE(sub_q_sec_frame) % 10 + 16 * (HIBYTE(sub_q_sec_frame) / 10);
-            LOBYTE(sub_q_cur2) = (unsigned __int8)sub_q_asec_aframe % 10 + 16 * ((unsigned __int8)sub_q_asec_aframe / 10);
+            LOBYTE(sub_q_cur2) = (uint8_t)sub_q_asec_aframe % 10 + 16 * ((uint8_t)sub_q_asec_aframe / 10);
             BYTE1(sub_q_cur2) = BYTE1(sub_q_asec_aframe) % 10 + 16 * (BYTE1(sub_q_asec_aframe) / 10);
             goto LABEL_66;
           case 3:
             if ( W9x_read_cd_subchannel(v4, a2, a3, 8u, (BYTE *)cd_sector_cache) )
               dbg_print(" * Error reading CD: %d,%d,%d\n", a1, a2, v7);
-            sub_q_cur0 = *(_DWORD *)sub_q_cache;
+            sub_q_cur0 = *(uint32_t *)sub_q_cache;
             sub_q_cur1 = sub_q_sec_frame;
             sub_q_cur2 = sub_q_asec_aframe;
             sub_q_cur3 = sub_q_rest[0];
@@ -1233,10 +1233,10 @@ int __cdecl W9x_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned
             v36 = 8;
             do
             {
-              *v30 = *(_DWORD *)v31;
-              v30[1] = *((_DWORD *)v31 + 1);
-              v30[2] = *((_DWORD *)v31 + 2);
-              v30[3] = *((_DWORD *)v31 + 3);
+              *v30 = *(uint32_t *)v31;
+              v30[1] = *((uint32_t *)v31 + 1);
+              v30[2] = *((uint32_t *)v31 + 2);
+              v30[3] = *((uint32_t *)v31 + 3);
               v31 += 96;
               v30 += 4;
               --v36;
@@ -1295,10 +1295,10 @@ LABEL_64:
             v37 = 8;
             do
             {
-              *v33 = *(_DWORD *)v34;
-              v33[1] = *((_DWORD *)v34 + 1);
-              v33[2] = *((_DWORD *)v34 + 2);
-              v33[3] = *((_DWORD *)v34 + 3);
+              *v33 = *(uint32_t *)v34;
+              v33[1] = *((uint32_t *)v34 + 1);
+              v33[2] = *((uint32_t *)v34 + 2);
+              v33[3] = *((uint32_t *)v34 + 3);
               v34 += 96;
               v33 += 4;
               --v37;
@@ -1365,14 +1365,14 @@ LABEL_66:
             sub_q_cur1 = v14;
             sub_q_cur2 = v15;
             HIBYTE(sub_q_cur0) = HIBYTE(sub_q_cur0) % 10 + 16 * (HIBYTE(sub_q_cur0) / 10);
-            LOBYTE(sub_q_cur1) = (unsigned __int8)v14 % 10 + 16 * ((unsigned __int8)v14 / 10);
-            v16 = (unsigned __int8)(16 * (BYTE1(v14) / 10));
+            LOBYTE(sub_q_cur1) = (uint8_t)v14 % 10 + 16 * ((uint8_t)v14 / 10);
+            v16 = (uint8_t)(16 * (BYTE1(v14) / 10));
             BYTE1(sub_q_cur1) = BYTE4(v16) + v16;
-            v17 = (unsigned __int8)(16 * (HIBYTE(v14) / 10));
+            v17 = (uint8_t)(16 * (HIBYTE(v14) / 10));
             HIBYTE(sub_q_cur1) = BYTE4(v17) + v17;
-            v18 = (unsigned __int8)(16 * ((unsigned __int8)v15 / 10));
+            v18 = (uint8_t)(16 * ((uint8_t)v15 / 10));
             LOBYTE(sub_q_cur2) = BYTE4(v18) + v18;
-            v19 = (unsigned __int8)(16 * (BYTE1(v15) / 10));
+            v19 = (uint8_t)(16 * (BYTE1(v15) / 10));
             BYTE1(sub_q_cur2) = BYTE4(v19) + v19;
             break;
           case 3:
@@ -1437,33 +1437,33 @@ LABEL_66:
   }
 }
 
-static char __cdecl W9x_find_track_by_msf(unsigned int a1, char a2)
+static char W9x_find_track_by_msf(unsigned int a1, char a2)
 {
-  char v2; // bl
-  unsigned __int8 v4; // [esp+8h] [ebp-4h]
+  char v2;
+  uint8_t v4;
 
   v4 = 0;
-  if ( !(_BYTE)w9x_cdrom_info )
+  if ( !(uint8_t)w9x_cdrom_info )
     return 0;
   v2 = a1;
   while ( 1 )
   {
-    W9x_bcd_to_dword(&a1, (unsigned __int8 *)(8 * v4 + 5262504));
+    W9x_bcd_to_dword(&a1, (uint8_t *)(8 * v4 + 5262504));
     a1 += 150;
-    if ( (unsigned __int8)(a1 / 0x4B / 0x3C) == v2 && a1 / 0x4B % 0x3C == a2 )
+    if ( (uint8_t)(a1 / 0x4B / 0x3C) == v2 && a1 / 0x4B % 0x3C == a2 )
       break;
-    if ( ++v4 >= (unsigned __int8)w9x_cdrom_info )
+    if ( ++v4 >= (uint8_t)w9x_cdrom_info )
       return 0;
   }
   return a1 % 0x4B;
 }
 
-char __cdecl W9x_play_cdda(unsigned int a1, int a2, unsigned __int8 track_by_msf)
+char W9x_play_cdda(unsigned int a1, int a2, uint8_t track_by_msf)
 {
-  char result; // al
-  unsigned __int8 v4; // bl
-  HANDLE EventA; // esi
-  _DWORD v6[20]; // [esp+4h] [ebp-50h] BYREF
+  char result;
+  uint8_t v4;
+  HANDLE EventA;
+  uint32_t v6[20];
 
   result = sound_use_cdda;
   if ( sound_use_cdda )
@@ -1473,7 +1473,7 @@ char __cdecl W9x_play_cdda(unsigned int a1, int a2, unsigned __int8 track_by_msf
     BYTE1(w9x_play_cdb2) = track_by_msf;
     HIBYTE(w9x_play_cdb) = a1;
     LOBYTE(w9x_play_cdb2) = v4;
-    W9x_bcd_to_dword(&a2, (unsigned __int8 *)(8 * (unsigned __int8)w9x_cdrom_info + 5262504));
+    W9x_bcd_to_dword(&a2, (uint8_t *)(8 * (uint8_t)w9x_cdrom_info + 5262504));
     LOBYTE(w9x_play_cdb3) = (a2 + 150) % 0x4Bu;
     BYTE2(w9x_play_cdb2) = (a2 + 150) / 0x4Bu / 0x3C;
     HIBYTE(w9x_play_cdb2) = (a2 + 150) / 0x4Bu % 0x3C;
@@ -1498,16 +1498,16 @@ char __cdecl W9x_play_cdda(unsigned int a1, int a2, unsigned __int8 track_by_msf
     if ( BYTE1(v6[0]) == 1 )
       w9x_cdda_playing = 1;
     else
-      return printf(" * Play cdda error (%d, %d, %d) \n", (unsigned __int8)a1, v4, track_by_msf);
+      return printf(" * Play cdda error (%d, %d, %d) \n", (uint8_t)a1, v4, track_by_msf);
   }
   return result;
 }
 
 char W9x_cdrom_stop()
 {
-  char result; // al
-  HANDLE EventA; // esi
-  _DWORD v2[20]; // [esp+0h] [ebp-50h] BYREF
+  char result;
+  HANDLE EventA;
+  uint32_t v2[20];
 
   BYTE1(w9x_stop_cdb) = (32 * cdrom_lun) | 1;
   result = sound_use_cdda;
@@ -1545,8 +1545,8 @@ char W9x_cdrom_stop()
 
 static BOOL W9x_resume_cdda()
 {
-  HANDLE EventA; // esi
-  _DWORD v2[20]; // [esp+8h] [ebp-50h] BYREF
+  HANDLE EventA;
+  uint32_t v2[20];
 
   BYTE1(w9x_resume_cdb) = (32 * cdrom_lun) | 1;
   EventA = CreateEventA(nullptr, 1, 0, nullptr);
@@ -1578,31 +1578,31 @@ void W9x_reset_cdrom_state()
   cdr_spinup_motor();
 }
 
-static char __cdecl W9x_msf_to_lba(
+static char W9x_msf_to_lba(
         unsigned int a1,
-        unsigned __int8 a2,
-        unsigned __int8 a3,
-        _BYTE *a4,
-        _BYTE *a5,
-        _BYTE *a6,
-        _BYTE *a7)
+        uint8_t a2,
+        uint8_t a3,
+        uint8_t *a4,
+        uint8_t *a5,
+        uint8_t *a6,
+        uint8_t *a7)
 {
-  char v7; // bl
-  int v8; // ebp
-  unsigned int v9; // edi
-  char result; // al
-  unsigned int v11; // ecx
-  unsigned __int8 v12; // [esp+10h] [ebp-4h]
+  char v7;
+  int v8;
+  unsigned int v9;
+  char result;
+  unsigned int v11;
+  uint8_t v12;
 
   v12 = 0;
   v7 = w9x_cdrom_info;
-  v8 = (unsigned __int8)w9x_cdrom_info;
+  v8 = (uint8_t)w9x_cdrom_info;
   v9 = (a3 & 0xF) % 10
      + 75
-     * ((a2 & 0xF) % 10 + 10 * ((a2 >> 4) + 6 * ((unsigned __int8)(a1 & 0xF) % 10 + 10 * ((unsigned __int8)a1 >> 4))))
+     * ((a2 & 0xF) % 10 + 10 * ((a2 >> 4) + 6 * ((uint8_t)(a1 & 0xF) % 10 + 10 * ((uint8_t)a1 >> 4))))
      + 10 * (a3 >> 4)
      - 150;
-  W9x_bcd_to_dword(&a1, (unsigned __int8 *)(8 * (unsigned __int8)w9x_cdrom_info + 5262504));
+  W9x_bcd_to_dword(&a1, (uint8_t *)(8 * (uint8_t)w9x_cdrom_info + 5262504));
   result = a1;
   if ( a1 > v9 )
   {
@@ -1610,15 +1610,15 @@ static char __cdecl W9x_msf_to_lba(
     {
       while ( 1 )
       {
-        W9x_bcd_to_dword(&a1, (unsigned __int8 *)(8 * v12 + 5262512));
+        W9x_bcd_to_dword(&a1, (uint8_t *)(8 * v12 + 5262512));
         if ( v12 + 1 < v8 )
           a1 -= a1 % 0x4B;
         if ( a1 > v9 )
           break;
-        if ( ++v12 >= (unsigned __int8)w9x_cdrom_info )
+        if ( ++v12 >= (uint8_t)w9x_cdrom_info )
           goto LABEL_8;
       }
-      W9x_bcd_to_dword(&a1, (unsigned __int8 *)(8 * v12 + 5262504));
+      W9x_bcd_to_dword(&a1, (uint8_t *)(8 * v12 + 5262504));
       v11 = v9 + a1 % 0x4B - a1;
       *a4 = (v12 + 1) % 10 + 16 * ((v12 + 1) / 10);
       *a5 = v11 / 0x4B / 0x3C % 0xA + 16 * (v11 / 0x4B / 0x3C / 0xA);
@@ -1640,41 +1640,41 @@ LABEL_8:
   return result;
 }
 
-unsigned __int8 __cdecl W9x_get_track_start_lba(
-        unsigned __int8 a1,
-        unsigned __int8 a2,
-        unsigned __int8 a3,
-        unsigned __int8 *a4,
-        unsigned __int8 *a5,
-        unsigned __int8 *a6)
+uint8_t W9x_get_track_start_lba(
+        uint8_t a1,
+        uint8_t a2,
+        uint8_t a3,
+        uint8_t *a4,
+        uint8_t *a5,
+        uint8_t *a6)
 {
-  unsigned __int8 v6; // bl
-  unsigned int v7; // esi
-  unsigned __int8 result; // al
-  unsigned int v9; // ecx
-  unsigned int v10; // et2
-  unsigned int v11; // [esp+10h] [ebp-8h] BYREF
-  int v12; // [esp+14h] [ebp-4h]
+  uint8_t v6;
+  unsigned int v7;
+  uint8_t result;
+  unsigned int v9;
+  unsigned int v10;
+  unsigned int v11;
+  int v12;
 
   v6 = 0;
   LOBYTE(v12) = 0;
   v7 = (a3 & 0xF) % 10
      + 75 * ((a2 & 0xF) % 10 + 10 * ((a2 >> 4) + 6 * ((a1 & 0xF) % 10 + 10 * (a1 >> 4))))
      + 10 * (a3 >> 4);
-  W9x_bcd_to_dword(&v11, (unsigned __int8 *)(8 * (unsigned __int8)w9x_cdrom_info + 5262504));
+  W9x_bcd_to_dword(&v11, (uint8_t *)(8 * (uint8_t)w9x_cdrom_info + 5262504));
   if ( v11 > v7 )
   {
     result = w9x_cdrom_info;
-    if ( (_BYTE)w9x_cdrom_info )
+    if ( (uint8_t)w9x_cdrom_info )
     {
       while ( 1 )
       {
-        W9x_bcd_to_dword(&v11, (unsigned __int8 *)(8 * (unsigned __int8)v12 + 5262512));
+        W9x_bcd_to_dword(&v11, (uint8_t *)(8 * (uint8_t)v12 + 5262512));
         if ( v11 > v7 )
           break;
         result = w9x_cdrom_info;
         LOBYTE(v12) = ++v6;
-        if ( v6 >= (unsigned __int8)w9x_cdrom_info )
+        if ( v6 >= (uint8_t)w9x_cdrom_info )
           return result;
       }
       v9 = v11 % 0x4B;
@@ -1682,7 +1682,7 @@ unsigned __int8 __cdecl W9x_get_track_start_lba(
       *a4 = v11 / 0x4B / 0x3C;
       *a5 = v10;
       *a6 = v9;
-      return (unsigned __int8)a5;
+      return (uint8_t)a5;
     }
   }
   else
@@ -1695,22 +1695,22 @@ unsigned __int8 __cdecl W9x_get_track_start_lba(
   return result;
 }
 
-char __cdecl W9x_verify_subchannel_data(unsigned int a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
+char W9x_verify_subchannel_data(unsigned int a1, uint8_t a2, uint8_t a3, int a4)
 {
-  char v4; // bl
-  char v5; // cl
-  char result; // al
-  char v7; // [esp+Fh] [ebp-1h]
-  unsigned __int8 v8; // [esp+18h] [ebp+8h]
-  unsigned __int8 v9; // [esp+18h] [ebp+8h]
-  unsigned __int8 v10; // [esp+1Ch] [ebp+Ch]
-  char v11; // [esp+1Ch] [ebp+Ch]
-  unsigned __int8 v12; // [esp+1Ch] [ebp+Ch]
+  char v4;
+  char v5;
+  char result;
+  char v7;
+  uint8_t v8;
+  uint8_t v9;
+  uint8_t v10;
+  char v11;
+  uint8_t v12;
 
-  *(_DWORD *)a4 = 0;
-  *(_DWORD *)(a4 + 4) = 0;
+  *(uint32_t *)a4 = 0;
+  *(uint32_t *)(a4 + 4) = 0;
   v7 = 0;
-  if ( (_BYTE)sub_q_cur0 )
+  if ( (uint8_t)sub_q_cur0 )
   {
     if ( a3 )
     {
@@ -1729,46 +1729,46 @@ char __cdecl W9x_verify_subchannel_data(unsigned int a1, unsigned __int8 a2, uns
         LOBYTE(a1) = a1 - 1;
       }
     }
-    v4 = (unsigned __int8)a1 % 10 + 16 * ((unsigned __int8)a1 / 10);
+    v4 = (uint8_t)a1 % 10 + 16 * ((uint8_t)a1 / 10);
     v8 = a2 % 10 + 16 * (a2 / 10);
     v11 = v10 % 10 + 16 * (v10 / 10);
-    *(_DWORD *)a4 = *(int *)((char *)&sub_q_cur0 + 1);
-    *(_BYTE *)(a4 + 4) = BYTE1(sub_q_cur1);
-    *(_WORD *)(a4 + 5) = *(_WORD *)((char *)&sub_q_cur1 + 3);
-    *(_BYTE *)(a4 + 7) = BYTE1(sub_q_cur2);
-    if ( v4 != *(_BYTE *)(a4 + 5) )
+    *(uint32_t *)a4 = *(int *)((char *)&sub_q_cur0 + 1);
+    *(uint8_t *)(a4 + 4) = BYTE1(sub_q_cur1);
+    *(uint16_t *)(a4 + 5) = *(uint16_t *)((char *)&sub_q_cur1 + 3);
+    *(uint8_t *)(a4 + 7) = BYTE1(sub_q_cur2);
+    if ( v4 != *(uint8_t *)(a4 + 5) )
       v7 = 1;
-    if ( v4 != *(_BYTE *)(a4 + 2) )
+    if ( v4 != *(uint8_t *)(a4 + 2) )
       ++v7;
-    if ( v8 != *(_BYTE *)(a4 + 6) )
+    if ( v8 != *(uint8_t *)(a4 + 6) )
       ++v7;
     v5 = v7;
-    if ( ((v8 & 0xF) % 10 + 10 * (v8 >> 4) - 2) % 10 + 16 * (((v8 & 0xF) % 10 + 10 * (v8 >> 4) - 2) / 10) != *(unsigned __int8 *)(a4 + 3) )
+    if ( ((v8 & 0xF) % 10 + 10 * (v8 >> 4) - 2) % 10 + 16 * (((v8 & 0xF) % 10 + 10 * (v8 >> 4) - 2) / 10) != *(uint8_t *)(a4 + 3) )
       v5 = v7 + 1;
     result = v11;
-    if ( v11 != *(_BYTE *)(a4 + 7) )
+    if ( v11 != *(uint8_t *)(a4 + 7) )
       ++v5;
-    if ( v11 != *(_BYTE *)(a4 + 4) )
+    if ( v11 != *(uint8_t *)(a4 + 4) )
       ++v5;
-    if ( (unsigned __int8)v5 >= 2u )
+    if ( (uint8_t)v5 >= 2u )
     {
       result = 0;
-      *(_DWORD *)(a4 + 2) = 0;
-      *(_WORD *)(a4 + 6) = 0;
+      *(uint32_t *)(a4 + 2) = 0;
+      *(uint16_t *)(a4 + 6) = 0;
       if ( v4 == 3 )
         xenogears_cd_detected = 1;
     }
   }
   else
   {
-    LOBYTE(a1) = (unsigned __int8)a1 % 10 + 16 * ((unsigned __int8)a1 / 10);
+    LOBYTE(a1) = (uint8_t)a1 % 10 + 16 * ((uint8_t)a1 / 10);
     v9 = a2 % 10 + 16 * (a2 / 10);
     v12 = a3 % 10 + 16 * (a3 / 10);
-    W9x_msf_to_lba(a1, v9, v12, (_BYTE *)a4, (_BYTE *)(a4 + 2), (_BYTE *)(a4 + 3), (_BYTE *)(a4 + 4));
-    *(_BYTE *)(a4 + 1) = 1;
-    *(_BYTE *)(a4 + 5) = a1;
-    *(_BYTE *)(a4 + 6) = v9;
-    *(_BYTE *)(a4 + 7) = v12;
+    W9x_msf_to_lba(a1, v9, v12, (uint8_t *)a4, (uint8_t *)(a4 + 2), (uint8_t *)(a4 + 3), (uint8_t *)(a4 + 4));
+    *(uint8_t *)(a4 + 1) = 1;
+    *(uint8_t *)(a4 + 5) = a1;
+    *(uint8_t *)(a4 + 6) = v9;
+    *(uint8_t *)(a4 + 7) = v12;
     return v12;
   }
   return result;
@@ -1779,7 +1779,7 @@ char __cdecl W9x_verify_subchannel_data(unsigned int a1, unsigned __int8 a2, uns
 
 /* Decompiled globals (previously generated in src/_gen) */
 DWORD (__stdcall *GetASPI32SupportInfo_cb)(void);
-int (__cdecl *SendASPI32Command_cb)(LPSRB);
+int ( *SendASPI32Command_cb)(LPSRB);
 unsigned char SubchannelW9xCaching;
 unsigned char w9x_toc_buffer;
 unsigned char w9x_toc_first_track;

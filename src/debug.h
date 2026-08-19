@@ -27,10 +27,10 @@ extern unsigned char console_log_flush_pending;
 extern unsigned char console_log_enabled;
 
 /*--- SPU plugin destroy callback ---*/
-extern int (__cdecl *spu_destroy_cb)(unsigned long);
+extern int ( *spu_destroy_cb)(unsigned long);
 
 /*--- CD-ROM deinit callback ---*/
-extern int (__cdecl *cdrom_deinit_cb)(unsigned long);
+extern int ( *cdrom_deinit_cb)(unsigned long);
 
 /*--- Console management ---*/
 

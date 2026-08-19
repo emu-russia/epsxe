@@ -1,9 +1,9 @@
 ﻿#include "pch.h"
 char spu_load_plugin()
 {
-  char result; // al
-  HMODULE LibraryA; // eax
-  CHAR LibFileName[1024]; // [esp+4h] [ebp-400h] BYREF
+  char result;
+  HMODULE LibraryA;
+  CHAR LibFileName[1024];
 
   sprintf(LibFileName, "%s%s", "plugins\\", (const char *)SoundPlugin);
   result = sound_enabled;
@@ -21,7 +21,7 @@ char spu_load_plugin()
     SPUshutdown = GetProcAddress(hSpuModule, "SPUshutdown");
     if ( !SPUshutdown )
       ui_error(" * GetProcAddress error %s\n", "SPUshutdown");
-    SPUopen = (int (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUopen");
+    SPUopen = (int (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUopen");
     if ( !SPUopen )
       ui_error(" * GetProcAddress error %s\n", "SPUopen");
     SPUclose = GetProcAddress(hSpuModule, "SPUclose");
@@ -39,57 +39,57 @@ char spu_load_plugin()
     SPUplaySample = (int)GetProcAddress(hSpuModule, "SPUplaySample");
     if ( !SPUplaySample )
       ui_error(" * GetProcAddress error %s\n", "SPUplaySample");
-    SPUstartChannels1 = (char (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUstartChannels1");
+    SPUstartChannels1 = (char (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUstartChannels1");
     if ( !SPUstartChannels1 )
       ui_error(" * GetProcAddress error %s\n", "SPUstartChannels1");
-    SPUstartChannels2 = (char (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUstartChannels2");
+    SPUstartChannels2 = (char (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUstartChannels2");
     if ( !SPUstartChannels2 )
       ui_error(" * GetProcAddress error %s\n", "SPUstartChannels2");
-    SPUstopChannels1 = (char (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUstopChannels1");
+    SPUstopChannels1 = (char (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUstopChannels1");
     if ( !SPUstopChannels1 )
       ui_error(" * GetProcAddress error %s\n", "SPUstopChannels1");
-    SPUstopChannels2 = (char (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUstopChannels2");
+    SPUstopChannels2 = (char (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUstopChannels2");
     if ( !SPUstopChannels2 )
       ui_error(" * GetProcAddress error %s\n", "SPUstopChannels2");
-    SPUputOne = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUputOne");
+    SPUputOne = (int (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hSpuModule, "SPUputOne");
     if ( !SPUputOne )
       ui_error(" * GetProcAddress error %s\n", "SPUputOne");
-    SPUgetOne = (int (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUgetOne");
+    SPUgetOne = (int (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUgetOne");
     if ( !SPUgetOne )
       ui_error(" * GetProcAddress error %s\n", "SPUgetOne");
-    SPUsetAddr = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUsetAddr");
+    SPUsetAddr = (char (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hSpuModule, "SPUsetAddr");
     if ( !SPUsetAddr )
       ui_error(" * GetProcAddress error %s\n", "SPUsetAddr");
-    SPUsetPitch = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUsetPitch");
+    SPUsetPitch = (char (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hSpuModule, "SPUsetPitch");
     if ( !SPUsetPitch )
       ui_error(" * GetProcAddress error %s\n", "SPUsetPitch");
-    SPUsetVolumeL = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUsetVolumeL");
+    SPUsetVolumeL = (char (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hSpuModule, "SPUsetVolumeL");
     if ( !SPUsetVolumeL )
       ui_error(" * GetProcAddress error %s\n", "SPUsetVolumeL");
-    SPUsetVolumeR = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUsetVolumeR");
+    SPUsetVolumeR = (char (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hSpuModule, "SPUsetVolumeR");
     if ( !SPUsetVolumeR )
       ui_error(" * GetProcAddress error %s\n", "SPUsetVolumeR");
-    SPUplayADPCMchannel = (int (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUplayADPCMchannel");
+    SPUplayADPCMchannel = (int (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUplayADPCMchannel");
     if ( !SPUplayADPCMchannel )
       ui_error(" * GetProcAddress error %s\n", "SPUplayADPCMchannel");
-    SPUwriteRegister = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUwriteRegister");
+    SPUwriteRegister = (char (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hSpuModule, "SPUwriteRegister");
     if ( !SPUwriteRegister )
       spu_use_external_plugin = 0;
-    SPUreadRegister = (__int16 (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUreadRegister");
+    SPUreadRegister = (int16_t (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUreadRegister");
     if ( !SPUreadRegister )
       spu_use_external_plugin = 0;
-    SPUwriteDMA = (int (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUwriteDMA");
+    SPUwriteDMA = (int (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUwriteDMA");
     if ( !SPUwriteDMA )
       spu_use_external_plugin = 0;
     SPUreadDMA = GetProcAddress(hSpuModule, "SPUreadDMA");
     if ( !SPUreadDMA )
       spu_use_external_plugin = 0;
-    SPUregisterCallback = (char (__stdcall *)(_DWORD))GetProcAddress(hSpuModule, "SPUregisterCallback");
-    SPUfreeze = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUfreeze");
+    SPUregisterCallback = (char (__stdcall *)(uint32_t))GetProcAddress(hSpuModule, "SPUregisterCallback");
+    SPUfreeze = (int (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hSpuModule, "SPUfreeze");
     SPUupdate = (int (__stdcall *)(void))GetProcAddress(hSpuModule, "SPUupdate");
-    SPUasync = (int (*(__stdcall *)(_DWORD))(void))GetProcAddress(hSpuModule, "SPUasync");
-    SPUreadDMAMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUreadDMAMem");
-    SPUwriteDMAMem = (char (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hSpuModule, "SPUwriteDMAMem");
+    SPUasync = (int (*(__stdcall *)(uint32_t))(void))GetProcAddress(hSpuModule, "SPUasync");
+    SPUreadDMAMem = (int (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hSpuModule, "SPUreadDMAMem");
+    SPUwriteDMAMem = (char (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hSpuModule, "SPUwriteDMAMem");
     dbg_print(" * Doing spu init... \n");
     SPUinit();
     dbg_print(" * Spu open... \n");
@@ -107,7 +107,7 @@ char spu_load_plugin()
 
 char spu_destroy()
 {
-  char result; // al
+  char result;
 
   result = sound_enabled;
   if ( sound_enabled )
@@ -134,7 +134,7 @@ char spu_destroy()
 
 char spu_close()
 {
-  char result; // al
+  char result;
 
   result = sound_enabled;
   if ( sound_enabled )
@@ -155,7 +155,7 @@ char spu_close()
 
 char spu_open()
 {
-  char result; // al
+  char result;
 
   result = sound_enabled;
   if ( sound_enabled )
@@ -176,27 +176,27 @@ char spu_open()
 
 void spu_dma()
 {
-  unsigned int v0; // ebp
-  int v1; // edi
-  int v2; // esi
-  int v3; // eax
-  int v4; // esi
-  unsigned __int16 *j; // ebx
-  int v6; // esi
-  unsigned __int16 *k; // ebx
-  int v8; // esi
-  int v9; // edi
-  unsigned __int16 v10; // ax
-  int i; // esi
-  unsigned __int16 v12; // ax
+  unsigned int v0;
+  int v1;
+  int v2;
+  int v3;
+  int v4;
+  uint16_t *j;
+  int v6;
+  uint16_t *k;
+  int v8;
+  int v9;
+  uint16_t v10;
+  int i;
+  uint16_t v12;
 
   v0 = spu_dma_mem_addr;
   v1 = HIWORD(spu_dma_block_size_count);
-  v2 = (unsigned __int16)spu_dma_block_size_count;
+  v2 = (uint16_t)spu_dma_block_size_count;
   v3 = mem_dma_read(spu_dma_mem_addr);
   if ( sound_enabled )
   {
-    if ( *(_DWORD *)spu_dma_chcr_ptr == 0x1000200 )
+    if ( *(uint32_t *)spu_dma_chcr_ptr == 0x1000200 )
     {
       v8 = v1 * v2;
       if ( spu_use_external_plugin == 1 )
@@ -231,7 +231,7 @@ void spu_dma()
         }
       }
     }
-    else if ( *(_DWORD *)spu_dma_chcr_ptr == 0x1000201 )
+    else if ( *(uint32_t *)spu_dma_chcr_ptr == 0x1000201 )
     {
       if ( spu_use_external_plugin == 1 )
       {
@@ -242,25 +242,25 @@ void spu_dma()
         else
         {
           v4 = 2 * v1 * v2;
-          for ( j = (unsigned __int16 *)mem_dma_read(v0); v4; --v4 )
+          for ( j = (uint16_t *)mem_dma_read(v0); v4; --v4 )
             SPUwriteDMA(*j++);
         }
       }
       else
       {
         v6 = 2 * v1 * v2;
-        for ( k = (unsigned __int16 *)mem_dma_read(v0); v6; spu_transfer_addr += 2 )
+        for ( k = (uint16_t *)mem_dma_read(v0); v6; spu_transfer_addr += 2 )
         {
           SPUputOne(spu_transfer_addr, *k++);
           --v6;
         }
       }
     }
-    else if ( (*(_DWORD *)spu_dma_chcr_ptr & 0x1000000) != 0 )
+    else if ( (*(uint32_t *)spu_dma_chcr_ptr & 0x1000000) != 0 )
     {
       ui_error(
         "DMA[4] mode NOT implemented (%08x)\n addr (%08x) num (%04x) size (%04x)\n",
-        *(_DWORD *)spu_dma_chcr_ptr,
+        *(uint32_t *)spu_dma_chcr_ptr,
         v0,
         v1,
         v2);
@@ -268,12 +268,12 @@ void spu_dma()
   }
 }
 
-char __cdecl spu_write_register(unsigned int a1, __int16 a2)
+char spu_write_register(unsigned int a1, int16_t a2)
 {
-  char result; // al
+  char result;
 
   if ( spu_use_external_plugin == 1 )
-    return SPUwriteRegister(a1, (unsigned __int16)a2);
+    return SPUwriteRegister(a1, (uint16_t)a2);
   result = a1;
   if ( a1 > 0x1F801CC6 )
   {
@@ -292,7 +292,7 @@ char __cdecl spu_write_register(unsigned int a1, __int16 a2)
       case 0x1F801D70u:
 LABEL_7:
         if ( sound_enabled )
-          result = SPUsetVolumeL((a1 >> 4) & 0x1F, (unsigned __int16)a2);
+          result = SPUsetVolumeL((a1 >> 4) & 0x1F, (uint16_t)a2);
         break;
       case 0x1F801CD2u:
       case 0x1F801CE2u:
@@ -307,7 +307,7 @@ LABEL_7:
       case 0x1F801D72u:
 LABEL_9:
         if ( sound_enabled )
-          result = SPUsetVolumeR((a1 >> 4) & 0x1F, (unsigned __int16)a2);
+          result = SPUsetVolumeR((a1 >> 4) & 0x1F, (uint16_t)a2);
         break;
       case 0x1F801CD4u:
       case 0x1F801CE4u:
@@ -322,7 +322,7 @@ LABEL_9:
       case 0x1F801D74u:
 LABEL_11:
         if ( sound_enabled )
-          result = SPUsetPitch((a1 >> 4) & 0x1F, (unsigned __int16)a2);
+          result = SPUsetPitch((a1 >> 4) & 0x1F, (uint16_t)a2);
         break;
       case 0x1F801CD6u:
       case 0x1F801CE6u:
@@ -339,37 +339,37 @@ LABEL_11:
       case 0x1F801D88u:
         result = sound_enabled;
         if ( sound_enabled )
-          result = SPUstartChannels1((unsigned __int16)a2);
+          result = SPUstartChannels1((uint16_t)a2);
         break;
       case 0x1F801D8Au:
         result = sound_enabled;
         if ( sound_enabled )
-          result = SPUstartChannels2((unsigned __int16)a2);
+          result = SPUstartChannels2((uint16_t)a2);
         break;
       case 0x1F801D8Cu:
         result = sound_enabled;
         if ( sound_enabled )
-          result = SPUstopChannels1((unsigned __int16)a2);
+          result = SPUstopChannels1((uint16_t)a2);
         break;
       case 0x1F801D8Eu:
         result = sound_enabled;
         if ( sound_enabled )
-          result = SPUstopChannels2((unsigned __int16)a2);
+          result = SPUstopChannels2((uint16_t)a2);
         break;
       case 0x1F801DA6u:
-        spu_transfer_addr = 8 * (unsigned __int16)a2;
+        spu_transfer_addr = 8 * (uint16_t)a2;
         break;
       case 0x1F801DA8u:
         result = sound_enabled;
         if ( sound_enabled )
         {
-          result = SPUputOne(spu_transfer_addr, (unsigned __int16)a2);
+          result = SPUputOne(spu_transfer_addr, (uint16_t)a2);
           spu_transfer_addr += 2;
         }
         break;
       default:
 LABEL_26:
-        *(__int16 *)((char *)spu_register_cache + (a1 & 0x1FF)) = a2;
+        *(int16_t *)((char *)spu_register_cache + (a1 & 0x1FF)) = a2;
         result = a1;
         break;
     }
@@ -441,14 +441,14 @@ LABEL_26:
     }
 LABEL_13:
     if ( sound_enabled )
-      return SPUsetAddr((a1 >> 4) & 0x1F, (unsigned __int16)a2);
+      return SPUsetAddr((a1 >> 4) & 0x1F, (uint16_t)a2);
   }
   return result;
 }
 
-__int16 __cdecl spu_read_register(unsigned int a1)
+int16_t spu_read_register(unsigned int a1)
 {
-  int v1; // eax
+  int v1;
 
   if ( !unknown_cd_setting || (a1 & 0xF) != 0xC )
   {
@@ -474,7 +474,7 @@ __int16 __cdecl spu_read_register(unsigned int a1)
         if ( a1 == 0x1F801DA6 )
           return (unsigned int)spu_transfer_addr >> 3;
 LABEL_15:
-        LOWORD(v1) = *(__int16 *)((char *)spu_register_cache + (a1 & 0x1FF));
+        LOWORD(v1) = *(int16_t *)((char *)spu_register_cache + (a1 & 0x1FF));
         return v1;
       }
       if ( sound_enabled )
@@ -491,9 +491,9 @@ LABEL_15:
   return v1;
 }
 
-char __cdecl spu_play_adpcm(int a1)
+char spu_play_adpcm(int a1)
 {
-  int v1; // eax
+  int v1;
 
   LOBYTE(v1) = sound_enabled;
   if ( sound_enabled )
@@ -517,7 +517,7 @@ void spu_set_adpcm_flag()
 
 int (*spu_update())(void)
 {
-  int (*result)(void); // eax
+  int (*result)(void);
 
   result = (int (*)(void))SPUupdate;
   if ( SPUupdate )
@@ -525,9 +525,9 @@ int (*spu_update())(void)
   return result;
 }
 
-int (*__cdecl spu_async_update(int a1))(void)
+int (* spu_async_update(int a1))(void)
 {
-  int (*result)(void); // eax
+  int (*result)(void);
 
   if ( SPUasync )
     return SPUasync(a1);
@@ -537,24 +537,24 @@ int (*__cdecl spu_async_update(int a1))(void)
   return result;
 }
 
-void __cdecl spu_freeze(const char *a1, int a2)
+void spu_freeze(const char *a1, int a2)
 {
-  size_t v2; // edi
-  unsigned __int8 *v3; // esi
-  char Buffer[3]; // [esp+8h] [ebp-40h] BYREF
-  int v5; // [esp+Bh] [ebp-3Dh]
-  size_t Size; // [esp+14h] [ebp-34h]
+  size_t v2;
+  uint8_t *v3;
+  char Buffer[3];
+  int v5;
+  size_t Size;
 
   sprintf(Buffer, "%s", a1);
   v5 = 0;
-  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
+  gzwrite(a2, (uint8_t *)Buffer, 7u);
   if ( SPUfreeze )
   {
     SPUfreeze(2, Buffer);
     v2 = Size;
     if ( Size )
     {
-      v3 = (unsigned __int8 *)malloc(Size);
+      v3 = (uint8_t *)malloc(Size);
       SPUfreeze(1, v3);
       gzwrite(a2, v3, v2);
       free(v3);
@@ -566,14 +566,14 @@ void __cdecl spu_freeze(const char *a1, int a2)
   }
 }
 
-void __cdecl spu_unfreeze(int a1, _DWORD *a2)
+void spu_unfreeze(int a1, uint32_t *a2)
 {
-  size_t v2; // ebx
-  void *v3; // esi
-  char v4[4]; // [esp+8h] [ebp-40h] BYREF
-  int v5; // [esp+Ch] [ebp-3Ch]
-  int v6; // [esp+10h] [ebp-38h]
-  size_t Size; // [esp+14h] [ebp-34h]
+  size_t v2;
+  void *v3;
+  char v4[4];
+  int v5;
+  int v6;
+  size_t Size;
 
   gzread(a2, v4, 7);
   if ( SPUfreeze )
@@ -583,10 +583,10 @@ void __cdecl spu_unfreeze(int a1, _DWORD *a2)
     if ( Size )
     {
       v3 = malloc(Size);
-      *(_DWORD *)v3 = *(_DWORD *)v4;
-      *((_DWORD *)v3 + 1) = v5;
-      *((_DWORD *)v3 + 2) = v6;
-      *((_DWORD *)v3 + 3) = Size;
+      *(uint32_t *)v3 = *(uint32_t *)v4;
+      *((uint32_t *)v3 + 1) = v5;
+      *((uint32_t *)v3 + 2) = v6;
+      *((uint32_t *)v3 + 3) = Size;
       gzread(a2, (char *)v3 + 16, v2 - 16);
       SPUfreeze(0, v3);
       free(v3);

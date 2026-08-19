@@ -226,10 +226,10 @@ extern unsigned short spu_adpcm_error_count;
 /* Function prototypes (previously generated in src/_gen) */
 int spucore_destroy();
 void spucore_dma();
-int __cdecl spucore_freeze(const char *a1, int a2);
+int spucore_freeze(const char *a1, int a2);
 int spucore_init();
-char __cdecl spucore_play_adpcm(int a1);
-__int16 __cdecl spucore_read_register(__int16 a1);
-int __cdecl spucore_unfreeze(int a1, _DWORD *a2);
+char spucore_play_adpcm(int a1);
+int16_t spucore_read_register(int16_t a1);
+int spucore_unfreeze(int a1, uint32_t *a2);
 int spucore_update_thunk();
-__int16 __cdecl spucore_write_register(__int16 a1, __int16 a2);
+int16_t spucore_write_register(int16_t a1, int16_t a2);

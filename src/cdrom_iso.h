@@ -19,6 +19,6 @@ extern unsigned short subchannel_q_abs_ms;
 
 /* Function prototypes (previously generated in src/_gen) */
 int iso_close();
-char __cdecl iso_load(char *FileName);
-char __cdecl iso_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4);
-char __cdecl iso_verify_sub(unsigned __int8 a1, unsigned __int8 a2, char a3, int a4);
+char iso_load(char *FileName);
+char iso_read_data(uint8_t a1, uint8_t a2, uint8_t a3, int a4);
+char iso_verify_sub(uint8_t a1, uint8_t a2, char a3, int a4);

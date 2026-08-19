@@ -1,8 +1,8 @@
 ﻿#include "pch.h"
 char gpu_init_performance_counter()
 {
-  int PerformanceFrequency; // eax
-  __int64 v2; // [esp-8h] [ebp-8h]
+  int PerformanceFrequency;
+  int64_t v2;
 
   LOBYTE(PerformanceFrequency) = use_performance_counters;
   if ( use_performance_counters )
@@ -25,7 +25,7 @@ char gpu_init_performance_counter()
 
 static int __stdcall gpu_output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
 {
-  int result; // eax
+  int result;
 
   if ( a2 > 0xF )
   {
@@ -81,7 +81,7 @@ static int __stdcall gpu_output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPAR
 
 static BOOL gpu_register_output_win_class()
 {
-  WNDCLASSA WndClass; // [esp+4h] [ebp-28h] BYREF
+  WNDCLASSA WndClass;
 
   WndClass.style = 35;
   WndClass.cbClsExtra = 0;
@@ -139,10 +139,10 @@ BOOL gpu_close_output_window()
 
 HWND gpu_load_plugin()
 {
-  HMODULE LibraryA; // eax
-  FARPROC GPUclearDynarec; // eax
-  int v2; // eax
-  CHAR LibFileName[1024]; // [esp+0h] [ebp-400h] BYREF
+  HMODULE LibraryA;
+  FARPROC GPUclearDynarec;
+  int v2;
+  CHAR LibFileName[1024];
 
   if ( !strcmp((const char *)VideoPlugin, "NULL") )
     fatal_error_with_message_box(" * !Error video doesn't configurated \n * !Go Config->Video and choose a plugin. \n");
@@ -158,7 +158,7 @@ HWND gpu_load_plugin()
   GPUshutdown = GetProcAddress(hGpuModule, "GPUshutdown");
   if ( !GPUshutdown )
     ui_error(" * GetProcAddress error %s\n", "GPUshutdown");
-  GPUopen = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUopen");
+  GPUopen = (int (__stdcall *)(uint32_t))GetProcAddress(hGpuModule, "GPUopen");
   if ( !GPUopen )
     ui_error(" * GetProcAddress error %s\n", "GPUopen");
   GPUclose = GetProcAddress(hGpuModule, "GPUclose");
@@ -173,10 +173,10 @@ HWND gpu_load_plugin()
   GPUtest = (int)GetProcAddress(hGpuModule, "GPUtest");
   if ( !GPUtest )
     ui_error(" * GetProcAddress error %s\n", "GPUtest");
-  GPUwriteData = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUwriteData");
+  GPUwriteData = (int (__stdcall *)(uint32_t))GetProcAddress(hGpuModule, "GPUwriteData");
   if ( !GPUwriteData )
     ui_error(" * GetProcAddress error %s\n", "GPUwriteData");
-  GPUwriteStatus = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUwriteStatus");
+  GPUwriteStatus = (int (__stdcall *)(uint32_t))GetProcAddress(hGpuModule, "GPUwriteStatus");
   if ( !GPUwriteStatus )
     ui_error(" * GetProcAddress error %s\n", "GPUwriteStatus");
   GPUreadData = GetProcAddress(hGpuModule, "GPUreadData");
@@ -185,7 +185,7 @@ HWND gpu_load_plugin()
   GPUreadStatus = GetProcAddress(hGpuModule, "GPUreadStatus");
   if ( !GPUreadStatus )
     ui_error(" * GetProcAddress error %s\n", "GPUreadStatus");
-  GPUdmaChain = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUdmaChain");
+  GPUdmaChain = (int (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hGpuModule, "GPUdmaChain");
   if ( !GPUdmaChain )
     ui_error(" * GetProcAddress error %s\n", "GPUdmaChain");
   GPUgetMode = (int)GetProcAddress(hGpuModule, "GPUgetMode");
@@ -194,17 +194,17 @@ HWND gpu_load_plugin()
   GPUsetMode = (int)GetProcAddress(hGpuModule, "GPUsetMode");
   if ( !GPUsetMode )
     ui_error(" * GetProcAddress error %s\n", "GPUsetMode");
-  GPUupdateLace = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUupdateLace");
+  GPUupdateLace = (int (__stdcall *)(uint32_t))GetProcAddress(hGpuModule, "GPUupdateLace");
   if ( !GPUupdateLace )
     ui_error(" * GetProcAddress error %s\n", "GPUupdateLace");
   GPUmakeSnapshot = (int (__stdcall *)(void))GetProcAddress(hGpuModule, "GPUmakeSnapshot");
-  GPUwriteDataMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUwriteDataMem");
-  GPUreadDataMem = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUreadDataMem");
-  GPUdisplayFlags = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUdisplayFlags");
-  GPUfreeze = (int (__stdcall *)(_DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUfreeze");
-  GPUgetScreenPic = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUgetScreenPic");
-  GPUshowScreenPic = (int (__stdcall *)(_DWORD))GetProcAddress(hGpuModule, "GPUshowScreenPic");
-  GPUcursor = (int (__stdcall *)(_DWORD, _DWORD, _DWORD))GetProcAddress(hGpuModule, "GPUcursor");
+  GPUwriteDataMem = (int (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hGpuModule, "GPUwriteDataMem");
+  GPUreadDataMem = (int (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hGpuModule, "GPUreadDataMem");
+  GPUdisplayFlags = (int (__stdcall *)(uint32_t))GetProcAddress(hGpuModule, "GPUdisplayFlags");
+  GPUfreeze = (int (__stdcall *)(uint32_t, uint32_t))GetProcAddress(hGpuModule, "GPUfreeze");
+  GPUgetScreenPic = (int (__stdcall *)(uint32_t))GetProcAddress(hGpuModule, "GPUgetScreenPic");
+  GPUshowScreenPic = (int (__stdcall *)(uint32_t))GetProcAddress(hGpuModule, "GPUshowScreenPic");
+  GPUcursor = (int (__stdcall *)(uint32_t, uint32_t, uint32_t))GetProcAddress(hGpuModule, "GPUcursor");
   GPUclearDynarec = GetProcAddress(hGpuModule, "GPUclearDynarec");
   gpu_clear_dynarec_ptr = (int)GPUclearDynarec;
   if ( GPUclearDynarec )
@@ -217,9 +217,9 @@ HWND gpu_load_plugin()
   return gpu_create_output_window();
 }
 
-int (__stdcall *gpu_open_with_input())(_DWORD, _DWORD)
+int (__stdcall *gpu_open_with_input())(uint32_t, uint32_t)
 {
-  int v0; // eax
+  int v0;
 
   v0 = GPUopen(hOutputWnd);
   dbg_print(" * Gpu open[%d]... \n", v0);
@@ -234,31 +234,31 @@ int (__stdcall *gpu_open_with_input())(_DWORD, _DWORD)
   return gpu_do_freeze(0);
 }
 
-// attributes: thunk
+
 int gpu_readStatus()
 {
   return GPUreadStatus();
 }
 
-// attributes: thunk
+
 int gpu_readData()
 {
   return GPUreadData();
 }
 
-int __cdecl gpu_writeStatus(int a1)
+int gpu_writeStatus(int a1)
 {
   return GPUwriteStatus(a1);
 }
 
-int __cdecl gpu_writeData(int a1)
+int gpu_writeData(int a1)
 {
   return GPUwriteData(a1);
 }
 
 char gpu_dma2_interrupt()
 {
-  char result; // al
+  char result;
 
   if ( gpu_dma2_state > -2 && gpu_dma2_state != 1 )
     --gpu_dma2_state;
@@ -267,7 +267,7 @@ char gpu_dma2_interrupt()
   {
     if ( !gpu_dma2_delay_counter )
     {
-      *(_DWORD *)gpu_dma_channel_status &= ~0x1000000u;
+      *(uint32_t *)gpu_dma_channel_status &= ~0x1000000u;
       gpu_dma2_delay_counter = -1;
       result = irq_dma_assert_int(2u);
       gpu_dma2_state = -2;
@@ -282,26 +282,26 @@ char gpu_dma2_interrupt()
 
 char gpu_dma()
 {
-  int v0; // ebp
-  int v1; // edi
-  int v2; // esi
-  _DWORD *v3; // ebx
-  char result; // al
-  unsigned int v5; // eax
-  unsigned int v6; // ecx
-  int v7; // eax
-  int v8; // esi
-  int v9; // esi
-  int i; // esi
-  unsigned int v11; // eax
-  unsigned int v12; // [esp+10h] [ebp-4h]
+  int v0;
+  int v1;
+  int v2;
+  uint32_t *v3;
+  char result;
+  unsigned int v5;
+  unsigned int v6;
+  int v7;
+  int v8;
+  int v9;
+  int i;
+  unsigned int v11;
+  unsigned int v12;
 
   v0 = gpu_dma_address;
   v1 = HIWORD(gpu_dma_control);
-  v2 = (unsigned __int16)gpu_dma_control;
-  v3 = (_DWORD *)mem_dma_read(gpu_dma_address);
+  v2 = (uint16_t)gpu_dma_control;
+  v3 = (uint32_t *)mem_dma_read(gpu_dma_address);
   v12 = 0;
-  if ( *(_DWORD *)gpu_dma_channel_status == 0x1000200 )
+  if ( *(uint32_t *)gpu_dma_channel_status == 0x1000200 )
   {
     if ( GPUreadDataMem )
     {
@@ -323,7 +323,7 @@ char gpu_dma()
     }
     goto LABEL_27;
   }
-  if ( *(_DWORD *)gpu_dma_channel_status == 0x1000201 )
+  if ( *(uint32_t *)gpu_dma_channel_status == 0x1000201 )
   {
     v8 = v1 * v2;
     if ( GPUwriteDataMem )
@@ -341,7 +341,7 @@ LABEL_27:
     return result;
   }
   result = gpu_dma_channel_status[0] - 1;
-  if ( *(_DWORD *)gpu_dma_channel_status == 0x1000401 )
+  if ( *(uint32_t *)gpu_dma_channel_status == 0x1000401 )
   {
     GPUdmaChain(ram, v0 & 0x1FFFFF);
     while ( 1 )
@@ -363,15 +363,15 @@ LABEL_10:
       gpu_dma2_state = 1;
       return 1;
     }
-    *(_DWORD *)gpu_dma_channel_status &= ~0x1000000u;
+    *(uint32_t *)gpu_dma_channel_status &= ~0x1000000u;
     result = irq_dma_assert_int(2u);
     gpu_dma2_state = -2;
   }
-  else if ( (*(_DWORD *)gpu_dma_channel_status & 0x1000000) != 0 )
+  else if ( (*(uint32_t *)gpu_dma_channel_status & 0x1000000) != 0 )
   {
     ui_error(
       "DMA[2] mode NOT implemented (%08x)\n addr (%08x) num (%04x) size (%04x)\n",
-      *(_DWORD *)gpu_dma_channel_status,
+      *(uint32_t *)gpu_dma_channel_status,
       v0,
       v1,
       v2);
@@ -381,14 +381,14 @@ LABEL_10:
 
 char gpu_dma6_interrupt()
 {
-  char result; // al
+  char result;
 
   result = gpu_dma6_delay_counter;
   if ( gpu_dma6_delay_counter <= 0 )
   {
     if ( !gpu_dma6_delay_counter )
     {
-      *(_DWORD *)gpu_dma6_status &= ~0x1000000u;
+      *(uint32_t *)gpu_dma6_status &= ~0x1000000u;
       gpu_dma6_delay_counter = -1;
       return irq_dma_assert_int(6u);
     }
@@ -402,8 +402,8 @@ char gpu_dma6_interrupt()
 
 int gpu_frame_update()
 {
-  int v0; // ecx
-  DWORD i; // ecx
+  int v0;
+  DWORD i;
 
   while ( PeekMessageA(&g_msg, nullptr, 0, 0, 1u) )
   {
@@ -432,7 +432,7 @@ int gpu_frame_update()
 
 HMODULE gpu_destroy()
 {
-  HMODULE result; // eax
+  HMODULE result;
 
   result = hGpuModule;
   if ( hGpuModule )
@@ -463,7 +463,7 @@ HMODULE gpu_destroy()
 
 int gpu_close()
 {
-  int result; // eax
+  int result;
 
   result = GPUclose();
   gpu_closed = 1;
@@ -484,9 +484,9 @@ int gpu_open()
   return diUpdateJoystickStates();
 }
 
-static char __cdecl gpu_pack_pixels(_BYTE *a1, char a2)
+static char gpu_pack_pixels(uint8_t *a1, char a2)
 {
-  char result; // al
+  char result;
 
   result = a2;
   if ( a2 )
@@ -496,14 +496,14 @@ static char __cdecl gpu_pack_pixels(_BYTE *a1, char a2)
       *a1 = -1;
       a1[1] = -1;
       a1[2] = -1;
-      return (_BYTE)a1 + 1;
+      return (uint8_t)a1 + 1;
     }
     else if ( a2 == 2 )
     {
       *a1 = 0;
       a1[1] = 0;
       a1[2] = -1;
-      return (_BYTE)a1 + 1;
+      return (uint8_t)a1 + 1;
     }
   }
   else
@@ -511,27 +511,27 @@ static char __cdecl gpu_pack_pixels(_BYTE *a1, char a2)
     *a1 = 0;
     a1[1] = 0;
     a1[2] = 0;
-    return (_BYTE)a1 + 1;
+    return (uint8_t)a1 + 1;
   }
   return result;
 }
 
-static BOOL __cdecl gpu_draw_text_on_screen(LPCSTR lpchText, void *a2)
+static BOOL gpu_draw_text_on_screen(LPCSTR lpchText, void *a2)
 {
-  HDC DC; // edi
-  HDC CompatibleDC; // ebx
-  HBRUSH SolidBrush; // edi
-  HPEN Pen; // esi
-  HGDIOBJ v7; // [esp-4h] [ebp-6Ch]
-  void *ppvBits; // [esp+10h] [ebp-58h] BYREF
-  HGDIOBJ h; // [esp+14h] [ebp-54h]
-  HGDIOBJ v10; // [esp+18h] [ebp-50h]
-  HGDIOBJ v11; // [esp+1Ch] [ebp-4Ch]
-  HGDIOBJ ho; // [esp+20h] [ebp-48h]
-  HGDIOBJ v13; // [esp+24h] [ebp-44h]
-  HGDIOBJ v14; // [esp+28h] [ebp-40h]
-  struct tagRECT left; // [esp+2Ch] [ebp-3Ch] BYREF
-  BITMAPINFO pbmi; // [esp+3Ch] [ebp-2Ch] BYREF
+  HDC DC;
+  HDC CompatibleDC;
+  HBRUSH SolidBrush;
+  HPEN Pen;
+  HGDIOBJ v7;
+  void *ppvBits;
+  HGDIOBJ h;
+  HGDIOBJ v10;
+  HGDIOBJ v11;
+  HGDIOBJ ho;
+  HGDIOBJ v13;
+  HGDIOBJ v14;
+  struct tagRECT left;
+  BITMAPINFO pbmi;
 
   left.left = 0;
   left.top = 0;
@@ -571,23 +571,23 @@ static BOOL __cdecl gpu_draw_text_on_screen(LPCSTR lpchText, void *a2)
   return DeleteObject(v14);
 }
 
-static _BYTE *__cdecl gpu_draw_no_save_pic(char *a1, int a2)
+static uint8_t * gpu_draw_no_save_pic(char *a1, int a2)
 {
-  char *v2; // esi
-  char *v3; // edx
-  int v4; // ebp
-  int v5; // edi
-  unsigned __int8 v6; // cl
-  _BYTE *v7; // esi
-  unsigned __int8 v8; // cl
-  char v9; // cl
-  int v10; // edx
-  char *v11; // eax
-  int v12; // edx
-  _BYTE *v13; // eax
-  _BYTE *result; // eax
-  int v15; // edx
-  _BYTE *v16; // eax
+  char *v2;
+  char *v3;
+  int v4;
+  int v5;
+  uint8_t v6;
+  uint8_t *v7;
+  uint8_t v8;
+  char v9;
+  int v10;
+  char *v11;
+  int v12;
+  uint8_t *v13;
+  uint8_t *result;
+  int v15;
+  uint8_t *v16;
 
   v2 = a1 + 309;
   gpu_draw_text_on_screen("NO SAVE PIC", a1);
@@ -598,7 +598,7 @@ static _BYTE *__cdecl gpu_draw_no_save_pic(char *a1, int a2)
     v5 = 6;
     do
     {
-      gpu_pack_pixels(v2, (unsigned __int8)*v3 >> 6);
+      gpu_pack_pixels(v2, (uint8_t)*v3 >> 6);
       v7 = v2 + 3;
       gpu_pack_pixels(v7, (v6 >> 4) & 3);
       v7 += 3;
@@ -647,23 +647,23 @@ static _BYTE *__cdecl gpu_draw_no_save_pic(char *a1, int a2)
   return result;
 }
 
-static _BYTE *__cdecl gpu_draw_free_slot(char *a1, int a2)
+static uint8_t * gpu_draw_free_slot(char *a1, int a2)
 {
-  char *v2; // esi
-  char *v3; // edx
-  int v4; // ebp
-  int v5; // edi
-  unsigned __int8 v6; // cl
-  _BYTE *v7; // esi
-  unsigned __int8 v8; // cl
-  char v9; // cl
-  int v10; // edx
-  char *v11; // eax
-  int v12; // edx
-  _BYTE *v13; // eax
-  _BYTE *result; // eax
-  int v15; // edx
-  _BYTE *v16; // eax
+  char *v2;
+  char *v3;
+  int v4;
+  int v5;
+  uint8_t v6;
+  uint8_t *v7;
+  uint8_t v8;
+  char v9;
+  int v10;
+  char *v11;
+  int v12;
+  uint8_t *v13;
+  uint8_t *result;
+  int v15;
+  uint8_t *v16;
 
   v2 = a1 + 309;
   gpu_draw_text_on_screen("FREE SLOT", a1);
@@ -674,7 +674,7 @@ static _BYTE *__cdecl gpu_draw_free_slot(char *a1, int a2)
     v5 = 6;
     do
     {
-      gpu_pack_pixels(v2, (unsigned __int8)*v3 >> 6);
+      gpu_pack_pixels(v2, (uint8_t)*v3 >> 6);
       v7 = v2 + 3;
       gpu_pack_pixels(v7, (v6 >> 4) & 3);
       v7 += 3;
@@ -723,19 +723,19 @@ static _BYTE *__cdecl gpu_draw_free_slot(char *a1, int a2)
   return result;
 }
 
-int (__stdcall *__cdecl gpu_display_flags(int a1))(_DWORD)
+int (__stdcall * gpu_display_flags(int a1))(uint32_t)
 {
-  int (__stdcall *result)(_DWORD); // eax
+  int (__stdcall *result)(uint32_t);
 
   result = GPUdisplayFlags;
   if ( GPUdisplayFlags )
-    return (int (__stdcall *)(_DWORD))GPUdisplayFlags(a1);
+    return (int (__stdcall *)(uint32_t))GPUdisplayFlags(a1);
   return result;
 }
 
 int (*gpu_make_snapshot())(void)
 {
-  int (*result)(void); // eax
+  int (*result)(void);
 
   result = (int (*)(void))GPUmakeSnapshot;
   if ( GPUmakeSnapshot )
@@ -743,13 +743,13 @@ int (*gpu_make_snapshot())(void)
   return result;
 }
 
-void __cdecl gpu_show_screen_pic(unsigned __int8 a1)
+void gpu_show_screen_pic(uint8_t a1)
 {
-  void *v1; // ebx
-  FILE *v2; // eax
-  FILE *v3; // edi
-  FILE *v4; // eax
-  char Buffer[1024]; // [esp+0h] [ebp-400h] BYREF
+  void *v1;
+  FILE *v2;
+  FILE *v3;
+  FILE *v4;
+  char Buffer[1024];
 
   if ( GPUshowScreenPic )
   {
@@ -781,53 +781,53 @@ void __cdecl gpu_show_screen_pic(unsigned __int8 a1)
   }
 }
 
-int (__stdcall *gpu_hide_screen_pic())(_DWORD)
+int (__stdcall *gpu_hide_screen_pic())(uint32_t)
 {
-  int (__stdcall *result)(_DWORD); // eax
+  int (__stdcall *result)(uint32_t);
 
   result = GPUshowScreenPic;
   if ( GPUshowScreenPic )
-    return (int (__stdcall *)(_DWORD))GPUshowScreenPic(0);
+    return (int (__stdcall *)(uint32_t))GPUshowScreenPic(0);
   return result;
 }
 
-int (__stdcall *__cdecl gpu_do_freeze(int a1))(_DWORD, _DWORD)
+int (__stdcall * gpu_do_freeze(int a1))(uint32_t, uint32_t)
 {
-  int (__stdcall *result)(_DWORD, _DWORD); // eax
+  int (__stdcall *result)(uint32_t, uint32_t);
 
   result = GPUfreeze;
   if ( GPUfreeze )
-    return (int (__stdcall *)(_DWORD, _DWORD))GPUfreeze(2, &a1);
+    return (int (__stdcall *)(uint32_t, uint32_t))GPUfreeze(2, &a1);
   return result;
 }
 
-int (__stdcall *__cdecl gpu_cursor(int a1, int a2, int a3))(_DWORD, _DWORD, _DWORD)
+int (__stdcall * gpu_cursor(int a1, int a2, int a3))(uint32_t, uint32_t, uint32_t)
 {
-  int (__stdcall *result)(_DWORD, _DWORD, _DWORD); // eax
+  int (__stdcall *result)(uint32_t, uint32_t, uint32_t);
 
   result = GPUcursor;
   if ( GPUcursor )
-    return (int (__stdcall *)(_DWORD, _DWORD, _DWORD))GPUcursor(a1, a2, a3);
+    return (int (__stdcall *)(uint32_t, uint32_t, uint32_t))GPUcursor(a1, a2, a3);
   return result;
 }
 
-void __cdecl gpu_freeze(const char *a1, int ArgList, const char *a3)
+void gpu_freeze(const char *a1, int ArgList, const char *a3)
 {
-  unsigned __int8 *v3; // esi
-  void *v4; // esi
-  FILE *v5; // edi
-  char Buffer[3]; // [esp+8h] [ebp-410h] BYREF
-  int v7; // [esp+Bh] [ebp-40Dh]
-  char FileName[1024]; // [esp+18h] [ebp-400h] BYREF
+  uint8_t *v3;
+  void *v4;
+  FILE *v5;
+  char Buffer[3];
+  int v7;
+  char FileName[1024];
 
   if ( GPUfreeze )
   {
-    v3 = (unsigned __int8 *)malloc(0x100408u);
-    *(_DWORD *)v3 = 1;
+    v3 = (uint8_t *)malloc(0x100408u);
+    *(uint32_t *)v3 = 1;
     sprintf(Buffer, "%s", a1);
     v7 = 1049608;
     GPUfreeze(1, v3);
-    gzwrite(ArgList, (unsigned __int8 *)Buffer, 7u);
+    gzwrite(ArgList, (uint8_t *)Buffer, 7u);
     gzwrite(ArgList, v3, 0x100408u);
     free(v3);
     if ( GPUgetScreenPic )
@@ -845,15 +845,15 @@ void __cdecl gpu_freeze(const char *a1, int ArgList, const char *a3)
   {
     sprintf(Buffer, "%s", a1);
     v7 = 0;
-    gzwrite(ArgList, (unsigned __int8 *)Buffer, 7u);
+    gzwrite(ArgList, (uint8_t *)Buffer, 7u);
     dbg_print(" * GPU plugin doesn't support savestates. \n");
   }
 }
 
-void __cdecl gpu_unfreeze(int a1, _DWORD *ArgList)
+void gpu_unfreeze(int a1, uint32_t *ArgList)
 {
-  char *v2; // esi
-  char v3[16]; // [esp+0h] [ebp-10h] BYREF
+  char *v2;
+  char v3[16];
 
   if ( GPUfreeze )
   {
@@ -909,7 +909,7 @@ unsigned int gpu_dma_channel_status[1];
 unsigned int gpu_dma_control;
 unsigned int gpu_hInstance;
 LARGE_INTEGER gpu_performance_counter;
-unsigned __int64 gpu_performance_threshold;
+uint64_t gpu_performance_threshold;
 unsigned char gpu_save_pic_data[24] = {0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0};
 unsigned int hGpuModule;
 unsigned int hInst_For_DInput;

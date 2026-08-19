@@ -113,5 +113,5 @@ extern unsigned int zip_static_ltree_max_bits;
 extern unsigned int zipfile_input_buffer;
 
 /* Function prototypes (previously generated in src/_gen) */
-int __cdecl zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a4);
-int __cdecl zip_load_file(char *FileName);
+int zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a4);
+int zip_load_file(char *FileName);

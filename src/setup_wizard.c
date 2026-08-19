@@ -2,14 +2,14 @@
 
 static HANDLE setup_wizard_init()
 {
-  HANDLE FirstFileA; // edi
-  HANDLE v1; // edi
-  HANDLE result; // eax
-  HANDLE v3; // edi
-  char v4[12]; // [esp+10h] [ebp-94Ch] BYREF
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+1Ch] [ebp-940h] BYREF
-  CHAR FileName[1024]; // [esp+15Ch] [ebp-800h] BYREF
-  CHAR NewFileName[1024]; // [esp+55Ch] [ebp-400h] BYREF
+  HANDLE FirstFileA;
+  HANDLE v1;
+  HANDLE result;
+  HANDLE v3;
+  char v4[12];
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR FileName[1024];
+  CHAR NewFileName[1024];
 
   strcpy(v4, "plugins\\");
   FileName[0] = current_dir_path;
@@ -55,33 +55,33 @@ static HANDLE setup_wizard_init()
 
 static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  int v8; // ebx
-  FILE *v9; // edi
-  uint8_t *v10; // esi
-  int v11; // edi
-  uint32_t v12; // eax
-  _BIOS_DESCR *v13; // ecx
-  LRESULT v14; // eax
-  int v15; // ebp
-  char *v16; // eax
-  char *v17; // edx
-  char v18; // cl
-  char *v19; // edi
-  int v20; // ebx
-  char *v21; // ecx
-  char v22; // dl
-  char *v23; // ecx
-  char *v24; // edx
-  char v25; // al
-  char v26[8]; // [esp+0h] [ebp-D4Ch] BYREF
-  HANDLE hFindFile; // [esp+8h] [ebp-D44h]
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+Ch] [ebp-D40h] BYREF
-  char Buffer[1024]; // [esp+14Ch] [ebp-C00h] BYREF
-  CHAR FileName[1024]; // [esp+54Ch] [ebp-800h] BYREF
-  char lParam[1024]; // [esp+94Ch] [ebp-400h] BYREF
+  int v4;
+  char v5;
+  unsigned int v6;
+  int v8;
+  FILE *v9;
+  uint8_t *v10;
+  int v11;
+  uint32_t v12;
+  _BIOS_DESCR *v13;
+  LRESULT v14;
+  int v15;
+  char *v16;
+  char *v17;
+  char v18;
+  char *v19;
+  int v20;
+  char *v21;
+  char v22;
+  char *v23;
+  char *v24;
+  char v25;
+  char v26[8];
+  HANDLE hFindFile;
+  struct _WIN32_FIND_DATAA FindFileData;
+  char Buffer[1024];
+  CHAR FileName[1024];
+  char lParam[1024];
 
   strcpy(v26, "bios\\");
   v4 = 0;
@@ -102,13 +102,13 @@ static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3,
   {
     if ( a2 == 273 )
     {
-      if ( (unsigned __int16)a3 == 1107 )
+      if ( (uint16_t)a3 == 1107 )
       {
         --setup_wizard_step;
         EndDialog(hDlg, 1);
         return 1;
       }
-      if ( (unsigned __int16)a3 == 1108 )
+      if ( (uint16_t)a3 == 1108 )
       {
         v6 = SendDlgItemMessageA(hDlg, IDC_INSTALL_BIOS_LIST, 0x188u, 0, 0);
         if ( v6 != -1 && v6 < found_plugin_count )
@@ -169,11 +169,11 @@ static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3,
           if ( v14 == found_plugin_count )
           {
             v16 = Buffer;
-            v17 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)Buffer];
+            v17 = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)Buffer];
             do
             {
               v18 = *v16;
-              v16[(_DWORD)v17] = *v16;
+              v16[(uint32_t)v17] = *v16;
               ++v16;
             }
             while ( v18 );
@@ -200,11 +200,11 @@ static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3,
               while ( v20 );
             }
             v23 = Buffer;
-            v24 = &plugin_name_list[(v14 << 10) - (_DWORD)Buffer];
+            v24 = &plugin_name_list[(v14 << 10) - (uint32_t)Buffer];
             do
             {
               v25 = *v23;
-              v23[(_DWORD)v24] = *v23;
+              v23[(uint32_t)v24] = *v23;
               ++v23;
             }
             while ( v25 );
@@ -225,43 +225,43 @@ static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3,
 
 static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  INT_PTR result; // eax
-  unsigned int v8; // eax
-  HMODULE v9; // esi
-  char v10; // al
-  unsigned int v11; // eax
-  HMODULE v12; // esi
-  unsigned int v13; // eax
-  HMODULE v14; // esi
-  HMODULE LibraryA; // eax
-  HMODULE v16; // esi
-  FARPROC PSEgetLibVersionProc; // eax
-  unsigned __int8 v18; // al
-  int v19; // eax
-  const char *v20; // eax
-  LRESULT v21; // ebp
-  int v22; // ebx
-  CHAR *cFileName; // eax
-  char *v24; // edx
-  CHAR v25; // cl
-  char *v26; // esi
-  int v27; // edi
-  char *v28; // eax
-  char v29; // cl
-  int v30; // ebp
-  CHAR *v31; // eax
-  char v32; // cl
-  int v33; // [esp-18h] [ebp-D68h]
-  int v34; // [esp-14h] [ebp-D64h]
-  char v35[12]; // [esp+0h] [ebp-D50h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
-  CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
-  CHAR FileName[1024]; // [esp+550h] [ebp-800h] BYREF
-  char lParam[1024]; // [esp+950h] [ebp-400h] BYREF
+  int v4;
+  char v5;
+  unsigned int v6;
+  INT_PTR result;
+  unsigned int v8;
+  HMODULE v9;
+  char v10;
+  unsigned int v11;
+  HMODULE v12;
+  unsigned int v13;
+  HMODULE v14;
+  HMODULE LibraryA;
+  HMODULE v16;
+  FARPROC PSEgetLibVersionProc;
+  uint8_t v18;
+  int v19;
+  const char *v20;
+  LRESULT v21;
+  int v22;
+  CHAR *cFileName;
+  char *v24;
+  CHAR v25;
+  char *v26;
+  int v27;
+  char *v28;
+  char v29;
+  int v30;
+  CHAR *v31;
+  char v32;
+  int v33;
+  int v34;
+  char v35[12];
+  HANDLE hFindFile;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR LibFileName[1024];
+  CHAR FileName[1024];
+  char lParam[1024];
 
   strcpy(v35, "plugins\\");
   v4 = 0;
@@ -297,9 +297,9 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
       if ( LibraryA )
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v16, "PSEgetLibName");
+        PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(v16, "PSEgetLibName");
         PSEgetLibVersionProc = GetProcAddress(v16, "PSEgetLibVersion");
-        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersionProc;
+        PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersionProc;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
@@ -319,11 +319,11 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
                 if ( v21 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v24 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                  v24 = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                   do
                   {
                     v25 = *cFileName;
-                    cFileName[(_DWORD)v24] = *cFileName;
+                    cFileName[(uint32_t)v24] = *cFileName;
                     ++cFileName;
                   }
                   while ( v25 );
@@ -349,12 +349,12 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
                     }
                     while ( v27 );
                   }
-                  v30 = (v21 << 10) - (_DWORD)FindFileData.cFileName;
+                  v30 = (v21 << 10) - (uint32_t)FindFileData.cFileName;
                   v31 = FindFileData.cFileName;
                   do
                   {
                     v32 = *v31;
-                    plugin_name_list[v30 + (_DWORD)v31] = *v31;
+                    plugin_name_list[v30 + (uint32_t)v31] = *v31;
                     ++v31;
                   }
                   while ( v32 );
@@ -376,7 +376,7 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
   }
   if ( a2 != 273 )
     return 0;
-  switch ( (__int16)a3 )
+  switch ( (int16_t)a3 )
   {
     case IDC_INSTALL_GPU_CONFIG:
       if ( !found_plugin_count )
@@ -468,50 +468,50 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
 
 static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  INT_PTR result; // eax
-  unsigned int v8; // eax
-  const char *v9; // eax
-  HMODULE v10; // eax
-  unsigned int v11; // eax
-  const char *v12; // eax
-  HMODULE v13; // eax
-  unsigned int v14; // eax
-  const char *v15; // eax
-  HMODULE v16; // eax
-  HWND v17; // ebx
-  LRESULT (__stdcall *v18)(HWND, int, UINT, WPARAM, LPARAM); // ebp
-  LRESULT v19; // eax
-  int v20; // eax
-  int v21; // ecx
-  HMODULE LibraryA; // eax
-  HMODULE v23; // esi
-  FARPROC PSEgetLibVersionProc; // eax
-  unsigned __int8 v25; // al
-  int v26; // eax
-  const char *v27; // eax
-  signed int v28; // ebp
-  int v29; // ebx
-  CHAR *cFileName; // eax
-  char *v31; // edx
-  CHAR v32; // cl
-  char *v33; // esi
-  int v34; // edi
-  char *v35; // eax
-  char v36; // cl
-  int v37; // ebp
-  CHAR *v38; // eax
-  char v39; // cl
-  int v40; // [esp-18h] [ebp-D68h]
-  int v41; // [esp-14h] [ebp-D64h]
-  char v42[12]; // [esp+0h] [ebp-D50h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
-  CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
-  char lParam[1024]; // [esp+550h] [ebp-800h] BYREF
-  CHAR FileName[1024]; // [esp+950h] [ebp-400h] BYREF
+  int v4;
+  char v5;
+  unsigned int v6;
+  INT_PTR result;
+  unsigned int v8;
+  const char *v9;
+  HMODULE v10;
+  unsigned int v11;
+  const char *v12;
+  HMODULE v13;
+  unsigned int v14;
+  const char *v15;
+  HMODULE v16;
+  HWND v17;
+  LRESULT (__stdcall *v18)(HWND, int, UINT, WPARAM, LPARAM);
+  LRESULT v19;
+  int v20;
+  int v21;
+  HMODULE LibraryA;
+  HMODULE v23;
+  FARPROC PSEgetLibVersionProc;
+  uint8_t v25;
+  int v26;
+  const char *v27;
+  signed int v28;
+  int v29;
+  CHAR *cFileName;
+  char *v31;
+  CHAR v32;
+  char *v33;
+  int v34;
+  char *v35;
+  char v36;
+  int v37;
+  CHAR *v38;
+  char v39;
+  int v40;
+  int v41;
+  char v42[12];
+  HANDLE hFindFile;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR LibFileName[1024];
+  char lParam[1024];
+  CHAR FileName[1024];
 
   strcpy(v42, "plugins\\");
   v4 = 0;
@@ -540,7 +540,7 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
       SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_SETCURSEL, v19, 0);
     v20 = found_plugin_count;
     v21 = found_plugin_count << 10;
-    *(_DWORD *)&plugin_name_list[v21] = *(_DWORD *)"SPUCORE";
+    *(uint32_t *)&plugin_name_list[v21] = *(uint32_t *)"SPUCORE";
     strcpy(&plugin_name_list_tail[v21], "ORE");
     found_plugin_count = v20 + 1;
     while ( 1 )
@@ -551,9 +551,9 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
       if ( LibraryA )
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
+        PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(v23, "PSEgetLibName");
         PSEgetLibVersionProc = GetProcAddress(v23, "PSEgetLibVersion");
-        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersionProc;
+        PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersionProc;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
@@ -573,11 +573,11 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
                 if ( v28 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                  v31 = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                   do
                   {
                     v32 = *cFileName;
-                    cFileName[(_DWORD)v31] = *cFileName;
+                    cFileName[(uint32_t)v31] = *cFileName;
                     ++cFileName;
                   }
                   while ( v32 );
@@ -603,12 +603,12 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
                     }
                     while ( v34 );
                   }
-                  v37 = (v28 << 10) - (_DWORD)FindFileData.cFileName;
+                  v37 = (v28 << 10) - (uint32_t)FindFileData.cFileName;
                   v38 = FindFileData.cFileName;
                   do
                   {
                     v39 = *v38;
-                    plugin_name_list[v37 + (_DWORD)v38] = *v38;
+                    plugin_name_list[v37 + (uint32_t)v38] = *v38;
                     ++v38;
                   }
                   while ( v39 );
@@ -633,7 +633,7 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
   }
   if ( a2 != 273 )
     return 0;
-  switch ( (__int16)a3 )
+  switch ( (int16_t)a3 )
   {
     case IDC_INSTALL_SPU_CONFIG:
       v11 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_GETCURSEL, 0, 0);
@@ -708,54 +708,54 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
 
 static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  LRESULT v8; // eax
-  unsigned int v9; // eax
-  const char *v10; // eax
-  HMODULE v11; // eax
-  unsigned int v12; // eax
-  const char *v13; // eax
-  HMODULE v14; // esi
-  unsigned int v15; // eax
-  const char *v16; // eax
-  HMODULE v17; // eax
-  LRESULT v18; // eax
-  int v19; // eax
-  LRESULT v20; // eax
-  int v21; // eax
-  HMODULE LibraryA; // eax
-  HMODULE v23; // esi
-  FARPROC PSEgetLibVersionProc; // eax
-  unsigned __int8 v25; // al
-  int v26; // eax
-  const char *v27; // eax
-  LRESULT v28; // ebp
-  int v29; // ebx
-  CHAR *cFileName; // eax
-  char *v31; // edx
-  CHAR v32; // cl
-  char *v33; // esi
-  int v34; // edi
-  char *v35; // eax
-  char v36; // cl
-  int v37; // ebp
-  CHAR *v38; // eax
-  char v39; // cl
-  LRESULT v40; // eax
-  int i; // esi
-  LRESULT v42; // eax
-  int v43; // [esp-18h] [ebp-11FCh]
-  int v44; // [esp-14h] [ebp-11F8h]
-  char v45[12]; // [esp+0h] [ebp-11E4h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-11D8h]
-  struct _OSVERSIONINFOA VersionInformation; // [esp+10h] [ebp-11D4h] BYREF
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+A4h] [ebp-1140h] BYREF
-  CHAR lParam[1024]; // [esp+1E4h] [ebp-1000h] BYREF
-  CHAR LibFileName[1024]; // [esp+5E4h] [ebp-C00h] BYREF
-  char v51[1024]; // [esp+9E4h] [ebp-800h] BYREF
-  CHAR FileName[1024]; // [esp+DE4h] [ebp-400h] BYREF
+  int v4;
+  char v5;
+  unsigned int v6;
+  LRESULT v8;
+  unsigned int v9;
+  const char *v10;
+  HMODULE v11;
+  unsigned int v12;
+  const char *v13;
+  HMODULE v14;
+  unsigned int v15;
+  const char *v16;
+  HMODULE v17;
+  LRESULT v18;
+  int v19;
+  LRESULT v20;
+  int v21;
+  HMODULE LibraryA;
+  HMODULE v23;
+  FARPROC PSEgetLibVersionProc;
+  uint8_t v25;
+  int v26;
+  const char *v27;
+  LRESULT v28;
+  int v29;
+  CHAR *cFileName;
+  char *v31;
+  CHAR v32;
+  char *v33;
+  int v34;
+  char *v35;
+  char v36;
+  int v37;
+  CHAR *v38;
+  char v39;
+  LRESULT v40;
+  int i;
+  LRESULT v42;
+  int v43;
+  int v44;
+  char v45[12];
+  HANDLE hFindFile;
+  struct _OSVERSIONINFOA VersionInformation;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR lParam[1024];
+  CHAR LibFileName[1024];
+  char v51[1024];
+  CHAR FileName[1024];
 
   strcpy(v45, "plugins\\");
   v4 = 0;
@@ -803,9 +803,9 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
         if ( LibraryA )
         {
           PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-          PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
+          PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(v23, "PSEgetLibName");
           PSEgetLibVersionProc = GetProcAddress(v23, "PSEgetLibVersion");
-          PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersionProc;
+          PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersionProc;
           if ( PSEgetLibType )
           {
             if ( PSEgetLibName )
@@ -825,11 +825,11 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
                   if ( v28 == found_plugin_count )
                   {
                     cFileName = FindFileData.cFileName;
-                    v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                    v31 = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                     do
                     {
                       v32 = *cFileName;
-                      cFileName[(_DWORD)v31] = *cFileName;
+                      cFileName[(uint32_t)v31] = *cFileName;
                       ++cFileName;
                     }
                     while ( v32 );
@@ -855,12 +855,12 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
                       }
                       while ( v34 );
                     }
-                    v37 = (v28 << 10) - (_DWORD)FindFileData.cFileName;
+                    v37 = (v28 << 10) - (uint32_t)FindFileData.cFileName;
                     v38 = FindFileData.cFileName;
                     do
                     {
                       v39 = *v38;
-                      plugin_name_list[v37 + (_DWORD)v38] = *v38;
+                      plugin_name_list[v37 + (uint32_t)v38] = *v38;
                       ++v38;
                     }
                     while ( v39 );
@@ -895,7 +895,7 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
       }
       break;
     case 0x111u:
-      switch ( (__int16)a3 )
+      switch ( (int16_t)a3 )
       {
         case IDC_INSTALL_CDROM_CONFIG:
           v12 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
@@ -1000,10 +1000,10 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
 
 static INT_PTR __stdcall setup_wizard_controllers(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  HDC DC; // esi
-  int DeviceCaps; // ebx
-  HDC v7; // esi
-  int v8; // ebx
+  HDC DC;
+  int DeviceCaps;
+  HDC v7;
+  int v8;
 
   switch ( a2 )
   {
@@ -1015,7 +1015,7 @@ LABEL_16:
     case 0x110u:
       return 1;
     case 0x111u:
-      switch ( (__int16)a3 )
+      switch ( (int16_t)a3 )
       {
         case IDC_INSTALL_PAD_BACK:
           --setup_wizard_step;
@@ -1064,7 +1064,7 @@ static INT_PTR __stdcall setup_wizard_end(HWND hDlg, UINT a2, WPARAM a3, LPARAM 
   }
   if ( a2 == 272 )
     return 1;
-  if ( a2 != 273 || (_WORD)a3 != 1114 )
+  if ( a2 != 273 || (uint16_t)a3 != 1114 )
     return 0;
   ++setup_wizard_step;
   EndDialog(hDlg, 1);
@@ -1083,7 +1083,7 @@ static INT_PTR __stdcall setup_wizard_begin(HWND hDlg, UINT a2, WPARAM a3, LPARA
     return 1;
   if ( a2 != 273 )
     return 0;
-  if ( (unsigned __int16)a3 == 1109 )
+  if ( (uint16_t)a3 == 1109 )
   {
     --setup_wizard_step;
     EndDialog(hDlg, 1);
@@ -1091,7 +1091,7 @@ static INT_PTR __stdcall setup_wizard_begin(HWND hDlg, UINT a2, WPARAM a3, LPARA
   }
   else
   {
-    if ( (unsigned __int16)a3 != 1110 )
+    if ( (uint16_t)a3 != 1110 )
       return 0;
     ++setup_wizard_step;
     EndDialog(hDlg, 1);
@@ -1099,9 +1099,9 @@ static INT_PTR __stdcall setup_wizard_begin(HWND hDlg, UINT a2, WPARAM a3, LPARA
   }
 }
 
-int __cdecl setup_wizard_callback(HWND hWndParent)
+int setup_wizard_callback(HWND hWndParent)
 {
-  int result; // eax
+  int result;
 
   cdrom_plugin_configured_flag = 0;
   while ( 2 )

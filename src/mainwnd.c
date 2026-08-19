@@ -2,37 +2,37 @@
 
 static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-  LRESULT result; // eax
-  HDC v5; // edi
-  HDC CompatibleDC; // esi
-  int v7; // eax
-  char v8; // cl
-  int v9; // ecx
-  int v10; // eax
-  char v11; // cl
-  HMENU v12; // eax
-  HDC DC; // esi
-  int DeviceCaps; // ebp
-  HDC v15; // esi
-  int v16; // ebp
-  HDC v17; // edi
-  int v18; // ebp
-  HDC v19; // edi
-  HMENU v20; // esi
-  HMENU v21; // eax
-  HMENU Menu; // esi
-  HMENU v23; // esi
-  HMENU v24; // esi
-  HMENU v25; // esi
-  int v26; // eax
-  int v27; // eax
-  int v28; // eax
-  int v29; // eax
-  int v30; // eax
-  HWND v31; // [esp-Ch] [ebp-420h]
-  HWND v32; // [esp-Ch] [ebp-420h]
-  LPSTR FilePart; // [esp+10h] [ebp-404h] BYREF
-  CHAR Buffer[1024]; // [esp+14h] [ebp-400h] BYREF
+  LRESULT result;
+  HDC v5;
+  HDC CompatibleDC;
+  int v7;
+  char v8;
+  int v9;
+  int v10;
+  char v11;
+  HMENU v12;
+  HDC DC;
+  int DeviceCaps;
+  HDC v15;
+  int v16;
+  HDC v17;
+  int v18;
+  HDC v19;
+  HMENU v20;
+  HMENU v21;
+  HMENU Menu;
+  HMENU v23;
+  HMENU v24;
+  HMENU v25;
+  int v26;
+  int v27;
+  int v28;
+  int v29;
+  int v30;
+  HWND v31;
+  HWND v32;
+  LPSTR FilePart;
+  CHAR Buffer[1024];
 
   if ( Msg > 0xF )
   {
@@ -49,7 +49,7 @@ static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam
         result = 0;
         break;
       case 0x111u:
-        switch ( (unsigned __int16)wParam )
+        switch ( (uint16_t)wParam )
         {
           case IDM_RUN_CDROM:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
@@ -249,34 +249,34 @@ LABEL_41:
             cfg_save_settings();
             return 1;
           case IDM_SAVE_STATE_1:
-            *(_DWORD *)save_load_state_slot = 10;
+            *(uint32_t *)save_load_state_slot = 10;
             goto LABEL_41;
           case IDM_SAVE_STATE_2:
-            *(_DWORD *)save_load_state_slot = 11;
+            *(uint32_t *)save_load_state_slot = 11;
             goto LABEL_41;
           case IDM_SAVE_STATE_3:
-            *(_DWORD *)save_load_state_slot = 12;
+            *(uint32_t *)save_load_state_slot = 12;
             goto LABEL_41;
           case IDM_SAVE_STATE_4:
-            *(_DWORD *)save_load_state_slot = 13;
+            *(uint32_t *)save_load_state_slot = 13;
             goto LABEL_41;
           case IDM_SAVE_STATE_5:
-            *(_DWORD *)save_load_state_slot = 14;
+            *(uint32_t *)save_load_state_slot = 14;
             goto LABEL_41;
           case IDM_LOAD_STATE_1:
-            *(_DWORD *)save_load_state_slot = 0;
+            *(uint32_t *)save_load_state_slot = 0;
             goto LABEL_41;
           case IDM_LOAD_STATE_2:
-            *(_DWORD *)save_load_state_slot = 1;
+            *(uint32_t *)save_load_state_slot = 1;
             goto LABEL_41;
           case IDM_LOAD_STATE_3:
-            *(_DWORD *)save_load_state_slot = 2;
+            *(uint32_t *)save_load_state_slot = 2;
             goto LABEL_41;
           case IDM_LOAD_STATE_4:
-            *(_DWORD *)save_load_state_slot = 3;
+            *(uint32_t *)save_load_state_slot = 3;
             goto LABEL_41;
           case IDM_LOAD_STATE_5:
-            *(_DWORD *)save_load_state_slot = 4;
+            *(uint32_t *)save_load_state_slot = 4;
             goto LABEL_41;
           case IDM_CONFIG_GUIDE_EN:
             ShellExecuteA(hWnd, "open", "http://www.epsxe.com/step/step.html", nullptr, nullptr, 3);
@@ -309,7 +309,7 @@ LABEL_41:
               CheckMenuItem(v12, IDM_ENABLE_LOGS, 8u);
             else
               CheckMenuItem(v12, IDM_ENABLE_LOGS, 0);
-            if ( (unsigned __int8)console_allocated > 1u )
+            if ( (uint8_t)console_allocated > 1u )
               console_allocated = 1;
             goto LABEL_83;
           case IDM_PAD3:
@@ -593,7 +593,7 @@ LABEL_178:
 
 static BOOL register_win_class()
 {
-  WNDCLASSEXA v1; // [esp+8h] [ebp-30h] BYREF
+  WNDCLASSEXA v1;
 
   v1.cbSize = 48;
   v1.style = 0;
@@ -612,7 +612,7 @@ static BOOL register_win_class()
 
 BOOL create_main_window()
 {
-  HWND Window; // eax
+  HWND Window;
 
   shift_key_pressed = 0;
   g_hInstance = GetModuleHandleA(nullptr);
@@ -648,11 +648,11 @@ BOOL create_main_window()
 
 void save_load_state()
 {
-  int v0; // esi
-  char v1; // [esp+8h] [ebp-4h]
-  char gpu_freeze_counter; // [esp+8h] [ebp-4h]
+  int v0;
+  char v1;
+  char gpu_freeze_counter;
 
-  *(_DWORD *)save_load_state_slot = 255;
+  *(uint32_t *)save_load_state_slot = 255;
   shift_key_pressed = 0;
   spu_mute_flag = 1;
   v0 = 20;
@@ -695,7 +695,7 @@ void save_load_state()
       gpu_freeze_counter = get_gpu_freeze_counter();
       set_gpu_freeze_counter(save_load_state_slot[0] - 10);
       state_save();
-      dbg_print(" * SaveState Done! (%d)\n", *(_DWORD *)save_load_state_slot - 10);
+      dbg_print(" * SaveState Done! (%d)\n", *(uint32_t *)save_load_state_slot - 10);
       set_gpu_freeze_counter(gpu_freeze_counter);
       PostQuitMessage(0);
     }
@@ -706,7 +706,7 @@ void save_load_state()
     set_gpu_freeze_counter(save_load_state_slot[0]);
     state_load();
     dynarec_invalidate();
-    dbg_print(" * LoadState Done! (%d)\n", *(_DWORD *)save_load_state_slot);
+    dbg_print(" * LoadState Done! (%d)\n", *(uint32_t *)save_load_state_slot);
     set_gpu_freeze_counter(v1);
   }
 }

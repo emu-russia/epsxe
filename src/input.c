@@ -2,17 +2,17 @@
 int diAcquireAllDevices()
 {
   if ( g_pJoystickDevices[0] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[0] + 28))(g_pJoystickDevices[0]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[0] + 28))(g_pJoystickDevices[0]);
   if ( g_pJoystickDevices[1] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[1] + 28))(g_pJoystickDevices[1]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[1] + 28))(g_pJoystickDevices[1]);
   if ( g_pJoystickDevices[2] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[2] + 28))(g_pJoystickDevices[2]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[2] + 28))(g_pJoystickDevices[2]);
   if ( g_pJoystickDevices[3] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[3] + 28))(g_pJoystickDevices[3]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[3] + 28))(g_pJoystickDevices[3]);
   if ( g_pMouseDevice )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pMouseDevice + 28))(g_pMouseDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pMouseDevice + 28))(g_pMouseDevice);
   if ( g_pKeyboardDevice )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pKeyboardDevice + 28))(g_pKeyboardDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pKeyboardDevice + 28))(g_pKeyboardDevice);
   g_bDevicesAcquired = 1;
   return 1;
 }
@@ -20,17 +20,17 @@ int diAcquireAllDevices()
 int diUnacquireAllDevices()
 {
   if ( g_pMouseDevice && point_device_enabled )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pMouseDevice + 32))(g_pMouseDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pMouseDevice + 32))(g_pMouseDevice);
   if ( g_pKeyboardDevice )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pKeyboardDevice + 32))(g_pKeyboardDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pKeyboardDevice + 32))(g_pKeyboardDevice);
   if ( g_pJoystickDevices[0] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[0] + 32))(g_pJoystickDevices[0]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[0] + 32))(g_pJoystickDevices[0]);
   if ( g_pJoystickDevices[1] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[1] + 32))(g_pJoystickDevices[1]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[1] + 32))(g_pJoystickDevices[1]);
   if ( g_pJoystickDevices[2] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[2] + 32))(g_pJoystickDevices[2]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[2] + 32))(g_pJoystickDevices[2]);
   if ( g_pJoystickDevices[3] )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[3] + 32))(g_pJoystickDevices[3]);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[3] + 32))(g_pJoystickDevices[3]);
   g_bDevicesAcquired = 0;
   return 1;
 }
@@ -38,16 +38,16 @@ int diUnacquireAllDevices()
 int diAcquireMouseDevice()
 {
   if ( g_pMouseDevice && point_device_enabled )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pMouseDevice + 28))(g_pMouseDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pMouseDevice + 28))(g_pMouseDevice);
   return 1;
 }
 
 static int diGetMouseState()
 {
-  int v1; // eax
-  int v2; // eax
-  _DWORD v3[3]; // [esp+Ch] [ebp-14h] BYREF
-  _BYTE v4[8]; // [esp+18h] [ebp-8h]
+  int v1;
+  int v2;
+  uint32_t v3[3];
+  uint8_t v4[8];
 
   if ( !point_device_enabled )
     return 0;
@@ -58,10 +58,10 @@ static int diGetMouseState()
   {
     while ( 1 )
     {
-      v2 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v1 + 36))(v1, 16, v3);
+      v2 = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)v1 + 36))(v1, 16, v3);
       if ( v2 != DIERR_INPUTLOST )
         break;
-      if ( (*(int (__stdcall **)(int))(*(_DWORD *)g_pMouseDevice + 28))(g_pMouseDevice) < 0 )
+      if ( (*(int (__stdcall **)(int))(*(uint32_t *)g_pMouseDevice + 28))(g_pMouseDevice) < 0 )
         return 0;
       v1 = g_pMouseDevice;
     }
@@ -74,7 +74,7 @@ static int diGetMouseState()
   return 1;
 }
 
-static int __stdcall diEnumEffectsCallback(_DWORD *a1, _DWORD *a2)
+static int __stdcall diEnumEffectsCallback(uint32_t *a1, uint32_t *a2)
 {
   if ( a2 )
   {
@@ -86,41 +86,41 @@ static int __stdcall diEnumEffectsCallback(_DWORD *a1, _DWORD *a2)
   return 0;
 }
 
-static unsigned int __cdecl diCreateEffectHelper(int a1, _DWORD *a2)
+static unsigned int diCreateEffectHelper(int a1, uint32_t *a2)
 {
-  int v3; // [esp+8h] [ebp-1Ch]
-  _BYTE v4[16]; // [esp+14h] [ebp-10h] BYREF
+  int v3;
+  uint8_t v4[16];
 
   if ( *a2 )
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)*a2 + 8))(*a2);
+    (*(void (__stdcall **)(uint32_t))(*(uint32_t *)*a2 + 8))(*a2);
   v3 = a2[1];
   *a2 = 0;
-  if ( (*(int (__stdcall **)(int, int (__stdcall *)(_DWORD *, _DWORD *), _BYTE *, int))(*(_DWORD *)a1 + 76))(
+  if ( (*(int (__stdcall **)(int, int (__stdcall *)(uint32_t *, uint32_t *), uint8_t *, int))(*(uint32_t *)a1 + 76))(
          a1,
          diEnumEffectsCallback,
          v4,
          v3) >= 0 )
-    return (*(int (__stdcall **)(int, _BYTE *, _DWORD *, _DWORD *, _DWORD))(*(_DWORD *)a1 + 72))(a1, v4, a2 + 2, a2, 0) >= 0
+    return (*(int (__stdcall **)(int, uint8_t *, uint32_t *, uint32_t *, uint32_t))(*(uint32_t *)a1 + 72))(a1, v4, a2 + 2, a2, 0) >= 0
          ? 0
          : 0x80004005;
   else
     return 0x80004005;
 }
 
-static unsigned int __cdecl diSetupConstantForceEffect(int a1, int a2)
+static unsigned int diSetupConstantForceEffect(int a1, int a2)
 {
-  _DWORD *v2; // eax
-  int v3; // edx
-  _DWORD v5[2]; // [esp+0h] [ebp-10h] BYREF
-  _DWORD v6[2]; // [esp+8h] [ebp-8h] BYREF
+  uint32_t *v2;
+  int v3;
+  uint32_t v5[2];
+  uint32_t v6[2];
 
-  v2 = (_DWORD *)a1;
+  v2 = (uint32_t *)a1;
   if ( !a1 )
     return E_FAIL;
   v3 = a2;
   if ( !a2 )
     return E_FAIL;
-  *(_DWORD *)(a1 + 40) = v5;
+  *(uint32_t *)(a1 + 40) = v5;
   v2[5] = 0;
   v2[8] = 0;
   v2[11] = v6;
@@ -140,11 +140,11 @@ static unsigned int __cdecl diSetupConstantForceEffect(int a1, int a2)
   return (diCreateEffectHelper(v3, v2) & 0x80000000) == 0 ? 0 : 0x80004005;
 }
 
-static unsigned int __cdecl diSetupPeriodicForceEffect(_DWORD *a1, int a2)
+static unsigned int diSetupPeriodicForceEffect(uint32_t *a1, int a2)
 {
-  int v3; // [esp+0h] [ebp-20h] BYREF
-  int v4; // [esp+8h] [ebp-18h] BYREF
-  _DWORD v5[4]; // [esp+10h] [ebp-10h] BYREF
+  int v3;
+  int v4;
+  uint32_t v5[4];
 
   if ( !a1 || !a2 )
     return E_FAIL;
@@ -173,32 +173,32 @@ static unsigned int __cdecl diSetupPeriodicForceEffect(_DWORD *a1, int a2)
   return (diCreateEffectHelper(a2, a1) & 0x80000000) == 0 ? 0 : E_FAIL;
 }
 
-static int __cdecl diSetConstantForceMagnitude(int a1, int a2)
+static int diSetConstantForceMagnitude(int a1, int a2)
 {
-  _DWORD *v2; // ebx
-  int v3; // esi
-  _DWORD v5[14]; // [esp+8h] [ebp-38h] BYREF
+  uint32_t *v2;
+  int v3;
+  uint32_t v5[14];
 
-  v2 = (_DWORD *)a1;
+  v2 = (uint32_t *)a1;
   if ( !a1 )
     return E_INVALIDARG;
-  v3 = *(_DWORD *)a1;
-  if ( !*(_DWORD *)a1 )
+  v3 = *(uint32_t *)a1;
+  if ( !*(uint32_t *)a1 )
     return E_INVALIDARG;
   memset(v5, 0, sizeof(v5));
   a1 = 10000 * a2 / 255;
   v5[0] = 56;
   v5[11] = 4;
   v5[12] = &a1;
-  (*(void (__stdcall **)(int, _DWORD *, int))(*(_DWORD *)v3 + 24))(v3, v5, 256);
-  return (*(int (__stdcall **)(_DWORD, int, _DWORD))(*(_DWORD *)*v2 + 28))(*v2, 1, 0);
+  (*(void (__stdcall **)(int, uint32_t *, int))(*(uint32_t *)v3 + 24))(v3, v5, 256);
+  return (*(int (__stdcall **)(uint32_t, int, uint32_t))(*(uint32_t *)*v2 + 28))(*v2, 1, 0);
 }
 
-static int __cdecl diSetPeriodicForceMagnitude(_DWORD *a1, int a2)
+static int diSetPeriodicForceMagnitude(uint32_t *a1, int a2)
 {
-  int v2; // esi
-  int v4; // [esp+8h] [ebp-48h] BYREF
-  _DWORD v5[14]; // [esp+18h] [ebp-38h] BYREF
+  int v2;
+  int v4;
+  uint32_t v5[14];
 
   if ( !a1 )
     return E_INVALIDARG;
@@ -210,11 +210,11 @@ static int __cdecl diSetPeriodicForceMagnitude(_DWORD *a1, int a2)
   v5[0] = 56;
   v5[11] = 16;
   v5[12] = &v4;
-  (*(void (__stdcall **)(int, _DWORD *, int))(*(_DWORD *)v2 + 24))(v2, v5, 256);
-  return (*(int (__stdcall **)(_DWORD, int, _DWORD))(*(_DWORD *)*a1 + 28))(*a1, 1, 0);
+  (*(void (__stdcall **)(int, uint32_t *, int))(*(uint32_t *)v2 + 24))(v2, v5, 256);
+  return (*(int (__stdcall **)(uint32_t, int, uint32_t))(*(uint32_t *)*a1 + 28))(*a1, 1, 0);
 }
 
-static _DWORD *__cdecl diInitEffectStruct(_DWORD *a1)
+static uint32_t * diInitEffectStruct(uint32_t *a1)
 {
   memset(a1 + 2, 0, 0x38u);
   a1[2] = 56;
@@ -229,9 +229,9 @@ static _DWORD *__cdecl diInitEffectStruct(_DWORD *a1)
   return a1 + 16;
 }
 
-int __cdecl diSetEffectMagnitude(int a1, int a2, int a3, int a4)
+int diSetEffectMagnitude(int a1, int a2, int a3, int a4)
 {
-  int result; // eax
+  int result;
 
   if ( a1 )
   {
@@ -242,7 +242,7 @@ int __cdecl diSetEffectMagnitude(int a1, int a2, int a3, int a4)
     }
     else if ( result == 2 )
     {
-      return diSetPeriodicForceMagnitude((_DWORD *)g_MouseY[g_PlayerDeviceMap1[a4]], a2);
+      return diSetPeriodicForceMagnitude((uint32_t *)g_MouseY[g_PlayerDeviceMap1[a4]], a2);
     }
   }
   else
@@ -254,70 +254,70 @@ int __cdecl diSetEffectMagnitude(int a1, int a2, int a3, int a4)
     }
     else if ( result == 2 )
     {
-      return diSetPeriodicForceMagnitude((_DWORD *)force_feedback_effect_handles2[g_PlayerDeviceMap1[a4]], a2);
+      return diSetPeriodicForceMagnitude((uint32_t *)force_feedback_effect_handles2[g_PlayerDeviceMap1[a4]], a2);
     }
   }
   return result;
 }
 
-static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
+static int diEnumDevicesCallback(int a1, uint32_t *a2, int a3)
 {
-  int v3; // ebp
-  int v4; // edx
-  int i; // eax
-  int *v7; // eax
-  int v8; // ecx
-  int v9; // eax
-  int v10; // eax
-  bool v11; // sf
-  int v12; // eax
-  int v13; // eax
-  int v14; // eax
-  int v15; // eax
-  int v16; // eax
-  int v17; // eax
-  int v18; // eax
-  int v19; // eax
-  int v20; // eax
-  int v21; // eax
-  int v22; // eax
-  int v23; // eax
-  int v24; // eax
-  int v25; // eax
-  int v26; // eax
-  int v27; // eax
-  int v28; // eax
-  int v29; // eax
-  int v30; // eax
-  int v31; // eax
-  int v32; // eax
-  int v33; // eax
-  int v34; // eax
-  int v35; // eax
-  int v36; // ecx
-  int *v37; // eax
-  int v38; // eax
-  int v39; // ebp
-  char *v40; // [esp+C4h] [ebp-64h]
-  _DWORD v41[4]; // [esp+D8h] [ebp-50h] BYREF
-  int v42; // [esp+E8h] [ebp-40h] BYREF
-  int v43; // [esp+ECh] [ebp-3Ch]
-  int v44; // [esp+F0h] [ebp-38h]
-  int v45; // [esp+F4h] [ebp-34h]
-  int v46; // [esp+F8h] [ebp-30h]
-  _DWORD v47[5]; // [esp+FCh] [ebp-2Ch] BYREF
-  int v48; // [esp+110h] [ebp-18h] BYREF
-  _DWORD v49[2]; // [esp+114h] [ebp-14h] BYREF
-  int v50; // [esp+11Ch] [ebp-Ch]
-  int v51; // [esp+120h] [ebp-8h]
-  int v52; // [esp+124h] [ebp-4h]
-  int a1a; // [esp+12Ch] [ebp+4h]
+  int v3;
+  int v4;
+  int i;
+  int *v7;
+  int v8;
+  int v9;
+  int v10;
+  bool v11;
+  int v12;
+  int v13;
+  int v14;
+  int v15;
+  int v16;
+  int v17;
+  int v18;
+  int v19;
+  int v20;
+  int v21;
+  int v22;
+  int v23;
+  int v24;
+  int v25;
+  int v26;
+  int v27;
+  int v28;
+  int v29;
+  int v30;
+  int v31;
+  int v32;
+  int v33;
+  int v34;
+  int v35;
+  int v36;
+  int *v37;
+  int v38;
+  int v39;
+  char *v40;
+  uint32_t v41[4];
+  int v42;
+  int v43;
+  int v44;
+  int v45;
+  int v46;
+  uint32_t v47[5];
+  int v48;
+  uint32_t v49[2];
+  int v50;
+  int v51;
+  int v52;
+  int a1a;
 
-  v4 = *(_DWORD *)(a1 + 8);
-  v41[0] = *(_DWORD *)(a1 + 4);
-  v41[2] = *(_DWORD *)(a1 + 12);
+  v4 = *(uint32_t *)(a1 + 8);
+  v41[0] = *(uint32_t *)(a1 + 4);
+  v41[2] = *(uint32_t *)(a1 + 12);
   v41[1] = v4;
-  v41[3] = *(_DWORD *)(a1 + 16);
+  v41[3] = *(uint32_t *)(a1 + 16);
   a1a = -1;
   if ( (unsigned int)g_uiNumJoysticks <= 3 )
   {
@@ -326,14 +326,14 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       if ( g_PlayerDeviceMap1[i] == g_uiNumJoysticks + 1 )
         a1a = i;
     }
-    if ( !(*(int (__stdcall **)(_DWORD *, _DWORD *, GUID *, int, _DWORD))(*a2 + 36))(
+    if ( !(*(int (__stdcall **)(uint32_t *, uint32_t *, GUID *, int, uint32_t))(*a2 + 36))(
             a2,
             v41,
             &GUID_Joystick,
             4 * g_uiNumJoysticks + 5207916,
             0) )
     {
-      if ( (*(int (__stdcall **)(int, char *))(*(_DWORD *)g_pJoystickDevices[g_uiNumJoysticks] + 44))(
+      if ( (*(int (__stdcall **)(int, char *))(*(uint32_t *)g_pJoystickDevices[g_uiNumJoysticks] + 44))(
              g_pJoystickDevices[g_uiNumJoysticks],
              &g_JoystickDataFormat)
         || ((v7 = (int *)g_pJoystickDevices[g_uiNumJoysticks], v8 = *v7, a1a == -1)
@@ -341,7 +341,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
           : (v9 = (*(int (__stdcall **)(int *, int, int))(v8 + 52))(v7, hDlgInput, 5)),
             v9) )
       {
-        (*(void (__stdcall **)(int))(*(_DWORD *)g_pJoystickDevices[g_uiNumJoysticks] + 8))(g_pJoystickDevices[g_uiNumJoysticks]);
+        (*(void (__stdcall **)(int))(*(uint32_t *)g_pJoystickDevices[g_uiNumJoysticks] + 8))(g_pJoystickDevices[g_uiNumJoysticks]);
         return 1;
       }
       v10 = g_pJoystickDevices[g_uiNumJoysticks];
@@ -351,7 +351,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       v50 = 1;
       v51 = -128;
       v52 = 127;
-      v11 = (*(int (__stdcall **)(int, int, int *, int))(*(_DWORD *)v10 + 24))(v10, 4, &v48, v3) < 0;
+      v11 = (*(int (__stdcall **)(int, int, int *, int))(*(uint32_t *)v10 + 24))(v10, 4, &v48, v3) < 0;
       v12 = g_uiNumJoysticks;
       if ( v11 )
       {
@@ -360,7 +360,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       }
       v13 = g_pJoystickDevices[v12];
       v50 = 4;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v13 + 24))(v13, 4, v49) < 0;
+      v11 = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)v13 + 24))(v13, 4, v49) < 0;
       v14 = g_uiNumJoysticks;
       if ( v11 )
       {
@@ -369,7 +369,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       }
       v15 = g_pJoystickDevices[v14];
       v50 = 8;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v15 + 24))(v15, 4, v49) < 0;
+      v11 = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)v15 + 24))(v15, 4, v49) < 0;
       v16 = g_uiNumJoysticks;
       if ( v11 )
       {
@@ -378,7 +378,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       }
       v17 = g_pJoystickDevices[v16];
       v50 = 12;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v17 + 24))(v17, 4, v49) < 0;
+      v11 = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)v17 + 24))(v17, 4, v49) < 0;
       v18 = g_uiNumJoysticks;
       if ( v11 )
       {
@@ -387,7 +387,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       }
       v19 = g_pJoystickDevices[v18];
       v50 = 16;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v19 + 24))(v19, 4, v49) < 0;
+      v11 = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)v19 + 24))(v19, 4, v49) < 0;
       v20 = g_uiNumJoysticks;
       if ( v11 )
       {
@@ -396,7 +396,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       }
       v21 = g_pJoystickDevices[v20];
       v50 = 20;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v21 + 24))(v21, 4, v49) < 0;
+      v11 = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)v21 + 24))(v21, 4, v49) < 0;
       v22 = g_uiNumJoysticks;
       if ( v11 )
       {
@@ -405,7 +405,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       }
       v23 = g_pJoystickDevices[v22];
       v50 = 24;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v23 + 24))(v23, 4, v49) < 0;
+      v11 = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)v23 + 24))(v23, 4, v49) < 0;
       v24 = g_uiNumJoysticks;
       if ( v11 )
       {
@@ -414,7 +414,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       }
       v25 = g_pJoystickDevices[v24];
       v50 = 28;
-      v11 = (*(int (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v25 + 24))(v25, 4, v49) < 0;
+      v11 = (*(int (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)v25 + 24))(v25, 4, v49) < 0;
       v26 = g_uiNumJoysticks;
       if ( v11 )
       {
@@ -427,34 +427,34 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
       v46 = 1;
       v47[0] = 2500;
       v45 = 0;
-      (*(void (__stdcall **)(int, int))(*(_DWORD *)v27 + 24))(v27, 5);
+      (*(void (__stdcall **)(int, int))(*(uint32_t *)v27 + 24))(v27, 5);
       v28 = g_pJoystickDevices[g_uiNumJoysticks];
       v44 = 4;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v28 + 24))(v28, 5, &v42);
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)v28 + 24))(v28, 5, &v42);
       v29 = g_pJoystickDevices[g_uiNumJoysticks];
       v44 = 8;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v29 + 24))(v29, 5, &v42);
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)v29 + 24))(v29, 5, &v42);
       v30 = g_pJoystickDevices[g_uiNumJoysticks];
       v44 = 12;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v30 + 24))(v30, 5, &v42);
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)v30 + 24))(v30, 5, &v42);
       v31 = g_pJoystickDevices[g_uiNumJoysticks];
       v44 = 16;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v31 + 24))(v31, 5, &v42);
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)v31 + 24))(v31, 5, &v42);
       v32 = g_pJoystickDevices[g_uiNumJoysticks];
       v44 = 20;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v32 + 24))(v32, 5, &v42);
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)v32 + 24))(v32, 5, &v42);
       v33 = g_pJoystickDevices[g_uiNumJoysticks];
       v44 = 24;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v33 + 24))(v33, 5, &v42);
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)v33 + 24))(v33, 5, &v42);
       v34 = g_pJoystickDevices[g_uiNumJoysticks];
       v44 = 28;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v34 + 24))(v34, 5, &v42);
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)v34 + 24))(v34, 5, &v42);
       v42 = 20;
       v43 = 16;
       v45 = 0;
       v46 = 0;
       v44 = 0;
-      (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)g_pJoystickDevices[g_uiNumJoysticks] + 24))(
+      (*(void (__stdcall **)(int, int, int *))(*(uint32_t *)g_pJoystickDevices[g_uiNumJoysticks] + 24))(
         g_pJoystickDevices[g_uiNumJoysticks],
         2,
         &v42);
@@ -464,16 +464,16 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
         v47[0] = 20;
         v47[1] = 16;
         memset(&v47[2], 0, 12);
-        (*(void (__stdcall **)(int, int, _DWORD *))(*(_DWORD *)v35 + 24))(v35, 9, v47);
+        (*(void (__stdcall **)(int, int, uint32_t *))(*(uint32_t *)v35 + 24))(v35, 9, v47);
         v36 = g_uiNumJoysticks;
         v37 = &g_EffectBuffer2[25 * g_uiNumJoysticks];
         v40 = &g_EffectBuffer1[100 * g_uiNumJoysticks];
         g_pEffectStructs[g_uiNumJoysticks] = (int)v40;
         g_pEffectStructs2[v36] = (int)v37;
         diInitEffectStruct(v40);
-        diInitEffectStruct((_DWORD *)g_pEffectStructs2[g_uiNumJoysticks]);
-        *(_DWORD *)(g_pEffectStructs[g_uiNumJoysticks] + 24) = 100 * g_EffectScaleFactor;
-        *(_DWORD *)(g_pEffectStructs2[g_uiNumJoysticks] + 24) = 100 * g_EffectScaleFactor;
+        diInitEffectStruct((uint32_t *)g_pEffectStructs2[g_uiNumJoysticks]);
+        *(uint32_t *)(g_pEffectStructs[g_uiNumJoysticks] + 24) = 100 * g_EffectScaleFactor;
+        *(uint32_t *)(g_pEffectStructs2[g_uiNumJoysticks] + 24) = 100 * g_EffectScaleFactor;
         v38 = g_EffectType1[a1a];
         if ( v38 == 1 )
         {
@@ -481,7 +481,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
         }
         else if ( v38 == 2 )
         {
-          diSetupPeriodicForceEffect((_DWORD *)g_pEffectStructs[g_uiNumJoysticks], g_pJoystickDevices[g_uiNumJoysticks]);
+          diSetupPeriodicForceEffect((uint32_t *)g_pEffectStructs[g_uiNumJoysticks], g_pJoystickDevices[g_uiNumJoysticks]);
         }
         v39 = g_EffectType2[a1a];
         if ( v39 == 1 )
@@ -491,7 +491,7 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
         else if ( v39 == 2 )
         {
           diSetupPeriodicForceEffect(
-            (_DWORD *)g_pEffectStructs2[g_uiNumJoysticks],
+            (uint32_t *)g_pEffectStructs2[g_uiNumJoysticks],
             g_pJoystickDevices[g_uiNumJoysticks]);
         }
       }
@@ -503,41 +503,41 @@ static int diEnumDevicesCallback(int a1, _DWORD *a2, int a3)
 
 int diInitDirectInput()
 {
-  HRESULT hr; // edi
-  CHAR Text[256]; // [esp+8h] [ebp-100h] BYREF
+  HRESULT hr;
+  CHAR Text[256];
 
   hr = DirectInputCreateA(hInst_For_DInput, 0x700, (int)&g_pDirectInput, 0);
   if ( hr >= 0 )
   {
-    if ( (*(int (__stdcall **)(int, GUID *, int *, _DWORD))(*(_DWORD *)g_pDirectInput + 12))(
+    if ( (*(int (__stdcall **)(int, GUID *, int *, uint32_t))(*(uint32_t *)g_pDirectInput + 12))(
            g_pDirectInput,
            &GUID_Keyboard,
            &g_pKeyboardDevice,
            0) < 0 )
       return 0;
-    if ( (*(int (__stdcall **)(int, char *))(*(_DWORD *)g_pKeyboardDevice + 44))(
+    if ( (*(int (__stdcall **)(int, char *))(*(uint32_t *)g_pKeyboardDevice + 44))(
            g_pKeyboardDevice,
            &g_KeyboardDataFormat) < 0 )
       return 0;
-    (*(void (__stdcall **)(int, int, int))(*(_DWORD *)g_pKeyboardDevice + 52))(g_pKeyboardDevice, hDlgInput, 6);
+    (*(void (__stdcall **)(int, int, int))(*(uint32_t *)g_pKeyboardDevice + 52))(g_pKeyboardDevice, hDlgInput, 6);
     if ( !point_device_enabled || g_bDisableMouse )
       goto LABEL_25;
-    if ( (*(int (__stdcall **)(int, GUID *, int *, _DWORD))(*(_DWORD *)g_pDirectInput + 12))(
+    if ( (*(int (__stdcall **)(int, GUID *, int *, uint32_t))(*(uint32_t *)g_pDirectInput + 12))(
            g_pDirectInput,
            &GUID_Mouse,
            &g_pMouseDevice,
            0) < 0 )
       return 0;
-    if ( (*(int (__stdcall **)(int, char *))(*(_DWORD *)g_pMouseDevice + 44))(g_pMouseDevice, &g_MouseDataFormat) < 0 )
+    if ( (*(int (__stdcall **)(int, char *))(*(uint32_t *)g_pMouseDevice + 44))(g_pMouseDevice, &g_MouseDataFormat) < 0 )
       return 0;
-    if ( (*(int (__stdcall **)(int, int, int))(*(_DWORD *)g_pMouseDevice + 52))(g_pMouseDevice, hDlgInput, 5) >= 0 )
+    if ( (*(int (__stdcall **)(int, int, int))(*(uint32_t *)g_pMouseDevice + 52))(g_pMouseDevice, hDlgInput, 5) >= 0 )
     {
 LABEL_25:
       g_pJoystickDevices[0] = 0;
       g_pJoystickDevices[1] = 0;
       g_pJoystickDevices[2] = 0;
       g_pJoystickDevices[3] = 0;
-      (*(void (__stdcall **)(int, int, int (*)(int, _DWORD *, int), int, int))(*(_DWORD *)g_pDirectInput + 16))(
+      (*(void (__stdcall **)(int, int, int (*)(int, uint32_t *, int), int, int))(*(uint32_t *)g_pDirectInput + 16))(
         g_pDirectInput,
         4,
         diEnumDevicesCallback,
@@ -547,7 +547,7 @@ LABEL_25:
          || g_PlayerDeviceMap2 && (unsigned int)g_PlayerDeviceMap2 <= 4
          || g_PlayerDeviceMap3 && (unsigned int)g_PlayerDeviceMap3 <= 4
          || g_PlayerDeviceMap4[0] && g_PlayerDeviceMap4[0] <= 4u)
-        && (*(int (__stdcall **)(int, int, int (*)(int, _DWORD *, int), int, int))(*(_DWORD *)g_pDirectInput + 16))(
+        && (*(int (__stdcall **)(int, int, int (*)(int, uint32_t *, int), int, int))(*(uint32_t *)g_pDirectInput + 16))(
              g_pDirectInput,
              4,
              diEnumDevicesCallback,
@@ -606,10 +606,10 @@ LABEL_10:
 
 int diUpdateJoystickStates()
 {
-  char *v0; // edi
-  int i; // esi
-  int result; // eax
-  int v3; // eax
+  char *v0;
+  int i;
+  int result;
+  int v3;
 
   v0 = g_JoystickStateBuffer;
   for ( i = 0; ; ++i )
@@ -622,13 +622,13 @@ LABEL_97:
     if ( (int)v0 >= (int)g_EffectBuffer2 )
       return result;
   }
-  (*(void (__stdcall **)(int))(*(_DWORD *)result + 100))(g_pJoystickDevices[i]);
-  if ( (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)g_pJoystickDevices[i] + 36))(g_pJoystickDevices[i], 80, v0) != -2147024866 )
+  (*(void (__stdcall **)(int))(*(uint32_t *)result + 100))(g_pJoystickDevices[i]);
+  if ( (*(int (__stdcall **)(int, int, char *))(*(uint32_t *)g_pJoystickDevices[i] + 36))(g_pJoystickDevices[i], 80, v0) != -2147024866 )
     goto LABEL_8;
   v3 = g_pJoystickDevices[i];
   if ( v3 )
-    (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 28))(g_pJoystickDevices[i]);
-  result = (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)g_pJoystickDevices[i] + 36))(
+    (*(void (__stdcall **)(int))(*(uint32_t *)v3 + 28))(g_pJoystickDevices[i]);
+  result = (*(int (__stdcall **)(int, int, char *))(*(uint32_t *)g_pJoystickDevices[i] + 36))(
              g_pJoystickDevices[i],
              80,
              v0);
@@ -696,8 +696,8 @@ LABEL_8:
     result = joystick_button_16_triggered[i];
     if ( !result )
     {
-      result = (unsigned __int8)v0[63];
-      if ( (_BYTE)result )
+      result = (uint8_t)v0[63];
+      if ( (uint8_t)result )
         joystick_button_16_triggered[i] = 1;
     }
     goto LABEL_97;
@@ -707,17 +707,17 @@ LABEL_8:
 
 int diUpdateDeviceStates()
 {
-  int result; // eax
-  int i; // eax
-  int j; // esi
-  int v3; // ecx
-  char *v4; // edx
-  int *v5; // ebp
-  int v6; // eax
-  unsigned int v7; // edi
-  char *v8; // ecx
-  char *v9; // [esp+2Ch] [ebp-104h]
-  _BYTE v10[256]; // [esp+30h] [ebp-100h] BYREF
+  int result;
+  int i;
+  int j;
+  int v3;
+  char *v4;
+  int *v5;
+  int v6;
+  unsigned int v7;
+  char *v8;
+  char *v9;
+  uint8_t v10[256];
 
   memset(g_KeyboardState, 0, 0x40u);
   memset(v10, 0, sizeof(v10));
@@ -726,7 +726,7 @@ int diUpdateDeviceStates()
   {
     if ( g_bDevicesAcquired == 1 )
     {
-      result = (*(int (__stdcall **)(int, int, _BYTE *))(*(_DWORD *)g_pKeyboardDevice + 36))(
+      result = (*(int (__stdcall **)(int, int, uint8_t *))(*(uint32_t *)g_pKeyboardDevice + 36))(
                  g_pKeyboardDevice,
                  256,
                  v10);
@@ -759,9 +759,9 @@ int diUpdateDeviceStates()
               v4[result++] = 0;
             }
             while ( result < 32 );
-            (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 100))(v3);
+            (*(void (__stdcall **)(int))(*(uint32_t *)v3 + 100))(v3);
             v5 = (int *)&g_JoystickStateBuffer[80 * j];
-            result = (*(int (__stdcall **)(int, int, int *))(*(_DWORD *)g_pJoystickDevices[j] + 36))(
+            result = (*(int (__stdcall **)(int, int, int *))(*(uint32_t *)g_pJoystickDevices[j] + 36))(
                        g_pJoystickDevices[j],
                        80,
                        v5);
@@ -769,8 +769,8 @@ int diUpdateDeviceStates()
             {
               v6 = g_pJoystickDevices[j];
               if ( v6 )
-                (*(void (__stdcall **)(int))(*(_DWORD *)v6 + 28))(g_pJoystickDevices[j]);
-              result = (*(int (__stdcall **)(int, int, char *))(*(_DWORD *)g_pJoystickDevices[j] + 36))(
+                (*(void (__stdcall **)(int))(*(uint32_t *)v6 + 28))(g_pJoystickDevices[j]);
+              result = (*(int (__stdcall **)(int, int, char *))(*(uint32_t *)g_pJoystickDevices[j] + 36))(
                          g_pJoystickDevices[j],
                          80,
                          &g_JoystickStateBuffer[80 * j]);
@@ -784,7 +784,7 @@ int diUpdateDeviceStates()
               {
                 pad_axis_1_positive_pressed[32 * j] = 1;
                 result = 16 * j;
-                pad_axis_1_value[8 * j] = *(_WORD *)v5;
+                pad_axis_1_value[8 * j] = *(uint16_t *)v5;
               }
             }
             if ( !joystick_axis_1_positive_triggered[j] )
@@ -794,7 +794,7 @@ int diUpdateDeviceStates()
               {
                 pad_axis_1_negative_pressed[32 * j] = 1;
                 result = 16 * j;
-                pad_axis_1_value[8 * j] = *(_WORD *)v5;
+                pad_axis_1_value[8 * j] = *(uint16_t *)v5;
               }
             }
             if ( !joystick_axis_1_negative_triggered[j] )
@@ -971,8 +971,8 @@ int diUpdateDeviceStates()
               {
                 case 0x57E4u:
                   result = (int)&g_KeyboardStatePrev[32 * j];
-                  *(_BYTE *)(result + 386) = 1;
-                  *(_BYTE *)(result + 387) = 1;
+                  *(uint8_t *)(result + 386) = 1;
+                  *(uint8_t *)(result + 387) = 1;
                   break;
                 case 0x6978u:
                   pad_pov_left_pressed[32 * j] = 1;
@@ -993,8 +993,8 @@ int diUpdateDeviceStates()
               if ( v7 == 13500 )
               {
                 result = (int)&g_KeyboardStatePrev[32 * j];
-                *(_BYTE *)(result + 385) = 1;
-                *(_BYTE *)(result + 386) = 1;
+                *(uint8_t *)(result + 385) = 1;
+                *(uint8_t *)(result + 386) = 1;
               }
             }
             else if ( v7 == 9000 )
@@ -1035,7 +1035,7 @@ int diUpdateDeviceStates()
 
 int diGetClampedMouseX()
 {
-  int result; // eax
+  int result;
 
   if ( !point_device_enabled )
     return 0;
@@ -1056,7 +1056,7 @@ int diGetClampedMouseX()
 
 int diGetClampedMouseY()
 {
-  int result; // eax
+  int result;
 
   if ( !point_device_enabled )
     return 0;
@@ -1076,43 +1076,43 @@ int diGetClampedMouseY()
 
 int diShutdownDirectInput()
 {
-  int *v0; // esi
-  int result; // eax
+  int *v0;
+  int result;
 
   diUnacquireAllDevices();
   if ( g_pKeyboardDevice )
-    (*(void (__stdcall **)(int))(*(_DWORD *)g_pKeyboardDevice + 8))(g_pKeyboardDevice);
+    (*(void (__stdcall **)(int))(*(uint32_t *)g_pKeyboardDevice + 8))(g_pKeyboardDevice);
   g_pKeyboardDevice = 0;
   v0 = g_pJoystickDevices;
   do
   {
     if ( *v0 )
-      (*(void (__stdcall **)(int))(*(_DWORD *)*v0 + 8))(*v0);
+      (*(void (__stdcall **)(int))(*(uint32_t *)*v0 + 8))(*v0);
     *v0++ = 0;
   }
   while ( (int)v0 < (int)&g_directinput_initialized );
-  result = (*(int (__stdcall **)(int))(*(_DWORD *)g_pDirectInput + 8))(g_pDirectInput);
+  result = (*(int (__stdcall **)(int))(*(uint32_t *)g_pDirectInput + 8))(g_pDirectInput);
   g_pDirectInput = 0;
   g_uiNumJoysticks = 0;
   return result;
 }
 
-int __cdecl diGetJoystickButtonState1(int a1)
+int diGetJoystickButtonState1(int a1)
 {
   return g_KeyboardState[LOWORD(GamepadAxis[2 * a1])];
 }
 
-int __cdecl diGetJoystickButtonState2(int a1)
+int diGetJoystickButtonState2(int a1)
 {
   return g_KeyboardState[HIWORD(GamepadAxis[2 * a1])];
 }
 
-int __cdecl diGetJoystickButtonState3(int a1)
+int diGetJoystickButtonState3(int a1)
 {
   return g_KeyboardState[LOWORD(GamepadAxis[2 * a1 + 1])];
 }
 
-int __cdecl diGetJoystickButtonState4(int a1)
+int diGetJoystickButtonState4(int a1)
 {
   return g_KeyboardState[HIWORD(GamepadAxis[2 * a1 + 1])];
 }

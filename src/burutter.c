@@ -29,33 +29,33 @@ static int JOY_Close()
     return 0;
 }
 
-static BOOL __cdecl Big_Motor(unsigned int a1, int a2)
+static BOOL Big_Motor(unsigned int strength, int duration)
 {
-    int v2; // eax
+    int clamped_strength;
 
-    v2 = a1;
-    if (a1 < 2)
-        v2 = 0;
+    clamped_strength = strength;
+    if (strength < 2)
+        clamped_strength = 0;
     vibration_cmd_buffer[0] = 2;
     vibration_cmd_buffer[4] = 2;
-    vibration_cmd_buffer[2] = v2;
+    vibration_cmd_buffer[2] = clamped_strength;
     vibration_cmd_buffer[1] = 1;
-    vibration_cmd_buffer[3] = a2;
+    vibration_cmd_buffer[3] = duration;
     return DeviceIoControl(hDevice, 4u, vibration_cmd_buffer, 0x14u, nullptr, 0, &BytesReturned, nullptr);
 }
 
-static BOOL __cdecl Small_Motor(unsigned int a1, int a2)
+static BOOL Small_Motor(unsigned int strength, int duration)
 {
-    int v2; // eax
+    int clamped_strength;
 
-    v2 = a1;
-    if (a1 > 1)
-        v2 = 1;
+    clamped_strength = strength;
+    if (strength > 1)
+        clamped_strength = 1;
     vibration_cmd_buffer[0] = 2;
     vibration_cmd_buffer[4] = 2;
-    vibration_cmd_buffer[2] = v2;
+    vibration_cmd_buffer[2] = clamped_strength;
     vibration_cmd_buffer[1] = 1;
-    vibration_cmd_buffer[3] = a2;
+    vibration_cmd_buffer[3] = duration;
     return DeviceIoControl(hDevice, 4u, vibration_cmd_buffer, 0x14u, nullptr, 0, &BytesReturned, nullptr);
 }
 
@@ -66,28 +66,22 @@ static int joy_init(void)
 
 int joy_issue_big_motor()
 {
-    int result; // eax
-
     if (vibration_enabled)
         return Big_Motor(0xFFFF, 1);
     joy_init();
-    result = vibration_enabled;
     if (vibration_enabled)
         return Big_Motor(0xFFFF, 1);
-    return result;
+    return 0;
 }
 
 int joy_issue_small_motor()
 {
-    int result; // eax
-
     if (vibration_enabled)
         return Small_Motor(1, 1);
     joy_init();
-    result = vibration_enabled;
     if (vibration_enabled)
         return Small_Motor(1, 1);
-    return result;
+    return 0;
 }
 
 /* Decompiled globals (previously generated in src/_gen) */

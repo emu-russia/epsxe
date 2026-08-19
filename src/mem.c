@@ -9,9 +9,9 @@ int mem_clear_memory()
 
 void mem_init_memory_handlers()
 {
-  int i; // eax
-  int *v1; // ecx
-  char *v2; // ecx
+  int i;
+  int *v1;
+  char *v2;
 
   for ( i = 0; i < 0x10000; ++i )
   {
@@ -28,7 +28,7 @@ void mem_init_memory_handlers()
     }
     if ( i >= 0x1F00 && i <= 0x1F01 )
     {
-      v2 = &pio_mem[0x10000 * (unsigned __int8)i];
+      v2 = &pio_mem[0x10000 * (uint8_t)i];
       mem_read_hooks[i] = (int)v2;
       mem_write_hooks[i] = (int)v2;
     }
@@ -42,10 +42,10 @@ void mem_init_memory_handlers()
   dbg_print_no_flush(" * Memory handlers init. \n");
 }
 
-void __cdecl mem_hw_reg_read_byte(unsigned int a1)
+void mem_hw_reg_read_byte(unsigned int a1)
 {
   hw_update_counter -= 4;
-  if ( (a1 & 0x1FC00000) != 0x1F800000 || (unsigned __int16)a1 < 0x1000u )
+  if ( (a1 & 0x1FC00000) != 0x1F800000 || (uint16_t)a1 < 0x1000u )
     return;
   if ( a1 >= 0x1F801C00 && a1 <= 0x1F801EEF )
   {
@@ -67,11 +67,11 @@ LABEL_19:
   }
   if ( a1 == 0x1F801801 )
   {
-    if ( (unsigned __int8)g_cdr_response_index < (unsigned __int8)g_cdr_response_size )
+    if ( (uint8_t)g_cdr_response_index < (uint8_t)g_cdr_response_size )
     {
       if ( g_cdr_irq_pending )
       {
-        if ( (unsigned __int8)++g_cdr_response_index >= (unsigned __int8)g_cdr_response_size )
+        if ( (uint8_t)++g_cdr_response_index >= (uint8_t)g_cdr_response_size )
           g_cdr_irq_pending = 0;
       }
     }
@@ -86,36 +86,36 @@ LABEL_19:
     goto LABEL_19;
 }
 
-__int16 __cdecl mem_read_half(unsigned int a1)
+int16_t mem_read_half(unsigned int a1)
 {
   hw_update_counter -= 4;
   if ( (a1 & 0x1FC00000) != 0x1F800000 )
-    return *(_WORD *)((unsigned __int16)a1 + mem_read_hooks[HIWORD(a1)]);
-  if ( (unsigned __int16)a1 >= 0x1000u )
+    return *(uint16_t *)((uint16_t)a1 + mem_read_hooks[HIWORD(a1)]);
+  if ( (uint16_t)a1 >= 0x1000u )
     return hw_reg_read_half(a1);
-  return *(_WORD *)&dcache[a1 & 0xFFF];
+  return *(uint16_t *)&dcache[a1 & 0xFFF];
 }
 
-int __cdecl mem_read_word(unsigned int a1)
+int mem_read_word(unsigned int a1)
 {
   hw_update_counter -= 4;
   if ( (a1 & 0x1FC00000) != 0x1F800000 )
-    return *(_DWORD *)((unsigned __int16)a1 + mem_read_hooks[HIWORD(a1)]);
-  if ( (unsigned __int16)a1 >= 0x1000u )
+    return *(uint32_t *)((uint16_t)a1 + mem_read_hooks[HIWORD(a1)]);
+  if ( (uint16_t)a1 >= 0x1000u )
     return hw_reg_read_word(a1);
-  return *(_DWORD *)&dcache[a1 & 0xFFF];
+  return *(uint32_t *)&dcache[a1 & 0xFFF];
 }
 
-void __cdecl mem_hw_reg_write_byte(unsigned int a1, char a2)
+void mem_hw_reg_write_byte(unsigned int a1, char a2)
 {
-  unsigned int v2; // eax
-  int v3; // ecx
-  LPVOID v4; // edi
+  unsigned int v2;
+  int v3;
+  LPVOID v4;
 
   hw_update_counter -= 4;
   if ( (a1 & 0x1FC00000) == 0x1F800000 )
   {
-    if ( (unsigned __int16)a1 < 0x1000u )
+    if ( (uint16_t)a1 < 0x1000u )
     {
       dcache[a1 & 0xFFF] = a2;
       return;
@@ -131,7 +131,7 @@ void __cdecl mem_hw_reg_write_byte(unsigned int a1, char a2)
           sio_write_data_byte(0x1F801040, a2);
           return;
         case 0x1F8010F6u:
-          dma_int_ctrl = dma_int_ctrl & 0xFF00FFFF | ((unsigned __int8)a2 << 16);
+          dma_int_ctrl = dma_int_ctrl & 0xFF00FFFF | ((uint8_t)a2 << 16);
           return;
         case 0x1F801800u:
           cdr_reg0_write(a2);
@@ -157,24 +157,24 @@ LABEL_27:
           "REG %s [%08x] <- %08x sizeof(%d) (%08x)\n",
           "UNK",
           a1,
-          (unsigned __int8)a2,
+          (uint8_t)a2,
           1,
-          *(_DWORD *)reg_pc);
+          *(uint32_t *)reg_pc);
         return;
     }
   }
   else if ( (cop0_sr & 0x10000) == 0 )
   {
-    *(_BYTE *)((unsigned __int16)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
+    *(uint8_t *)((uint16_t)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
     if ( recomp_buffer )
     {
       v2 = (a1 & 0xFFF00000) == 0xBFC00000 ? (a1 & 0x7FFFC) + 0x200000 : a1 & 0x1FFFFC;
       if ( *(LPVOID *)((char *)recomp_code_base + v2) != recomp_buffer )
       {
-        v3 = ((_BYTE *)recomp_buffer - (_BYTE *)recomp_metadata) >> 2;
-        for ( *(_DWORD *)((char *)recomp_code_base + v2) = recomp_buffer;
+        v3 = ((uint8_t *)recomp_buffer - (uint8_t *)recomp_metadata) >> 2;
+        for ( *(uint32_t *)((char *)recomp_code_base + v2) = recomp_buffer;
               v3;
-              *(_DWORD *)((char *)recomp_code_base + v2) = recomp_buffer )
+              *(uint32_t *)((char *)recomp_code_base + v2) = recomp_buffer )
         {
           v4 = *(LPVOID *)((char *)recomp_code_base + v2 - 4);
           v2 -= 4;
@@ -187,17 +187,17 @@ LABEL_27:
   }
 }
 
-void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
+void mem_write_half(unsigned int a1, uint16_t a2)
 {
-  unsigned int v2; // eax
-  int v3; // ecx
-  LPVOID v4; // edi
-  char v5; // cl
+  unsigned int v2;
+  int v3;
+  LPVOID v4;
+  char v5;
 
   hw_update_counter -= 4;
   if ( (a1 & 0x1FC00000) == 0x1F800000 )
   {
-    if ( (unsigned __int16)a1 >= 0x1000u )
+    if ( (uint16_t)a1 >= 0x1000u )
     {
       if ( a1 > 0x1F801138 || a1 < 0x1F801100 )
       {
@@ -206,7 +206,7 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
           switch ( a1 )
           {
             case 0x1F801014u:
-              *(_WORD *)&hw_regs[(unsigned __int16)a1] = a2;
+              *(uint16_t *)&hw_regs[(uint16_t)a1] = a2;
               break;
             case 0x1F801040u:
               sio_write_data_byte(a1, a2);
@@ -229,12 +229,12 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
               HIWORD(sio0_control_reg) = a2;
               break;
             case 0x1F801070u:
-              if ( *(_DWORD *)sio_irq_pending && (unsigned int)hw_update_counter < *(_DWORD *)sio_irq_timeout )
+              if ( *(uint32_t *)sio_irq_pending && (unsigned int)hw_update_counter < *(uint32_t *)sio_irq_timeout )
               {
-                *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
-                *(_DWORD *)sio_irq_pending = 0;
+                *(uint32_t *)int_reg |= *(uint32_t *)sio_irq_pending;
+                *(uint32_t *)sio_irq_pending = 0;
               }
-              *(_DWORD *)int_reg = (unsigned __int16)(int_mask & a2 & *(_WORD *)int_reg);
+              *(uint32_t *)int_reg = (uint16_t)(int_mask & a2 & *(uint16_t *)int_reg);
               break;
             case 0x1F801074u:
               int_mask = a2;
@@ -247,7 +247,7 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
                 a1,
                 a2,
                 2,
-                *(_DWORD *)reg_pc);
+                *(uint32_t *)reg_pc);
               break;
           }
         }
@@ -263,21 +263,21 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
     }
     else
     {
-      *(_WORD *)&dcache[a1 & 0xFFF] = a2;
+      *(uint16_t *)&dcache[a1 & 0xFFF] = a2;
     }
   }
   else if ( (cop0_sr & 0x10000) == 0 )
   {
-    *(_WORD *)((unsigned __int16)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
+    *(uint16_t *)((uint16_t)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
     if ( recomp_buffer )
     {
       v2 = (a1 & 0xFFF00000) == 0xBFC00000 ? (a1 & 0x7FFFC) + 0x200000 : a1 & 0x1FFFFC;
       if ( *(LPVOID *)((char *)recomp_code_base + v2) != recomp_buffer )
       {
-        v3 = ((_BYTE *)recomp_buffer - (_BYTE *)recomp_metadata) >> 2;
-        for ( *(_DWORD *)((char *)recomp_code_base + v2) = recomp_buffer;
+        v3 = ((uint8_t *)recomp_buffer - (uint8_t *)recomp_metadata) >> 2;
+        for ( *(uint32_t *)((char *)recomp_code_base + v2) = recomp_buffer;
               v3;
-              *(_DWORD *)((char *)recomp_code_base + v2) = recomp_buffer )
+              *(uint32_t *)((char *)recomp_code_base + v2) = recomp_buffer )
         {
           v4 = *(LPVOID *)((char *)recomp_code_base + v2 - 4);
           v2 -= 4;
@@ -290,32 +290,32 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
   }
 }
 
-void __cdecl mem_write_word(unsigned int a1, unsigned int a2)
+void mem_write_word(unsigned int a1, unsigned int a2)
 {
-  unsigned int v2; // eax
-  int v3; // ecx
-  LPVOID v4; // edi
+  unsigned int v2;
+  int v3;
+  LPVOID v4;
 
   hw_update_counter -= 4;
   if ( (a1 & 0x1FC00000) == 0x1F800000 )
   {
-    if ( (unsigned __int16)a1 >= 0x1000u )
+    if ( (uint16_t)a1 >= 0x1000u )
       hw_reg_write_word(a1, a2);
     else
-      *(_DWORD *)&dcache[a1 & 0xFFF] = a2;
+      *(uint32_t *)&dcache[a1 & 0xFFF] = a2;
   }
   else if ( (cop0_sr & 0x10000) == 0 )
   {
-    *(_DWORD *)((unsigned __int16)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
+    *(uint32_t *)((uint16_t)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
     if ( recomp_buffer )
     {
       v2 = (a1 & 0xFFF00000) == 0xBFC00000 ? (a1 & 0x7FFFC) + 0x200000 : a1 & 0x1FFFFC;
       if ( *(LPVOID *)((char *)recomp_code_base + v2) != recomp_buffer )
       {
-        v3 = ((_BYTE *)recomp_buffer - (_BYTE *)recomp_metadata) >> 2;
-        for ( *(_DWORD *)((char *)recomp_code_base + v2) = recomp_buffer;
+        v3 = ((uint8_t *)recomp_buffer - (uint8_t *)recomp_metadata) >> 2;
+        for ( *(uint32_t *)((char *)recomp_code_base + v2) = recomp_buffer;
               v3;
-              *(_DWORD *)((char *)recomp_code_base + v2) = recomp_buffer )
+              *(uint32_t *)((char *)recomp_code_base + v2) = recomp_buffer )
         {
           v4 = *(LPVOID *)((char *)recomp_code_base + v2 - 4);
           v2 -= 4;
@@ -328,23 +328,23 @@ void __cdecl mem_write_word(unsigned int a1, unsigned int a2)
   }
 }
 
-int __cdecl mem_dma_read(unsigned int a1)
+int mem_dma_read(unsigned int a1)
 {
-  return mem_read_hooks[HIWORD(a1)] + (unsigned __int16)a1;
+  return mem_read_hooks[HIWORD(a1)] + (uint16_t)a1;
 }
 
-unsigned int __cdecl mem_gpu_dma_read(unsigned int a1)
+unsigned int mem_gpu_dma_read(unsigned int a1)
 {
   if ( (a1 & 0xFF800000) != 0x1F800000 )
-    return *(_DWORD *)((unsigned __int16)a1 + mem_read_hooks[HIWORD(a1)]);
+    return *(uint32_t *)((uint16_t)a1 + mem_read_hooks[HIWORD(a1)]);
   if ( a1 >= 0x1F801000 )
     return hw_reg_read_word(a1);
-  return *(_DWORD *)&dcache[a1 & 0xFFF];
+  return *(uint32_t *)&dcache[a1 & 0xFFF];
 }
 
-void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
+void mem_hw_reg_write_half(unsigned int a1, uint16_t a2)
 {
-  char v2; // cl
+  char v2;
 
   if ( (cop0_sr & 0x10000) == 0 )
   {
@@ -359,7 +359,7 @@ void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
             switch ( a1 )
             {
               case 0x1F801014u:
-                *(_WORD *)&hw_regs[(unsigned __int16)a1] = a2;
+                *(uint16_t *)&hw_regs[(uint16_t)a1] = a2;
                 break;
               case 0x1F801040u:
                 sio_write_data_byte(a1, a2);
@@ -382,12 +382,12 @@ void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
                 HIWORD(sio0_control_reg) = a2;
                 break;
               case 0x1F801070u:
-                if ( *(_DWORD *)sio_irq_pending && (unsigned int)hw_update_counter < *(_DWORD *)sio_irq_timeout )
+                if ( *(uint32_t *)sio_irq_pending && (unsigned int)hw_update_counter < *(uint32_t *)sio_irq_timeout )
                 {
-                  *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
-                  *(_DWORD *)sio_irq_pending = 0;
+                  *(uint32_t *)int_reg |= *(uint32_t *)sio_irq_pending;
+                  *(uint32_t *)sio_irq_pending = 0;
                 }
-                *(_DWORD *)int_reg = (unsigned __int16)(int_mask & a2 & *(_WORD *)int_reg);
+                *(uint32_t *)int_reg = (uint16_t)(int_mask & a2 & *(uint16_t *)int_reg);
                 break;
               case 0x1F801074u:
                 int_mask = a2;
@@ -400,7 +400,7 @@ void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
                   a1,
                   a2,
                   2,
-                  *(_DWORD *)reg_pc);
+                  *(uint32_t *)reg_pc);
                 break;
             }
           }
@@ -416,17 +416,17 @@ void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
       }
       else
       {
-        *(_WORD *)&dcache[a1 & 0xFFF] = a2;
+        *(uint16_t *)&dcache[a1 & 0xFFF] = a2;
       }
     }
     else
     {
-      *(_WORD *)((unsigned __int16)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
+      *(uint16_t *)((uint16_t)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
     }
   }
 }
 
-void __cdecl mem_gpu_dma_write(unsigned int a1, unsigned int a2)
+void mem_gpu_dma_write(unsigned int a1, unsigned int a2)
 {
   if ( (cop0_sr & 0x10000) == 0 )
   {
@@ -435,31 +435,31 @@ void __cdecl mem_gpu_dma_write(unsigned int a1, unsigned int a2)
       if ( a1 >= 0x1F801000 )
         hw_reg_write_word(a1, a2);
       else
-        *(_DWORD *)&dcache[a1 & 0xFFF] = a2;
+        *(uint32_t *)&dcache[a1 & 0xFFF] = a2;
     }
     else
     {
-      *(_DWORD *)((unsigned __int16)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
+      *(uint32_t *)((uint16_t)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
     }
   }
 }
 
-int __cdecl mem_freeze(const char *a1, int a2)
+int mem_freeze(const char *a1, int a2)
 {
-  char Buffer[3]; // [esp+4h] [ebp-10h] BYREF
-  int v4; // [esp+7h] [ebp-Dh]
+  char Buffer[3];
+  int v4;
 
   sprintf(Buffer, "%s", a1);
   v4 = 2232320;
-  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-  gzwrite(a2, (unsigned __int8 *)ram, 0x200000u);
-  gzwrite(a2, (unsigned __int8 *)pio_mem, 0x20000u);
-  return gzwrite(a2, (unsigned __int8 *)dcache, 0x1000u);
+  gzwrite(a2, (uint8_t *)Buffer, 7u);
+  gzwrite(a2, (uint8_t *)ram, 0x200000u);
+  gzwrite(a2, (uint8_t *)pio_mem, 0x20000u);
+  return gzwrite(a2, (uint8_t *)dcache, 0x1000u);
 }
 
-int __cdecl mem_unfreeze(int a1, _DWORD *a2)
+int mem_unfreeze(int a1, uint32_t *a2)
 {
-  char v3[16]; // [esp+4h] [ebp-10h] BYREF
+  char v3[16];
 
   gzread(a2, v3, 7);
   gzread(a2, (char *)ram, 0x200000);

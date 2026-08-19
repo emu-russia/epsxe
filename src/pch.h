@@ -29,10 +29,6 @@
 #pragma warning(disable : 4244) /* int conversion loss */
 #pragma warning(disable : 4013) /* implicit function declaration */
 
-typedef BYTE _BYTE;
-typedef DWORD _DWORD;
-typedef uint64_t _QWORD;
-typedef uint16_t _WORD;
 typedef BOOLEAN bool;
 
 #define BYTEn(x, n) (*((unsigned char*)&(x) + n))
@@ -76,7 +72,7 @@ typedef BOOLEAN bool;
 #define qmemcmp memcmp
 
 /* GetProcAddress returns FARPROC (__stdcall on x86); the decompiled code
- * assigns it to __cdecl function pointers, which is an error on x86.
+ * assigns it to function pointers, which is an error on x86.
  * Casting to void* lets C convert implicitly to any function pointer type. */
 #define GetProcAddress(h, n) ((void *)(GetProcAddress)(h, n))
 

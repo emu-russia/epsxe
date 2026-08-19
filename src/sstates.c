@@ -1,12 +1,12 @@
 #include "pch.h"
 char gpu_freeze_with_counter()
 {
-  LOBYTE(gpu_freeze_counter) = ((unsigned __int8)gpu_freeze_counter + 1) % 5;
-  gpu_do_freeze((unsigned __int8)gpu_freeze_counter);
+  LOBYTE(gpu_freeze_counter) = ((uint8_t)gpu_freeze_counter + 1) % 5;
+  gpu_do_freeze((uint8_t)gpu_freeze_counter);
   return gpu_freeze_counter;
 }
 
-char __cdecl set_gpu_freeze_counter(char a1)
+char set_gpu_freeze_counter(char a1)
 {
   LOBYTE(gpu_freeze_counter) = a1;
   return a1;
@@ -17,14 +17,14 @@ char get_gpu_freeze_counter()
   return gpu_freeze_counter;
 }
 
-_DWORD *state_save()
+uint32_t *state_save()
 {
-  _DWORD *result; // eax
-  _DWORD *v1; // esi
-  char v2[64]; // [esp+8h] [ebp-440h] BYREF
-  char Buffer[1024]; // [esp+48h] [ebp-400h] BYREF
+  uint32_t *result;
+  uint32_t *v1;
+  char v2[64];
+  char Buffer[1024];
 
-  sprintf(Buffer, "%s%s.%03d", "sstates\\", default_filename, (unsigned __int8)gpu_freeze_counter);
+  sprintf(Buffer, "%s%s.%03d", "sstates\\", default_filename, (uint8_t)gpu_freeze_counter);
   memset(v2, 0, sizeof(v2));
   result = gzopen(Buffer, "wb1");
   v1 = result;
@@ -32,17 +32,17 @@ _DWORD *state_save()
   {
     sprintf(v2, "ePSXe");
     if ( save_state_ver == -1 )
-      *(_WORD *)&v2[5] = 2;
+      *(uint16_t *)&v2[5] = 2;
     else
-      *(_WORD *)&v2[5] = save_state_ver;
-    *(_DWORD *)&v2[7] = *(_DWORD *)default_filename;
-    *(_DWORD *)&v2[11] = *(_DWORD *)&default_filename[4];
-    *(_DWORD *)&v2[15] = *(_DWORD *)&default_filename[8];
-    gzwrite((int)v1, (unsigned __int8 *)v2, 0x40u);
+      *(uint16_t *)&v2[5] = save_state_ver;
+    *(uint32_t *)&v2[7] = *(uint32_t *)default_filename;
+    *(uint32_t *)&v2[11] = *(uint32_t *)&default_filename[4];
+    *(uint32_t *)&v2[15] = *(uint32_t *)&default_filename[8];
+    gzwrite((int)v1, (uint8_t *)v2, 0x40u);
     sprintf(v2, "PSX");
-    *(_DWORD *)&v2[3] = 364;
-    gzwrite((int)v1, (unsigned __int8 *)v2, 7u);
-    gzwrite((int)v1, (unsigned __int8 *)reg_pc, 0x16Cu);
+    *(uint32_t *)&v2[3] = 364;
+    gzwrite((int)v1, (uint8_t *)v2, 7u);
+    gzwrite((int)v1, (uint8_t *)reg_pc, 0x16Cu);
     mem_freeze("MEM", (int)v1);
     hw_reg_freeze("REG", (int)v1);
     irq_freeze("IRQ", (int)v1);
@@ -55,27 +55,27 @@ _DWORD *state_save()
       mdec_freeze2("MDE", (int)v1);
     gpu_freeze("GPU", (int)v1, Buffer);
     spu_freeze_cb("SPU", v1);
-    return (_DWORD *)gzclose(v1);
+    return (uint32_t *)gzclose(v1);
   }
   return result;
 }
 
-_DWORD *state_load()
+uint32_t *state_load()
 {
-  int v0; // ebx
-  int v1; // ebp
-  _DWORD *result; // eax
-  _DWORD *v3; // esi
-  unsigned __int16 v4; // di
-  char v5[5]; // [esp+10h] [ebp-440h] BYREF
-  int v6; // [esp+15h] [ebp-43Bh]
-  char Buffer[1024]; // [esp+50h] [ebp-400h] BYREF
+  int v0;
+  int v1;
+  uint32_t *result;
+  uint32_t *v3;
+  uint16_t v4;
+  char v5[5];
+  int v6;
+  char Buffer[1024];
 
   v0 = dynarec_enabled;
   v1 = loaded_file_type;
   if ( !strcmp(state_file_from_cmdline, "NULL") )
   {
-    sprintf(Buffer, "%s%s.%03d", "sstates\\", default_filename, (unsigned __int8)gpu_freeze_counter);
+    sprintf(Buffer, "%s%s.%03d", "sstates\\", default_filename, (uint8_t)gpu_freeze_counter);
   }
   else
   {
@@ -107,15 +107,15 @@ _DWORD *state_load()
       mdec_unfreeze2((int)"MDE", v3);
     gpu_unfreeze((int)"GPU", v3);
     spu_unfreeze_cb("SPU", v3);
-    return (_DWORD *)gzclose(v3);
+    return (uint32_t *)gzclose(v3);
   }
   return result;
 }
 
-char __cdecl check_state_exists(unsigned __int8 a1)
+char check_state_exists(uint8_t a1)
 {
-  FILE *v1; // eax
-  char Buffer[1024]; // [esp+0h] [ebp-400h] BYREF
+  FILE *v1;
+  char Buffer[1024];
 
   sprintf(Buffer, "%s%s.%03d", "sstates\\", default_filename, a1);
   v1 = fopen(Buffer, "rb");

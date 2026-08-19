@@ -1,29 +1,29 @@
 #include "pch.h"
-static int __cdecl ppf_parse_and_build(int a1, int a2, unsigned int a3)
+static int ppf_parse_and_build(int a1, int a2, unsigned int a3)
 {
-  unsigned int i; // eax
-  unsigned int v4; // edi
-  bool v5; // cf
-  int v6; // ebp
-  unsigned int v7; // esi
-  int v8; // eax
-  unsigned int v9; // ebx
-  unsigned int v10; // eax
-  int v11; // edx
-  int v12; // ebp
-  int j; // eax
-  _DWORD *v14; // eax
-  unsigned __int8 *v15; // ecx
-  int v16; // eax
-  int v17; // esi
-  int k; // eax
-  _DWORD *v19; // eax
-  unsigned int v21; // [esp+4h] [ebp+4h]
-  unsigned __int8 v22; // [esp+Ch] [ebp+Ch]
+  unsigned int i;
+  unsigned int v4;
+  bool v5;
+  int v6;
+  unsigned int v7;
+  int v8;
+  unsigned int v9;
+  unsigned int v10;
+  int v11;
+  int v12;
+  int j;
+  uint32_t *v14;
+  uint8_t *v15;
+  int v16;
+  int v17;
+  int k;
+  uint32_t *v19;
+  unsigned int v21;
+  uint8_t v22;
 
   ppf_sector_lists = malloc(0x145320u);
   for ( i = 0; i < 0x145320; i += 4 )
-    *(_DWORD *)((char *)ppf_sector_lists + i) = 0;
+    *(uint32_t *)((char *)ppf_sector_lists + i) = 0;
   v4 = a3;
   v5 = a3 < a1 + a3;
   v21 = a1 + a3;
@@ -32,66 +32,66 @@ static int __cdecl ppf_parse_and_build(int a1, int a2, unsigned int a3)
     do
     {
       v6 = a2;
-      v7 = *(_DWORD *)(v4 + a2) / 0x930u;
-      v8 = *((_DWORD *)ppf_sector_lists + v7);
-      v9 = 2352 - *(_DWORD *)(v4 + a2) % 0x930u;
-      v22 = *(_BYTE *)(v4 + a2 + 4);
+      v7 = *(uint32_t *)(v4 + a2) / 0x930u;
+      v8 = *((uint32_t *)ppf_sector_lists + v7);
+      v9 = 2352 - *(uint32_t *)(v4 + a2) % 0x930u;
+      v22 = *(uint8_t *)(v4 + a2 + 4);
       if ( v8 )
       {
-        v12 = *((_DWORD *)ppf_sector_lists + v7);
-        for ( j = *(_DWORD *)(v8 + 8); j; j = *(_DWORD *)(j + 8) )
+        v12 = *((uint32_t *)ppf_sector_lists + v7);
+        for ( j = *(uint32_t *)(v8 + 8); j; j = *(uint32_t *)(j + 8) )
           v12 = j;
         v14 = malloc(8u);
-        *(_DWORD *)(v12 + 8) = v14;
+        *(uint32_t *)(v12 + 8) = v14;
         v14[1] = v4 + 5;
-        *(_WORD *)(*(_DWORD *)(v12 + 8) + 2) = *(_DWORD *)(v4 + a2) % 0x930u;
-        v15 = *(unsigned __int8 **)(v12 + 8);
+        *(uint16_t *)(*(uint32_t *)(v12 + 8) + 2) = *(uint32_t *)(v4 + a2) % 0x930u;
+        v15 = *(uint8_t **)(v12 + 8);
         v10 = v22;
         if ( v22 > v9 )
           *v15 = v9;
         else
           *v15 = v22;
-        v11 = *(_DWORD *)(v12 + 8);
+        v11 = *(uint32_t *)(v12 + 8);
         v6 = a2;
       }
       else
       {
-        *((_DWORD *)ppf_sector_lists + v7) = malloc(8u);
-        *(_DWORD *)(*((_DWORD *)ppf_sector_lists + v7) + 4) = v4 + 5;
+        *((uint32_t *)ppf_sector_lists + v7) = malloc(8u);
+        *(uint32_t *)(*((uint32_t *)ppf_sector_lists + v7) + 4) = v4 + 5;
         v10 = v22;
-        *(_WORD *)(*((_DWORD *)ppf_sector_lists + v7) + 2) = *(_DWORD *)(v4 + a2) % 0x930u;
+        *(uint16_t *)(*((uint32_t *)ppf_sector_lists + v7) + 2) = *(uint32_t *)(v4 + a2) % 0x930u;
         if ( v22 > v9 )
-          **((_BYTE **)ppf_sector_lists + v7) = v9;
+          **((uint8_t **)ppf_sector_lists + v7) = v9;
         else
-          **((_BYTE **)ppf_sector_lists + v7) = *(_BYTE *)(v4 + a2 + 4);
-        v11 = *((_DWORD *)ppf_sector_lists + v7);
+          **((uint8_t **)ppf_sector_lists + v7) = *(uint8_t *)(v4 + a2 + 4);
+        v11 = *((uint32_t *)ppf_sector_lists + v7);
       }
-      *(_DWORD *)(v11 + 8) = 0;
+      *(uint32_t *)(v11 + 8) = 0;
       if ( v10 > v9 )
       {
-        v16 = *((_DWORD *)ppf_sector_lists + v7 + 1);
+        v16 = *((uint32_t *)ppf_sector_lists + v7 + 1);
         if ( v16 )
         {
-          v17 = *((_DWORD *)ppf_sector_lists + v7 + 1);
-          for ( k = *(_DWORD *)(v16 + 8); k; k = *(_DWORD *)(k + 8) )
+          v17 = *((uint32_t *)ppf_sector_lists + v7 + 1);
+          for ( k = *(uint32_t *)(v16 + 8); k; k = *(uint32_t *)(k + 8) )
             v17 = k;
           v19 = malloc(8u);
-          *(_DWORD *)(v17 + 8) = v19;
+          *(uint32_t *)(v17 + 8) = v19;
           v19[1] = v9 + v4 + 5;
-          *(_WORD *)(*(_DWORD *)(v17 + 8) + 2) = 0;
-          **(_BYTE **)(v17 + 8) = v22 - v9;
-          *(_DWORD *)(*(_DWORD *)(v17 + 8) + 8) = 0;
+          *(uint16_t *)(*(uint32_t *)(v17 + 8) + 2) = 0;
+          **(uint8_t **)(v17 + 8) = v22 - v9;
+          *(uint32_t *)(*(uint32_t *)(v17 + 8) + 8) = 0;
         }
         else
         {
-          *((_DWORD *)ppf_sector_lists + v7 + 1) = malloc(8u);
-          *(_DWORD *)(*((_DWORD *)ppf_sector_lists + v7 + 1) + 4) = v9 + v4 + 5;
-          *(_WORD *)(*((_DWORD *)ppf_sector_lists + v7 + 1) + 2) = 0;
-          **((_BYTE **)ppf_sector_lists + v7 + 1) = v22 - v9;
-          *(_DWORD *)(*((_DWORD *)ppf_sector_lists + v7 + 1) + 8) = 0;
+          *((uint32_t *)ppf_sector_lists + v7 + 1) = malloc(8u);
+          *(uint32_t *)(*((uint32_t *)ppf_sector_lists + v7 + 1) + 4) = v9 + v4 + 5;
+          *(uint16_t *)(*((uint32_t *)ppf_sector_lists + v7 + 1) + 2) = 0;
+          **((uint8_t **)ppf_sector_lists + v7 + 1) = v22 - v9;
+          *(uint32_t *)(*((uint32_t *)ppf_sector_lists + v7 + 1) + 8) = 0;
         }
       }
-      v4 += *(unsigned __int8 *)(v4 + v6 + 4) + 5;
+      v4 += *(uint8_t *)(v4 + v6 + 4) + 5;
     }
     while ( v4 < v21 );
   }
@@ -100,9 +100,9 @@ static int __cdecl ppf_parse_and_build(int a1, int a2, unsigned int a3)
 
 char ppf_load_patch()
 {
-  FILE *v0; // eax
-  FILE *v1; // esi
-  size_t v2; // edi
+  FILE *v0;
+  FILE *v1;
+  size_t v2;
 
   LOBYTE(v0) = ppf_enabled;
   if ( ppf_enabled )
@@ -128,7 +128,7 @@ char ppf_load_patch()
           {
             dbg_print("ppf file v.2.0 ");
             if ( !strncmp(".DIZ", &ppf_file_data[v2 - 8], 4u) )
-              ppf_parse_and_build(v2 - *(_DWORD *)&ppf_file_data[v2 - 4] - 1122, (int)ppf_file_data, 0x43Cu);
+              ppf_parse_and_build(v2 - *(uint32_t *)&ppf_file_data[v2 - 4] - 1122, (int)ppf_file_data, 0x43Cu);
             else
               ppf_parse_and_build(v2 - 1084, (int)ppf_file_data, 0x43Cu);
             LOBYTE(v0) = fclose(v1);
@@ -173,19 +173,19 @@ void ppf_free()
   }
 }
 
-void __cdecl ppf_apply_patch_to_sector(int a1, int a2)
+void ppf_apply_patch_to_sector(int a1, int a2)
 {
-  unsigned __int8 *v2; // eax
-  unsigned __int8 *i; // eax
+  uint8_t *v2;
+  uint8_t *i;
 
   if ( ppf_enabled == 1 )
   {
-    v2 = *((unsigned __int8 **)ppf_sector_lists + a1);
+    v2 = *((uint8_t **)ppf_sector_lists + a1);
     if ( v2 )
     {
-      qmemcpy((void *)(a2 + *((unsigned __int16 *)v2 + 1)), &ppf_file_data[*((_DWORD *)v2 + 1)], *v2);
-      for ( i = *((unsigned __int8 **)v2 + 2); i; i = *((unsigned __int8 **)i + 2) )
-        qmemcpy((void *)(a2 + *((unsigned __int16 *)i + 1)), &ppf_file_data[*((_DWORD *)i + 1)], *i);
+      qmemcpy((void *)(a2 + *((uint16_t *)v2 + 1)), &ppf_file_data[*((uint32_t *)v2 + 1)], *v2);
+      for ( i = *((uint8_t **)v2 + 2); i; i = *((uint8_t **)i + 2) )
+        qmemcpy((void *)(a2 + *((uint16_t *)i + 1)), &ppf_file_data[*((uint32_t *)i + 1)], *i);
     }
   }
 }

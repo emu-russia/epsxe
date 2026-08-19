@@ -1,7 +1,7 @@
 #include "pch.h"
-int __cdecl cdrom_fake_create_file(char *FileName)
+int cdrom_fake_create_file(char *FileName)
 {
-  FILE *v1; // eax
+  FILE *v1;
 
   cdrom_fake_data = malloc(0x145320u);
   memset(cdrom_fake_data, 0xFFu, 0x145320u);
@@ -16,9 +16,9 @@ int __cdecl cdrom_fake_create_file(char *FileName)
   return dbg_print(" * Creating fake file ... \n");
 }
 
-int __cdecl cdrom_fake_load_file(char *FileName)
+int cdrom_fake_load_file(char *FileName)
 {
-  FILE *v1; // eax
+  FILE *v1;
 
   cdrom_fake_data = malloc(0x145320u);
   v1 = fopen(FileName, "rb");
@@ -30,30 +30,30 @@ int __cdecl cdrom_fake_load_file(char *FileName)
   return dbg_print(" * Loading fake file ... \n");
 }
 
-void *__cdecl cdrom_fake_write_portion(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, void *Buffer)
+void * cdrom_fake_write_portion(uint8_t a1, uint8_t a2, uint8_t a3, void *Buffer)
 {
-  int v4; // esi
-  void *result; // eax
+  int v4;
+  void *result;
 
   v4 = cdr_msf_to_lba(a1, a2, a3);
   if ( !a1 && a2 == 2 && a3 == 18 )
     printf("saved \n");
   result = cdrom_fake_data;
-  if ( *((_DWORD *)cdrom_fake_data + v4) == -1 )
+  if ( *((uint32_t *)cdrom_fake_data + v4) == -1 )
   {
     fwrite(Buffer, 1u, 0x930u, FileHandle);
-    *((_DWORD *)cdrom_fake_data + v4) = fake_file_sector_offset;
+    *((uint32_t *)cdrom_fake_data + v4) = fake_file_sector_offset;
     result = (void *)(fake_file_sector_offset + 2352);
     fake_file_sector_offset += 2352;
   }
   return result;
 }
 
-size_t __cdecl cdrom_fake_read_portion(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, void *Buffer)
+size_t cdrom_fake_read_portion(uint8_t a1, uint8_t a2, uint8_t a3, void *Buffer)
 {
-  int v4; // eax
+  int v4;
 
-  v4 = *((_DWORD *)cdrom_fake_data + cdr_msf_to_lba(a1, a2, a3));
+  v4 = *((uint32_t *)cdrom_fake_data + cdr_msf_to_lba(a1, a2, a3));
   if ( v4 == -1 )
   {
     _close((int)FileHandle);
@@ -65,7 +65,7 @@ size_t __cdecl cdrom_fake_read_portion(unsigned __int8 a1, unsigned __int8 a2, u
 
 FILE *cdrom_fake_write()
 {
-  FILE *result; // eax
+  FILE *result;
 
   if ( cd_savefake_flag == 1 )
   {

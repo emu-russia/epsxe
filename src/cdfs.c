@@ -1,15 +1,15 @@
 #include "pch.h"
-static int __cdecl cdfs_read_le32(unsigned __int8 *a1)
+static int cdfs_read_le32(uint8_t *a1)
 {
   return *a1 | ((a1[1] | ((a1[2] | ((char)a1[3] << 8)) << 8)) << 8);
 }
 
-static unsigned int __cdecl cdfs_read_data(int a1, int a2, unsigned int a3, void *a4)
+static unsigned int cdfs_read_data(int a1, int a2, unsigned int a3, void *a4)
 {
-  unsigned __int8 v5; // [esp+8h] [ebp-126Ch]
-  unsigned __int8 v6; // [esp+Ch] [ebp-1268h]
-  unsigned __int8 v7; // [esp+10h] [ebp-1264h]
-  _BYTE v8[4704]; // [esp+14h] [ebp-1260h] BYREF
+  uint8_t v5;
+  uint8_t v6;
+  uint8_t v7;
+  uint8_t v8[4704];
 
   v7 = (a1 + 150) % 0x4Bu;
   v6 = (a1 + 150) / 0x4Bu / 0x3C;
@@ -28,20 +28,20 @@ static unsigned int __cdecl cdfs_read_data(int a1, int a2, unsigned int a3, void
 
 static char *cdfs_read_root_directory()
 {
-  int le32; // esi
+  int le32;
 
   cdfs_read_data(16, 24, 0x800u, root_directory_buffer);
-  le32 = cdfs_read_le32((unsigned __int8 *)&root_directory_buffer[158]);
+  le32 = cdfs_read_le32((uint8_t *)&root_directory_buffer[158]);
   cdfs_read_data(le32, 24, 0x800u, root_directory_buffer);
   cdfs_read_data(le32 + 1, 24, 0x800u, root_directory_buffer_2);
   return root_directory_buffer;
 }
 
-static int *__cdecl cdfs_find_file(const char *a1, int *a2, int **a3)
+static int * cdfs_find_file(const char *a1, int *a2, int **a3)
 {
-  int v3; // ebp
-  char *v4; // edi
-  int *result; // eax
+  int v3;
+  char *v4;
+  int *result;
 
   v3 = 0;
   while ( 1 )
@@ -53,27 +53,27 @@ LABEL_8:
       *a2 = 0;
       return a2;
     }
-    v3 += (unsigned __int8)root_directory_buffer[v3];
-    if ( (unsigned __int8)v4[33] >= 2u && (!strncmp(a1, v4 + 33, 0xCu) || v4[44] == 59 && !strncmp(a1, v4 + 33, 0xBu)) )
+    v3 += (uint8_t)root_directory_buffer[v3];
+    if ( (uint8_t)v4[33] >= 2u && (!strncmp(a1, v4 + 33, 0xCu) || v4[44] == 59 && !strncmp(a1, v4 + 33, 0xBu)) )
       break;
     if ( v3 >= 4096 )
       goto LABEL_8;
   }
-  *a2 = cdfs_read_le32((unsigned __int8 *)v4 + 2);
-  result = (int *)cdfs_read_le32((unsigned __int8 *)v4 + 10);
+  *a2 = cdfs_read_le32((uint8_t *)v4 + 2);
+  result = (int *)cdfs_read_le32((uint8_t *)v4 + 10);
   *a3 = result;
   return result;
 }
 
-static unsigned __int8 __cdecl cdfs_parse_system_cnf_for_exec(int a1, int a2, char *Buffer, int *a4, int **a5)
+static uint8_t cdfs_parse_system_cnf_for_exec(int a1, int a2, char *Buffer, int *a4, int **a5)
 {
-  int v5; // esi
-  unsigned __int8 result; // al
-  int v7; // edx
-  int v8; // ecx
-  _DWORD v9[3]; // [esp+4h] [ebp-100h] BYREF
-  char v10; // [esp+10h] [ebp-F4h]
-  char v11; // [esp+11h] [ebp-F3h]
+  int v5;
+  uint8_t result;
+  int v7;
+  int v8;
+  uint32_t v9[3];
+  char v10;
+  char v11;
 
   v5 = 0;
   result = cdfs_read_data(a1, 24, 0x800u, system_cnf_buffer);
@@ -98,24 +98,24 @@ static unsigned __int8 __cdecl cdfs_parse_system_cnf_for_exec(int a1, int a2, ch
   }
   else
   {
-    v7 = *(_DWORD *)&system_cnf_buffer[v5 + 4];
-    v9[0] = *(_DWORD *)&system_cnf_buffer[v5];
-    v8 = *(_DWORD *)&system_cnf_buffer[v5 + 8];
+    v7 = *(uint32_t *)&system_cnf_buffer[v5 + 4];
+    v9[0] = *(uint32_t *)&system_cnf_buffer[v5];
+    v8 = *(uint32_t *)&system_cnf_buffer[v5 + 8];
     v9[1] = v7;
     LOBYTE(v7) = system_cnf_buffer[v5 + 12];
     v9[2] = v8;
     v10 = v7;
     v11 = 0;
     sprintf(Buffer, "%s", (const char *)v9);
-    return (unsigned __int8)cdfs_find_file((const char *)v9, a4, a5);
+    return (uint8_t)cdfs_find_file((const char *)v9, a4, a5);
   }
   return result;
 }
 
-unsigned __int8 __cdecl cdfs_load_executable(char *Buffer)
+uint8_t cdfs_load_executable(char *Buffer)
 {
-  int v2; // [esp+0h] [ebp-8h] BYREF
-  int v3; // [esp+4h] [ebp-4h] BYREF
+  int v2;
+  int v3;
 
   cdfs_read_root_directory();
   cdfs_find_file("SYSTEM.CNF;1", &v2, (int **)&v3);

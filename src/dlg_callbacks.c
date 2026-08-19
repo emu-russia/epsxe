@@ -1,12 +1,12 @@
 #include "pch.h"
 
-BOOL __cdecl open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CHAR *a4, const CHAR *a5)
+BOOL open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CHAR *a4, const CHAR *a5)
 {
-  BOOL result; // eax
-  int v6; // eax
-  CHAR v7; // cl
-  OPENFILENAMEA v8; // [esp+4h] [ebp-84Ch] BYREF NOPROP
-  _BYTE v9[1024]; // [esp+450h] [ebp-400h] BYREF
+  BOOL result;
+  int v6;
+  CHAR v7;
+  OPENFILENAMEA v8;
+  uint8_t v9[1024];
 
   memset(&v8.pvReserved, 0, 0x400u);
   memset(v9, 0, sizeof(v9));
@@ -30,7 +30,7 @@ BOOL __cdecl open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CH
     v6 = 0;
     do
     {
-      v7 = *((_BYTE *)&v8.pvReserved + v6);
+      v7 = *((uint8_t *)&v8.pvReserved + v6);
       temp_path[v6++] = v7;
     }
     while ( v7 );
@@ -39,70 +39,70 @@ BOOL __cdecl open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CH
   return result;
 }
 
-static BOOL __cdecl controller_set_joypad(HWND hDlg, unsigned __int16 a2)
+static BOOL controller_set_joypad(HWND hDlg, uint16_t a2)
 {
-  int v2; // ebp
-  int *v3; // esi
-  int v4; // ecx
-  int v5; // ecx
-  int v7; // [esp+10h] [ebp-404h]
-  CHAR String[1024]; // [esp+14h] [ebp-400h] BYREF
+  int v2;
+  int *v3;
+  int v4;
+  int v5;
+  int v7;
+  CHAR String[1024];
 
   v2 = 0;
   v3 = &nIDDlgItem;
   v7 = 4;
   do
   {
-    v4 = v2 + 4 * (unsigned __int8)pad_number_menu_selection;
-    if ( *((_WORD *)joypad_button_map + v4) >= 0x20u )
+    v4 = v2 + 4 * (uint8_t)pad_number_menu_selection;
+    if ( *((uint16_t *)joypad_button_map + v4) >= 0x20u )
     {
-      sprintf(String, "%d", *((unsigned __int16 *)joypad_button_map + v4));
-      SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, String);
+      sprintf(String, "%d", *((uint16_t *)joypad_button_map + v4));
+      SetDlgItemTextA(hDlg, *(uint16_t *)v3, String);
     }
     else
     {
-      SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, &joy_names[14 * *((unsigned __int16 *)joypad_button_map + v4)]);
+      SetDlgItemTextA(hDlg, *(uint16_t *)v3, &joy_names[14 * *((uint16_t *)joypad_button_map + v4)]);
     }
     ++v2;
     v3 = (int *)((char *)v3 + 2);
     --v7;
   }
   while ( v7 );
-  v5 = a2 + 4 * (unsigned __int8)pad_number_menu_selection;
-  if ( *((_WORD *)joypad_button_map + v5) < 0x20u )
+  v5 = a2 + 4 * (uint8_t)pad_number_menu_selection;
+  if ( *((uint16_t *)joypad_button_map + v5) < 0x20u )
     return SetDlgItemTextA(
              hDlg,
-             *((unsigned __int16 *)&nIDDlgItem + a2),
-             &joy_names[14 * *((unsigned __int16 *)joypad_button_map + v5)]);
-  sprintf(String, "%d", *((unsigned __int16 *)joypad_button_map + v5));
-  return SetDlgItemTextA(hDlg, *((unsigned __int16 *)&nIDDlgItem + a2), String);
+             *((uint16_t *)&nIDDlgItem + a2),
+             &joy_names[14 * *((uint16_t *)joypad_button_map + v5)]);
+  sprintf(String, "%d", *((uint16_t *)joypad_button_map + v5));
+  return SetDlgItemTextA(hDlg, *((uint16_t *)&nIDDlgItem + a2), String);
 }
 
-static int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
+static int controller_set_keyboard(HWND hDlg, uint16_t a2)
 {
-  int v2; // ebp
-  int *v3; // esi
-  KBD_NAME *v4; // eax
-  int result; // eax
-  int v6; // edx
-  int v7; // [esp+10h] [ebp-404h]
-  CHAR String[1024]; // [esp+14h] [ebp-400h] BYREF
+  int v2;
+  int *v3;
+  KBD_NAME *v4;
+  int result;
+  int v6;
+  int v7;
+  CHAR String[1024];
 
   v2 = 0;
   v3 = &controller_button_dlg_ids;
   v7 = 16;
   do
   {
-    if ( (unsigned __int16)pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection + v2] >= 0x200u )
+    if ( (uint16_t)pad_key_assignments[16 * (uint8_t)pad_number_menu_selection + v2] >= 0x200u )
     {
-      sprintf(String, "%d", (unsigned __int16)pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection + v2]);
+      sprintf(String, "%d", (uint16_t)pad_key_assignments[16 * (uint8_t)pad_number_menu_selection + v2]);
       v4 = (KBD_NAME *)String;
     }
     else
     {
-      v4 = &((KBD_NAME *)stru_44C148)[(unsigned __int16)pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection + v2]];
+      v4 = &((KBD_NAME *)stru_44C148)[(uint16_t)pad_key_assignments[16 * (uint8_t)pad_number_menu_selection + v2]];
     }
-    SetDlgItemTextA(hDlg, *(unsigned __int16 *)v3, v4->text);
+    SetDlgItemTextA(hDlg, *(uint16_t *)v3, v4->text);
     ++v2;
     v3 = (int *)((char *)v3 + 2);
     result = --v7;
@@ -110,18 +110,18 @@ static int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
   while ( v7 );
   if ( a2 < 0xFFu )
   {
-    v6 = a2 + 16 * (unsigned __int8)pad_number_menu_selection;
-    if ( (unsigned __int16)pad_key_assignments[v6] >= 0x200u )
+    v6 = a2 + 16 * (uint8_t)pad_number_menu_selection;
+    if ( (uint16_t)pad_key_assignments[v6] >= 0x200u )
     {
-      sprintf(String, "%d", (unsigned __int16)pad_key_assignments[v6]);
-      return SetDlgItemTextA(hDlg, *((unsigned __int16 *)&controller_button_dlg_ids + a2), String);
+      sprintf(String, "%d", (uint16_t)pad_key_assignments[v6]);
+      return SetDlgItemTextA(hDlg, *((uint16_t *)&controller_button_dlg_ids + a2), String);
     }
     else
     {
       return SetDlgItemTextA(
                hDlg,
-               *((unsigned __int16 *)&controller_button_dlg_ids + a2),
-               ((KBD_NAME *)stru_44C148)[(unsigned __int16)pad_key_assignments[v6]].text);
+               *((uint16_t *)&controller_button_dlg_ids + a2),
+               ((KBD_NAME *)stru_44C148)[(uint16_t)pad_key_assignments[v6]].text);
     }
   }
   return result;
@@ -129,44 +129,44 @@ static int __cdecl controller_set_keyboard(HWND hDlg, unsigned __int16 a2)
 
 INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  INT_PTR result; // eax
-  int v5; // eax
-  int v6; // eax
-  int v7; // eax
-  int v8; // eax
-  int v9; // eax
-  int v10; // eax
-  int v11; // eax
-  int v12; // eax
-  int v13; // edx
-  int v14; // eax
-  unsigned __int8 v15; // bl
-  unsigned __int16 i; // ax
-  unsigned __int16 v17; // cx
-  unsigned __int16 v18; // cx
-  __int16 v19; // si
-  __int16 v20; // dx
-  __int16 *v21; // ecx
-  unsigned __int16 v22; // ax
-  int v23; // ecx
-  unsigned __int16 v24; // ax
-  unsigned __int16 v25; // ax
-  unsigned __int16 v26; // ax
-  int v27; // eax
-  int v28; // edx
-  HWND v29; // esi
-  __int16 v30; // [esp-4h] [ebp-43Ch]
-  int v31; // [esp+10h] [ebp-428h]
-  unsigned __int16 v32; // [esp+14h] [ebp-424h]
-  int v33; // [esp+18h] [ebp-420h]
-  int v34; // [esp+1Ch] [ebp-41Ch]
-  int v35; // [esp+20h] [ebp-418h]
-  int v36; // [esp+24h] [ebp-414h]
-  int v37; // [esp+28h] [ebp-410h]
-  int v38; // [esp+2Ch] [ebp-40Ch]
-  int v39; // [esp+30h] [ebp-408h]
-  int v40; // [esp+34h] [ebp-404h]
-  CHAR String[1024]; // [esp+38h] [ebp-400h] BYREF
+  INT_PTR result;
+  int v5;
+  int v6;
+  int v7;
+  int v8;
+  int v9;
+  int v10;
+  int v11;
+  int v12;
+  int v13;
+  int v14;
+  uint8_t v15;
+  uint16_t i;
+  uint16_t v17;
+  uint16_t v18;
+  int16_t v19;
+  int16_t v20;
+  int16_t *v21;
+  uint16_t v22;
+  int v23;
+  uint16_t v24;
+  uint16_t v25;
+  uint16_t v26;
+  int v27;
+  int v28;
+  HWND v29;
+  int16_t v30;
+  int v31;
+  uint16_t v32;
+  int v33;
+  int v34;
+  int v35;
+  int v36;
+  int v37;
+  int v38;
+  int v39;
+  int v40;
+  CHAR String[1024];
 
   if ( a2 <= 0x110 )
   {
@@ -189,7 +189,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital Only");
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Disabled");
-      v5 = *(_DWORD *)&Keys4[2 * (unsigned __int8)pad_number_menu_selection + 14];
+      v5 = *(uint32_t *)&Keys4[2 * (uint8_t)pad_number_menu_selection + 14];
       if ( v5 )
       {
         v6 = v5 - 1;
@@ -213,7 +213,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"None");
-      switch ( GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] )
+      switch ( GamepadAxis[(uint8_t)pad_number_menu_selection + 7] )
       {
         case 0:
           SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 5u, 0);
@@ -239,7 +239,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Constant");
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"None");
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Sine");
-      v7 = g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection];
+      v7 = g_PlayerDeviceMap4[(uint8_t)pad_number_menu_selection];
       if ( v7 )
       {
         v8 = v7 - 1;
@@ -260,7 +260,7 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Constant");
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"None");
       SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Sine");
-      v9 = pad4_small_motor_type[(unsigned __int8)pad_number_menu_selection];
+      v9 = pad4_small_motor_type[(uint8_t)pad_number_menu_selection];
       if ( v9 )
       {
         v10 = v9 - 1;
@@ -464,14 +464,14 @@ LABEL_78:
       goto LABEL_78;
     }
     edit_button_id = -1;
-    v13 = joypad_button_map[2 * (unsigned __int8)pad_number_menu_selection];
-    v14 = mdec_disable_flag[2 * (unsigned __int8)pad_number_menu_selection];
-    qmemcpy(pad_keymap_dialog_copy, &pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection], sizeof(pad_keymap_dialog_copy));
+    v13 = joypad_button_map[2 * (uint8_t)pad_number_menu_selection];
+    v14 = mdec_disable_flag[2 * (uint8_t)pad_number_menu_selection];
+    qmemcpy(pad_keymap_dialog_copy, &pad_key_assignments[16 * (uint8_t)pad_number_menu_selection], sizeof(pad_keymap_dialog_copy));
     saved_pad_joypad_buttons = v13;
     saved_pad_mdec_disable_flag = v14;
     controller_set_keyboard(hDlg, 0xFFu);
-    controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
-    sprintf(String, "PAD NUMBER %d", (unsigned __int8)pad_number_menu_selection);
+    controller_set_joypad(hDlg, (uint8_t)edit_button_id);
+    sprintf(String, "PAD NUMBER %d", (uint8_t)pad_number_menu_selection);
     SetDlgItemTextA(hDlg, IDC_CONTROLLER_PAD_NUMBER, String);
     SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: NONE");
     SetTimer(hDlg, 0, 0x21u, nullptr);
@@ -484,13 +484,13 @@ LABEL_78:
   }
   if ( a2 == 273 )
   {
-    switch ( (__int16)a3 )
+    switch ( (int16_t)a3 )
     {
       case IDC_CONTROLLER_DEFAULT:
         edit_button_id = -1;
         cont_set_default(pad_number_menu_selection);
         v29 = hDlg;
-        controller_set_keyboard(hDlg, (unsigned __int8)edit_button_id);
+        controller_set_keyboard(hDlg, (uint8_t)edit_button_id);
         goto LABEL_203;
       case IDC_CONTROLLER_L2:
         SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: L2");
@@ -553,9 +553,9 @@ LABEL_78:
         edit_button_id = 14;
         return 0;
       case IDC_CONTROLLER_CANCEL:
-        v27 = (unsigned __int8)pad_number_menu_selection;
+        v27 = (uint8_t)pad_number_menu_selection;
         v28 = saved_pad_mdec_disable_flag;
-        qmemcpy(&pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection], pad_keymap_dialog_copy, 0x20u);
+        qmemcpy(&pad_key_assignments[16 * (uint8_t)pad_number_menu_selection], pad_keymap_dialog_copy, 0x20u);
         joypad_button_map[2 * v27] = saved_pad_joypad_buttons;
         mdec_disable_flag[2 * v27] = v28;
         KillTimer(hDlg, 0);
@@ -577,7 +577,7 @@ LABEL_78:
                 v35 = 0;
                 v23 = *(&v33 + v22);
                 point_device_enabled = 0;
-                *(_DWORD *)&Keys4[2 * (unsigned __int8)pad_number_menu_selection + 14] = v23;
+                *(uint32_t *)&Keys4[2 * (uint8_t)pad_number_menu_selection + 14] = v23;
               }
             }
             else
@@ -641,22 +641,22 @@ LABEL_78:
           switch ( v24 )
           {
             case 0u:
-              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 5;
+              GamepadAxis[(uint8_t)pad_number_menu_selection + 7] = 5;
               break;
             case 1u:
-              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 1;
+              GamepadAxis[(uint8_t)pad_number_menu_selection + 7] = 1;
               break;
             case 2u:
-              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 2;
+              GamepadAxis[(uint8_t)pad_number_menu_selection + 7] = 2;
               break;
             case 3u:
-              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 3;
+              GamepadAxis[(uint8_t)pad_number_menu_selection + 7] = 3;
               break;
             case 4u:
-              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 4;
+              GamepadAxis[(uint8_t)pad_number_menu_selection + 7] = 4;
               break;
             case 5u:
-              GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] = 0;
+              GamepadAxis[(uint8_t)pad_number_menu_selection + 7] = 0;
               break;
           }
         }
@@ -667,16 +667,16 @@ LABEL_78:
           {
             if ( v25 == 1 )
             {
-              g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection] = 0;
+              g_PlayerDeviceMap4[(uint8_t)pad_number_menu_selection] = 0;
             }
             else if ( v25 == 2 )
             {
-              g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection] = 2;
+              g_PlayerDeviceMap4[(uint8_t)pad_number_menu_selection] = 2;
             }
           }
           else
           {
-            g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection] = 1;
+            g_PlayerDeviceMap4[(uint8_t)pad_number_menu_selection] = 1;
           }
         }
         v26 = SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, 0x147u, 0, 0);
@@ -686,16 +686,16 @@ LABEL_78:
           {
             if ( v26 == 1 )
             {
-              pad4_small_motor_type[(unsigned __int8)pad_number_menu_selection] = 0;
+              pad4_small_motor_type[(uint8_t)pad_number_menu_selection] = 0;
             }
             else if ( v26 == 2 )
             {
-              pad4_small_motor_type[(unsigned __int8)pad_number_menu_selection] = 2;
+              pad4_small_motor_type[(uint8_t)pad_number_menu_selection] = 2;
             }
           }
           else
           {
-            pad4_small_motor_type[(unsigned __int8)pad_number_menu_selection] = 1;
+            pad4_small_motor_type[(uint8_t)pad_number_menu_selection] = 1;
           }
         }
         cfg_save_settings();
@@ -731,8 +731,8 @@ LABEL_78:
         edit_button_id = -1;
         cont_reset_pad_state(pad_number_menu_selection);
         v29 = hDlg;
-        controller_set_keyboard(hDlg, (unsigned __int8)edit_button_id);
-        controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
+        controller_set_keyboard(hDlg, (uint8_t)edit_button_id);
+        controller_set_joypad(hDlg, (uint8_t)edit_button_id);
 LABEL_203:
         SetDlgItemTextA(v29, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: NONE");
         result = 0;
@@ -746,9 +746,9 @@ LABEL_203:
     return 0;
   v15 = edit_button_id;
   LOBYTE(v40) = edit_button_id;
-  if ( (unsigned __int8)edit_button_id >= 0x10u )
+  if ( (uint8_t)edit_button_id >= 0x10u )
   {
-    if ( (unsigned __int8)edit_button_id >= 0x14u )
+    if ( (uint8_t)edit_button_id >= 0x14u )
       return 1;
     v19 = 0;
     v32 = 0;
@@ -772,10 +772,10 @@ LABEL_203:
       ++v21;
       ++v31;
     }
-    while ( (unsigned __int16)v20 < 0x20u );
+    while ( (uint16_t)v20 < 0x20u );
     if ( !v19 )
       return 1;
-    cont_map_axis_state((unsigned __int8)v40 + 4 * (unsigned __int8)pad_number_menu_selection - 20, v19);
+    cont_map_axis_state((uint8_t)v40 + 4 * (uint8_t)pad_number_menu_selection - 20, v19);
     controller_set_joypad(hDlg, v15 - 16);
     edit_button_id = v15;
     return 1;
@@ -799,7 +799,7 @@ LABEL_203:
     {
       v17 += 32;
 LABEL_107:
-      cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v17);
+      cont_map_button_state(v15 + 16 * ((uint8_t)pad_number_menu_selection - 1), v17);
       controller_set_keyboard(hDlg, v15);
       return 1;
     }
@@ -837,13 +837,13 @@ LABEL_107:
           {
             if ( extended_key_states_1[v18] && v15 != 0xFF )
             {
-              cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 32);
+              cont_map_button_state(v15 + 16 * ((uint8_t)pad_number_menu_selection - 1), v18 + 32);
               controller_set_keyboard(hDlg, v15);
               return 1;
             }
             if ( extended_key_states_2[v18] && v15 != 0xFF )
             {
-              cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v18 + 64);
+              cont_map_button_state(v15 + 16 * ((uint8_t)pad_number_menu_selection - 1), v18 + 64);
               controller_set_keyboard(hDlg, v15);
               return 1;
             }
@@ -865,32 +865,32 @@ LABEL_107:
 LABEL_137:
   v30 = v18;
 LABEL_138:
-  cont_map_button_state(v15 + 16 * ((unsigned __int8)pad_number_menu_selection - 1), v30);
+  cont_map_button_state(v15 + 16 * ((uint8_t)pad_number_menu_selection - 1), v30);
   controller_set_keyboard(hDlg, v15);
   return 1;
 }
 
-LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
+LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, int16_t a3, int a4)
 {
-  LRESULT v4; // eax
-  LRESULT v5; // esi
-  LRESULT result; // eax
-  LRESULT v7; // eax
-  LRESULT v8; // esi
-  FILE *v9; // ebp
-  FILE *v10; // edi
-  LRESULT v11; // eax
-  LRESULT v12; // esi
-  unsigned int i; // esi
-  int v14; // [esp+10h] [ebp-C08h] BYREF
-  int v15; // [esp+14h] [ebp-C04h] BYREF
-  char lParam[1024]; // [esp+18h] [ebp-C00h] BYREF
-  CHAR String[1024]; // [esp+418h] [ebp-800h] BYREF
-  CHAR Buffer[1024]; // [esp+818h] [ebp-400h] BYREF
+  LRESULT v4;
+  LRESULT v5;
+  LRESULT result;
+  LRESULT v7;
+  LRESULT v8;
+  FILE *v9;
+  FILE *v10;
+  LRESULT v11;
+  LRESULT v12;
+  unsigned int i;
+  int v14;
+  int v15;
+  char lParam[1024];
+  CHAR String[1024];
+  CHAR Buffer[1024];
 
   if ( a2 == 272 )
   {
-    for ( i = 0; i < (unsigned __int8)active_mini_cheat_count; ++i )
+    for ( i = 0; i < (uint8_t)active_mini_cheat_count; ++i )
     {
       sprintf(lParam, "  %06x    %08x", mini_cheat_id_array[2 * i], mini_cheat_attr_array[2 * i]);
       SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x180u, 0, (LPARAM)lParam);
@@ -951,8 +951,8 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
             sscanf(
               lParam,
               "  %06x    %08x",
-              &mini_cheat_id_array[2 * (unsigned __int8)active_mini_cheat_count],
-              &mini_cheat_attr_array[2 * (unsigned __int8)active_mini_cheat_count]);
+              &mini_cheat_id_array[2 * (uint8_t)active_mini_cheat_count],
+              &mini_cheat_attr_array[2 * (uint8_t)active_mini_cheat_count]);
             v4 = v5;
             ++active_mini_cheat_count;
           }
@@ -1004,7 +1004,7 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
   return result;
 }
 
-int __stdcall about_callback(HWND hDlg, int a2, __int16 a3, int a4)
+int __stdcall about_callback(HWND hDlg, int a2, int16_t a3, int a4)
 {
   if ( a2 == 272 )
     return 1;
@@ -1018,7 +1018,7 @@ int __stdcall about_callback(HWND hDlg, int a2, __int16 a3, int a4)
 
 INT_PTR __stdcall bios_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  INT_PTR result; // eax
+  INT_PTR result;
 
   if ( a2 == 272 )
   {
@@ -1027,7 +1027,7 @@ INT_PTR __stdcall bios_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   }
   else if ( a2 == 273 )
   {
-    switch ( (__int16)a3 )
+    switch ( (int16_t)a3 )
     {
       case IDC_BIOS_PATH:
         return 1;
@@ -1060,43 +1060,43 @@ INT_PTR __stdcall bios_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 
 INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  int v4; // eax
-  char v5; // cl
-  INT_PTR result; // eax
-  unsigned int v7; // eax
-  unsigned int v8; // eax
-  HMODULE v9; // esi
-  char v10; // al
-  unsigned int v11; // eax
-  HMODULE v12; // esi
-  unsigned int v13; // eax
-  HMODULE v14; // esi
-  HMODULE LibraryA; // eax
-  HMODULE v16; // esi
-  FARPROC PSEgetLibVersion_ptr; // eax
-  unsigned __int8 v18; // al
-  int v19; // eax
-  const char *v20; // eax
-  LRESULT v21; // ebp
-  int v22; // ebx
-  CHAR *cFileName; // eax
-  char *v24; // edx
-  CHAR v25; // cl
-  char *v26; // esi
-  int v27; // edi
-  char *v28; // eax
-  char v29; // cl
-  int v30; // ebp
-  CHAR *v31; // eax
-  char v32; // cl
-  int v33; // [esp-18h] [ebp-D68h]
-  int v34; // [esp-14h] [ebp-D64h]
-  char v35[12]; // [esp+0h] [ebp-D50h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
-  CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
-  CHAR FileName[1024]; // [esp+550h] [ebp-800h] BYREF
-  char lParam[1024]; // [esp+950h] [ebp-400h] BYREF
+  int v4;
+  char v5;
+  INT_PTR result;
+  unsigned int v7;
+  unsigned int v8;
+  HMODULE v9;
+  char v10;
+  unsigned int v11;
+  HMODULE v12;
+  unsigned int v13;
+  HMODULE v14;
+  HMODULE LibraryA;
+  HMODULE v16;
+  FARPROC PSEgetLibVersion_ptr;
+  uint8_t v18;
+  int v19;
+  const char *v20;
+  LRESULT v21;
+  int v22;
+  CHAR *cFileName;
+  char *v24;
+  CHAR v25;
+  char *v26;
+  int v27;
+  char *v28;
+  char v29;
+  int v30;
+  CHAR *v31;
+  char v32;
+  int v33;
+  int v34;
+  char v35[12];
+  HANDLE hFindFile;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR LibFileName[1024];
+  CHAR FileName[1024];
+  char lParam[1024];
 
   strcpy(v35, "plugins\\");
   v4 = 0;
@@ -1121,9 +1121,9 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       if ( LibraryA )
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v16, "PSEgetLibName");
+        PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(v16, "PSEgetLibName");
         PSEgetLibVersion_ptr = GetProcAddress(v16, "PSEgetLibVersion");
-        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion_ptr;
+        PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersion_ptr;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
@@ -1143,11 +1143,11 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 if ( v21 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v24 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                  v24 = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                   do
                   {
                     v25 = *cFileName;
-                    cFileName[(_DWORD)v24] = *cFileName;
+                    cFileName[(uint32_t)v24] = *cFileName;
                     ++cFileName;
                   }
                   while ( v25 );
@@ -1173,12 +1173,12 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                     }
                     while ( v27 );
                   }
-                  v30 = (v21 << 10) - (_DWORD)FindFileData.cFileName;
+                  v30 = (v21 << 10) - (uint32_t)FindFileData.cFileName;
                   v31 = FindFileData.cFileName;
                   do
                   {
                     v32 = *v31;
-                    plugin_name_list[v30 + (_DWORD)v31] = *v31;
+                    plugin_name_list[v30 + (uint32_t)v31] = *v31;
                     ++v31;
                   }
                   while ( v32 );
@@ -1195,7 +1195,7 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   }
   else if ( a2 == 273 )
   {
-    switch ( (__int16)a3 )
+    switch ( (int16_t)a3 )
     {
       case IDC_VIDEO_TEST:
         if ( !found_plugin_count )
@@ -1303,50 +1303,50 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 
 INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  int v4; // eax
-  char v5; // cl
-  INT_PTR result; // eax
-  unsigned int v7; // eax
-  unsigned int v8; // eax
-  const char *v9; // eax
-  HMODULE v10; // eax
-  char v11; // al
-  unsigned int v12; // eax
-  const char *v13; // eax
-  HMODULE v14; // eax
-  unsigned int v15; // eax
-  const char *v16; // eax
-  HMODULE v17; // eax
-  HWND v18; // ebx
-  LRESULT (__stdcall *v19)(HWND, int, UINT, WPARAM, LPARAM); // ebp
-  LRESULT v20; // eax
-  int v21; // eax
-  HMODULE LibraryA; // eax
-  HMODULE v23; // esi
-  FARPROC PSEgetLibVersion_ptr; // eax
-  unsigned __int8 v25; // al
-  int v26; // eax
-  const char *v27; // eax
-  signed int v28; // ebp
-  int v29; // ebx
-  CHAR *cFileName; // eax
-  char *v31; // edx
-  CHAR v32; // cl
-  char *v33; // esi
-  int v34; // edi
-  char *v35; // eax
-  char v36; // cl
-  int v37; // ebp
-  CHAR *v38; // eax
-  char v39; // cl
-  int v40; // [esp-18h] [ebp-D68h]
-  int v41; // [esp-14h] [ebp-D64h]
-  char v42[12]; // [esp+0h] [ebp-D50h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
-  CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
-  char lParam[1024]; // [esp+550h] [ebp-800h] BYREF
-  CHAR FileName[1024]; // [esp+950h] [ebp-400h] BYREF
+  int v4;
+  char v5;
+  INT_PTR result;
+  unsigned int v7;
+  unsigned int v8;
+  const char *v9;
+  HMODULE v10;
+  char v11;
+  unsigned int v12;
+  const char *v13;
+  HMODULE v14;
+  unsigned int v15;
+  const char *v16;
+  HMODULE v17;
+  HWND v18;
+  LRESULT (__stdcall *v19)(HWND, int, UINT, WPARAM, LPARAM);
+  LRESULT v20;
+  int v21;
+  HMODULE LibraryA;
+  HMODULE v23;
+  FARPROC PSEgetLibVersion_ptr;
+  uint8_t v25;
+  int v26;
+  const char *v27;
+  signed int v28;
+  int v29;
+  CHAR *cFileName;
+  char *v31;
+  CHAR v32;
+  char *v33;
+  int v34;
+  char *v35;
+  char v36;
+  int v37;
+  CHAR *v38;
+  char v39;
+  int v40;
+  int v41;
+  char v42[12];
+  HANDLE hFindFile;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR LibFileName[1024];
+  char lParam[1024];
+  CHAR FileName[1024];
 
   strcpy(v42, "plugins\\");
   v4 = 0;
@@ -1380,9 +1380,9 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       if ( LibraryA )
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
+        PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(v23, "PSEgetLibName");
         PSEgetLibVersion_ptr = GetProcAddress(v23, "PSEgetLibVersion");
-        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion_ptr;
+        PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersion_ptr;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
@@ -1402,11 +1402,11 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 if ( v28 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                  v31 = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                   do
                   {
                     v32 = *cFileName;
-                    cFileName[(_DWORD)v31] = *cFileName;
+                    cFileName[(uint32_t)v31] = *cFileName;
                     ++cFileName;
                   }
                   while ( v32 );
@@ -1432,12 +1432,12 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                     }
                     while ( v34 );
                   }
-                  v37 = (v28 << 10) - (_DWORD)FindFileData.cFileName;
+                  v37 = (v28 << 10) - (uint32_t)FindFileData.cFileName;
                   v38 = FindFileData.cFileName;
                   do
                   {
                     v39 = *v38;
-                    plugin_name_list[v37 + (_DWORD)v38] = *v38;
+                    plugin_name_list[v37 + (uint32_t)v38] = *v38;
                     ++v38;
                   }
                   while ( v39 );
@@ -1457,7 +1457,7 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   }
   else if ( a2 == 273 )
   {
-    switch ( (__int16)a3 )
+    switch ( (int16_t)a3 )
     {
       case IDC_NET_TEST:
         if ( !found_plugin_count )
@@ -1566,13 +1566,13 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 
 INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  LRESULT v5; // eax
-  LRESULT v6; // eax
-  int v7; // ecx
-  int v8; // edx
-  signed int v9; // ebp
-  char *v10; // esi
-  char lParam[1024]; // [esp+8h] [ebp-400h] BYREF
+  LRESULT v5;
+  LRESULT v6;
+  int v7;
+  int v8;
+  signed int v9;
+  char *v10;
+  char lParam[1024];
 
   if ( a2 == 272 )
   {
@@ -1588,16 +1588,16 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         sprintf(
           lParam,
           "%d:%d:%d %08s  %016s  %04s",
-          *(_DWORD *)(v10 + 43),
-          *(_DWORD *)(v10 + 47),
-          *(_DWORD *)(v10 + 51),
+          *(uint32_t *)(v10 + 43),
+          *(uint32_t *)(v10 + 47),
+          *(uint32_t *)(v10 + 51),
           v10 - 9,
           v10,
           v10 + 17);
         SendDlgItemMessageA(hDlg, IDC_CDROM9X_DEVICE_LIST, CB_ADDSTRING, 0, (LPARAM)lParam);
-        if ( *(_DWORD *)(v10 + 43) == cdrom_haid
-          && *(_DWORD *)(v10 + 47) == cdrom_target
-          && *(_DWORD *)(v10 + 51) == cdrom_lun )
+        if ( *(uint32_t *)(v10 + 43) == cdrom_haid
+          && *(uint32_t *)(v10 + 47) == cdrom_target
+          && *(uint32_t *)(v10 + 51) == cdrom_lun )
         {
           SendDlgItemMessageA(hDlg, IDC_CDROM9X_DEVICE_LIST, 0x14Eu, v9, 0);
         }
@@ -1606,16 +1606,16 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       }
       while ( v9 < HIBYTE(w9x_cdrom_info) );
     }
-    SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_READ, BM_SETCHECK, (unsigned __int8)SubchannelW9xCdromEnabled, 0);
-    SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_CACHE, BM_SETCHECK, (unsigned __int8)SubchannelW9xCaching, 0);
-    SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_CACHE_LG, BM_SETCHECK, (unsigned __int8)SubchannelW9xCachingLG, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_READ, BM_SETCHECK, (uint8_t)SubchannelW9xCdromEnabled, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_CACHE, BM_SETCHECK, (uint8_t)SubchannelW9xCaching, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_CACHE_LG, BM_SETCHECK, (uint8_t)SubchannelW9xCachingLG, 0);
     return 1;
   }
   else
   {
     if ( a2 != 273 )
       return 0;
-    if ( (unsigned __int16)a3 == 1079 )
+    if ( (uint16_t)a3 == 1079 )
     {
       v5 = SendDlgItemMessageA(hDlg, IDC_CDROM9X_DEVICE_LIST, CB_GETCURSEL, 0, 0);
       if ( v5 != -1 && v5 < HIBYTE(w9x_cdrom_info) )
@@ -1636,7 +1636,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     }
     else
     {
-      if ( (unsigned __int16)a3 != 1080 )
+      if ( (uint16_t)a3 != 1080 )
         return 0;
       EndDialog(hDlg, 1);
       return 1;
@@ -1646,11 +1646,11 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 
 static INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  LRESULT v5; // eax
-  LRESULT v6; // eax
-  int i; // ebx
-  LRESULT v8; // eax
-  CHAR lParam[1024]; // [esp+8h] [ebp-400h] BYREF
+  LRESULT v5;
+  LRESULT v6;
+  int i;
+  LRESULT v8;
+  CHAR lParam[1024];
 
   if ( a2 == 272 )
   {
@@ -1669,16 +1669,16 @@ static INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARA
           SendDlgItemMessageA(hDlg, IDC_CDROM2K_LETTER, CB_SETCURSEL, v8, 0);
       }
     }
-    SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_READ, BM_SETCHECK, (unsigned __int8)SubchannelW2kCdromEnabled, 0);
-    SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_CACHE, BM_SETCHECK, (unsigned __int8)SubchannelW2kCaching, 0);
-    SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_CACHE_LG, BM_SETCHECK, (unsigned __int8)SubchannelW2kCachingLG, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_READ, BM_SETCHECK, (uint8_t)SubchannelW2kCdromEnabled, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_CACHE, BM_SETCHECK, (uint8_t)SubchannelW2kCaching, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_CACHE_LG, BM_SETCHECK, (uint8_t)SubchannelW2kCachingLG, 0);
     return 1;
   }
   else
   {
     if ( a2 != 273 )
       return 0;
-    if ( (unsigned __int16)a3 == 1134 )
+    if ( (uint16_t)a3 == 1134 )
     {
       v5 = SendDlgItemMessageA(hDlg, IDC_CDROM2K_LETTER, CB_GETCURSEL, 0, 0);
       if ( v5 != -1 )
@@ -1698,7 +1698,7 @@ static INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARA
     }
     else
     {
-      if ( (unsigned __int16)a3 != 1135 )
+      if ( (uint16_t)a3 != 1135 )
         return 0;
       EndDialog(hDlg, 1);
       return 1;
@@ -1708,52 +1708,52 @@ static INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARA
 
 INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  INT_PTR result; // eax
-  unsigned int v8; // eax
-  const char *v9; // eax
-  HMODULE v10; // eax
-  unsigned int v11; // eax
-  const char *v12; // eax
-  HMODULE v13; // esi
-  unsigned int v14; // eax
-  const char *v15; // eax
-  HMODULE v16; // eax
-  HWND v17; // ebx
-  LRESULT (__stdcall *v18)(HWND, int, UINT, WPARAM, LPARAM); // ebp
-  LRESULT v19; // eax
-  int v20; // eax
-  LRESULT v21; // eax
-  int v22; // eax
-  HMODULE LibraryA; // eax
-  HMODULE v24; // esi
-  FARPROC PSEgetLibVersion_ptr; // eax
-  unsigned __int8 v26; // al
-  int v27; // eax
-  const char *v28; // eax
-  signed int v29; // ebp
-  int v30; // ebx
-  CHAR *cFileName; // eax
-  char *v32; // edx
-  CHAR v33; // cl
-  char *v34; // esi
-  int v35; // edi
-  char *v36; // eax
-  char v37; // cl
-  int v38; // ebp
-  CHAR *v39; // eax
-  char v40; // cl
-  int v41; // [esp-18h] [ebp-DFCh]
-  int v42; // [esp-14h] [ebp-DF8h]
-  char v43[12]; // [esp+0h] [ebp-DE4h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-DD8h]
-  struct _OSVERSIONINFOA VersionInformation; // [esp+10h] [ebp-DD4h] BYREF
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+A4h] [ebp-D40h] BYREF
-  CHAR LibFileName[1024]; // [esp+1E4h] [ebp-C00h] BYREF
-  char lParam[1024]; // [esp+5E4h] [ebp-800h] BYREF
-  CHAR FileName[1024]; // [esp+9E4h] [ebp-400h] BYREF
+  int v4;
+  char v5;
+  unsigned int v6;
+  INT_PTR result;
+  unsigned int v8;
+  const char *v9;
+  HMODULE v10;
+  unsigned int v11;
+  const char *v12;
+  HMODULE v13;
+  unsigned int v14;
+  const char *v15;
+  HMODULE v16;
+  HWND v17;
+  LRESULT (__stdcall *v18)(HWND, int, UINT, WPARAM, LPARAM);
+  LRESULT v19;
+  int v20;
+  LRESULT v21;
+  int v22;
+  HMODULE LibraryA;
+  HMODULE v24;
+  FARPROC PSEgetLibVersion_ptr;
+  uint8_t v26;
+  int v27;
+  const char *v28;
+  signed int v29;
+  int v30;
+  CHAR *cFileName;
+  char *v32;
+  CHAR v33;
+  char *v34;
+  int v35;
+  char *v36;
+  char v37;
+  int v38;
+  CHAR *v39;
+  char v40;
+  int v41;
+  int v42;
+  char v43[12];
+  HANDLE hFindFile;
+  struct _OSVERSIONINFOA VersionInformation;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR LibFileName[1024];
+  char lParam[1024];
+  CHAR FileName[1024];
 
   strcpy(v43, "plugins\\");
   v4 = 0;
@@ -1798,9 +1798,9 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       if ( LibraryA )
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v24, "PSEgetLibName");
+        PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(v24, "PSEgetLibName");
         PSEgetLibVersion_ptr = GetProcAddress(v24, "PSEgetLibVersion");
-        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion_ptr;
+        PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersion_ptr;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
@@ -1820,11 +1820,11 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 if ( v29 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v32 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                  v32 = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                   do
                   {
                     v33 = *cFileName;
-                    cFileName[(_DWORD)v32] = *cFileName;
+                    cFileName[(uint32_t)v32] = *cFileName;
                     ++cFileName;
                   }
                   while ( v33 );
@@ -1850,12 +1850,12 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                     }
                     while ( v35 );
                   }
-                  v38 = (v29 << 10) - (_DWORD)FindFileData.cFileName;
+                  v38 = (v29 << 10) - (uint32_t)FindFileData.cFileName;
                   v39 = FindFileData.cFileName;
                   do
                   {
                     v40 = *v39;
-                    plugin_name_list[v38 + (_DWORD)v39] = *v39;
+                    plugin_name_list[v38 + (uint32_t)v39] = *v39;
                     ++v39;
                   }
                   while ( v40 );
@@ -1874,7 +1874,7 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   }
   else if ( a2 == 273 )
   {
-    switch ( (__int16)a3 )
+    switch ( (int16_t)a3 )
     {
       case IDC_CDROM_TEST:
         v8 = SendDlgItemMessageA(hDlg, IDC_CDROM_PLUGIN_LIST, 0x147u, 0, 0);
@@ -1963,7 +1963,7 @@ INT_PTR __stdcall spucore_configure_dialog_callback(HWND hDlg, UINT a2, WPARAM a
 {
   if ( a2 != 272 )
   {
-    if ( a2 != 273 || (_WORD)a3 != 1105 )
+    if ( a2 != 273 || (uint16_t)a3 != 1105 )
       return 0;
     EndDialog(hDlg, 1);
   }
@@ -1972,50 +1972,50 @@ INT_PTR __stdcall spucore_configure_dialog_callback(HWND hDlg, UINT a2, WPARAM a
 
 INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  int v4; // eax
-  char v5; // cl
-  unsigned int v6; // eax
-  INT_PTR result; // eax
-  unsigned int v8; // eax
-  const char *v9; // eax
-  HMODULE v10; // eax
-  unsigned int v11; // eax
-  const char *v12; // eax
-  HMODULE v13; // eax
-  unsigned int v14; // eax
-  const char *v15; // eax
-  HMODULE v16; // eax
-  HWND v17; // ebx
-  LRESULT (__stdcall *v18)(HWND, int, UINT, WPARAM, LPARAM); // ebp
-  LRESULT v19; // eax
-  int v20; // eax
-  int v21; // ecx
-  HMODULE LibraryA; // eax
-  HMODULE v23; // esi
-  FARPROC PSEgetLibVersion_ptr; // eax
-  unsigned __int8 v25; // al
-  int v26; // eax
-  const char *v27; // eax
-  signed int v28; // ebp
-  int v29; // ebx
-  CHAR *cFileName; // eax
-  char *v31; // edx
-  CHAR v32; // cl
-  char *v33; // esi
-  int v34; // edi
-  char *v35; // eax
-  char v36; // cl
-  int v37; // ebp
-  CHAR *v38; // eax
-  char v39; // cl
-  int v40; // [esp-18h] [ebp-D68h]
-  int v41; // [esp-14h] [ebp-D64h]
-  char v42[12]; // [esp+0h] [ebp-D50h] BYREF
-  HANDLE hFindFile; // [esp+Ch] [ebp-D44h]
-  struct _WIN32_FIND_DATAA FindFileData; // [esp+10h] [ebp-D40h] BYREF
-  CHAR LibFileName[1024]; // [esp+150h] [ebp-C00h] BYREF
-  char lParam[1024]; // [esp+550h] [ebp-800h] BYREF
-  CHAR FileName[1024]; // [esp+950h] [ebp-400h] BYREF
+  int v4;
+  char v5;
+  unsigned int v6;
+  INT_PTR result;
+  unsigned int v8;
+  const char *v9;
+  HMODULE v10;
+  unsigned int v11;
+  const char *v12;
+  HMODULE v13;
+  unsigned int v14;
+  const char *v15;
+  HMODULE v16;
+  HWND v17;
+  LRESULT (__stdcall *v18)(HWND, int, UINT, WPARAM, LPARAM);
+  LRESULT v19;
+  int v20;
+  int v21;
+  HMODULE LibraryA;
+  HMODULE v23;
+  FARPROC PSEgetLibVersion_ptr;
+  uint8_t v25;
+  int v26;
+  const char *v27;
+  signed int v28;
+  int v29;
+  CHAR *cFileName;
+  char *v31;
+  CHAR v32;
+  char *v33;
+  int v34;
+  char *v35;
+  char v36;
+  int v37;
+  CHAR *v38;
+  char v39;
+  int v40;
+  int v41;
+  char v42[12];
+  HANDLE hFindFile;
+  struct _WIN32_FIND_DATAA FindFileData;
+  CHAR LibFileName[1024];
+  char lParam[1024];
+  CHAR FileName[1024];
 
   strcpy(v42, "plugins\\");
   v4 = 0;
@@ -2038,7 +2038,7 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       SendDlgItemMessageA(hDlg, IDC_SOUND_PLUGIN_LIST, 0x14Eu, v19, 0);
     v20 = found_plugin_count;
     v21 = found_plugin_count << 10;
-    *(_DWORD *)&plugin_name_list[v21] = *(_DWORD *)"SPUCORE";
+    *(uint32_t *)&plugin_name_list[v21] = *(uint32_t *)"SPUCORE";
     strcpy(&plugin_name_list_tail[v21], "ORE");
     found_plugin_count = v20 + 1;
     do
@@ -2049,9 +2049,9 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       if ( LibraryA )
       {
         PSEgetLibType = GetProcAddress(LibraryA, "PSEgetLibType");
-        PSEgetLibName = (int (__cdecl *)(_DWORD))GetProcAddress(v23, "PSEgetLibName");
+        PSEgetLibName = (int ( *)(uint32_t))GetProcAddress(v23, "PSEgetLibName");
         PSEgetLibVersion_ptr = GetProcAddress(v23, "PSEgetLibVersion");
-        PSEgetLibVersion = (int (__cdecl *)(_DWORD))PSEgetLibVersion_ptr;
+        PSEgetLibVersion = (int ( *)(uint32_t))PSEgetLibVersion_ptr;
         if ( PSEgetLibType )
         {
           if ( PSEgetLibName )
@@ -2071,11 +2071,11 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 if ( v28 == found_plugin_count )
                 {
                   cFileName = FindFileData.cFileName;
-                  v31 = &plugin_name_list[(found_plugin_count << 10) - (_DWORD)FindFileData.cFileName];
+                  v31 = &plugin_name_list[(found_plugin_count << 10) - (uint32_t)FindFileData.cFileName];
                   do
                   {
                     v32 = *cFileName;
-                    cFileName[(_DWORD)v31] = *cFileName;
+                    cFileName[(uint32_t)v31] = *cFileName;
                     ++cFileName;
                   }
                   while ( v32 );
@@ -2101,12 +2101,12 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                     }
                     while ( v34 );
                   }
-                  v37 = (v28 << 10) - (_DWORD)FindFileData.cFileName;
+                  v37 = (v28 << 10) - (uint32_t)FindFileData.cFileName;
                   v38 = FindFileData.cFileName;
                   do
                   {
                     v39 = *v38;
-                    plugin_name_list[v37 + (_DWORD)v38] = *v38;
+                    plugin_name_list[v37 + (uint32_t)v38] = *v38;
                     ++v38;
                   }
                   while ( v39 );
@@ -2121,15 +2121,15 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       }
     }
     while ( FindNextFileA(hFindFile, &FindFileData) );
-    v18(v17, IDC_SOUND_ENABLE, 0xF1u, (unsigned __int8)sound_enabled, 0);
-    v18(v17, IDC_SOUND_XA, 0xF1u, (unsigned __int8)sound_use_xa, 0);
-    v18(v17, IDC_SOUND_CDDA, 0xF1u, (unsigned __int8)sound_use_cdda, 0);
-    v18(v17, IDC_SOUND_SPU_IRQ_HACK, 0xF1u, (unsigned __int8)forcespu, 0);
+    v18(v17, IDC_SOUND_ENABLE, 0xF1u, (uint8_t)sound_enabled, 0);
+    v18(v17, IDC_SOUND_XA, 0xF1u, (uint8_t)sound_use_xa, 0);
+    v18(v17, IDC_SOUND_CDDA, 0xF1u, (uint8_t)sound_use_cdda, 0);
+    v18(v17, IDC_SOUND_SPU_IRQ_HACK, 0xF1u, (uint8_t)forcespu, 0);
     return 1;
   }
   else if ( a2 == 273 )
   {
-    switch ( (__int16)a3 )
+    switch ( (int16_t)a3 )
     {
       case IDC_SOUND_TEST:
         v8 = SendDlgItemMessageA(hDlg, IDC_SOUND_PLUGIN_LIST, 0x147u, 0, 0);
@@ -2207,7 +2207,7 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 
 INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 {
-  INT_PTR result; // eax
+  INT_PTR result;
 
   if ( a2 == 272 )
   {
@@ -2217,7 +2217,7 @@ INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   }
   else if ( a2 == 273 )
   {
-    switch ( (__int16)a3 )
+    switch ( (int16_t)a3 )
     {
       case IDC_MEMCARD_FILE2:
       case IDC_MEMCARD_FILE1:
@@ -2271,14 +2271,14 @@ INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   return result;
 }
 
-int __cdecl calc_bios_checksum(uint8_t *ptr, int size)
+int calc_bios_checksum(uint8_t *ptr, int size)
 {
-  unsigned __int16 v2; // si
-  int v3; // ebp
-  uint8_t *v4; // edx
-  int v5; // ecx
-  int v6; // ebx
-  int v7; // ecx
+  uint16_t v2;
+  int v3;
+  uint8_t *v4;
+  int v5;
+  int v6;
+  int v7;
 
   v2 = 0;
   v3 = 0;
@@ -2294,7 +2294,7 @@ int __cdecl calc_bios_checksum(uint8_t *ptr, int size)
       v3 += v7;
       v2 ^= v7;
     }
-    while ( (int)&v4[-1 - (_DWORD)ptr] < size );
+    while ( (int)&v4[-1 - (uint32_t)ptr] < size );
   }
   return v2 ^ (v3 << 16);
 }
@@ -2305,10 +2305,10 @@ int (__stdcall *GPUabout_0)();
 int (__stdcall *GPUinit_0)();
 int (__stdcall *GPUshutdown_0)();
 int (__stdcall *GPUtest_0)();
-int (__cdecl *PSEconfigure)();
-int (__cdecl *PSEgetLibName)();
-int (__cdecl *PSEgetLibType)();
-int (__cdecl *PSEgetLibVersion)();
+int ( *PSEconfigure)();
+int ( *PSEgetLibName)();
+int ( *PSEgetLibType)();
+int ( *PSEgetLibVersion)();
 char aW[8];
 char asc_44E24C[64];
 unsigned char extended_key_states_1[1];

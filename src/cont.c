@@ -1,7 +1,7 @@
 #include "pch.h"
-_BYTE *__cdecl cont_build_controller_response_digital(char a1, _BYTE *a2)
+uint8_t * cont_build_controller_response_digital(char a1, uint8_t *a2)
 {
-  _BYTE *result; // eax
+  uint8_t *result;
 
   switch ( a1 )
   {
@@ -49,13 +49,13 @@ _BYTE *__cdecl cont_build_controller_response_digital(char a1, _BYTE *a2)
   return result;
 }
 
-char __cdecl cont_build_controller_response_analog(char a1, _BYTE *a2)
+char cont_build_controller_response_analog(char a1, uint8_t *a2)
 {
-  char result; // al
-  __int16 v3; // ax
-  char v4; // al
-  int v5; // eax
-  int v6; // eax
+  char result;
+  int16_t v3;
+  char v4;
+  int v5;
+  int v6;
 
   switch ( a1 )
   {
@@ -215,9 +215,9 @@ LABEL_24:
   }
 }
 
-_BYTE *__cdecl cont_build_mouse_response(char a1, _BYTE *a2)
+uint8_t * cont_build_mouse_response(char a1, uint8_t *a2)
 {
-  _BYTE *result; // eax
+  uint8_t *result;
 
   if ( a1 )
   {
@@ -252,14 +252,14 @@ _BYTE *__cdecl cont_build_mouse_response(char a1, _BYTE *a2)
   return result;
 }
 
-_BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
+uint8_t * cont_build_guncon_response(char a1, uint8_t *a2)
 {
-  _BYTE *result; // eax
-  __int16 v3; // ax
-  int v4; // eax
-  int v5; // ecx
-  int v6; // ecx
-  int v7; // eax
+  uint8_t *result;
+  int16_t v3;
+  int v4;
+  int v5;
+  int v6;
+  int v7;
 
   if ( a1 )
   {
@@ -287,7 +287,7 @@ _BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
     *a2 = 0;
     a2[1] = 99;
     a2[2] = 90;
-    *(_WORD *)(a2 + 3) = -1;
+    *(uint16_t *)(a2 + 3) = -1;
     a2[8] = 0;
     a2[7] = 0;
     a2[6] = 0;
@@ -295,7 +295,7 @@ _BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
     v3 = mouse_delta_y / 2 + HIWORD(guncon_position);
     LOWORD(guncon_position) = mouse_delta_x / 2 + guncon_position;
     HIWORD(guncon_position) = v3;
-    if ( (__int16)guncon_position <= 511 )
+    if ( (int16_t)guncon_position <= 511 )
     {
       if ( (guncon_position & 0x8000u) != 0 )
         LOWORD(guncon_position) = 0;
@@ -319,11 +319,11 @@ _BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
       a2[3] &= ~8u;
     if ( (mouse_buttons_state & 4) != 0 )
       a2[4] &= ~0x40u;
-    *(_WORD *)(a2 + 5) = guncon_position;
+    *(uint16_t *)(a2 + 5) = guncon_position;
     a2[7] = BYTE2(guncon_position);
     if ( (guncon_position & 0x100) != 0 )
     {
-      v4 = (__int16)guncon_position + ((__int16)guncon_position - 255) / 2;
+      v4 = (int16_t)guncon_position + ((int16_t)guncon_position - 255) / 2;
       v5 = SHIWORD(guncon_position) - 40;
       if ( v4 <= 511 )
       {
@@ -347,7 +347,7 @@ _BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
     }
     else
     {
-      v6 = (__int16)guncon_position - (255 - (__int16)guncon_position) / 2;
+      v6 = (int16_t)guncon_position - (255 - (int16_t)guncon_position) / 2;
       v7 = SHIWORD(guncon_position) - 40;
       if ( v6 <= 511 )
       {
@@ -373,10 +373,10 @@ _BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2)
   return result;
 }
 
-int (__stdcall *__cdecl cont_update_led_and_mode(unsigned __int8 a1))(_DWORD)
+int (__stdcall * cont_update_led_and_mode(uint8_t a1))(uint32_t)
 {
-  int v1; // eax
-  int (__stdcall *result)(_DWORD); // eax
+  int v1;
+  int (__stdcall *result)(uint32_t);
 
   v1 = controller_port_modes[a1];
   if ( v1 == 4 || v1 == 5 || v1 == 6 )
@@ -385,7 +385,7 @@ int (__stdcall *__cdecl cont_update_led_and_mode(unsigned __int8 a1))(_DWORD)
     gpu_display_flags(((a1 + 1) << 12) | ((pad_analog_mode_flags[a1] != 0 ? 2 : 0) << 8));
   if ( controller_port_modes[a1] == 3 )
     gpu_display_flags(((a1 + 1) << 12) | ((pad_analog_mode_flags[a1] != 0 ? 3 : 0) << 8));
-  result = (int (__stdcall *)(_DWORD))controller_port_modes[a1];
+  result = (int (__stdcall *)(uint32_t))controller_port_modes[a1];
   if ( (unsigned int)result <= 1 )
     return gpu_display_flags((a1 + 1) << 12);
   return result;
@@ -393,16 +393,16 @@ int (__stdcall *__cdecl cont_update_led_and_mode(unsigned __int8 a1))(_DWORD)
 
 int cont_process_input()
 {
-  int v0; // esi
-  int v1; // edi
-  int v2; // eax
-  unsigned __int8 v3; // si
-  int v4; // edx
-  char *v5; // eax
-  unsigned __int16 *v6; // ecx
-  int v7; // esi
-  unsigned __int16 v8; // dx
-  int result; // eax
+  int v0;
+  int v1;
+  int v2;
+  uint8_t v3;
+  int v4;
+  char *v5;
+  uint16_t *v6;
+  int v7;
+  uint16_t v8;
+  int result;
 
   diUpdateDeviceStates();
   mouse_delta_x = diGetClampedMouseX();
@@ -505,7 +505,7 @@ int cont_process_input()
   }
   if ( toggle_pad_mode_request )
   {
-    pad_analog_mode_flags[(unsigned __int8)selected_slot_for_mode_switch] ^= 1u;
+    pad_analog_mode_flags[(uint8_t)selected_slot_for_mode_switch] ^= 1u;
     LOBYTE(v4) = selected_slot_for_mode_switch;
 LABEL_42:
     cont_update_led_and_mode(v4);
@@ -514,7 +514,7 @@ LABEL_42:
   }
   if ( switch_controller_slot_request )
   {
-    v4 = ((unsigned __int8)selected_slot_for_mode_switch + 1) % (2 * (multitap_1 != 0) + 2);
+    v4 = ((uint8_t)selected_slot_for_mode_switch + 1) % (2 * (multitap_1 != 0) + 2);
     LOBYTE(selected_slot_for_mode_switch) = v4;
     goto LABEL_42;
   }
@@ -535,46 +535,46 @@ LABEL_42:
   }
 LABEL_51:
   v5 = &pad1_buttons_low;
-  v6 = (unsigned __int16 *)(Keys1 + 10);
+  v6 = (uint16_t *)(Keys1 + 10);
   v7 = 4;
   do
   {
     v8 = *(v6 - 5);
-    *(_DWORD *)v5 = -1;
+    *(uint32_t *)v5 = -1;
     if ( v8 )
     {
       if ( g_KeyboardStatePrev[v6[1]] )
-        *(_DWORD *)v5 = -65;
+        *(uint32_t *)v5 = -65;
       if ( g_KeyboardStatePrev[*v6] )
-        *(_DWORD *)v5 &= ~0x20u;
+        *(uint32_t *)v5 &= ~0x20u;
       if ( g_KeyboardStatePrev[v6[2]] )
-        *(_DWORD *)v5 &= ~0x80u;
+        *(uint32_t *)v5 &= ~0x80u;
       if ( g_KeyboardStatePrev[*(v6 - 1)] )
-        *(_DWORD *)v5 &= ~0x10u;
+        *(uint32_t *)v5 &= ~0x10u;
       if ( g_KeyboardStatePrev[v6[7]] )
-        *(_DWORD *)v5 &= ~0x800u;
+        *(uint32_t *)v5 &= ~0x800u;
       if ( g_KeyboardStatePrev[v6[8]] )
-        *(_DWORD *)v5 &= ~0x100u;
+        *(uint32_t *)v5 &= ~0x100u;
       if ( g_KeyboardStatePrev[*(v6 - 3)] )
-        *(_DWORD *)v5 &= ~0x1000u;
+        *(uint32_t *)v5 &= ~0x1000u;
       if ( g_KeyboardStatePrev[*(v6 - 2)] )
-        *(_DWORD *)v5 &= ~0x4000u;
+        *(uint32_t *)v5 &= ~0x4000u;
       if ( g_KeyboardStatePrev[v8] )
-        *(_DWORD *)v5 &= ~0x8000u;
+        *(uint32_t *)v5 &= ~0x8000u;
       if ( g_KeyboardStatePrev[*(v6 - 4)] )
-        *(_DWORD *)v5 &= ~0x2000u;
+        *(uint32_t *)v5 &= ~0x2000u;
       if ( g_KeyboardStatePrev[v6[3]] )
-        *(_DWORD *)v5 &= ~4u;
+        *(uint32_t *)v5 &= ~4u;
       if ( g_KeyboardStatePrev[v6[4]] )
-        *(_DWORD *)v5 &= ~1u;
+        *(uint32_t *)v5 &= ~1u;
       if ( g_KeyboardStatePrev[v6[5]] )
-        *(_DWORD *)v5 &= ~8u;
+        *(uint32_t *)v5 &= ~8u;
       if ( g_KeyboardStatePrev[v6[6]] )
-        *(_DWORD *)v5 &= ~2u;
+        *(uint32_t *)v5 &= ~2u;
       if ( g_KeyboardStatePrev[v6[9]] )
-        *(_DWORD *)v5 &= ~0x200u;
+        *(uint32_t *)v5 &= ~0x200u;
       if ( g_KeyboardStatePrev[v6[10]] )
-        *(_DWORD *)v5 &= ~0x400u;
+        *(uint32_t *)v5 &= ~0x400u;
     }
     v6 += 16;
     v5 += 4;
@@ -584,7 +584,7 @@ LABEL_51:
   if ( LOBYTE(mdec_disable_flag[0]) )
   {
     LOBYTE(mdec_disable_flag[0]) = 0;
-    *(_DWORD *)&pad1_buttons_low &= 0xFFFFF7BF;
+    *(uint32_t *)&pad1_buttons_low &= 0xFFFFF7BF;
   }
   result = network_enabled;
   if ( network_enabled )
@@ -601,19 +601,19 @@ LABEL_51:
   return result;
 }
 
-__int16 __cdecl cont_map_axis_state(unsigned __int16 a1, __int16 a2)
+int16_t cont_map_axis_state(uint16_t a1, int16_t a2)
 {
-  __int16 result; // ax
+  int16_t result;
 
   result = a2;
   if ( a2 )
-    *((_WORD *)GamepadAxis + a1) = a2;
+    *((uint16_t *)GamepadAxis + a1) = a2;
   return result;
 }
 
-__int16 __cdecl cont_map_button_state(unsigned __int16 a1, __int16 a2)
+int16_t cont_map_button_state(uint16_t a1, int16_t a2)
 {
-  __int16 result; // ax
+  int16_t result;
 
   result = a2;
   if ( a2 != 1 )
@@ -621,9 +621,9 @@ __int16 __cdecl cont_map_button_state(unsigned __int16 a1, __int16 a2)
   return result;
 }
 
-int __cdecl cont_set_default(unsigned __int8 a1)
+int cont_set_default(uint8_t a1)
 {
-  int result; // eax
+  int result;
 
   if ( a1 == 1 )
   {
@@ -652,12 +652,12 @@ int __cdecl cont_set_default(unsigned __int8 a1)
   return result;
 }
 
-int __cdecl cont_reset_pad_state(unsigned __int8 a1)
+int cont_reset_pad_state(uint8_t a1)
 {
-  _DWORD *v2; // ecx
+  uint32_t *v2;
 
   memset(&pad_key_assignments[16 * a1], 0, 0x20u);
-  v2 = (_DWORD *)(8 * a1 + 5232772);
+  v2 = (uint32_t *)(8 * a1 + 5232772);
   *v2 = 0;
   v2[1] = 0;
   return 0;

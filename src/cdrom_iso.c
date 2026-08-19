@@ -1,11 +1,11 @@
 #include "pch.h"
-char __cdecl iso_load(char *FileName)
+char iso_load(char *FileName)
 {
-  FILE *v1; // eax
-  char result; // al
-  char v3; // al
-  int Offset; // [esp+4h] [ebp-404h] BYREF
-  char Buffer[1024]; // [esp+8h] [ebp-400h] BYREF
+  FILE *v1;
+  char result;
+  char v3;
+  int Offset;
+  char Buffer[1024];
 
   dbg_print(" * Loading ISO Format ");
   v1 = fopen(FileName, "rb");
@@ -75,63 +75,63 @@ LABEL_12:
   return result;
 }
 
-char __cdecl iso_verify_sub(unsigned __int8 a1, unsigned __int8 a2, char a3, int a4)
+char iso_verify_sub(uint8_t a1, uint8_t a2, char a3, int a4)
 {
-  int v4; // eax
-  unsigned __int8 v5; // bh
-  int v6; // eax
-  int v7; // eax
-  unsigned __int8 v8; // dl
-  unsigned __int8 v9; // bl
-  unsigned __int8 v10; // al
-  int v11; // eax
-  unsigned __int8 v13; // [esp+Bh] [ebp-1h]
-  unsigned __int8 v14; // [esp+10h] [ebp+4h]
-  unsigned __int8 v15; // [esp+18h] [ebp+Ch]
-  char v16; // [esp+18h] [ebp+Ch]
+  int v4;
+  uint8_t v5;
+  int v6;
+  int v7;
+  uint8_t v8;
+  uint8_t v9;
+  uint8_t v10;
+  int v11;
+  uint8_t v13;
+  uint8_t v14;
+  uint8_t v15;
+  char v16;
 
-  *(_DWORD *)a4 = 0;
-  *(_DWORD *)(a4 + 4) = 0;
+  *(uint32_t *)a4 = 0;
+  *(uint32_t *)(a4 + 4) = 0;
   if ( use_subchannel )
   {
-    *(_DWORD *)a4 = subchannel_q_track_rel;
-    *(_BYTE *)(a4 + 4) = subchannel_q_rel_frame;
-    *(_WORD *)(a4 + 5) = subchannel_q_abs_ms;
-    *(_BYTE *)(a4 + 7) = subchannel_q_abs_frame[0];
-    if ( (unsigned __int8)subchannel_msf_second - 2 < 0 )
+    *(uint32_t *)a4 = subchannel_q_track_rel;
+    *(uint8_t *)(a4 + 4) = subchannel_q_rel_frame;
+    *(uint16_t *)(a4 + 5) = subchannel_q_abs_ms;
+    *(uint8_t *)(a4 + 7) = subchannel_q_abs_frame[0];
+    if ( (uint8_t)subchannel_msf_second - 2 < 0 )
     {
-      v13 = (unsigned __int8)subchannel_msf_minute % 10 + 16 * ((unsigned __int8)subchannel_msf_minute / 10) != (unsigned __int8)subchannel_q_abs_ms;
-      if ( ((unsigned __int8)subchannel_msf_minute - 1) % 10 + 16 * (((unsigned __int8)subchannel_msf_minute - 1) / 10) != BYTE2(subchannel_q_track_rel) )
+      v13 = (uint8_t)subchannel_msf_minute % 10 + 16 * ((uint8_t)subchannel_msf_minute / 10) != (uint8_t)subchannel_q_abs_ms;
+      if ( ((uint8_t)subchannel_msf_minute - 1) % 10 + 16 * (((uint8_t)subchannel_msf_minute - 1) / 10) != BYTE2(subchannel_q_track_rel) )
         ++v13;
       v5 = subchannel_q_abs_frame[0];
-      if ( (unsigned __int8)subchannel_msf_second % 10 + 16 * ((unsigned __int8)subchannel_msf_second / 10) != HIBYTE(subchannel_q_abs_ms) )
+      if ( (uint8_t)subchannel_msf_second % 10 + 16 * ((uint8_t)subchannel_msf_second / 10) != HIBYTE(subchannel_q_abs_ms) )
         ++v13;
-      v6 = (unsigned __int8)subchannel_msf_second + 58;
+      v6 = (uint8_t)subchannel_msf_second + 58;
     }
     else
     {
-      v4 = (unsigned __int8)subchannel_msf_minute % 10 + 16 * ((unsigned __int8)subchannel_msf_minute / 10);
-      v13 = v4 != (unsigned __int8)subchannel_q_abs_ms;
+      v4 = (uint8_t)subchannel_msf_minute % 10 + 16 * ((uint8_t)subchannel_msf_minute / 10);
+      v13 = v4 != (uint8_t)subchannel_q_abs_ms;
       if ( v4 != BYTE2(subchannel_q_track_rel) )
         ++v13;
       v5 = subchannel_q_abs_frame[0];
-      if ( (unsigned __int8)subchannel_msf_second % 10 + 16 * ((unsigned __int8)subchannel_msf_second / 10) != HIBYTE(subchannel_q_abs_ms) )
+      if ( (uint8_t)subchannel_msf_second % 10 + 16 * ((uint8_t)subchannel_msf_second / 10) != HIBYTE(subchannel_q_abs_ms) )
         ++v13;
-      v6 = (unsigned __int8)subchannel_msf_second - 2;
+      v6 = (uint8_t)subchannel_msf_second - 2;
     }
     if ( v6 % 10 + 16 * (v6 / 10) != HIBYTE(subchannel_q_track_rel) )
       ++v13;
-    v7 = (unsigned __int8)subchannel_msf_frame % 10 + 16 * ((unsigned __int8)subchannel_msf_frame / 10);
+    v7 = (uint8_t)subchannel_msf_frame % 10 + 16 * ((uint8_t)subchannel_msf_frame / 10);
     v8 = v13;
     if ( v7 != v5 )
       v8 = v13 + 1;
-    if ( v7 != (unsigned __int8)subchannel_q_rel_frame )
+    if ( v7 != (uint8_t)subchannel_q_rel_frame )
       ++v8;
     if ( v8 >= 2u && a1 == 3 )
     {
-      *(_DWORD *)(a4 + 2) = 0;
-      *(_WORD *)(a4 + 6) = 0;
-      v7 = (unsigned __int8)subchannel_msf_minute % 10 + 16 * ((unsigned __int8)subchannel_msf_minute / 10);
+      *(uint32_t *)(a4 + 2) = 0;
+      *(uint16_t *)(a4 + 6) = 0;
+      v7 = (uint8_t)subchannel_msf_minute % 10 + 16 * ((uint8_t)subchannel_msf_minute / 10);
       if ( v7 == 3 )
         xenogears_cd_detected = 1;
     }
@@ -155,47 +155,47 @@ char __cdecl iso_verify_sub(unsigned __int8 a1, unsigned __int8 a2, char a3, int
         --a1;
       }
     }
-    *(_BYTE *)a4 = 1;
-    *(_BYTE *)(a4 + 1) = 1;
+    *(uint8_t *)a4 = 1;
+    *(uint8_t *)(a4 + 1) = 1;
     v14 = a1 % 10 + 16 * (a1 / 10);
     v9 = a2 % 10 + 16 * (a2 / 10);
     v16 = v15 % 10 + 16 * (v15 / 10);
     v10 = v14;
     if ( v9 < 2u )
       v10 = ((v14 & 0xF) + 10 * (v14 >> 4) - 1) % 10 + 16 * (((v14 & 0xF) + 10 * (v14 >> 4) - 1) / 10);
-    *(_BYTE *)(a4 + 2) = v10;
+    *(uint8_t *)(a4 + 2) = v10;
     v11 = v9 & 0xF;
     if ( v9 < 2u )
       v7 = v11 + 10 * (v9 >> 4) + 58;
     else
       v7 = v11 + 10 * (v9 >> 4) - 2;
-    *(_BYTE *)(a4 + 6) = v9;
-    *(_BYTE *)(a4 + 3) = v7 % 10 + 16 * (v7 / 10);
-    *(_BYTE *)(a4 + 4) = v16;
-    *(_BYTE *)(a4 + 5) = v14;
-    *(_BYTE *)(a4 + 7) = v16;
+    *(uint8_t *)(a4 + 6) = v9;
+    *(uint8_t *)(a4 + 3) = v7 % 10 + 16 * (v7 / 10);
+    *(uint8_t *)(a4 + 4) = v16;
+    *(uint8_t *)(a4 + 5) = v14;
+    *(uint8_t *)(a4 + 7) = v16;
     LOBYTE(v7) = v16;
   }
   return v7;
 }
 
-char __cdecl iso_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, int a4)
+char iso_read_data(uint8_t a1, uint8_t a2, uint8_t a3, int a4)
 {
-  unsigned int v4; // esi
-  int v5; // ebx
-  char v6; // al
-  char *v7; // esi
-  char *v8; // edi
-  unsigned int v9; // ecx
-  char *v10; // edi
-  char *v11; // esi
-  char v12; // cl
-  unsigned int v13; // edx
-  unsigned int v14; // eax
-  unsigned int v15; // ecx
-  size_t v16; // edi
-  char *v17; // edi
-  int v18; // eax
+  unsigned int v4;
+  int v5;
+  char v6;
+  char *v7;
+  char *v8;
+  unsigned int v9;
+  char *v10;
+  char *v11;
+  char v12;
+  unsigned int v13;
+  unsigned int v14;
+  unsigned int v15;
+  size_t v16;
+  char *v17;
+  int v18;
 
   v4 = cdr_msf_to_lba(a1, a2, a3);
   if ( subchannel_file_handle )
@@ -243,14 +243,14 @@ char __cdecl iso_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __in
     v12 = v6;
   }
   qmemcpy(v10, v11, v12 & 3);
-  v18 = *(_DWORD *)(v5 + 13);
+  v18 = *(uint32_t *)(v5 + 13);
   if ( !v18 )
   {
-    *(_BYTE *)(v5 + 15) = 2;
-    *(_BYTE *)(v5 + 12) = a1 % 10 + 16 * (a1 / 10);
-    *(_BYTE *)(v5 + 13) = a2 % 10 + 16 * (a2 / 10);
-    v18 = (unsigned __int8)(a3 % 10 + 16 * (a3 / 10));
-    *(_BYTE *)(v5 + 14) = v18;
+    *(uint8_t *)(v5 + 15) = 2;
+    *(uint8_t *)(v5 + 12) = a1 % 10 + 16 * (a1 / 10);
+    *(uint8_t *)(v5 + 13) = a2 % 10 + 16 * (a2 / 10);
+    v18 = (uint8_t)(a3 % 10 + 16 * (a3 / 10));
+    *(uint8_t *)(v5 + 14) = v18;
   }
   return v18;
 }

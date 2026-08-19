@@ -6,4 +6,4 @@ extern unsigned char root_directory_buffer[0x800];
 extern unsigned char root_directory_buffer_2[0x800];
 
 /* Function prototypes (previously generated in src/_gen) */
-unsigned __int8 __cdecl cdfs_load_executable(char *Buffer);
+uint8_t cdfs_load_executable(char *Buffer);

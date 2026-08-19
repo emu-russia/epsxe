@@ -35,7 +35,7 @@
     (ir_l) = _m_psradi(_m_punpcklwd((pk), (pk)), 0x10u); \
     (cmp) = _m_pandn(_m_pcmpeqd((acc_xy), (ir_l)), _m_from_int64(qword_44F958)); \
     (flag) = _m_to_int(_m_por(_m_pandn(_m_pcmpeqd((acc_z), (ir_h)), _m_from_int64(qword_44F960)), _m_por((cmp), _m_psrlqi((cmp), 0x20u)))); \
-    *(_DWORD *)((p) + 252) |= (flag); \
+    *(uint32_t *)((p) + 252) |= (flag); \
     ir_stores \
   } \
   while (0)
@@ -49,14 +49,14 @@
   { \
     if ( (unsigned int)(z) > 0xFFFF ) \
     { \
-      *(_DWORD *)((p) + 252) |= 0x80040000; \
+      *(uint32_t *)((p) + 252) |= 0x80040000; \
       (sign) = (z) < 0; \
       (z) = 0xFFFF; \
       if ( (sign) ) \
       { \
         (z) = 0; \
         (ratio) = 0x20000; \
-        *(_DWORD *)((p) + (zoff)) = 0; \
+        *(uint32_t *)((p) + (zoff)) = 0; \
         goto lab_small; \
       } \
     } \
@@ -66,13 +66,13 @@
       if ( !(z) ) \
       { \
       lab_small: \
-        *(_DWORD *)((p) + (zoff)) = (z); \
-        *(_DWORD *)((p) + 252) |= 0x80020000; \
+        *(uint32_t *)((p) + (zoff)) = (z); \
+        *(uint32_t *)((p) + 252) |= 0x80020000; \
         goto lab_done; \
       } \
     } \
-    *(_DWORD *)((p) + (zoff)) = (z); \
-    (hreg) = *(_DWORD *)((p) + 232); \
+    *(uint32_t *)((p) + (zoff)) = (z); \
+    (hreg) = *(uint32_t *)((p) + 232); \
     if ( 2 * (z) < (hreg) ) \
       goto lab_small; \
     (ratio) = ((hreg) << 16) / (unsigned int)(z); \
@@ -87,20 +87,20 @@
 #define GTE_RTPS_SXY(p, ratio, ir_l, sx, sy, sx2, sy2, packed, store) \
   do \
   { \
-    (sx) = ((unsigned __int64)(_m_to_int(ir_l) * (__int64)(ratio)) >> 16) + (*(int *)((p) + 224) >> 16); \
-    (sy) = (*(int *)((p) + 228) >> 16) + ((unsigned __int64)((ratio) * (__int64)_m_to_int(_m_psrlqi(ir_l, 0x20u))) >> 16); \
+    (sx) = ((uint64_t)(_m_to_int(ir_l) * (int64_t)(ratio)) >> 16) + (*(int *)((p) + 224) >> 16); \
+    (sy) = (*(int *)((p) + 228) >> 16) + ((uint64_t)((ratio) * (int64_t)_m_to_int(_m_psrlqi(ir_l, 0x20u))) >> 16); \
     (sx2) = (sx) + 1024; \
     (sy2) = (sy) + 1024; \
     if ( (unsigned int)((sx) + 1024) > 0x7FF ) \
     { \
-      *(_DWORD *)((p) + 252) |= 0x80004000; \
+      *(uint32_t *)((p) + 252) |= 0x80004000; \
       (sx) = 1023; \
       if ( (sx2) < 0 ) \
         (sx) = -1024; \
     } \
     if ( (unsigned int)(sy2) > 0x7FF ) \
     { \
-      *(_DWORD *)((p) + 252) |= 0x80002000; \
+      *(uint32_t *)((p) + 252) |= 0x80002000; \
       (sy) = 1023; \
       if ( (sy2) < 0 ) \
         (sy) = -1024; \
@@ -116,19 +116,19 @@
 #define GTE_RTPS_DEPTH(p, ratio, mac0, ir0, sign) \
   do \
   { \
-    (mac0) = *(_DWORD *)((p) + 240); \
-    (ir0) = (unsigned __int64)((ratio) * (__int64)*(int *)((p) + 236)) >> 12; \
-    *(_DWORD *)((p) + 96) = (ratio) * *(_DWORD *)((p) + 236) + (mac0); \
+    (mac0) = *(uint32_t *)((p) + 240); \
+    (ir0) = (uint64_t)((ratio) * (int64_t)*(int *)((p) + 236)) >> 12; \
+    *(uint32_t *)((p) + 96) = (ratio) * *(uint32_t *)((p) + 236) + (mac0); \
     (ir0) = ((mac0) >> 12) + (ir0); \
     if ( (unsigned int)(ir0) > 0x1000 ) \
     { \
-      *(_DWORD *)((p) + 252) |= 0x1000u; \
+      *(uint32_t *)((p) + 252) |= 0x1000u; \
       (sign) = (ir0) < 0; \
       (ir0) = 4096; \
       if ( (sign) ) \
         (ir0) = 0; \
     } \
-    *(_DWORD *)((p) + 32) = (ir0); \
+    *(uint32_t *)((p) + 32) = (ir0); \
   } \
   while (0)
 
@@ -275,127 +275,127 @@
 
 int gte_rtps()
 {
-  int v0; // edi
-  __int64 v1; // mm1
-  int v2; // eax
-  __m64 v4; // mm2
-  __m64 v5; // mm3
-  __m64 v6; // mm4
-  __m64 v7; // mm3
-  __m64 v8; // mm1
-  __m64 v10; // mm0
-  __m64 v11; // mm1
-  __m64 v12; // mm0
-  __m64 v13; // mm6
-  int v14; // eax
-  int v15; // ecx
-  int v16; // ebx
-  int v17; // esi
-  int v18; // ebx
-  int v19; // eax
-  int v20; // edx
-  int v21; // ecx
-  int v22; // ebx
-  unsigned __int64 v23; // rt0
-  int v24; // ebx
-  int v26; // eax
-  int result; // eax
-  bool v28; // sf
+  int v0;
+  int64_t v1;
+  int v2;
+  __m64 v4;
+  __m64 v5;
+  __m64 v6;
+  __m64 v7;
+  __m64 v8;
+  __m64 v10;
+  __m64 v11;
+  __m64 v12;
+  __m64 v13;
+  int v14;
+  int v15;
+  int v16;
+  int v17;
+  int v18;
+  int v19;
+  int v20;
+  int v21;
+  int v22;
+  uint64_t v23;
+  int v24;
+  int v26;
+  int result;
+  bool v28;
 
   v0 = gte_regs_ptr;
-  *(_DWORD *)(gte_regs_ptr + 252) = 0;
-  v1 = *(_QWORD *)(v0 + 68);
-  v2 = *(_DWORD *)(v0 + 76);
-  *(_QWORD *)(v0 + 48) = *(_QWORD *)(v0 + 52);
-  *(_QWORD *)(v0 + 64) = v1;
-  *(_DWORD *)(v0 + 72) = v2;
+  *(uint32_t *)(gte_regs_ptr + 252) = 0;
+  v1 = *(uint64_t *)(v0 + 68);
+  v2 = *(uint32_t *)(v0 + 76);
+  *(uint64_t *)(v0 + 48) = *(uint64_t *)(v0 + 52);
+  *(uint64_t *)(v0 + 64) = v1;
+  *(uint32_t *)(v0 + 72) = v2;
   GTE_MMX_MV(v0,
              _m_psrlqi(_m_psllqi(*(__m64 *)v0, 0x10u), 0x10u),
              v4, v5, v6, v8, v7,
              v10, v11, v12, v13, v14,
-             *(_DWORD *)(v0 + 108) = _m_to_int(v7);
+             *(uint32_t *)(v0 + 108) = _m_to_int(v7);
              *(__m64 *)(v0 + 100) = v8;
              ,
              *(__m64 *)(v0 + 36) = v12;
-             *(_DWORD *)(v0 + 44) = _m_to_int(v11););
+             *(uint32_t *)(v0 + 44) = _m_to_int(v11););
   v15 = _m_to_int(v7);
   GTE_RTPS_DIVIDE(v0, v15, v14, v16, v28, 76, LABEL_5, LABEL_6);
   v17 = v14;
   GTE_RTPS_SXY(v0, v14, v12, v18, v19, v20, v21, v23,
                v22 = v23 >> 16;
-               *(_DWORD *)(v0 + 56) = v22;
-               *(_DWORD *)(v0 + 60) = v22;);
+               *(uint32_t *)(v0 + 56) = v22;
+               *(uint32_t *)(v0 + 60) = v22;);
   GTE_RTPS_DEPTH(v0, v17, v24, v26, v28);
-  result = (*(_DWORD *)(v0 + 252) & 0x20000) << 14;
-  *(_DWORD *)(v0 + 252) |= result;
+  result = (*(uint32_t *)(v0 + 252) & 0x20000) << 14;
+  *(uint32_t *)(v0 + 252) |= result;
   _m_empty();
   return result;
 }
 
 int gte_rtpt()
 {
-  int v0; // edi
-  __m64 v2; // mm2
-  __m64 v3; // mm3
-  __m64 v4; // mm4
-  __m64 v5; // mm3
-  __m64 v6; // mm6
-  __m64 v7; // mm0
-  __m64 v8; // mm1
-  __m64 v9; // mm0
-  __m64 v10; // mm6
-  int v11; // eax
-  int v12; // ecx
-  int v13; // ebx
-  int v14; // ebx
-  int v15; // eax
-  int v16; // edx
-  int v17; // ecx
-  unsigned __int64 v18; // rt0
-  __m64 v20; // mm2
-  __m64 v21; // mm3
-  __m64 v22; // mm4
-  __m64 v23; // mm3
-  __m64 v24; // mm6
-  __m64 v25; // mm0
-  __m64 v26; // mm1
-  __m64 v27; // mm0
-  __m64 v28; // mm6
-  int v29; // eax
-  int v30; // ecx
-  int v31; // ebx
-  int v32; // ebx
-  int v33; // eax
-  int v34; // edx
-  int v35; // ecx
-  unsigned __int64 v36; // rt0
-  __m64 v38; // mm2
-  __m64 v39; // mm3
-  __m64 v40; // mm4
-  __m64 v41; // mm3
-  __m64 v42; // mm1
-  __m64 v44; // mm0
-  __m64 v45; // mm1
-  __m64 v46; // mm0
-  __m64 v47; // mm6
-  int v48; // eax
-  int v49; // ecx
-  int v50; // ebx
-  int v51; // esi
-  int v52; // ebx
-  int v53; // eax
-  int v54; // edx
-  int v55; // ecx
-  int v56; // ebx
-  unsigned __int64 v57; // rt0
-  int v58; // ebx
-  int v60; // eax
-  int result; // eax
-  bool v62; // sf
+  int v0;
+  __m64 v2;
+  __m64 v3;
+  __m64 v4;
+  __m64 v5;
+  __m64 v6;
+  __m64 v7;
+  __m64 v8;
+  __m64 v9;
+  __m64 v10;
+  int v11;
+  int v12;
+  int v13;
+  int v14;
+  int v15;
+  int v16;
+  int v17;
+  uint64_t v18;
+  __m64 v20;
+  __m64 v21;
+  __m64 v22;
+  __m64 v23;
+  __m64 v24;
+  __m64 v25;
+  __m64 v26;
+  __m64 v27;
+  __m64 v28;
+  int v29;
+  int v30;
+  int v31;
+  int v32;
+  int v33;
+  int v34;
+  int v35;
+  uint64_t v36;
+  __m64 v38;
+  __m64 v39;
+  __m64 v40;
+  __m64 v41;
+  __m64 v42;
+  __m64 v44;
+  __m64 v45;
+  __m64 v46;
+  __m64 v47;
+  int v48;
+  int v49;
+  int v50;
+  int v51;
+  int v52;
+  int v53;
+  int v54;
+  int v55;
+  int v56;
+  uint64_t v57;
+  int v58;
+  int v60;
+  int result;
+  bool v62;
 
   v0 = gte_regs_ptr;
-  *(_DWORD *)(gte_regs_ptr + 252) = 0;
-  *(_DWORD *)(v0 + 64) = *(_DWORD *)(v0 + 76);
+  *(uint32_t *)(gte_regs_ptr + 252) = 0;
+  *(uint32_t *)(v0 + 64) = *(uint32_t *)(v0 + 76);
   GTE_MMX_MV(v0,
              _m_psrlqi(_m_psllqi(*(__m64 *)v0, 0x10u), 0x10u),
              v2, v3, v4, v6, v5,
@@ -405,7 +405,7 @@ int gte_rtpt()
   v12 = _m_to_int(v5);
   GTE_RTPS_DIVIDE(v0, v12, v11, v13, v62, 68, LABEL_5, LABEL_6);
   GTE_RTPS_SXY(v0, v11, v9, v14, v15, v16, v17, v18,
-               *(_DWORD *)(v0 + 48) = v18 >> 16;);
+               *(uint32_t *)(v0 + 48) = v18 >> 16;);
   GTE_MMX_MV(v0,
              _m_psrlqi(*(__m64 *)(v0 + 6), 0x10u),
              v20, v21, v22, v24, v23,
@@ -415,33 +415,33 @@ int gte_rtpt()
   v30 = _m_to_int(v23);
   GTE_RTPS_DIVIDE(v0, v30, v29, v31, v62, 72, LABEL_12, LABEL_13);
   GTE_RTPS_SXY(v0, v29, v27, v32, v33, v34, v35, v36,
-               *(_DWORD *)(v0 + 52) = v36 >> 16;);
+               *(uint32_t *)(v0 + 52) = v36 >> 16;);
   GTE_MMX_MV(v0,
              _m_psrlqi(*(__m64 *)(v0 + 14), 0x10u),
              v38, v39, v40, v42, v41,
              v44, v45, v46, v47, v48,
-             *(_DWORD *)(v0 + 108) = _m_to_int(v41);
+             *(uint32_t *)(v0 + 108) = _m_to_int(v41);
              *(__m64 *)(v0 + 100) = v42;
              ,
              *(__m64 *)(v0 + 36) = v46;
-             *(_DWORD *)(v0 + 44) = _m_to_int(v45););
+             *(uint32_t *)(v0 + 44) = _m_to_int(v45););
   v49 = _m_to_int(v41);
   GTE_RTPS_DIVIDE(v0, v49, v48, v50, v62, 76, LABEL_19, LABEL_20);
   v51 = v48;
   GTE_RTPS_SXY(v0, v48, v46, v52, v53, v54, v55, v57,
                v56 = v57 >> 16;
-               *(_DWORD *)(v0 + 56) = v56;
-               *(_DWORD *)(v0 + 60) = v56;);
+               *(uint32_t *)(v0 + 56) = v56;
+               *(uint32_t *)(v0 + 60) = v56;);
   GTE_RTPS_DEPTH(v0, v51, v58, v60, v62);
-  result = (*(_DWORD *)(v0 + 252) & 0x20000) << 14;
-  *(_DWORD *)(v0 + 252) |= result;
+  result = (*(uint32_t *)(v0 + 252) & 0x20000) << 14;
+  *(uint32_t *)(v0 + 252) |= result;
   _m_empty();
   return result;
 }
 
-static int __cdecl gte_clamp(int a1, int a2)
+static int gte_clamp(int a1, int a2)
 {
-  int result; // eax
+  int result;
 
   result = a2;
   if ( a2 >= -32768 )
@@ -460,13 +460,13 @@ static int __cdecl gte_clamp(int a1, int a2)
   return result;
 }
 
-static char __cdecl gte_convert_to_5bit(int a1)
+static char gte_convert_to_5bit(int a1)
 {
-  int v1; // eax
+  int v1;
 
   if ( (a1 & 0x8000u) == 0 )
   {
-    if ( (__int16)a1 <= 3968 )
+    if ( (int16_t)a1 <= 3968 )
       return a1 >> 7;
     else
       LOBYTE(v1) = 31;
@@ -480,13 +480,13 @@ static char __cdecl gte_convert_to_5bit(int a1)
 
 static char gte_dcpl()
 {
-  int v0; // esi
-  int v1; // edi
-  int v2; // eax
-  int v3; // edx
-  GTE_REG v4; // eax
-  int32_t v5; // edx
-  int v6; // eax
+  int v0;
+  int v1;
+  int v2;
+  int v3;
+  GTE_REG v4;
+  int32_t v5;
+  int v6;
 
   v0 = (HIBYTE(gte_regs.data[6].u16.hi) * gte_regs.data[10].s16.hi) >> 8;
   v1 = (LOBYTE(gte_regs.data[6].s16.lo) * gte_regs.data[11].s16.hi) >> 8;
@@ -513,13 +513,13 @@ static char gte_dcpl()
 
 static char gte_dpcs()
 {
-  int v0; // esi
-  int v1; // edi
-  int v2; // eax
-  int v3; // edx
-  GTE_REG v4; // eax
-  int32_t v5; // edx
-  int v6; // eax
+  int v0;
+  int v1;
+  int v2;
+  int v3;
+  GTE_REG v4;
+  int32_t v5;
+  int v6;
 
   v0 = 16 * HIBYTE(gte_regs.data[6].u16.hi);
   v1 = 16 * LOBYTE(gte_regs.data[6].s16.lo);
@@ -546,16 +546,16 @@ static char gte_dpcs()
 
 static char gte_ncs()
 {
-  int v0; // edi
-  int v1; // eax
-  int v2; // ecx
-  int v3; // edx
-  GTE_REG v4; // eax
-  GTE_REG v5; // ecx
-  GTE_REG v6; // edx
-  int v7; // eax
-  int v8; // ecx
-  int v9; // edx
+  int v0;
+  int v1;
+  int v2;
+  int v3;
+  GTE_REG v4;
+  GTE_REG v5;
+  GTE_REG v6;
+  int v7;
+  int v8;
+  int v9;
 
   v0 = gte_regs.data[1].s16.hi * gte_regs.ctrl[12].s16.hi;
   v1 = (gte_regs.data[1].s16.hi * gte_regs.ctrl[9].s16.hi
@@ -602,37 +602,37 @@ static char gte_ncs()
 
 static char gte_nct()
 {
-  int v0; // ebp
-  int v1; // eax
-  int v2; // ecx
-  int v3; // edx
-  signed int v4; // eax
-  signed int v5; // ecx
-  signed int v6; // edx
-  int v7; // eax
-  int v8; // ecx
-  int v9; // edx
-  int v10; // ebp
-  int v11; // ecx
-  int v12; // edx
-  int v13; // eax
-  signed int v14; // eax
-  signed int v15; // ecx
-  signed int v16; // edx
-  int v17; // eax
-  int v18; // ecx
-  int v19; // edx
-  int v20; // ebp
-  int v21; // ecx
-  int v22; // edx
-  int v23; // eax
-  GTE_REG v24; // eax
-  GTE_REG v25; // ecx
-  GTE_REG v26; // edx
-  int v27; // eax
-  int v28; // ecx
-  int v29; // edx
-  char result; // al
+  int v0;
+  int v1;
+  int v2;
+  int v3;
+  signed int v4;
+  signed int v5;
+  signed int v6;
+  int v7;
+  int v8;
+  int v9;
+  int v10;
+  int v11;
+  int v12;
+  int v13;
+  signed int v14;
+  signed int v15;
+  signed int v16;
+  int v17;
+  int v18;
+  int v19;
+  int v20;
+  int v21;
+  int v22;
+  int v23;
+  GTE_REG v24;
+  GTE_REG v25;
+  GTE_REG v26;
+  int v27;
+  int v28;
+  int v29;
+  char result;
 
   v0 = gte_regs.data[0].s16.lo * gte_regs.ctrl[11].s16.lo;
   v1 = (gte_regs.data[1].s16.hi * gte_regs.ctrl[9].s16.hi
@@ -752,20 +752,20 @@ static char gte_nct()
 
 static char gte_ncds()
 {
-  int v0; // edi
-  int v1; // eax
-  int v2; // ecx
-  int v3; // edx
-  GTE_REG v4; // eax
-  GTE_REG v5; // ecx
-  GTE_REG v6; // edx
-  int v7; // esi
-  int v8; // edi
-  int v9; // eax
-  int v10; // edx
-  GTE_REG v11; // eax
-  int32_t v12; // edx
-  int v13; // eax
+  int v0;
+  int v1;
+  int v2;
+  int v3;
+  GTE_REG v4;
+  GTE_REG v5;
+  GTE_REG v6;
+  int v7;
+  int v8;
+  int v9;
+  int v10;
+  GTE_REG v11;
+  int32_t v12;
+  int v13;
 
   v0 = gte_regs.data[1].s16.hi * gte_regs.ctrl[12].s16.hi;
   v1 = (gte_regs.data[1].s16.hi * gte_regs.ctrl[9].s16.hi
@@ -821,51 +821,51 @@ static char gte_ncds()
 
 static char gte_ncdt()
 {
-  int v0; // eax
-  int v1; // ecx
-  int v2; // edx
-  GTE_REG v3; // eax
-  GTE_REG v4; // ecx
-  GTE_REG v5; // edx
-  int v6; // esi
-  int v7; // edi
-  int v8; // eax
-  int v9; // edx
-  int v10; // eax
-  GTE_REG v11; // edx
-  int32_t v12; // edx
-  int v13; // eax
-  int v14; // ebp
-  int v15; // edi
-  int v16; // eax
-  int v17; // ecx
-  int v18; // edx
-  GTE_REG v19; // eax
-  GTE_REG v20; // ecx
-  GTE_REG v21; // edx
-  int v22; // esi
-  int v23; // edi
-  int v24; // eax
-  int v25; // edx
-  int v26; // eax
-  GTE_REG v27; // edx
-  int32_t v28; // edx
-  int v29; // eax
-  int v30; // ebp
-  int v31; // edi
-  int v32; // eax
-  int v33; // ecx
-  int v34; // edx
-  GTE_REG v35; // eax
-  GTE_REG v36; // ecx
-  GTE_REG v37; // edx
-  int v38; // esi
-  int v39; // edi
-  int v40; // eax
-  int v41; // edx
-  GTE_REG v42; // eax
-  int32_t v43; // edx
-  int v44; // eax
+  int v0;
+  int v1;
+  int v2;
+  GTE_REG v3;
+  GTE_REG v4;
+  GTE_REG v5;
+  int v6;
+  int v7;
+  int v8;
+  int v9;
+  int v10;
+  GTE_REG v11;
+  int32_t v12;
+  int v13;
+  int v14;
+  int v15;
+  int v16;
+  int v17;
+  int v18;
+  GTE_REG v19;
+  GTE_REG v20;
+  GTE_REG v21;
+  int v22;
+  int v23;
+  int v24;
+  int v25;
+  int v26;
+  GTE_REG v27;
+  int32_t v28;
+  int v29;
+  int v30;
+  int v31;
+  int v32;
+  int v33;
+  int v34;
+  GTE_REG v35;
+  GTE_REG v36;
+  GTE_REG v37;
+  int v38;
+  int v39;
+  int v40;
+  int v41;
+  GTE_REG v42;
+  int32_t v43;
+  int v44;
 
   v0 = (gte_regs.data[1].s16.hi * gte_regs.ctrl[9].s16.hi
       + gte_regs.data[0].s16.lo * gte_regs.ctrl[8].s16.lo
@@ -1012,17 +1012,17 @@ static char gte_ncdt()
 
 static GTE_REG gte_dpct()
 {
-  GTE_REG v0; // esi
-  int v1; // esi
-  int v2; // edi
-  int v3; // eax
-  int v4; // edx
-  int v5; // eax
-  GTE_REG result; // eax
-  int32_t v7; // edx
-  int32_t v8; // ebx
-  int v9; // [esp-4h] [ebp-18h]
-  int v10; // [esp+10h] [ebp-4h]
+  GTE_REG v0;
+  int v1;
+  int v2;
+  int v3;
+  int v4;
+  int v5;
+  GTE_REG result;
+  int32_t v7;
+  int32_t v8;
+  int v9;
+  int v10;
 
   LOBYTE(v0.u16.hi) = gte_regs.data[20].u16.hi;
   v10 = 3;
@@ -1108,19 +1108,19 @@ static GTE_REG gte_dpct()
 
 static char gte_nccs()
 {
-  int v0; // edi
-  int v1; // eax
-  int v2; // ecx
-  int v3; // edx
-  signed int v4; // eax
-  GTE_REG v5; // ecx
-  GTE_REG v6; // edx
-  int v7; // eax
-  int v8; // ecx
-  int v9; // edx
-  int v10; // eax
-  int v11; // ecx
-  int v12; // edx
+  int v0;
+  int v1;
+  int v2;
+  int v3;
+  signed int v4;
+  GTE_REG v5;
+  GTE_REG v6;
+  int v7;
+  int v8;
+  int v9;
+  int v10;
+  int v11;
+  int v12;
 
   v0 = gte_regs.data[1].s16.hi * gte_regs.ctrl[12].s16.hi;
   v1 = (gte_regs.data[1].s16.hi * gte_regs.ctrl[9].s16.hi
@@ -1173,40 +1173,40 @@ static char gte_nccs()
 
 static char gte_ncct()
 {
-  int v0; // ebp
-  int v1; // eax
-  int v2; // ecx
-  int v3; // edx
-  signed int v4; // eax
-  GTE_REG v5; // ecx
-  GTE_REG v6; // edx
-  int v7; // eax
-  int v8; // ecx
-  int v9; // edx
-  int v10; // ebp
-  int v11; // ecx
-  int v12; // edx
-  int v13; // eax
-  signed int v14; // eax
-  GTE_REG v15; // ecx
-  GTE_REG v16; // edx
-  int v17; // eax
-  int v18; // ecx
-  int v19; // edx
-  int v20; // ebp
-  int v21; // ecx
-  int v22; // edx
-  int v23; // eax
-  signed int v24; // eax
-  GTE_REG v25; // ecx
-  GTE_REG v26; // edx
-  int v27; // eax
-  int v28; // ecx
-  int v29; // edx
-  int v30; // eax
-  int v31; // ecx
-  int v32; // edx
-  char result; // al
+  int v0;
+  int v1;
+  int v2;
+  int v3;
+  signed int v4;
+  GTE_REG v5;
+  GTE_REG v6;
+  int v7;
+  int v8;
+  int v9;
+  int v10;
+  int v11;
+  int v12;
+  int v13;
+  signed int v14;
+  GTE_REG v15;
+  GTE_REG v16;
+  int v17;
+  int v18;
+  int v19;
+  int v20;
+  int v21;
+  int v22;
+  int v23;
+  signed int v24;
+  GTE_REG v25;
+  GTE_REG v26;
+  int v27;
+  int v28;
+  int v29;
+  int v30;
+  int v31;
+  int v32;
+  char result;
 
   v0 = gte_regs.data[0].s16.lo * gte_regs.ctrl[11].s16.lo;
   v1 = (gte_regs.data[1].s16.hi * gte_regs.ctrl[9].s16.hi
@@ -1342,16 +1342,16 @@ static char gte_ncct()
 
 static char gte_cdp()
 {
-  GTE_REG v0; // eax
-  GTE_REG v1; // ecx
-  GTE_REG v2; // edx
-  int v3; // esi
-  int v4; // edi
-  int v5; // eax
-  int v6; // edx
-  GTE_REG v7; // eax
-  int32_t v8; // edx
-  int v9; // eax
+  GTE_REG v0;
+  GTE_REG v1;
+  GTE_REG v2;
+  int v3;
+  int v4;
+  int v5;
+  int v6;
+  GTE_REG v7;
+  int32_t v8;
+  int v9;
 
   v0.u32 = gte_regs.ctrl[13].u32
          + ((gte_regs.data[11].s16.hi * gte_regs.ctrl[17].s16.hi
@@ -1396,15 +1396,15 @@ static char gte_cdp()
 
 static char gte_cc()
 {
-  signed int v0; // eax
-  GTE_REG v1; // ecx
-  GTE_REG v2; // edx
-  int v3; // eax
-  int v4; // ecx
-  int v5; // edx
-  int v6; // eax
-  int v7; // ecx
-  int v8; // edx
+  signed int v0;
+  GTE_REG v1;
+  GTE_REG v2;
+  int v3;
+  int v4;
+  int v5;
+  int v6;
+  int v7;
+  int v8;
 
   v0 = gte_regs.ctrl[13].u32
      + ((gte_regs.data[11].s16.hi * gte_regs.ctrl[17].s16.hi
@@ -1446,9 +1446,9 @@ static char gte_cc()
 
 static int gte_op()
 {
-  int result; // eax
-  GTE_REG v1; // ecx
-  GTE_REG v2; // edx
+  int result;
+  GTE_REG v1;
+  GTE_REG v2;
 
   result = gte_regs.data[11].s16.hi * gte_regs.ctrl[2].s16.hi - gte_regs.data[10].s16.hi * gte_regs.ctrl[4].s16.hi;
   v1.u32 = gte_regs.data[10].s16.hi * gte_regs.ctrl[0].s16.hi - gte_regs.ctrl[2].s16.hi * gte_regs.data[9].s16.hi;
@@ -1482,9 +1482,9 @@ static int gte_op()
 
 static GTE_REG gte_op_shifted()
 {
-  GTE_REG result; // eax
-  int v1; // edx
-  int v2; // ecx
+  GTE_REG result;
+  int v1;
+  int v2;
 
   result.u32 = (gte_regs.data[11].s16.hi * gte_regs.ctrl[2].s16.hi - gte_regs.data[10].s16.hi * gte_regs.ctrl[4].s16.hi) >> 12;
   v1 = (gte_regs.ctrl[4].s16.hi * gte_regs.data[9].s16.hi - gte_regs.data[11].s16.hi * gte_regs.ctrl[0].s16.hi) >> 12;
@@ -1516,10 +1516,10 @@ static GTE_REG gte_op_shifted()
   return result;
 }
 
-static int __cdecl gte_count_leading_bits(int a1)
+static int gte_count_leading_bits(int a1)
 {
-  int v1; // eax
-  int v2; // ecx
+  int v1;
+  int v2;
 
   v1 = a1;
   if ( a1 < 0 )
@@ -1538,191 +1538,191 @@ static int __cdecl gte_count_leading_bits(int a1)
 
 char gte_exec_opcode()
 {
-  int v0; // eax
-  int v1; // edx
-  GTE_REG v2; // eax
-  int32_t v3; // edx
-  GTE_REG v4; // ecx
-  GTE_REG v5; // edx
-  int v6; // ecx
-  int v7; // edx
-  GTE_REG v8; // eax
-  GTE_REG v9; // ecx
-  GTE_REG v10; // edx
-  int v11; // ecx
-  int v12; // edx
-  int v13; // eax
-  int v14; // ecx
-  int v15; // edx
-  int v16; // ecx
-  int v17; // edx
-  GTE_REG v18; // ecx
-  GTE_REG v19; // edx
-  int v20; // ecx
-  int v21; // edx
-  GTE_REG v22; // ecx
-  GTE_REG v23; // edx
-  int v24; // ecx
-  int v25; // edx
-  unsigned int v26; // eax
-  unsigned __int8 v27; // bl
-  unsigned __int8 v28; // cl
-  unsigned __int8 v29; // al
-  int v30; // edx
-  GTE_REG v31; // ecx
-  GTE_REG v32; // edx
-  int v33; // esi
-  int v34; // edx
-  int v35; // edi
-  uint32_t v36; // ebp
-  int v37; // ebx
-  int v38; // ecx
-  int v39; // ecx
-  GTE_REG v40; // ebp
-  int v41; // edx
-  GTE_REG v42; // esi
-  int v43; // esi
-  int v44; // edx
-  int v45; // edi
-  uint32_t v46; // ebp
-  int v47; // ebx
-  int v48; // ecx
-  GTE_REG v49; // ebp
-  int v50; // ebx
-  int v51; // edi
-  int v52; // edx
-  int v53; // esi
-  int v54; // edi
-  int v55; // ebp
-  int v56; // ecx
-  int v57; // edx
-  int v58; // esi
-  int v59; // edi
-  int v60; // ebx
-  int v61; // ecx
-  int v62; // edx
-  int v63; // ecx
-  int v64; // edx
-  int v65; // ebp
-  int v66; // edi
-  int v67; // edx
-  GTE_REG v68; // edi
-  int v69; // edi
-  int v70; // ebx
-  int v71; // esi
-  int v72; // edx
-  int v73; // edi
-  int v74; // esi
-  GTE_REG v75; // ebp
-  int v76; // edx
-  int v77; // edi
-  uint32_t v78; // ebp
-  int v79; // ebx
-  int v80; // ecx
-  int v81; // edx
-  int v82; // edi
-  int v83; // esi
-  uint32_t v84; // ebp
-  int v85; // ebx
-  int v86; // ecx
-  uint32_t v87; // ebp
-  int v88; // ebx
-  int v89; // ecx
-  int v90; // edi
-  int v91; // ebp
-  int v92; // ecx
-  int v93; // edx
-  int v94; // edi
-  int v95; // ebx
-  int v96; // esi
-  int v97; // ecx
-  int v98; // edx
-  int v99; // edi
-  int v100; // ebx
-  int v101; // esi
-  int v102; // eax
-  int v103; // ecx
-  int v104; // edx
-  int v105; // edx
-  int v106; // ebx
-  int v107; // edi
-  GTE_REG v108; // ebp
-  int v109; // esi
-  int v110; // edi
-  int v111; // ebp
-  int v112; // ecx
-  int v113; // edx
-  int v114; // edx
-  int v115; // ebp
-  int v116; // edi
-  int v117; // edx
-  int v118; // esi
-  int lo; // edi
-  int hi; // ebp
-  int v121; // ecx
-  int v122; // edx
-  int v123; // edx
-  int v124; // ebp
-  int v125; // edi
-  int v126; // edx
-  int v127; // esi
-  int v128; // edi
-  int v129; // ebp
-  int v130; // ecx
-  int v131; // edx
-  int v132; // esi
-  int v133; // edi
-  int v134; // ebx
-  int v135; // ecx
-  int v136; // edx
-  int v137; // ecx
-  int v138; // edx
-  int v139; // ebx
-  int v140; // edi
-  int v141; // esi
-  int v142; // edi
-  int v143; // ebp
-  int v144; // ecx
-  int v145; // edx
-  int v146; // edx
-  int v147; // ebp
-  int v148; // edi
-  int v149; // edx
-  int v150; // edi
-  int v151; // ebx
-  int v152; // ecx
-  int v153; // edx
-  int v154; // edi
-  int v155; // ebp
-  int v156; // ecx
-  int v157; // edx
-  int v158; // edi
-  int v159; // ebp
-  int v160; // ecx
-  int v161; // edx
-  int v162; // edi
-  int v163; // ebx
-  int v164; // ecx
-  int v165; // edx
-  int v166; // edi
-  int v167; // ebx
-  int v168; // ecx
-  int v169; // edx
-  int v170; // edi
-  int v171; // ebp
-  int v172; // esi
-  int v173; // ecx
-  int v174; // edx
-  int v175; // edi
-  int v176; // ebx
-  int v177; // ecx
-  int v178; // edx
-  int v179; // edi
-  int v180; // ebp
-  int v181; // ecx
-  int v182; // edx
-  int v183; // ecx
-  int v184; // ecx
+  int v0;
+  int v1;
+  GTE_REG v2;
+  int32_t v3;
+  GTE_REG v4;
+  GTE_REG v5;
+  int v6;
+  int v7;
+  GTE_REG v8;
+  GTE_REG v9;
+  GTE_REG v10;
+  int v11;
+  int v12;
+  int v13;
+  int v14;
+  int v15;
+  int v16;
+  int v17;
+  GTE_REG v18;
+  GTE_REG v19;
+  int v20;
+  int v21;
+  GTE_REG v22;
+  GTE_REG v23;
+  int v24;
+  int v25;
+  unsigned int v26;
+  uint8_t v27;
+  uint8_t v28;
+  uint8_t v29;
+  int v30;
+  GTE_REG v31;
+  GTE_REG v32;
+  int v33;
+  int v34;
+  int v35;
+  uint32_t v36;
+  int v37;
+  int v38;
+  int v39;
+  GTE_REG v40;
+  int v41;
+  GTE_REG v42;
+  int v43;
+  int v44;
+  int v45;
+  uint32_t v46;
+  int v47;
+  int v48;
+  GTE_REG v49;
+  int v50;
+  int v51;
+  int v52;
+  int v53;
+  int v54;
+  int v55;
+  int v56;
+  int v57;
+  int v58;
+  int v59;
+  int v60;
+  int v61;
+  int v62;
+  int v63;
+  int v64;
+  int v65;
+  int v66;
+  int v67;
+  GTE_REG v68;
+  int v69;
+  int v70;
+  int v71;
+  int v72;
+  int v73;
+  int v74;
+  GTE_REG v75;
+  int v76;
+  int v77;
+  uint32_t v78;
+  int v79;
+  int v80;
+  int v81;
+  int v82;
+  int v83;
+  uint32_t v84;
+  int v85;
+  int v86;
+  uint32_t v87;
+  int v88;
+  int v89;
+  int v90;
+  int v91;
+  int v92;
+  int v93;
+  int v94;
+  int v95;
+  int v96;
+  int v97;
+  int v98;
+  int v99;
+  int v100;
+  int v101;
+  int v102;
+  int v103;
+  int v104;
+  int v105;
+  int v106;
+  int v107;
+  GTE_REG v108;
+  int v109;
+  int v110;
+  int v111;
+  int v112;
+  int v113;
+  int v114;
+  int v115;
+  int v116;
+  int v117;
+  int v118;
+  int lo;
+  int hi;
+  int v121;
+  int v122;
+  int v123;
+  int v124;
+  int v125;
+  int v126;
+  int v127;
+  int v128;
+  int v129;
+  int v130;
+  int v131;
+  int v132;
+  int v133;
+  int v134;
+  int v135;
+  int v136;
+  int v137;
+  int v138;
+  int v139;
+  int v140;
+  int v141;
+  int v142;
+  int v143;
+  int v144;
+  int v145;
+  int v146;
+  int v147;
+  int v148;
+  int v149;
+  int v150;
+  int v151;
+  int v152;
+  int v153;
+  int v154;
+  int v155;
+  int v156;
+  int v157;
+  int v158;
+  int v159;
+  int v160;
+  int v161;
+  int v162;
+  int v163;
+  int v164;
+  int v165;
+  int v166;
+  int v167;
+  int v168;
+  int v169;
+  int v170;
+  int v171;
+  int v172;
+  int v173;
+  int v174;
+  int v175;
+  int v176;
+  int v177;
+  int v178;
+  int v179;
+  int v180;
+  int v181;
+  int v182;
+  int v183;
+  int v184;
 
   LOBYTE(v26) = cpu_opcode;
   switch ( ((unsigned int)cpu_opcode >> 21) & 0x1F )
@@ -1736,7 +1736,7 @@ char gte_exec_opcode()
       {
         if ( v28 == 31 )
         {
-          v26 = (unsigned __int8)gte_count_leading_bits(gte_regs.data[30].s32);
+          v26 = (uint8_t)gte_count_leading_bits(gte_regs.data[30].s32);
           cpu_gpr[v27] = v26;
         }
         else
@@ -1761,7 +1761,7 @@ char gte_exec_opcode()
       if ( (cpu_opcode & 0x1F0000) != 0 )
       {
         v26 = BYTE2(cpu_opcode) & 0x1F;
-        cpu_gpr[v26] = gte_regs.ctrl[(unsigned __int16)cpu_opcode >> 11].s32;
+        cpu_gpr[v26] = gte_regs.ctrl[(uint16_t)cpu_opcode >> 11].s32;
       }
       return v26;
     case 4u:
@@ -1769,10 +1769,10 @@ char gte_exec_opcode()
       gte_cpu_gpr_index = BYTE2(cpu_opcode) & 0x1F;
       gte_data_reg_index = v26;
       v31.u32 = cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
-      gte_regs.data[(unsigned __int8)v26] = v31;
-      if ( (unsigned __int8)v26 >= 0x10u && (unsigned __int8)v26 <= 0x13u )
-        gte_regs.data[(unsigned __int8)v26].u32 = v31.u16.hi;
-      switch ( (_BYTE)v26 )
+      gte_regs.data[(uint8_t)v26] = v31;
+      if ( (uint8_t)v26 >= 0x10u && (uint8_t)v26 <= 0x13u )
+        gte_regs.data[(uint8_t)v26].u32 = v31.u16.hi;
+      switch ( (uint8_t)v26 )
       {
         case 0xE:
           gte_regs.data[15] = v31;
@@ -1796,7 +1796,7 @@ char gte_exec_opcode()
       gte_cpu_gpr_index = BYTE2(cpu_opcode) & 0x1F;
       v32.u32 = cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
       gte_control_reg_index = v26;
-      gte_regs.ctrl[(unsigned __int8)v26] = v32;
+      gte_regs.ctrl[(uint8_t)v26] = v32;
       return v26;
     default:
       v26 = cpu_opcode & 0x1FFFFFF;
@@ -5944,13 +5944,13 @@ LABEL_630:
   }
 }
 
-int __cdecl gte_read_data_register(unsigned __int8 a1)
+int gte_read_data_register(uint8_t a1)
 {
-  unsigned __int8 v2; // al
-  int v3; // edx
+  uint8_t v2;
+  int v3;
 
   if ( a1 == 31 )
-    return (unsigned __int8)gte_count_leading_bits(gte_regs.data[30].s32);
+    return (uint8_t)gte_count_leading_bits(gte_regs.data[30].s32);
   if ( a1 != 29 )
     return gte_regs.data[a1].s32;
   gte_convert_to_5bit(gte_regs.data[11].u16.hi);
@@ -5959,9 +5959,9 @@ int __cdecl gte_read_data_register(unsigned __int8 a1)
   return v3 | v2;
 }
 
-GTE_REG __cdecl gte_write_data_register(unsigned __int8 a1, GTE_REG a2)
+GTE_REG gte_write_data_register(uint8_t a1, GTE_REG a2)
 {
-  GTE_REG result; // eax
+  GTE_REG result;
 
   result = a2;
   gte_regs.data[a1] = a2;
@@ -5993,20 +5993,20 @@ int gte_clear_regs()
   return 0;
 }
 
-int __cdecl gte_freeze(const char *a1, int a2)
+int gte_freeze(const char *a1, int a2)
 {
-  char Buffer[3]; // [esp+4h] [ebp-10h] BYREF
-  int v4; // [esp+7h] [ebp-Dh]
+  char Buffer[3];
+  int v4;
 
   sprintf(Buffer, "%s", a1);
   v4 = 256;
-  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-  return gzwrite(a2, (unsigned __int8 *)&gte_regs, 0x100u);
+  gzwrite(a2, (uint8_t *)Buffer, 7u);
+  return gzwrite(a2, (uint8_t *)&gte_regs, 0x100u);
 }
 
-int __cdecl gte_unfreeze(int a1, _DWORD *a2)
+int gte_unfreeze(int a1, uint32_t *a2)
 {
-  char v3[16]; // [esp+4h] [ebp-10h] BYREF
+  char v3[16];
 
   gzread(a2, v3, 7);
   return gzread(a2, (char *)&gte_regs, 256);
@@ -6025,5 +6025,5 @@ unsigned int gte_color_r;
 unsigned int gte_color_g;
 unsigned int gte_color_b;
 GTE_REGS gte_regs;
-unsigned __int64 qword_44F958 = 0x8080000081000000;
-unsigned __int64 qword_44F960 = 0x400000;
+uint64_t qword_44F958 = 0x8080000081000000;
+uint64_t qword_44F960 = 0x400000;

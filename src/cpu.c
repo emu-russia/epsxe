@@ -8,7 +8,7 @@ unsigned char *reg_pc;
 
 int cpu_clear_regs()
 {
-  *(_DWORD *)reg_pc = 0xBFC00000;
+  *(uint32_t *)reg_pc = 0xBFC00000;
   memset(cpu_gpr, 0, 0x80u);
   memset(cop0_regs, 0, 0x40u);
   hw_update_counter = 0;
@@ -21,15 +21,15 @@ int cpu_clear_regs()
 
 unsigned int cpu_load_bios_shell()
 {
-  int v0; // ecx
-  unsigned int result; // eax
-  int v2; // eax
+  int v0;
+  unsigned int result;
+  int v2;
 
-  v0 = *(_DWORD *)reg_pc;
-  result = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
-  for ( cpu_opcode = result; *(_DWORD *)reg_pc != 0x80030000; cpu_opcode = result )
+  v0 = *(uint32_t *)reg_pc;
+  result = *(uint32_t *)(*(uint16_t *)reg_pc + mem_read_hooks[*(uint16_t *)&reg_pc[2]]);
+  for ( cpu_opcode = result; *(uint32_t *)reg_pc != 0x80030000; cpu_opcode = result )
   {
-    *(_DWORD *)reg_pc = v0 + 4;
+    *(uint32_t *)reg_pc = v0 + 4;
     cpu_main_table[result >> 26]();
     v2 = --hw_update_counter;
     if ( hw_update_counter < 0 )
@@ -41,44 +41,44 @@ unsigned int cpu_load_bios_shell()
         ++frame_counter;
       }
     }
-    v0 = *(_DWORD *)reg_pc;
-    result = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+    v0 = *(uint32_t *)reg_pc;
+    result = *(uint32_t *)(*(uint16_t *)reg_pc + mem_read_hooks[*(uint16_t *)&reg_pc[2]]);
   }
   return result;
 }
 
 int cpu_execute()
 {
-  unsigned int v0; // esi
-  unsigned __int8 v1; // dl
-  unsigned __int8 v2; // bl
-  int v3; // edi
-  int v4; // ecx
-  unsigned __int8 v5; // cl
-  _DWORD *v6; // eax
-  int v7; // ecx
-  int v8; // eax
-  bool v9; // zf
-  unsigned int v10; // eax
-  int v11; // ecx
-  int v12; // ecx
-  unsigned int v13; // esi
-  int v14; // edx
-  int result; // eax
-  unsigned __int8 v16; // [esp+10h] [ebp-4h]
+  unsigned int v0;
+  uint8_t v1;
+  uint8_t v2;
+  int v3;
+  int v4;
+  uint8_t v5;
+  uint32_t *v6;
+  int v7;
+  int v8;
+  bool v9;
+  unsigned int v10;
+  int v11;
+  int v12;
+  unsigned int v13;
+  int v14;
+  int result;
+  uint8_t v16;
 
   while ( 1 )
   {
     while ( 1 )
     {
-      v0 = *(_DWORD *)(*(unsigned __int16 *)reg_pc + mem_read_hooks[*(unsigned __int16 *)&reg_pc[2]]);
+      v0 = *(uint32_t *)(*(uint16_t *)reg_pc + mem_read_hooks[*(uint16_t *)&reg_pc[2]]);
       v1 = active_mini_cheat_count;
       cpu_opcode = v0;
       if ( active_mini_cheat_count )
       {
         v2 = 0;
         v16 = 0;
-        v3 = *(_DWORD *)reg_pc & 0x1FFFFF;
+        v3 = *(uint32_t *)reg_pc & 0x1FFFFF;
         do
         {
           v4 = mini_cheat_id_array[2 * v16];
@@ -88,10 +88,10 @@ int cpu_execute()
             if ( (v4 & 0xF0000000) == 0 )
             {
               v5 = v2 + 1;
-              if ( (unsigned __int8)(v2 + 1) < v1 )
+              if ( (uint8_t)(v2 + 1) < v1 )
               {
-                v6 = (_DWORD *)(8 * v5 + 5991868);
-                v7 = (unsigned __int8)(v1 - v5);
+                v6 = (uint32_t *)(8 * v5 + 5991868);
+                v7 = (uint8_t)(v1 - v5);
                 do
                 {
                   *(v6 - 1) = v6[1];
@@ -111,17 +111,17 @@ int cpu_execute()
         active_mini_cheat_count = v1;
         cpu_opcode = v0;
       }
-      if ( (*(_DWORD *)reg_pc & 0xFFF00000) == 0x1F800000 )
+      if ( (*(uint32_t *)reg_pc & 0xFFF00000) == 0x1F800000 )
         ui_error("out of line\n");
-      *(_DWORD *)reg_pc += 4;
+      *(uint32_t *)reg_pc += 4;
       cpu_main_table[v0 >> 26]();
       cpu_gpr[0] = 0;
-      if ( (*(_DWORD *)int_reg & int_mask & 0x3FB) != 0 && (cop0_sr & 0x401) == 0x401 )
+      if ( (*(uint32_t *)int_reg & int_mask & 0x3FB) != 0 && (cop0_sr & 0x401) == 0x401 )
         irq_cpu_interrupt();
       v8 = --hw_update_counter;
       if ( hw_update_counter < 0 )
       {
-        v9 = (((_BYTE)spu_async_update_counter + 1) & 0x1F) == 0;
+        v9 = (((uint8_t)spu_async_update_counter + 1) & 0x1F) == 0;
         hw_update_counter = cpu_speed_scale + v8;
         ++scanline_counter;
         ++spu_async_update_counter;
@@ -134,22 +134,22 @@ int cpu_execute()
         cdr_play_tick();
         cdr_process_delays();
         if ( (int_reg[0] & 4) == 0 && cdr_get_response_status() )
-          *(_DWORD *)int_reg |= 4u;
-        if ( spu_irq_pending_count && (*(_WORD *)int_reg & 0x200) == 0 )
+          *(uint32_t *)int_reg |= 4u;
+        if ( spu_irq_pending_count && (*(uint16_t *)int_reg & 0x200) == 0 )
         {
-          *(_DWORD *)int_reg |= 0x200u;
+          *(uint32_t *)int_reg |= 0x200u;
           --spu_irq_pending_count;
         }
-        if ( *(_DWORD *)sio_irq_pending )
+        if ( *(uint32_t *)sio_irq_pending )
         {
-          *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
-          *(_DWORD *)sio_irq_pending = 0;
+          *(uint32_t *)int_reg |= *(uint32_t *)sio_irq_pending;
+          *(uint32_t *)sio_irq_pending = 0;
         }
-        else if ( *(_DWORD *)sio_irq_delay_time )
+        else if ( *(uint32_t *)sio_irq_delay_time )
         {
-          *(_DWORD *)sio_irq_pending = 128;
-          *(_DWORD *)sio_irq_timeout = *(_DWORD *)sio_irq_delay_time;
-          *(_DWORD *)sio_irq_delay_time = 0;
+          *(uint32_t *)sio_irq_pending = 128;
+          *(uint32_t *)sio_irq_timeout = *(uint32_t *)sio_irq_delay_time;
+          *(uint32_t *)sio_irq_delay_time = 0;
         }
         if ( sio_transfer_pending )
         {
@@ -171,7 +171,7 @@ int cpu_execute()
         {
           rcnt_counter[0] = 0;
           if ( (rcnt_mode[0] & 0x50) == 0x50 )
-            *(_DWORD *)int_reg |= 0x10u;
+            *(uint32_t *)int_reg |= 0x10u;
         }
         v12 = 1;
         if ( (rcnt1_mode & 0x100) == 0 )
@@ -181,7 +181,7 @@ int cpu_execute()
         {
           rcnt1_counter = 0;
           if ( (rcnt1_mode & 0x50) == 0x50 )
-            *(_DWORD *)int_reg |= 0x20u;
+            *(uint32_t *)int_reg |= 0x20u;
         }
         if ( (rcnt2_mode & 0x200) != 0 )
           v10 = (unsigned int)cpu_speed_scale >> 3;
@@ -190,17 +190,17 @@ int cpu_execute()
         {
           rcnt2_counter = 0;
           if ( (rcnt2_mode & 0x50) == 0x50 )
-            *(_DWORD *)int_reg |= 0x40u;
+            *(uint32_t *)int_reg |= 0x40u;
         }
         v13 = video_scanlines;
         if ( scanline_counter == video_scanlines - 22 )
         {
-          v14 = *(_DWORD *)int_reg | 1;
-          *(_DWORD *)int_reg |= 1u;
+          v14 = *(uint32_t *)int_reg | 1;
+          *(uint32_t *)int_reg |= 1u;
           if ( (int_mask & 0x200) != 0 && forcespu && (frame_counter & 3) == 0 )
-            *(_DWORD *)int_reg = v14 | 0x200;
+            *(uint32_t *)int_reg = v14 | 0x200;
         }
-        if ( (int_mask & *(_DWORD *)int_reg) != 0 )
+        if ( (int_mask & *(uint32_t *)int_reg) != 0 )
           irq_cpu_interrupt();
         if ( scanline_counter >= v13 )
           break;

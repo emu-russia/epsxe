@@ -246,24 +246,24 @@ static inline mdec_v64 md_punpckhdq(mdec_v64 a, mdec_v64 b)
 }
 
 /* static prototypes for internal functions */
-static int __cdecl mdec_set_scale_table(int a1);
-static char *__cdecl mdec_rl_decode(char *a1, int a2);
-static void __cdecl mdec_idct_blocks(int a1);
+static int mdec_set_scale_table(int a1);
+static char * mdec_rl_decode(char *a1, int a2);
+static void mdec_idct_blocks(int a1);
 static int mdec_init_color_tables();
-static _WORD *__cdecl mdec_yuv_to_rgb(char *a1, _WORD *a2, _WORD *a3);
-static void __cdecl mdec_idct_sse(const unsigned short *a1, int a2);
-static void __cdecl mdec_y_to_mono(unsigned int *a1, unsigned char *a2, int a3);
+static uint16_t * mdec_yuv_to_rgb(char *a1, uint16_t *a2, uint16_t *a3);
+static void mdec_idct_sse(const unsigned short *a1, int a2);
+static void mdec_y_to_mono(unsigned int *a1, unsigned char *a2, int a3);
 
 static char *mdec_init_pointers()
 {
-  char *v0; // ecx
-  char *result; // eax
+  char *v0;
+  char *result;
 
   v0 = mdec_idct_buffer_end;
   result = (char *)mdec_idct_buffer;
   do
   {
-    *(_DWORD *)v0 = result;
+    *(uint32_t *)v0 = result;
     result += 8;
     v0 += 4;
   }
@@ -273,7 +273,7 @@ static char *mdec_init_pointers()
 
 int mdec_init()
 {
-  *(_DWORD *)mdec_command = 0;
+  *(uint32_t *)mdec_command = 0;
   mdec_param_count = 0;
   mdec_timer_count = 0;
   mdec_out_addr = 0;
@@ -286,21 +286,21 @@ int mdec_init()
   return mdec_init_color_tables();
 }
 
-__int16 __cdecl mdec_write_command(unsigned int a1)
+int16_t mdec_write_command(unsigned int a1)
 {
-  __int16 result; // ax
+  int16_t result;
 
-  *(_DWORD *)mdec_command = a1;
+  *(uint32_t *)mdec_command = a1;
   if ( (a1 & 0xF5FF0000) == 0x30000000 )
-    mdec_param_word = (unsigned __int16)a1;
+    mdec_param_word = (uint16_t)a1;
   result = (a1 >> 10) & 0x8000;
   mdec_bit15_flag = result;
   return result;
 }
 
-int __cdecl mdec_handle_special_command(int a1)
+int mdec_handle_special_command(int a1)
 {
-  int result; // eax
+  int result;
 
   if ( a1 == 0x80000000 )
   {
@@ -312,7 +312,7 @@ int __cdecl mdec_handle_special_command(int a1)
 
 char mdec_timer_handler()
 {
-  char result; // al
+  char result;
 
   result = mdectiming;
   if ( mdectiming )
@@ -346,19 +346,19 @@ char mdec_timer_handler()
 
 void mdec_dma_in_handler()
 {
-  int v0; // esi
-  int v1; // eax
+  int v0;
+  int v1;
 
   v0 = mdec_dma_src[0];
   if ( mdec_dma_control[0] == 0x1000201 )
   {
     if ( mdec_disable )
       LOBYTE(mdec_disable_flag[0]) = 1;
-    v1 = *(_DWORD *)mdec_command;
-    if ( *(_DWORD *)mdec_command == 0x40000001 )
+    v1 = *(uint32_t *)mdec_command;
+    if ( *(uint32_t *)mdec_command == 0x40000001 )
     {
       mdec_set_scale_table((int)ram + (mdec_dma_src[0] & 0x1FFFFF));
-      v1 = *(_DWORD *)mdec_command;
+      v1 = *(uint32_t *)mdec_command;
     }
     if ( (v1 & 0xF5FF0000) == 0x30000000 )
     {
@@ -370,17 +370,17 @@ void mdec_dma_in_handler()
 
 int mdec_decode()
 {
-  int result; // eax
-  char *v1; // ebx
-  unsigned char *v2; // esi
-  int v3; // ebp
-  int v4; // ecx
-  int v5; // edi
-  int v6; // eax
-  bool v7; // cc
-  int v8; // [esp+0h] [ebp-4h]
+  int result;
+  char *v1;
+  unsigned char *v2;
+  int v3;
+  int v4;
+  int v5;
+  int v6;
+  bool v7;
+  int v8;
 
-  result = HIWORD(mdec_image_size) * (unsigned __int16)mdec_image_size;
+  result = HIWORD(mdec_image_size) * (uint16_t)mdec_image_size;
   if ( mdec_dma_status == 0x1000200 )
   {
     v1 = (char *)mdec_in_ptr;
@@ -392,9 +392,9 @@ int mdec_decode()
         return result;
       }
       v2 = (unsigned char *)ram + (mdec_dma_dest & 0x1FFFFF);
-      v3 = *(_DWORD *)mdec_command & 0x8000000;
+      v3 = *(uint32_t *)mdec_command & 0x8000000;
       v4 = 3 * result;
-      if ( (*(_DWORD *)mdec_command & 0x8000000) == 0 )
+      if ( (*(uint32_t *)mdec_command & 0x8000000) == 0 )
         v4 = 2 * result;
       v5 = v4 / 384;
       if ( v4 / 384 < 31 )
@@ -411,7 +411,7 @@ int mdec_decode()
           mdec_idct_blocks(30);
           if ( v3 )
           {
-            mdec_yuv_to_rgb((char *)mdec_idct_buffer, (_WORD *)v2, (_WORD *)0x1E);
+            mdec_yuv_to_rgb((char *)mdec_idct_buffer, (uint16_t *)v2, (uint16_t *)0x1E);
             v2 += 15360;
           }
           else
@@ -430,7 +430,7 @@ LABEL_15:
         mdec_in_ptr = (int)mdec_rl_decode(v1, v5);
         mdec_idct_blocks(v5);
         if ( v3 )
-          mdec_yuv_to_rgb((char *)mdec_idct_buffer, (_WORD *)v2, (_WORD *)v5);
+          mdec_yuv_to_rgb((char *)mdec_idct_buffer, (uint16_t *)v2, (uint16_t *)v5);
         else
           mdec_y_to_mono((unsigned int *)mdec_idct_buffer, v2, v5);
       }
@@ -446,13 +446,13 @@ LABEL_15:
   return result;
 }
 
-static int __cdecl mdec_set_scale_table(int a1)
+static int mdec_set_scale_table(int a1)
 {
-  int result; // eax
-  __int16 *v2; // ecx
-  int v3; // edx
-  _DWORD v4[63]; // [esp+10h] [ebp-200h]
-  _DWORD v5[65]; // [esp+10Ch] [ebp-104h]
+  int result;
+  int16_t *v2;
+  int v3;
+  uint32_t v4[63];
+  uint32_t v5[65];
 
   v5[4] = 19266;
   v5[6] = 12873;
@@ -587,23 +587,23 @@ static int __cdecl mdec_set_scale_table(int a1)
   do
   {
     v3 = v4[result];
-    *v2++ = (v5[++result] * *(unsigned __int8 *)(v3 + a1) + 2048) >> 12;
+    *v2++ = (v5[++result] * *(uint8_t *)(v3 + a1) + 2048) >> 12;
   }
   while ( (int)v2 < (int)mdec_idct_buffer );
   return result * 4;
 }
 
-static char *__cdecl mdec_rl_decode(char *a1, int a2)
+static char * mdec_rl_decode(char *a1, int a2)
 {
-  int v2; // edx
-  char *v3; // edi
-  unsigned __int16 v4; // ax
-  int v5; // ebx
-  unsigned __int16 i; // cx
-  _WORD *v8; // [esp+10h] [ebp-8h]
-  int v9; // [esp+20h] [ebp+8h]
+  int v2;
+  char *v3;
+  uint16_t v4;
+  int v5;
+  uint16_t i;
+  uint16_t *v8;
+  int v9;
 
-  v8 = (_WORD *)mdec_coeff_buffer;
+  v8 = (uint16_t *)mdec_coeff_buffer;
   memset(mdec_coeff_buffer, 0, 4 * ((unsigned int)(768 * a2) >> 2));
   v2 = 6 * a2;
   v9 = 0;
@@ -614,17 +614,17 @@ static char *__cdecl mdec_rl_decode(char *a1, int a2)
   {
     if ( v3 - (char *)ram >= 0x1FFF00 )
       break;
-    v4 = *(_WORD *)v3;
+    v4 = *(uint16_t *)v3;
     v5 = 0;
     v3 += 4;
-    *v8 = mdec_scale_table[0] * ((__int16)(v4 << 6) >> 6);
-    for ( i = *((_WORD *)v3 - 1); i != 0xFE00; v3 += 2 )
+    *v8 = mdec_scale_table[0] * ((int16_t)(v4 << 6) >> 6);
+    for ( i = *((uint16_t *)v3 - 1); i != 0xFE00; v3 += 2 )
     {
       v5 += (i >> 10) + 1;
       if ( v5 > 63 )
         break;
       v8[mdec_zigzag[v5]] = (v4 >> 10) * (i << 22 >> 22) * mdec_scale_table[mdec_zigzag[v5]] / 8;
-      i = *(_WORD *)v3;
+      i = *(uint16_t *)v3;
     }
     mdec_nonzero_counts[v9] = v5;
     v8 += 64;
@@ -634,15 +634,15 @@ static char *__cdecl mdec_rl_decode(char *a1, int a2)
   return v3;
 }
 
-static void __cdecl mdec_idct_blocks(int a1)
+static void mdec_idct_blocks(int a1)
 {
-  int *v1; // edi
-  int v2; // esi
-  const unsigned short *i; // ebx
-  int v4; // edx
-  int v5; // eax
-  char *v6; // [esp+10h] [ebp-8h]
-  int *v7; // [esp+14h] [ebp-4h]
+  int *v1;
+  int v2;
+  const unsigned short *i;
+  int v4;
+  int v5;
+  char *v6;
+  int *v7;
 
   v1 = mdec_idct_buffer;
   v2 = 0;
@@ -671,17 +671,17 @@ static void __cdecl mdec_idct_blocks(int a1)
 
 static int mdec_init_color_tables()
 {
-  int v0; // edi
-  int v1; // esi
-  int v2; // edx
-  int v3; // ecx
-  int v4; // eax
-  int v5; // esi
-  int v6; // edx
-  int v7; // edi
-  int v8; // ecx
-  int v9; // eax
-  int result; // eax
+  int v0;
+  int v1;
+  int v2;
+  int v3;
+  int v4;
+  int v5;
+  int v6;
+  int v7;
+  int v8;
+  int v9;
+  int result;
 
   v0 = 0;
   v1 = 0;
@@ -728,29 +728,29 @@ static int mdec_init_color_tables()
   return result;
 }
 
-static _WORD *__cdecl mdec_yuv_to_rgb(char *a1, _WORD *a2, _WORD *a3)
+static uint16_t * mdec_yuv_to_rgb(char *a1, uint16_t *a2, uint16_t *a3)
 {
-  _WORD *result; // eax
-  char *v4; // esi
-  char *v5; // edi
-  char *v6; // ebp
-  int v7; // ecx
-  int v8; // ecx
-  int v9; // ebx
-  int v10; // ecx
-  int v11; // ecx
-  int v12; // ebx
-  int v13; // ecx
-  int v14; // edx
-  bool v15; // zf
-  bool v16; // cc
-  int v17; // [esp+Ch] [ebp-Ch]
-  int v18; // [esp+10h] [ebp-8h]
-  _WORD *v19; // [esp+14h] [ebp-4h]
-  int v20; // [esp+20h] [ebp+8h]
-  int v21; // [esp+20h] [ebp+8h]
-  int v22; // [esp+24h] [ebp+Ch]
-  int v23; // [esp+24h] [ebp+Ch]
+  uint16_t *result;
+  char *v4;
+  char *v5;
+  char *v6;
+  int v7;
+  int v8;
+  int v9;
+  int v10;
+  int v11;
+  int v12;
+  int v13;
+  int v14;
+  bool v15;
+  bool v16;
+  int v17;
+  int v18;
+  uint16_t *v19;
+  int v20;
+  int v21;
+  int v22;
+  int v23;
 
   result = a3;
   v4 = a1;
@@ -780,16 +780,16 @@ static _WORD *__cdecl mdec_yuv_to_rgb(char *a1, _WORD *a2, _WORD *a3)
           v22 = (7258 * v9) >> 12;
           v10 = (5743 * v8) >> 12;
           *result = mdec_bit15_flag
-                  | ((unsigned __int8)mdec_color_lookup[*v5 + v22] >> 3)
+                  | ((uint8_t)mdec_color_lookup[*v5 + v22] >> 3)
                   | (4 * (mdec_color_lookup[*v5 + v20] & 0xF8 | (32 * (mdec_color_lookup[*v5 + v10] & 0xF8))));
           result[1] = mdec_bit15_flag
-                    | ((unsigned __int8)mdec_color_lookup[v5[1] + v22] >> 3)
+                    | ((uint8_t)mdec_color_lookup[v5[1] + v22] >> 3)
                     | (4 * (mdec_color_lookup[v5[1] + v20] & 0xF8 | (32 * (mdec_color_lookup[v5[1] + v10] & 0xF8))));
           result[16] = mdec_bit15_flag
-                     | ((unsigned __int8)mdec_color_lookup[v5[8] + v22] >> 3)
+                     | ((uint8_t)mdec_color_lookup[v5[8] + v22] >> 3)
                      | (4 * (mdec_color_lookup[v5[8] + v20] & 0xF8 | (32 * (mdec_color_lookup[v5[8] + v10] & 0xF8))));
           result[17] = mdec_bit15_flag
-                     | ((unsigned __int8)mdec_color_lookup[v5[9] + v22] >> 3)
+                     | ((uint8_t)mdec_color_lookup[v5[9] + v22] >> 3)
                      | (4 * (mdec_color_lookup[v5[9] + v20] & 0xF8 | (32 * (mdec_color_lookup[v5[9] + v10] & 0xF8))));
           v11 = a1[68];
           v12 = a1[4];
@@ -797,20 +797,20 @@ static _WORD *__cdecl mdec_yuv_to_rgb(char *a1, _WORD *a2, _WORD *a3)
           v23 = (7258 * v12) >> 12;
           v13 = (5743 * v11) >> 12;
           result[8] = mdec_bit15_flag
-                    | ((unsigned __int8)mdec_color_lookup[*v6 + v23] >> 3)
+                    | ((uint8_t)mdec_color_lookup[*v6 + v23] >> 3)
                     | (4 * (mdec_color_lookup[*v6 + v21] & 0xF8 | (32 * (mdec_color_lookup[*v6 + v13] & 0xF8))));
           result[9] = mdec_bit15_flag
-                    | ((unsigned __int8)mdec_color_lookup[v6[1] + v23] >> 3)
+                    | ((uint8_t)mdec_color_lookup[v6[1] + v23] >> 3)
                     | (4 * (mdec_color_lookup[v6[1] + v21] & 0xF8 | (32 * (mdec_color_lookup[v6[1] + v13] & 0xF8))));
           result[24] = mdec_bit15_flag
-                     | ((unsigned __int8)mdec_color_lookup[v6[8] + v23] >> 3)
+                     | ((uint8_t)mdec_color_lookup[v6[8] + v23] >> 3)
                      | (4 * (mdec_color_lookup[v6[8] + v21] & 0xF8 | (32 * (mdec_color_lookup[v6[8] + v13] & 0xF8))));
           v14 = v6[9];
           v5 += 2;
           v6 += 2;
           result += 2;
           result[23] = mdec_bit15_flag
-                     | ((unsigned __int8)mdec_color_lookup[v14 + v23] >> 3)
+                     | ((uint8_t)mdec_color_lookup[v14 + v23] >> 3)
                      | (4 * (mdec_color_lookup[v14 + v21] & 0xF8 | (32 * (mdec_color_lookup[v14 + v13] & 0xF8))));
           v4 = a1 + 1;
           v15 = v17 == 1;
@@ -830,45 +830,45 @@ static _WORD *__cdecl mdec_yuv_to_rgb(char *a1, _WORD *a2, _WORD *a3)
       v4 += 320;
       v5 += 192;
       v6 += 192;
-      v15 = v19 == (_WORD *)1;
+      v15 = v19 == (uint16_t *)1;
       a1 = v4;
-      v19 = (_WORD *)((char *)v19 - 1);
+      v19 = (uint16_t *)((char *)v19 - 1);
     }
     while ( !v15 );
   }
   return result;
 }
 
-int __cdecl mdec_freeze(const char *a1, int a2)
+int mdec_freeze(const char *a1, int a2)
 {
-  char Buffer[3]; // [esp+8h] [ebp-440h] BYREF
-  int v4; // [esp+Bh] [ebp-43Dh]
-  unsigned __int8 v5[1024]; // [esp+48h] [ebp-400h] BYREF
+  char Buffer[3];
+  int v4;
+  uint8_t v5[1024];
 
   memset(v5, 0, sizeof(v5));
   sprintf(Buffer, "%s", a1);
   v4 = 1248;
-  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-  gzwrite(a2, (unsigned __int8 *)mdec_command, 0x60u);
-  gzwrite(a2, (unsigned __int8 *)mdec_scale_table, 0x80u);
+  gzwrite(a2, (uint8_t *)Buffer, 7u);
+  gzwrite(a2, (uint8_t *)mdec_command, 0x60u);
+  gzwrite(a2, (uint8_t *)mdec_scale_table, 0x80u);
   return gzwrite(a2, v5, 0x400u);
 }
 
-int __cdecl mdec_freeze2(const char *a1, int a2)
+int mdec_freeze2(const char *a1, int a2)
 {
-  char Buffer[3]; // [esp+4h] [ebp-40h] BYREF
-  int v4; // [esp+7h] [ebp-3Dh]
+  char Buffer[3];
+  int v4;
 
   sprintf(Buffer, "%s", a1);
   v4 = 96;
-  gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-  return gzwrite(a2, (unsigned __int8 *)mdec_command, 0x60u);
+  gzwrite(a2, (uint8_t *)Buffer, 7u);
+  return gzwrite(a2, (uint8_t *)mdec_command, 0x60u);
 }
 
-int __cdecl mdec_unfreeze(int a1, _DWORD *a2)
+int mdec_unfreeze(int a1, uint32_t *a2)
 {
-  char v3[64]; // [esp+4h] [ebp-440h] BYREF
-  char v4[1024]; // [esp+44h] [ebp-400h] BYREF
+  char v3[64];
+  char v4[1024];
 
   gzread(a2, v3, 7);
   gzread(a2, mdec_command, 96);
@@ -876,233 +876,233 @@ int __cdecl mdec_unfreeze(int a1, _DWORD *a2)
   return gzread(a2, v4, 1024);
 }
 
-int __cdecl mdec_unfreeze2(int a1, _DWORD *a2)
+int mdec_unfreeze2(int a1, uint32_t *a2)
 {
-  char v3[64]; // [esp+4h] [ebp-40h] BYREF
+  char v3[64];
 
   gzread(a2, v3, 7);
   return gzread(a2, mdec_command, 96);
 }
 
-static void __cdecl mdec_idct_sse(const unsigned short *a1, int a2)
+static void mdec_idct_sse(const unsigned short *a1, int a2)
 {
-  mdec_v64 v2; // mm0
-  mdec_v64 v3; // mm2
-  mdec_v64 v4; // mm4
-  mdec_v64 v5; // mm1
-  mdec_v64 v6; // mm0
-  mdec_v64 v7; // mm2
-  mdec_v64 v8; // mm5
-  mdec_v64 v9; // mm3
-  mdec_v64 v10; // mm6
-  mdec_v64 v11; // mm5
-  mdec_v64 v12; // mm4
-  mdec_v64 v13; // mm3
-  mdec_v64 v14; // mm0
-  mdec_v64 v15; // mm2
-  mdec_v64 v16; // mm5
-  mdec_v64 v17; // mm6
-  mdec_v64 v18; // mm5
-  mdec_v64 v19; // mm4
-  mdec_v64 v20; // mm1
-  mdec_v64 v21; // mm4
-  mdec_v64 v22; // mm7
-  mdec_v64 v23; // mm4
-  mdec_v64 v24; // mm5
-  mdec_v64 v25; // mm0
-  mdec_v64 v26; // mm3
-  mdec_v64 v27; // mm0
-  mdec_v64 v28; // mm2
-  mdec_v64 v29; // mm4
-  mdec_v64 v30; // mm1
-  mdec_v64 v31; // mm0
-  mdec_v64 v32; // mm2
-  mdec_v64 v33; // mm5
-  mdec_v64 v34; // mm3
-  mdec_v64 v35; // mm6
-  mdec_v64 v36; // mm5
-  mdec_v64 v37; // mm4
-  mdec_v64 v38; // mm3
-  mdec_v64 v39; // mm0
-  mdec_v64 v40; // mm2
-  mdec_v64 v41; // mm5
-  mdec_v64 v42; // mm6
-  mdec_v64 v43; // mm7
-  mdec_v64 v44; // mm5
-  mdec_v64 v45; // mm4
-  mdec_v64 v46; // mm1
-  mdec_v64 v47; // mm4
-  mdec_v64 v48; // mm7
-  mdec_v64 v49; // mm4
-  mdec_v64 v50; // mm5
-  mdec_v64 v51; // mm0
-  mdec_v64 v52; // mm3
-  mdec_v64 v53; // mm2
-  mdec_v64 v54; // mm6
-  mdec_v64 v55; // mm3
-  mdec_v64 v56; // mm5
-  mdec_v64 v57; // mm0
-  mdec_v64 v58; // mm1
-  mdec_v64 v59; // mm6
-  mdec_v64 v60; // mm5
-  mdec_v64 v61; // mm2
-  mdec_v64 v62; // mm7
-  mdec_v64 v63; // mm3
-  mdec_v64 v64; // mm4
-  mdec_v64 v65; // mm2
-  mdec_v64 v66; // mm7
-  mdec_v64 v67; // mm0
-  mdec_v64 v68; // mm7
-  mdec_v64 v69; // mm6
-  mdec_v64 v70; // mm5
-  mdec_v64 v71; // mm1
-  mdec_v64 v72; // mm5
-  mdec_v64 v73; // mm3
-  mdec_v64 v74; // mm4
-  mdec_v64 v75; // mm2
-  mdec_v64 v76; // mm3
-  mdec_v64 v77; // mm0
-  mdec_v64 v78; // mm1
-  mdec_v64 v79; // mm6
-  mdec_v64 v80; // mm1
-  mdec_v64 v81; // mm0
-  mdec_v64 v82; // mm3
-  mdec_v64 v83; // mm7
-  mdec_v64 v84; // mm2
-  mdec_v64 v85; // mm6
-  mdec_v64 v86; // mm2
-  mdec_v64 v87; // mm4
-  mdec_v64 v88; // mm7
-  mdec_v64 v89; // mm1
-  mdec_v64 v90; // mm7
-  mdec_v64 v91; // mm4
-  mdec_v64 v92; // mm2
-  mdec_v64 v93; // mm5
-  mdec_v64 v94; // mm0
-  mdec_v64 v95; // mm5
-  mdec_v64 v96; // mm4
-  mdec_v64 v97; // mm1
-  mdec_v64 v98; // mm5
-  mdec_v64 v99; // mm0
-  mdec_v64 v100; // mm3
-  mdec_v64 v101; // mm7
-  mdec_v64 v102; // mm6
-  mdec_v64 v103; // mm3
-  mdec_v64 v104; // mm1
-  mdec_v64 v105; // mm0
-  mdec_v64 v106; // mm2
-  mdec_v64 v107; // mm7
-  mdec_v64 v108; // mm6
-  mdec_v64 v109; // mm7
-  mdec_v64 v110; // mm4
-  mdec_v64 v111; // mm1
-  mdec_v64 v112; // mm5
-  mdec_v64 v113; // mm7
-  mdec_v64 v114; // mm2
-  mdec_v64 v115; // mm6
-  void *v116; // ebx
-  mdec_v64 v117; // mm3
-  mdec_v64 v118; // mm7
-  void *v119; // ecx
-  void *v120; // ebx
-  mdec_v64 v121; // mm2
-  mdec_v64 v122; // mm6
-  mdec_v64 v123; // mm3
-  mdec_v64 v124; // mm5
-  mdec_v64 v125; // mm0
-  mdec_v64 v126; // mm1
-  mdec_v64 v127; // mm6
-  mdec_v64 v128; // mm5
-  mdec_v64 v129; // mm2
-  mdec_v64 v130; // mm7
-  mdec_v64 v131; // mm3
-  mdec_v64 v132; // mm4
-  mdec_v64 v133; // mm2
-  mdec_v64 v134; // mm7
-  mdec_v64 v135; // mm0
-  mdec_v64 v136; // mm7
-  mdec_v64 v137; // mm6
-  mdec_v64 v138; // mm5
-  mdec_v64 v139; // mm1
-  mdec_v64 v140; // mm5
-  mdec_v64 v141; // mm3
-  mdec_v64 v142; // mm4
-  mdec_v64 v143; // mm2
-  mdec_v64 v144; // mm3
-  mdec_v64 v145; // mm0
-  mdec_v64 v146; // mm1
-  mdec_v64 v147; // mm6
-  mdec_v64 v148; // mm1
-  mdec_v64 v149; // mm0
-  mdec_v64 v150; // mm3
-  mdec_v64 v151; // mm7
-  mdec_v64 v152; // mm2
-  mdec_v64 v153; // mm6
-  mdec_v64 v154; // mm2
-  mdec_v64 v155; // mm4
-  mdec_v64 v156; // mm7
-  mdec_v64 v157; // mm1
-  mdec_v64 v158; // mm7
-  mdec_v64 v159; // mm4
-  mdec_v64 v160; // mm2
-  mdec_v64 v161; // mm5
-  mdec_v64 v162; // mm0
-  mdec_v64 v163; // mm5
-  mdec_v64 v164; // mm4
-  mdec_v64 v165; // mm1
-  mdec_v64 v166; // mm5
-  mdec_v64 v167; // mm0
-  mdec_v64 v168; // mm3
-  mdec_v64 v169; // mm7
-  mdec_v64 v170; // mm6
-  mdec_v64 v171; // mm3
-  mdec_v64 v172; // mm1
-  mdec_v64 v173; // mm0
-  mdec_v64 v174; // mm2
-  mdec_v64 v175; // mm7
-  mdec_v64 v176; // mm6
-  mdec_v64 v177; // mm7
-  mdec_v64 v178; // mm4
-  mdec_v64 v179; // mm1
-  mdec_v64 v180; // mm5
-  mdec_v64 v181; // mm7
-  mdec_v64 v182; // mm2
-  mdec_v64 v183; // mm6
-  void *v184; // ebx
-  mdec_v64 v185; // mm3
-  mdec_v64 v186; // mm7
-  void *v187; // ecx
-  void *v189; // ebx
-  mdec_v64 v190; // [esp+10h] [ebp-84h]
-  mdec_v64 v191; // [esp+10h] [ebp-84h]
-  mdec_v64 v192; // [esp+10h] [ebp-84h]
-  mdec_v64 v193; // [esp+18h] [ebp-7Ch]
-  mdec_v64 v194; // [esp+18h] [ebp-7Ch]
-  mdec_v64 v195; // [esp+18h] [ebp-7Ch]
-  mdec_v64 v196; // [esp+20h] [ebp-74h]
-  mdec_v64 v197; // [esp+20h] [ebp-74h]
-  mdec_v64 v198; // [esp+20h] [ebp-74h]
-  mdec_v64 v199; // [esp+28h] [ebp-6Ch]
-  mdec_v64 v200; // [esp+28h] [ebp-6Ch]
-  mdec_v64 v201; // [esp+28h] [ebp-6Ch]
-  mdec_v64 v202; // [esp+30h] [ebp-64h]
-  mdec_v64 v203; // [esp+30h] [ebp-64h]
-  mdec_v64 v204; // [esp+38h] [ebp-5Ch]
-  mdec_v64 v205; // [esp+38h] [ebp-5Ch]
-  mdec_v64 v206; // [esp+40h] [ebp-54h]
-  mdec_v64 v207; // [esp+48h] [ebp-4Ch]
-  mdec_v64 v208; // [esp+50h] [ebp-44h]
-  mdec_v64 v209; // [esp+50h] [ebp-44h]
-  mdec_v64 v210; // [esp+58h] [ebp-3Ch]
-  mdec_v64 v211; // [esp+58h] [ebp-3Ch]
-  mdec_v64 v212; // [esp+60h] [ebp-34h]
-  mdec_v64 v213; // [esp+60h] [ebp-34h]
-  mdec_v64 v214; // [esp+68h] [ebp-2Ch]
-  mdec_v64 v215; // [esp+68h] [ebp-2Ch]
-  mdec_v64 v216; // [esp+70h] [ebp-24h]
-  mdec_v64 v217; // [esp+78h] [ebp-1Ch]
-  mdec_v64 v218; // [esp+80h] [ebp-14h]
-  mdec_v64 v219; // [esp+88h] [ebp-Ch]
+  mdec_v64 v2;
+  mdec_v64 v3;
+  mdec_v64 v4;
+  mdec_v64 v5;
+  mdec_v64 v6;
+  mdec_v64 v7;
+  mdec_v64 v8;
+  mdec_v64 v9;
+  mdec_v64 v10;
+  mdec_v64 v11;
+  mdec_v64 v12;
+  mdec_v64 v13;
+  mdec_v64 v14;
+  mdec_v64 v15;
+  mdec_v64 v16;
+  mdec_v64 v17;
+  mdec_v64 v18;
+  mdec_v64 v19;
+  mdec_v64 v20;
+  mdec_v64 v21;
+  mdec_v64 v22;
+  mdec_v64 v23;
+  mdec_v64 v24;
+  mdec_v64 v25;
+  mdec_v64 v26;
+  mdec_v64 v27;
+  mdec_v64 v28;
+  mdec_v64 v29;
+  mdec_v64 v30;
+  mdec_v64 v31;
+  mdec_v64 v32;
+  mdec_v64 v33;
+  mdec_v64 v34;
+  mdec_v64 v35;
+  mdec_v64 v36;
+  mdec_v64 v37;
+  mdec_v64 v38;
+  mdec_v64 v39;
+  mdec_v64 v40;
+  mdec_v64 v41;
+  mdec_v64 v42;
+  mdec_v64 v43;
+  mdec_v64 v44;
+  mdec_v64 v45;
+  mdec_v64 v46;
+  mdec_v64 v47;
+  mdec_v64 v48;
+  mdec_v64 v49;
+  mdec_v64 v50;
+  mdec_v64 v51;
+  mdec_v64 v52;
+  mdec_v64 v53;
+  mdec_v64 v54;
+  mdec_v64 v55;
+  mdec_v64 v56;
+  mdec_v64 v57;
+  mdec_v64 v58;
+  mdec_v64 v59;
+  mdec_v64 v60;
+  mdec_v64 v61;
+  mdec_v64 v62;
+  mdec_v64 v63;
+  mdec_v64 v64;
+  mdec_v64 v65;
+  mdec_v64 v66;
+  mdec_v64 v67;
+  mdec_v64 v68;
+  mdec_v64 v69;
+  mdec_v64 v70;
+  mdec_v64 v71;
+  mdec_v64 v72;
+  mdec_v64 v73;
+  mdec_v64 v74;
+  mdec_v64 v75;
+  mdec_v64 v76;
+  mdec_v64 v77;
+  mdec_v64 v78;
+  mdec_v64 v79;
+  mdec_v64 v80;
+  mdec_v64 v81;
+  mdec_v64 v82;
+  mdec_v64 v83;
+  mdec_v64 v84;
+  mdec_v64 v85;
+  mdec_v64 v86;
+  mdec_v64 v87;
+  mdec_v64 v88;
+  mdec_v64 v89;
+  mdec_v64 v90;
+  mdec_v64 v91;
+  mdec_v64 v92;
+  mdec_v64 v93;
+  mdec_v64 v94;
+  mdec_v64 v95;
+  mdec_v64 v96;
+  mdec_v64 v97;
+  mdec_v64 v98;
+  mdec_v64 v99;
+  mdec_v64 v100;
+  mdec_v64 v101;
+  mdec_v64 v102;
+  mdec_v64 v103;
+  mdec_v64 v104;
+  mdec_v64 v105;
+  mdec_v64 v106;
+  mdec_v64 v107;
+  mdec_v64 v108;
+  mdec_v64 v109;
+  mdec_v64 v110;
+  mdec_v64 v111;
+  mdec_v64 v112;
+  mdec_v64 v113;
+  mdec_v64 v114;
+  mdec_v64 v115;
+  void *v116;
+  mdec_v64 v117;
+  mdec_v64 v118;
+  void *v119;
+  void *v120;
+  mdec_v64 v121;
+  mdec_v64 v122;
+  mdec_v64 v123;
+  mdec_v64 v124;
+  mdec_v64 v125;
+  mdec_v64 v126;
+  mdec_v64 v127;
+  mdec_v64 v128;
+  mdec_v64 v129;
+  mdec_v64 v130;
+  mdec_v64 v131;
+  mdec_v64 v132;
+  mdec_v64 v133;
+  mdec_v64 v134;
+  mdec_v64 v135;
+  mdec_v64 v136;
+  mdec_v64 v137;
+  mdec_v64 v138;
+  mdec_v64 v139;
+  mdec_v64 v140;
+  mdec_v64 v141;
+  mdec_v64 v142;
+  mdec_v64 v143;
+  mdec_v64 v144;
+  mdec_v64 v145;
+  mdec_v64 v146;
+  mdec_v64 v147;
+  mdec_v64 v148;
+  mdec_v64 v149;
+  mdec_v64 v150;
+  mdec_v64 v151;
+  mdec_v64 v152;
+  mdec_v64 v153;
+  mdec_v64 v154;
+  mdec_v64 v155;
+  mdec_v64 v156;
+  mdec_v64 v157;
+  mdec_v64 v158;
+  mdec_v64 v159;
+  mdec_v64 v160;
+  mdec_v64 v161;
+  mdec_v64 v162;
+  mdec_v64 v163;
+  mdec_v64 v164;
+  mdec_v64 v165;
+  mdec_v64 v166;
+  mdec_v64 v167;
+  mdec_v64 v168;
+  mdec_v64 v169;
+  mdec_v64 v170;
+  mdec_v64 v171;
+  mdec_v64 v172;
+  mdec_v64 v173;
+  mdec_v64 v174;
+  mdec_v64 v175;
+  mdec_v64 v176;
+  mdec_v64 v177;
+  mdec_v64 v178;
+  mdec_v64 v179;
+  mdec_v64 v180;
+  mdec_v64 v181;
+  mdec_v64 v182;
+  mdec_v64 v183;
+  void *v184;
+  mdec_v64 v185;
+  mdec_v64 v186;
+  void *v187;
+  void *v189;
+  mdec_v64 v190;
+  mdec_v64 v191;
+  mdec_v64 v192;
+  mdec_v64 v193;
+  mdec_v64 v194;
+  mdec_v64 v195;
+  mdec_v64 v196;
+  mdec_v64 v197;
+  mdec_v64 v198;
+  mdec_v64 v199;
+  mdec_v64 v200;
+  mdec_v64 v201;
+  mdec_v64 v202;
+  mdec_v64 v203;
+  mdec_v64 v204;
+  mdec_v64 v205;
+  mdec_v64 v206;
+  mdec_v64 v207;
+  mdec_v64 v208;
+  mdec_v64 v209;
+  mdec_v64 v210;
+  mdec_v64 v211;
+  mdec_v64 v212;
+  mdec_v64 v213;
+  mdec_v64 v214;
+  mdec_v64 v215;
+  mdec_v64 v216;
+  mdec_v64 v217;
+  mdec_v64 v218;
+  mdec_v64 v219;
 
   v2 = md_load4(a1 + 24);              /* a1[6] */
   v3 = md_load4(a1 + 40);              /* a1[10] */
@@ -1332,56 +1332,56 @@ static void __cdecl mdec_idct_sse(const unsigned short *a1, int a2)
 }
 
 
-static void __cdecl mdec_y_to_mono(unsigned int *a1, unsigned char *a2, int a3)
+static void mdec_y_to_mono(unsigned int *a1, unsigned char *a2, int a3)
 {
-  unsigned int *v3; // esi
-  unsigned int *v4; // eax
-  unsigned int *v5; // ebx
-  unsigned int *v6; // ecx
-  unsigned char *v7; // edi
-  unsigned char *v8; // edx
-  mdec_v64 v9; // mm0
-  mdec_v64 v10; // mm0
-  mdec_v64 v11; // mm4
-  mdec_v64 v12; // mm1
-  mdec_v64 v13; // mm1
-  mdec_v64 v14; // mm5
-  mdec_v64 v15; // mm6
-  mdec_v64 v16; // mm0
-  mdec_v64 v17; // mm1
-  mdec_v64 v18; // mm7
-  mdec_v64 v19; // mm1
-  mdec_v64 v20; // mm4
-  mdec_v64 v21; // mm2
-  mdec_v64 v22; // mm6
-  mdec_v64 v23; // mm5
-  mdec_v64 v24; // mm3
-  mdec_v64 v25; // mm5
-  mdec_v64 v26; // mm0
-  mdec_v64 v27; // mm1
-  mdec_v64 v28; // mm0
-  mdec_v64 v29; // mm5
-  mdec_v64 v30; // mm4
-  mdec_v64 v31; // mm3
-  mdec_v64 v32; // mm3
-  mdec_v64 v33; // mm7
-  mdec_v64 v34; // mm0
-  mdec_v64 v35; // mm6
-  mdec_v64 v36; // mm2
-  mdec_v64 v37; // mm4
-  mdec_v64 v38; // mm3
-  mdec_v64 v39; // mm7
-  mdec_v64 v40; // mm2
-  mdec_v64 v41; // mm7
-  mdec_v64 v42; // mm3
-  mdec_v64 v43; // mm0
-  mdec_v64 v44; // mm3
-  mdec_v64 v45; // mm1
-  mdec_v64 v46; // mm5
-  mdec_v64 v47; // mm5
-  int v48; // [esp+Ch] [ebp-1Ch]
-  int v49; // [esp+10h] [ebp-18h]
-  int v50; // [esp+14h] [ebp-14h]
+  unsigned int *v3;
+  unsigned int *v4;
+  unsigned int *v5;
+  unsigned int *v6;
+  unsigned char *v7;
+  unsigned char *v8;
+  mdec_v64 v9;
+  mdec_v64 v10;
+  mdec_v64 v11;
+  mdec_v64 v12;
+  mdec_v64 v13;
+  mdec_v64 v14;
+  mdec_v64 v15;
+  mdec_v64 v16;
+  mdec_v64 v17;
+  mdec_v64 v18;
+  mdec_v64 v19;
+  mdec_v64 v20;
+  mdec_v64 v21;
+  mdec_v64 v22;
+  mdec_v64 v23;
+  mdec_v64 v24;
+  mdec_v64 v25;
+  mdec_v64 v26;
+  mdec_v64 v27;
+  mdec_v64 v28;
+  mdec_v64 v29;
+  mdec_v64 v30;
+  mdec_v64 v31;
+  mdec_v64 v32;
+  mdec_v64 v33;
+  mdec_v64 v34;
+  mdec_v64 v35;
+  mdec_v64 v36;
+  mdec_v64 v37;
+  mdec_v64 v38;
+  mdec_v64 v39;
+  mdec_v64 v40;
+  mdec_v64 v41;
+  mdec_v64 v42;
+  mdec_v64 v43;
+  mdec_v64 v44;
+  mdec_v64 v45;
+  mdec_v64 v46;
+  mdec_v64 v47;
+  int v48;
+  int v49;
+  int v50;
 
   v3 = a1 + 32;
   v4 = a1 + 34;
@@ -1551,14 +1551,14 @@ unsigned int mdec_status;
 unsigned char mdec_timer;
 unsigned int mdec_timer_count;
 unsigned int mdec_zigzag[13] = {0x0, 0x1, 0x8, 0x10, 0x9, 0x2, 0x3, 0xa, 0x11, 0x18, 0x20, 0x19, 0x12};
-unsigned __int64 qword_455C20 = 0x5a825a825a825a82;
-unsigned __int64 qword_455C28 = 0xcf04cf04cf04cf04;
-unsigned __int64 qword_455C30 = 0x7641764176417641;
-unsigned __int64 qword_455C38 = 0x896f896f896f896f;
-unsigned __int64 qword_455C40 = 0xcf04cf04cf04cf04;
-unsigned __int64 qword_455C50 = 0x59ba0000d24e59ba;
-unsigned __int64 qword_455C58 = 0x7168ea0c0000;
-unsigned __int64 qword_455C60 = 0xd24e59ba0000;
-unsigned __int64 qword_455C68 = 0x7168ea0c00007168;
-unsigned __int64 qword_455C70 = 0x80808080;
-unsigned __int64 qword_455C78 = 0xffffffff0000;
+uint64_t qword_455C20 = 0x5a825a825a825a82;
+uint64_t qword_455C28 = 0xcf04cf04cf04cf04;
+uint64_t qword_455C30 = 0x7641764176417641;
+uint64_t qword_455C38 = 0x896f896f896f896f;
+uint64_t qword_455C40 = 0xcf04cf04cf04cf04;
+uint64_t qword_455C50 = 0x59ba0000d24e59ba;
+uint64_t qword_455C58 = 0x7168ea0c0000;
+uint64_t qword_455C60 = 0xd24e59ba0000;
+uint64_t qword_455C68 = 0x7168ea0c00007168;
+uint64_t qword_455C70 = 0x80808080;
+uint64_t qword_455C78 = 0xffffffff0000;

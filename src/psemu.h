@@ -71,7 +71,7 @@ typedef void (CALLBACK* GPUhSync)(int);
 typedef void (CALLBACK* GPUvBlank)(int);
 typedef void (CALLBACK* GPUvisualVibration)(uint32_t, uint32_t);
 typedef void (CALLBACK* GPUcursor)(int, int, int);
-typedef void (CALLBACK* GPUaddVertex)(short,short,__int64, __int64, __int64);
+typedef void (CALLBACK* GPUaddVertex)(short,short,int64_t, int64_t, int64_t);
 typedef void (CALLBACK* GPUsetSpeed)(float); // 1.0 = natural speed
 
 // CD-ROM Functions

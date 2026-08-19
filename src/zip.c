@@ -1,83 +1,83 @@
 #include "pch.h"
 
 /* static prototypes for internal functions */
-static int __cdecl zip_inflate_block(int *a1);
-static int __cdecl zip_build_huffman_tree(
-        _DWORD *a1,
+static int zip_inflate_block(int *a1);
+static int zip_build_huffman_tree(
+        uint32_t *a1,
         unsigned int a2,
         unsigned int a3,
         int a4,
         int a5,
-        _DWORD *a6,
+        uint32_t *a6,
         unsigned int *a7);
-static int __cdecl zip_free_huffman_tree(int a1);
-static unsigned int __cdecl zip_copy_sliding_window_to_output(const void *a1, unsigned int a2);
-static char *__cdecl zip_get_filename_from_path(const char *a1);
+static int zip_free_huffman_tree(int a1);
+static unsigned int zip_copy_sliding_window_to_output(const void *a1, unsigned int a2);
+static char * zip_get_filename_from_path(const char *a1);
 static int zip_print(char *Format, ...);
-static int __cdecl zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int a3, LPVOID *a4);
-static int __cdecl zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderInMem *a3, unsigned __int8 *Buffer);
-static int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, int a3, ZipCentralDirectoryEntry *a2);
-static int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2);
-static int __cdecl zip_compare_filename_case_insensitive(const char *a1, const char *a2);
-static int __cdecl zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectoryEntryInMem *a2);
-static int __cdecl zip_locate_central_dir(FILE *Stream, int *a2);
-static BOOL __cdecl zip_find_end_of_central_dir_signature(int a1, int a2, _DWORD *a3);
-static int __cdecl zip_get_file_size(FILE *Stream, _DWORD *a2);
-static __int16 __cdecl zip_read_uint16_le(int a1);
-static uint32_t __cdecl zip_read_uint32_le(unsigned __int8 *a1);
+static int zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int a3, LPVOID *a4);
+static int zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderInMem *a3, uint8_t *Buffer);
+static int zip_load_central_directory(FILE *Stream, const char *arg4, int a3, ZipCentralDirectoryEntry *a2);
+static int zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2);
+static int zip_compare_filename_case_insensitive(const char *a1, const char *a2);
+static int zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectoryEntryInMem *a2);
+static int zip_locate_central_dir(FILE *Stream, int *a2);
+static BOOL zip_find_end_of_central_dir_signature(int a1, int a2, uint32_t *a3);
+static int zip_get_file_size(FILE *Stream, uint32_t *a2);
+static int16_t zip_read_uint16_le(int a1);
+static uint32_t zip_read_uint32_le(uint8_t *a1);
 
-static int __cdecl zip_inflate_data_with_trees(int a1, int a2, unsigned int a3, unsigned int a4)
+static int zip_inflate_data_with_trees(int a1, int a2, unsigned int a3, unsigned int a4)
 {
-  unsigned int v4; // edx
-  unsigned int v5; // ebx
-  unsigned int v6; // ebp
-  unsigned __int8 *i; // esi
-  char v8; // cl
-  unsigned __int8 *v9; // edi
-  unsigned int v10; // eax
-  int v11; // ecx
-  unsigned int v12; // eax
-  int v13; // edx
-  int v14; // ecx
-  char v15; // cl
-  unsigned int v16; // ebx
-  unsigned int j; // ebp
-  char v18; // cl
-  unsigned __int8 *v19; // edi
-  unsigned int v20; // eax
-  int v21; // ecx
-  unsigned int v22; // eax
-  int v23; // edx
-  int v24; // ecx
-  unsigned int v25; // ebp
-  unsigned int v26; // ebx
-  int v27; // edx
-  unsigned int v28; // esi
-  unsigned int v29; // ecx
-  unsigned int v30; // eax
-  unsigned int v32; // [esp+10h] [ebp-14h]
-  unsigned int v33; // [esp+18h] [ebp-Ch]
-  int v34; // [esp+1Ch] [ebp-8h]
-  int v35; // [esp+20h] [ebp-4h]
+  unsigned int v4;
+  unsigned int v5;
+  unsigned int v6;
+  uint8_t *i;
+  char v8;
+  uint8_t *v9;
+  unsigned int v10;
+  int v11;
+  unsigned int v12;
+  int v13;
+  int v14;
+  char v15;
+  unsigned int v16;
+  unsigned int j;
+  char v18;
+  uint8_t *v19;
+  unsigned int v20;
+  int v21;
+  unsigned int v22;
+  int v23;
+  int v24;
+  unsigned int v25;
+  unsigned int v26;
+  int v27;
+  unsigned int v28;
+  unsigned int v29;
+  unsigned int v30;
+  unsigned int v32;
+  unsigned int v33;
+  int v34;
+  int v35;
 
   v4 = zip_inflate_window_pos;
   v5 = zip_inflate_bit_count;
   v6 = zip_inflate_bit_buffer;
-  v34 = (unsigned __int16)zip_bit_masks[a3];
-  v35 = (unsigned __int16)zip_bit_masks[a4];
+  v34 = (uint16_t)zip_bit_masks[a3];
+  v35 = (uint16_t)zip_bit_masks[a4];
 LABEL_2:
   v32 = v4;
   while ( 1 )
   {
     while ( 1 )
     {
-      for ( i = (unsigned __int8 *)zipfile_input_buffer; v5 < a3; zipfile_input_buffer = (int)i )
+      for ( i = (uint8_t *)zipfile_input_buffer; v5 < a3; zipfile_input_buffer = (int)i )
       {
         v8 = v5;
         v5 += 8;
         v6 |= *i++ << v8;
       }
-      v9 = (unsigned __int8 *)(a1 + 8 * (v6 & v34));
+      v9 = (uint8_t *)(a1 + 8 * (v6 & v34));
       v10 = *v9;
       if ( v10 > 0x10 )
       {
@@ -99,7 +99,7 @@ LABEL_2:
             while ( v5 < v12 );
             v4 = v32;
           }
-          v9 = (unsigned __int8 *)(*((_DWORD *)v9 + 1) + 8 * (v6 & (unsigned __int16)zip_bit_masks[v12]));
+          v9 = (uint8_t *)(*((uint32_t *)v9 + 1) + 8 * (v6 & (uint16_t)zip_bit_masks[v12]));
           v10 = *v9;
           if ( v10 <= 0x10 )
             goto LABEL_11;
@@ -112,7 +112,7 @@ LABEL_11:
       v5 -= v14;
       if ( v10 != 16 )
         break;
-      *((_BYTE *)zip_sliding_window + v4++) = v9[4];
+      *((uint8_t *)zip_sliding_window + v4++) = v9[4];
       v32 = v4;
       if ( v4 == 0x8000 )
       {
@@ -136,14 +136,14 @@ LABEL_11:
       v4 = v32;
     }
     v16 = v5 - v10;
-    v33 = *((unsigned __int16 *)v9 + 2) + (v6 & (unsigned __int16)zip_bit_masks[v10]);
+    v33 = *((uint16_t *)v9 + 2) + (v6 & (uint16_t)zip_bit_masks[v10]);
     for ( j = v6 >> v10; v16 < a4; zipfile_input_buffer = (int)i )
     {
       v18 = v16;
       v16 += 8;
       j |= *i++ << v18;
     }
-    v19 = (unsigned __int8 *)(a2 + 8 * (j & v35));
+    v19 = (uint8_t *)(a2 + 8 * (j & v35));
     v20 = *v19;
     if ( v20 > 0x10 )
     {
@@ -165,7 +165,7 @@ LABEL_11:
           while ( v16 < v22 );
           v4 = v32;
         }
-        v19 = (unsigned __int8 *)(*((_DWORD *)v19 + 1) + 8 * (j & (unsigned __int16)zip_bit_masks[v22]));
+        v19 = (uint8_t *)(*((uint32_t *)v19 + 1) + 8 * (j & (uint16_t)zip_bit_masks[v22]));
         v20 = *v19;
         if ( v20 <= 0x10 )
           goto LABEL_26;
@@ -188,7 +188,7 @@ LABEL_26:
       while ( v26 < v20 );
       v4 = v32;
     }
-    LOWORD(v28) = v4 - (v25 & zip_bit_masks[v20]) - *((_WORD *)v19 + 2);
+    LOWORD(v28) = v4 - (v25 & zip_bit_masks[v20]) - *((uint16_t *)v19 + 2);
     v6 = v25 >> v20;
     v5 = v26 - v20;
     do
@@ -205,7 +205,7 @@ LABEL_26:
       {
         do
         {
-          *((_BYTE *)zip_sliding_window + v4++) = *((_BYTE *)zip_sliding_window + v28++);
+          *((uint8_t *)zip_sliding_window + v4++) = *((uint8_t *)zip_sliding_window + v28++);
           --v30;
         }
         while ( v30 );
@@ -234,9 +234,9 @@ LABEL_26:
 
 static int zip_inflate_file()
 {
-  unsigned int v0; // esi
-  int result; // eax
-  int v2; // [esp+8h] [ebp-4h] BYREF
+  unsigned int v0;
+  int result;
+  int v2;
 
   zip_inflate_window_pos = 0;
   zip_inflate_bit_count = 0;
@@ -259,90 +259,90 @@ static int zip_inflate_file()
   return result;
 }
 
-static int __cdecl zip_inflate_block(int *a1)
+static int zip_inflate_block(int *a1)
 {
-  int v1; // ecx
-  unsigned int v2; // eax
-  unsigned __int8 *v3; // esi
-  int v4; // edx
-  int *v5; // esi
-  int v6; // edx
-  unsigned int v7; // eax
-  unsigned int v8; // ecx
-  int v9; // edx
-  int v10; // edx
-  int result; // eax
-  unsigned __int8 *v12; // eax
-  int v13; // ebp
-  int v14; // ecx
-  unsigned int v15; // esi
-  unsigned int m; // ebx
-  int v17; // edx
-  unsigned int v18; // esi
-  int v19; // edi
-  unsigned int n; // ebx
-  int v21; // edx
-  unsigned int v22; // ebx
-  unsigned int v23; // esi
-  char v24; // cl
-  int v25; // esi
-  unsigned __int8 *v26; // eax
-  unsigned int v27; // ebx
-  unsigned int i; // esi
-  int v29; // edx
-  unsigned int v30; // edx
-  unsigned int v31; // esi
-  unsigned int v32; // ebx
-  int v33; // edi
-  unsigned int v34; // edi
-  unsigned int v35; // esi
-  unsigned int v36; // ebx
-  int v37; // ebp
-  unsigned int v38; // ebp
-  unsigned int v39; // ebx
-  unsigned int v40; // esi
-  unsigned int v41; // edi
-  char v42; // cl
-  int v43; // edx
-  int v44; // ecx
-  int v45; // ecx
-  int v46; // eax
-  unsigned int v47; // ecx
-  int v48; // edi
-  unsigned int v49; // ebp
-  unsigned __int16 v50; // dx
-  unsigned int v51; // edi
-  unsigned __int8 *v52; // edx
-  int v53; // eax
-  int v54; // ecx
-  int v55; // ecx
-  int v56; // eax
-  unsigned int v57; // ecx
-  int v58; // eax
-  int v59; // ecx
-  int v60; // eax
-  int v61; // esi
-  unsigned int v62; // esi
-  int v63; // [esp+0h] [ebp-524h] BYREF
-  unsigned int v64; // [esp+4h] [ebp-520h] BYREF
-  int v65; // [esp+8h] [ebp-51Ch]
-  unsigned int v66; // [esp+Ch] [ebp-518h]
-  int v67; // [esp+10h] [ebp-514h] BYREF
-  unsigned int v68; // [esp+14h] [ebp-510h] BYREF
-  unsigned int j; // [esp+18h] [ebp-50Ch]
-  unsigned int k; // [esp+1Ch] [ebp-508h]
-  int v71; // [esp+20h] [ebp-504h]
-  _DWORD v72[32]; // [esp+24h] [ebp-500h] BYREF
-  _DWORD v73[144]; // [esp+A4h] [ebp-480h] BYREF
-  _DWORD v74[112]; // [esp+2E4h] [ebp-240h] BYREF
-  _DWORD v75[24]; // [esp+4A4h] [ebp-80h] BYREF
-  _DWORD v76[8]; // [esp+504h] [ebp-20h] BYREF
+  int v1;
+  unsigned int v2;
+  uint8_t *v3;
+  int v4;
+  int *v5;
+  int v6;
+  unsigned int v7;
+  unsigned int v8;
+  int v9;
+  int v10;
+  int result;
+  uint8_t *v12;
+  int v13;
+  int v14;
+  unsigned int v15;
+  unsigned int m;
+  int v17;
+  unsigned int v18;
+  int v19;
+  unsigned int n;
+  int v21;
+  unsigned int v22;
+  unsigned int v23;
+  char v24;
+  int v25;
+  uint8_t *v26;
+  unsigned int v27;
+  unsigned int i;
+  int v29;
+  unsigned int v30;
+  unsigned int v31;
+  unsigned int v32;
+  int v33;
+  unsigned int v34;
+  unsigned int v35;
+  unsigned int v36;
+  int v37;
+  unsigned int v38;
+  unsigned int v39;
+  unsigned int v40;
+  unsigned int v41;
+  char v42;
+  int v43;
+  int v44;
+  int v45;
+  int v46;
+  unsigned int v47;
+  int v48;
+  unsigned int v49;
+  uint16_t v50;
+  unsigned int v51;
+  uint8_t *v52;
+  int v53;
+  int v54;
+  int v55;
+  int v56;
+  unsigned int v57;
+  int v58;
+  int v59;
+  int v60;
+  int v61;
+  unsigned int v62;
+  int v63;
+  unsigned int v64;
+  int v65;
+  unsigned int v66;
+  int v67;
+  unsigned int v68;
+  unsigned int j;
+  unsigned int k;
+  int v71;
+  uint32_t v72[32];
+  uint32_t v73[144];
+  uint32_t v74[112];
+  uint32_t v75[24];
+  uint32_t v76[8];
 
   v1 = zip_inflate_bit_count;
   v2 = zip_inflate_bit_buffer;
   if ( !zip_inflate_bit_count )
   {
-    v3 = (unsigned __int8 *)zipfile_input_buffer;
+    v3 = (uint8_t *)zipfile_input_buffer;
     do
     {
       v4 = *v3 << v1;
@@ -362,7 +362,7 @@ static int __cdecl zip_inflate_block(int *a1)
     v5 = (int *)zipfile_input_buffer;
     do
     {
-      v9 = *(unsigned __int8 *)v5 << v8;
+      v9 = *(uint8_t *)v5 << v8;
       v8 += 8;
       v7 |= v9;
       v5 = (int *)((char *)v5 + 1);
@@ -375,7 +375,7 @@ static int __cdecl zip_inflate_block(int *a1)
   zip_inflate_bit_count = v8 - 2;
   if ( v10 == 2 )
   {
-    v26 = (unsigned __int8 *)zipfile_input_buffer;
+    v26 = (uint8_t *)zipfile_input_buffer;
     v27 = zip_inflate_bit_buffer;
     for ( i = zip_inflate_bit_count; i < 5; zipfile_input_buffer = (int)v26 )
     {
@@ -461,7 +461,7 @@ LABEL_94:
       v71 = v50;
       if ( j + k )
       {
-        v52 = (unsigned __int8 *)zipfile_input_buffer;
+        v52 = (uint8_t *)zipfile_input_buffer;
         while ( 1 )
         {
           if ( v40 < v47 )
@@ -476,13 +476,13 @@ LABEL_94:
             while ( v40 < v64 );
           }
           v67 = v63 + 8 * (v39 & v71);
-          v54 = *(unsigned __int8 *)(v67 + 1);
+          v54 = *(uint8_t *)(v67 + 1);
           v39 >>= v54;
           v40 -= v54;
-          v55 = *(unsigned __int16 *)(v67 + 4);
-          if ( (unsigned __int16)v55 >= 0x10u )
+          v55 = *(uint16_t *)(v67 + 4);
+          if ( (uint16_t)v55 >= 0x10u )
           {
-            if ( (unsigned __int16)v55 == 16 )
+            if ( (uint16_t)v55 == 16 )
             {
               for ( ; v40 < 2; zipfile_input_buffer = (int)v52 )
               {
@@ -651,7 +651,7 @@ LABEL_82:
   }
   else
   {
-    v12 = (unsigned __int8 *)zipfile_input_buffer;
+    v12 = (uint8_t *)zipfile_input_buffer;
     v13 = zip_inflate_window_pos;
     v76[5] = v5;
     v14 = zip_inflate_bit_count & 7;
@@ -664,7 +664,7 @@ LABEL_82:
       ++v12;
     }
     v18 = v15 - 16;
-    v19 = (unsigned __int16)m;
+    v19 = (uint16_t)m;
     for ( n = HIWORD(m); v18 < 0x10; zipfile_input_buffer = (int)v12 )
     {
       v21 = *v12 << v18;
@@ -672,7 +672,7 @@ LABEL_82:
       n |= v21;
       ++v12;
     }
-    if ( v19 == (unsigned __int16)~(_WORD)n )
+    if ( v19 == (uint16_t)~(uint16_t)n )
     {
       v22 = HIWORD(n);
       v23 = v18 - 16;
@@ -686,7 +686,7 @@ LABEL_82:
             v23 += 8;
             v22 |= *v12++ << v24;
           }
-          *((_BYTE *)zip_sliding_window + v13++) = v22;
+          *((uint8_t *)zip_sliding_window + v13++) = v22;
           if ( v13 == 0x8000 )
           {
             zip_copy_sliding_window_to_output(zip_sliding_window, 0x8000u);
@@ -696,7 +696,7 @@ LABEL_82:
           v23 -= 8;
           if ( !--v19 )
             break;
-          v12 = (unsigned __int8 *)zipfile_input_buffer;
+          v12 = (uint8_t *)zipfile_input_buffer;
         }
       }
       zip_inflate_bit_count = v23;
@@ -711,78 +711,78 @@ LABEL_82:
   }
 }
 
-static int __cdecl zip_build_huffman_tree(
-        _DWORD *a1,
+static int zip_build_huffman_tree(
+        uint32_t *a1,
         unsigned int a2,
         unsigned int a3,
         int a4,
         int a5,
-        _DWORD *a6,
+        uint32_t *a6,
         unsigned int *a7)
 {
-  _DWORD *v7; // ecx
-  unsigned int v8; // edx
-  _DWORD *v9; // eax
-  int result; // eax
-  unsigned int i; // ecx
-  unsigned int v12; // ebp
-  signed int v13; // edx
-  unsigned int v14; // eax
-  int j; // esi
-  int v16; // esi
-  unsigned int v17; // ebx
-  int v18; // ecx
-  int v19; // esi
-  int v20; // ecx
-  unsigned int v21; // eax
-  int v22; // esi
-  int *v23; // edi
-  unsigned int v24; // esi
-  int v25; // eax
-  int v26; // ecx
-  unsigned int *v27; // ecx
-  int v28; // esi
-  unsigned int v29; // ebx
-  unsigned int v30; // edi
-  signed int v31; // eax
-  unsigned int v32; // ebp
-  unsigned int v33; // edx
-  unsigned int v34; // ebx
-  unsigned int v35; // eax
-  _DWORD *v36; // edi
-  unsigned int v37; // eax
-  unsigned int v38; // ecx
-  unsigned int v39; // eax
-  _DWORD *v40; // eax
-  char *v41; // ecx
-  unsigned int v42; // eax
-  unsigned int v43; // ebx
-  int v44; // ecx
-  unsigned int v45; // eax
-  int v46; // edx
-  unsigned int v47; // eax
-  char *v48; // ecx
-  unsigned int k; // eax
-  int v50; // eax
-  signed int v51; // [esp+10h] [ebp-5C4h]
-  int v52; // [esp+14h] [ebp-5C0h]
-  unsigned int *v53; // [esp+18h] [ebp-5BCh]
-  int v54; // [esp+1Ch] [ebp-5B8h]
-  char *v55; // [esp+20h] [ebp-5B4h]
-  _DWORD *v56; // [esp+24h] [ebp-5B0h]
-  unsigned int m; // [esp+28h] [ebp-5ACh]
-  signed int v58; // [esp+2Ch] [ebp-5A8h]
-  char v59; // [esp+34h] [ebp-5A0h]
-  unsigned int v60; // [esp+38h] [ebp-59Ch]
-  char *v61; // [esp+3Ch] [ebp-598h]
-  int v62; // [esp+44h] [ebp-590h]
-  _DWORD v63[17]; // [esp+48h] [ebp-58Ch] BYREF
-  int v64; // [esp+8Ch] [ebp-548h]
-  _DWORD v65[16]; // [esp+90h] [ebp-544h]
-  _DWORD v66[17]; // [esp+D0h] [ebp-504h]
-  int v67[16]; // [esp+114h] [ebp-4C0h]
-  _DWORD v68[288]; // [esp+154h] [ebp-480h] BYREF
-  int v69; // [esp+5DCh] [ebp+8h]
+  uint32_t *v7;
+  unsigned int v8;
+  uint32_t *v9;
+  int result;
+  unsigned int i;
+  unsigned int v12;
+  signed int v13;
+  unsigned int v14;
+  int j;
+  int v16;
+  unsigned int v17;
+  int v18;
+  int v19;
+  int v20;
+  unsigned int v21;
+  int v22;
+  int *v23;
+  unsigned int v24;
+  int v25;
+  int v26;
+  unsigned int *v27;
+  int v28;
+  unsigned int v29;
+  unsigned int v30;
+  signed int v31;
+  unsigned int v32;
+  unsigned int v33;
+  unsigned int v34;
+  unsigned int v35;
+  uint32_t *v36;
+  unsigned int v37;
+  unsigned int v38;
+  unsigned int v39;
+  uint32_t *v40;
+  char *v41;
+  unsigned int v42;
+  unsigned int v43;
+  int v44;
+  unsigned int v45;
+  int v46;
+  unsigned int v47;
+  char *v48;
+  unsigned int k;
+  int v50;
+  signed int v51;
+  int v52;
+  unsigned int *v53;
+  int v54;
+  char *v55;
+  uint32_t *v56;
+  unsigned int m;
+  signed int v58;
+  char v59;
+  unsigned int v60;
+  char *v61;
+  int v62;
+  uint32_t v63[17];
+  int v64;
+  uint32_t v65[16];
+  uint32_t v66[17];
+  int v67[16];
+  uint32_t v68[288];
+  int v69;
 
   if ( a2 <= 0x100 )
     v60 = 16;
@@ -920,8 +920,8 @@ LABEL_49:
         if ( *v27 >= a3 )
         {
           v45 = 2 * (v45 - a3);
-          LOBYTE(v54) = *(_BYTE *)(v45 + a5);
-          LOWORD(v45) = *(_WORD *)(v45 + a4);
+          LOBYTE(v54) = *(uint8_t *)(v45 + a5);
+          LOWORD(v45) = *(uint16_t *)(v45 + a4);
         }
         else
         {
@@ -942,8 +942,8 @@ LABEL_49:
         do
         {
           BYTE1(v54) = v51 - v29;
-          *(_DWORD *)v48 = v54;
-          *((_DWORD *)v48 + 1) = v55;
+          *(uint32_t *)v48 = v54;
+          *((uint32_t *)v48 + 1) = v55;
           v47 += v46;
           v48 += 8 * v46;
         }
@@ -1011,8 +1011,8 @@ LABEL_49:
         v55 = v41;
         v43 = (m & ((1 << v32) - 1)) >> (v32 - LOBYTE(v65[v28 - 1]));
         v44 = v66[v28 + 16];
-        *(_DWORD *)(v44 + 8 * v43) = v54;
-        *(_DWORD *)(v44 + 8 * v43 + 4) = v55;
+        *(uint32_t *)(v44 + 8 * v43) = v54;
+        *(uint32_t *)(v44 + 8 * v43 + 4) = v55;
       }
       else
       {
@@ -1034,17 +1034,17 @@ LABEL_49:
   return result;
 }
 
-static int __cdecl zip_free_huffman_tree(int a1)
+static int zip_free_huffman_tree(int a1)
 {
-  int v1; // eax
-  int v2; // esi
+  int v1;
+  int v2;
 
   v1 = a1;
   if ( a1 )
   {
     do
     {
-      v2 = *(_DWORD *)(v1 - 4);
+      v2 = *(uint32_t *)(v1 - 4);
       free((LPVOID)(v1 - 8));
       v1 = v2;
     }
@@ -1053,37 +1053,37 @@ static int __cdecl zip_free_huffman_tree(int a1)
   return 0;
 }
 
-static unsigned int __cdecl zip_copy_sliding_window_to_output(const void *a1, unsigned int a2)
+static unsigned int zip_copy_sliding_window_to_output(const void *a1, unsigned int a2)
 {
   qmemcpy((void *)zip_inflate_output_ptr, a1, a2);
   zip_inflate_output_ptr += a2;
   return a2;
 }
 
-int __cdecl zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a4)
+int zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a4)
 {
-  FILE *v4; // eax
-  FILE *v5; // ebp
-  int file_size; // esi
-  char *v8; // esi
-  char v9; // al
-  void *v11; // eax
-  int v12; // eax
-  int v13; // [esp-8h] [ebp-ACh]
-  LPVOID v14; // [esp+Ch] [ebp-98h] BYREF
-  LPVOID lpMem; // [esp+10h] [ebp-94h] BYREF
-  int v16; // [esp+14h] [ebp-90h] BYREF
-  __int16 v17; // [esp+18h] [ebp-8Ch]
-  __int16 v18; // [esp+1Ah] [ebp-8Ah]
-  __int16 v19; // [esp+1Ch] [ebp-88h]
-  __int16 v20; // [esp+1Eh] [ebp-86h]
-  ZipLocalFileHeaderInMem a3; // [esp+2Ch] [ebp-78h] BYREF
-  char ArgList[32]; // [esp+50h] [ebp-54h] BYREF
-  ZipCentralDirectoryEntry a2; // [esp+70h] [ebp-34h] BYREF
+  FILE *v4;
+  FILE *v5;
+  int file_size;
+  char *v8;
+  char v9;
+  void *v11;
+  int v12;
+  int v13;
+  LPVOID v14;
+  LPVOID lpMem;
+  int v16;
+  int16_t v17;
+  int16_t v18;
+  int16_t v19;
+  int16_t v20;
+  ZipLocalFileHeaderInMem a3;
+  char ArgList[32];
+  ZipCentralDirectoryEntry a2;
 
   lpMem = nullptr;
   v14 = nullptr;
-  *(_DWORD *)zip_filename = zip_get_filename_from_path(FileName);
+  *(uint32_t *)zip_filename = zip_get_filename_from_path(FileName);
   v4 = fopen(FileName, "rb");
   v5 = v4;
   if ( v4 )
@@ -1119,11 +1119,11 @@ int __cdecl zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a
         file_size = zip_load_central_directory(v5, ArgList, (int)&v16, &a2);
         if ( file_size )
         {
-          zip_print("Could not find %s in zipfile %s\n", ArgList, *(_DWORD *)zip_filename);
+          zip_print("Could not find %s in zipfile %s\n", ArgList, *(uint32_t *)zip_filename);
         }
         else
         {
-          file_size = zip_read_local_file_header(v5, (int)&a2, &a3, (unsigned __int8 *)&zip_central_dir_buffer);
+          file_size = zip_read_local_file_header(v5, (int)&a2, &a3, (uint8_t *)&zip_central_dir_buffer);
           if ( !file_size )
           {
             if ( a3.compression_method )
@@ -1143,7 +1143,7 @@ int __cdecl zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a
                 {
                   zip_print(
                     "Couldn't allocate %d bytes for zipfile %s output buffer\n",
-                    *(_DWORD *)zip_filename,
+                    *(uint32_t *)zip_filename,
                     (const char *)a3.uncompressed_size);
                   file_size = -1;
                   goto LABEL_13;
@@ -1160,7 +1160,7 @@ int __cdecl zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a
                 file_size = v12;
                 if ( v12 )
                 {
-                  zip_print("Error %d inflating compressed file from zipfile %s\n", v12, *(_DWORD *)zip_filename);
+                  zip_print("Error %d inflating compressed file from zipfile %s\n", v12, *(uint32_t *)zip_filename);
                   goto LABEL_13;
                 }
               }
@@ -1202,10 +1202,10 @@ LABEL_14:
   return file_size;
 }
 
-static char *__cdecl zip_get_filename_from_path(const char *a1)
+static char * zip_get_filename_from_path(const char *a1)
 {
-  char *result; // eax
-  char *v2; // esi
+  char *result;
+  char *v2;
 
   strcpy(zip_path_buffer, a1);
   result = strtok(zip_path_buffer, "/\\:");
@@ -1224,37 +1224,37 @@ static char *__cdecl zip_get_filename_from_path(const char *a1)
 
 static int zip_print(char *Format, ...)
 {
-  char Buffer[256]; // [esp+0h] [ebp-100h] BYREF
-  va_list ArgList; // [esp+108h] [ebp+8h] BYREF
+  char Buffer[256];
+  va_list ArgList;
 
   va_start(ArgList, Format);
   vsprintf(Buffer, Format, ArgList);
   return printf(Buffer);
 }
 
-int __cdecl zip_load_file(char *FileName)
+int zip_load_file(char *FileName)
 {
-  FILE *v1; // eax
-  FILE *v2; // esi
-  int v4; // [esp+4h] [ebp-4Ch] BYREF
-  __int16 v5; // [esp+8h] [ebp-48h]
-  __int16 v6; // [esp+Ah] [ebp-46h]
-  __int16 v7; // [esp+Ch] [ebp-44h]
-  __int16 v8; // [esp+Eh] [ebp-42h]
-  int v9[13]; // [esp+1Ch] [ebp-34h] BYREF
+  FILE *v1;
+  FILE *v2;
+  int v4;
+  int16_t v5;
+  int16_t v6;
+  int16_t v7;
+  int16_t v8;
+  int v9[13];
 
-  *(_DWORD *)zip_filename = zip_get_filename_from_path(FileName);
+  *(uint32_t *)zip_filename = zip_get_filename_from_path(FileName);
   v1 = fopen(FileName, "rb");
   v2 = v1;
   if ( v1 )
   {
     if ( zip_get_file_size(v1, &zip_file_size) )
     {
-      zip_print("Error in zipfile %s: get_file_length() failed\n", *(_DWORD *)zip_filename);
+      zip_print("Error in zipfile %s: get_file_length() failed\n", *(uint32_t *)zip_filename);
     }
     else if ( zip_locate_central_dir(v2, &v4) )
     {
-      zip_print("Error reading 'end of central directory' in zipfile %s\n", *(_DWORD *)zip_filename);
+      zip_print("Error reading 'end of central directory' in zipfile %s\n", *(uint32_t *)zip_filename);
     }
     else
     {
@@ -1264,20 +1264,20 @@ int __cdecl zip_load_file(char *FileName)
         fclose(v2);
         return 0;
       }
-      zip_print("Unsupported zipfile %s: zipfile cannot span disks\n", *(_DWORD *)zip_filename);
+      zip_print("Unsupported zipfile %s: zipfile cannot span disks\n", *(uint32_t *)zip_filename);
     }
     fclose(v2);
   }
   return 0;
 }
 
-static int __cdecl zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int a3, LPVOID *a4)
+static int zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int a3, LPVOID *a4)
 {
-  size_t v4; // esi
-  void *v5; // eax
-  int v7; // edi
+  size_t v4;
+  void *v5;
+  int v7;
 
-  v4 = *(_DWORD *)(a3 + 20);
+  v4 = *(uint32_t *)(a3 + 20);
   v5 = malloc(v4);
   *a4 = v5;
   if ( !v5 )
@@ -1285,7 +1285,7 @@ static int __cdecl zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int 
     zip_print("Couldn't allocate %ld bytes for input buffer for zipfile %s\n", v4, *(const char **)zip_filename);
     return -1;
   }
-  v7 = fseek(Stream, *(unsigned __int16 *)(a3 + 28) + *(unsigned __int16 *)(a3 + 30) + *(_DWORD *)(a2 + 44) + 30, 0);
+  v7 = fseek(Stream, *(uint16_t *)(a3 + 28) + *(uint16_t *)(a3 + 30) + *(uint32_t *)(a2 + 44) + 30, 0);
   if ( v7 )
   {
     zip_print("Error reading zipfile %s: fseek to compressed data failed\n", *(const char **)zip_filename);
@@ -1306,13 +1306,13 @@ LABEL_7:
   return v7;
 }
 
-static int __cdecl zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderInMem *a3, unsigned __int8 *Buffer)
+static int zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderInMem *a3, uint8_t *Buffer)
 {
-  int v4; // ecx
-  size_t v5; // edi
-  int v6; // ebx
+  int v4;
+  size_t v5;
+  int v6;
 
-  v4 = *(_DWORD *)(a2 + 44);
+  v4 = *(uint32_t *)(a2 + 44);
   v5 = zip_file_size - v4;
   if ( zip_file_size - v4 >= 0x2000 )
     v5 = 0x2000;
@@ -1346,23 +1346,23 @@ static int __cdecl zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFile
   }
 }
 
-static int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, int a3, ZipCentralDirectoryEntry *a2)
+static int zip_load_central_directory(FILE *Stream, const char *arg4, int a3, ZipCentralDirectoryEntry *a2)
 {
-  int v4; // ebp
-  size_t v5; // esi
-  int v7; // edi
-  char v8; // al
-  uint16_t filename_length; // dx
-  uint16_t compression_method; // ax
-  int v11; // [esp+10h] [ebp-10Ch]
-  ZipCentralDirectoryEntry *a1; // [esp+14h] [ebp-108h]
-  char v13[256]; // [esp+1Ch] [ebp-100h] BYREF
+  int v4;
+  size_t v5;
+  int v7;
+  char v8;
+  uint16_t filename_length;
+  uint16_t compression_method;
+  int v11;
+  ZipCentralDirectoryEntry *a1;
+  char v13[256];
 
   v4 = 0;
   v5 = 0x2000;
-  if ( *(_DWORD *)(a3 + 12) <= 0x2000u )
-    v5 = *(_DWORD *)(a3 + 12);
-  if ( fseek(Stream, *(_DWORD *)(a3 + 16), 0) )
+  if ( *(uint32_t *)(a3 + 12) <= 0x2000u )
+    v5 = *(uint32_t *)(a3 + 12);
+  if ( fseek(Stream, *(uint32_t *)(a3 + 16), 0) )
   {
     zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)zip_filename);
     return -1;
@@ -1371,7 +1371,7 @@ static int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, in
   {
     v11 = 0;
     a1 = &zip_central_dir_buffer;
-    while ( v11 < *(unsigned __int16 *)(a3 + 10) )
+    while ( v11 < *(uint16_t *)(a3 + 10) )
     {
       zip_parse_cd_entry(a1, (ZipCentralDirectoryEntryInMem *)a2);
       v7 = 0;
@@ -1413,7 +1413,7 @@ static int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, in
           zip_print("Error in zipfile %s: OS for file %s not supported.\n", *(const char **)zip_filename, arg4);
           zip_print("OS: $%02x must be $00\n", HIBYTE(a2->version_needed));
         }
-        if ( a2->disk_number_start != *(_WORD *)(a3 + 4) )
+        if ( a2->disk_number_start != *(uint16_t *)(a3 + 4) )
         {
           v4 = 0;
           zip_print("Error in zipfile %s: zipfile cannot span disks\n", *(const char **)zip_filename);
@@ -1437,25 +1437,25 @@ static int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, in
   }
 }
 
-static int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2)
+static int zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2)
 {
-  size_t v3; // esi
-  int v5; // ebx
-  ZipCentralDirectoryEntry *v6; // ebp
-  int v7; // esi
-  char v8; // al
-  uint16_t filename_length; // cx
-  int v10; // esi
-  char *v11; // eax
-  char *v12; // edx
-  char v13; // cl
-  ZipLocalFileHeaderInMem a3; // [esp+8h] [ebp-124h] BYREF
-  _BYTE v15[256]; // [esp+2Ch] [ebp-100h] BYREF
+  size_t v3;
+  int v5;
+  ZipCentralDirectoryEntry *v6;
+  int v7;
+  char v8;
+  uint16_t filename_length;
+  int v10;
+  char *v11;
+  char *v12;
+  char v13;
+  ZipLocalFileHeaderInMem a3;
+  uint8_t v15[256];
 
-  v3 = *(_DWORD *)(arg4 + 12);
+  v3 = *(uint32_t *)(arg4 + 12);
   if ( v3 > 0x2000 )
     v3 = 0x2000;
-  if ( fseek(Stream, *(_DWORD *)(arg4 + 16), 0) )
+  if ( fseek(Stream, *(uint32_t *)(arg4 + 16), 0) )
   {
     zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)zip_filename);
     return -1;
@@ -1464,7 +1464,7 @@ static int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentra
   {
     v5 = 0;
     v6 = &zip_central_dir_buffer;
-    while ( v5 < *(unsigned __int16 *)(arg4 + 10) )
+    while ( v5 < *(uint16_t *)(arg4 + 10) )
     {
       zip_parse_cd_entry(v6, a2);
       v7 = 0;
@@ -1487,11 +1487,11 @@ static int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentra
       {
         v10 = zip_num_entries_loaded;
         v11 = v15;
-        v12 = &zip_entry_names[(zip_num_entries_loaded << 8) - (_DWORD)v15];
+        v12 = &zip_entry_names[(zip_num_entries_loaded << 8) - (uint32_t)v15];
         do
         {
           v13 = *v11;
-          v11[(_DWORD)v12] = *v11;
+          v11[(uint32_t)v12] = *v11;
           ++v11;
         }
         while ( v13 );
@@ -1514,19 +1514,19 @@ static int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentra
   }
 }
 
-static int __cdecl zip_compare_filename_case_insensitive(const char *a1, const char *a2)
+static int zip_compare_filename_case_insensitive(const char *a1, const char *a2)
 {
-  const char *v2; // esi
-  const char *i; // eax
-  bool v4; // cf
-  unsigned __int8 v5; // dl
-  unsigned __int8 v6; // bl
-  char *v8; // eax
-  char *v9; // edi
-  const char *v10; // eax
-  unsigned __int8 v11; // dl
-  unsigned __int8 v12; // bl
-  char String[256]; // [esp+Ch] [ebp-100h] BYREF
+  const char *v2;
+  const char *i;
+  bool v4;
+  uint8_t v5;
+  uint8_t v6;
+  char *v8;
+  char *v9;
+  const char *v10;
+  uint8_t v11;
+  uint8_t v12;
+  char String[256];
 
   v2 = a2;
   if ( strlen(a1) == strlen(a2) )
@@ -1586,41 +1586,41 @@ static int __cdecl zip_compare_filename_case_insensitive(const char *a1, const c
   return -v4 - (v4 - 1);
 }
 
-static int __cdecl zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectoryEntryInMem *a2)
+static int zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectoryEntryInMem *a2)
 {
-  int result; // eax
+  int result;
 
-  a2->signature = zip_read_uint32_le((unsigned __int8 *)a1);
+  a2->signature = zip_read_uint32_le((uint8_t *)a1);
   a2->version_made_by = a1->version_made_by;
   a2->version_needed = a1->version_needed;
   a2->general_purpose_bit_flag = zip_read_uint16_le((int)&a1->general_purpose_bit_flag);
   a2->compression_method = zip_read_uint16_le((int)&a1->compression_method);
   a2->last_mod_time = zip_read_uint16_le((int)&a1->last_mod_time);
   a2->last_mod_date = zip_read_uint16_le((int)&a1->last_mod_date);
-  a2->crc32 = zip_read_uint32_le((unsigned __int8 *)&a1->crc32);
-  a2->compressed_size = zip_read_uint32_le((unsigned __int8 *)&a1->compressed_size);
-  a2->uncompressed_size = zip_read_uint32_le((unsigned __int8 *)&a1->uncompressed_size);
+  a2->crc32 = zip_read_uint32_le((uint8_t *)&a1->crc32);
+  a2->compressed_size = zip_read_uint32_le((uint8_t *)&a1->compressed_size);
+  a2->uncompressed_size = zip_read_uint32_le((uint8_t *)&a1->uncompressed_size);
   a2->filename_length = zip_read_uint16_le((int)&a1->filename_length);
   a2->extra_field_length = zip_read_uint16_le((int)&a1->extra_field_length);
   a2->file_comment_length = zip_read_uint16_le((int)&a1->file_comment_length);
   a2->disk_number_start = zip_read_uint16_le((int)&a1->disk_number_start);
   a2->internal_attributes = zip_read_uint16_le((int)&a1->internal_attributes);
-  a2->external_attributes = zip_read_uint32_le((unsigned __int8 *)&a1->external_attributes);
-  result = zip_read_uint32_le((unsigned __int8 *)&a1->local_header_offset);
+  a2->external_attributes = zip_read_uint32_le((uint8_t *)&a1->external_attributes);
+  result = zip_read_uint32_le((uint8_t *)&a1->local_header_offset);
   a2->filename = (char *)&a1[1];
   a2->local_header_offset = result;
   return result;
 }
 
-static int __cdecl zip_locate_central_dir(FILE *Stream, int *a2)
+static int zip_locate_central_dir(FILE *Stream, int *a2)
 {
-  size_t v2; // esi
-  FILE *v3; // ebx
-  int v4; // edi
-  BOOL end_of_central_dir_signature; // ebx
-  unsigned __int8 *v7; // esi
-  uint32_t uint32_le; // eax
-  int *v9; // edi
+  size_t v2;
+  FILE *v3;
+  int v4;
+  BOOL end_of_central_dir_signature;
+  uint8_t *v7;
+  uint32_t uint32_le;
+  int *v9;
 
   v2 = zip_file_size;
   if ( (int)zip_file_size > 0x2000 )
@@ -1642,17 +1642,17 @@ static int __cdecl zip_locate_central_dir(FILE *Stream, int *a2)
     }
     else
     {
-      v7 = (unsigned __int8 *)&zip_central_dir_buffer + (_DWORD)Stream;
-      uint32_le = zip_read_uint32_le((unsigned __int8 *)&zip_central_dir_buffer + (_DWORD)Stream);
+      v7 = (uint8_t *)&zip_central_dir_buffer + (uint32_t)Stream;
+      uint32_le = zip_read_uint32_le((uint8_t *)&zip_central_dir_buffer + (uint32_t)Stream);
       v9 = a2;
       *a2 = uint32_le;
-      *((_WORD *)v9 + 2) = zip_read_uint16_le((int)(v7 + 4));
-      *((_WORD *)v9 + 3) = zip_read_uint16_le((int)(v7 + 6));
-      *((_WORD *)v9 + 4) = zip_read_uint16_le((int)(v7 + 8));
-      *((_WORD *)v9 + 5) = zip_read_uint16_le((int)(v7 + 10));
+      *((uint16_t *)v9 + 2) = zip_read_uint16_le((int)(v7 + 4));
+      *((uint16_t *)v9 + 3) = zip_read_uint16_le((int)(v7 + 6));
+      *((uint16_t *)v9 + 4) = zip_read_uint16_le((int)(v7 + 8));
+      *((uint16_t *)v9 + 5) = zip_read_uint16_le((int)(v7 + 10));
       v9[3] = zip_read_uint32_le(v7 + 12);
       v9[4] = zip_read_uint32_le(v7 + 16);
-      *((_WORD *)v9 + 10) = zip_read_uint16_le((int)(v7 + 20));
+      *((uint16_t *)v9 + 10) = zip_read_uint16_le((int)(v7 + 20));
       return 0;
     }
   }
@@ -1663,10 +1663,10 @@ static int __cdecl zip_locate_central_dir(FILE *Stream, int *a2)
   }
 }
 
-static BOOL __cdecl zip_find_end_of_central_dir_signature(int a1, int a2, _DWORD *a3)
+static BOOL zip_find_end_of_central_dir_signature(int a1, int a2, uint32_t *a3)
 {
-  int v3; // esi
-  int v4; // ebx
+  int v3;
+  int v4;
 
   v3 = a2 - 22;
   v4 = 0;
@@ -1683,10 +1683,10 @@ static BOOL __cdecl zip_find_end_of_central_dir_signature(int a1, int a2, _DWORD
   return v4 == 0;
 }
 
-static int __cdecl zip_get_file_size(FILE *Stream, _DWORD *a2)
+static int zip_get_file_size(FILE *Stream, uint32_t *a2)
 {
-  int v2; // esi
-  int result; // eax
+  int v2;
+  int result;
 
   v2 = fseek(Stream, 0, 2);
   if ( v2 )
@@ -1698,14 +1698,14 @@ static int __cdecl zip_get_file_size(FILE *Stream, _DWORD *a2)
   return result;
 }
 
-static __int16 __cdecl zip_read_uint16_le(int a1)
+static int16_t zip_read_uint16_le(int a1)
 {
-  return *(_WORD *)a1;
+  return *(uint16_t *)a1;
 }
 
-static uint32_t __cdecl zip_read_uint32_le(unsigned __int8 *a1)
+static uint32_t zip_read_uint32_le(uint8_t *a1)
 {
-  return *a1 | ((a1[1] | (*((unsigned __int16 *)a1 + 1) << 8)) << 8);
+  return *a1 | ((a1[1] | (*((uint16_t *)a1 + 1) << 8)) << 8);
 }
 
 

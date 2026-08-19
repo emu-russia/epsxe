@@ -59,13 +59,13 @@ extern int ui_feedback_timer;
 extern unsigned char xenogears_trick_enabled;
 
 /* Function prototypes (previously generated in src/_gen) */
-char __cdecl cont_build_controller_response_analog(char a1, _BYTE *a2);
-_BYTE *__cdecl cont_build_controller_response_digital(char a1, _BYTE *a2);
-_BYTE *__cdecl cont_build_guncon_response(char a1, _BYTE *a2);
-_BYTE *__cdecl cont_build_mouse_response(char a1, _BYTE *a2);
-__int16 __cdecl cont_map_axis_state(unsigned __int16 a1, __int16 a2);
-__int16 __cdecl cont_map_button_state(unsigned __int16 a1, __int16 a2);
+char cont_build_controller_response_analog(char a1, uint8_t *a2);
+uint8_t * cont_build_controller_response_digital(char a1, uint8_t *a2);
+uint8_t * cont_build_guncon_response(char a1, uint8_t *a2);
+uint8_t * cont_build_mouse_response(char a1, uint8_t *a2);
+int16_t cont_map_axis_state(uint16_t a1, int16_t a2);
+int16_t cont_map_button_state(uint16_t a1, int16_t a2);
 int cont_process_input();
-int __cdecl cont_reset_pad_state(unsigned __int8 a1);
-int __cdecl cont_set_default(unsigned __int8 a1);
-int (__stdcall *__cdecl cont_update_led_and_mode(unsigned __int8 a1))(_DWORD);
+int cont_reset_pad_state(uint8_t a1);
+int cont_set_default(uint8_t a1);
+int (__stdcall * cont_update_led_and_mode(uint8_t a1))(uint32_t);

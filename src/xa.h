@@ -6,4 +6,4 @@ extern unsigned int xa_mono_nibble_offset_table[4];
 extern unsigned int xa_mono_nibble_offset_table_end;
 
 /* Function prototypes (previously generated in src/_gen) */
-int __cdecl xa_decode_wrapper(_DWORD *a1, int a2, int a3);
+int xa_decode_wrapper(uint32_t *a1, int a2, int a3);

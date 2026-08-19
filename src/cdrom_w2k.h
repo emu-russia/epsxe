@@ -50,12 +50,12 @@ extern unsigned short w2k_stop_cdb3;
 /* Function prototypes (previously generated in src/_gen) */
 HANDLE W2k_cdrom_deinit();
 char W2k_cdrom_init();
-char __cdecl W2k_cdrom_play_cdda(unsigned int a1, int a2, unsigned __int8 a3);
-int __cdecl W2k_cdrom_read_data(unsigned __int8 a1, unsigned __int8 a2, unsigned __int8 a3, char *Buffer);
+char W2k_cdrom_play_cdda(unsigned int a1, int a2, uint8_t a3);
+int W2k_cdrom_read_data(uint8_t a1, uint8_t a2, uint8_t a3, char *Buffer);
 char W2k_cdrom_stop();
 char W2k_cdrom_subchannel_read();
-unsigned __int8 __cdecl W2k_check_subchannel_data(unsigned int a1, unsigned __int8 a2, unsigned __int8 a3, int a4);
-char __cdecl W2k_get_first_last_track(_BYTE *a1, _BYTE *a2);
-char __cdecl W2k_lba_to_msf( unsigned int a1, unsigned __int8 a2, unsigned __int8 a3, _BYTE *a4, unsigned __int8 *a5, unsigned __int8 *a6);
+uint8_t W2k_check_subchannel_data(unsigned int a1, uint8_t a2, uint8_t a3, int a4);
+char W2k_get_first_last_track(uint8_t *a1, uint8_t *a2);
+char W2k_lba_to_msf( unsigned int a1, uint8_t a2, uint8_t a3, uint8_t *a4, uint8_t *a5, uint8_t *a6);
 void W2k_reset_cdda_state();
-unsigned int __cdecl W2k_track_to_msf(int a1, _BYTE *a2, _BYTE *a3, _BYTE *a4);
+unsigned int W2k_track_to_msf(int a1, uint8_t *a2, uint8_t *a3, uint8_t *a4);
