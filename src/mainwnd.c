@@ -1,4 +1,5 @@
 #include "pch.h"
+
 static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
   LRESULT result; // eax
@@ -50,7 +51,7 @@ static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam
       case 0x111u:
         switch ( (unsigned __int16)wParam )
         {
-          case 40001u:
+          case IDM_RUN_CDROM:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
               goto LABEL_26;
             if ( !strcmp((const char *)CdromPlugin, "NULL") )
@@ -65,7 +66,7 @@ static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam
             loaded_file_type = 1;
             g_bDisableMouse = 0;
             return 1;
-          case 40002u:
+          case IDM_RUN_BIOS:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
               goto LABEL_26;
             if ( !strcmp((const char *)CdromPlugin, "NULL") )
@@ -79,7 +80,7 @@ static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam
             loaded_file_type = 2;
             g_bDisableMouse = 0;
             return 1;
-          case 40003u:
+          case IDM_RUN_ISO:
             if ( !strcmp((const char *)VideoPlugin, "NULL") )
             {
 LABEL_26:
@@ -130,7 +131,7 @@ LABEL_30:
             loaded_file_type = 3;
             g_bDisableMouse = 0;
             return 1;
-          case 40004u:
+          case IDM_RUN_PS_EXE:
             if ( !open_file_dialog("Open PSX EXE", "PSX EXEs (*.ZIP, *.EXE)", temp_path, ".", "EXE") )
               return 1;
             PostQuitMessage(0);
@@ -138,46 +139,46 @@ LABEL_30:
             loaded_file_type = 4;
             g_bDisableMouse = 0;
             return 1;
-          case 40005u:
+          case IDM_EXIT:
             ui_error(" * Going out from gui. (exit)\n");
-          case 40006u:
+          case IDM_CONFIG_VIDEO:
             DialogBoxParamA(g_hInstance, "IDD_VIDEO", hWnd, search_video_plugin, 0);
             return 1;
-          case 40007u:
+          case IDM_CONFIG_SOUND:
             DialogBoxParamA(g_hInstance, "IDD_SOUND", hWnd, search_spu_plugin, 0);
             return 1;
-          case 40008u:
+          case IDM_CONFIG_CDROM:
             DialogBoxParamA(g_hInstance, "IDD_CDROM", hWnd, search_cdrom_plugin, 0);
             return 1;
-          case 40009u:
+          case IDM_CONFIG_BIOS:
             DialogBoxParamA(g_hInstance, "IDD_BIOS", hWnd, bios_dialog_callback, 0);
             return 1;
-          case 40012u:
+          case IDM_CHEAT:
             DialogBoxParamA(g_hInstance, "IDD_CHEAT", hWnd, (DLGPROC)cheat_dialog_callback, 0);
             goto LABEL_68;
-          case 40013u:
+          case IDM_ABOUT:
             DialogBoxParamA(g_hInstance, "IDD_ABOUT", hWnd, (DLGPROC)about_callback, 0);
             goto LABEL_68;
-          case 40015u:
+          case IDM_VISIT_WEBSITE:
             ShellExecuteA(hWnd, "open", "http://www.epsxe.com", nullptr, nullptr, 3);
             return 1;
-          case 40016u:
+          case IDM_CONTINUE:
             if ( loaded_file_type )
               goto LABEL_41;
             return 1;
-          case 40017u:
+          case IDM_RESET:
             if ( !loaded_file_type )
               return 1;
             reset_flag = 1;
             goto LABEL_41;
-          case 40018u:
+          case IDM_PAD1:
             pad_number_menu_selection = 1;
             DC = GetDC(hWnd);
             DeviceCaps = GetDeviceCaps(DC, 88);
             ReleaseDC(hWnd, DC);
             v31 = hWnd;
             goto LABEL_65;
-          case 40019u:
+          case IDM_PAD2:
             pad_number_menu_selection = 2;
             v15 = GetDC(hWnd);
             v16 = GetDeviceCaps(v15, 88);
@@ -186,17 +187,17 @@ LABEL_30:
             if ( v16 <= 96 )
               goto LABEL_70;
             goto LABEL_71;
-          case 40022u:
+          case IDM_MEMORY_CARD:
             DialogBoxParamA(g_hInstance, "IDD_MEMCARD", hWnd, memcard_settings, 0);
             return 1;
-          case 40024u:
+          case IDM_CHANGE_DISC_CDROM:
             cdrom_deinit_cb(Msg - 256);
             MessageBoxA(nullptr, "Insert a new cdrom and hit the button to continue", "Change Disc Option", 0x40u);
             nocd = 1;
             loader_set_filename("NULL");
             loaded_file_type = 1;
             goto LABEL_40;
-          case 40025u:
+          case IDM_CHANGE_DISC_ISO:
             if ( !open_file_dialog("Open PSX ISO", "PSX ISOs (*.BIN, *.ISO, *.IMG)", temp_path, IsoDirectory, "ISO") )
               return 1;
             GetFullPathNameA(temp_path, 0x400u, Buffer, &FilePart);
@@ -223,95 +224,95 @@ LABEL_40:
 LABEL_41:
             PostQuitMessage(0);
             return 1;
-          case 40026u:
+          case IDM_COUNTRY_AUTODETECT:
             Menu = GetMenu(hWnd);
-            CheckMenuItem(Menu, 0x9C5Au, 8u);
-            CheckMenuItem(Menu, 0x9C5Bu, 0);
-            CheckMenuItem(Menu, 0x9C5Cu, 0);
+            CheckMenuItem(Menu, IDM_COUNTRY_AUTODETECT, 8u);
+            CheckMenuItem(Menu, IDM_COUNTRY_NTSC, 0);
+            CheckMenuItem(Menu, IDM_COUNTRY_PAL, 0);
             country_setting = 255;
             cfg_save_settings();
             return 1;
-          case 40027u:
+          case IDM_COUNTRY_NTSC:
             v23 = GetMenu(hWnd);
-            CheckMenuItem(v23, 0x9C5Au, 0);
-            CheckMenuItem(v23, 0x9C5Bu, 0);
-            CheckMenuItem(v23, 0x9C5Cu, 8u);
+            CheckMenuItem(v23, IDM_COUNTRY_AUTODETECT, 0);
+            CheckMenuItem(v23, IDM_COUNTRY_NTSC, 0);
+            CheckMenuItem(v23, IDM_COUNTRY_PAL, 8u);
             country_setting = 0;
             cfg_save_settings();
             return 1;
-          case 40028u:
+          case IDM_COUNTRY_PAL:
             v24 = GetMenu(hWnd);
-            CheckMenuItem(v24, 0x9C5Au, 0);
-            CheckMenuItem(v24, 0x9C5Bu, 0);
-            CheckMenuItem(v24, 0x9C5Cu, 8u);
+            CheckMenuItem(v24, IDM_COUNTRY_AUTODETECT, 0);
+            CheckMenuItem(v24, IDM_COUNTRY_NTSC, 0);
+            CheckMenuItem(v24, IDM_COUNTRY_PAL, 8u);
             country_setting = 1;
             cfg_save_settings();
             return 1;
-          case 40030u:
+          case IDM_SAVE_STATE_1:
             *(_DWORD *)save_load_state_slot = 10;
             goto LABEL_41;
-          case 40031u:
+          case IDM_SAVE_STATE_2:
             *(_DWORD *)save_load_state_slot = 11;
             goto LABEL_41;
-          case 40032u:
+          case IDM_SAVE_STATE_3:
             *(_DWORD *)save_load_state_slot = 12;
             goto LABEL_41;
-          case 40033u:
+          case IDM_SAVE_STATE_4:
             *(_DWORD *)save_load_state_slot = 13;
             goto LABEL_41;
-          case 40034u:
+          case IDM_SAVE_STATE_5:
             *(_DWORD *)save_load_state_slot = 14;
             goto LABEL_41;
-          case 40035u:
+          case IDM_LOAD_STATE_1:
             *(_DWORD *)save_load_state_slot = 0;
             goto LABEL_41;
-          case 40036u:
+          case IDM_LOAD_STATE_2:
             *(_DWORD *)save_load_state_slot = 1;
             goto LABEL_41;
-          case 40037u:
+          case IDM_LOAD_STATE_3:
             *(_DWORD *)save_load_state_slot = 2;
             goto LABEL_41;
-          case 40038u:
+          case IDM_LOAD_STATE_4:
             *(_DWORD *)save_load_state_slot = 3;
             goto LABEL_41;
-          case 40039u:
+          case IDM_LOAD_STATE_5:
             *(_DWORD *)save_load_state_slot = 4;
             goto LABEL_41;
-          case 40041u:
+          case IDM_CONFIG_GUIDE_EN:
             ShellExecuteA(hWnd, "open", "http://www.epsxe.com/step/step.html", nullptr, nullptr, 3);
             return 1;
-          case 40042u:
+          case IDM_CONFIG_GUIDE_ES:
             ShellExecuteA(hWnd, "open", "http://www.epsxe.com/step/step_sp.html", nullptr, nullptr, 3);
             return 1;
-          case 40047u:
+          case IDM_NETPLAY:
             DialogBoxParamA(g_hInstance, "IDD_NET", hWnd, search_net_plugin, 0);
             return 1;
-          case 40048u:
+          case IDM_WIZARD_GUIDE:
             setup_wizard_step = 0;
             setup_wizard_callback(hWnd);
             return 1;
-          case 40049u:
+          case IDM_PPF_AUTOLOAD:
             ppf_enabled ^= 1u;
             v21 = GetMenu(hWnd);
             if ( ppf_enabled )
-              CheckMenuItem(v21, 0x9C71u, 8u);
+              CheckMenuItem(v21, IDM_PPF_AUTOLOAD, 8u);
             else
-              CheckMenuItem(v21, 0x9C71u, 0);
+              CheckMenuItem(v21, IDM_PPF_AUTOLOAD, 0);
             goto LABEL_83;
-          case 40050u:
+          case IDM_HELP_CONTENTS:
             ShellExecuteA(hWnd, "open", "epsxe.chm", nullptr, nullptr, 3);
             return 1;
-          case 40051u:
+          case IDM_ENABLE_LOGS:
             console_allocated ^= 1u;
             v12 = GetMenu(hWnd);
             if ( console_allocated )
-              CheckMenuItem(v12, 0x9C73u, 8u);
+              CheckMenuItem(v12, IDM_ENABLE_LOGS, 8u);
             else
-              CheckMenuItem(v12, 0x9C73u, 0);
+              CheckMenuItem(v12, IDM_ENABLE_LOGS, 0);
             if ( (unsigned __int8)console_allocated > 1u )
               console_allocated = 1;
             goto LABEL_83;
-          case 40052u:
+          case IDM_PAD3:
             pad_number_menu_selection = 3;
             if ( !multitap_1 )
               return 1;
@@ -329,7 +330,7 @@ LABEL_71:
             DialogBoxParamA(g_hInstance, "IDD_CONTROLLER_LARGE", v32, controller_setup_callback, 0);
             result = 1;
             break;
-          case 40053u:
+          case IDM_PAD4:
             pad_number_menu_selection = 4;
             if ( !multitap_1 )
               return 1;
@@ -350,20 +351,20 @@ LABEL_68:
               result = 1;
             }
             break;
-          case 40054u:
+          case IDM_MULTITAP:
             multitap_1 ^= 1u;
             v20 = GetMenu(hWnd);
             if ( multitap_1 )
             {
-              EnableMenuItem(v20, 0x9C74u, 0);
-              EnableMenuItem(v20, 0x9C75u, 0);
-              CheckMenuItem(v20, 0x9C76u, 8u);
+              EnableMenuItem(v20, IDM_PAD3, 0);
+              EnableMenuItem(v20, IDM_PAD4, 0);
+              CheckMenuItem(v20, IDM_MULTITAP, 8u);
             }
             else
             {
-              CheckMenuItem(v20, 0x9C76u, 0);
-              EnableMenuItem(v20, 0x9C74u, 3u);
-              EnableMenuItem(v20, 0x9C75u, 3u);
+              CheckMenuItem(v20, IDM_MULTITAP, 0);
+              EnableMenuItem(v20, IDM_PAD3, 3u);
+              EnableMenuItem(v20, IDM_PAD4, 3u);
             }
 LABEL_83:
             cfg_save_settings();
@@ -376,123 +377,123 @@ LABEL_83:
         v25 = GetMenu(hWnd);
         if ( !multitap_1 )
         {
-          EnableMenuItem(v25, 0x9C74u, 3u);
-          EnableMenuItem(v25, 0x9C75u, 3u);
+          EnableMenuItem(v25, IDM_PAD3, 3u);
+          EnableMenuItem(v25, IDM_PAD4, 3u);
         }
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, 0x9C46u, 3u);
+        EnableMenuItem(v25, IDM_CONFIG_VIDEO, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, 0x9C47u, 3u);
+        EnableMenuItem(v25, IDM_CONFIG_SOUND, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, 0x9C48u, 3u);
+        EnableMenuItem(v25, IDM_CONFIG_CDROM, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, 0x9C70u, 3u);
+        EnableMenuItem(v25, IDM_WIZARD_GUIDE, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, 0x9C6Fu, 3u);
+        EnableMenuItem(v25, IDM_NETPLAY, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, 0x9C49u, 3u);
+        EnableMenuItem(v25, IDM_CONFIG_BIOS, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, 0x9C52u, 3u);
+        EnableMenuItem(v25, IDM_PAD1, 3u);
         if ( g_bDisableMouse )
           goto LABEL_122;
-        EnableMenuItem(v25, 0x9C53u, 3u);
+        EnableMenuItem(v25, IDM_PAD2, 3u);
         if ( g_bDisableMouse
-          || (EnableMenuItem(v25, 0x9C74u, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, 0x9C75u, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, 0x9C76u, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, 0x9C41u, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, 0x9C42u, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, 0x9C43u, 3u), g_bDisableMouse)
-          || (EnableMenuItem(v25, 0x9C44u, 3u), g_bDisableMouse) )
+          || (EnableMenuItem(v25, IDM_PAD3, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, IDM_PAD4, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, IDM_MULTITAP, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, IDM_RUN_CDROM, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, IDM_RUN_BIOS, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, IDM_RUN_ISO, 3u), g_bDisableMouse)
+          || (EnableMenuItem(v25, IDM_RUN_PS_EXE, 3u), g_bDisableMouse) )
         {
 LABEL_122:
-          EnableMenuItem(v25, 0x9C58u, 3u);
+          EnableMenuItem(v25, IDM_CHANGE_DISC_CDROM, 3u);
         }
         else
         {
-          EnableMenuItem(v25, 0x9C58u, 0);
+          EnableMenuItem(v25, IDM_CHANGE_DISC_CDROM, 0);
         }
         if ( g_bDisableMouse )
-          EnableMenuItem(v25, 0x9C59u, 3u);
+          EnableMenuItem(v25, IDM_CHANGE_DISC_ISO, 3u);
         else
-          EnableMenuItem(v25, 0x9C59u, 0);
+          EnableMenuItem(v25, IDM_CHANGE_DISC_ISO, 0);
         if ( g_bDisableMouse )
-          EnableMenuItem(v25, 0x9C50u, 3u);
+          EnableMenuItem(v25, IDM_CONTINUE, 3u);
         else
-          EnableMenuItem(v25, 0x9C50u, 0);
+          EnableMenuItem(v25, IDM_CONTINUE, 0);
         if ( g_bDisableMouse )
-          EnableMenuItem(v25, 0x9C51u, 3u);
+          EnableMenuItem(v25, IDM_RESET, 3u);
         else
-          EnableMenuItem(v25, 0x9C51u, 0);
+          EnableMenuItem(v25, IDM_RESET, 0);
         if ( g_bDisableMouse )
         {
-          EnableMenuItem(v25, 0x9C71u, 0);
+          EnableMenuItem(v25, IDM_PPF_AUTOLOAD, 0);
           if ( ppf_enabled )
-            CheckMenuItem(v25, 0x9C71u, 8u);
+            CheckMenuItem(v25, IDM_PPF_AUTOLOAD, 8u);
           else
-            CheckMenuItem(v25, 0x9C71u, 0);
+            CheckMenuItem(v25, IDM_PPF_AUTOLOAD, 0);
         }
         else
         {
-          EnableMenuItem(v25, 0x9C71u, 3u);
+          EnableMenuItem(v25, IDM_PPF_AUTOLOAD, 3u);
         }
         if ( g_bDisableMouse )
         {
-          EnableMenuItem(v25, 0x9C76u, 0);
+          EnableMenuItem(v25, IDM_MULTITAP, 0);
           if ( multitap_1 )
-            CheckMenuItem(v25, 0x9C76u, 8u);
+            CheckMenuItem(v25, IDM_MULTITAP, 8u);
           else
-            CheckMenuItem(v25, 0x9C76u, 0);
+            CheckMenuItem(v25, IDM_MULTITAP, 0);
         }
         else
         {
-          EnableMenuItem(v25, 0x9C76u, 3u);
+          EnableMenuItem(v25, IDM_MULTITAP, 3u);
         }
         if ( g_bDisableMouse )
         {
-          EnableMenuItem(v25, 0x9C73u, 0);
+          EnableMenuItem(v25, IDM_ENABLE_LOGS, 0);
           if ( console_allocated )
-            CheckMenuItem(v25, 0x9C73u, 8u);
+            CheckMenuItem(v25, IDM_ENABLE_LOGS, 8u);
           else
-            CheckMenuItem(v25, 0x9C73u, 0);
+            CheckMenuItem(v25, IDM_ENABLE_LOGS, 0);
         }
         else
         {
-          EnableMenuItem(v25, 0x9C73u, 3u);
+          EnableMenuItem(v25, IDM_ENABLE_LOGS, 3u);
         }
         if ( g_bDisableMouse )
         {
-          EnableMenuItem(v25, 0x9C5Eu, 3u);
-          EnableMenuItem(v25, 0x9C5Fu, 3u);
-          EnableMenuItem(v25, 0x9C60u, 3u);
-          EnableMenuItem(v25, 0x9C61u, 3u);
-          EnableMenuItem(v25, 0x9C62u, 3u);
-          EnableMenuItem(v25, 0x9C63u, 3u);
-          EnableMenuItem(v25, 0x9C64u, 3u);
-          EnableMenuItem(v25, 0x9C65u, 3u);
-          EnableMenuItem(v25, 0x9C66u, 3u);
-          EnableMenuItem(v25, 0x9C67u, 3u);
-          CheckMenuItem(v25, 0x9C5Au, 0);
-          CheckMenuItem(v25, 0x9C5Bu, 0);
-          CheckMenuItem(v25, 0x9C5Cu, 0);
+          EnableMenuItem(v25, IDM_SAVE_STATE_1, 3u);
+          EnableMenuItem(v25, IDM_SAVE_STATE_2, 3u);
+          EnableMenuItem(v25, IDM_SAVE_STATE_3, 3u);
+          EnableMenuItem(v25, IDM_SAVE_STATE_4, 3u);
+          EnableMenuItem(v25, IDM_SAVE_STATE_5, 3u);
+          EnableMenuItem(v25, IDM_LOAD_STATE_1, 3u);
+          EnableMenuItem(v25, IDM_LOAD_STATE_2, 3u);
+          EnableMenuItem(v25, IDM_LOAD_STATE_3, 3u);
+          EnableMenuItem(v25, IDM_LOAD_STATE_4, 3u);
+          EnableMenuItem(v25, IDM_LOAD_STATE_5, 3u);
+          CheckMenuItem(v25, IDM_COUNTRY_AUTODETECT, 0);
+          CheckMenuItem(v25, IDM_COUNTRY_NTSC, 0);
+          CheckMenuItem(v25, IDM_COUNTRY_PAL, 0);
           switch ( country_setting )
           {
             case 0:
-              CheckMenuItem(v25, 0x9C5Bu, 8u);
+              CheckMenuItem(v25, IDM_COUNTRY_NTSC, 8u);
               return 1;
             case 1:
-              CheckMenuItem(v25, 0x9C5Cu, 8u);
+              CheckMenuItem(v25, IDM_COUNTRY_PAL, 8u);
               result = 1;
               break;
             case 255:
-              CheckMenuItem(v25, 0x9C5Au, 8u);
+              CheckMenuItem(v25, IDM_COUNTRY_AUTODETECT, 8u);
               result = 1;
               break;
             default:
@@ -501,39 +502,39 @@ LABEL_122:
         }
         else
         {
-          EnableMenuItem(v25, 0x9C5Au, 3u);
-          EnableMenuItem(v25, 0x9C5Bu, 3u);
-          EnableMenuItem(v25, 0x9C5Cu, 3u);
-          EnableMenuItem(v25, 0x9C5Eu, 0);
-          EnableMenuItem(v25, 0x9C5Fu, 0);
-          EnableMenuItem(v25, 0x9C60u, 0);
-          EnableMenuItem(v25, 0x9C61u, 0);
-          EnableMenuItem(v25, 0x9C62u, 0);
+          EnableMenuItem(v25, IDM_COUNTRY_AUTODETECT, 3u);
+          EnableMenuItem(v25, IDM_COUNTRY_NTSC, 3u);
+          EnableMenuItem(v25, IDM_COUNTRY_PAL, 3u);
+          EnableMenuItem(v25, IDM_SAVE_STATE_1, 0);
+          EnableMenuItem(v25, IDM_SAVE_STATE_2, 0);
+          EnableMenuItem(v25, IDM_SAVE_STATE_3, 0);
+          EnableMenuItem(v25, IDM_SAVE_STATE_4, 0);
+          EnableMenuItem(v25, IDM_SAVE_STATE_5, 0);
           LOBYTE(v26) = check_state_exists(0);
           if ( v26 )
-            EnableMenuItem(v25, 0x9C63u, 3u);
+            EnableMenuItem(v25, IDM_LOAD_STATE_1, 3u);
           else
-            EnableMenuItem(v25, 0x9C63u, 0);
+            EnableMenuItem(v25, IDM_LOAD_STATE_1, 0);
           LOBYTE(v27) = check_state_exists(1u);
           if ( v27 )
-            EnableMenuItem(v25, 0x9C64u, 3u);
+            EnableMenuItem(v25, IDM_LOAD_STATE_2, 3u);
           else
-            EnableMenuItem(v25, 0x9C64u, 0);
+            EnableMenuItem(v25, IDM_LOAD_STATE_2, 0);
           LOBYTE(v28) = check_state_exists(2u);
           if ( v28 )
-            EnableMenuItem(v25, 0x9C65u, 3u);
+            EnableMenuItem(v25, IDM_LOAD_STATE_3, 3u);
           else
-            EnableMenuItem(v25, 0x9C65u, 0);
+            EnableMenuItem(v25, IDM_LOAD_STATE_3, 0);
           LOBYTE(v29) = check_state_exists(3u);
           if ( v29 )
-            EnableMenuItem(v25, 0x9C66u, 3u);
+            EnableMenuItem(v25, IDM_LOAD_STATE_4, 3u);
           else
-            EnableMenuItem(v25, 0x9C66u, 0);
+            EnableMenuItem(v25, IDM_LOAD_STATE_4, 0);
           LOBYTE(v30) = check_state_exists(4u);
           if ( v30 )
-            EnableMenuItem(v25, 0x9C67u, 3u);
+            EnableMenuItem(v25, IDM_LOAD_STATE_5, 3u);
           else
-            EnableMenuItem(v25, 0x9C67u, 0);
+            EnableMenuItem(v25, IDM_LOAD_STATE_5, 0);
           result = 1;
         }
         break;
@@ -598,8 +599,8 @@ static BOOL register_win_class()
   v1.style = 0;
   v1.cbClsExtra = 0;
   v1.cbWndExtra = 0;
-  v1.hIcon = LoadIconA(nullptr, (LPCSTR)0x89);
-  v1.hIconSm = LoadIconA(g_hInstance, (LPCSTR)0x89);
+  v1.hIcon = LoadIconA(nullptr, (LPCSTR)IDI_APP);
+  v1.hIconSm = LoadIconA(g_hInstance, (LPCSTR)IDI_APP);
   v1.hCursor = nullptr;
   v1.hInstance = g_hInstance;
   v1.lpfnWndProc = main_window_callback;
@@ -617,8 +618,8 @@ BOOL create_main_window()
   g_hInstance = GetModuleHandleA(nullptr);
   if ( !register_win_class() )
     ui_error(" * Error registering window.\n");
-  main_window_bitmap = LoadBitmapA(g_hInstance, (LPCSTR)0x8C);
-  h = LoadBitmapA(g_hInstance, (LPCSTR)0x8E);
+  main_window_bitmap = LoadBitmapA(g_hInstance, (LPCSTR)IDB_MAIN_WINDOW);
+  h = LoadBitmapA(g_hInstance, (LPCSTR)IDB_MAIN_WINDOW_BG);
   Window = CreateWindowExA(
              0,
              "EPSXGUI",

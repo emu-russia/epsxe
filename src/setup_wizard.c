@@ -1,4 +1,5 @@
 #include "pch.h"
+
 static HANDLE setup_wizard_init()
 {
   HANDLE FirstFileA; // edi
@@ -109,7 +110,7 @@ static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3,
       }
       if ( (unsigned __int16)a3 == 1108 )
       {
-        v6 = SendDlgItemMessageA(hDlg, 1106, 0x188u, 0, 0);
+        v6 = SendDlgItemMessageA(hDlg, IDC_INSTALL_BIOS_LIST, 0x188u, 0, 0);
         if ( v6 != -1 && v6 < found_plugin_count )
         {
           sprintf(bios_search_path, "%s", &plugin_name_list[1024 * v6]);
@@ -163,7 +164,7 @@ static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3,
         if ( v8 != -1 )
         {
           sprintf(lParam, "%s", (const char *)(36 * v8 + 4513104));
-          v14 = SendDlgItemMessageA(hDlg, 1106, 0x180u, 0, (LPARAM)lParam);
+          v14 = SendDlgItemMessageA(hDlg, IDC_INSTALL_BIOS_LIST, 0x180u, 0, (LPARAM)lParam);
           v15 = found_plugin_count;
           if ( v14 == found_plugin_count )
           {
@@ -216,7 +217,7 @@ static INT_PTR __stdcall setup_wizard_search_bios(HWND hDlg, UINT a2, WPARAM a3,
   while ( FindNextFileA(hFindFile, &FindFileData) );
   if ( found_plugin_count == 1 )
   {
-    SendDlgItemMessageA(hDlg, 1106, 0x186u, 0, 0);
+    SendDlgItemMessageA(hDlg, IDC_INSTALL_BIOS_LIST, 0x186u, 0, 0);
     return 1;
   }
   return 1;
@@ -311,9 +312,9 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
               sprintf(lParam, "%s %d.%d", v20, v33, v34);
               if ( PSEgetLibType() == 2 )
               {
-                v21 = SendDlgItemMessageA(hDlg, 1124, 0x180u, 0, (LPARAM)lParam);
+                v21 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x180u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)VideoPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(hDlg, 1124, 0x186u, v21, 0);
+                  SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x186u, v21, 0);
                 v22 = found_plugin_count;
                 if ( v21 == found_plugin_count )
                 {
@@ -368,7 +369,7 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
     while ( FindNextFileA(hFindFile, &FindFileData) );
     if ( found_plugin_count == 1 )
     {
-      SendDlgItemMessageA(hDlg, 1124, 0x186u, 0, 0);
+      SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x186u, 0, 0);
       return 1;
     }
     return 1;
@@ -377,10 +378,10 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
     return 0;
   switch ( (__int16)a3 )
   {
-    case 1125:
+    case IDC_INSTALL_GPU_CONFIG:
       if ( !found_plugin_count )
         return 0;
-      v11 = SendDlgItemMessageA(hDlg, 1124, 0x188u, 0, 0);
+      v11 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
       if ( v11 == -1 || v11 >= found_plugin_count )
         return 0;
       sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v11]);
@@ -392,10 +393,10 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
       PSEconfigure();
       GPUshutdown_0();
       return 0;
-    case 1126:
+    case IDC_INSTALL_GPU_TEST:
       if ( !found_plugin_count )
         return 0;
-      v8 = SendDlgItemMessageA(hDlg, 1124, 0x188u, 0, 0);
+      v8 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
       if ( v8 == -1 || v8 >= found_plugin_count )
         return 0;
       sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v8]);
@@ -420,14 +421,14 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
         GPUshutdown_0();
         return 0;
       }
-    case 1127:
+    case IDC_INSTALL_GPU_BACK:
       --setup_wizard_step;
       EndDialog(hDlg, 1);
       return 1;
-    case 1128:
+    case IDC_INSTALL_GPU_NEXT:
       if ( !found_plugin_count )
         return 1;
-      v6 = SendDlgItemMessageA(hDlg, 1124, 0x188u, 0, 0);
+      v6 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
       if ( v6 != -1 && v6 < found_plugin_count )
       {
         sprintf(video_plugin_search_path, "%s", &plugin_name_list[1024 * v6]);
@@ -442,10 +443,10 @@ static INT_PTR __stdcall setup_wizard_search_video_plugin(HWND hDlg, UINT a2, WP
         0x10u);
       result = 0;
       break;
-    case 1129:
+    case IDC_INSTALL_GPU_ABOUT:
       if ( found_plugin_count )
       {
-        v13 = SendDlgItemMessageA(hDlg, 1124, 0x188u, 0, 0);
+        v13 = SendDlgItemMessageA(hDlg, IDC_INSTALL_GPU_LIST, 0x188u, 0, 0);
         if ( v13 != -1 && v13 < found_plugin_count )
         {
           sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v13]);
@@ -534,9 +535,9 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
     sprintf(lParam, "ePSXe SPU core 1.5.2.");
     v17 = hDlg;
     v18 = SendDlgItemMessageA;
-    v19 = SendDlgItemMessageA(hDlg, 1129, LB_ADDSTRING, 0, (LPARAM)lParam);
+    v19 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_ADDSTRING, 0, (LPARAM)lParam);
     if ( !strcmp((const char *)SoundPlugin, "SPUCORE") )
-      SendDlgItemMessageA(hDlg, 1129, LB_SETCURSEL, v19, 0);
+      SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_SETCURSEL, v19, 0);
     v20 = found_plugin_count;
     v21 = found_plugin_count << 10;
     *(_DWORD *)&plugin_name_list[v21] = *(_DWORD *)"SPUCORE";
@@ -565,9 +566,9 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
               sprintf(lParam, "%s %d.%d", v27, v40, v41);
               if ( PSEgetLibType() == 4 )
               {
-                v28 = v18(v17, 1129, 0x180u, 0, (LPARAM)lParam);
+                v28 = v18(v17, IDC_INSTALL_SPU_LIST, 0x180u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)SoundPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(v17, 1129, 0x186u, v28, 0);
+                  SendDlgItemMessageA(v17, IDC_INSTALL_SPU_LIST, 0x186u, v28, 0);
                 v29 = found_plugin_count;
                 if ( v28 == found_plugin_count )
                 {
@@ -625,7 +626,7 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
     }
     if ( found_plugin_count == 1 )
     {
-      SendDlgItemMessageA(v17, 1129, LB_SETCURSEL, 0, 0);
+      SendDlgItemMessageA(v17, IDC_INSTALL_SPU_LIST, LB_SETCURSEL, 0, 0);
       return 1;
     }
     return 1;
@@ -634,8 +635,8 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
     return 0;
   switch ( (__int16)a3 )
   {
-    case 1111:
-      v11 = SendDlgItemMessageA(hDlg, 1129, LB_GETCURSEL, 0, 0);
+    case IDC_INSTALL_SPU_CONFIG:
+      v11 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_GETCURSEL, 0, 0);
       if ( v11 == -1 || v11 >= found_plugin_count )
         return 0;
       v12 = &plugin_name_list[1024 * v11];
@@ -651,8 +652,8 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
         PSEconfigure();
       }
       return 0;
-    case 1112:
-      v8 = SendDlgItemMessageA(hDlg, 1129, LB_GETCURSEL, 0, 0);
+    case IDC_INSTALL_SPU_TEST:
+      v8 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, LB_GETCURSEL, 0, 0);
       if ( v8 == -1 )
         return 0;
       if ( v8 >= found_plugin_count )
@@ -665,8 +666,8 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
       GPUtest_0 = GetProcAddress(v10, "SPUtest");
       GPUtest_0();
       return 0;
-    case 1113:
-      v14 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
+    case IDC_INSTALL_SPU_ABOUT:
+      v14 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, 0x188u, 0, 0);
       if ( v14 != -1 && v14 < found_plugin_count )
       {
         v15 = &plugin_name_list[1024 * v14];
@@ -679,12 +680,12 @@ static INT_PTR __stdcall setup_wizard_search_spu_plugin(HWND hDlg, UINT a2, WPAR
         }
       }
       return 0;
-    case 1130:
+    case IDC_INSTALL_SPU_BACK:
       --setup_wizard_step;
       EndDialog(hDlg, 1);
       return 1;
-    case 1131:
-      v6 = SendDlgItemMessageA(hDlg, 1129, 0x188u, 0, 0);
+    case IDC_INSTALL_SPU_NEXT:
+      v6 = SendDlgItemMessageA(hDlg, IDC_INSTALL_SPU_LIST, 0x188u, 0, 0);
       if ( v6 != -1 && v6 < found_plugin_count )
       {
         sprintf(spu_plugin_search_path, "%s", &plugin_name_list[1024 * v6]);
@@ -775,9 +776,9 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
       hFindFile = FindFirstFileA(FileName, &FindFileData);
       found_plugin_count = 0;
       sprintf(v51, "ePSXe CDR ASPI core 1.5.2.");
-      v18 = SendDlgItemMessageA(hDlg, 1119, 0x180u, 0, (LPARAM)v51);
+      v18 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x180u, 0, (LPARAM)v51);
       if ( !strcmp((const char *)CdromPlugin, "W9XCDRCORE") )
-        SendDlgItemMessageA(hDlg, 1119, 0x186u, v18, 0);
+        SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, v18, 0);
       v19 = found_plugin_count;
       strcpy(&plugin_name_list[1024 * found_plugin_count], "W9XCDRCORE");
       found_plugin_count = v19 + 1;
@@ -787,9 +788,9 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
       if ( VersionInformation.dwPlatformId == 2 )
       {
         sprintf(v51, "ePSXe CDR WNT/W2K core 1.5.2.");
-        v20 = SendDlgItemMessageA(hDlg, 1119, 0x180u, 0, (LPARAM)v51);
+        v20 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x180u, 0, (LPARAM)v51);
         if ( !strcmp((const char *)CdromPlugin, "W2KCDRCORE") )
-          SendDlgItemMessageA(hDlg, 1119, 0x186u, v20, 0);
+          SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, v20, 0);
         v21 = found_plugin_count;
         strcpy(&plugin_name_list[1024 * found_plugin_count], "W2KCDRCORE");
         found_plugin_count = v21 + 1;
@@ -817,9 +818,9 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
                 sprintf(v51, "%s %d.%d", v27, v43, v44);
                 if ( PSEgetLibType() == 1 )
                 {
-                  v28 = SendDlgItemMessageA(hDlg, 1119, 0x180u, 0, (LPARAM)v51);
+                  v28 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x180u, 0, (LPARAM)v51);
                   if ( !strcmp((const char *)CdromPlugin, FindFileData.cFileName) )
-                    SendDlgItemMessageA(hDlg, 1119, 0x186u, v28, 0);
+                    SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, v28, 0);
                   v29 = found_plugin_count;
                   if ( v28 == found_plugin_count )
                   {
@@ -873,31 +874,31 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
       }
       while ( FindNextFileA(hFindFile, &FindFileData) );
       sprintf(lParam, "FirstCdrom");
-      v40 = SendDlgItemMessageA(hDlg, 1113, 0x143u, 0, (LPARAM)lParam);
+      v40 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x143u, 0, (LPARAM)lParam);
       if ( !cdrom_letter )
-        SendDlgItemMessageA(hDlg, 1113, 0x14Eu, v40, 0);
+        SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x14Eu, v40, 0);
       for ( i = 65; i <= 90; ++i )
       {
         sprintf(lParam, "%c:\\", i);
         if ( GetDriveTypeA(lParam) == 5 )
         {
           sprintf(lParam, "--%c:--", i);
-          v42 = SendDlgItemMessageA(hDlg, 1113, 0x143u, 0, (LPARAM)lParam);
+          v42 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x143u, 0, (LPARAM)lParam);
           if ( i == cdrom_letter )
-            SendDlgItemMessageA(hDlg, 1113, 0x14Eu, v42, 0);
+            SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER, 0x14Eu, v42, 0);
         }
       }
       if ( found_plugin_count == 1 )
       {
-        SendDlgItemMessageA(hDlg, 1119, 0x186u, 0, 0);
+        SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x186u, 0, 0);
         return 1;
       }
       break;
     case 0x111u:
       switch ( (__int16)a3 )
       {
-        case 1120:
-          v12 = SendDlgItemMessageA(hDlg, 1119, 0x188u, 0, 0);
+        case IDC_INSTALL_CDROM_CONFIG:
+          v12 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
           if ( v12 == -1 || v12 >= found_plugin_count )
             return 0;
           v13 = &plugin_name_list[1024 * v12];
@@ -916,8 +917,8 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
           PSEconfigure = GetProcAddress(v14, "CDRconfigure");
           PSEconfigure();
           return 0;
-        case 1121:
-          v9 = SendDlgItemMessageA(hDlg, 1119, 0x188u, 0, 0);
+        case IDC_INSTALL_CDROM_TEST:
+          v9 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
           if ( v9 == -1 )
             return 0;
           if ( v9 >= found_plugin_count )
@@ -930,12 +931,12 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
           GPUtest_0 = GetProcAddress(v11, "CDRtest");
           GPUtest_0();
           return 0;
-        case 1122:
+        case IDC_INSTALL_CDROM_BACK:
           --setup_wizard_step;
           EndDialog(hDlg, 1);
           return 1;
-        case 1123:
-          v6 = SendDlgItemMessageA(hDlg, 1119, 0x188u, 0, 0);
+        case IDC_INSTALL_CDROM_NEXT:
+          v6 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
           if ( v6 == -1 || v6 >= found_plugin_count )
           {
             MessageBoxA(
@@ -956,10 +957,10 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
           }
           sprintf(cdrom_plugin_search_path, "%s", &plugin_name_list[1024 * v6]);
           ++setup_wizard_step;
-          v8 = SendDlgItemMessageA(hDlg, 1062, 0x147u, 0, 0);
+          v8 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER_ALT, 0x147u, 0, 0);
           if ( v8 != -1 )
           {
-            SendDlgItemMessageA(hDlg, 1062, 0x148u, v8, (LPARAM)lParam);
+            SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LETTER_ALT, 0x148u, v8, (LPARAM)lParam);
             if ( strncmp(lParam, "FirstCdrom", 4u) )
             {
               sscanf(lParam, "--%c:--", &cdrom_letter);
@@ -970,8 +971,8 @@ static INT_PTR __stdcall setup_wizard_search_cdrom_plugin(HWND hDlg, UINT a2, WP
           }
           EndDialog(hDlg, 1);
           break;
-        case 1124:
-          v15 = SendDlgItemMessageA(hDlg, 1119, 0x188u, 0, 0);
+        case IDC_INSTALL_CDROM_ABOUT:
+          v15 = SendDlgItemMessageA(hDlg, IDC_INSTALL_CDROM_LIST, 0x188u, 0, 0);
           if ( v15 != -1 && v15 < found_plugin_count )
           {
             v16 = &plugin_name_list[1024 * v15];
@@ -1016,14 +1017,14 @@ LABEL_16:
     case 0x111u:
       switch ( (__int16)a3 )
       {
-        case 1115:
+        case IDC_INSTALL_PAD_BACK:
           --setup_wizard_step;
           EndDialog(hDlg, 1);
           return 1;
-        case 1116:
+        case IDC_INSTALL_PAD_NEXT:
           ++setup_wizard_step;
           goto LABEL_16;
-        case 1117:
+        case IDC_INSTALL_PAD_1:
           pad_number_menu_selection = 1;
           DC = GetDC(hDlg);
           DeviceCaps = GetDeviceCaps(DC, 88);
@@ -1033,7 +1034,7 @@ LABEL_16:
           else
             DialogBoxParamA((HINSTANCE)g_hInstance, "IDD_CONTROLLER", hDlg, controller_setup_callback, 0);
           return 0;
-        case 1118:
+        case IDC_INSTALL_PAD_2:
           pad_number_menu_selection = 2;
           v7 = GetDC(hDlg);
           v8 = GetDeviceCaps(v7, 88);

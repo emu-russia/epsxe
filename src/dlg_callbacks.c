@@ -1,4 +1,5 @@
 #include "pch.h"
+
 BOOL __cdecl open_file_dialog(const CHAR *a1, const CHAR *a2, CHAR *a3, const CHAR *a4, const CHAR *a5)
 {
   BOOL result; // eax
@@ -185,9 +186,9 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
     }
     if ( multitap_1 )
     {
-      SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital Only");
-      SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
-      SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Disabled");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital Only");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Disabled");
       v5 = *(_DWORD *)&Keys4[2 * (unsigned __int8)pad_number_menu_selection + 14];
       if ( v5 )
       {
@@ -195,49 +196,49 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
         if ( v6 )
         {
           if ( v6 == 3 )
-            SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 1u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 1u, 0);
         }
         else
         {
-          SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 0, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 0, 0);
         }
       }
       else
       {
-        SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 2u, 0);
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 2u, 0);
       }
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"Burutter");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy1");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy2");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"None");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"Burutter");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy1");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy2");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"None");
       switch ( GamepadAxis[(unsigned __int8)pad_number_menu_selection + 7] )
       {
         case 0:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 5u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 5u, 0);
           break;
         case 1:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 1u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 1u, 0);
           break;
         case 2:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 2u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 2u, 0);
           break;
         case 3:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 3u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 3u, 0);
           break;
         case 4:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 4u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 4u, 0);
           break;
         case 5:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 0, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 0, 0);
           break;
         default:
           break;
       }
-      SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Constant");
-      SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"None");
-      SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Sine");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Constant");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"None");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Sine");
       v7 = g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection];
       if ( v7 )
       {
@@ -245,20 +246,20 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
         if ( v8 )
         {
           if ( v8 == 1 )
-            SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 2u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_SETCURSEL, 2u, 0);
         }
         else
         {
-          SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 0, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_SETCURSEL, 0, 0);
         }
       }
       else
       {
-        SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 1u, 0);
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_SETCURSEL, 1u, 0);
       }
-      SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Constant");
-      SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"None");
-      SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Sine");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Constant");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"None");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Sine");
       v9 = pad4_small_motor_type[(unsigned __int8)pad_number_menu_selection];
       if ( v9 )
       {
@@ -266,105 +267,105 @@ INT_PTR __stdcall controller_setup_callback(HWND hDlg, UINT a2, WPARAM a3, LPARA
         if ( v10 )
         {
           if ( v10 == 1 )
-            SendDlgItemMessageA(hDlg, 1089, CB_SETCURSEL, 2u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_SETCURSEL, 2u, 0);
         }
         else
         {
-          SendDlgItemMessageA(hDlg, 1089, CB_SETCURSEL, 0, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_SETCURSEL, 0, 0);
         }
       }
       else
       {
-        SendDlgItemMessageA(hDlg, 1089, CB_SETCURSEL, 1u, 0);
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_SETCURSEL, 1u, 0);
       }
     }
     if ( pad_number_menu_selection == 1 )
     {
       if ( !multitap_1 )
       {
-        SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital Only");
-        SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
-        SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog Mouse T0 (F5)");
-        SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog Mouse T1 (F5)");
-        SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Gun    (F5)");
-        SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Mouse  (F5)");
-        SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Disabled");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital Only");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog Mouse T0 (F5)");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog Mouse T1 (F5)");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital/Gun    (F5)");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital/Mouse  (F5)");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Disabled");
         switch ( controller_port_modes[0] )
         {
           case 0:
-            SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 6u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 6u, 0);
             break;
           case 1:
-            SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 0, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 0, 0);
             break;
           case 2:
-            SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 5u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 5u, 0);
             break;
           case 3:
-            SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 4u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 4u, 0);
             break;
           case 4:
-            SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 1u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 1u, 0);
             break;
           case 5:
-            SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 2u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 2u, 0);
             break;
           case 6:
-            SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 3u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 3u, 0);
             break;
           default:
             break;
         }
-        SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"Burutter");
-        SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy1");
-        SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy2");
-        SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
-        SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
-        SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"None");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"Burutter");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy1");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy2");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"None");
         switch ( g_PlayerDeviceMap1[0] )
         {
           case 0:
-            SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 5u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 5u, 0);
             break;
           case 1:
-            SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 1u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 1u, 0);
             break;
           case 2:
-            SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 2u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 2u, 0);
             break;
           case 3:
-            SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 3u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 3u, 0);
             break;
           case 4:
-            SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 4u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 4u, 0);
             break;
           case 5:
-            SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 0, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 0, 0);
             break;
           default:
             break;
         }
-        SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Constant");
-        SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"None");
-        SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Sine");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Constant");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"None");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Sine");
         if ( g_EffectType2[0] )
         {
           if ( g_EffectType2[0] == 1 )
           {
-            SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 0, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_SETCURSEL, 0, 0);
           }
           else if ( g_EffectType2[0] == 2 )
           {
-            SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 2u, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_SETCURSEL, 2u, 0);
           }
         }
         else
         {
-          SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 1u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_SETCURSEL, 1u, 0);
         }
-        SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Constant");
-        SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"None");
-        SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Sine");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Constant");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"None");
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Sine");
         v11 = g_EffectType1[0];
 LABEL_78:
         if ( v11 )
@@ -373,92 +374,92 @@ LABEL_78:
           if ( v12 )
           {
             if ( v12 == 1 )
-              SendDlgItemMessageA(hDlg, 1089, CB_SETCURSEL, 2u, 0);
+              SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_SETCURSEL, 2u, 0);
           }
           else
           {
-            SendDlgItemMessageA(hDlg, 1089, CB_SETCURSEL, 0, 0);
+            SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_SETCURSEL, 0, 0);
           }
         }
         else
         {
-          SendDlgItemMessageA(hDlg, 1089, CB_SETCURSEL, 1u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_SETCURSEL, 1u, 0);
         }
       }
     }
     else if ( pad_number_menu_selection == 2 && !multitap_1 )
     {
-      SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital Only");
-      SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
-      SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Digital/Mouse  (F5)");
-      SendDlgItemMessageA(hDlg, 1086, CB_ADDSTRING, 0, (LPARAM)"Disabled");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital Only");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital/Analog (F5)");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Digital/Mouse  (F5)");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_ADDSTRING, 0, (LPARAM)"Disabled");
       switch ( controller_port_modes[1] )
       {
         case 0:
-          SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 3u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 3u, 0);
           break;
         case 1:
-          SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 0, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 0, 0);
           break;
         case 2:
-          SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 2u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 2u, 0);
           break;
         case 4:
-          SendDlgItemMessageA(hDlg, 1086, CB_SETCURSEL, 1u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, CB_SETCURSEL, 1u, 0);
           break;
         default:
           break;
       }
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"Burutter");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy1");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy2");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
-      SendDlgItemMessageA(hDlg, 1088, CB_ADDSTRING, 0, (LPARAM)"None");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"Burutter");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy1");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy2");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy3");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"DX Joy4");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_ADDSTRING, 0, (LPARAM)"None");
       switch ( g_PlayerDeviceMap2 )
       {
         case 0:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 5u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 5u, 0);
           break;
         case 1:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 1u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 1u, 0);
           break;
         case 2:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 2u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 2u, 0);
           break;
         case 3:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 3u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 3u, 0);
           break;
         case 4:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 4u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 4u, 0);
           break;
         case 5:
-          SendDlgItemMessageA(hDlg, 1088, CB_SETCURSEL, 0, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, CB_SETCURSEL, 0, 0);
           break;
         default:
           break;
       }
-      SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Constant");
-      SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"None");
-      SendDlgItemMessageA(hDlg, 1090, CB_ADDSTRING, 0, (LPARAM)"Sine");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Constant");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"None");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Sine");
       if ( pad2_small_motor_type )
       {
         if ( pad2_small_motor_type == 1 )
         {
-          SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 0, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_SETCURSEL, 0, 0);
         }
         else if ( pad2_small_motor_type == 2 )
         {
-          SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 2u, 0);
+          SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_SETCURSEL, 2u, 0);
         }
       }
       else
       {
-        SendDlgItemMessageA(hDlg, 1090, CB_SETCURSEL, 1u, 0);
+        SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, CB_SETCURSEL, 1u, 0);
       }
-      SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Constant");
-      SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"None");
-      SendDlgItemMessageA(hDlg, 1089, CB_ADDSTRING, 0, (LPARAM)"Sine");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Constant");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"None");
+      SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, CB_ADDSTRING, 0, (LPARAM)"Sine");
       v11 = pad2_big_motor_type;
       goto LABEL_78;
     }
@@ -471,8 +472,8 @@ LABEL_78:
     controller_set_keyboard(hDlg, 0xFFu);
     controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
     sprintf(String, "PAD NUMBER %d", (unsigned __int8)pad_number_menu_selection);
-    SetDlgItemTextA(hDlg, 1049, String);
-    SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: NONE");
+    SetDlgItemTextA(hDlg, IDC_CONTROLLER_PAD_NUMBER, String);
+    SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: NONE");
     SetTimer(hDlg, 0, 0x21u, nullptr);
     hDlgInput = (int)hDlg;
     hInst_For_DInput = (int)g_hInstance;
@@ -485,73 +486,73 @@ LABEL_78:
   {
     switch ( (__int16)a3 )
     {
-      case 1023:
+      case IDC_CONTROLLER_DEFAULT:
         edit_button_id = -1;
         cont_set_default(pad_number_menu_selection);
         v29 = hDlg;
         controller_set_keyboard(hDlg, (unsigned __int8)edit_button_id);
         goto LABEL_203;
-      case 1031:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: L2");
+      case IDC_CONTROLLER_L2:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: L2");
         edit_button_id = 9;
         return 0;
-      case 1032:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: L1");
+      case IDC_CONTROLLER_L1:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: L1");
         edit_button_id = 8;
         return 0;
-      case 1033:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: UP");
+      case IDC_CONTROLLER_UP:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: UP");
         edit_button_id = 2;
         return 0;
-      case 1034:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: LEFT");
+      case IDC_CONTROLLER_LEFT:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: LEFT");
         edit_button_id = 0;
         return 0;
-      case 1035:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: DOWN");
+      case IDC_CONTROLLER_DOWN:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: DOWN");
         edit_button_id = 3;
         return 0;
-      case 1036:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: RIGHT");
+      case IDC_CONTROLLER_RIGHT:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: RIGHT");
         edit_button_id = 1;
         return 0;
-      case 1038:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: SELECT");
+      case IDC_CONTROLLER_SELECT:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: SELECT");
         edit_button_id = 13;
         return 0;
-      case 1039:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: START");
+      case IDC_CONTROLLER_START:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: START");
         edit_button_id = 12;
         return 0;
-      case 1040:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: R2");
+      case IDC_CONTROLLER_R2:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: R2");
         edit_button_id = 11;
         return 0;
-      case 1041:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: R1");
+      case IDC_CONTROLLER_R1:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: R1");
         edit_button_id = 10;
         return 0;
-      case 1042:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: TRIANGLE");
+      case IDC_CONTROLLER_TRIANGLE:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: TRIANGLE");
         edit_button_id = 4;
         return 0;
-      case 1043:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: CIRCLE");
+      case IDC_CONTROLLER_CIRCLE:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: CIRCLE");
         edit_button_id = 5;
         return 0;
-      case 1044:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: X");
+      case IDC_CONTROLLER_CROSS:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: X");
         edit_button_id = 6;
         return 0;
-      case 1045:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: SQUARE");
+      case IDC_CONTROLLER_SQUARE:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: SQUARE");
         edit_button_id = 7;
         return 0;
-      case 1046:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: L3");
+      case IDC_CONTROLLER_L3:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: L3");
         edit_button_id = 14;
         return 0;
-      case 1047:
+      case IDC_CONTROLLER_CANCEL:
         v27 = (unsigned __int8)pad_number_menu_selection;
         v28 = saved_pad_mdec_disable_flag;
         qmemcpy(&pad_key_assignments[16 * (unsigned __int8)pad_number_menu_selection], pad_keymap_dialog_copy, 0x20u);
@@ -561,8 +562,8 @@ LABEL_78:
         EndDialog(hDlg, 1);
         diShutdownDirectInput();
         return 1;
-      case 1048:
-        v22 = SendDlgItemMessageA(hDlg, 1086, 0x147u, 0, 0);
+      case IDC_CONTROLLER_OK:
+        v22 = SendDlgItemMessageA(hDlg, IDC_CONTROLLER_TYPE, 0x147u, 0, 0);
         if ( v22 != -1 )
         {
           if ( v22 >= 6u || pad_number_menu_selection != 1 || multitap_1 )
@@ -634,7 +635,7 @@ LABEL_78:
             }
           }
         }
-        v24 = SendDlgItemMessageA(hDlg, 1088, 0x147u, 0, 0);
+        v24 = SendDlgItemMessageA(hDlg, IDC_CONTROLLER_DEVICE, 0x147u, 0, 0);
         if ( v24 != -1 && v24 < 6u )
         {
           switch ( v24 )
@@ -659,7 +660,7 @@ LABEL_78:
               break;
           }
         }
-        v25 = SendDlgItemMessageA(hDlg, 1090, 0x147u, 0, 0);
+        v25 = SendDlgItemMessageA(hDlg, IDC_CONTROLLER_SMALL_MOTOR, 0x147u, 0, 0);
         if ( v25 != -1 && v25 < 3u )
         {
           if ( v25 )
@@ -678,7 +679,7 @@ LABEL_78:
             g_PlayerDeviceMap4[(unsigned __int8)pad_number_menu_selection] = 1;
           }
         }
-        v26 = SendDlgItemMessageA(hDlg, 1089, 0x147u, 0, 0);
+        v26 = SendDlgItemMessageA(hDlg, IDC_CONTROLLER_BIG_MOTOR, 0x147u, 0, 0);
         if ( v26 != -1 && v26 < 3u )
         {
           if ( v26 )
@@ -702,38 +703,38 @@ LABEL_78:
         EndDialog(hDlg, 1);
         diShutdownDirectInput();
         return 1;
-      case 1049:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: NONE");
+      case IDC_CONTROLLER_PAD_NUMBER:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: NONE");
         edit_button_id = -1;
         return 0;
-      case 1050:
-        SetDlgItemTextA(hDlg, 1060, "EDIT BUTTON: R3");
+      case IDC_CONTROLLER_R3:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: R3");
         edit_button_id = 15;
         return 0;
-      case 1051:
-        SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: Y1");
+      case IDC_CONTROLLER_AXIS_Y1:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT AXIS: Y1");
         edit_button_id = 17;
         return 0;
-      case 1052:
-        SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: X1");
+      case IDC_CONTROLLER_AXIS_X1:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT AXIS: X1");
         edit_button_id = 16;
         return 0;
-      case 1053:
-        SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: X2");
+      case IDC_CONTROLLER_AXIS_X2:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT AXIS: X2");
         edit_button_id = 18;
         return 0;
-      case 1054:
-        SetDlgItemTextA(hDlg, 1060, "EDIT AXIS: Y2");
+      case IDC_CONTROLLER_AXIS_Y2:
+        SetDlgItemTextA(hDlg, IDC_CONTROLLER_EDIT_BUTTON, "EDIT AXIS: Y2");
         edit_button_id = 19;
         return 0;
-      case 1055:
+      case IDC_CONTROLLER_CLEAR:
         edit_button_id = -1;
         cont_reset_pad_state(pad_number_menu_selection);
         v29 = hDlg;
         controller_set_keyboard(hDlg, (unsigned __int8)edit_button_id);
         controller_set_joypad(hDlg, (unsigned __int8)edit_button_id);
 LABEL_203:
-        SetDlgItemTextA(v29, 1060, "EDIT BUTTON: NONE");
+        SetDlgItemTextA(v29, IDC_CONTROLLER_EDIT_BUTTON, "EDIT BUTTON: NONE");
         result = 0;
         break;
       default:
@@ -892,7 +893,7 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
     for ( i = 0; i < (unsigned __int8)active_mini_cheat_count; ++i )
     {
       sprintf(lParam, "  %06x    %08x", mini_cheat_id_array[2 * i], mini_cheat_attr_array[2 * i]);
-      SendDlgItemMessageA(hDlg, 1142, 0x180u, 0, (LPARAM)lParam);
+      SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x180u, 0, (LPARAM)lParam);
     }
     return 1;
   }
@@ -900,7 +901,7 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
   {
     switch ( a3 )
     {
-      case 1056:
+      case IDC_CHEAT_LOAD:
         if ( !open_file_dialog("Open PSX CHEAT", "PSX CHEATs (*.CHT)", temp_path, "cheats\\", "CHT") )
           return 0;
         v9 = fopen(temp_path, "r");
@@ -911,23 +912,23 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
           if ( lParam[0] != 35 && sscanf(lParam, "%x %x", &v15, &v14) == 2 )
           {
             sprintf(lParam, "  %06x    %08x", v15 & 0x1FFFFF, v14);
-            SendDlgItemMessageA(hDlg, 1142, 0x180u, 0, (LPARAM)lParam);
+            SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x180u, 0, (LPARAM)lParam);
           }
         }
         fclose(v9);
         result = 0;
         break;
-      case 1057:
+      case IDC_CHEAT_SAVE:
         if ( open_file_dialog("Save PSX CHEAT", "PSX CHEATs (*.CHT)", temp_path, "cheats\\", "CHT") )
         {
           v10 = fopen(temp_path, aW);
-          v11 = SendDlgItemMessageA(hDlg, 1142, 0x18Bu, 0, 0);
+          v11 = SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x18Bu, 0, 0);
           if ( v11 )
           {
             do
             {
               v12 = v11 - 1;
-              SendDlgItemMessageA(hDlg, 1142, 0x189u, v11 - 1, (LPARAM)lParam);
+              SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x189u, v11 - 1, (LPARAM)lParam);
               sscanf(lParam, "  %06x    %08x", &v15, &v14);
               sprintf(lParam, "%x %x\n", v15, v14);
               fputs(lParam, v10);
@@ -938,15 +939,15 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
           fclose(v10);
         }
         return 0;
-      case 1058:
-        v4 = SendDlgItemMessageA(hDlg, 1142, 0x18Bu, 0, 0);
+      case IDC_CHEAT_OK:
+        v4 = SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x18Bu, 0, 0);
         active_mini_cheat_count = 0;
         if ( v4 )
         {
           do
           {
             v5 = v4 - 1;
-            SendDlgItemMessageA(hDlg, 1142, 0x189u, v4 - 1, (LPARAM)lParam);
+            SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x189u, v4 - 1, (LPARAM)lParam);
             sscanf(
               lParam,
               "  %06x    %08x",
@@ -960,36 +961,36 @@ LRESULT __stdcall cheat_dialog_callback(HWND hDlg, int a2, __int16 a3, int a4)
         EndDialog(hDlg, 1);
         result = 1;
         break;
-      case 1059:
+      case IDC_CHEAT_CANCEL:
         EndDialog(hDlg, 1);
         result = 1;
         break;
-      case 1143:
-        result = SendDlgItemMessageA(hDlg, 1142, 0x18Bu, 0, 0);
+      case IDC_CHEAT_REMOVE_ALL:
+        result = SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x18Bu, 0, 0);
         if ( !result )
           return 0;
         do
         {
           v8 = result - 1;
-          SendDlgItemMessageA(hDlg, 1142, 0x182u, result - 1, 0);
+          SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x182u, result - 1, 0);
           result = v8;
         }
         while ( v8 );
         break;
-      case 1144:
-        v7 = SendDlgItemMessageA(hDlg, 1142, 0x188u, 0, 0);
+      case IDC_CHEAT_REMOVE:
+        v7 = SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x188u, 0, 0);
         if ( v7 == -1 )
           return 0;
-        SendDlgItemMessageA(hDlg, 1142, 0x182u, v7, 0);
+        SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x182u, v7, 0);
         result = 0;
         break;
-      case 1145:
-        GetDlgItemTextA(hDlg, 1055, String, 1024);
-        GetDlgItemTextA(hDlg, 1146, Buffer, 1024);
+      case IDC_CHEAT_ADD:
+        GetDlgItemTextA(hDlg, IDC_CHEAT_VALUE, String, 1024);
+        GetDlgItemTextA(hDlg, IDC_CHEAT_ADDRESS, Buffer, 1024);
         sscanf(String, "%x", &v14);
         sscanf(Buffer, "%x", &v15);
         sprintf(lParam, "  %06x    %08x", v15, v14);
-        SendDlgItemMessageA(hDlg, 1142, 0x180u, 0, (LPARAM)lParam);
+        SendDlgItemMessageA(hDlg, IDC_CHEAT_LIST, 0x180u, 0, (LPARAM)lParam);
         result = 0;
         break;
       default:
@@ -1021,28 +1022,28 @@ INT_PTR __stdcall bios_dialog_callback(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 
   if ( a2 == 272 )
   {
-    SetDlgItemTextA(hDlg, 1025, (LPCSTR)bios_name);
+    SetDlgItemTextA(hDlg, IDC_BIOS_PATH, (LPCSTR)bios_name);
     return 1;
   }
   else if ( a2 == 273 )
   {
     switch ( (__int16)a3 )
     {
-      case 1025:
+      case IDC_BIOS_PATH:
         return 1;
-      case 1027:
+      case IDC_BIOS_SELECT:
         if ( !open_file_dialog("Select PSX BIOS", "PSX BIOS (*.BIN)", temp_path, "bios\\", "BIN") )
           return 1;
-        SetDlgItemTextA(hDlg, 1025, temp_path);
+        SetDlgItemTextA(hDlg, IDC_BIOS_PATH, temp_path);
         result = 1;
         break;
-      case 1028:
-        GetDlgItemTextA(hDlg, 1025, (LPSTR)bios_name, 1024);
+      case IDC_BIOS_OK:
+        GetDlgItemTextA(hDlg, IDC_BIOS_PATH, (LPSTR)bios_name, 1024);
         EndDialog(hDlg, 1);
         cfg_save_settings();
         result = 1;
         break;
-      case 1029:
+      case IDC_BIOS_CANCEL:
         EndDialog(hDlg, 1);
         result = 1;
         break;
@@ -1135,9 +1136,9 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
               sprintf(lParam, "%s %d.%d", v20, v33, v34);
               if ( PSEgetLibType() == 2 )
               {
-                v21 = SendDlgItemMessageA(hDlg, 1017, 0x143u, 0, (LPARAM)lParam);
+                v21 = SendDlgItemMessageA(hDlg, IDC_VIDEO_PLUGIN_LIST, 0x143u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)VideoPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(hDlg, 1017, 0x14Eu, v21, 0);
+                  SendDlgItemMessageA(hDlg, IDC_VIDEO_PLUGIN_LIST, 0x14Eu, v21, 0);
                 v22 = found_plugin_count;
                 if ( v21 == found_plugin_count )
                 {
@@ -1196,10 +1197,10 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   {
     switch ( (__int16)a3 )
     {
-      case 1018:
+      case IDC_VIDEO_TEST:
         if ( !found_plugin_count )
           return 0;
-        v8 = SendDlgItemMessageA(hDlg, 1017, CB_GETCURSEL, 0, 0);
+        v8 = SendDlgItemMessageA(hDlg, IDC_VIDEO_PLUGIN_LIST, CB_GETCURSEL, 0, 0);
         if ( v8 == -1 || v8 >= found_plugin_count )
           return 0;
         sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v8]);
@@ -1225,10 +1226,10 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           result = 0;
         }
         break;
-      case 1019:
+      case IDC_VIDEO_CONFIGURE:
         if ( !found_plugin_count )
           return 0;
-        v11 = SendDlgItemMessageA(hDlg, 1017, CB_GETCURSEL, 0, 0);
+        v11 = SendDlgItemMessageA(hDlg, IDC_VIDEO_PLUGIN_LIST, CB_GETCURSEL, 0, 0);
         if ( v11 == -1 || v11 >= found_plugin_count )
           return 0;
         sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v11]);
@@ -1241,10 +1242,10 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         GPUshutdown_0();
         result = 0;
         break;
-      case 1020:
+      case IDC_VIDEO_ABOUT:
         if ( found_plugin_count )
         {
-          v13 = SendDlgItemMessageA(hDlg, 1017, CB_GETCURSEL, 0, 0);
+          v13 = SendDlgItemMessageA(hDlg, IDC_VIDEO_PLUGIN_LIST, CB_GETCURSEL, 0, 0);
           if ( v13 != -1 && v13 < found_plugin_count )
           {
             sprintf(LibFileName, "%s%s", v35, &plugin_name_list[1024 * v13]);
@@ -1258,10 +1259,10 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           }
         }
         return 0;
-      case 1021:
+      case IDC_VIDEO_OK:
         if ( found_plugin_count )
         {
-          v7 = SendDlgItemMessageA(hDlg, 1017, 0x147u, 0, 0);
+          v7 = SendDlgItemMessageA(hDlg, IDC_VIDEO_PLUGIN_LIST, 0x147u, 0, 0);
           if ( v7 != -1 && v7 < found_plugin_count )
             sprintf((char *const)VideoPlugin, "%s", &plugin_name_list[1024 * v7]);
           EndDialog(hDlg, 1);
@@ -1276,7 +1277,7 @@ INT_PTR __stdcall search_video_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           result = 1;
         }
         break;
-      case 1022:
+      case IDC_VIDEO_CANCEL:
         if ( found_plugin_count )
         {
           EndDialog(hDlg, 1);
@@ -1365,9 +1366,9 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     sprintf(lParam, "Disabled Netplay");
     v18 = hDlg;
     v19 = SendDlgItemMessageA;
-    v20 = SendDlgItemMessageA(hDlg, 1104, 0x143u, 0, (LPARAM)lParam);
+    v20 = SendDlgItemMessageA(hDlg, IDC_NET_PLUGIN_LIST, 0x143u, 0, (LPARAM)lParam);
     if ( !strcmp((const char *)NetPlugin, "DISABLED") )
-      SendDlgItemMessageA(hDlg, 1104, 0x14Eu, v20, 0);
+      SendDlgItemMessageA(hDlg, IDC_NET_PLUGIN_LIST, 0x14Eu, v20, 0);
     v21 = found_plugin_count;
     strcpy(&plugin_name_list[1024 * found_plugin_count], "DISABLED");
     found_plugin_count = v21 + 1;
@@ -1394,9 +1395,9 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
               sprintf(lParam, "%s %d.%d", v27, v40, v41);
               if ( PSEgetLibType() == 16 )
               {
-                v28 = v19(v18, 1104, 0x143u, 0, (LPARAM)lParam);
+                v28 = v19(v18, IDC_NET_PLUGIN_LIST, 0x143u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)NetPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(v18, 1104, CB_SETCURSEL, v28, 0);
+                  SendDlgItemMessageA(v18, IDC_NET_PLUGIN_LIST, CB_SETCURSEL, v28, 0);
                 v29 = found_plugin_count;
                 if ( v28 == found_plugin_count )
                 {
@@ -1458,10 +1459,10 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   {
     switch ( (__int16)a3 )
     {
-      case 1099:
+      case IDC_NET_TEST:
         if ( !found_plugin_count )
           return 0;
-        v8 = SendDlgItemMessageA(hDlg, 1104, CB_GETCURSEL, 0, 0);
+        v8 = SendDlgItemMessageA(hDlg, IDC_NET_PLUGIN_LIST, CB_GETCURSEL, 0, 0);
         if ( v8 == -1 )
           return 0;
         if ( v8 >= found_plugin_count )
@@ -1487,10 +1488,10 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           result = 0;
         }
         break;
-      case 1100:
+      case IDC_NET_CONFIGURE:
         if ( !found_plugin_count )
           return 0;
-        v12 = SendDlgItemMessageA(hDlg, 1104, CB_GETCURSEL, 0, 0);
+        v12 = SendDlgItemMessageA(hDlg, IDC_NET_PLUGIN_LIST, CB_GETCURSEL, 0, 0);
         if ( v12 == -1 )
           return 0;
         if ( v12 >= found_plugin_count )
@@ -1504,10 +1505,10 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         PSEconfigure();
         result = 0;
         break;
-      case 1101:
+      case IDC_NET_ABOUT:
         if ( found_plugin_count )
         {
-          v15 = SendDlgItemMessageA(hDlg, 1104, 0x147u, 0, 0);
+          v15 = SendDlgItemMessageA(hDlg, IDC_NET_PLUGIN_LIST, 0x147u, 0, 0);
           if ( v15 != -1 && v15 < found_plugin_count )
           {
             v16 = &plugin_name_list[1024 * v15];
@@ -1521,10 +1522,10 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           }
         }
         return 0;
-      case 1102:
+      case IDC_NET_OK:
         if ( found_plugin_count )
         {
-          v7 = SendDlgItemMessageA(hDlg, 1104, 0x147u, 0, 0);
+          v7 = SendDlgItemMessageA(hDlg, IDC_NET_PLUGIN_LIST, 0x147u, 0, 0);
           if ( v7 != -1 && v7 < found_plugin_count )
             sprintf((char *const)NetPlugin, "%s", &plugin_name_list[1024 * v7]);
           EndDialog(hDlg, 1);
@@ -1539,7 +1540,7 @@ INT_PTR __stdcall search_net_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           result = 1;
         }
         break;
-      case 1103:
+      case IDC_NET_CANCEL:
         if ( found_plugin_count )
         {
           EndDialog(hDlg, 1);
@@ -1593,21 +1594,21 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           v10 - 9,
           v10,
           v10 + 17);
-        SendDlgItemMessageA(hDlg, 1081, CB_ADDSTRING, 0, (LPARAM)lParam);
+        SendDlgItemMessageA(hDlg, IDC_CDROM9X_DEVICE_LIST, CB_ADDSTRING, 0, (LPARAM)lParam);
         if ( *(_DWORD *)(v10 + 43) == cdrom_haid
           && *(_DWORD *)(v10 + 47) == cdrom_target
           && *(_DWORD *)(v10 + 51) == cdrom_lun )
         {
-          SendDlgItemMessageA(hDlg, 1081, 0x14Eu, v9, 0);
+          SendDlgItemMessageA(hDlg, IDC_CDROM9X_DEVICE_LIST, 0x14Eu, v9, 0);
         }
         ++v9;
         v10 += 64;
       }
       while ( v9 < HIBYTE(w9x_cdrom_info) );
     }
-    SendDlgItemMessageA(hDlg, 1136, BM_SETCHECK, (unsigned __int8)SubchannelW9xCdromEnabled, 0);
-    SendDlgItemMessageA(hDlg, 1137, BM_SETCHECK, (unsigned __int8)SubchannelW9xCaching, 0);
-    SendDlgItemMessageA(hDlg, 1138, BM_SETCHECK, (unsigned __int8)SubchannelW9xCachingLG, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_READ, BM_SETCHECK, (unsigned __int8)SubchannelW9xCdromEnabled, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_CACHE, BM_SETCHECK, (unsigned __int8)SubchannelW9xCaching, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_CACHE_LG, BM_SETCHECK, (unsigned __int8)SubchannelW9xCachingLG, 0);
     return 1;
   }
   else
@@ -1616,7 +1617,7 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       return 0;
     if ( (unsigned __int16)a3 == 1079 )
     {
-      v5 = SendDlgItemMessageA(hDlg, 1081, CB_GETCURSEL, 0, 0);
+      v5 = SendDlgItemMessageA(hDlg, IDC_CDROM9X_DEVICE_LIST, CB_GETCURSEL, 0, 0);
       if ( v5 != -1 && v5 < HIBYTE(w9x_cdrom_info) )
       {
         v6 = v5 << 6;
@@ -1626,9 +1627,9 @@ INT_PTR __stdcall w9x_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         cdrom_target = v7;
         cdrom_lun = v8;
       }
-      SubchannelW9xCdromEnabled = SendDlgItemMessageA(hDlg, 1136, BM_GETCHECK, 0, 0);
-      SubchannelW9xCaching = SendDlgItemMessageA(hDlg, 1137, BM_GETCHECK, 0, 0);
-      SubchannelW9xCachingLG = SendDlgItemMessageA(hDlg, 1138, BM_GETCHECK, 0, 0);
+      SubchannelW9xCdromEnabled = SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_READ, BM_GETCHECK, 0, 0);
+      SubchannelW9xCaching = SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_CACHE, BM_GETCHECK, 0, 0);
+      SubchannelW9xCachingLG = SendDlgItemMessageA(hDlg, IDC_CDROM9X_SUBCHANNEL_CACHE_LG, BM_GETCHECK, 0, 0);
       EndDialog(hDlg, 1);
       cfg_cdrom_set_hain_target_lun();
       return 1;
@@ -1654,23 +1655,23 @@ static INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARA
   if ( a2 == 272 )
   {
     sprintf(lParam, "FirstCdrom");
-    v6 = SendDlgItemMessageA(hDlg, 1133, CB_ADDSTRING, 0, (LPARAM)lParam);
+    v6 = SendDlgItemMessageA(hDlg, IDC_CDROM2K_LETTER, CB_ADDSTRING, 0, (LPARAM)lParam);
     if ( !cdrom_letter )
-      SendDlgItemMessageA(hDlg, 1133, CB_SETCURSEL, v6, 0);
+      SendDlgItemMessageA(hDlg, IDC_CDROM2K_LETTER, CB_SETCURSEL, v6, 0);
     for ( i = 65; i <= 90; ++i )
     {
       sprintf(lParam, "%c:\\", i);
       if ( GetDriveTypeA(lParam) == 5 )
       {
         sprintf(lParam, "--%c:--", i);
-        v8 = SendDlgItemMessageA(hDlg, 1133, CB_ADDSTRING, 0, (LPARAM)lParam);
+        v8 = SendDlgItemMessageA(hDlg, IDC_CDROM2K_LETTER, CB_ADDSTRING, 0, (LPARAM)lParam);
         if ( i == cdrom_letter )
-          SendDlgItemMessageA(hDlg, 1133, CB_SETCURSEL, v8, 0);
+          SendDlgItemMessageA(hDlg, IDC_CDROM2K_LETTER, CB_SETCURSEL, v8, 0);
       }
     }
-    SendDlgItemMessageA(hDlg, 1139, BM_SETCHECK, (unsigned __int8)SubchannelW2kCdromEnabled, 0);
-    SendDlgItemMessageA(hDlg, 1140, BM_SETCHECK, (unsigned __int8)SubchannelW2kCaching, 0);
-    SendDlgItemMessageA(hDlg, 1141, BM_SETCHECK, (unsigned __int8)SubchannelW2kCachingLG, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_READ, BM_SETCHECK, (unsigned __int8)SubchannelW2kCdromEnabled, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_CACHE, BM_SETCHECK, (unsigned __int8)SubchannelW2kCaching, 0);
+    SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_CACHE_LG, BM_SETCHECK, (unsigned __int8)SubchannelW2kCachingLG, 0);
     return 1;
   }
   else
@@ -1679,18 +1680,18 @@ static INT_PTR __stdcall w2k_cdrom_settings(HWND hDlg, UINT a2, WPARAM a3, LPARA
       return 0;
     if ( (unsigned __int16)a3 == 1134 )
     {
-      v5 = SendDlgItemMessageA(hDlg, 1133, CB_GETCURSEL, 0, 0);
+      v5 = SendDlgItemMessageA(hDlg, IDC_CDROM2K_LETTER, CB_GETCURSEL, 0, 0);
       if ( v5 != -1 )
       {
-        SendDlgItemMessageA(hDlg, 1133, CB_GETLBTEXT, v5, (LPARAM)lParam);
+        SendDlgItemMessageA(hDlg, IDC_CDROM2K_LETTER, CB_GETLBTEXT, v5, (LPARAM)lParam);
         if ( !strncmp(lParam, "FirstCdrom", 4u) )
           cdrom_letter = 0;
         else
           sscanf(lParam, "--%c:--", &cdrom_letter);
       }
-      SubchannelW2kCdromEnabled = SendDlgItemMessageA(hDlg, 1139, BM_GETCHECK, 0, 0);
-      SubchannelW2kCaching = SendDlgItemMessageA(hDlg, 1140, BM_GETCHECK, 0, 0);
-      SubchannelW2kCachingLG = SendDlgItemMessageA(hDlg, 1141, BM_GETCHECK, 0, 0);
+      SubchannelW2kCdromEnabled = SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_READ, BM_GETCHECK, 0, 0);
+      SubchannelW2kCaching = SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_CACHE, BM_GETCHECK, 0, 0);
+      SubchannelW2kCachingLG = SendDlgItemMessageA(hDlg, IDC_CDROM2K_SUBCHANNEL_CACHE_LG, BM_GETCHECK, 0, 0);
       EndDialog(hDlg, 1);
       cfg_cdrom_set_letter();
       return 1;
@@ -1770,9 +1771,9 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     sprintf(lParam, "ePSXe CDR ASPI core 1.5.2.");
     v17 = hDlg;
     v18 = SendDlgItemMessageA;
-    v19 = SendDlgItemMessageA(hDlg, 1000, 0x143u, 0, (LPARAM)lParam);
+    v19 = SendDlgItemMessageA(hDlg, IDC_CDROM_PLUGIN_LIST, 0x143u, 0, (LPARAM)lParam);
     if ( !strcmp((const char *)CdromPlugin, "W9XCDRCORE") )
-      SendDlgItemMessageA(hDlg, 1000, 0x14Eu, v19, 0);
+      SendDlgItemMessageA(hDlg, IDC_CDROM_PLUGIN_LIST, 0x14Eu, v19, 0);
     v20 = found_plugin_count;
     strcpy(&plugin_name_list[1024 * found_plugin_count], "W9XCDRCORE");
     found_plugin_count = v20 + 1;
@@ -1782,9 +1783,9 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     if ( VersionInformation.dwPlatformId == 2 )
     {
       sprintf(lParam, "ePSXe CDR WNT/W2K core 1.5.2.");
-      v21 = SendDlgItemMessageA(hDlg, 1000, 0x143u, 0, (LPARAM)lParam);
+      v21 = SendDlgItemMessageA(hDlg, IDC_CDROM_PLUGIN_LIST, 0x143u, 0, (LPARAM)lParam);
       if ( !strcmp((const char *)CdromPlugin, "W2KCDRCORE") )
-        SendDlgItemMessageA(hDlg, 1000, 0x14Eu, v21, 0);
+        SendDlgItemMessageA(hDlg, IDC_CDROM_PLUGIN_LIST, 0x14Eu, v21, 0);
       v22 = found_plugin_count;
       strcpy(&plugin_name_list[1024 * found_plugin_count], "W2KCDRCORE");
       found_plugin_count = v22 + 1;
@@ -1812,9 +1813,9 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
               sprintf(lParam, "%s %d.%d", v28, v41, v42);
               if ( PSEgetLibType() == 1 )
               {
-                v29 = v18(v17, 1000, 0x143u, 0, (LPARAM)lParam);
+                v29 = v18(v17, IDC_CDROM_PLUGIN_LIST, 0x143u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)CdromPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(v17, 1000, 0x14Eu, v29, 0);
+                  SendDlgItemMessageA(v17, IDC_CDROM_PLUGIN_LIST, 0x14Eu, v29, 0);
                 v30 = found_plugin_count;
                 if ( v29 == found_plugin_count )
                 {
@@ -1875,8 +1876,8 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
   {
     switch ( (__int16)a3 )
     {
-      case 1001:
-        v8 = SendDlgItemMessageA(hDlg, 1000, 0x147u, 0, 0);
+      case IDC_CDROM_TEST:
+        v8 = SendDlgItemMessageA(hDlg, IDC_CDROM_PLUGIN_LIST, 0x147u, 0, 0);
         if ( v8 == -1 )
           return 0;
         if ( v8 >= found_plugin_count )
@@ -1890,8 +1891,8 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         GPUtest_0();
         result = 0;
         break;
-      case 1003:
-        v11 = SendDlgItemMessageA(hDlg, 1000, 0x147u, 0, 0);
+      case IDC_CDROM_CONFIGURE:
+        v11 = SendDlgItemMessageA(hDlg, IDC_CDROM_PLUGIN_LIST, 0x147u, 0, 0);
         if ( v11 == -1 || v11 >= found_plugin_count )
           return 0;
         v12 = &plugin_name_list[1024 * v11];
@@ -1918,8 +1919,8 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           result = 0;
         }
         break;
-      case 1004:
-        v14 = SendDlgItemMessageA(hDlg, 1000, 0x147u, 0, 0);
+      case IDC_CDROM_ABOUT:
+        v14 = SendDlgItemMessageA(hDlg, IDC_CDROM_PLUGIN_LIST, 0x147u, 0, 0);
         if ( v14 != -1 && v14 < found_plugin_count )
         {
           v15 = &plugin_name_list[1024 * v14];
@@ -1935,15 +1936,15 @@ INT_PTR __stdcall search_cdrom_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           }
         }
         return 0;
-      case 1023:
-        v6 = SendDlgItemMessageA(hDlg, 1000, 0x147u, 0, 0);
+      case IDC_CDROM_OK:
+        v6 = SendDlgItemMessageA(hDlg, IDC_CDROM_PLUGIN_LIST, 0x147u, 0, 0);
         if ( v6 != -1 && v6 < found_plugin_count )
           sprintf((char *const)CdromPlugin, "%s", &plugin_name_list[1024 * v6]);
         EndDialog(hDlg, 1);
         cfg_save_settings();
         result = 1;
         break;
-      case 1024:
+      case IDC_CDROM_CANCEL:
         EndDialog(hDlg, 1);
         result = 1;
         break;
@@ -2032,9 +2033,9 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
     sprintf(lParam, "ePSXe SPU core 1.5.2.");
     v17 = hDlg;
     v18 = SendDlgItemMessageA;
-    v19 = SendDlgItemMessageA(hDlg, 1010, 0x143u, 0, (LPARAM)lParam);
+    v19 = SendDlgItemMessageA(hDlg, IDC_SOUND_PLUGIN_LIST, 0x143u, 0, (LPARAM)lParam);
     if ( !strcmp((const char *)SoundPlugin, "SPUCORE") )
-      SendDlgItemMessageA(hDlg, 1010, 0x14Eu, v19, 0);
+      SendDlgItemMessageA(hDlg, IDC_SOUND_PLUGIN_LIST, 0x14Eu, v19, 0);
     v20 = found_plugin_count;
     v21 = found_plugin_count << 10;
     *(_DWORD *)&plugin_name_list[v21] = *(_DWORD *)"SPUCORE";
@@ -2063,9 +2064,9 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
               sprintf(lParam, "%s %d.%d", v27, v40, v41);
               if ( PSEgetLibType() == 4 )
               {
-                v28 = v18(v17, 1010, 0x143u, 0, (LPARAM)lParam);
+                v28 = v18(v17, IDC_SOUND_PLUGIN_LIST, 0x143u, 0, (LPARAM)lParam);
                 if ( !strcmp((const char *)SoundPlugin, FindFileData.cFileName) )
-                  SendDlgItemMessageA(v17, 1010, 0x14Eu, v28, 0);
+                  SendDlgItemMessageA(v17, IDC_SOUND_PLUGIN_LIST, 0x14Eu, v28, 0);
                 v29 = found_plugin_count;
                 if ( v28 == found_plugin_count )
                 {
@@ -2120,18 +2121,18 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
       }
     }
     while ( FindNextFileA(hFindFile, &FindFileData) );
-    v18(v17, 1005, 0xF1u, (unsigned __int8)sound_enabled, 0);
-    v18(v17, 1006, 0xF1u, (unsigned __int8)sound_use_xa, 0);
-    v18(v17, 1009, 0xF1u, (unsigned __int8)sound_use_cdda, 0);
-    v18(v17, 1030, 0xF1u, (unsigned __int8)forcespu, 0);
+    v18(v17, IDC_SOUND_ENABLE, 0xF1u, (unsigned __int8)sound_enabled, 0);
+    v18(v17, IDC_SOUND_XA, 0xF1u, (unsigned __int8)sound_use_xa, 0);
+    v18(v17, IDC_SOUND_CDDA, 0xF1u, (unsigned __int8)sound_use_cdda, 0);
+    v18(v17, IDC_SOUND_SPU_IRQ_HACK, 0xF1u, (unsigned __int8)forcespu, 0);
     return 1;
   }
   else if ( a2 == 273 )
   {
     switch ( (__int16)a3 )
     {
-      case 1011:
-        v8 = SendDlgItemMessageA(hDlg, 1010, 0x147u, 0, 0);
+      case IDC_SOUND_TEST:
+        v8 = SendDlgItemMessageA(hDlg, IDC_SOUND_PLUGIN_LIST, 0x147u, 0, 0);
         if ( v8 == -1 )
           return 0;
         if ( v8 >= found_plugin_count )
@@ -2145,8 +2146,8 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         GPUtest_0();
         result = 0;
         break;
-      case 1012:
-        v11 = SendDlgItemMessageA(hDlg, 1010, 0x147u, 0, 0);
+      case IDC_SOUND_CONFIGURE:
+        v11 = SendDlgItemMessageA(hDlg, IDC_SOUND_PLUGIN_LIST, 0x147u, 0, 0);
         if ( v11 == -1 || v11 >= found_plugin_count )
           return 0;
         v12 = &plugin_name_list[1024 * v11];
@@ -2163,8 +2164,8 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         }
         result = 0;
         break;
-      case 1013:
-        v14 = SendDlgItemMessageA(hDlg, 1010, CB_GETCURSEL, 0, 0);
+      case IDC_SOUND_ABOUT:
+        v14 = SendDlgItemMessageA(hDlg, IDC_SOUND_PLUGIN_LIST, CB_GETCURSEL, 0, 0);
         if ( v14 != -1 && v14 < found_plugin_count )
         {
           v15 = &plugin_name_list[1024 * v14];
@@ -2177,19 +2178,19 @@ INT_PTR __stdcall search_spu_plugin(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
           }
         }
         return 0;
-      case 1014:
-        v6 = SendDlgItemMessageA(hDlg, 1010, CB_GETCURSEL, 0, 0);
+      case IDC_SOUND_OK:
+        v6 = SendDlgItemMessageA(hDlg, IDC_SOUND_PLUGIN_LIST, CB_GETCURSEL, 0, 0);
         if ( v6 != -1 && v6 < found_plugin_count )
           sprintf((char *const)SoundPlugin, "%s", &plugin_name_list[1024 * v6]);
-        sound_enabled = SendDlgItemMessageA(hDlg, 1005, 0xF0u, 0, 0);
-        sound_use_xa = SendDlgItemMessageA(hDlg, 1006, 0xF0u, 0, 0);
-        sound_use_cdda = SendDlgItemMessageA(hDlg, 1009, 0xF0u, 0, 0);
-        forcespu = SendDlgItemMessageA(hDlg, 1030, 0xF0u, 0, 0);
+        sound_enabled = SendDlgItemMessageA(hDlg, IDC_SOUND_ENABLE, 0xF0u, 0, 0);
+        sound_use_xa = SendDlgItemMessageA(hDlg, IDC_SOUND_XA, 0xF0u, 0, 0);
+        sound_use_cdda = SendDlgItemMessageA(hDlg, IDC_SOUND_CDDA, 0xF0u, 0, 0);
+        forcespu = SendDlgItemMessageA(hDlg, IDC_SOUND_SPU_IRQ_HACK, 0xF0u, 0, 0);
         EndDialog(hDlg, 1);
         cfg_save_settings();
         result = 1;
         break;
-      case 1015:
+      case IDC_SOUND_CANCEL:
         EndDialog(hDlg, 1);
         result = 1;
         break;
@@ -2210,18 +2211,18 @@ INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
 
   if ( a2 == 272 )
   {
-    SetDlgItemTextA(hDlg, 1082, (LPCSTR)Memcard1);
-    SetDlgItemTextA(hDlg, 1026, (LPCSTR)Memcard2);
+    SetDlgItemTextA(hDlg, IDC_MEMCARD_FILE1, (LPCSTR)Memcard1);
+    SetDlgItemTextA(hDlg, IDC_MEMCARD_FILE2, (LPCSTR)Memcard2);
     return 1;
   }
   else if ( a2 == 273 )
   {
     switch ( (__int16)a3 )
     {
-      case 1026:
-      case 1082:
+      case IDC_MEMCARD_FILE2:
+      case IDC_MEMCARD_FILE1:
         return 1;
-      case 1030:
+      case IDC_MEMCARD_SELECT2:
         if ( !open_file_dialog(
                 "Select Memcard FILE 2",
                 "MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)",
@@ -2229,10 +2230,10 @@ INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 "memcards\\",
                 "MCR") )
           return 1;
-        SetDlgItemTextA(hDlg, 1026, temp_path);
+        SetDlgItemTextA(hDlg, IDC_MEMCARD_FILE2, temp_path);
         result = 1;
         break;
-      case 1083:
+      case IDC_MEMCARD_SELECT1:
         if ( !open_file_dialog(
                 "Select Memcard FILE 1",
                 "MEMCARD FILE (*.MCR, *.MEM, *.MCD, *.GME)",
@@ -2240,12 +2241,12 @@ INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
                 "memcards\\",
                 "MCR") )
           return 1;
-        SetDlgItemTextA(hDlg, 1082, temp_path);
+        SetDlgItemTextA(hDlg, IDC_MEMCARD_FILE1, temp_path);
         result = 1;
         break;
-      case 1084:
-        GetDlgItemTextA(hDlg, 1082, (LPSTR)Memcard1, 1024);
-        GetDlgItemTextA(hDlg, 1026, (LPSTR)Memcard2, 1024);
+      case IDC_MEMCARD_OK:
+        GetDlgItemTextA(hDlg, IDC_MEMCARD_FILE1, (LPSTR)Memcard1, 1024);
+        GetDlgItemTextA(hDlg, IDC_MEMCARD_FILE2, (LPSTR)Memcard2, 1024);
         if ( sio_memcard_loaded )
         {
           sio_memcard_loaded = 0;
@@ -2255,7 +2256,7 @@ INT_PTR __stdcall memcard_settings(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)
         cfg_save_settings();
         result = 1;
         break;
-      case 1085:
+      case IDC_MEMCARD_CANCEL:
         EndDialog(hDlg, 1);
         result = 1;
         break;
@@ -2329,9 +2330,11 @@ unsigned int g_EffectType2[1];
 unsigned int g_PlayerDeviceMap4[1];
 unsigned char joy_names[14] = {0x4a, 0x31, 0x5f, 0x4e, 0x4f, 0x4e, 0x45, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 unsigned char multitap_1;
-unsigned short nIDDlgItem = 0x41c;
+unsigned short nIDDlgItem = IDC_CONTROLLER_AXIS_X1;
 unsigned char pad_number_menu_selection = 0x1;
 unsigned char stru_44C148[13] = {0x4e, 0x4f, 0x4e, 0x45, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 unsigned char temp_path[0x400];
-unsigned short controller_button_dlg_ids[9] = {0x40a, 0x40c, 0x409, 0x40b, 0x412, 0x413, 0x414, 0x415, 0x408};
+unsigned short controller_button_dlg_ids[9] = {IDC_CONTROLLER_LEFT, IDC_CONTROLLER_RIGHT, IDC_CONTROLLER_UP, IDC_CONTROLLER_DOWN,
+                        IDC_CONTROLLER_TRIANGLE, IDC_CONTROLLER_CIRCLE, IDC_CONTROLLER_CROSS,
+                        IDC_CONTROLLER_SQUARE, IDC_CONTROLLER_L1};
 unsigned short pad_key_assignments[4] = {0x1, 0x0, 0x0, 0x0};
