@@ -113,24 +113,5 @@ extern unsigned int zip_static_ltree_max_bits;
 extern unsigned int zipfile_input_buffer;
 
 /* Function prototypes (previously generated in src/_gen) */
-int __cdecl zip_build_huffman_tree( _DWORD *a1, unsigned int a2, unsigned int a3, int a4, int a5, _DWORD *a6, unsigned int *a7);
-int __cdecl zip_compare_filename_case_insensitive(const char *a1, const char *a2);
-unsigned int __cdecl zip_copy_sliding_window_to_output(const void *a1, unsigned int a2);
 int __cdecl zip_extract_file(char *FileName, char *arg4, LPVOID *arg8, size_t *a4);
-BOOL __cdecl zip_find_end_of_central_dir_signature(int a1, int a2, _DWORD *a3);
-int __cdecl zip_free_huffman_tree(int a1);
-int __cdecl zip_get_file_size(FILE *Stream, _DWORD *a2);
-char *__cdecl zip_get_filename_from_path(const char *a1);
-int __cdecl zip_inflate_block(int *a1);
-int __cdecl zip_inflate_data_with_trees(int a1, int a2, unsigned int a3, unsigned int a4);
-int zip_inflate_file();
-int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, int a3, ZipCentralDirectoryEntry *a2);
 int __cdecl zip_load_file(char *FileName);
-int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2);
-int __cdecl zip_locate_central_dir(FILE *Stream, int *a2);
-int __cdecl zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectoryEntryInMem *a2);
-int zip_print(char *Format, ...);
-int __cdecl zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int a3, LPVOID *a4);
-int __cdecl zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderInMem *a3, unsigned __int8 *Buffer);
-__int16 __cdecl zip_read_uint16_le(int a1);
-uint32_t __cdecl zip_read_uint32_le(unsigned __int8 *a1);

@@ -1,5 +1,5 @@
 #include "pch.h"
-int __cdecl ppf_parse_and_build(int a1, int a2, unsigned int a3)
+static int __cdecl ppf_parse_and_build(int a1, int a2, unsigned int a3)
 {
   unsigned int i; // eax
   unsigned int v4; // edi

@@ -6,7 +6,7 @@ static DWORD BytesReturned;
 static uint32_t vibration_cmd_buffer[5];
 static int burutter_initialized;
 
-int JOY_init()
+static int JOY_init()
 {
     if (!burutter_initialized)
     {
@@ -17,7 +17,7 @@ int JOY_init()
     return 0;
 }
 
-int JOY_Close()
+static int JOY_Close()
 {
     vibration_cmd_buffer[0] = 2;
     vibration_cmd_buffer[4] = 0;
@@ -29,7 +29,7 @@ int JOY_Close()
     return 0;
 }
 
-BOOL __cdecl Big_Motor(unsigned int a1, int a2)
+static BOOL __cdecl Big_Motor(unsigned int a1, int a2)
 {
     int v2; // eax
 
@@ -44,7 +44,7 @@ BOOL __cdecl Big_Motor(unsigned int a1, int a2)
     return DeviceIoControl(hDevice, 4u, vibration_cmd_buffer, 0x14u, nullptr, 0, &BytesReturned, nullptr);
 }
 
-BOOL __cdecl Small_Motor(unsigned int a1, int a2)
+static BOOL __cdecl Small_Motor(unsigned int a1, int a2)
 {
     int v2; // eax
 
@@ -59,7 +59,7 @@ BOOL __cdecl Small_Motor(unsigned int a1, int a2)
     return DeviceIoControl(hDevice, 4u, vibration_cmd_buffer, 0x14u, nullptr, 0, &BytesReturned, nullptr);
 }
 
-int joy_init(void)
+static int joy_init(void)
 {
     return JOY_init();
 }

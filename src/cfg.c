@@ -2,7 +2,7 @@
 
 uint8_t console_allocated;
 
-char __cdecl cfg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
+static char __cdecl cfg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
 {
   char v3; // bl
   HKEY hKey; // [esp+4h] [ebp-10h] BYREF
@@ -25,7 +25,7 @@ char __cdecl cfg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
   return v3;
 }
 
-int __cdecl cfg_set_value(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpData)
+static int __cdecl cfg_set_value(LPCSTR lpSubKey, LPCSTR lpValueName, BYTE *lpData)
 {
   int result; // eax
   HKEY hKey; // [esp+0h] [ebp-8h] BYREF

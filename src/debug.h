@@ -52,7 +52,6 @@ int alloc_console(void);
  *
  * \return 1 if the console was deallocated, 0 otherwise.
  */
-int free_console(void);
 
 /**
  * \brief Retrieves the current tick count and caches it.
@@ -76,7 +75,6 @@ void set_console_log_flush_pending(void);
  *
  * \return Non-zero if the flag was set (and has now been cleared), 0 otherwise.
  */
-char check_and_clear_console_log_flush_pending(void);
 
 /**
  * \brief Reopens the console.log file if it has not been opened yet.

@@ -31,12 +31,9 @@ extern unsigned int recomp_metadata;
 extern unsigned short recomp_hw_write_tail_word;
 
 /* Function prototypes (previously generated in src/_gen) */
-int __cdecl dynarec_compile(unsigned int ArgList, int a2);
 void dynarec_deinit();
 __int64 dynarec_execute();
-char *dynarec_hw_update();
 uint8_t *dynarec_init();
 char *dynarec_invalidate();
 unsigned int __cdecl dynarec_invalidate_range(int a1, int a2);
-char *__cdecl dynarec_recompile_block(int a1);
 void nullsub_1();

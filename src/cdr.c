@@ -1,10 +1,15 @@
 #include "pch.h"
-int __cdecl cdr_bcd_to_hex(unsigned __int8 a1)
+
+/* static prototypes for internal functions */
+static char cdr_read_data_sector();
+static __int16 cdr_init_report_mode();
+
+static int __cdecl cdr_bcd_to_hex(unsigned __int8 a1)
 {
   return a1 % 10 + 16 * (a1 / 10);
 }
 
-int __cdecl cdr_hex_to_bcd(unsigned __int8 a1)
+static int __cdecl cdr_hex_to_bcd(unsigned __int8 a1)
 {
   return (a1 & 0xF) + 10 * (a1 >> 4);
 }
@@ -630,7 +635,7 @@ int __cdecl cdr_msf_to_lba(unsigned __int8 a1, unsigned __int8 a2, unsigned __in
   return a3 + 75 * (v3 + 60 * v4);
 }
 
-char cdr_read_data_sector()
+static char cdr_read_data_sector()
 {
   __int16 v0; // bx
   int v1; // eax
@@ -658,7 +663,7 @@ char cdr_read_data_sector()
   return v1;
 }
 
-char cdr_increment_msf()
+static char cdr_increment_msf()
 {
   char result; // al
   bool v1; // zf
@@ -679,7 +684,7 @@ char cdr_increment_msf()
   return result;
 }
 
-char __cdecl cdr_set_nocd(char a1)
+static char __cdecl cdr_set_nocd(char a1)
 {
   LOBYTE(g_cdr_registers) = a1;
   return a1;
@@ -718,7 +723,7 @@ int cdr_get_response_status()
     return (unsigned __int8)g_cdr_status_regs[62];
 }
 
-void cdr_queue_response()
+static void cdr_queue_response()
 {
   if ( g_cdr_status_regs[63] )
   {
@@ -768,7 +773,7 @@ char cdr_process_delays()
   return result;
 }
 
-__int16 cdr_init_report_mode()
+static __int16 cdr_init_report_mode()
 {
   __int16 result; // ax
 

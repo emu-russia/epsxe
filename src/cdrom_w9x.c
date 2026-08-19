@@ -1,5 +1,22 @@
 ﻿#include "pch.h"
-char __cdecl W9x_exec_scsi_cmd(const void *a1, unsigned int a2, BYTE *a3, DWORD a4)
+
+/* static prototypes for internal functions */
+static int W9x_disable_subchannel_mode();
+static char __cdecl W9x_read_cd_sectors(
+        unsigned __int8 a1,
+        unsigned __int8 a2,
+        unsigned __int8 a3,
+        unsigned __int8 a4,
+        BYTE *a5);
+static char __cdecl W9x_read_cd_data_only(
+        unsigned __int8 a1,
+        unsigned __int8 a2,
+        unsigned __int8 a3,
+        unsigned __int8 a4,
+        BYTE *a5);
+static BOOL W9x_resume_cdda();
+
+static char __cdecl W9x_exec_scsi_cmd(const void *a1, unsigned int a2, BYTE *a3, DWORD a4)
 {
   HANDLE EventA; // ebx
   SRB_ExecSCSICmd v6; // [esp+Ch] [ebp-50h] BYREF
@@ -26,7 +43,7 @@ char __cdecl W9x_exec_scsi_cmd(const void *a1, unsigned int a2, BYTE *a3, DWORD 
   return 0;
 }
 
-int __cdecl W9x_add_cdrom_device_info(BYTE a1, BYTE a2, BYTE a3)
+static int __cdecl W9x_add_cdrom_device_info(BYTE a1, BYTE a2, BYTE a3)
 {
   HANDLE EventA; // esi
   int result; // eax
@@ -163,7 +180,7 @@ _DWORD *__cdecl W9x_bcd_to_dword(_DWORD *a1, unsigned __int8 *a2)
   return a1;
 }
 
-_DWORD *W9x_cdrom_gettrackinfo()
+static _DWORD *W9x_cdrom_gettrackinfo()
 {
   char v0; // bl
   bool v1; // al
@@ -384,7 +401,7 @@ HMODULE W9x_cdrom_deinit()
   return W9x_free_winaspi_dll();
 }
 
-int W9x_enable_subchannel_mode()
+static int W9x_enable_subchannel_mode()
 {
   HANDLE EventA; // esi
   _BYTE v2[10]; // [esp+8h] [ebp-5Ch] BYREF
@@ -421,7 +438,7 @@ int W9x_enable_subchannel_mode()
   return BYTE1(v4[0]) != 1 ? 4 : 1;
 }
 
-int W9x_disable_subchannel_mode()
+static int W9x_disable_subchannel_mode()
 {
   HANDLE EventA; // esi
   _BYTE v2[4]; // [esp+8h] [ebp-5Ch] BYREF
@@ -459,7 +476,7 @@ int W9x_disable_subchannel_mode()
   return BYTE1(v4[0]) != 1 ? 4 : 1;
 }
 
-char __cdecl W9x_read_cd_sectors(
+static char __cdecl W9x_read_cd_sectors(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -490,7 +507,7 @@ char __cdecl W9x_read_cd_sectors(
   return W9x_exec_scsi_cmd(&v6, 0xAu, a5, 2352 * a4);
 }
 
-char __cdecl W9x_read_cd_with_subchannel(
+static char __cdecl W9x_read_cd_with_subchannel(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -547,7 +564,7 @@ char __cdecl W9x_read_cd_with_subchannel(
   return result;
 }
 
-char __cdecl W9x_read_cd_data_only(
+static char __cdecl W9x_read_cd_data_only(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -576,7 +593,7 @@ char __cdecl W9x_read_cd_data_only(
   return W9x_exec_scsi_cmd(&v6, 0xCu, a5, 2352 * a4);
 }
 
-char __cdecl W9x_read_cd_subchannel(
+static char __cdecl W9x_read_cd_subchannel(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -605,7 +622,7 @@ char __cdecl W9x_read_cd_subchannel(
   return W9x_exec_scsi_cmd(&v6, 0xCu, a5, 2368 * a4);
 }
 
-char __cdecl W9x_read_cd_subchannel2(
+static char __cdecl W9x_read_cd_subchannel2(
         unsigned __int8 a1,
         unsigned __int8 a2,
         unsigned __int8 a3,
@@ -632,7 +649,7 @@ char __cdecl W9x_read_cd_subchannel2(
   return W9x_exec_scsi_cmd(&v6, 0xCu, a5, 16 * a4);
 }
 
-char __cdecl W9x_seek_cd(int a1)
+static char __cdecl W9x_seek_cd(int a1)
 {
   __int16 v2; // [esp+0h] [ebp-Ch] BYREF
   char v3; // [esp+2h] [ebp-Ah]
@@ -652,7 +669,7 @@ char __cdecl W9x_seek_cd(int a1)
   return W9x_exec_scsi_cmd(&v2, 0xAu, nullptr, 0);
 }
 
-char __cdecl W9x_read_subchannel_status(BYTE *a1)
+static char __cdecl W9x_read_subchannel_status(BYTE *a1)
 {
   _DWORD v2[2]; // [esp+0h] [ebp-Ch] BYREF
   char v3[4]; // [esp+8h] [ebp-4h]
@@ -1404,7 +1421,7 @@ LABEL_66:
   }
 }
 
-char __cdecl W9x_find_track_by_msf(unsigned int a1, char a2)
+static char __cdecl W9x_find_track_by_msf(unsigned int a1, char a2)
 {
   char v2; // bl
   unsigned __int8 v4; // [esp+8h] [ebp-4h]
@@ -1510,7 +1527,7 @@ char W9x_cdrom_stop()
   return result;
 }
 
-BOOL W9x_resume_cdda()
+static BOOL W9x_resume_cdda()
 {
   HANDLE EventA; // esi
   _DWORD v2[20]; // [esp+8h] [ebp-50h] BYREF
@@ -1545,7 +1562,7 @@ void W9x_reset_cdrom_state()
   cdr_spinup_motor();
 }
 
-char __cdecl W9x_msf_to_lba(
+static char __cdecl W9x_msf_to_lba(
         unsigned int a1,
         unsigned __int8 a2,
         unsigned __int8 a3,

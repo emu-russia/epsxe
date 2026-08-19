@@ -1,5 +1,32 @@
 #include "pch.h"
-int __cdecl zip_inflate_data_with_trees(int a1, int a2, unsigned int a3, unsigned int a4)
+
+/* static prototypes for internal functions */
+static int __cdecl zip_inflate_block(int *a1);
+static int __cdecl zip_build_huffman_tree(
+        _DWORD *a1,
+        unsigned int a2,
+        unsigned int a3,
+        int a4,
+        int a5,
+        _DWORD *a6,
+        unsigned int *a7);
+static int __cdecl zip_free_huffman_tree(int a1);
+static unsigned int __cdecl zip_copy_sliding_window_to_output(const void *a1, unsigned int a2);
+static char *__cdecl zip_get_filename_from_path(const char *a1);
+static int zip_print(char *Format, ...);
+static int __cdecl zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int a3, LPVOID *a4);
+static int __cdecl zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderInMem *a3, unsigned __int8 *Buffer);
+static int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, int a3, ZipCentralDirectoryEntry *a2);
+static int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2);
+static int __cdecl zip_compare_filename_case_insensitive(const char *a1, const char *a2);
+static int __cdecl zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectoryEntryInMem *a2);
+static int __cdecl zip_locate_central_dir(FILE *Stream, int *a2);
+static BOOL __cdecl zip_find_end_of_central_dir_signature(int a1, int a2, _DWORD *a3);
+static int __cdecl zip_get_file_size(FILE *Stream, _DWORD *a2);
+static __int16 __cdecl zip_read_uint16_le(int a1);
+static uint32_t __cdecl zip_read_uint32_le(unsigned __int8 *a1);
+
+static int __cdecl zip_inflate_data_with_trees(int a1, int a2, unsigned int a3, unsigned int a4)
 {
   unsigned int v4; // edx
   unsigned int v5; // ebx
@@ -205,7 +232,7 @@ LABEL_26:
   return 0;
 }
 
-int zip_inflate_file()
+static int zip_inflate_file()
 {
   unsigned int v0; // esi
   int result; // eax
@@ -232,7 +259,7 @@ int zip_inflate_file()
   return result;
 }
 
-int __cdecl zip_inflate_block(int *a1)
+static int __cdecl zip_inflate_block(int *a1)
 {
   int v1; // ecx
   unsigned int v2; // eax
@@ -684,7 +711,7 @@ LABEL_82:
   }
 }
 
-int __cdecl zip_build_huffman_tree(
+static int __cdecl zip_build_huffman_tree(
         _DWORD *a1,
         unsigned int a2,
         unsigned int a3,
@@ -1007,7 +1034,7 @@ LABEL_49:
   return result;
 }
 
-int __cdecl zip_free_huffman_tree(int a1)
+static int __cdecl zip_free_huffman_tree(int a1)
 {
   int v1; // eax
   int v2; // esi
@@ -1026,7 +1053,7 @@ int __cdecl zip_free_huffman_tree(int a1)
   return 0;
 }
 
-unsigned int __cdecl zip_copy_sliding_window_to_output(const void *a1, unsigned int a2)
+static unsigned int __cdecl zip_copy_sliding_window_to_output(const void *a1, unsigned int a2)
 {
   qmemcpy((void *)zip_inflate_output_ptr, a1, a2);
   zip_inflate_output_ptr += a2;
@@ -1175,7 +1202,7 @@ LABEL_14:
   return file_size;
 }
 
-char *__cdecl zip_get_filename_from_path(const char *a1)
+static char *__cdecl zip_get_filename_from_path(const char *a1)
 {
   char *result; // eax
   char *v2; // esi
@@ -1195,7 +1222,7 @@ char *__cdecl zip_get_filename_from_path(const char *a1)
   return result;
 }
 
-int zip_print(char *Format, ...)
+static int zip_print(char *Format, ...)
 {
   char Buffer[256]; // [esp+0h] [ebp-100h] BYREF
   va_list ArgList; // [esp+108h] [ebp+8h] BYREF
@@ -1244,7 +1271,7 @@ int __cdecl zip_load_file(char *FileName)
   return 0;
 }
 
-int __cdecl zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int a3, LPVOID *a4)
+static int __cdecl zip_read_compressed_data_to_buffer(FILE *Stream, int a2, int a3, LPVOID *a4)
 {
   size_t v4; // esi
   void *v5; // eax
@@ -1279,7 +1306,7 @@ LABEL_7:
   return v7;
 }
 
-int __cdecl zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderInMem *a3, unsigned __int8 *Buffer)
+static int __cdecl zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderInMem *a3, unsigned __int8 *Buffer)
 {
   int v4; // ecx
   size_t v5; // edi
@@ -1319,7 +1346,7 @@ int __cdecl zip_read_local_file_header(FILE *Stream, int a2, ZipLocalFileHeaderI
   }
 }
 
-int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, int a3, ZipCentralDirectoryEntry *a2)
+static int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, int a3, ZipCentralDirectoryEntry *a2)
 {
   int v4; // ebp
   size_t v5; // esi
@@ -1410,7 +1437,7 @@ int __cdecl zip_load_central_directory(FILE *Stream, const char *arg4, int a3, Z
   }
 }
 
-int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2)
+static int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirectoryEntryInMem *a2)
 {
   size_t v3; // esi
   int v5; // ebx
@@ -1487,7 +1514,7 @@ int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirect
   }
 }
 
-int __cdecl zip_compare_filename_case_insensitive(const char *a1, const char *a2)
+static int __cdecl zip_compare_filename_case_insensitive(const char *a1, const char *a2)
 {
   const char *v2; // esi
   const char *i; // eax
@@ -1559,7 +1586,7 @@ int __cdecl zip_compare_filename_case_insensitive(const char *a1, const char *a2
   return -v4 - (v4 - 1);
 }
 
-int __cdecl zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectoryEntryInMem *a2)
+static int __cdecl zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectoryEntryInMem *a2)
 {
   int result; // eax
 
@@ -1585,7 +1612,7 @@ int __cdecl zip_parse_cd_entry(ZipCentralDirectoryEntry *a1, ZipCentralDirectory
   return result;
 }
 
-int __cdecl zip_locate_central_dir(FILE *Stream, int *a2)
+static int __cdecl zip_locate_central_dir(FILE *Stream, int *a2)
 {
   size_t v2; // esi
   FILE *v3; // ebx
@@ -1636,7 +1663,7 @@ int __cdecl zip_locate_central_dir(FILE *Stream, int *a2)
   }
 }
 
-BOOL __cdecl zip_find_end_of_central_dir_signature(int a1, int a2, _DWORD *a3)
+static BOOL __cdecl zip_find_end_of_central_dir_signature(int a1, int a2, _DWORD *a3)
 {
   int v3; // esi
   int v4; // ebx
@@ -1656,7 +1683,7 @@ BOOL __cdecl zip_find_end_of_central_dir_signature(int a1, int a2, _DWORD *a3)
   return v4 == 0;
 }
 
-int __cdecl zip_get_file_size(FILE *Stream, _DWORD *a2)
+static int __cdecl zip_get_file_size(FILE *Stream, _DWORD *a2)
 {
   int v2; // esi
   int result; // eax
@@ -1671,12 +1698,12 @@ int __cdecl zip_get_file_size(FILE *Stream, _DWORD *a2)
   return result;
 }
 
-__int16 __cdecl zip_read_uint16_le(int a1)
+static __int16 __cdecl zip_read_uint16_le(int a1)
 {
   return *(_WORD *)a1;
 }
 
-uint32_t __cdecl zip_read_uint32_le(unsigned __int8 *a1)
+static uint32_t __cdecl zip_read_uint32_le(unsigned __int8 *a1)
 {
   return *a1 | ((a1[1] | (*((unsigned __int16 *)a1 + 1) << 8)) << 8);
 }

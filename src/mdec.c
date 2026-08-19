@@ -1,5 +1,16 @@
 #include "pch.h"
-char *mdec_init_pointers()
+
+/* static prototypes for internal functions */
+static int __cdecl mdec_set_scale_table(int a1);
+static char *__cdecl mdec_rl_decode(char *a1, int a2);
+static void __cdecl mdec_idct_blocks(int a1);
+static int mdec_init_color_tables();
+static _WORD *__cdecl mdec_yuv_to_rgb(char *a1, _WORD *a2, _WORD *a3);
+static int __cdecl mdec_idct_sse(__m64 *a1, int a2);
+static void mdec_sse_m_empty();
+static void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3);
+
+static char *mdec_init_pointers()
 {
   char *v0; // ecx
   char *result; // eax
@@ -191,7 +202,7 @@ LABEL_15:
   return result;
 }
 
-int __cdecl mdec_set_scale_table(int a1)
+static int __cdecl mdec_set_scale_table(int a1)
 {
   int result; // eax
   __int16 *v2; // ecx
@@ -338,7 +349,7 @@ int __cdecl mdec_set_scale_table(int a1)
   return result * 4;
 }
 
-char *__cdecl mdec_rl_decode(char *a1, int a2)
+static char *__cdecl mdec_rl_decode(char *a1, int a2)
 {
   int v2; // edx
   char *v3; // edi
@@ -379,7 +390,7 @@ char *__cdecl mdec_rl_decode(char *a1, int a2)
   return v3;
 }
 
-void __cdecl mdec_idct_blocks(int a1)
+static void __cdecl mdec_idct_blocks(int a1)
 {
   int *v1; // edi
   int v2; // esi
@@ -415,7 +426,7 @@ void __cdecl mdec_idct_blocks(int a1)
   mdec_sse_m_empty();
 }
 
-int mdec_init_color_tables()
+static int mdec_init_color_tables()
 {
   int v0; // edi
   int v1; // esi
@@ -474,7 +485,7 @@ int mdec_init_color_tables()
   return result;
 }
 
-_WORD *__cdecl mdec_yuv_to_rgb(char *a1, _WORD *a2, _WORD *a3)
+static _WORD *__cdecl mdec_yuv_to_rgb(char *a1, _WORD *a2, _WORD *a3)
 {
   _WORD *result; // eax
   char *v4; // esi
@@ -630,7 +641,7 @@ int __cdecl mdec_unfreeze2(int a1, _DWORD *a2)
   return gzread(a2, mdec_command, 96);
 }
 
-int __cdecl mdec_idct_sse(__m64 *a1, int a2)
+static int __cdecl mdec_idct_sse(__m64 *a1, int a2)
 {
   __m64 v2; // mm0
   __m64 v3; // mm2
@@ -1078,12 +1089,12 @@ int __cdecl mdec_idct_sse(__m64 *a1, int a2)
   return a2 + 28;
 }
 
-void mdec_sse_m_empty()
+static void mdec_sse_m_empty()
 {
   _m_empty();
 }
 
-void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
+static void __cdecl mdec_y_to_mono(unsigned int *a1, __m64 *a2, int a3)
 {
   unsigned int *v3; // esi
   unsigned int *v4; // eax

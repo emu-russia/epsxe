@@ -18,7 +18,7 @@ int alloc_console(void)
     return (char)std_handle;
 }
 
-int free_console(void)
+static int free_console(void)
 {
     char result;
 
@@ -42,7 +42,7 @@ void set_console_log_flush_pending(void)
     console_log_flush_pending = 1;
 }
 
-char check_and_clear_console_log_flush_pending(void)
+static char check_and_clear_console_log_flush_pending(void)
 {
     char was_pending;
 

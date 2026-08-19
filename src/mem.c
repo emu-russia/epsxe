@@ -1,5 +1,5 @@
 #include "pch.h"
-int clear_memory()
+static int clear_memory()
 {
   memset(ram, 0, 0x200000u);
   memset(pio_mem, 0xFFu, 0x20000u);

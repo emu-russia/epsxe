@@ -1,5 +1,9 @@
 #include "pch.h"
-char *__cdecl dynarec_recompile_block(int a1)
+
+/* static prototypes for internal functions */
+static int __cdecl dynarec_compile(unsigned int ArgList, int a2);
+
+static char *__cdecl dynarec_recompile_block(int a1)
 {
   unsigned int v1; // eax
   int v2; // eax
@@ -16,7 +20,7 @@ char *__cdecl dynarec_recompile_block(int a1)
   return (char *)recomp_code_base + v2;
 }
 
-char *dynarec_hw_update()
+static char *dynarec_hw_update()
 {
   int v0; // eax
   unsigned int v2; // ecx
@@ -160,7 +164,7 @@ char *dynarec_hw_update()
   }
 }
 
-int __cdecl dynarec_compile(unsigned int ArgList, int a2)
+static int __cdecl dynarec_compile(unsigned int ArgList, int a2)
 {
   uint8_t *v2; // ebx
   unsigned int v3; // esi

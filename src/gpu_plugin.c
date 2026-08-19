@@ -23,7 +23,7 @@ char gpu_init_performance_counter()
   return PerformanceFrequency;
 }
 
-int __stdcall gpu_output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
+static int __stdcall gpu_output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
 {
   int result; // eax
 
@@ -79,7 +79,7 @@ int __stdcall gpu_output_win_callback(HWND hWnd, UINT a2, WPARAM a3, LPARAM a4)
   return result;
 }
 
-BOOL gpu_register_output_win_class()
+static BOOL gpu_register_output_win_class()
 {
   WNDCLASSA WndClass; // [esp+4h] [ebp-28h] BYREF
 
@@ -94,7 +94,7 @@ BOOL gpu_register_output_win_class()
   return RegisterClassA(&WndClass) != 0;
 }
 
-void gpu_clear_dynarec_callback()
+static void gpu_clear_dynarec_callback()
 {
   dynarec_clear_needed = 1;
 }
@@ -484,7 +484,7 @@ int gpu_open()
   return diUpdateJoystickStates();
 }
 
-char __cdecl gpu_pack_pixels(_BYTE *a1, char a2)
+static char __cdecl gpu_pack_pixels(_BYTE *a1, char a2)
 {
   char result; // al
 
@@ -516,7 +516,7 @@ char __cdecl gpu_pack_pixels(_BYTE *a1, char a2)
   return result;
 }
 
-BOOL __cdecl gpu_draw_text_on_screen(LPCSTR lpchText, void *a2)
+static BOOL __cdecl gpu_draw_text_on_screen(LPCSTR lpchText, void *a2)
 {
   HDC DC; // edi
   HDC CompatibleDC; // ebx
@@ -571,7 +571,7 @@ BOOL __cdecl gpu_draw_text_on_screen(LPCSTR lpchText, void *a2)
   return DeleteObject(v14);
 }
 
-_BYTE *__cdecl gpu_draw_no_save_pic(char *a1, int a2)
+static _BYTE *__cdecl gpu_draw_no_save_pic(char *a1, int a2)
 {
   char *v2; // esi
   char *v3; // edx
@@ -647,7 +647,7 @@ _BYTE *__cdecl gpu_draw_no_save_pic(char *a1, int a2)
   return result;
 }
 
-_BYTE *__cdecl gpu_draw_free_slot(char *a1, int a2)
+static _BYTE *__cdecl gpu_draw_free_slot(char *a1, int a2)
 {
   char *v2; // esi
   char *v3; // edx

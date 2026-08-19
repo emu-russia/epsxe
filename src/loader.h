@@ -21,21 +21,13 @@ extern unsigned char zip_entry_names[0x10000];
 extern unsigned int zip_num_entries_loaded;
 
 /* Function prototypes (previously generated in src/_gen) */
-char __cdecl loader_apply_mini_cheats(const char *a1);
 int loader_cdrom_detect_region();
 int loader_check_bios_file_exists();
-void __cdecl loader_check_demo_header(FILE *Stream, int a2);
 void loader_load_bios();
 FILE *__cdecl loader_load_cheat_file(char *FileName);
 FILE *loader_load_cheats();
 int __cdecl loader_load_demo(char *FileName);
-void __cdecl loader_load_file(char *a1, size_t Size);
 void loader_load_zip();
-char __cdecl loader_mini_cheat_find(int a1, int a2);
-char __cdecl loader_mini_cheat_find_by_id(int a1, int a2);
-char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer);
-size_t __cdecl loader_pll_get_file_size(const char *a1);
-int __cdecl loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, const char *a4, int a5);
 int __cdecl loader_set_bios_name(const char *a1);
 int __cdecl loader_set_filename(const char *a1);
 int loader_touch_demo_file();

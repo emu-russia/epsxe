@@ -1,5 +1,5 @@
 #include "pch.h"
-LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
   LRESULT result; // eax
   HDC v5; // edi
@@ -590,7 +590,7 @@ LABEL_178:
   return result;
 }
 
-BOOL register_win_class()
+static BOOL register_win_class()
 {
   WNDCLASSEXA v1; // [esp+8h] [ebp-30h] BYREF
 

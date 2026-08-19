@@ -1,5 +1,5 @@
 #include "pch.h"
-char __cdecl loader_mini_cheat_find(int a1, int a2)
+static char __cdecl loader_mini_cheat_find(int a1, int a2)
 {
   unsigned __int8 v2; // cl
   int v3; // eax
@@ -69,7 +69,7 @@ FILE *loader_load_cheats()
   return result;
 }
 
-char __cdecl loader_mini_cheat_find_by_id(int a1, int a2)
+static char __cdecl loader_mini_cheat_find_by_id(int a1, int a2)
 {
   unsigned __int8 v2; // cl
   unsigned __int8 v4; // [esp+8h] [ebp-4h]
@@ -87,7 +87,7 @@ char __cdecl loader_mini_cheat_find_by_id(int a1, int a2)
   return 1;
 }
 
-char __cdecl loader_apply_mini_cheats(const char *a1)
+static char __cdecl loader_apply_mini_cheats(const char *a1)
 {
   char result; // al
   int *v2; // ebp
@@ -138,7 +138,7 @@ char __cdecl loader_apply_mini_cheats(const char *a1)
   return result;
 }
 
-char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer)
+static char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer)
 {
   int v2; // edi
   CHEAT_DB_ENTRY *i; // ebp
@@ -226,7 +226,7 @@ int loader_check_bios_file_exists()
   return 0;
 }
 
-void __cdecl loader_check_demo_header(FILE *Stream, int a2)
+static void __cdecl loader_check_demo_header(FILE *Stream, int a2)
 {
   int v2; // eax
 
@@ -264,7 +264,7 @@ int __cdecl loader_load_demo(char *FileName)
   return fclose(v2);
 }
 
-int __cdecl loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, const char *a4, int a5)
+static int __cdecl loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, const char *a4, int a5)
 {
   unsigned int v5; // eax
   int v6; // eax
@@ -337,7 +337,7 @@ int __cdecl loader_pll_parse_section(int a1, unsigned int *a2, unsigned int a3, 
   return 2;
 }
 
-size_t __cdecl loader_pll_get_file_size(const char *a1)
+static size_t __cdecl loader_pll_get_file_size(const char *a1)
 {
   size_t result; // eax
   unsigned int v2; // edi
@@ -363,7 +363,7 @@ size_t __cdecl loader_pll_get_file_size(const char *a1)
   return result;
 }
 
-void __cdecl loader_load_file(char *a1, size_t Size)
+static void __cdecl loader_load_file(char *a1, size_t Size)
 {
   char v2; // al
   int v3; // eax

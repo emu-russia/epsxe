@@ -2,7 +2,7 @@
 
 uint8_t cd_savefake_flag = 0xff;
 
-void epsxe_main_loop_runner()
+static void epsxe_main_loop_runner()
 {
   if ( create_window_flag )
     create_main_window();
@@ -71,7 +71,7 @@ void epsxe_main_loop_runner()
   }
 }
 
-void print_usage()
+static void print_usage()
 {
   printf(" %s v.%1.1f.%d emulator by ePSXe team. Copyright 2000/2002. \n\n", "ePSXe", 1.6, 0);
   printf("      epsxe [options] [PS-EXE] \n");
@@ -109,7 +109,7 @@ void print_usage()
   exit(0);
 }
 
-void print_develop_options()
+static void print_develop_options()
 {
   printf("      develop options: \n\n");
   printf("        -nocdstatus                -   No return cdstatus.\n");
@@ -121,13 +121,13 @@ void print_develop_options()
   exit(0);
 }
 
-void print_version()
+static void print_version()
 {
   dbg_print_no_flush(" * %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &current_dir_path);
   exit(0);
 }
 
-int __cdecl parse_command_line_options(int a1, int a2)
+static int __cdecl parse_command_line_options(int a1, int a2)
 {
   int result; // eax
   int v3; // ebx

@@ -1037,7 +1037,7 @@ void op_MFC0()
   cpu_gpr[result] = cop0_regs[(unsigned __int16)cpu_opcode >> 11];
 }
 
-void op_RFE()
+static void op_RFE()
 {
   unsigned int v0; // eax
   int result; // eax
