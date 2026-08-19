@@ -11,6 +11,7 @@
 #include <dsound.h>
 #include <dinput.h>
 #include "mmx_compat.h"
+#include "../resources/Resource.h"
 
 #define __noreturn
 
