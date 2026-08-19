@@ -30,7 +30,7 @@ char __cdecl sio_schedule_transfer(char a1, char *a2)
         v2 = 0;
         hw_update_counter = 0;
       }
-      dword_4FD868 = cpu_speed_scale + v2 - 505;
+      sio_scheduled_transfer_timeout = cpu_speed_scale + v2 - 505;
       sio_transfer_pending = 0;
     }
   }
@@ -130,7 +130,7 @@ LABEL_24:
   if ( a3 == 69 )
   {
     *(_DWORD *)v11 = *(_DWORD *)&sio_config_data[72];
-    v11[4] = byte_4557FC;
+    v11[4] = controller_config_response_byte;
   }
   *(_DWORD *)a2 = *(_DWORD *)&v11[1];
   *(_DWORD *)(a2 + 4) = 0x80808080;
@@ -499,15 +499,15 @@ LABEL_30:
           if ( *a1 == 87 )
           {
             v35 = 87;
-            byte_547060[129024] = 87;
-            byte_547060[129025] = -118;
-            byte_547060[129026] = 0;
-            byte_547060[129027] = 90;
-            byte_547060[129028] = 93;
-            byte_547060[129029] = 0;
-            byte_547060[129160] = 92;
-            byte_547060[129161] = 93;
-            byte_547060[129162] = 71;
+            memcard2_buffer[129024] = 87;
+            memcard2_buffer[129025] = -118;
+            memcard2_buffer[129026] = 0;
+            memcard2_buffer[129027] = 90;
+            memcard2_buffer[129028] = 93;
+            memcard2_buffer[129029] = 0;
+            memcard2_buffer[129160] = 92;
+            memcard2_buffer[129161] = 93;
+            memcard2_buffer[129162] = 71;
           }
           else
           {
@@ -518,21 +518,21 @@ LABEL_30:
             }
             v1 = sio_controller_state[0];
             v35 = 82;
-            byte_547060[129024] = 82;
-            byte_547060[129025] = -116;
-            byte_547060[129026] = 0;
-            byte_547060[129027] = 90;
-            byte_547060[129028] = 93;
-            byte_547060[129029] = 0;
-            byte_547060[129030] = 0;
-            byte_547060[129031] = 92;
-            byte_547060[129032] = 93;
-            byte_547060[129164] = 71;
+            memcard2_buffer[129024] = 82;
+            memcard2_buffer[129025] = -116;
+            memcard2_buffer[129026] = 0;
+            memcard2_buffer[129027] = 90;
+            memcard2_buffer[129028] = 93;
+            memcard2_buffer[129029] = 0;
+            memcard2_buffer[129030] = 0;
+            memcard2_buffer[129031] = 92;
+            memcard2_buffer[129032] = 93;
+            memcard2_buffer[129164] = 71;
           }
         }
         else
         {
-          v35 = byte_547060[129024];
+          v35 = memcard2_buffer[129024];
         }
         if ( v35 == 82 )
         {
@@ -541,30 +541,30 @@ LABEL_30:
             LOBYTE(v37) = 0;
             HIBYTE(v37) = *a1;
             memcard_current_address = v37;
-            byte_547060[129033] = *a1;
+            memcard2_buffer[129033] = *a1;
           }
           if ( v4 == 5 )
           {
             memcard_current_address |= (unsigned __int8)*a1;
-            byte_547060[129034] = *a1;
+            memcard2_buffer[129034] = *a1;
           }
           if ( v4 == 6 )
           {
             qmemcpy(
-              &byte_547060[129035],
+              &memcard2_buffer[129035],
               &sio_memcard_data_slot1[128
                                     * ((unsigned __int16)memcard_current_address
                                      + ((unsigned __int8)sio_controller_state[0] << 10))],
               0x80u);
             v38 = 0;
-            byte_547060[129163] = 0;
-            v39 = &byte_547060[129033];
+            memcard2_buffer[129163] = 0;
+            v39 = &memcard2_buffer[129033];
             v40 = 130;
             do
             {
               v38 ^= *v39++;
               --v40;
-              byte_547060[129163] = v38;
+              memcard2_buffer[129163] = v38;
             }
             while ( v40 );
           }
@@ -576,25 +576,25 @@ LABEL_30:
           else
             sio_memcard1_dirty_counter = 1;
           if ( v4 > 3u && v4 < 0x86u )
-            byte_547060[v4 + 129026] = *a1;
+            memcard2_buffer[v4 + 129026] = *a1;
           if ( v4 == 0x89 )
           {
             LOBYTE(v36) = 0;
-            HIBYTE(v36) = byte_547060[129030];
-            memcard_current_address = (unsigned __int8)byte_547060[129031] | v36;
+            HIBYTE(v36) = memcard2_buffer[129030];
+            memcard_current_address = (unsigned __int8)memcard2_buffer[129031] | v36;
             qmemcpy(
               &sio_memcard_data_slot1[128 * ((unsigned __int16)memcard_current_address + (v2 << 10))],
-              &byte_547060[129032],
+              &memcard2_buffer[129032],
               0x80u);
           }
         }
-        if ( v4 >= (unsigned int)byte_547060[129025] )
-          sio_schedule_transfer(0, &byte_547060[v4 + 129025]);
+        if ( v4 >= (unsigned int)memcard2_buffer[129025] )
+          sio_schedule_transfer(0, &memcard2_buffer[v4 + 129025]);
         else
-          sio_schedule_transfer(1, &byte_547060[v4 + 129025]);
+          sio_schedule_transfer(1, &memcard2_buffer[v4 + 129025]);
         ++sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 2];
         v33 = (_BYTE *)(65 * (unsigned __int8)sio_controller_state[0] + 5334370);
-        v34 = (unsigned __int8)sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 2] < (unsigned int)byte_547060[129025];
+        v34 = (unsigned __int8)sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 2] < (unsigned int)memcard2_buffer[129025];
       }
       if ( !v34 )
         *v33 = 0;
@@ -611,7 +611,7 @@ LABEL_9:
       }
       if ( *a1 == -127 )
       {
-        if ( byte_4557A8 )
+        if ( memcard_enabled )
         {
           sio_controller_state[1] = 2;
           ++sio_controller_state[65 * (unsigned __int8)sio_controller_state[0] + 2];
@@ -663,8 +663,8 @@ char sio_reset_controller_state()
   sio_controller_response_buffer[0] = 65;
   sio_response_buffer_id[0] = 90;
   sio_controller_response_alt[0] = 0;
-  byte_5165A5 = 65;
-  byte_5165A6 = 90;
+  controller2_id_byte = 65;
+  controller2_response_constant = 90;
   return 90;
 }
 
@@ -692,35 +692,35 @@ char sio_memcard_load()
     }
     sio_memcard_data_slot2[0] = 77;
     sio_memcard_data_slot1[0] = 77;
-    byte_546861[0] = 67;
+    memcard2_header[0] = 67;
     memcard2_id_byte = 67;
-    byte_5468DF = 14;
+    memcard2_header_checksum = 14;
     memcard2_checksum = 14;
     for ( j = 0; j < 0x780; j += 128 )
     {
-      byte_5468E0[j] = -96;
+      memcard2_directory_state[j] = -96;
       memcard2_data[j] = -96;
-      byte_5468E8[j] = -1;
-      byte_5268E8[j] = -1;
-      byte_5468E9[j] = -1;
-      byte_5268E9[j] = -1;
-      byte_54695F[j] = -96;
-      byte_52695F[j] = -96;
+      memcard2_directory_next_block[j] = -1;
+      memcard1_directory_next_block[j] = -1;
+      memcard2_directory_frame[j] = -1;
+      memcard1_directory_frame[j] = -1;
+      memcard2_directory_checksum[j] = -96;
+      memcard1_directory_checksum[j] = -96;
     }
     for ( k = 0; k < 0xA00; k += 128 )
     {
-      byte_547060[k] = -1;
-      byte_527060[k] = -1;
-      byte_547060[k + 1] = -1;
-      byte_527061[k] = -1;
-      byte_547060[k + 2] = -1;
-      byte_527062[k] = -1;
-      byte_547060[k + 3] = -1;
-      byte_527063[k] = -1;
-      byte_547060[k + 8] = -1;
-      byte_527068[k] = -1;
-      byte_547060[k + 9] = -1;
-      byte_527069[k] = -1;
+      memcard2_buffer[k] = -1;
+      memcard1_block_state_byte0[k] = -1;
+      memcard2_buffer[k + 1] = -1;
+      memcard1_block_state_byte1[k] = -1;
+      memcard2_buffer[k + 2] = -1;
+      memcard1_block_state_byte2[k] = -1;
+      memcard2_buffer[k + 3] = -1;
+      memcard1_block_state_byte3[k] = -1;
+      memcard2_buffer[k + 8] = -1;
+      memcard1_block_next_block[k] = -1;
+      memcard2_buffer[k + 9] = -1;
+      memcard1_save_data[k] = -1;
     }
     v4 = fopen((const char *)Memcard1, "rb");
     v5 = v4;
@@ -987,7 +987,7 @@ int __cdecl sio_freeze(const char *a1, int a2)
   sprintf(Buffer, "%s", a1);
   *(_DWORD *)&Buffer[3] = 263532;
   gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
-  gzwrite(a2, (unsigned __int8 *)byte_526600, 0x214u);
+  gzwrite(a2, (unsigned __int8 *)sio_freeze_state, 0x214u);
   gzwrite(a2, (unsigned __int8 *)sio_controller_state, 0x84u);
   gzwrite(a2, (unsigned __int8 *)sio_memcard_data_slot1, 0x40104u);
   memset(Buffer, 0, sizeof(Buffer));
@@ -1008,7 +1008,7 @@ void __cdecl sio_unfreeze(int a1, _DWORD *a2)
 
   v2 = (char *)malloc(0x40104u);
   gzread(a2, v3, 7);
-  gzread(a2, byte_526600, 532);
+  gzread(a2, sio_freeze_state, 532);
   gzread(a2, sio_controller_state, 132);
   sio_memcard_both_save();
   gzread(a2, v2, 262404);
@@ -1022,7 +1022,7 @@ void __cdecl sio_unfreeze(int a1, _DWORD *a2)
 
 char *__cdecl sio_for_netplay(unsigned __int8 a1)
 {
-  return &byte_506860[0x20000 * a1];
+  return &netplay_memcard_buffer[0x20000 * a1];
 }
 
 int save_temp_memcard1()
@@ -1045,27 +1045,27 @@ int save_temp_memcard2()
 /* Decompiled globals (previously generated in src/_gen) */
 unsigned char Memcard1[0x400];
 unsigned char Memcard2[0x400];
-unsigned char byte_4557FC = 0x0;
-unsigned char byte_506860[0x3820];
-unsigned char byte_5165A5;
-unsigned char byte_5165A6;
-unsigned char byte_526600[0x4];
-unsigned char byte_5268E8[1];
-unsigned char byte_5268E9[0x76];
-unsigned char byte_52695F[0x701];
-unsigned char byte_527060[1];
-unsigned char byte_527061[1];
-unsigned char byte_527062[1];
-unsigned char byte_527063[1];
-unsigned char byte_527068[1];
-unsigned char byte_527069[0x1f7f7];
-unsigned char byte_546861[0x7e];
-unsigned char byte_5468DF;
-unsigned char byte_5468E0[1];
-unsigned char byte_5468E8[1];
-unsigned char byte_5468E9[0x76];
-unsigned char byte_54695F[0x701];
-unsigned char byte_547060[0x1f902];
+unsigned char controller_config_response_byte = 0x0;
+unsigned char netplay_memcard_buffer[0x3820];
+unsigned char controller2_id_byte;
+unsigned char controller2_response_constant;
+unsigned char sio_freeze_state[0x4];
+unsigned char memcard1_directory_next_block[1];
+unsigned char memcard1_directory_frame[0x76];
+unsigned char memcard1_directory_checksum[0x701];
+unsigned char memcard1_block_state_byte0[1];
+unsigned char memcard1_block_state_byte1[1];
+unsigned char memcard1_block_state_byte2[1];
+unsigned char memcard1_block_state_byte3[1];
+unsigned char memcard1_block_next_block[1];
+unsigned char memcard1_save_data[0x1f7f7];
+unsigned char memcard2_header[0x7e];
+unsigned char memcard2_header_checksum;
+unsigned char memcard2_directory_state[1];
+unsigned char memcard2_directory_next_block[1];
+unsigned char memcard2_directory_frame[0x76];
+unsigned char memcard2_directory_checksum[0x701];
+unsigned char memcard2_buffer[0x1f902];
 unsigned int memcard2_checksum;
 unsigned char memcard2_data[0x2000];
 unsigned char memcard2_id_byte;

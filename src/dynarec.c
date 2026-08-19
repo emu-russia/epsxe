@@ -28,7 +28,7 @@ char *dynarec_hw_update()
   int v8; // eax
   int v9; // eax
 
-  dword_50C2B4[0] = 0;
+  cpu_recomp_state[0] = 0;
   if ( (hw_update_counter & 0xC0000000) == 0x80000000 )
   {
     if ( (*(_DWORD *)int_reg & int_mask) != 0 )
@@ -41,84 +41,84 @@ char *dynarec_hw_update()
   }
   else
   {
-    if ( (++dword_4FC4EC & 0x1F) == 0 )
+    if ( (++spu_async_update_counter & 0x1F) == 0 )
       spu_async_update_cb(32 * cpu_speed_scale);
     mdec_timer_handler();
     gpu_dma2_interrupt();
     gpu_dma6_interrupt();
     hw_update_counter = cpu_speed_scale;
-    ++dword_50C364;
+    ++scanline_counter;
     cdr_play_tick();
     cdr_process_delays();
     if ( (int_reg[0] & 4) == 0 && cdr_get_response_status() )
       *(_DWORD *)int_reg |= 4u;
-    if ( dword_50C210 && (int_reg[1] & 2) == 0 )
+    if ( spu_irq_pending_count && (int_reg[1] & 2) == 0 )
     {
       *(_DWORD *)int_reg |= 0x200u;
-      --dword_50C210;
+      --spu_irq_pending_count;
     }
-    if ( *(_DWORD *)dword_4FD878 )
+    if ( *(_DWORD *)sio_irq_pending )
     {
-      *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
-      *(_DWORD *)dword_4FD878 = 0;
+      *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
+      *(_DWORD *)sio_irq_pending = 0;
     }
-    else if ( *(_DWORD *)dword_4FD874 )
+    else if ( *(_DWORD *)sio_irq_delay_time )
     {
-      *(_DWORD *)dword_4FD878 = 128;
-      *(_DWORD *)dword_4FD870 = *(_DWORD *)dword_4FD874;
-      *(_DWORD *)dword_4FD874 = 0;
+      *(_DWORD *)sio_irq_pending = 128;
+      *(_DWORD *)sio_irq_timeout = *(_DWORD *)sio_irq_delay_time;
+      *(_DWORD *)sio_irq_delay_time = 0;
     }
     if ( sio_transfer_pending )
     {
       sio_transfer_pending = 0;
       sio_trigger_rx_ready_irq();
     }
-    else if ( dword_4FD868 )
+    else if ( sio_scheduled_transfer_timeout )
     {
       sio_transfer_pending = 128;
-      sio_transfer_timeout = dword_4FD868;
-      dword_4FD868 = 0;
+      sio_transfer_timeout = sio_scheduled_transfer_timeout;
+      sio_scheduled_transfer_timeout = 0;
     }
     v2 = cpu_speed_scale;
     v3 = 512;
-    if ( (dword_50BFD4[0] & 0x100) == 0 )
+    if ( (rcnt_mode[0] & 0x100) == 0 )
       v3 = cpu_speed_scale;
-    dword_50BFD0[0] += v3;
-    if ( dword_50BFD0[0] >= (unsigned int)dword_50BFDC[0] )
+    rcnt_counter[0] += v3;
+    if ( rcnt_counter[0] >= (unsigned int)rcnt_compare[0] )
     {
-      dword_50BFD0[0] = 0;
-      if ( (dword_50BFD4[0] & 0x50) == 0x50 )
+      rcnt_counter[0] = 0;
+      if ( (rcnt_mode[0] & 0x50) == 0x50 )
         *(_DWORD *)int_reg |= 0x10u;
     }
     v4 = 1;
-    if ( (dword_50BFE4 & 0x100) == 0 )
+    if ( (rcnt1_mode & 0x100) == 0 )
       v4 = cpu_speed_scale;
-    dword_50BFE0 += v4;
-    if ( dword_50BFE0 >= (unsigned int)dword_50BFEC )
+    rcnt1_counter += v4;
+    if ( rcnt1_counter >= (unsigned int)rcnt1_compare )
     {
-      dword_50BFE0 = 0;
-      if ( (dword_50BFE4 & 0x50) == 0x50 )
+      rcnt1_counter = 0;
+      if ( (rcnt1_mode & 0x50) == 0x50 )
         *(_DWORD *)int_reg |= 0x20u;
     }
-    if ( (dword_50BFF4 & 1) == 0 && xenogears_trick_enabled )
+    if ( (rcnt2_mode & 1) == 0 && xenogears_trick_enabled )
     {
-      if ( (dword_50BFF4 & 0x200) != 0 )
+      if ( (rcnt2_mode & 0x200) != 0 )
         v2 = (unsigned int)cpu_speed_scale >> 3;
-      v5 = v2 + dword_50BFF0;
-      dword_50BFF0 = v5;
-      if ( v5 >= dword_50BFFC )
+      v5 = v2 + rcnt2_counter;
+      rcnt2_counter = v5;
+      if ( v5 >= rcnt2_compare )
       {
-        dword_50BFF0 = v5 - dword_50BFFC;
-        if ( (dword_50BFF4 & 0x50) == 0x50 )
+        rcnt2_counter = v5 - rcnt2_compare;
+        if ( (rcnt2_mode & 0x50) == 0x50 )
           *(_DWORD *)int_reg |= 0x40u;
       }
     }
     v6 = int_mask;
-    if ( dword_50C364 == video_scanlines - (cd_extra_setting != 0 ? 32 : 1) )
+    if ( scanline_counter == video_scanlines - (cd_extra_setting != 0 ? 32 : 1) )
     {
       v7 = *(_DWORD *)int_reg | 1;
       *(_DWORD *)int_reg |= 1u;
-      if ( (int_mask & 0x200) != 0 && forcespu && (dword_50C360 & 3) == 0 )
+      if ( (int_mask & 0x200) != 0 && forcespu && (frame_counter & 3) == 0 )
         *(_DWORD *)int_reg = v7 | 0x200;
     }
     if ( (int_mask & *(_DWORD *)int_reg) != 0 )
@@ -126,11 +126,11 @@ char *dynarec_hw_update()
       irq_cpu_interrupt();
       v6 = int_mask;
     }
-    if ( dword_50C364 >= (unsigned int)video_scanlines )
+    if ( scanline_counter >= (unsigned int)video_scanlines )
     {
-      dword_50C364 = 0;
-      ++dword_50C360;
-      ++dword_50C000;
+      scanline_counter = 0;
+      ++frame_counter;
+      ++rcnt3_counter;
       *(_DWORD *)int_reg |= 1u;
       if ( (v6 & 1) != 0 )
         irq_cpu_interrupt();
@@ -148,7 +148,7 @@ char *dynarec_hw_update()
         dynarec_clear_needed = 0;
         dynarec_invalidate();
       }
-      if ( (dword_50C360 & 0x3F) == 0 )
+      if ( (frame_counter & 0x3F) == 0 )
         cdr_update_motor_status();
       sio_memcard_auto_save();
     }
@@ -584,7 +584,7 @@ LABEL_130:
             patch_offset_ptr = (int)(code_ptr + 10);
             code_ptr += 11;
             if ( v27 == v26 )
-              dword_4FF9E8 |= 0x800000u;
+              recomp_special_flags |= 0x800000u;
             *v28 = 79;
             if ( v27 )
             {
@@ -664,7 +664,7 @@ LABEL_62:
             code_ptr += 43;
             goto LABEL_422;
           case 0xDu:
-            dword_4FF9E8 |= 0x2000u;
+            recomp_special_flags |= 0x2000u;
             goto LABEL_422;
           case 0x10u:
             v31 = 4 * ((v7 >> 11) & 0x1F);
@@ -980,8 +980,8 @@ LABEL_121:
               v7 & 0x3F,
               ArgList - 4,
               *(_DWORD *)reg_pc,
-              dword_50C360,
-              dword_50C364);
+              frame_counter,
+              scanline_counter);
             return result;
         }
         goto LABEL_203;
@@ -2015,12 +2015,12 @@ LABEL_314:
         }
         *((_WORD *)code_ptr + 13) = 3211;
         code_ptr[28] = -99;
-        *(_DWORD *)(code_ptr + 29) = byte_4558BC;
+        *(_DWORD *)(code_ptr + 29) = lwl_mask_table;
         *(_WORD *)(code_ptr + 33) = 20001;
         code_ptr[35] = v111;
         *((_WORD *)code_ptr + 18) = 3211;
         code_ptr[38] = -99;
-        *(_DWORD *)(code_ptr + 39) = byte_4558CC;
+        *(_DWORD *)(code_ptr + 39) = lwl_shift_table;
         *(_WORD *)(code_ptr + 43) = -7981;
         goto LABEL_328;
       case 0x23u:
@@ -2057,7 +2057,7 @@ LABEL_314:
           code_ptr[12] = 5;
           *(_DWORD *)(code_ptr + 13) = ram;
           *(_WORD *)(code_ptr + 17) = 32653;
-          code_ptr[19] = -byte_455945;
+          code_ptr[19] = -cd_speed;
           *((_WORD *)code_ptr + 10) = 139;
           code_ptr[22] = -21;
           code_ptr[23] = 5;
@@ -2082,7 +2082,7 @@ LABEL_314:
           code_ptr[12] = 5;
           *(_DWORD *)(code_ptr + 13) = ram;
           *(_WORD *)(code_ptr + 17) = 7563;
-          *(_DWORD *)(code_ptr + 19) = &byte_455945;
+          *(_DWORD *)(code_ptr + 19) = &cd_speed;
           *(_WORD *)(code_ptr + 23) = -1237;
           *(_WORD *)(code_ptr + 25) = 139;
           code_ptr[27] = -21;
@@ -2198,12 +2198,12 @@ LABEL_354:
         {
           *((_WORD *)code_ptr + 13) = 0xC8B;
           code_ptr[28] = 0x9D;
-          *(_DWORD *)(code_ptr + 29) = byte_4558DC;
+          *(_DWORD *)(code_ptr + 29) = lwr_mask_table;
           *(_WORD *)(code_ptr + 33) = 0x4E21;
           code_ptr[35] = v111;
           *((_WORD *)code_ptr + 18) = 0xC8B;
           code_ptr[38] = 0x9D;
-          *(_DWORD *)(code_ptr + 39) = byte_4558EC;
+          *(_DWORD *)(code_ptr + 39) = lwr_shift_table;
           *(_WORD *)(code_ptr + 43) = 0xE8D3;
 LABEL_328:
           *(_WORD *)(code_ptr + 45) = 0x4609;
@@ -2296,11 +2296,11 @@ LABEL_328:
         *(_DWORD *)(code_ptr + 23) = (_BYTE *)recomp_buffer - code_ptr + 421;
         *(_WORD *)(code_ptr + 27) = 3211;
         code_ptr[29] = -99;
-        *(_DWORD *)(code_ptr + 30) = byte_4558FC;
+        *(_DWORD *)(code_ptr + 30) = swl_mask_table;
         *((_WORD *)code_ptr + 17) = -16093;
         *((_WORD *)code_ptr + 18) = 3211;
         code_ptr[38] = -99;
-        *(_DWORD *)(code_ptr + 39) = byte_45590C;
+        *(_DWORD *)(code_ptr + 39) = swl_shift_table;
         *(_WORD *)(code_ptr + 43) = 24203;
         code_ptr[45] = v136;
         *((_WORD *)code_ptr + 23) = -5165;
@@ -2366,11 +2366,11 @@ LABEL_328:
         *(_DWORD *)(code_ptr + 23) = (_BYTE *)recomp_buffer - code_ptr + 421;
         *(_WORD *)(code_ptr + 27) = 3211;
         code_ptr[29] = -99;
-        *(_DWORD *)(code_ptr + 30) = byte_45591C;
+        *(_DWORD *)(code_ptr + 30) = swr_mask_table;
         *((_WORD *)code_ptr + 17) = -16093;
         *((_WORD *)code_ptr + 18) = 3211;
         code_ptr[38] = -99;
-        *(_DWORD *)(code_ptr + 39) = byte_45592C;
+        *(_DWORD *)(code_ptr + 39) = swr_shift_table;
         *(_WORD *)(code_ptr + 43) = 24203;
         code_ptr[45] = v145;
         *((_WORD *)code_ptr + 23) = -7213;
@@ -2466,8 +2466,8 @@ LABEL_414:
           " Opcode %02x UNK (PC %08x) (%d,%d)\n",
           v7 >> 26,
           ArgList - 4,
-          dword_50C360,
-          dword_50C364);
+          frame_counter,
+          scanline_counter);
         return result;
     }
   }
@@ -2741,7 +2741,7 @@ uint8_t *dynarec_init()
   code_ptr[17] = 116;
   code_ptr[18] = 100;
   *(_WORD *)(code_ptr + 19) = 3467;
-  *(_DWORD *)(code_ptr + 21) = &dword_50C2A4;
+  *(_DWORD *)(code_ptr + 21) = &cop0_sr;
   *(_WORD *)(code_ptr + 25) = 0xC1F7;
   *(_DWORD *)(code_ptr + 27) = 0x10000;
   code_ptr[31] = 117;
@@ -2757,16 +2757,16 @@ uint8_t *dynarec_init()
   *((_DWORD *)code_ptr + 12) = mem_write_hooks;
   *((_WORD *)code_ptr + 26) = 7304;
   code_ptr[54] = 8;
-  dword_45594F = (int)recomp_code_base;
-  dword_455958 = (int)recomp_buffer;
-  dword_455960 = (int)recomp_buffer;
-  dword_455972 = (int)recomp_buffer;
-  dword_455968 = (int)recomp_metadata;
+  recomp_code_base_addr = (int)recomp_code_base;
+  recomp_buffer_addr = (int)recomp_buffer;
+  recomp_buffer_addr_2 = (int)recomp_buffer;
+  recomp_buffer_addr_3 = (int)recomp_buffer;
+  recomp_metadata_addr = (int)recomp_metadata;
   v2 = code_ptr + 55;
-  qmemcpy(code_ptr + 55, &byte_455948, 0x3Cu);
+  qmemcpy(code_ptr + 55, &recomp_hw_write_template, 0x3Cu);
   v2 += 60;
-  *(_WORD *)v2 = word_455984;
-  v2[2] = byte_455986;
+  *(_WORD *)v2 = recomp_hw_write_tail_word;
+  v2[2] = recomp_hw_write_tail_byte;
   code_ptr[118] = 0xC3;
   code_ptr[119] = 61;
   *((_DWORD *)code_ptr + 30) = 0x1F800FFF;
@@ -2795,7 +2795,7 @@ uint8_t *dynarec_init()
   code_ptr[17] = 116;
   code_ptr[18] = 101;
   *(_WORD *)(code_ptr + 19) = 3467;
-  *(_DWORD *)(code_ptr + 21) = &dword_50C2A4;
+  *(_DWORD *)(code_ptr + 21) = &cop0_sr;
   *(_WORD *)(code_ptr + 25) = -15881;
   *(_DWORD *)(code_ptr + 27) = 0x10000;
   code_ptr[31] = 117;
@@ -2811,16 +2811,16 @@ uint8_t *dynarec_init()
   *((_DWORD *)code_ptr + 12) = mem_write_hooks;
   *((_WORD *)code_ptr + 26) = -30362;
   *((_WORD *)code_ptr + 27) = 284;
-  dword_45594F = (int)recomp_code_base;
-  dword_455958 = (int)recomp_buffer;
-  dword_455960 = (int)recomp_buffer;
-  dword_455972 = (int)recomp_buffer;
-  dword_455968 = (int)recomp_metadata;
+  recomp_code_base_addr = (int)recomp_code_base;
+  recomp_buffer_addr = (int)recomp_buffer;
+  recomp_buffer_addr_2 = (int)recomp_buffer;
+  recomp_buffer_addr_3 = (int)recomp_buffer;
+  recomp_metadata_addr = (int)recomp_metadata;
   v3 = code_ptr + 56;
-  qmemcpy(code_ptr + 56, &byte_455948, 0x3Cu);
+  qmemcpy(code_ptr + 56, &recomp_hw_write_template, 0x3Cu);
   v3 += 60;
-  *(_WORD *)v3 = word_455984;
-  v3[2] = byte_455986;
+  *(_WORD *)v3 = recomp_hw_write_tail_word;
+  v3[2] = recomp_hw_write_tail_byte;
   code_ptr[119] = 0xC3;
   code_ptr[120] = 61;
   *(_DWORD *)(code_ptr + 121) = 0x1F800FFF;
@@ -2850,7 +2850,7 @@ uint8_t *dynarec_init()
   code_ptr[17] = 116;
   code_ptr[18] = 100;
   *(_WORD *)(code_ptr + 19) = 3467;
-  *(_DWORD *)(code_ptr + 21) = &dword_50C2A4;
+  *(_DWORD *)(code_ptr + 21) = &cop0_sr;
   *(_WORD *)(code_ptr + 25) = -15881;
   *(_DWORD *)(code_ptr + 27) = 0x10000;
   code_ptr[31] = 117;
@@ -2866,16 +2866,16 @@ uint8_t *dynarec_init()
   *((_DWORD *)code_ptr + 12) = mem_write_hooks;
   *((_WORD *)code_ptr + 26) = 7305;
   code_ptr[54] = 8;
-  dword_45594F = (int)recomp_code_base;
-  dword_455958 = (int)recomp_buffer;
-  dword_455960 = (int)recomp_buffer;
-  dword_455972 = (int)recomp_buffer;
-  dword_455968 = (int)recomp_metadata;
+  recomp_code_base_addr = (int)recomp_code_base;
+  recomp_buffer_addr = (int)recomp_buffer;
+  recomp_buffer_addr_2 = (int)recomp_buffer;
+  recomp_buffer_addr_3 = (int)recomp_buffer;
+  recomp_metadata_addr = (int)recomp_metadata;
   v4 = code_ptr + 55;
-  qmemcpy(code_ptr + 55, &byte_455948, 0x3Cu);
+  qmemcpy(code_ptr + 55, &recomp_hw_write_template, 0x3Cu);
   v4 += 60;
-  *(_WORD *)v4 = word_455984;
-  v4[2] = byte_455986;
+  *(_WORD *)v4 = recomp_hw_write_tail_word;
+  v4[2] = recomp_hw_write_tail_byte;
   code_ptr[118] = 0xC3;
   code_ptr[119] = 61;
   *((_DWORD *)code_ptr + 30) = 0x1F800FFF;
@@ -2928,7 +2928,7 @@ __int64 dynarec_execute()
   HIDWORD(v1) = code_ptr;
   *(_WORD *)(code_ptr + 15) = 8447;
   code_ptr += 64;
-  dword_4FC4EC = 0;
+  spu_async_update_counter = 0;
   v3 = v1;
   ((void (*)(void))((char *)recomp_buffer + 1152))();
   return v3;
@@ -2951,32 +2951,32 @@ void nullsub_1()
 
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned char byte_4558BC[16] = {0xff, 0xff, 0xff, 0x0, 0xff, 0xff, 0x0, 0x0, 0xff, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-unsigned char byte_4558CC[16] = {0x18, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-unsigned char byte_4558DC[16] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xff, 0x0, 0x0, 0xff, 0xff, 0x0, 0xff, 0xff, 0xff};
-unsigned char byte_4558EC[16] = {0x0, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0, 0x18, 0x0, 0x0, 0x0};
-unsigned char byte_4558FC[12] = {0x0, 0xff, 0xff, 0xff, 0x0, 0x0, 0xff, 0xff, 0x0, 0x0, 0x0, 0xff};
-unsigned char byte_45590C[16] = {0x18, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-unsigned char byte_45591C[15] = {0x0, 0x0, 0x0, 0x0, 0xff, 0x0, 0x0, 0x0, 0xff, 0xff, 0x0, 0x0, 0xff, 0xff, 0xff};
-unsigned char byte_45592C[16] = {0x0, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0, 0x18, 0x0, 0x0, 0x0};
-unsigned char byte_455948 = 0x81;
-unsigned char byte_455986 = 0xf1;
+unsigned char lwl_mask_table[16] = {0xff, 0xff, 0xff, 0x0, 0xff, 0xff, 0x0, 0x0, 0xff, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+unsigned char lwl_shift_table[16] = {0x18, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+unsigned char lwr_mask_table[16] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xff, 0x0, 0x0, 0xff, 0xff, 0x0, 0xff, 0xff, 0xff};
+unsigned char lwr_shift_table[16] = {0x0, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0, 0x18, 0x0, 0x0, 0x0};
+unsigned char swl_mask_table[12] = {0x0, 0xff, 0xff, 0xff, 0x0, 0x0, 0xff, 0xff, 0x0, 0x0, 0x0, 0xff};
+unsigned char swl_shift_table[16] = {0x18, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+unsigned char swr_mask_table[15] = {0x0, 0x0, 0x0, 0x0, 0xff, 0x0, 0x0, 0x0, 0xff, 0xff, 0x0, 0x0, 0xff, 0xff, 0xff};
+unsigned char swr_shift_table[16] = {0x0, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0, 0x18, 0x0, 0x0, 0x0};
+unsigned char recomp_hw_write_template = 0x81;
+unsigned char recomp_hw_write_tail_byte = 0xf1;
 unsigned char cd_extra_setting;
 uint8_t *code_ptr;
 unsigned int cpu_speed_scale = 0x86a;
-unsigned int dword_45594F = 0x0;
-unsigned int dword_455958 = 0x0;
-unsigned int dword_455960 = 0x0;
-unsigned int dword_455968 = 0x0;
-unsigned int dword_455972 = 0x0;
-unsigned int dword_4FF9E8;
-unsigned int dword_50BFF4;
-unsigned int dword_50BFFC;
-unsigned int dword_50C2B4[0xb];
+unsigned int recomp_code_base_addr = 0x0;
+unsigned int recomp_buffer_addr = 0x0;
+unsigned int recomp_buffer_addr_2 = 0x0;
+unsigned int recomp_metadata_addr = 0x0;
+unsigned int recomp_buffer_addr_3 = 0x0;
+unsigned int recomp_special_flags;
+unsigned int rcnt2_mode;
+unsigned int rcnt2_compare;
+unsigned int cpu_recomp_state[0xb];
 unsigned int int_mask;
 unsigned int int_reg[1];
 unsigned int patch_offset_ptr;
 unsigned int recomp_buffer;
 unsigned int recomp_code_base;
 unsigned int recomp_metadata;
-unsigned short word_455984 = 0x7503;
+unsigned short recomp_hw_write_tail_word = 0x7503;

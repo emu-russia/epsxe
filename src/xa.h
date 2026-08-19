@@ -1,9 +1,9 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned char byte_44C124;
-extern unsigned char byte_8B1960[0x20];
-extern unsigned int dword_44C134[4];
-extern unsigned int dword_44C144;
+extern unsigned char xa_stereo_nibble_offset_table;
+extern unsigned char xa_prev_sample_rate[0x20];
+extern unsigned int xa_mono_nibble_offset_table[4];
+extern unsigned int xa_mono_nibble_offset_table_end;
 
 /* Function prototypes (previously generated in src/_gen) */
 _DWORD *__cdecl xa_clear_adpcm_state(_DWORD *a1);

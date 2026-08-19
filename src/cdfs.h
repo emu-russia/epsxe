@@ -1,9 +1,9 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned char byte_4FD9E8[1];
-extern unsigned char byte_4FD9F0[0xff8];
-extern unsigned char byte_4FE9E8[0x800];
-extern unsigned char byte_4FF1E8[0x800];
+extern unsigned char system_cnf_buffer[1];
+extern unsigned char system_cnf_buffer_8[0xff8];
+extern unsigned char root_directory_buffer[0x800];
+extern unsigned char root_directory_buffer_2[0x800];
 
 /* Function prototypes (previously generated in src/_gen) */
 int *__cdecl cdfs_find_file(const char *a1, int *a2, int **a3);

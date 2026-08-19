@@ -1,9 +1,9 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
 extern unsigned char bin_iso_file[0x100];
-extern unsigned char byte_45B8E8;
-extern unsigned int dword_44DF24[1];
-extern unsigned int dword_45B8D8;
+extern unsigned char shift_key_pressed;
+extern unsigned int save_load_state_slot[1];
+extern unsigned int main_window_bitmap;
 extern unsigned char g_bDisableMouse;
 extern unsigned int g_hInstance;
 extern unsigned int g_hWnd;

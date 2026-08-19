@@ -31,8 +31,8 @@ int gte_rtps()
   int result; // eax
   bool v28; // sf
 
-  v0 = dword_44F950;
-  *(_DWORD *)(dword_44F950 + 252) = 0;
+  v0 = gte_regs_ptr;
+  *(_DWORD *)(gte_regs_ptr + 252) = 0;
   v1 = *(_QWORD *)(v0 + 68);
   v2 = *(_DWORD *)(v0 + 76);
   *(_QWORD *)(v0 + 48) = *(_QWORD *)(v0 + 52);
@@ -195,8 +195,8 @@ int gte_rtpt()
   int result; // eax
   bool v62; // sf
 
-  v0 = dword_44F950;
-  *(_DWORD *)(dword_44F950 + 252) = 0;
+  v0 = gte_regs_ptr;
+  *(_DWORD *)(gte_regs_ptr + 252) = 0;
   *(_DWORD *)(v0 + 64) = *(_DWORD *)(v0 + 76);
   v1 = _m_psrlqi(_m_psllqi(*(__m64 *)v0, 0x10u), 0x10u);
   v2 = _m_psradi(_m_pmaddwd(*(__m64 *)(v0 + 134), v1), 1u);
@@ -534,9 +534,9 @@ char gte_dcpl()
   v5 = gte_regs.data[26].s32 >> 4;
   v6 = v4.s32 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = gte_regs.data[25].s32 >> 4;
-  dword_8A8008 = gte_regs.data[26].s32 >> 4;
-  dword_8A800C = v6;
+  gte_color_r = gte_regs.data[25].s32 >> 4;
+  gte_color_g = gte_regs.data[26].s32 >> 4;
+  gte_color_b = v6;
   if ( gte_regs.data[25].s32 >> 4 >= 0 )
   {
     if ( gte_regs.data[25].s32 >> 4 <= 255 )
@@ -667,9 +667,9 @@ char gte_dpcs()
   v5 = gte_regs.data[26].s32 >> 4;
   v6 = v4.s32 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = gte_regs.data[25].s32 >> 4;
-  dword_8A8008 = gte_regs.data[26].s32 >> 4;
-  dword_8A800C = v6;
+  gte_color_r = gte_regs.data[25].s32 >> 4;
+  gte_color_g = gte_regs.data[26].s32 >> 4;
+  gte_color_b = v6;
   if ( gte_regs.data[25].s32 >> 4 >= 0 )
   {
     if ( gte_regs.data[25].s32 >> 4 <= 255 )
@@ -880,9 +880,9 @@ char gte_ncs()
   v8 = v5.s32 >> 4;
   v9 = v6.s32 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = v7;
-  dword_8A8008 = v8;
-  dword_8A800C = v9;
+  gte_color_r = v7;
+  gte_color_g = v8;
+  gte_color_b = v9;
   if ( v7 >= 0 )
   {
     if ( v7 <= 255 )
@@ -1391,9 +1391,9 @@ char gte_nct()
   v28 = v25.s32 >> 4;
   v29 = v26.s32 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = v27;
-  dword_8A8008 = v28;
-  dword_8A800C = v29;
+  gte_color_r = v27;
+  gte_color_g = v28;
+  gte_color_b = v29;
   if ( v27 >= 0 )
   {
     if ( v27 <= 255 )
@@ -1666,9 +1666,9 @@ char gte_ncds()
   v12 = gte_regs.data[26].s32 >> 4;
   v13 = v11.s32 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = gte_regs.data[25].s32 >> 4;
-  dword_8A8008 = gte_regs.data[26].s32 >> 4;
-  dword_8A800C = v13;
+  gte_color_r = gte_regs.data[25].s32 >> 4;
+  gte_color_g = gte_regs.data[26].s32 >> 4;
+  gte_color_b = v13;
   if ( gte_regs.data[25].s32 >> 4 >= 0 )
   {
     if ( gte_regs.data[25].s32 >> 4 <= 255 )
@@ -2364,9 +2364,9 @@ char gte_ncdt()
   v43 = gte_regs.data[26].s32 >> 4;
   v44 = v42.s32 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = gte_regs.data[25].s32 >> 4;
-  dword_8A8008 = gte_regs.data[26].s32 >> 4;
-  dword_8A800C = v44;
+  gte_color_r = gte_regs.data[25].s32 >> 4;
+  gte_color_g = gte_regs.data[26].s32 >> 4;
+  gte_color_b = v44;
   if ( gte_regs.data[25].s32 >> 4 >= 0 )
   {
     if ( gte_regs.data[25].s32 >> 4 <= 255 )
@@ -2457,9 +2457,9 @@ GTE_REG gte_dpct()
     v8 = result.s32 >> 4;
     gte_regs.data[27] = result;
     gte_regs.data[20] = v0;
-    dword_8A8004 = gte_regs.data[25].s32 >> 4;
-    dword_8A8008 = gte_regs.data[26].s32 >> 4;
-    dword_8A800C = result.s32 >> 4;
+    gte_color_r = gte_regs.data[25].s32 >> 4;
+    gte_color_g = gte_regs.data[26].s32 >> 4;
+    gte_color_b = result.s32 >> 4;
     if ( gte_regs.data[25].s32 >> 4 >= 0 )
     {
       if ( gte_regs.data[25].s32 >> 4 <= 255 )
@@ -2778,9 +2778,9 @@ char gte_nccs()
   v11 = v8 >> 4;
   v12 = v9 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = v10;
-  dword_8A8008 = v11;
-  dword_8A800C = v12;
+  gte_color_r = v10;
+  gte_color_g = v11;
+  gte_color_b = v12;
   if ( v10 >= 0 )
   {
     if ( v10 <= 255 )
@@ -3442,9 +3442,9 @@ char gte_ncct()
   v31 = v28 >> 4;
   v32 = v29 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = v30;
-  dword_8A8008 = v31;
-  dword_8A800C = v32;
+  gte_color_r = v30;
+  gte_color_g = v31;
+  gte_color_b = v32;
   if ( v30 >= 0 )
   {
     if ( v30 <= 255 )
@@ -3648,9 +3648,9 @@ char gte_cdp()
   v8 = gte_regs.data[26].s32 >> 4;
   v9 = v7.s32 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = gte_regs.data[25].s32 >> 4;
-  dword_8A8008 = gte_regs.data[26].s32 >> 4;
-  dword_8A800C = v9;
+  gte_color_r = gte_regs.data[25].s32 >> 4;
+  gte_color_g = gte_regs.data[26].s32 >> 4;
+  gte_color_b = v9;
   if ( gte_regs.data[25].s32 >> 4 >= 0 )
   {
     if ( gte_regs.data[25].s32 >> 4 <= 255 )
@@ -3849,9 +3849,9 @@ char gte_cc()
   v7 = v4 >> 4;
   v8 = v5 >> 4;
   gte_regs.data[21].u32 = gte_regs.data[22].u32;
-  dword_8A8004 = v6;
-  dword_8A8008 = v7;
-  dword_8A800C = v8;
+  gte_color_r = v6;
+  gte_color_g = v7;
+  gte_color_b = v8;
   if ( v6 >= 0 )
   {
     if ( v6 <= 255 )
@@ -4262,8 +4262,8 @@ char gte_exec_opcode()
     case 0u:
       v27 = BYTE2(cpu_opcode) & 0x1F;
       v28 = ((unsigned int)cpu_opcode >> 11) & 0x1F;
-      byte_8A7EE0 = BYTE2(cpu_opcode) & 0x1F;
-      byte_8A8001 = v28;
+      gte_cpu_gpr_index = BYTE2(cpu_opcode) & 0x1F;
+      gte_data_reg_index = v28;
       if ( (cpu_opcode & 0x1F0000) != 0 )
       {
         if ( v28 == 31 )
@@ -4278,7 +4278,7 @@ char gte_exec_opcode()
             gte_convert_to_5bit(gte_regs.data[11].u16.hi);
             gte_convert_to_5bit(gte_regs.data[10].u16.hi);
             v29 = gte_convert_to_5bit(gte_regs.data[9].u16.hi);
-            v27 = byte_8A7EE0;
+            v27 = gte_cpu_gpr_index;
             gte_regs.data[29].u32 = v29 | v30;
           }
           LOBYTE(v26) = v27;
@@ -4288,8 +4288,8 @@ char gte_exec_opcode()
       return v26;
     case 2u:
       LOBYTE(v26) = ((unsigned int)cpu_opcode >> 11) & 0x1F;
-      byte_8A7EE0 = BYTE2(cpu_opcode) & 0x1F;
-      byte_8A8000 = v26;
+      gte_cpu_gpr_index = BYTE2(cpu_opcode) & 0x1F;
+      gte_control_reg_index = v26;
       if ( (cpu_opcode & 0x1F0000) != 0 )
       {
         v26 = BYTE2(cpu_opcode) & 0x1F;
@@ -4298,8 +4298,8 @@ char gte_exec_opcode()
       return v26;
     case 4u:
       LOBYTE(v26) = ((unsigned int)cpu_opcode >> 11) & 0x1F;
-      byte_8A7EE0 = BYTE2(cpu_opcode) & 0x1F;
-      byte_8A8001 = v26;
+      gte_cpu_gpr_index = BYTE2(cpu_opcode) & 0x1F;
+      gte_data_reg_index = v26;
       v31.u32 = cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
       gte_regs.data[(unsigned __int8)v26] = v31;
       if ( (unsigned __int8)v26 >= 0x10u && (unsigned __int8)v26 <= 0x13u )
@@ -4325,9 +4325,9 @@ char gte_exec_opcode()
       return v26;
     case 6u:
       LOBYTE(v26) = ((unsigned int)cpu_opcode >> 11) & 0x1F;
-      byte_8A7EE0 = BYTE2(cpu_opcode) & 0x1F;
+      gte_cpu_gpr_index = BYTE2(cpu_opcode) & 0x1F;
       v32.u32 = cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
-      byte_8A8000 = v26;
+      gte_control_reg_index = v26;
       gte_regs.ctrl[(unsigned __int8)v26] = v32;
       return v26;
     default:
@@ -7702,9 +7702,9 @@ LABEL_694:
               gte_regs.data[21].u32 = gte_regs.data[22].u32;
               v24 = v22.s32 >> 4;
               v25 = v23.s32 >> 4;
-              dword_8A8004 = gte_regs.data[25].s32 >> 4;
-              dword_8A8008 = v24;
-              dword_8A800C = v25;
+              gte_color_r = gte_regs.data[25].s32 >> 4;
+              gte_color_g = v24;
+              gte_color_b = v25;
               if ( gte_regs.data[25].s32 >> 4 >= 0 )
               {
                 if ( (int)v26 <= 255 )
@@ -7840,9 +7840,9 @@ LABEL_694:
         gte_regs.data[21].u32 = gte_regs.data[22].u32;
         v20 = v18.s32 >> 4;
         v21 = v19.s32 >> 4;
-        dword_8A8004 = gte_regs.data[25].s32 >> 4;
-        dword_8A8008 = v20;
-        dword_8A800C = v21;
+        gte_color_r = gte_regs.data[25].s32 >> 4;
+        gte_color_g = v20;
+        gte_color_b = v21;
         if ( gte_regs.data[25].s32 >> 4 >= 0 )
         {
           if ( (int)v26 <= 255 )
@@ -8036,9 +8036,9 @@ LABEL_694:
             v3 = gte_regs.data[26].s32 >> 4;
             v26 = v2.s32 >> 4;
             gte_regs.data[21].u32 = gte_regs.data[22].u32;
-            dword_8A8004 = gte_regs.data[25].s32 >> 4;
-            dword_8A8008 = gte_regs.data[26].s32 >> 4;
-            dword_8A800C = v26;
+            gte_color_r = gte_regs.data[25].s32 >> 4;
+            gte_color_g = gte_regs.data[26].s32 >> 4;
+            gte_color_b = v26;
             if ( gte_regs.data[25].s32 >> 4 >= 0 )
             {
               if ( gte_regs.data[25].s32 >> 4 <= 255 )
@@ -8165,9 +8165,9 @@ LABEL_704:
               gte_regs.data[21].u32 = gte_regs.data[22].u32;
               v11 = v9.s32 >> 4;
               v12 = v10.s32 >> 4;
-              dword_8A8004 = v26;
-              dword_8A8008 = v11;
-              dword_8A800C = v12;
+              gte_color_r = v26;
+              gte_color_g = v11;
+              gte_color_b = v12;
               if ( (v26 & 0x80000000) == 0 )
               {
                 if ( (int)v26 <= 255 )
@@ -8383,9 +8383,9 @@ LABEL_735:
         gte_regs.data[21].u32 = gte_regs.data[22].u32;
         v16 = v14 >> 4;
         v17 = v15 >> 4;
-        dword_8A8004 = v26;
-        dword_8A8008 = v16;
-        dword_8A800C = v17;
+        gte_color_r = v26;
+        gte_color_g = v16;
+        gte_color_b = v17;
         if ( (v26 & 0x80000000) == 0 )
         {
           if ( (int)v26 <= 255 )
@@ -8549,13 +8549,13 @@ int __cdecl gte_unfreeze(int a1, _DWORD *a2)
 
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned char byte_8A7EE0;
-unsigned char byte_8A8000;
-unsigned char byte_8A8001;
-unsigned int dword_44F950 = 0x8a7f00;
-unsigned int dword_8A8004;
-unsigned int dword_8A8008;
-unsigned int dword_8A800C;
+unsigned char gte_cpu_gpr_index;
+unsigned char gte_control_reg_index;
+unsigned char gte_data_reg_index;
+unsigned int gte_regs_ptr = 0x8a7f00;
+unsigned int gte_color_r;
+unsigned int gte_color_g;
+unsigned int gte_color_b;
 GTE_REGS gte_regs;
 unsigned __int64 qword_44F958 = 0x8080000081000000;
 unsigned __int64 qword_44F960 = 0x400000;

@@ -131,7 +131,7 @@ void __cdecl mem_hw_reg_write_byte(unsigned int a1, char a2)
           sio_write_data_byte(0x1F801040, a2);
           return;
         case 0x1F8010F6u:
-          dword_50BFC8 = dword_50BFC8 & 0xFF00FFFF | ((unsigned __int8)a2 << 16);
+          dma_int_ctrl = dma_int_ctrl & 0xFF00FFFF | ((unsigned __int8)a2 << 16);
           return;
         case 0x1F801800u:
           cdr_reg0_write(a2);
@@ -148,7 +148,7 @@ void __cdecl mem_hw_reg_write_byte(unsigned int a1, char a2)
         cdr_reg3_write(a2);
         break;
       case 0x1F802041u:
-        byte_516600[8257] = a2;
+        hw_regs[8257] = a2;
         break;
       default:
 LABEL_27:
@@ -163,7 +163,7 @@ LABEL_27:
         return;
     }
   }
-  else if ( (dword_50C2A4 & 0x10000) == 0 )
+  else if ( (cop0_sr & 0x10000) == 0 )
   {
     *(_BYTE *)((unsigned __int16)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
     if ( recomp_buffer )
@@ -206,7 +206,7 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
           switch ( a1 )
           {
             case 0x1F801014u:
-              *(_WORD *)&byte_516600[(unsigned __int16)a1] = a2;
+              *(_WORD *)&hw_regs[(unsigned __int16)a1] = a2;
               break;
             case 0x1F801040u:
               sio_write_data_byte(a1, a2);
@@ -229,10 +229,10 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
               HIWORD(sio0_control_reg) = a2;
               break;
             case 0x1F801070u:
-              if ( *(_DWORD *)dword_4FD878 && (unsigned int)hw_update_counter < *(_DWORD *)dword_4FD870 )
+              if ( *(_DWORD *)sio_irq_pending && (unsigned int)hw_update_counter < *(_DWORD *)sio_irq_timeout )
               {
-                *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
-                *(_DWORD *)dword_4FD878 = 0;
+                *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
+                *(_DWORD *)sio_irq_pending = 0;
               }
               *(_DWORD *)int_reg = (unsigned __int16)(int_mask & a2 & *(_WORD *)int_reg);
               break;
@@ -266,7 +266,7 @@ void __cdecl mem_write_half(unsigned int a1, unsigned __int16 a2)
       *(_WORD *)&dcache[a1 & 0xFFF] = a2;
     }
   }
-  else if ( (dword_50C2A4 & 0x10000) == 0 )
+  else if ( (cop0_sr & 0x10000) == 0 )
   {
     *(_WORD *)((unsigned __int16)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
     if ( recomp_buffer )
@@ -304,7 +304,7 @@ void __cdecl mem_write_word(unsigned int a1, unsigned int a2)
     else
       *(_DWORD *)&dcache[a1 & 0xFFF] = a2;
   }
-  else if ( (dword_50C2A4 & 0x10000) == 0 )
+  else if ( (cop0_sr & 0x10000) == 0 )
   {
     *(_DWORD *)((unsigned __int16)a1 + mem_write_hooks[HIWORD(a1)]) = a2;
     if ( recomp_buffer )
@@ -346,7 +346,7 @@ void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
 {
   char v2; // cl
 
-  if ( (dword_50C2A4 & 0x10000) == 0 )
+  if ( (cop0_sr & 0x10000) == 0 )
   {
     if ( (a1 & 0xFF800000) == 0x1F800000 )
     {
@@ -359,7 +359,7 @@ void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
             switch ( a1 )
             {
               case 0x1F801014u:
-                *(_WORD *)&byte_516600[(unsigned __int16)a1] = a2;
+                *(_WORD *)&hw_regs[(unsigned __int16)a1] = a2;
                 break;
               case 0x1F801040u:
                 sio_write_data_byte(a1, a2);
@@ -382,10 +382,10 @@ void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
                 HIWORD(sio0_control_reg) = a2;
                 break;
               case 0x1F801070u:
-                if ( *(_DWORD *)dword_4FD878 && (unsigned int)hw_update_counter < *(_DWORD *)dword_4FD870 )
+                if ( *(_DWORD *)sio_irq_pending && (unsigned int)hw_update_counter < *(_DWORD *)sio_irq_timeout )
                 {
-                  *(_DWORD *)int_reg |= *(_DWORD *)dword_4FD878;
-                  *(_DWORD *)dword_4FD878 = 0;
+                  *(_DWORD *)int_reg |= *(_DWORD *)sio_irq_pending;
+                  *(_DWORD *)sio_irq_pending = 0;
                 }
                 *(_DWORD *)int_reg = (unsigned __int16)(int_mask & a2 & *(_WORD *)int_reg);
                 break;
@@ -428,7 +428,7 @@ void __cdecl mem_hw_reg_write_half(unsigned int a1, unsigned __int16 a2)
 
 void __cdecl mem_gpu_dma_write(unsigned int a1, unsigned int a2)
 {
-  if ( (dword_50C2A4 & 0x10000) == 0 )
+  if ( (cop0_sr & 0x10000) == 0 )
   {
     if ( (a1 & 0xFF800000) == 0x1F800000 )
     {

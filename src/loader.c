@@ -143,7 +143,7 @@ char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer)
   int v2; // edi
   CHEAT_DB_ENTRY *i; // ebp
   signed __int8 mdec_timing; // cl
-  signed __int8 dword_50C374; // cl
+  signed __int8 timing_value; // cl
   signed __int8 force_pad; // cl
   char *text; // eax
 
@@ -160,26 +160,26 @@ char __cdecl loader_parse_cheat_entry(const char *a1, char *Buffer)
   mdec_timing = cheat_db[v2].mdectiming;
   if ( mdec_timing != -1 )
     mdectiming = mdec_timing;
-  dword_50C374 = cheat_db[v2].dword_50C374;
-  if ( dword_50C374 != -1 )
-    unknown_timing_value = dword_50C374;
+  timing_value = cheat_db[v2].timing_value;
+  if ( timing_value != -1 )
+    unknown_timing_value = timing_value;
   if ( cheat_db[v2].forcespu != 0xFF )
     forcespu = cheat_db[v2].forcespu;
   force_pad = cheat_db[v2].forcepad;
   if ( force_pad != -1 )
     forcepad = force_pad;
-  if ( cheat_db[v2].byte_455946 != 0xFF )
-    cpu_overclock_setting = cheat_db[v2].byte_455946;
+  if ( cheat_db[v2].cpu_overclock != 0xFF )
+    cpu_overclock_setting = cheat_db[v2].cpu_overclock;
   if ( cheat_db[v2].parasite_eve_cheat != 0xFF )
     parasite_eve_cheat = cheat_db[v2].parasite_eve_cheat;
-  if ( cheat_db[v2].byte_455FA4 != 0xFF )
-    cd_inc = cheat_db[v2].byte_455FA4;
-  if ( cheat_db[v2].byte_4F75AA != 0xFF )
-    unknown_cd_setting = cheat_db[v2].byte_4F75AA;
+  if ( cheat_db[v2].cd_increment != 0xFF )
+    cd_inc = cheat_db[v2].cd_increment;
+  if ( cheat_db[v2].cd_setting != 0xFF )
+    unknown_cd_setting = cheat_db[v2].cd_setting;
   if ( cheat_db[v2].nocdstatus != 0xFF )
     nocdstatus = cheat_db[v2].nocdstatus;
-  if ( cheat_db[v2].byte_4FC4E6 != 0xFF )
-    cd_extra_setting = cheat_db[v2].byte_4FC4E6;
+  if ( cheat_db[v2].cd_extra != 0xFF )
+    cd_extra_setting = cheat_db[v2].cd_extra;
   text = cheat_db[v2].text;
   if ( !strcmp("NULL", text) )
     return 0;

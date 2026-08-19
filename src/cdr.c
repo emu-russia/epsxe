@@ -93,24 +93,24 @@ LABEL_8:
         BYTE2(g_cdr_cur_msf_pos) = cdr_hex_to_bcd(g_cdr_param_fifo_byte[0]);
         if ( !(_WORD)g_cdr_cur_msf_pos )
           BYTE1(g_cdr_cur_msf_pos) = v3;
-        dword_5053E0 = 0;
-        dword_5053E4 = 0;
-        dword_5053E8 = 0;
+        sub_q_cur0 = 0;
+        sub_q_cur1 = 0;
+        sub_q_cur2 = 0;
         g_cdr_status_regs[62] = 0;
         g_cdr_status_regs[63] = 3;
         LOBYTE(g_cdr_primary_response) = v3;
         g_cdr_status_regs[60] = 1;
         g_cdr_response_size = 0;
         g_cdr_response_index = 0;
-        dword_5053EC = 0;
-        word_455FA6 = 200;
+        sub_q_cur3 = 0;
+        g_cdr_response_delay = 200;
         return;
       case 3u:
         if ( !g_cdr_status_regs[70] )
         {
           v10 = (unsigned __int8)cdr_bcd_to_hex(BYTE1(g_cdr_cur_msf_pos));
           v4 = cdr_bcd_to_hex(g_cdr_cur_msf_pos);
-          cdrom_lba_to_msf_cb(v4, v10, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &byte_50BF7C);
+          cdrom_lba_to_msf_cb(v4, v10, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &g_cdr_seek_target_frame);
           v5 = BYTE1(g_cdr_cur_msf_pos);
           if ( g_cdr_seek_target_msf == (_WORD)g_cdr_cur_msf_pos )
           {
@@ -124,7 +124,7 @@ LABEL_8:
             }
             v11 = (unsigned __int8)cdr_bcd_to_hex(v6);
             v7 = cdr_bcd_to_hex(g_cdr_cur_msf_pos);
-            cdrom_lba_to_msf_cb(v7, v11, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &byte_50BF7C);
+            cdrom_lba_to_msf_cb(v7, v11, 0, &g_cdr_seek_target_msf, (char *)&g_cdr_seek_target_msf + 1, &g_cdr_seek_target_frame);
             v5 = BYTE1(g_cdr_cur_msf_pos);
           }
           cdrom_play_cdda_cb((unsigned __int8)g_cdr_cur_msf_pos, v5, BYTE2(g_cdr_cur_msf_pos));
@@ -201,8 +201,8 @@ LABEL_8:
         LOBYTE(g_cdr_secondary_response) = 2;
         g_cdr_secondary_response_index = 1;
         if ( adjust_timing )
-          *(_DWORD *)&byte_455945 = 5;
-        word_455FA6 = 550;
+          *(_DWORD *)&cd_speed = 5;
+        g_cdr_response_delay = 550;
         return;
       case 0xAu:
         cdrom_stop_cb();
@@ -267,10 +267,10 @@ LABEL_8:
           if ( g_cdr_status_regs[63] )
           {
             g_cdr_secondary_response = g_cdr_pending_response;
-            dword_50BF70 = *(_DWORD *)g_cdr_xa_buffer;
+            g_cdr_last_sector_header = *(_DWORD *)g_cdr_xa_buffer;
             g_cdr_secondary_response_size = 3;
             g_cdr_secondary_response_index = 8;
-            if ( byte_4FD881 )
+            if ( cdr_randomize_response_flag )
               LOBYTE(g_cdr_secondary_response) = rand();
           }
           else
@@ -282,7 +282,7 @@ LABEL_8:
             g_cdr_status_regs[2] = g_cdr_xa_buffer[2];
             g_cdr_status_regs[3] = g_cdr_xa_buffer[3];
             g_cdr_status_regs[60] = 8;
-            if ( byte_4FD881 )
+            if ( cdr_randomize_response_flag )
               LOBYTE(g_cdr_primary_response) = rand();
           }
         }
@@ -293,7 +293,7 @@ LABEL_8:
           g_cdr_status_regs[62] = 3;
           g_cdr_response_size = 8;
           g_cdr_response_index = 0;
-          if ( !byte_4FD881 )
+          if ( !cdr_randomize_response_flag )
             goto LABEL_10;
           g_cdr_response_fifo[0] = rand();
         }
@@ -444,7 +444,7 @@ LABEL_78:
         g_cdr_secondary_response_size = 2;
         goto LABEL_9;
       case 0x1Au:
-        dword_50BF70 = *(_DWORD *)"SCEA";
+        g_cdr_last_sector_header = *(_DWORD *)"SCEA";
         g_cdr_status_regs[68] = 1;
         g_cdr_status_regs[67] = 0;
         g_cdr_status_regs[70] = 0;
@@ -491,7 +491,7 @@ LABEL_10:
         g_cdr_response_index = 0;
         g_cdr_status_regs[60] = 1;
         if ( adjust_timing )
-          *(_DWORD *)&byte_455945 = 0;
+          *(_DWORD *)&cd_speed = 0;
         g_cdr_retry_count = 0;
         if ( (g_cdr_status_regs[72] & 0x40) != 0 )
           spu_set_adpcm_flag_cb();
@@ -755,14 +755,14 @@ char cdr_process_delays()
   result = g_cdr_status_regs[62];
   if ( !g_cdr_status_regs[62] && (g_cdr_status_regs[63] || (result = g_cdr_secondary_response_size) != 0) )
   {
-    result = ++word_4FD87C;
-    if ( (unsigned __int16)word_4FD87C >= (unsigned __int16)word_455FA6 )
+    result = ++g_cdr_response_delay_counter;
+    if ( (unsigned __int16)g_cdr_response_delay_counter >= (unsigned __int16)g_cdr_response_delay )
     {
       cdr_queue_response();
       result = 10;
-      word_4FD87C = 0;
-      if ( (unsigned __int16)word_455FA6 > 0xAu )
-        word_455FA6 = 10;
+      g_cdr_response_delay_counter = 0;
+      if ( (unsigned __int16)g_cdr_response_delay > 0xAu )
+        g_cdr_response_delay = 10;
     }
   }
   return result;
@@ -773,7 +773,7 @@ __int16 cdr_init_report_mode()
   __int16 result; // ax
 
   g_cdr_irq_enabled = 1;
-  word_50BF82 = 0;
+  g_cdr_tick_counter = 0;
   g_cdr_spindown_counter = 0;
   g_cdr_dma_active = 0;
   if ( country_setting == 1 )
@@ -798,7 +798,7 @@ void cdr_play_tick()
 
   if ( g_cdr_status_regs[70] )
   {
-    if ( (unsigned __int16)++word_50BF82 >= (unsigned __int16)g_cdr_delay_counter )
+    if ( (unsigned __int16)++g_cdr_tick_counter >= (unsigned __int16)g_cdr_delay_counter )
     {
       v0 = g_cdr_status_regs[72];
       if ( (g_cdr_status_regs[72] & 4) == 4 )
@@ -841,7 +841,7 @@ void cdr_play_tick()
       }
       if ( (v0 & 2) == 2
         && g_cdr_seek_target_msf == (_BYTE)g_cdr_cur_msf_pos
-        && word_50BF7B == *(_WORD *)((char *)&g_cdr_cur_msf_pos + 1)
+        && g_cdr_seek_target_sf == *(_WORD *)((char *)&g_cdr_cur_msf_pos + 1)
         && loaded_file_type != 3 )
       {
         g_cdr_status_regs[62] = 4;
@@ -855,15 +855,15 @@ void cdr_play_tick()
         g_cdr_status_regs[67] = 0;
         g_cdr_status_regs[70] = 0;
       }
-      word_50BF82 = 0;
+      g_cdr_tick_counter = 0;
       cdr_increment_msf();
     }
   }
   else if ( g_cdr_status_regs[67] )
   {
-    if ( (unsigned __int16)++word_50BF82 >= (unsigned __int16)g_cdr_delay_counter )
+    if ( (unsigned __int16)++g_cdr_tick_counter >= (unsigned __int16)g_cdr_delay_counter )
     {
-      word_50BF82 = 0;
+      g_cdr_tick_counter = 0;
       if ( !g_cdr_retry_count )
       {
         cdr_read_data_sector();
@@ -914,21 +914,21 @@ unsigned int cdr_dma()
   unsigned int v3; // ebp
   int v4; // esi
 
-  v0 = HIWORD(dword_516508);
-  result = (unsigned __int16)dword_516508;
-  v2 = dword_516504;
-  if ( (dword_51650C & 0x11000000) == 0x11000000 )
+  v0 = HIWORD(g_cdr_dma_block_control);
+  result = (unsigned __int16)g_cdr_dma_block_control;
+  v2 = g_cdr_dma_address;
+  if ( (g_cdr_dma_channel_control & 0x11000000) == 0x11000000 )
   {
-    if ( !HIWORD(dword_516508) )
+    if ( !HIWORD(g_cdr_dma_block_control) )
       v0 = 1;
-    if ( !(_WORD)dword_516508 )
+    if ( !(_WORD)g_cdr_dma_block_control )
       result = 512;
     v3 = 4 * v0 * result;
     v4 = g_cdr_data_bytes_transferred;
     result = v3 + g_cdr_data_bytes_transferred;
     g_cdr_data_bytes_transferred += v3;
     if ( dynarec_enabled == 1 )
-      result = dynarec_invalidate_range(dword_516504, v3 >> 2);
+      result = dynarec_invalidate_range(g_cdr_dma_address, v3 >> 2);
     if ( v3 + (v2 & 0x1FFFFF) <= 0x200000 )
     {
       result = mem_dma_read(v2);
@@ -986,8 +986,8 @@ int __cdecl cdr_freeze(const char *a1, int a2)
 
   sprintf(Buffer, "%s", a1);
   v4 = 4396;
-  g_cdr_idle_counter = word_4FD87C;
-  g_cdr_spindown_counter = word_50BF82;
+  g_cdr_idle_counter = g_cdr_response_delay_counter;
+  g_cdr_spindown_counter = g_cdr_tick_counter;
   gzwrite(a2, (unsigned __int8 *)Buffer, 7u);
   return gzwrite(a2, (unsigned __int8 *)g_cdr_response_fifo, 0x112Cu);
 }
@@ -998,7 +998,7 @@ int __cdecl cdr_unfreeze_new(int a1, _DWORD *a2)
 
   gzread(a2, v3, 7);
   gzread(a2, g_cdr_response_fifo, 4396);
-  word_4FD87C = (unsigned __int8)g_cdr_idle_counter;
+  g_cdr_response_delay_counter = (unsigned __int8)g_cdr_idle_counter;
   if ( g_cdr_status_regs[70] )
     return cdrom_play_cdda_cb((unsigned __int8)g_cdr_cur_msf_pos, BYTE1(g_cdr_cur_msf_pos), BYTE2(g_cdr_cur_msf_pos));
   else
@@ -1013,8 +1013,8 @@ int __cdecl cdr_unfreeze(int a1, _DWORD *a2)
   gzread(a2, g_cdr_response_fifo, 4396);
   g_cdr_read_ahead_sectors = (unsigned __int8)g_cdr_region_code;
   g_cdr_delay_counter = (unsigned __int8)g_cdr_region_code;
-  word_4FD87C = (unsigned __int8)g_cdr_idle_counter;
-  word_50BF82 = (unsigned __int8)g_cdr_spindown_counter;
+  g_cdr_response_delay_counter = (unsigned __int8)g_cdr_idle_counter;
+  g_cdr_tick_counter = (unsigned __int8)g_cdr_spindown_counter;
   if ( g_cdr_status_regs[70] )
     return cdrom_play_cdda_cb((unsigned __int8)g_cdr_cur_msf_pos, BYTE1(g_cdr_cur_msf_pos), BYTE2(g_cdr_cur_msf_pos));
   else
@@ -1037,11 +1037,11 @@ int __cdecl cdr_get_status(int a1)
 
 /* Decompiled globals (previously generated in src/_gen) */
 int adjust_timing;
-unsigned char byte_4FD881;
-unsigned char byte_50BF7C;
-unsigned int dword_50BF70;
-unsigned int dword_516504;
-unsigned int dword_516508;
+unsigned char cdr_randomize_response_flag;
+unsigned char g_cdr_seek_target_frame;
+unsigned int g_cdr_last_sector_header;
+unsigned int g_cdr_dma_address;
+unsigned int g_cdr_dma_block_control;
 unsigned int g_cdr_cur_msf_pos;
 unsigned short g_cdr_cur_track;
 unsigned char g_cdr_data_buffer[0xc];
@@ -1074,7 +1074,7 @@ unsigned char g_cdr_spindown_counter;
 unsigned char g_cdr_status_regs[0x49];
 unsigned char g_cdr_xa_buffer[0xff2];
 unsigned char report_mode_enabled = 0x1;
-unsigned short word_455FA6 = 0xa;
-unsigned short word_4FD87C;
-unsigned short word_50BF7B;
-unsigned short word_50BF82;
+unsigned short g_cdr_response_delay = 0xa;
+unsigned short g_cdr_response_delay_counter;
+unsigned short g_cdr_seek_target_sf;
+unsigned short g_cdr_tick_counter;

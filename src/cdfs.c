@@ -30,11 +30,11 @@ char *cdfs_read_root_directory()
 {
   int le32; // esi
 
-  cdfs_read_data(16, 24, 0x800u, byte_4FE9E8);
-  le32 = cdfs_read_le32((unsigned __int8 *)&byte_4FE9E8[158]);
-  cdfs_read_data(le32, 24, 0x800u, byte_4FE9E8);
-  cdfs_read_data(le32 + 1, 24, 0x800u, byte_4FF1E8);
-  return byte_4FE9E8;
+  cdfs_read_data(16, 24, 0x800u, root_directory_buffer);
+  le32 = cdfs_read_le32((unsigned __int8 *)&root_directory_buffer[158]);
+  cdfs_read_data(le32, 24, 0x800u, root_directory_buffer);
+  cdfs_read_data(le32 + 1, 24, 0x800u, root_directory_buffer_2);
+  return root_directory_buffer;
 }
 
 int *__cdecl cdfs_find_file(const char *a1, int *a2, int **a3)
@@ -46,14 +46,14 @@ int *__cdecl cdfs_find_file(const char *a1, int *a2, int **a3)
   v3 = 0;
   while ( 1 )
   {
-    v4 = &byte_4FE9E8[v3];
-    if ( !byte_4FE9E8[v3] )
+    v4 = &root_directory_buffer[v3];
+    if ( !root_directory_buffer[v3] )
     {
 LABEL_8:
       *a2 = 0;
       return a2;
     }
-    v3 += (unsigned __int8)byte_4FE9E8[v3];
+    v3 += (unsigned __int8)root_directory_buffer[v3];
     if ( (unsigned __int8)v4[33] >= 2u && (!strncmp(a1, v4 + 33, 0xCu) || v4[44] == 59 && !strncmp(a1, v4 + 33, 0xBu)) )
       break;
     if ( v3 >= 4096 )
@@ -76,17 +76,17 @@ unsigned __int8 __cdecl cdfs_parse_system_cnf_for_exec(int a1, int a2, char *Buf
   char v11; // [esp+11h] [ebp-F3h]
 
   v5 = 0;
-  result = cdfs_read_data(a1, 24, 0x800u, byte_4FD9E8);
+  result = cdfs_read_data(a1, 24, 0x800u, system_cnf_buffer);
   if ( a2 > 8 )
   {
     do
     {
-      result = byte_4FD9E8[v5];
+      result = system_cnf_buffer[v5];
       if ( result == 'S' )
         break;
       if ( result == 's' )
         break;
-      if ( byte_4FD9F0[v5] == '.' )
+      if ( system_cnf_buffer_8[v5] == '.' )
         break;
       result = ++v5 + 8;
     }
@@ -98,11 +98,11 @@ unsigned __int8 __cdecl cdfs_parse_system_cnf_for_exec(int a1, int a2, char *Buf
   }
   else
   {
-    v7 = *(_DWORD *)&byte_4FD9E8[v5 + 4];
-    v9[0] = *(_DWORD *)&byte_4FD9E8[v5];
-    v8 = *(_DWORD *)&byte_4FD9E8[v5 + 8];
+    v7 = *(_DWORD *)&system_cnf_buffer[v5 + 4];
+    v9[0] = *(_DWORD *)&system_cnf_buffer[v5];
+    v8 = *(_DWORD *)&system_cnf_buffer[v5 + 8];
     v9[1] = v7;
-    LOBYTE(v7) = byte_4FD9E8[v5 + 12];
+    LOBYTE(v7) = system_cnf_buffer[v5 + 12];
     v9[2] = v8;
     v10 = v7;
     v11 = 0;
@@ -127,7 +127,7 @@ unsigned __int8 __cdecl cdfs_load_executable(char *Buffer)
 
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned char byte_4FD9E8[1];
-unsigned char byte_4FD9F0[0xff8];
-unsigned char byte_4FE9E8[0x800];
-unsigned char byte_4FF1E8[0x800];
+unsigned char system_cnf_buffer[1];
+unsigned char system_cnf_buffer_8[0xff8];
+unsigned char root_directory_buffer[0x800];
+unsigned char root_directory_buffer_2[0x800];

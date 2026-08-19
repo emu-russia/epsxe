@@ -9,10 +9,10 @@ int __cdecl cdrom_fake_create_file(char *FileName)
   FileHandle = v1;
   if ( !v1 )
     fatal_error_with_message_box(" * Error saving %s\n", FileName);
-  byte_50A090 = 1;
-  byte_50A091 = 1;
+  fake_file_version = 1;
+  fake_file_version2 = 1;
   fseek(v1, 1332002, 0);
-  dword_5056E0 = 0;
+  fake_file_sector_offset = 0;
   return dbg_print(" * Creating fake file ... \n");
 }
 
@@ -25,7 +25,7 @@ int __cdecl cdrom_fake_load_file(char *FileName)
   FileHandle = v1;
   if ( !v1 )
     fatal_error_with_message_box(" * Error loading %s\n", FileName);
-  fread(&byte_50A090, 1u, 2u, v1);
+  fread(&fake_file_version, 1u, 2u, v1);
   fread(cdrom_fake_data, 1u, 0x145320u, FileHandle);
   return dbg_print(" * Loading fake file ... \n");
 }
@@ -42,9 +42,9 @@ void *__cdecl cdrom_fake_write_portion(unsigned __int8 a1, unsigned __int8 a2, u
   if ( *((_DWORD *)cdrom_fake_data + v4) == -1 )
   {
     fwrite(Buffer, 1u, 0x930u, FileHandle);
-    *((_DWORD *)cdrom_fake_data + v4) = dword_5056E0;
-    result = (void *)(dword_5056E0 + 2352);
-    dword_5056E0 += 2352;
+    *((_DWORD *)cdrom_fake_data + v4) = fake_file_sector_offset;
+    result = (void *)(fake_file_sector_offset + 2352);
+    fake_file_sector_offset += 2352;
   }
   return result;
 }
@@ -73,7 +73,7 @@ FILE *cdrom_fake_write()
     if ( !FileHandle )
       return result;
     fseek(FileHandle, 0, 0);
-    fwrite(&byte_50A090, 1u, 2u, FileHandle);
+    fwrite(&fake_file_version, 1u, 2u, FileHandle);
     fwrite(cdrom_fake_data, 1u, 0x145320u, FileHandle);
   }
   result = FileHandle;
@@ -85,7 +85,7 @@ FILE *cdrom_fake_write()
 
 /* Decompiled globals (previously generated in src/_gen) */
 unsigned int FileHandle;
-unsigned char byte_50A090;
-unsigned char byte_50A091;
+unsigned char fake_file_version;
+unsigned char fake_file_version2;
 unsigned int cdrom_fake_data;
-unsigned int dword_5056E0;
+unsigned int fake_file_sector_offset;

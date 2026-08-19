@@ -1180,8 +1180,8 @@ char *__cdecl zip_get_filename_from_path(const char *a1)
   char *result; // eax
   char *v2; // esi
 
-  strcpy(byte_4FC350, a1);
-  result = strtok(byte_4FC350, "/\\:");
+  strcpy(zip_path_buffer, a1);
+  result = strtok(zip_path_buffer, "/\\:");
   if ( result )
   {
     do
@@ -1454,7 +1454,7 @@ int __cdecl zip_load_local_file_headers(FILE *Stream, int arg4, ZipCentralDirect
         while ( v7 < filename_length );
       }
       v15[v7] = 0;
-      if ( zip_read_local_file_header(Stream, (int)a2, &a3, byte_4FA350) )
+      if ( zip_read_local_file_header(Stream, (int)a2, &a3, zip_local_file_header_buffer) )
         zip_print("Error reading 'local file header' in zipfile %s\n", *(const char **)zip_filename);
       if ( v5 < 256 )
       {
@@ -1684,8 +1684,8 @@ uint32_t __cdecl zip_read_uint32_le(unsigned __int8 *a1)
 
 /* Decompiled globals (previously generated in src/_gen) */
 unsigned int Stream;
-unsigned char byte_4FA350[0x2000];
-unsigned char byte_4FC350[0x100];
+unsigned char zip_local_file_header_buffer[0x2000];
+unsigned char zip_path_buffer[0x100];
 unsigned short zip_bit_masks[12] = {0x0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f, 0x7f, 0xff, 0x1ff, 0x3ff, 0x7ff};
 unsigned char zip_central_dir_buffer[0x2000];
 unsigned int zip_code_length_order[14] = {0x10, 0x11, 0x12, 0x0, 0x8, 0x7, 0x9, 0x6, 0xa, 0x5, 0xb, 0x4, 0xc, 0x3};

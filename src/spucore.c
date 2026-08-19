@@ -11,8 +11,8 @@ int spucore_init_dsound()
   __int16 v8; // [esp+1Ah] [ebp-6h]
   __int16 v9; // [esp+1Ch] [ebp-4h]
 
-  dword_4F7148 = audio_sample_rate_mode;
-  dword_465530 = audio_stereo_flag;
+  spu_sample_rate_mode = audio_sample_rate_mode;
+  spu_stereo_flag = audio_stereo_flag;
   if ( DirectSoundCreate(nullptr, (LPDIRECTSOUND *)&ppDS, nullptr) )
     return 0;
   ((LPDIRECTSOUND)ppDS)->lpVtbl->SetCooperativeLevel((LPDIRECTSOUND)ppDS, hOutputWnd, 1);
@@ -74,13 +74,13 @@ LABEL_11:
   }
   v8 = 16;
   v6 = v1 * v7;
-  memset(&dword_4F7560, 0, 0x24u);
-  dword_4F7568 = v0;
+  memset(&spu_dsound_desc_size, 0, 0x24u);
+  spu_dsound_desc_buffer_bytes = v0;
   v9 = 0;
-  dword_4F7560 = 36;
-  dword_4F7564 = 16392;
-  *(_DWORD *)byte_4F7570 = &v3;
-  if ( ((LPDIRECTSOUND)ppDS)->lpVtbl->CreateSoundBuffer((LPDIRECTSOUND)ppDS, (LPCDSBUFFERDESC)&dword_4F7560, (LPDIRECTSOUNDBUFFER *)&pDSBuffer, nullptr)
+  spu_dsound_desc_size = 36;
+  spu_dsound_desc_flags = 16392;
+  *(_DWORD *)spu_dsound_wave_format_ptr = &v3;
+  if ( ((LPDIRECTSOUND)ppDS)->lpVtbl->CreateSoundBuffer((LPDIRECTSOUND)ppDS, (LPCDSBUFFERDESC)&spu_dsound_desc_size, (LPDIRECTSOUNDBUFFER *)&pDSBuffer, nullptr)
     || ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->Play((LPDIRECTSOUNDBUFFER)pDSBuffer, 0, 0, 1) )
   {
     return 0;
@@ -103,36 +103,36 @@ int spucore_update_dsound()
   unsigned int v9; // ecx
   char *v10; // esi
 
-  if ( dword_4F75A0 == 1 )
+  if ( spu_irq_pending_flag == 1 )
   {
-    result = ++dword_4F75A4;
-    dword_4F75A0 = (unsigned int)dword_4F75A4 <= 0x40;
+    result = ++spu_irq_counter;
+    spu_irq_pending_flag = (unsigned int)spu_irq_counter <= 0x40;
   }
   else
   {
-    dword_4F75A4 = 0;
-    ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->GetCurrentPosition((LPDIRECTSOUNDBUFFER)pDSBuffer, (LPDWORD)&dword_465534, (LPDWORD)&byte_4EF134);
-    v1 = dword_4F7598;
-    result = dword_465534;
-    if ( dword_4F7598 > (unsigned int)dword_465534 )
+    spu_irq_counter = 0;
+    ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->GetCurrentPosition((LPDIRECTSOUNDBUFFER)pDSBuffer, (LPDWORD)&spu_dsound_play_cursor, (LPDWORD)&spu_dsound_write_cursor);
+    v1 = spu_dsound_buffer_pos;
+    result = spu_dsound_play_cursor;
+    if ( spu_dsound_buffer_pos > (unsigned int)spu_dsound_play_cursor )
     {
-      v2 = dword_465534 + audio_buffer_size_bytes - dword_4F7598;
+      v2 = spu_dsound_play_cursor + audio_buffer_size_bytes - spu_dsound_buffer_pos;
     }
     else
     {
-      result = dword_465534 - dword_4F7598;
-      v2 = dword_465534 - dword_4F7598;
+      result = spu_dsound_play_cursor - spu_dsound_buffer_pos;
+      v2 = spu_dsound_play_cursor - spu_dsound_buffer_pos;
     }
     for ( ; v2 >= 256; v2 -= 256 )
     {
-      if ( dword_4F75A0 == 1 )
+      if ( spu_irq_pending_flag == 1 )
         break;
-      v3 = dword_4F7594;
-      if ( !dword_4F7594 )
+      v3 = spu_mute_flag;
+      if ( !spu_mute_flag )
       {
         spucore_generate_samples();
-        v1 = dword_4F7598;
-        v3 = dword_4F7594;
+        v1 = spu_dsound_buffer_pos;
+        v3 = spu_mute_flag;
       }
       v4 = temp_samples;
       v5 = &spucore_output_buffer;
@@ -149,7 +149,7 @@ int spucore_update_dsound()
         ++v5;
         v4 += 2;
       }
-      while ( (int)v5 < (int)&byte_4F7154[508] );
+      while ( (int)v5 < (int)&spu_output_samples[508] );
       result = ((LPDIRECTSOUNDBUFFER)pDSBuffer)->lpVtbl->Lock(
                  (LPDIRECTSOUNDBUFFER)pDSBuffer,
                  v1,
@@ -176,12 +176,12 @@ int spucore_update_dsound()
       if ( result )
         break;
       result = audio_buffer_size_bytes;
-      v1 = dword_4F7598 + 256;
-      dword_4F7598 += 256;
-      if ( dword_4F7598 >= (unsigned int)audio_buffer_size_bytes )
+      v1 = spu_dsound_buffer_pos + 256;
+      spu_dsound_buffer_pos += 256;
+      if ( spu_dsound_buffer_pos >= (unsigned int)audio_buffer_size_bytes )
       {
         v1 = 0;
-        dword_4F7598 = 0;
+        spu_dsound_buffer_pos = 0;
       }
     }
   }
@@ -199,14 +199,14 @@ int spucore_init_gauss_table()
 
   v0 = 0;
   result = 0;
-  v2 = byte_45B900;
+  v2 = spu_gauss_table;
   v3 = 256;
   do
   {
     v4 = 128;
     do
     {
-      v5 = byte_44F720[(unsigned __int8)v0++] + byte_44F720[(unsigned __int8)result--];
+      v5 = spu_gauss_kernel[(unsigned __int8)v0++] + spu_gauss_kernel[(unsigned __int8)result--];
       *v2++ = v5;
       --v4;
     }
@@ -271,21 +271,21 @@ unsigned __int8 __cdecl spucore_decode_adpcm_block(int a1)
   char v17; // [esp+1Ch] [ebp-8h]
   int32_t v18; // [esp+20h] [ebp-4h]
 
-  v1 = dword_463904;
+  v1 = spu_ctrl_status;
   v2 = spu_voice_param[a1].sample_history[2];
   v3 = BYTE1(spu_ram[2 * v2]);
   v18 = v2;
-  if ( (unsigned __int16)dword_463904 == v2 && (word_4F7550 & 0x40) != 0 && !dword_4F75A0 )
+  if ( (unsigned __int16)spu_ctrl_status == v2 && (spu_cnt & 0x40) != 0 && !spu_irq_pending_flag )
   {
-    dword_4F75A0 = 1;
+    spu_irq_pending_flag = 1;
     irq_spu_registered_callback();
-    v1 = dword_463904;
+    v1 = spu_ctrl_status;
   }
-  if ( v1 == spu_voice_param[a1].sample_history[2] + 1 && (word_4F7550 & 0x40) != 0 && !dword_4F75A0 )
+  if ( v1 == spu_voice_param[a1].sample_history[2] + 1 && (spu_cnt & 0x40) != 0 && !spu_irq_pending_flag )
   {
-    dword_4F75A0 = 1;
+    spu_irq_pending_flag = 1;
     irq_spu_registered_callback();
-    v1 = dword_463904;
+    v1 = spu_ctrl_status;
   }
   v4 = spu_voice_param[a1].sample_history[2] + 2;
   spu_voice_param[a1].sample_history[2] = v4;
@@ -313,9 +313,9 @@ unsigned __int8 __cdecl spucore_decode_adpcm_block(int a1)
 LABEL_13:
   v6 = spu_ram[2 * v2];
   v7 = 2 * (v6 >> 4);
-  v16 = dword_44F7A4[v7];
+  v16 = spu_adpcm_coeffs_a[v7];
   v15 = 0;
-  v14 = dword_44F7A8[v7];
+  v14 = spu_adpcm_coeffs_b[v7];
   v17 = v6 & 0xF;
   while ( 1 )
   {
@@ -343,7 +343,7 @@ LABEL_13:
     v2 = v18;
   }
   result = 0;
-  ++word_4F75B4;
+  ++spu_adpcm_error_count;
 LABEL_26:
   memset(&spu_voice_param[a1].sample_history[5], 0, 0x70u);
   return result;
@@ -385,33 +385,33 @@ unsigned int spucore_generate_samples()
   float v31; // [esp+14h] [ebp-4h]
   int v32; // [esp+14h] [ebp-4h]
 
-  v0 = dword_4E7114;
-  v1 = HIWORD(dword_4F75B0);
-  v2 = SHIWORD(dword_4F75B0);
-  v31 = (double)dword_44F7A0 * 0.00002267573696145125;
-  if ( dword_4E7114 | SHIWORD(dword_4F75B0) )
+  v0 = spu_xa_samples_left;
+  v1 = HIWORD(spu_xa_playback_pos);
+  v2 = SHIWORD(spu_xa_playback_pos);
+  v31 = (double)spu_xa_playback_rate * 0.00002267573696145125;
+  if ( spu_xa_samples_left | SHIWORD(spu_xa_playback_pos) )
   {
     v3 = flt_4F75AC;
-    v4 = byte_4F7154;
-    if ( dword_4E7110 )
+    v4 = spu_output_samples;
+    if ( spu_xa_stereo_flag )
     {
       do
       {
-        LOWORD(dword_4F75B0) = (__int64)v3;
-        if ( (unsigned __int16)dword_4F75B0 >= v2 && v1 > 0 )
+        LOWORD(spu_xa_playback_pos) = (__int64)v3;
+        if ( (unsigned __int16)spu_xa_playback_pos >= v2 && v1 > 0 )
         {
           if ( !v0 )
-            dword_44F7A0 -= 250;
+            spu_xa_playback_rate -= 250;
           if ( 2 * v0 > 0 )
-            qmemcpy(word_4EF140, byte_4E7128, 4 * ((unsigned int)(2 * v0) >> 1));
+            qmemcpy(spu_xa_play_pcm, spu_xa_decoded_pcm, 4 * ((unsigned int)(2 * v0) >> 1));
           v3 = 0.0;
           v1 = v0;
           v0 = 0;
-          dword_4E7114 = 0;
-          LOWORD(dword_4F75B0) = 0;
+          spu_xa_samples_left = 0;
+          LOWORD(spu_xa_playback_pos) = 0;
         }
         v2 = v1;
-        if ( (unsigned __int16)dword_4F75B0 >= v1 )
+        if ( (unsigned __int16)spu_xa_playback_pos >= v1 )
         {
           *((_DWORD *)v4 - 1) = 0;
           *(_DWORD *)v4 = 0;
@@ -419,37 +419,37 @@ unsigned int spucore_generate_samples()
         else
         {
           v3 = v3 + v31;
-          v5 = 2 * (dword_4F75B0 & 0x3FFE);
-          v6 = word_4EF140[v5];
-          v7 = byte_4EF142[v5];
+          v5 = 2 * (spu_xa_playback_pos & 0x3FFE);
+          v6 = spu_xa_play_pcm[v5];
+          v7 = spu_xa_play_data[v5];
           *((_DWORD *)v4 - 1) = v6;
           *(_DWORD *)v4 = v7;
         }
         v4 += 8;
       }
-      while ( (int)v4 < (int)dword_4F7354 );
+      while ( (int)v4 < (int)spu_output_samples_end );
       flt_4F75AC = v3;
-      HIWORD(dword_4F75B0) = v1;
+      HIWORD(spu_xa_playback_pos) = v1;
     }
     else
     {
       do
       {
-        LOWORD(dword_4F75B0) = (__int64)v3;
-        if ( (unsigned __int16)dword_4F75B0 >= 2 * v2 && v1 > 0 )
+        LOWORD(spu_xa_playback_pos) = (__int64)v3;
+        if ( (unsigned __int16)spu_xa_playback_pos >= 2 * v2 && v1 > 0 )
         {
           if ( !v0 )
-            dword_44F7A0 -= 250;
+            spu_xa_playback_rate -= 250;
           if ( 2 * v0 > 0 )
-            qmemcpy(word_4EF140, byte_4E7128, 4 * ((unsigned int)(2 * v0) >> 1));
+            qmemcpy(spu_xa_play_pcm, spu_xa_decoded_pcm, 4 * ((unsigned int)(2 * v0) >> 1));
           v3 = 0.0;
           v1 = v0;
           v0 = 0;
-          dword_4E7114 = 0;
-          LOWORD(dword_4F75B0) = 0;
+          spu_xa_samples_left = 0;
+          LOWORD(spu_xa_playback_pos) = 0;
         }
         v2 = v1;
-        if ( (unsigned __int16)dword_4F75B0 >= 2 * v1 )
+        if ( (unsigned __int16)spu_xa_playback_pos >= 2 * v1 )
         {
           *((_DWORD *)v4 - 1) = 0;
           *(_DWORD *)v4 = 0;
@@ -457,15 +457,15 @@ unsigned int spucore_generate_samples()
         else
         {
           v3 = v3 + v31;
-          v8 = word_4EF140[dword_4F75B0 & 0x3FFF];
+          v8 = spu_xa_play_pcm[spu_xa_playback_pos & 0x3FFF];
           *((_DWORD *)v4 - 1) = v8;
           *(_DWORD *)v4 = v8;
         }
         v4 += 8;
       }
-      while ( (int)v4 < (int)dword_4F7354 );
+      while ( (int)v4 < (int)spu_output_samples_end );
       flt_4F75AC = v3;
-      HIWORD(dword_4F75B0) = v1;
+      HIWORD(spu_xa_playback_pos) = v1;
     }
   }
   else
@@ -546,7 +546,7 @@ LABEL_41:
         v22 = 0xFFFF - v21;
       else
         v22 = v21;
-      v23 = byte_4F7154;
+      v23 = spu_output_samples;
       do
       {
         if ( !*(_DWORD *)(i + 77) )
@@ -585,7 +585,7 @@ LABEL_41:
         }
         v23 += 8;
       }
-      while ( (int)v23 < (int)dword_4F7354 );
+      while ( (int)v23 < (int)spu_output_samples_end );
     }
     if ( !*(_DWORD *)(i + 3) )
       *(_DWORD *)(i - 1) = 0;
@@ -625,19 +625,19 @@ int __cdecl spucore_set_pitchmod(unsigned int a1)
 
 __int16 __cdecl spucore_write_cnt(__int16 a1)
 {
-  word_4F7550 = a1;
+  spu_cnt = a1;
   return a1;
 }
 
 __int16 __cdecl spucore_write_dma_ctrl(__int16 a1)
 {
-  word_46553C = a1;
+  spu_dma_ctrl = a1;
   return a1;
 }
 
 int __cdecl spucore_write_status_hi(__int16 a1)
 {
-  HIWORD(dword_463904) = a1 & 0xF800;
+  HIWORD(spu_ctrl_status) = a1 & 0xF800;
   return a1 & 0xF800;
 }
 
@@ -646,7 +646,7 @@ int __cdecl spucore_set_dma_address(unsigned __int16 a1)
   int result; // eax
 
   result = 8 * a1;
-  dword_4F7554 = result;
+  spu_ram_transfer_addr = result;
   return result;
 }
 
@@ -655,10 +655,10 @@ int __cdecl spucore_dma_write_fifo(__int16 a1)
   int v1; // eax
   int result; // eax
 
-  v1 = dword_4F7554;
-  *(_WORD *)((char *)spu_ram + dword_4F7554) = a1;
+  v1 = spu_ram_transfer_addr;
+  *(_WORD *)((char *)spu_ram + spu_ram_transfer_addr) = a1;
   result = (v1 + 2) & 0x7FFFF;
-  dword_4F7554 = result;
+  spu_ram_transfer_addr = result;
   return result;
 }
 
@@ -666,24 +666,24 @@ __int16 spucore_dma_read_fifo()
 {
   __int16 result; // ax
 
-  result = *(_WORD *)((char *)spu_ram + dword_4F7554);
-  dword_4F7554 = (dword_4F7554 + 2) & 0x7FFFF;
+  result = *(_WORD *)((char *)spu_ram + spu_ram_transfer_addr);
+  spu_ram_transfer_addr = (spu_ram_transfer_addr + 2) & 0x7FFFF;
   return result;
 }
 
 __int16 spucore_read_cnt()
 {
-  return word_4F7550;
+  return spu_cnt;
 }
 
 __int16 spucore_read_dma_ctrl()
 {
-  return word_46553C;
+  return spu_dma_ctrl;
 }
 
 __int16 spucore_read_status_hi()
 {
-  return HIWORD(dword_463904);
+  return HIWORD(spu_ctrl_status);
 }
 
 int __cdecl spucore_write_voice_reg(int a1, int a2, unsigned __int16 a3)
@@ -747,10 +747,10 @@ int __cdecl spucore_write_voice_reg(int a1, int a2, unsigned __int16 a3)
       *(uint32_t *)((char *)&spu_voice_param[0].adsr_sustain_step + v3) = HIDWORD(v3);
       v8 = (unsigned __int8)a3 >> 4;
       v9 = a3 & 0xF;
-      *(int32_t *)((char *)&spu_voice_param[0].pitch_mod_param + v3) = dword_44F208[HIDWORD(v3)];
-      HIDWORD(v3) = dword_44F408[v8];
+      *(int32_t *)((char *)&spu_voice_param[0].pitch_mod_param + v3) = spu_adsr_attack_rate_table[HIDWORD(v3)];
+      HIDWORD(v3) = spu_adsr_decay_rate_table[v8];
       *(uint32_t *)((char *)&spu_voice_param[0].adsr_release_mode + v3) = v9;
-      v10 = dword_44F648[v9];
+      v10 = spu_adsr_sustain_level_table[v9];
       *(uint32_t *)((char *)&spu_voice_param[0].adsr_sustain_level + v3) = v8;
       *(int32_t *)((char *)&spu_voice_param[0].pitch_mod_param2 + v3) = -HIDWORD(v3);
       *(uint32_t *)((char *)&spu_voice_param[0].unknown47 + v3) = v10;
@@ -764,12 +764,12 @@ int __cdecl spucore_write_voice_reg(int a1, int a2, unsigned __int16 a3)
       *(uint32_t *)((char *)&spu_voice_param[0].adsr_envelope + v3) = HIDWORD(v3);
       *(uint32_t *)((char *)&spu_voice_param[0].voice_state + v3) = (a3 >> 5) & 1;
       v13 = HIDWORD(v3) == 0;
-      HIDWORD(v3) = dword_44F448[v11];
+      HIDWORD(v3) = spu_adsr_sustain_rate_table[v11];
       *(uint32_t *)((char *)&spu_voice_param[0].loop_start_addr + v3) = v11;
       *(uint32_t *)((char *)&spu_voice_param[0].pitch_mod_factor + v3) = v12;
       if ( !v13 )
         HIDWORD(v3) = -HIDWORD(v3);
-      v14 = -dword_44F688[v12];
+      v14 = -spu_adsr_release_rate_table[v12];
       spu_voice_param[a1].unknown48 = HIDWORD(v3);
       spu_voice_param[a1].unknown49 = v14;
       break;
@@ -840,7 +840,7 @@ int spucore_init()
   inited = spucore_init_dsound();
   if ( forcespu == 1 )
     forcespu = 0;
-  dword_4E7114 = 0;
+  spu_xa_samples_left = 0;
   if ( !inited )
   {
     dbg_print("Error: can't open sound handler.\n");
@@ -881,15 +881,15 @@ void spucore_dma()
   int v8; // ebx
   unsigned __int16 fifo; // ax
 
-  v0 = dword_516510;
-  v1 = HIWORD(dword_516514);
-  v2 = (unsigned __int16)dword_516514;
+  v0 = spu_dma_mem_addr;
+  v1 = HIWORD(spu_dma_block_size_count);
+  v2 = (unsigned __int16)spu_dma_block_size_count;
   if ( sound_enabled )
   {
-    dword_4F75A0 = 0;
-    if ( *(_DWORD *)dword_516518 == 0x1000200 )
+    spu_irq_pending_flag = 0;
+    if ( *(_DWORD *)spu_dma_chcr_ptr == 0x1000200 )
     {
-      v7 = HIWORD(dword_516514) * (unsigned __int16)dword_516514;
+      v7 = HIWORD(spu_dma_block_size_count) * (unsigned __int16)spu_dma_block_size_count;
       if ( 2 * v7 )
       {
         v8 = 2 * v7;
@@ -903,17 +903,17 @@ void spucore_dma()
         while ( v8 );
       }
       if ( dynarec_enabled == 1 && v7 )
-        dynarec_invalidate_range(dword_516510, v7);
+        dynarec_invalidate_range(spu_dma_mem_addr, v7);
     }
-    else if ( *(_DWORD *)dword_516518 == 0x1000201 )
+    else if ( *(_DWORD *)spu_dma_chcr_ptr == 0x1000201 )
     {
-      v3 = (int *)mem_dma_read(dword_516510);
+      v3 = (int *)mem_dma_read(spu_dma_mem_addr);
       v4 = v1 * v2;
-      v5 = dword_4F7554;
-      v6 = 4 * v4 + dword_4F7554;
+      v5 = spu_ram_transfer_addr;
+      v6 = 4 * v4 + spu_ram_transfer_addr;
       if ( v6 >= 0x80000 )
       {
-        for ( ; v4; dword_4F7554 = v5 )
+        for ( ; v4; spu_ram_transfer_addr = v5 )
         {
           *(int *)((char *)spu_ram + v5) = *v3;
           v5 = (v5 + 4) & 0x7FFFF;
@@ -923,18 +923,18 @@ void spucore_dma()
       }
       else
       {
-        qmemcpy((char *)spu_ram + dword_4F7554, v3, 4 * ((unsigned int)(4 * v4) >> 2));
-        dword_4F7554 = v6;
+        qmemcpy((char *)spu_ram + spu_ram_transfer_addr, v3, 4 * ((unsigned int)(4 * v4) >> 2));
+        spu_ram_transfer_addr = v6;
       }
     }
-    else if ( (*(_DWORD *)dword_516518 & 0x1000000) != 0 )
+    else if ( (*(_DWORD *)spu_dma_chcr_ptr & 0x1000000) != 0 )
     {
       fatal_error_with_message_box(
         "DMA[4] mode NOT implemented (%08x)\n addr (%08x) num (%04x) size (%04x)\n",
-        *(_DWORD *)dword_516518,
-        dword_516510,
-        HIWORD(dword_516514),
-        (unsigned __int16)dword_516514);
+        *(_DWORD *)spu_dma_chcr_ptr,
+        spu_dma_mem_addr,
+        HIWORD(spu_dma_block_size_count),
+        (unsigned __int16)spu_dma_block_size_count);
     }
   }
 }
@@ -945,7 +945,7 @@ __int16 __cdecl spucore_write_register(__int16 a1, __int16 a2)
   __int16 result; // ax
 
   v2 = (a1 & 0xFFF) - 3072;
-  dword_4F75A0 = 0;
+  spu_irq_pending_flag = 0;
   if ( v2 < 0x180 )
     return spucore_write_voice_reg(v2 >> 4, a1 & 0xF, a2);
   result = (a1 & 0xFFF) - 3456;
@@ -991,25 +991,25 @@ __int16 __cdecl spucore_write_register(__int16 a1, __int16 a2)
       spucore_noise_mode = (unsigned __int16)spucore_noise_mode + ((unsigned __int16)a2 << 16);
       break;
     case 0xD98:
-      dword_4E7100 = (unsigned __int16)a2 + (dword_4E7100 & 0xFF0000);
+      spu_reverb_enable = (unsigned __int16)a2 + (spu_reverb_enable & 0xFF0000);
       result = a2;
       break;
     case 0xD9A:
-      result = dword_4E7100;
-      dword_4E7100 = (unsigned __int16)dword_4E7100 + ((unsigned __int16)a2 << 16);
+      result = spu_reverb_enable;
+      spu_reverb_enable = (unsigned __int16)spu_reverb_enable + ((unsigned __int16)a2 << 16);
       break;
     case 0xD9C:
-      dword_4EF138 = (unsigned __int16)a2 + (dword_4EF138 & 0xFF0000);
+      spu_enable = (unsigned __int16)a2 + (spu_enable & 0xFF0000);
       break;
     case 0xD9E:
-      result = dword_4EF138;
-      dword_4EF138 = (unsigned __int16)dword_4EF138 + ((unsigned __int16)a2 << 16);
+      result = spu_enable;
+      spu_enable = (unsigned __int16)spu_enable + ((unsigned __int16)a2 << 16);
       break;
     case 0xDA2:
-      byte_4EF142[0x3FFF] = a2;
+      spu_xa_play_data[0x3FFF] = a2;
       break;
     case 0xDA4:
-      LOWORD(dword_463904) = a2;
+      LOWORD(spu_ctrl_status) = a2;
       result = a2;
       break;
     case 0xDA6:
@@ -1028,17 +1028,17 @@ __int16 __cdecl spucore_write_register(__int16 a1, __int16 a2)
       result = spucore_write_status_hi(a2);
       break;
     case 0xDB0:
-      word_4E7104 = a2;
+      spu_cd_volume_left = a2;
       result = a2;
       break;
     case 0xDB2:
-      word_4E7106 = a2;
+      spu_cd_volume_right = a2;
       break;
     case 0xDB4:
-      word_4F755C = a2;
+      spu_ext_volume_left = a2;
       break;
     case 0xDB6:
-      word_4F7584 = a2;
+      spu_ext_volume_right = a2;
       result = a2;
       break;
     default:
@@ -1053,7 +1053,7 @@ __int16 __cdecl spucore_read_register(__int16 a1)
   unsigned int v2; // eax
 
   v1 = (a1 & 0xFFF) - 3072;
-  dword_4F75A0 = 0;
+  spu_irq_pending_flag = 0;
   if ( v1 >= 0x180 )
   {
     switch ( a1 & 0xFFF )
@@ -1083,25 +1083,25 @@ __int16 __cdecl spucore_read_register(__int16 a1)
         LOWORD(v2) = HIWORD(spucore_noise_mode);
         break;
       case 0xD98:
-        LOWORD(v2) = dword_4E7100;
+        LOWORD(v2) = spu_reverb_enable;
         break;
       case 0xD9A:
-        LOWORD(v2) = HIWORD(dword_4E7100);
+        LOWORD(v2) = HIWORD(spu_reverb_enable);
         break;
       case 0xD9C:
-        LOWORD(v2) = dword_4EF138;
+        LOWORD(v2) = spu_enable;
         break;
       case 0xD9E:
-        LOWORD(v2) = HIWORD(dword_4EF138);
+        LOWORD(v2) = HIWORD(spu_enable);
         break;
       case 0xDA2:
-        LOWORD(v2) = byte_4EF142[0x3FFF];
+        LOWORD(v2) = spu_xa_play_data[0x3FFF];
         break;
       case 0xDA4:
-        LOWORD(v2) = dword_463904;
+        LOWORD(v2) = spu_ctrl_status;
         break;
       case 0xDA6:
-        v2 = (unsigned int)dword_4F7554 >> 3;
+        v2 = (unsigned int)spu_ram_transfer_addr >> 3;
         break;
       case 0xDA8:
         LOWORD(v2) = spucore_dma_read_fifo();
@@ -1116,16 +1116,16 @@ __int16 __cdecl spucore_read_register(__int16 a1)
         LOWORD(v2) = spucore_read_status_hi();
         break;
       case 0xDB0:
-        LOWORD(v2) = word_4E7104;
+        LOWORD(v2) = spu_cd_volume_left;
         break;
       case 0xDB2:
-        LOWORD(v2) = word_4E7106;
+        LOWORD(v2) = spu_cd_volume_right;
         break;
       case 0xDB4:
-        LOWORD(v2) = word_4F755C;
+        LOWORD(v2) = spu_ext_volume_left;
         break;
       case 0xDB6:
-        LOWORD(v2) = word_4F7584;
+        LOWORD(v2) = spu_ext_volume_right;
         break;
       default:
         LOWORD(v2) = 0;
@@ -1150,33 +1150,33 @@ char __cdecl spucore_play_adpcm(int a1)
     result = sound_use_xa;
     if ( sound_use_xa )
     {
-      if ( xa_decode_wrapper(dword_4E7108, a1, spu_adpcm_flag) )
+      if ( xa_decode_wrapper(spu_xa_decode_buf_ptr, a1, spu_adpcm_flag) )
       {
-        v2 = dword_4E7114;
+        v2 = spu_xa_samples_left;
       }
       else
       {
         v2 = 2016;
-        dword_4E7114 = 2016;
+        spu_xa_samples_left = 2016;
       }
-      result = dword_4E7108[0];
+      result = spu_xa_decode_buf_ptr[0];
       if ( spu_adpcm_flag == 1 )
-        dword_44F7A0 = *(_DWORD *)dword_4E7108;
+        spu_xa_playback_rate = *(_DWORD *)spu_xa_decode_buf_ptr;
       spu_adpcm_flag = 0;
-      if ( HIWORD(dword_4F75B0) )
+      if ( HIWORD(spu_xa_playback_pos) )
       {
-        if ( dword_44F7A0 < *(int *)dword_4E7108 )
+        if ( spu_xa_playback_rate < *(int *)spu_xa_decode_buf_ptr )
         {
-          result = dword_44F7A0 - 6;
-          dword_44F7A0 += 250;
+          result = spu_xa_playback_rate - 6;
+          spu_xa_playback_rate += 250;
         }
       }
       else
       {
         if ( 2 * v2 > 0 )
-          qmemcpy(word_4EF140, byte_4E7128, 4 * ((unsigned int)(2 * v2) >> 1));
-        HIWORD(dword_4F75B0) = v2;
-        dword_4E7114 = 0;
+          qmemcpy(spu_xa_play_pcm, spu_xa_decoded_pcm, 4 * ((unsigned int)(2 * v2) >> 1));
+        HIWORD(spu_xa_playback_pos) = v2;
+        spu_xa_samples_left = 0;
       }
     }
   }
@@ -1326,22 +1326,22 @@ int __cdecl spucore_freeze(const char *a1, int a2)
         p_adsr_lower = (uint32_t *)BYTE2(spucore_noise_mode);
         goto LABEL_37;
       case 24:
-        LOWORD(p_adsr_lower) = dword_4E7100;
+        LOWORD(p_adsr_lower) = spu_reverb_enable;
         goto LABEL_37;
       case 26:
-        p_adsr_lower = (uint32_t *)BYTE2(dword_4E7100);
+        p_adsr_lower = (uint32_t *)BYTE2(spu_reverb_enable);
         goto LABEL_37;
       case 28:
-        LOWORD(p_adsr_lower) = dword_4EF138;
+        LOWORD(p_adsr_lower) = spu_enable;
         goto LABEL_37;
       case 30:
-        p_adsr_lower = (uint32_t *)BYTE2(dword_4EF138);
+        p_adsr_lower = (uint32_t *)BYTE2(spu_enable);
         goto LABEL_37;
       case 34:
-        LOWORD(p_adsr_lower) = byte_4EF142[0x3FFF];
+        LOWORD(p_adsr_lower) = spu_xa_play_data[0x3FFF];
         goto LABEL_37;
       case 36:
-        LOWORD(p_adsr_lower) = dword_463904;
+        LOWORD(p_adsr_lower) = spu_ctrl_status;
         goto LABEL_37;
       case 42:
         LOWORD(p_adsr_lower) = spucore_read_cnt();
@@ -1353,16 +1353,16 @@ int __cdecl spucore_freeze(const char *a1, int a2)
         LOWORD(p_adsr_lower) = spucore_read_status_hi();
         goto LABEL_37;
       case 48:
-        LOWORD(p_adsr_lower) = word_4E7104;
+        LOWORD(p_adsr_lower) = spu_cd_volume_left;
         goto LABEL_37;
       case 50:
-        LOWORD(p_adsr_lower) = word_4E7106;
+        LOWORD(p_adsr_lower) = spu_cd_volume_right;
         goto LABEL_37;
       case 52:
-        LOWORD(p_adsr_lower) = word_4F755C;
+        LOWORD(p_adsr_lower) = spu_ext_volume_left;
         goto LABEL_37;
       case 54:
-        LOWORD(p_adsr_lower) = word_4F7584;
+        LOWORD(p_adsr_lower) = spu_ext_volume_right;
 LABEL_37:
         *v16 = (__int16)p_adsr_lower;
         break;
@@ -1377,7 +1377,7 @@ LABEL_37:
   while ( v18 );
   gzwrite(a2, (unsigned __int8 *)Buffer, 0x200u);
   gzwrite(a2, (unsigned __int8 *)spu_ram, 0x80000u);
-  gzwrite(a2, (unsigned __int8 *)dword_4E7108, 0x8020u);
+  gzwrite(a2, (unsigned __int8 *)spu_xa_decode_buf_ptr, 0x8020u);
   return gzwrite(a2, (unsigned __int8 *)spu_voice_param, 0x1BC0u);
 }
 
@@ -1486,12 +1486,12 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
             v14 = v13 & 0x7F;
             v15 = (unsigned __int8)v12 >> 4;
             p_adsr_lower[11] = v14;
-            v16 = dword_44F208[v14];
+            v16 = spu_adsr_attack_rate_table[v14];
             p_adsr_lower[12] = v15;
-            v17 = dword_44F408[v15];
+            v17 = spu_adsr_decay_rate_table[v15];
             v18 = v12 & 0xF;
             p_adsr_lower[65] = v16;
-            v19 = dword_44F648[v18];
+            v19 = spu_adsr_sustain_level_table[v18];
             p_adsr_lower[13] = v18;
             p_adsr_lower[66] = -v17;
             p_adsr_lower[67] = v19;
@@ -1509,14 +1509,14 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
             p_adsr_lower[18] = v24;
             if ( v21 )
             {
-              v26 = -dword_44F448[v22];
-              v25 = -dword_44F688[v24];
+              v26 = -spu_adsr_sustain_rate_table[v22];
+              v25 = -spu_adsr_release_rate_table[v24];
               p_adsr_lower[68] = v26;
             }
             else
             {
-              p_adsr_lower[68] = dword_44F448[v22];
-              v25 = -dword_44F688[v24];
+              p_adsr_lower[68] = spu_adsr_sustain_rate_table[v22];
+              v25 = -spu_adsr_release_rate_table[v24];
             }
             p_adsr_lower[69] = v25;
             break;
@@ -1541,8 +1541,8 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
   while ( v34 );
   v27 = spucore_pitchmod_enable;
   v28 = spucore_noise_mode;
-  v29 = dword_4E7100;
-  v30 = dword_4EF138;
+  v29 = spu_reverb_enable;
+  v30 = spu_enable;
   v31 = (__int16 *)&v40;
   v32 = 0;
   v35 = 64;
@@ -1587,10 +1587,10 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
         v30 = ((unsigned __int16)*v31 << 16) + (unsigned __int16)v30;
         break;
       case 34:
-        byte_4EF142[0x3FFF] = *v31;
+        spu_xa_play_data[0x3FFF] = *v31;
         break;
       case 36:
-        LOWORD(dword_463904) = *v31;
+        LOWORD(spu_ctrl_status) = *v31;
         break;
       case 42:
         spucore_write_cnt(*v31);
@@ -1602,16 +1602,16 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
         spucore_write_status_hi(*v31);
         break;
       case 48:
-        word_4E7104 = *v31;
+        spu_cd_volume_left = *v31;
         break;
       case 50:
-        word_4E7106 = *v31;
+        spu_cd_volume_right = *v31;
         break;
       case 52:
-        word_4F755C = *v31;
+        spu_ext_volume_left = *v31;
         break;
       case 54:
-        word_4F7584 = *v31;
+        spu_ext_volume_right = *v31;
         break;
       default:
         break;
@@ -1621,15 +1621,15 @@ int __cdecl spucore_unfreeze(int a1, _DWORD *a2)
     --v35;
   }
   while ( v35 );
-  dword_4E7100 = v29;
-  dword_4EF138 = v30;
+  spu_reverb_enable = v29;
+  spu_enable = v30;
   spucore_noise_mode = v28;
   spucore_pitchmod_enable = v27;
   gzread(a2, (char *)spu_ram, 0x80000);
-  gzread(a2, dword_4E7108, 32800);
-  dword_44F7A0 = *(_DWORD *)dword_4E7108;
-  if ( dword_4E7114 > 4096 )
-    dword_4E7114 = 0;
+  gzread(a2, spu_xa_decode_buf_ptr, 32800);
+  spu_xa_playback_rate = *(_DWORD *)spu_xa_decode_buf_ptr;
+  if ( spu_xa_samples_left > 4096 )
+    spu_xa_samples_left = 0;
   result = strncmp(Str1, "ISPU", 4u);
   if ( !result )
     return gzread(a2, (char *)spu_voice_param, 7104);
@@ -1642,42 +1642,42 @@ unsigned int audio_buffer_delay = 0x1;
 unsigned int audio_buffer_size_bytes = 0x4800;
 unsigned int audio_sample_rate_mode = 0x3;
 unsigned int audio_stereo_flag = 0x1;
-unsigned char byte_44F720[10] = {0x1b, 0xe8, 0xea, 0x8a, 0xbb, 0xf6, 0xb0, 0x51, 0x19, 0xf1};
-unsigned char byte_45B900;
-unsigned char byte_4E7128[0x8004];
-unsigned char byte_4EF134;
-unsigned char byte_4EF142[0x8000];
-unsigned char byte_4F7154[0x200];
-unsigned char byte_4F7570[0x14];
-unsigned int dword_44F208[9] = {0x1c3c00, 0x1c3c00, 0x1c3c00, 0x1c3c00, 0x1c3c00, 0x17be00, 0x13f6f8, 0x10c9cb, 0xe1e00};
-unsigned int dword_44F408[6] = {0x31b343, 0x1ddace, 0x11ef00, 0xac5cb, 0x67898, 0x3e31b};
-unsigned int dword_44F448[6] = {0x5f8e2c, 0x505a27, 0x43915e, 0x38d14b, 0x2fc716, 0x282d13};
-unsigned int dword_44F648[6] = {0xfffff, 0x1fffff, 0x2fffff, 0x3fffff, 0x4fffff, 0x5fffff};
-unsigned int dword_44F688[8] = {0x6666, 0x6666, 0x3333, 0x2222, 0x1999, 0x147a, 0x1111, 0xea0};
-unsigned int dword_44F7A0 = 0x1;
-unsigned int dword_44F7A4[1] = {0x0};
-unsigned int dword_44F7A8[9] = {0x0, 0x3c, 0x0, 0x73, 0xffffffcc, 0x62, 0xffffffc9, 0x7a, 0xffffffc4};
-unsigned int dword_463904;
-unsigned int dword_465530;
-unsigned int dword_465534;
-unsigned int dword_4E7100;
-unsigned int dword_4E7108[1];
-unsigned int dword_4E7110;
-unsigned int dword_4E7114;
-unsigned int dword_4EF138;
-unsigned int dword_4F7148;
-unsigned int dword_4F7354[0x7f];
-unsigned int dword_4F7554;
-unsigned int dword_4F7560;
-unsigned int dword_4F7564;
-unsigned int dword_4F7568;
-unsigned int dword_4F7594;
-unsigned int dword_4F7598;
-unsigned int dword_4F75A0;
-unsigned int dword_4F75A4;
-unsigned int dword_4F75B0;
-unsigned int dword_516510;
-unsigned int dword_516514;
+unsigned char spu_gauss_kernel[10] = {0x1b, 0xe8, 0xea, 0x8a, 0xbb, 0xf6, 0xb0, 0x51, 0x19, 0xf1};
+unsigned char spu_gauss_table;
+unsigned char spu_xa_decoded_pcm[0x8004];
+unsigned char spu_dsound_write_cursor;
+unsigned char spu_xa_play_data[0x8000];
+unsigned char spu_output_samples[0x200];
+unsigned char spu_dsound_wave_format_ptr[0x14];
+unsigned int spu_adsr_attack_rate_table[9] = {0x1c3c00, 0x1c3c00, 0x1c3c00, 0x1c3c00, 0x1c3c00, 0x17be00, 0x13f6f8, 0x10c9cb, 0xe1e00};
+unsigned int spu_adsr_decay_rate_table[6] = {0x31b343, 0x1ddace, 0x11ef00, 0xac5cb, 0x67898, 0x3e31b};
+unsigned int spu_adsr_sustain_rate_table[6] = {0x5f8e2c, 0x505a27, 0x43915e, 0x38d14b, 0x2fc716, 0x282d13};
+unsigned int spu_adsr_sustain_level_table[6] = {0xfffff, 0x1fffff, 0x2fffff, 0x3fffff, 0x4fffff, 0x5fffff};
+unsigned int spu_adsr_release_rate_table[8] = {0x6666, 0x6666, 0x3333, 0x2222, 0x1999, 0x147a, 0x1111, 0xea0};
+unsigned int spu_xa_playback_rate = 0x1;
+unsigned int spu_adpcm_coeffs_a[1] = {0x0};
+unsigned int spu_adpcm_coeffs_b[9] = {0x0, 0x3c, 0x0, 0x73, 0xffffffcc, 0x62, 0xffffffc9, 0x7a, 0xffffffc4};
+unsigned int spu_ctrl_status;
+unsigned int spu_stereo_flag;
+unsigned int spu_dsound_play_cursor;
+unsigned int spu_reverb_enable;
+unsigned int spu_xa_decode_buf_ptr[1];
+unsigned int spu_xa_stereo_flag;
+unsigned int spu_xa_samples_left;
+unsigned int spu_enable;
+unsigned int spu_sample_rate_mode;
+unsigned int spu_output_samples_end[0x7f];
+unsigned int spu_ram_transfer_addr;
+unsigned int spu_dsound_desc_size;
+unsigned int spu_dsound_desc_flags;
+unsigned int spu_dsound_desc_buffer_bytes;
+unsigned int spu_mute_flag;
+unsigned int spu_dsound_buffer_pos;
+unsigned int spu_irq_pending_flag;
+unsigned int spu_irq_counter;
+unsigned int spu_xa_playback_pos;
+unsigned int spu_dma_mem_addr;
+unsigned int spu_dma_block_size_count;
 unsigned int flt_4F75AC;
 unsigned int lock_ptr1;
 unsigned int lock_ptr2;
@@ -1697,11 +1697,11 @@ unsigned int spucore_pitchmod_enable;
 unsigned short spucore_reverb_vol_left;
 unsigned short spucore_reverb_vol_right;
 unsigned char temp_samples[0x1c20];
-unsigned short word_46553C;
-unsigned short word_4E7104;
-unsigned short word_4E7106;
-unsigned short word_4EF140[1];
-unsigned short word_4F7550;
-unsigned short word_4F755C;
-unsigned short word_4F7584;
-unsigned short word_4F75B4;
+unsigned short spu_dma_ctrl;
+unsigned short spu_cd_volume_left;
+unsigned short spu_cd_volume_right;
+unsigned short spu_xa_play_pcm[1];
+unsigned short spu_cnt;
+unsigned short spu_ext_volume_left;
+unsigned short spu_ext_volume_right;
+unsigned short spu_adpcm_error_count;

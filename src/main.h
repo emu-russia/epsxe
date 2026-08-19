@@ -2,13 +2,13 @@
 
 extern uint8_t cd_savefake_flag;
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned char byte_4557A8;
-extern unsigned char byte_45B8CC;
-extern unsigned char byte_4F831D;
-extern unsigned char byte_8B2580[0x400];
+extern unsigned char memcard_enabled;
+extern unsigned char current_dir_path;
+extern unsigned char load_pslib_flag;
+extern unsigned char default_cdrom_plugin_name[0x400];
 extern unsigned char cheat_file_from_cmdline[0x400];
 extern unsigned char cpu_overclock_setting;
-extern unsigned int dword_50C370;
+extern unsigned int unused_startup_flag;
 extern unsigned int dynarec_enabled;
 extern unsigned char extsubchanhle;
 extern unsigned char fastboot;

@@ -561,13 +561,13 @@ typedef enum _GTERealCommand {
 void gte_exec_opcode();
 
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned char byte_8A7EE0;
-extern unsigned char byte_8A8000;
-extern unsigned char byte_8A8001;
-extern unsigned int dword_44F950;
-extern unsigned int dword_8A8004;
-extern unsigned int dword_8A8008;
-extern unsigned int dword_8A800C;
+extern unsigned char gte_cpu_gpr_index;
+extern unsigned char gte_control_reg_index;
+extern unsigned char gte_data_reg_index;
+extern unsigned int gte_regs_ptr;
+extern unsigned int gte_color_r;
+extern unsigned int gte_color_g;
+extern unsigned int gte_color_b;
 extern GTE_REGS gte_regs;
 extern unsigned __int64 qword_44F958;
 extern unsigned __int64 qword_44F960;

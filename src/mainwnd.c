@@ -39,12 +39,12 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
     {
       case 0x100u:
         if ( wParam == 16 )
-          byte_45B8E8 = 1;
+          shift_key_pressed = 1;
         result = 0;
         break;
       case 0x101u:
         if ( wParam == 16 )
-          byte_45B8E8 = 0;
+          shift_key_pressed = 0;
         result = 0;
         break;
       case 0x111u:
@@ -58,7 +58,7 @@ LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARA
             if ( loader_check_bios_file_exists() )
               goto LABEL_30;
             PostQuitMessage(0);
-            if ( byte_45B8E8 )
+            if ( shift_key_pressed )
               fastboot = 0;
             nocd = 1;
             loader_set_filename("NULL");
@@ -117,7 +117,7 @@ LABEL_30:
             sprintf(IsoDirectory, "%s", temp_path);
             cfg_cdrom_iso_set_path();
             PostQuitMessage(0);
-            if ( byte_45B8E8 )
+            if ( shift_key_pressed )
               fastboot = 0;
             v7 = 0;
             do
@@ -248,34 +248,34 @@ LABEL_41:
             cfg_save_settings();
             return 1;
           case 40030u:
-            *(_DWORD *)dword_44DF24 = 10;
+            *(_DWORD *)save_load_state_slot = 10;
             goto LABEL_41;
           case 40031u:
-            *(_DWORD *)dword_44DF24 = 11;
+            *(_DWORD *)save_load_state_slot = 11;
             goto LABEL_41;
           case 40032u:
-            *(_DWORD *)dword_44DF24 = 12;
+            *(_DWORD *)save_load_state_slot = 12;
             goto LABEL_41;
           case 40033u:
-            *(_DWORD *)dword_44DF24 = 13;
+            *(_DWORD *)save_load_state_slot = 13;
             goto LABEL_41;
           case 40034u:
-            *(_DWORD *)dword_44DF24 = 14;
+            *(_DWORD *)save_load_state_slot = 14;
             goto LABEL_41;
           case 40035u:
-            *(_DWORD *)dword_44DF24 = 0;
+            *(_DWORD *)save_load_state_slot = 0;
             goto LABEL_41;
           case 40036u:
-            *(_DWORD *)dword_44DF24 = 1;
+            *(_DWORD *)save_load_state_slot = 1;
             goto LABEL_41;
           case 40037u:
-            *(_DWORD *)dword_44DF24 = 2;
+            *(_DWORD *)save_load_state_slot = 2;
             goto LABEL_41;
           case 40038u:
-            *(_DWORD *)dword_44DF24 = 3;
+            *(_DWORD *)save_load_state_slot = 3;
             goto LABEL_41;
           case 40039u:
-            *(_DWORD *)dword_44DF24 = 4;
+            *(_DWORD *)save_load_state_slot = 4;
             goto LABEL_41;
           case 40041u:
             ShellExecuteA(hWnd, "open", "http://www.epsxe.com/step/step.html", nullptr, nullptr, 3);
@@ -546,13 +546,13 @@ LABEL_178:
   else if ( Msg == 15 )
   {
     ValidateRect(hWnd, nullptr);
-    if ( dword_45B8D8 )
+    if ( main_window_bitmap )
     {
       v5 = GetDC(hWnd);
       CompatibleDC = CreateCompatibleDC(v5);
       SelectObject(CompatibleDC, h);
       StretchBlt(v5, 0, 0, 400, 255, CompatibleDC, 0, 0, 10, 10, 0xCC0020u);
-      SelectObject(CompatibleDC, dword_45B8D8);
+      SelectObject(CompatibleDC, main_window_bitmap);
       BitBlt(v5, 50, 30, 400, 300, CompatibleDC, 0, 0, 0xCC0020u);
       ReleaseDC(hWnd, v5);
       DeleteDC(CompatibleDC);
@@ -613,11 +613,11 @@ BOOL create_main_window()
 {
   HWND Window; // eax
 
-  byte_45B8E8 = 0;
+  shift_key_pressed = 0;
   g_hInstance = GetModuleHandleA(nullptr);
   if ( !register_win_class() )
     ui_error(" * Error registering window.\n");
-  dword_45B8D8 = LoadBitmapA(g_hInstance, (LPCSTR)0x8C);
+  main_window_bitmap = LoadBitmapA(g_hInstance, (LPCSTR)0x8C);
   h = LoadBitmapA(g_hInstance, (LPCSTR)0x8E);
   Window = CreateWindowExA(
              0,
@@ -651,9 +651,9 @@ void save_load_state()
   char v1; // [esp+8h] [ebp-4h]
   char gpu_freeze_counter; // [esp+8h] [ebp-4h]
 
-  *(_DWORD *)dword_44DF24 = 255;
-  byte_45B8E8 = 0;
-  dword_4F7594 = 1;
+  *(_DWORD *)save_load_state_slot = 255;
+  shift_key_pressed = 0;
+  spu_mute_flag = 1;
   v0 = 20;
   do
   {
@@ -686,15 +686,15 @@ void save_load_state()
   gpu_open();
   net_resume();
   spu_open();
-  dword_4F7594 = 0;
-  if ( *(int *)dword_44DF24 >= 10 )
+  spu_mute_flag = 0;
+  if ( *(int *)save_load_state_slot >= 10 )
   {
-    if ( *(int *)dword_44DF24 < 20 )
+    if ( *(int *)save_load_state_slot < 20 )
     {
       gpu_freeze_counter = get_gpu_freeze_counter();
-      set_gpu_freeze_counter(dword_44DF24[0] - 10);
+      set_gpu_freeze_counter(save_load_state_slot[0] - 10);
       state_save();
-      dbg_print(" * SaveState Done! (%d)\n", *(_DWORD *)dword_44DF24 - 10);
+      dbg_print(" * SaveState Done! (%d)\n", *(_DWORD *)save_load_state_slot - 10);
       set_gpu_freeze_counter(gpu_freeze_counter);
       PostQuitMessage(0);
     }
@@ -702,10 +702,10 @@ void save_load_state()
   else
   {
     v1 = get_gpu_freeze_counter();
-    set_gpu_freeze_counter(dword_44DF24[0]);
+    set_gpu_freeze_counter(save_load_state_slot[0]);
     state_load();
     dynarec_invalidate();
-    dbg_print(" * LoadState Done! (%d)\n", *(_DWORD *)dword_44DF24);
+    dbg_print(" * LoadState Done! (%d)\n", *(_DWORD *)save_load_state_slot);
     set_gpu_freeze_counter(v1);
   }
 }
@@ -713,9 +713,9 @@ void save_load_state()
 
 /* Decompiled globals (previously generated in src/_gen) */
 unsigned char bin_iso_file[0x100];
-unsigned char byte_45B8E8 = 0x0;
-unsigned int dword_44DF24[1] = {0xffffffff};
-unsigned int dword_45B8D8 = 0x0;
+unsigned char shift_key_pressed = 0x0;
+unsigned int save_load_state_slot[1] = {0xffffffff};
+unsigned int main_window_bitmap = 0x0;
 unsigned char g_bDisableMouse = 0x1;
 unsigned int g_hInstance;
 unsigned int g_hWnd = 0x0;

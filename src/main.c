@@ -7,7 +7,7 @@ void epsxe_main_loop_runner()
   if ( create_window_flag )
     create_main_window();
   alloc_console();
-  dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &byte_45B8CC);
+  dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &current_dir_path);
   old_auto_ppf_load = ppf_enabled;
   while ( 1 )
   {
@@ -123,7 +123,7 @@ void print_develop_options()
 
 void print_version()
 {
-  dbg_print_no_flush(" * %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &byte_45B8CC);
+  dbg_print_no_flush(" * %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &current_dir_path);
   exit(0);
 }
 
@@ -165,12 +165,12 @@ LABEL_146:
         }
         if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-pslib") )
         {
-          byte_4F831D = 1;
+          load_pslib_flag = 1;
           goto LABEL_146;
         }
         if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nocdoverwrite") )
         {
-          LOBYTE(word_455FA8[0]) = 1;
+          LOBYTE(pad_key_assignments[0]) = 1;
           goto LABEL_146;
         }
         if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nomdectiming") )
@@ -226,7 +226,7 @@ LABEL_146:
         }
         if ( !strncmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-p", 3u) )
         {
-          byte_455945 = atoi(*(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
+          cd_speed = atoi(*(const char **)(a2 + 4 * (unsigned __int16)v3 + 4));
           v3 += 2;
         }
         else
@@ -280,12 +280,12 @@ LABEL_146:
             }
             if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-nomemcard") )
             {
-              byte_4557A8 = 0;
+              memcard_enabled = 0;
               goto LABEL_146;
             }
             if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-memcard") )
             {
-              byte_4557A8 = 1;
+              memcard_enabled = 1;
               goto LABEL_146;
             }
             if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-xasound") )
@@ -318,7 +318,7 @@ LABEL_146:
             {
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-legaia") )
               {
-                byte_4FD881 = 1;
+                cdr_randomize_response_flag = 1;
                 goto LABEL_146;
               }
               if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-ff9pal") )
@@ -439,19 +439,19 @@ LABEL_146:
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog2") )
                 {
                   controller_port_modes[1] = 4;
-                  dword_4FD8E4 = 0;
+                  pad2_analog_mode_flag = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog3") )
                 {
                   controller_port_modes[2] = 4;
-                  dword_4FD8E8 = 0;
+                  pad3_analog_mode_flag = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-analog4") )
                 {
                   controller_port_modes[3] = 4;
-                  dword_4FD8EC = 0;
+                  pad4_analog_mode_flag = 0;
                   goto LABEL_146;
                 }
                 if ( !strcmp(*(const char **)(a2 + 4 * (unsigned __int16)v3), "-noignorecmd") )
@@ -572,12 +572,12 @@ LABEL_16:
     sprintf(ppf_filename, "NULL");
     sprintf((char *const)Memcard1, "NULL");
     sprintf((char *const)Memcard2, "NULL");
-    sprintf(byte_8B2580, "INTERNAL");
+    sprintf(default_cdrom_plugin_name, "INTERNAL");
     sprintf(state_file_from_cmdline, "NULL");
     sprintf((char *const)NetPlugin, "DISABLED");
     version_setting = 0;
     dynarec_enabled = 1;
-    dword_50C370 = 0;
+    unused_startup_flag = 0;
     forcepad = 0;
     country_setting = 255;
     loaded_file_type = 1;
@@ -589,7 +589,7 @@ LABEL_16:
     parse_command_line_options(v14, (int)v15);
     set_console_log_flush_pending();
     select_cdrom_core();
-    dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &byte_45B8CC);
+    dbg_print(" * Running %s emulator version %1.1f.%d. %s\n", "ePSXe", 1.6, 0, &current_dir_path);
     if ( strlen((const char *)cheat_file_from_cmdline) )
       loader_load_cheat_file((char *)cheat_file_from_cmdline);
     epsxe_main_loop_runner();
@@ -659,13 +659,13 @@ LABEL_15:
 
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned char byte_4557A8 = 0x1;
-unsigned char byte_45B8CC = 0x0;
-unsigned char byte_4F831D;
-unsigned char byte_8B2580[0x400];
+unsigned char memcard_enabled = 0x1;
+unsigned char current_dir_path = 0x0;
+unsigned char load_pslib_flag;
+unsigned char default_cdrom_plugin_name[0x400];
 unsigned char cheat_file_from_cmdline[0x400];
 unsigned char cpu_overclock_setting = 0x1;
-unsigned int dword_50C370;
+unsigned int unused_startup_flag;
 unsigned int dynarec_enabled;
 unsigned char extsubchanhle;
 unsigned char fastboot = 0x1;

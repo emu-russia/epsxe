@@ -30,15 +30,15 @@ extern int (__stdcall *SPUwriteDMA)();
 extern int (__stdcall *SPUwriteDMAMem)();
 extern int (__stdcall *SPUwriteRegister)();
 extern unsigned int Size[0x100];
-extern unsigned char byte_45B8F0;
-extern unsigned int dword_516518;
-extern unsigned int dword_8A8080;
+extern unsigned char spu_plugin_closed_flag;
+extern unsigned int spu_dma_chcr_ptr;
+extern unsigned int spu_transfer_addr;
 extern unsigned int hSpuModule;
 extern unsigned char sound_enabled;
 extern unsigned int spu_adpcm_flag;
 extern unsigned char spu_need_to_be_closed;
 extern unsigned char spu_use_external_plugin;
-extern unsigned short word_8A8084[0x200];
+extern unsigned short spu_register_cache[0x200];
 
 /* Function prototypes (previously generated in src/_gen) */
 int (*__cdecl spu_async_update(int a1))(void);

@@ -278,7 +278,7 @@ int cfg_load_settings()
     }
   }
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadSubType", (LPBYTE)Buffer) )
-    sscanf(Buffer, "%d,%d,%d,%d", pad_analog_mode_flags, &dword_4FD8E4, &dword_4FD8E8, &dword_4FD8EC);
+    sscanf(Buffer, "%d,%d,%d,%d", pad_analog_mode_flags, &pad2_analog_mode_flag, &pad3_analog_mode_flag, &pad4_analog_mode_flag);
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadAxis", (LPBYTE)Buffer) )
     sscanf(
       Buffer,
@@ -302,9 +302,9 @@ int cfg_load_settings()
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadMotorType", (LPBYTE)Buffer) )
     sscanf(Buffer, "%d,%d,%d,%d", g_PlayerDeviceMap1, &g_PlayerDeviceMap2, &g_PlayerDeviceMap3, g_PlayerDeviceMap4);
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadSMotorType", (LPBYTE)Buffer) )
-    sscanf(Buffer, "%d,%d,%d,%d", g_EffectType2, &dword_4FD8C0, &dword_4FD8C4, dword_4FD8C8);
+    sscanf(Buffer, "%d,%d,%d,%d", g_EffectType2, &pad2_small_motor_type, &pad3_small_motor_type, pad4_small_motor_type);
   if ( !cfg_get_value("Software\\epsxe\\config", "GamepadBMotorType", (LPBYTE)Buffer) )
-    sscanf(Buffer, "%d,%d,%d,%d", g_EffectType1, &dword_4FD8D0, &dword_4FD8D4, &dword_4FD8D8);
+    sscanf(Buffer, "%d,%d,%d,%d", g_EffectType1, &pad2_big_motor_type, &pad3_big_motor_type, &pad4_big_motor_type);
   if ( cfg_get_value("Software\\epsxe\\config", "IsoDirectory", (LPBYTE)Buffer) )
     return sprintf(IsoDirectory, ".");
   else
@@ -420,7 +420,7 @@ int cfg_save_settings()
     controller_port_modes[2],
     controller_port_modes[3]);
   cfg_set_value("Software\\epsxe\\config", "GamepadType", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", pad_analog_mode_flags[0], dword_4FD8E4, dword_4FD8E8, dword_4FD8EC);
+  sprintf(Buffer, "%d,%d,%d,%d", pad_analog_mode_flags[0], pad2_analog_mode_flag, pad3_analog_mode_flag, pad4_analog_mode_flag);
   cfg_set_value("Software\\epsxe\\config", "GamepadSubType", (BYTE *)Buffer);
   sprintf(
     Buffer,
@@ -444,9 +444,9 @@ int cfg_save_settings()
   cfg_set_value("Software\\epsxe\\config", "GamepadAxis", (BYTE *)Buffer);
   sprintf(Buffer, "%d,%d,%d,%d", g_PlayerDeviceMap1[0], g_PlayerDeviceMap2, g_PlayerDeviceMap3, g_PlayerDeviceMap4[0]);
   cfg_set_value("Software\\epsxe\\config", "GamepadMotorType", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", g_EffectType2[0], dword_4FD8C0, dword_4FD8C4, dword_4FD8C8[0]);
+  sprintf(Buffer, "%d,%d,%d,%d", g_EffectType2[0], pad2_small_motor_type, pad3_small_motor_type, pad4_small_motor_type[0]);
   cfg_set_value("Software\\epsxe\\config", "GamepadSMotorType", (BYTE *)Buffer);
-  sprintf(Buffer, "%d,%d,%d,%d", g_EffectType1[0], dword_4FD8D0, dword_4FD8D4, dword_4FD8D8);
+  sprintf(Buffer, "%d,%d,%d,%d", g_EffectType1[0], pad2_big_motor_type, pad3_big_motor_type, pad4_big_motor_type);
   cfg_set_value("Software\\epsxe\\config", "GamepadBMotorType", (BYTE *)Buffer);
   sprintf(Buffer, "%d", (unsigned __int8)ppf_enabled);
   cfg_set_value("Software\\epsxe\\config", "AutoPpfLoad", (BYTE *)Buffer);
@@ -510,13 +510,13 @@ unsigned char SubchannelW9xCachingLG;
 unsigned char SubchannelW9xCdromEnabled;
 unsigned char VideoPlugin[0x400];
 unsigned char create_window_flag = 0x1;
-unsigned int dword_4FD8C4;
-unsigned int dword_4FD8D0;
-unsigned int dword_4FD8D4;
-unsigned int dword_4FD8D8;
-unsigned int dword_4FD8E4;
-unsigned int dword_4FD8E8;
-unsigned int dword_4FD8EC;
+unsigned int pad3_small_motor_type;
+unsigned int pad2_big_motor_type;
+unsigned int pad3_big_motor_type;
+unsigned int pad4_big_motor_type;
+unsigned int pad2_analog_mode_flag;
+unsigned int pad3_analog_mode_flag;
+unsigned int pad4_analog_mode_flag;
 unsigned int g_EffectType1[1];
 unsigned int g_PlayerDeviceMap2;
 unsigned int g_PlayerDeviceMap3;

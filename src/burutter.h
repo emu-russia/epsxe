@@ -1,6 +1,6 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned int dword_4FC45C;
+extern unsigned int vibration_enabled;
 
 /* Function prototypes (previously generated in src/_gen) */
 BOOL __cdecl Big_Motor(unsigned int a1, int a2);
