@@ -16,3 +16,4 @@ Release
 .aptdl/
 .buildcheck/
 .check/
+docs/.doxygen/

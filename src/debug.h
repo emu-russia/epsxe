@@ -11,19 +11,17 @@
 
 /*--- Global flags and handles (defined in cfg.c / debug.c / etc.) ---*/
 
+/** \brief Non-zero once the debug console has been allocated (checked by alloc_console/dealloc logic). */
 extern unsigned char console_allocated;
+/** \brief Handle of the console log file ("console.log"), or 0 when the log is not open. */
 extern unsigned int console_log_handle;
 
-/*--- Flags defined in debug.c (at fixed memory addresses) ---*/
-
-/** Flag at 0x4FF9F0: console-log-flush pending (set by sub_437030, cleared by sub_437040). */
-
-/** Flag at 0x4FF9F2: console log enabled. */
-
 /*--- SPU plugin destroy callback ---*/
+/** \brief SPU plugin destroy callback installed by spu_load_plugin(); invoked during fatal-error shutdown. */
 extern int ( *spu_destroy_cb)(unsigned long);
 
 /*--- CD-ROM deinit callback ---*/
+/** \brief CD-ROM plugin deinit callback installed by the CDR plugin loader; invoked during fatal-error shutdown. */
 extern int ( *cdrom_deinit_cb)(unsigned long);
 
 /*--- Console management ---*/
@@ -38,14 +36,6 @@ extern int ( *cdrom_deinit_cb)(unsigned long);
  * \return 1 if the console was allocated, 0 otherwise.
  */
 int alloc_console(void);
-
-/**
- * \brief Deallocates the debug console.
- *
- * Calls FreeConsole() only if the console was previously allocated.
- *
- * \return 1 if the console was deallocated, 0 otherwise.
- */
 
 /**
  * \brief Retrieves the current tick count and caches it.
@@ -63,12 +53,6 @@ unsigned long get_tick_count(void);
  * on the next opportunity.
  */
 void set_console_log_flush_pending(void);
-
-/**
- * \brief Checks and clears the console-log-flush pending flag.
- *
- * \return Non-zero if the flag was set (and has now been cleared), 0 otherwise.
- */
 
 /**
  * \brief Reopens the console.log file if it has not been opened yet.

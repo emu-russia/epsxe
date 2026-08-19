@@ -1,4 +1,6 @@
-/* MMX intrinsics compatibility layer for x64 builds.
+/**
+ * \file mmx_compat.h
+ * \brief MMX intrinsics compatibility layer for x64 builds.
  *
  * MSVC's mmintrin.h only declares the _m_* MMX intrinsics for 32-bit
  * (x86) targets.  The decompiled mdec.c / gte.c rely on them, so on x64
@@ -11,8 +13,12 @@
 
 #include <mmintrin.h>
 
-/* _m_from_int64 is not provided by MSVC even on x86 (only _m_from_int is);
- * it is used by the decompiled IDCT code on all platforms. */
+/**
+ * \brief Reimplements _m_from_int64: loads a 64-bit integer into an __m64.
+ *
+ * Not provided by MSVC even on x86 (only _m_from_int is); it is used by
+ * the decompiled IDCT code on all platforms.
+ */
 static __inline __m64 _m_from_int64(int64_t _I)
 {
     __m64 r;
@@ -22,8 +28,10 @@ static __inline __m64 _m_from_int64(int64_t _I)
 
 #if defined(_M_X64) && !defined(_M_IX86)
 
+/** \brief No-op placeholder for the MMX EMMS instruction (clears the MMX state); on x64 no explicit clearing is needed. */
 static __inline void _m_empty(void) { }
 
+/** \brief Reimplements _m_from_int: loads a 32-bit integer into the low doubleword of an __m64, zero-extending the upper doubleword. */
 static __inline __m64 _m_from_int(int _I)
 {
     __m64 r;
@@ -32,11 +40,13 @@ static __inline __m64 _m_from_int(int _I)
     return r;
 }
 
+/** \brief Reimplements _m_to_int: extracts the low 32-bit word of an __m64 as an int. */
 static __inline int _m_to_int(__m64 _M)
 {
     return _M.m64_i32[0];
 }
 
+/** \brief Reimplements PADDB: parallel add of eight packed unsigned bytes (mod 256). */
 static __inline __m64 _m_paddb(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -45,6 +55,7 @@ static __inline __m64 _m_paddb(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PADDW: parallel add of four packed unsigned 16-bit words (mod 65536). */
 static __inline __m64 _m_paddw(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -53,6 +64,7 @@ static __inline __m64 _m_paddw(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PADDD: parallel add of two packed 32-bit doublewords. */
 static __inline __m64 _m_paddd(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -61,6 +73,7 @@ static __inline __m64 _m_paddd(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PADDSW: parallel add of four packed signed 16-bit words with saturation. */
 static __inline __m64 _m_paddsw(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -75,6 +88,7 @@ static __inline __m64 _m_paddsw(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PSUBW: parallel subtract of four packed unsigned 16-bit words (mod 65536). */
 static __inline __m64 _m_psubw(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -83,6 +97,7 @@ static __inline __m64 _m_psubw(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PMULHW: parallel multiply of four packed signed 16-bit words, keeping the high 16 bits of each 32-bit product. */
 static __inline __m64 _m_pmulhw(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -92,6 +107,7 @@ static __inline __m64 _m_pmulhw(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PSLLWI: parallel shift-left-logical of four packed 16-bit words by an immediate count. */
 static __inline __m64 _m_psllwi(__m64 _MM1, int count)
 {
     __m64 r;
@@ -101,6 +117,7 @@ static __inline __m64 _m_psllwi(__m64 _MM1, int count)
     return r;
 }
 
+/** \brief Reimplements PSLLQI: shift-left-logical of the 64-bit value by an immediate count. */
 static __inline __m64 _m_psllqi(__m64 _MM1, int count)
 {
     __m64 r;
@@ -109,6 +126,7 @@ static __inline __m64 _m_psllqi(__m64 _MM1, int count)
     return r;
 }
 
+/** \brief Reimplements PSRLQI: shift-right-logical of the 64-bit value by an immediate count. */
 static __inline __m64 _m_psrlqi(__m64 _MM1, int count)
 {
     __m64 r;
@@ -117,6 +135,7 @@ static __inline __m64 _m_psrlqi(__m64 _MM1, int count)
     return r;
 }
 
+/** \brief Reimplements PSRADI: parallel shift-right-arithmetic of four packed signed 16-bit words by an immediate count. */
 static __inline __m64 _m_psradi(__m64 _MM1, int count)
 {
     __m64 r;
@@ -126,11 +145,13 @@ static __inline __m64 _m_psradi(__m64 _MM1, int count)
     return r;
 }
 
+/** \brief Alias for _m_psradi (PSRAWI): parallel shift-right-arithmetic of four packed signed 16-bit words. */
 static __inline __m64 _m_psrawi(__m64 _MM1, int count)
 {
     return _m_psradi(_MM1, count);
 }
 
+/** \brief Reimplements PAND: bitwise AND of two __m64 values. */
 static __inline __m64 _m_pand(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -138,6 +159,7 @@ static __inline __m64 _m_pand(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PMADDWD: multiply-accumulates adjacent packed signed 16-bit words into two 32-bit doublewords. */
 static __inline __m64 _m_pmaddwd(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -150,6 +172,7 @@ static __inline __m64 _m_pmaddwd(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PACKSSWB: packs four signed 16-bit words from each operand into eight signed bytes with saturation. */
 static __inline __m64 _m_packsswb(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -168,6 +191,7 @@ static __inline __m64 _m_packsswb(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PACKSSDW: packs two signed 32-bit doublewords from each operand into four signed 16-bit words with saturation. */
 static __inline __m64 _m_packssdw(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -186,6 +210,7 @@ static __inline __m64 _m_packssdw(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PACKUSWB: packs four signed 16-bit words from each operand into eight unsigned bytes with unsigned saturation. */
 static __inline __m64 _m_packuswb(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -204,6 +229,7 @@ static __inline __m64 _m_packuswb(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PUNPCKLBW: unpacks and interleaves the low four bytes of each operand into eight bytes. */
 static __inline __m64 _m_punpcklbw(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -216,6 +242,7 @@ static __inline __m64 _m_punpcklbw(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PUNPCKHBW: unpacks and interleaves the high four bytes of each operand into eight bytes. */
 static __inline __m64 _m_punpckhbw(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -228,6 +255,7 @@ static __inline __m64 _m_punpckhbw(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PUNPCKLWD: unpacks and interleaves the low two words of each operand into four words. */
 static __inline __m64 _m_punpcklwd(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -240,6 +268,7 @@ static __inline __m64 _m_punpcklwd(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PUNPCKHWD: unpacks and interleaves the high two words of each operand into four words. */
 static __inline __m64 _m_punpckhwd(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -252,6 +281,7 @@ static __inline __m64 _m_punpckhwd(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PUNPCKLDQ: unpacks and interleaves the low doubleword of each operand. */
 static __inline __m64 _m_punpckldq(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -260,6 +290,7 @@ static __inline __m64 _m_punpckldq(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PUNPCKHDQ: unpacks and interleaves the high doubleword of each operand. */
 static __inline __m64 _m_punpckhdq(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -268,6 +299,7 @@ static __inline __m64 _m_punpckhdq(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PCMPEQD: compares two packed 32-bit doublewords for equality (all-ones if equal, zero otherwise). */
 static __inline __m64 _m_pcmpeqd(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -276,6 +308,7 @@ static __inline __m64 _m_pcmpeqd(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements PANDN: bitwise AND NOT, (~_MM1) & _MM2. */
 static __inline __m64 _m_pandn(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;
@@ -283,6 +316,7 @@ static __inline __m64 _m_pandn(__m64 _MM1, __m64 _MM2)
     return r;
 }
 
+/** \brief Reimplements POR: bitwise OR of two __m64 values. */
 static __inline __m64 _m_por(__m64 _MM1, __m64 _MM2)
 {
     __m64 r;

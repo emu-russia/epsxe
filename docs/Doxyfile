@@ -1,0 +1,51 @@
+# Doxyfile 1.12.0
+#
+# ePSXe API documentation configuration.
+# Run `doxygen Doxyfile` from this directory to generate HTML docs
+# of the exported methods and variables declared in src/*.h.
+#
+# The generated output goes to docs/.doxygen/ (git-ignored).
+
+PROJECT_NAME           = "ePSXe"
+PROJECT_BRIEF          = "Decompiled ePSXe 1.6.0 - PlayStation emulator"
+PROJECT_NUMBER         = "1.6.0"
+
+OUTPUT_DIRECTORY       = .doxygen
+CREATE_SUBDIRS         = NO
+
+INPUT                  = ../src
+FILE_PATTERNS          = *.c *.h
+RECURSIVE              = NO
+EXCLUDE_PATTERNS       =
+
+# Extract everything (including undocumented entities) so the reference
+# is always complete; documented items carry full \brief/\param/\return blocks.
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = NO
+EXTRACT_LOCAL_CLASSES  = NO
+
+SORT_MEMBER_DOCS       = YES
+SORT_BRIEF_DOCS        = NO
+SORT_BY_SCOPE_NAME     = NO
+
+JAVADOC_AUTOBRIEF      = YES
+QT_AUTOBRIEF           = NO
+MULTILINE_CPP_IS_BRIEF = NO
+OPTIMIZE_OUTPUT_FOR_C  = YES
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = NO
+WARN_IF_DOC_ERROR      = YES
+WARN_NO_PARAMDOC       = NO
+WARN_AS_ERROR          = NO
+QUIET                  = NO
+
+SOURCE_BROWSER         = NO
+INLINE_SOURCES         = NO
+REFERENCED_BY_RELATION = NO
+REFERENCES_RELATION    = NO

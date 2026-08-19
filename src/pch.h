@@ -1,5 +1,15 @@
 #pragma once
 
+/**
+ * \file pch.h
+ * \brief Precompiled header and global include aggregation point.
+ *
+ * Includes the standard library, Windows, plugin API and per-module
+ * headers used across the emulator, and defines the compatibility
+ * macros and pragmas the decompiled code relies on (byte/word accessors,
+ * IDA decompiler helpers, warning suppressions, plugin API renames, etc.).
+ */
+
 #include <stdint.h>
 #include <stdio.h>
 #include <Windows.h>
@@ -65,7 +75,7 @@ typedef BOOLEAN bool;
 #define LODWORD(w)  (*((DWORD *)&(w)))
 #define HIDWORD(w)  (*((DWORD *)&(w) + 1))
 
-/* IDA decompiler helpers */
+/** \brief IDA decompiler helper aliases: qmemcpy/qmemmove/qmemcmp map to the CRT memcpy/memmove/memcmp. */
 #define qmemcpy memcpy
 #define qmemmove memmove
 #define qmemcmp memcmp
