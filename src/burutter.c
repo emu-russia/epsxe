@@ -1,5 +1,9 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+static unsigned int vibration_enabled;
+
+
 static LPSTR lpFileName = "\\\\.\\2855";
 static HANDLE hDevice;
 static DWORD BytesReturned;
@@ -83,6 +87,3 @@ int joy_issue_small_motor()
         return Small_Motor(1, 1);
     return 0;
 }
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned int vibration_enabled;

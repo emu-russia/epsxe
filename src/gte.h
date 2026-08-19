@@ -556,21 +556,10 @@ typedef enum _GTERealCommand {
 #define GTE_INSTR_GPF(sf) (GTE_BUILD_CMD(GTE_CMD_GPF, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_GPF))
 #define GTE_INSTR_GPL(sf) (GTE_BUILD_CMD(GTE_CMD_GPL, sf, 0, 0, 0, 0) | GTE_FAKE_OPCODE(GTE_FAKE_GPL))
 
-
-
 void gte_exec_opcode();
 
 /* Decompiled globals (previously generated in src/_gen) */
-extern unsigned char gte_cpu_gpr_index;
-extern unsigned char gte_control_reg_index;
-extern unsigned char gte_data_reg_index;
-extern unsigned int gte_regs_ptr;
-extern unsigned int gte_color_r;
-extern unsigned int gte_color_g;
-extern unsigned int gte_color_b;
 extern GTE_REGS gte_regs;
-extern uint64_t qword_44F958;
-extern uint64_t qword_44F960;
 
 /* Function prototypes (previously generated in src/_gen) */
 int gte_clear_regs();

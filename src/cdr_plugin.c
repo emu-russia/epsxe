@@ -1,4 +1,32 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+static int ( *CDRclose)();
+static int ( *CDRgetBuffer)();
+static int ( *CDRgetBufferSub)();
+static int ( *CDRgetTD)();
+static unsigned int CDRgetTN;
+static int ( *CDRinit)();
+static int ( *CDRopen)();
+static unsigned int CDRplay;
+static int ( *CDRreadTrack)();
+static int ( *CDRshutdown)();
+static int ( *CDRstop)();
+static unsigned int CDRtest;
+unsigned char cdrom_fake_filename[0x100];
+static unsigned short current_position_low;
+static unsigned int current_position_msf;
+static unsigned short first_last_tracks;
+unsigned int hCdrModule;
+static unsigned int track_info_buffer;
+static unsigned char track_minutes_table[1];
+static unsigned char track_msf_minutes[1];
+static unsigned char track_msf_seconds[1];
+static unsigned char track_msf_sectors[1];
+static unsigned char track_msf_table[1];
+static unsigned char track_seconds_table[1];
+static unsigned char track_sectors_table[0x139];
+
 char ext_cdrom_load_plugin()
 {
   uint8_t track_index;
@@ -524,31 +552,3 @@ char ext_CDR_verify_subchannel_data(uint8_t min, uint8_t sec, uint8_t frame, int
   }
   return status;
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-int ( *CDRclose)();
-int ( *CDRgetBuffer)();
-int ( *CDRgetBufferSub)();
-int ( *CDRgetTD)();
-unsigned int CDRgetTN;
-int ( *CDRinit)();
-int ( *CDRopen)();
-unsigned int CDRplay;
-int ( *CDRreadTrack)();
-int ( *CDRshutdown)();
-int ( *CDRstop)();
-unsigned int CDRtest;
-unsigned char cdrom_fake_filename[0x100];
-unsigned short current_position_low;
-unsigned int current_position_msf;
-unsigned short first_last_tracks;
-unsigned int hCdrModule;
-unsigned int track_info_buffer;
-unsigned char track_minutes_table[1];
-unsigned char track_msf_minutes[1];
-unsigned char track_msf_seconds[1];
-unsigned char track_msf_sectors[1];
-unsigned char track_msf_table[1];
-unsigned char track_seconds_table[1];
-unsigned char track_sectors_table[0x139];

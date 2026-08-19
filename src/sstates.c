@@ -1,4 +1,10 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int gpu_freeze_counter = 0x0;
+unsigned char save_state_ver = 0xff;
+unsigned char state_file_from_cmdline[0x400];
+
 char gpu_freeze_with_counter()
 {
   LOBYTE(gpu_freeze_counter) = ((uint8_t)gpu_freeze_counter + 1) % 5;
@@ -124,9 +130,3 @@ char check_state_exists(uint8_t slot)
   fclose(fp);
   return 0;
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned int gpu_freeze_counter = 0x0;
-unsigned char save_state_ver = 0xff;
-unsigned char state_file_from_cmdline[0x400];

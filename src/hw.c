@@ -1,4 +1,25 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char hw_regs[0x10000];
+unsigned int sio_irq_pending;
+unsigned int dma_int_ctrl;
+unsigned int rcnt_counter[1];
+unsigned int rcnt_mode[1];
+unsigned int dma_channel_status[1];
+static unsigned int mdec_dma_bcr[1];
+unsigned int g_cdr_dma_channel_control;
+static unsigned int pio_dma_chcr;
+static unsigned int dma6_madr;
+static unsigned int dma6_bcr;
+unsigned int hw_saved_state;
+unsigned int gpu_dma6_status;
+unsigned int hw_update_counter;
+unsigned int mdec_dma_control[1];
+unsigned int mdec_dma_src[1];
+unsigned int mdec_dma_status;
+unsigned int mdec_param_count;
+
 void hw_reg_write_word(unsigned int addr, unsigned int value)
 {
   int madr;
@@ -570,24 +591,3 @@ int hw_reg_unfreeze(int unused, uint32_t *gzf)
   gzread(gzf, (char *)mdec_dma_src, 96);
   return gzread(gzf, hw_regs, 0x10000);
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char hw_regs[0x10000];
-unsigned int sio_irq_pending;
-unsigned int dma_int_ctrl;
-unsigned int rcnt_counter[1];
-unsigned int rcnt_mode[1];
-unsigned int dma_channel_status[1];
-unsigned int mdec_dma_bcr[1];
-unsigned int g_cdr_dma_channel_control;
-unsigned int pio_dma_chcr;
-unsigned int dma6_madr;
-unsigned int dma6_bcr;
-unsigned int hw_saved_state;
-unsigned int gpu_dma6_status;
-unsigned int hw_update_counter;
-unsigned int mdec_dma_control[1];
-unsigned int mdec_dma_src[1];
-unsigned int mdec_dma_status;
-unsigned int mdec_param_count;

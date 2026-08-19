@@ -86,31 +86,6 @@ typedef struct _ZipCentralDirectoryEntryInMem {
 } ZipCentralDirectoryEntryInMem;
 /* Decompiled globals (previously generated in src/_gen) */
 extern unsigned int Stream;
-extern unsigned char zip_local_file_header_buffer[0x2000];
-extern unsigned char zip_path_buffer[0x100];
-extern unsigned short zip_bit_masks[12];
-extern unsigned char zip_central_dir_buffer[0x2000];
-extern unsigned int zip_code_length_order[14];
-extern unsigned char zip_distance_base[17];
-extern unsigned char zip_distance_extra_bits[22];
-extern unsigned int zip_file_size;
-extern unsigned int zip_filename;
-extern unsigned int zip_inflate_bit_buffer;
-extern unsigned int zip_inflate_bit_count;
-extern unsigned int zip_inflate_dtree;
-extern unsigned int zip_inflate_dtree_bits;
-extern unsigned int zip_inflate_ltree;
-extern unsigned int zip_inflate_ltree_bits;
-extern unsigned int zip_inflate_max_memory_used;
-extern unsigned int zip_inflate_output_ptr;
-extern unsigned int zip_inflate_window_pos;
-extern unsigned char zip_length_base[17];
-extern unsigned char zip_length_extra_bits[30];
-extern unsigned char zip_signature;
-extern unsigned int zip_sliding_window;
-extern unsigned int zip_static_dtree_max_bits;
-extern unsigned int zip_static_ltree_max_bits;
-extern unsigned int zipfile_input_buffer;
 
 /* Function prototypes (previously generated in src/_gen) */
 int zip_extract_file(char *FileName, char *search_name, LPVOID *out_data, size_t *out_size);

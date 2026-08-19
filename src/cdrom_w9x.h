@@ -1,41 +1,15 @@
 #pragma once
 /* Decompiled globals (previously generated in src/_gen) */
-extern DWORD (__stdcall *GetASPI32SupportInfo_cb)(void);
-extern int ( *SendASPI32Command_cb)(LPSRB);
 extern unsigned char SubchannelW9xCaching;
-extern unsigned char w9x_toc_buffer;
-extern unsigned char w9x_toc_first_track;
-extern unsigned char w9x_toc_last_track;
-extern unsigned char w9x_toc_track_control[1];
-extern unsigned char w9x_toc_track_entries[0x33a];
-extern unsigned char cd_device_reserved0[1];
 extern unsigned char cd_device_product[0x10];
-extern unsigned char cd_device_reserved1[1];
-extern unsigned char cd_device_reserved2[1];
-extern unsigned char cd_device_extra[0x14];
-extern unsigned char cd_device_reserved3[1];
 extern unsigned int cdrom_haid;
 extern unsigned int cdrom_lun;
 extern unsigned int cdrom_target;
-extern unsigned int w9x_play_cdb;
-extern unsigned int w9x_play_cdb2;
-extern unsigned int w9x_stop_cdb;
-extern unsigned int w9x_stop_cdb2;
-extern unsigned int w9x_resume_cdb;
-extern unsigned int w9x_resume_cdb2;
 extern unsigned int w9x_cdrom_info;
-extern unsigned int w9x_cdda_playing;
-extern unsigned int w9x_cdda_resume_pending;
 extern unsigned int cached_sector_lba;
-extern unsigned int cd_device_vendor;
-extern unsigned int cd_device_vendor2;
-extern unsigned int cd_device_revision;
 extern unsigned int cd_device_haid;
 extern unsigned int cd_device_target;
 extern unsigned int cd_device_lun[0xf1];
-extern unsigned short w9x_play_cdb3;
-extern unsigned short w9x_stop_cdb3;
-extern unsigned short w9x_resume_cdb3;
 
 /* Function prototypes (previously generated in src/_gen) */
 uint32_t * W9x_bcd_to_dword(uint32_t *dest, uint8_t *src);

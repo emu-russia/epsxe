@@ -8,7 +8,7 @@ static void op_COP0();
 
 // ==================== SPECIAL OPCODE TABLE (0x00) ====================
 // Index: bits 0-5 of the opcode (function field)
-OPCODE cpu_special_opcode_table[64] = {
+static OPCODE cpu_special_opcode_table[64] = {
     /* 0x00 */ op_SLL,      /* 0x01 */ op_UNKNOWN, /* 0x02 */ op_SRL,      /* 0x03 */ op_SRA,
     /* 0x04 */ op_SLLV,     /* 0x05 */ op_UNKNOWN, /* 0x06 */ op_SRLV,     /* 0x07 */ op_SRAV,
     /* 0x08 */ op_JR,       /* 0x09 */ op_JALR,    /* 0x0A */ op_UNKNOWN,  /* 0x0B */ op_UNKNOWN,
@@ -30,7 +30,7 @@ OPCODE cpu_special_opcode_table[64] = {
 // ==================== COP0 OPCODE TABLE (0x10) ====================
 // Index: bits 21-25 of the opcode (rs field)
 // COP0 = Coprocessor 0 (System Control Coprocessor)
-OPCODE cpu_cop0_table[32] = {
+static OPCODE cpu_cop0_table[32] = {
     /* 0x00 */ op_MFC0,     /* 0x01 */ op_UNKNOWN, /* 0x02 */ op_UNKNOWN, /* 0x03 */ op_UNKNOWN,
     /* 0x04 */ op_MTC0,     /* 0x05 */ op_UNKNOWN, /* 0x06 */ op_UNKNOWN, /* 0x07 */ op_UNKNOWN,
     /* 0x08 */ op_UNKNOWN,  /* 0x09 */ op_UNKNOWN, /* 0x0A */ op_UNKNOWN, /* 0x0B */ op_UNKNOWN,
@@ -44,7 +44,7 @@ OPCODE cpu_cop0_table[32] = {
 // ==================== BCOND OPCODE TABLE (for conditional branches) ====================
 // Index: bits 16-20 of the opcode (rt field)
 // Used for opcodes 0x01 (BCONDZ) in the main table
-OPCODE cpu_bcond_opcode_table[32] = {
+static OPCODE cpu_bcond_opcode_table[32] = {
     /* 0x00 */ op_BLTZ,     /* 0x01 */ op_BGEZ,    /* 0x02 */ op_UNKNOWN, /* 0x03 */ op_UNKNOWN,
     /* 0x04 */ op_UNKNOWN,  /* 0x05 */ op_UNKNOWN, /* 0x06 */ op_UNKNOWN, /* 0x07 */ op_UNKNOWN,
     /* 0x08 */ op_UNKNOWN,  /* 0x09 */ op_UNKNOWN, /* 0x0A */ op_UNKNOWN, /* 0x0B */ op_UNKNOWN,
@@ -95,3 +95,4 @@ static void op_BCONDZ() {
 static void op_COP0() {
     cpu_cop0_table[(cpu_opcode >> 21) & 0x1F]();
 }
+

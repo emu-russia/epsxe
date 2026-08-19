@@ -1,4 +1,11 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+static unsigned char system_cnf_buffer[1];
+static unsigned char system_cnf_buffer_8[0xff8];
+static unsigned char root_directory_buffer[0x800];
+static unsigned char root_directory_buffer_2[0x800];
+
 static int cdfs_read_le32(uint8_t *data)
 {
   return *data | ((data[1] | ((data[2] | ((char)data[3] << 8)) << 8)) << 8);
@@ -122,10 +129,3 @@ uint8_t cdfs_load_executable(char *Buffer)
   else
     return sprintf(Buffer, "SLUS_999.99");
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char system_cnf_buffer[1];
-unsigned char system_cnf_buffer_8[0xff8];
-unsigned char root_directory_buffer[0x800];
-unsigned char root_directory_buffer_2[0x800];

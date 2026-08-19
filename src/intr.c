@@ -1,4 +1,21 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int sio_irq_timeout;
+unsigned int sio_irq_delay_time;
+unsigned int rcnt_target[1];
+unsigned int rcnt_compare[1];
+static unsigned int irq_hw_regs_a[1];
+static unsigned int irq_hw_regs_b[1];
+static unsigned int irq_hw_regs_c[1];
+static unsigned int irq_hw_regs_d[0x4d];
+static unsigned int irq_hw_regs_e[1];
+static unsigned int irq_hw_regs_f[1];
+static unsigned int irq_hw_regs_g[0x2e];
+static unsigned int sio_transfer_timeout_saved;
+static unsigned int sio_pending_time_saved;
+static unsigned int sio_transfer_pending_saved[0x10];
+
 char irq_clear_hw_regs()
 {
   unsigned int i;
@@ -283,19 +300,3 @@ int irq_freeze(const char* magic, int fp)
     sio_transfer_pending_saved[0] = sio_transfer_pending;
     return gzwrite(fp, (uint8_t*)int_reg, 0x290u);
 }
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned int sio_irq_timeout;
-unsigned int sio_irq_delay_time;
-unsigned int rcnt_target[1];
-unsigned int rcnt_compare[1];
-unsigned int irq_hw_regs_a[1];
-unsigned int irq_hw_regs_b[1];
-unsigned int irq_hw_regs_c[1];
-unsigned int irq_hw_regs_d[0x4d];
-unsigned int irq_hw_regs_e[1];
-unsigned int irq_hw_regs_f[1];
-unsigned int irq_hw_regs_g[0x2e];
-unsigned int sio_transfer_timeout_saved;
-unsigned int sio_pending_time_saved;
-unsigned int sio_transfer_pending_saved[0x10];

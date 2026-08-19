@@ -1,4 +1,17 @@
 ﻿#include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+static unsigned char gte_cpu_gpr_index;
+static unsigned char gte_control_reg_index;
+static unsigned char gte_data_reg_index;
+static unsigned int gte_regs_ptr = 0x8a7f00;
+static unsigned int gte_color_r;
+static unsigned int gte_color_g;
+static unsigned int gte_color_b;
+GTE_REGS gte_regs;
+static uint64_t qword_44F958 = 0x8080000081000000;
+static uint64_t qword_44F960 = 0x400000;
+
 /* --------------------------------------------------------------------------
  * Macros for the repeated decompiled fragments (issue #5).
  * The module is full of identical code blocks: the MMX matrix-vector core
@@ -6009,19 +6022,3 @@ int gte_unfreeze(int unused, uint32_t *gz_file)
   gzread(gz_file, header, 7);
   return gzread(gz_file, (char *)&gte_regs, 256);
 }
-
-
-
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char gte_cpu_gpr_index;
-unsigned char gte_control_reg_index;
-unsigned char gte_data_reg_index;
-unsigned int gte_regs_ptr = 0x8a7f00;
-unsigned int gte_color_r;
-unsigned int gte_color_g;
-unsigned int gte_color_b;
-GTE_REGS gte_regs;
-uint64_t qword_44F958 = 0x8080000081000000;
-uint64_t qword_44F960 = 0x400000;

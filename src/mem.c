@@ -1,4 +1,16 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned int console_log_handle;
+unsigned char dcache[0x1000];
+static unsigned char dummy_page[0x10000];
+static unsigned char mem_handlers_inited = 0x1;
+unsigned int mem_read_hooks[0x10000];
+unsigned int mem_write_hooks[0x10000];
+static unsigned char pio_mem[0x20000];
+unsigned char ram[0x200000];
+unsigned int sio0_control_reg;
+
 int mem_clear_memory()
 {
     memset(ram, 0, 0x200000u);
@@ -464,15 +476,3 @@ int mem_unfreeze(int unused, uint32_t *gzf)
   gzread(gzf, pio_mem, 0x20000);
   return gzread(gzf, dcache, 4096);
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned int console_log_handle;
-unsigned char dcache[0x1000];
-unsigned char dummy_page[0x10000];
-unsigned char mem_handlers_inited = 0x1;
-unsigned int mem_read_hooks[0x10000];
-unsigned int mem_write_hooks[0x10000];
-unsigned char pio_mem[0x20000];
-unsigned char ram[0x200000];
-unsigned int sio0_control_reg;

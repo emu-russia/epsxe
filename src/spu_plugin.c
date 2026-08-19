@@ -1,4 +1,46 @@
 ﻿#include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+static unsigned int SPUabout;
+static int (__stdcall *SPUasync)();
+static int (__stdcall *SPUclose)();
+static unsigned int SPUconfigure;
+static int (__stdcall *SPUfreeze)();
+static int (__stdcall *SPUgetOne)();
+static int (__stdcall *SPUinit)();
+static int (__stdcall *SPUopen)();
+static int (__stdcall *SPUplayADPCMchannel)();
+static unsigned int SPUplaySample;
+static int (__stdcall *SPUputOne)();
+static int (__stdcall *SPUreadDMA)();
+static int (__stdcall *SPUreadDMAMem)();
+static int (__stdcall *SPUreadRegister)();
+static int (__stdcall *SPUregisterCallback)();
+static int (__stdcall *SPUsetAddr)();
+static int (__stdcall *SPUsetPitch)();
+static int (__stdcall *SPUsetVolumeL)();
+static int (__stdcall *SPUsetVolumeR)();
+static int (__stdcall *SPUshutdown)();
+static int (__stdcall *SPUstartChannels1)();
+static int (__stdcall *SPUstartChannels2)();
+static int (__stdcall *SPUstopChannels1)();
+static int (__stdcall *SPUstopChannels2)();
+static unsigned int SPUtest;
+static int (__stdcall *SPUupdate)();
+static int (__stdcall *SPUwriteDMA)();
+static int (__stdcall *SPUwriteDMAMem)();
+static int (__stdcall *SPUwriteRegister)();
+unsigned int Size[0x100];
+static unsigned char spu_plugin_closed_flag = 0x0;
+unsigned int spu_dma_chcr_ptr;
+static unsigned int spu_transfer_addr;
+static unsigned int hSpuModule = 0x0;
+unsigned char sound_enabled = 0x1;
+unsigned int spu_adpcm_flag = 0x1;
+static unsigned char spu_need_to_be_closed;
+static unsigned char spu_use_external_plugin = 0x1;
+static unsigned short spu_register_cache[0x200];
+
 char spu_load_plugin()
 {
   char status;
@@ -595,46 +637,3 @@ void spu_unfreeze(int unused, uint32_t *gzfile)
     dbg_print(" * SPU plugin doesn't support savestates. \n");
   }
 }
-
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned int SPUabout;
-int (__stdcall *SPUasync)();
-int (__stdcall *SPUclose)();
-unsigned int SPUconfigure;
-int (__stdcall *SPUfreeze)();
-int (__stdcall *SPUgetOne)();
-int (__stdcall *SPUinit)();
-int (__stdcall *SPUopen)();
-int (__stdcall *SPUplayADPCMchannel)();
-unsigned int SPUplaySample;
-int (__stdcall *SPUputOne)();
-int (__stdcall *SPUreadDMA)();
-int (__stdcall *SPUreadDMAMem)();
-int (__stdcall *SPUreadRegister)();
-int (__stdcall *SPUregisterCallback)();
-int (__stdcall *SPUsetAddr)();
-int (__stdcall *SPUsetPitch)();
-int (__stdcall *SPUsetVolumeL)();
-int (__stdcall *SPUsetVolumeR)();
-int (__stdcall *SPUshutdown)();
-int (__stdcall *SPUstartChannels1)();
-int (__stdcall *SPUstartChannels2)();
-int (__stdcall *SPUstopChannels1)();
-int (__stdcall *SPUstopChannels2)();
-unsigned int SPUtest;
-int (__stdcall *SPUupdate)();
-int (__stdcall *SPUwriteDMA)();
-int (__stdcall *SPUwriteDMAMem)();
-int (__stdcall *SPUwriteRegister)();
-unsigned int Size[0x100];
-unsigned char spu_plugin_closed_flag = 0x0;
-unsigned int spu_dma_chcr_ptr;
-unsigned int spu_transfer_addr;
-unsigned int hSpuModule = 0x0;
-unsigned char sound_enabled = 0x1;
-unsigned int spu_adpcm_flag = 0x1;
-unsigned char spu_need_to_be_closed;
-unsigned char spu_use_external_plugin = 0x1;
-unsigned short spu_register_cache[0x200];

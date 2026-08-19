@@ -1,5 +1,44 @@
 ﻿#include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+static DWORD (__stdcall *GetASPI32SupportInfo_cb)(void);
+static int ( *SendASPI32Command_cb)(LPSRB);
+unsigned char SubchannelW9xCaching;
+static unsigned char w9x_toc_buffer;
+static unsigned char w9x_toc_first_track;
+static unsigned char w9x_toc_last_track;
+static unsigned char w9x_toc_track_control[1];
+static unsigned char w9x_toc_track_entries[0x33a];
+static unsigned char cd_device_reserved0[1];
+unsigned char cd_device_product[0x10];
+static unsigned char cd_device_reserved1[1];
+static unsigned char cd_device_reserved2[1];
+static unsigned char cd_device_extra[0x14];
+static unsigned char cd_device_reserved3[1];
+unsigned int cdrom_haid = 0xffffffff;
+unsigned int cdrom_lun = 0xffffffff;
+unsigned int cdrom_target = 0xffffffff;
+static unsigned int w9x_play_cdb = 0x47;
+static unsigned int w9x_play_cdb2 = 0x0;
+static unsigned int w9x_stop_cdb = 0x4b;
+static unsigned int w9x_stop_cdb2 = 0x0;
+static unsigned int w9x_resume_cdb = 0x4b;
+static unsigned int w9x_resume_cdb2 = 0x0;
+unsigned int w9x_cdrom_info;
+static unsigned int w9x_cdda_playing;
+static unsigned int w9x_cdda_resume_pending;
+unsigned int cached_sector_lba;
+static unsigned int cd_device_vendor;
+static unsigned int cd_device_vendor2;
+static unsigned int cd_device_revision;
+unsigned int cd_device_haid;
+unsigned int cd_device_target;
+unsigned int cd_device_lun[0xf1];
+static unsigned short w9x_play_cdb3 = 0x0;
+static unsigned short w9x_stop_cdb3 = 0x0;
+static unsigned short w9x_resume_cdb3 = 0x1;
+
+
 /* static prototypes for internal functions */
 static int W9x_disable_subchannel_mode();
 static char W9x_read_cd_sectors(
@@ -1771,44 +1810,3 @@ char W9x_verify_subchannel_data(unsigned int minute, uint8_t second, uint8_t fra
   }
   return result;
 }
-
-
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-DWORD (__stdcall *GetASPI32SupportInfo_cb)(void);
-int ( *SendASPI32Command_cb)(LPSRB);
-unsigned char SubchannelW9xCaching;
-unsigned char w9x_toc_buffer;
-unsigned char w9x_toc_first_track;
-unsigned char w9x_toc_last_track;
-unsigned char w9x_toc_track_control[1];
-unsigned char w9x_toc_track_entries[0x33a];
-unsigned char cd_device_reserved0[1];
-unsigned char cd_device_product[0x10];
-unsigned char cd_device_reserved1[1];
-unsigned char cd_device_reserved2[1];
-unsigned char cd_device_extra[0x14];
-unsigned char cd_device_reserved3[1];
-unsigned int cdrom_haid = 0xffffffff;
-unsigned int cdrom_lun = 0xffffffff;
-unsigned int cdrom_target = 0xffffffff;
-unsigned int w9x_play_cdb = 0x47;
-unsigned int w9x_play_cdb2 = 0x0;
-unsigned int w9x_stop_cdb = 0x4b;
-unsigned int w9x_stop_cdb2 = 0x0;
-unsigned int w9x_resume_cdb = 0x4b;
-unsigned int w9x_resume_cdb2 = 0x0;
-unsigned int w9x_cdrom_info;
-unsigned int w9x_cdda_playing;
-unsigned int w9x_cdda_resume_pending;
-unsigned int cached_sector_lba;
-unsigned int cd_device_vendor;
-unsigned int cd_device_vendor2;
-unsigned int cd_device_revision;
-unsigned int cd_device_haid;
-unsigned int cd_device_target;
-unsigned int cd_device_lun[0xf1];
-unsigned short w9x_play_cdb3 = 0x0;
-unsigned short w9x_stop_cdb3 = 0x0;
-unsigned short w9x_resume_cdb3 = 0x1;

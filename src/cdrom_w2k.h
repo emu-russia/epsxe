@@ -2,30 +2,13 @@
 /* Decompiled globals (previously generated in src/_gen) */
 extern unsigned char SubchannelW2kCaching;
 extern unsigned char cd_speed;
-extern unsigned char scsi_port;
 extern unsigned char subchannel_mode_enabled;
-extern unsigned char scsi_target;
-extern unsigned char scsi_lun;
 extern unsigned char track_count;
-extern unsigned char w2k_toc_buffer;
-extern unsigned char w2k_toc_first_track;
-extern unsigned char w2k_toc_last_track;
-extern unsigned char w2k_toc_track_control[1];
-extern unsigned char w2k_toc_track_entries[0x31e];
 extern unsigned char cd_sector_cache[1];
 extern unsigned char cd_sector_cache_cont[0x924];
 extern unsigned char sub_q_cache[1];
 extern unsigned char sub_q_minute;
 extern unsigned char cdrom_letter;
-extern unsigned int w2k_resume_cdb;
-extern unsigned int w2k_resume_cdb2;
-extern unsigned int w2k_cdda_pause_pos;
-extern unsigned int w2k_play_cdb;
-extern unsigned int w2k_play_cdb2;
-extern unsigned int w2k_stop_cdb;
-extern unsigned int w2k_stop_cdb2;
-extern unsigned int w2k_cdda_playing;
-extern unsigned int w2k_cdda_resume_pending;
 extern unsigned int sub_q_sec_frame;
 extern unsigned int sub_q_asec_aframe;
 extern unsigned int sub_q_rest[0x10d1];
@@ -41,11 +24,7 @@ extern unsigned int sub_q_cur1;
 extern unsigned int sub_q_cur2;
 extern unsigned int sub_q_cur3;
 extern unsigned int cop0_bpc_value[0x9];
-extern unsigned int hObject;
 extern unsigned char sound_use_cdda;
-extern unsigned short w2k_resume_cdb3;
-extern unsigned short w2k_play_cdb3;
-extern unsigned short w2k_stop_cdb3;
 
 /* Function prototypes (previously generated in src/_gen) */
 HANDLE W2k_cdrom_deinit();

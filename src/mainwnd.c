@@ -1,5 +1,17 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char bin_iso_file[0x100];
+static unsigned char shift_key_pressed = 0x0;
+static unsigned int save_load_state_slot[1] = {0xffffffff};
+static unsigned int main_window_bitmap = 0x0;
+unsigned char g_bDisableMouse = 0x1;
+unsigned int g_hInstance;
+unsigned int g_hWnd = 0x0;
+static unsigned int h = 0x0;
+static MSG stru_8A94E0;
+
+
 static LRESULT __stdcall main_window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
   LRESULT ret;
@@ -710,15 +722,3 @@ void save_load_state()
     set_gpu_freeze_counter(freeze_counter);
   }
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char bin_iso_file[0x100];
-unsigned char shift_key_pressed = 0x0;
-unsigned int save_load_state_slot[1] = {0xffffffff};
-unsigned int main_window_bitmap = 0x0;
-unsigned char g_bDisableMouse = 0x1;
-unsigned int g_hInstance;
-unsigned int g_hWnd = 0x0;
-unsigned int h = 0x0;
-MSG stru_8A94E0;

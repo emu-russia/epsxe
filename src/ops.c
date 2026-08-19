@@ -1,5 +1,13 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char xenogears_cd_detected;
+unsigned int cop0_regs[1];
+unsigned int cop0_sr;
+unsigned int cop0_cause;
+unsigned int cop0_epc;
+
+
 static uint32_t op_jump_addr;
 static uint32_t op_imm;
 static uint32_t op_ofs;
@@ -1100,10 +1108,3 @@ void op_SYSCALL()
 void op_BREAK()
 {
 }
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char xenogears_cd_detected;
-unsigned int cop0_regs[1];
-unsigned int cop0_sr;
-unsigned int cop0_cause;
-unsigned int cop0_epc;

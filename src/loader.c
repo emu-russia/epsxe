@@ -1,4 +1,25 @@
 #include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char active_mini_cheat_count;
+unsigned char bios_image[0x80000];
+unsigned char bios_name[0x800];
+unsigned char cd_inc = 0x1;
+static unsigned int cheat_entries_count = 0x27;
+unsigned int country_setting;
+unsigned char default_filename[0x400];
+unsigned int mini_cheat_attr_array[1];
+static unsigned int mini_cheat_count = 0x4;
+unsigned int mini_cheat_id_array[0x1f];
+unsigned char noauto = 0x0;
+unsigned char nocdstatus;
+unsigned char old_timing = 0x0;
+unsigned char parasite_eve_cheat;
+unsigned char unknown_cd_setting;
+unsigned int video_scanlines = 0x106;
+unsigned char zip_entry_names[0x10000];
+unsigned int zip_num_entries_loaded;
+
 static char loader_mini_cheat_find(int id, int attr)
 {
   uint8_t count;
@@ -580,24 +601,3 @@ FILE * loader_load_cheat_file(char *FileName)
   }
   return fp;
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char active_mini_cheat_count;
-unsigned char bios_image[0x80000];
-unsigned char bios_name[0x800];
-unsigned char cd_inc = 0x1;
-unsigned int cheat_entries_count = 0x27;
-unsigned int country_setting;
-unsigned char default_filename[0x400];
-unsigned int mini_cheat_attr_array[1];
-unsigned int mini_cheat_count = 0x4;
-unsigned int mini_cheat_id_array[0x1f];
-unsigned char noauto = 0x0;
-unsigned char nocdstatus;
-unsigned char old_timing = 0x0;
-unsigned char parasite_eve_cheat;
-unsigned char unknown_cd_setting;
-unsigned int video_scanlines = 0x106;
-unsigned char zip_entry_names[0x10000];
-unsigned int zip_num_entries_loaded;

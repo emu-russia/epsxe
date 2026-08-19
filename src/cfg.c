@@ -1,5 +1,37 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+unsigned char CdromPlugin[0x400];
+unsigned short GamepadAxis[0x10];
+unsigned char IsoDirectory[0x400];
+unsigned short Keys1[10] = {0xcb, 0xcd, 0xc8, 0xd0, 0x20, 0x2d, 0x2c, 0x1f, 0x11, 0x12};
+static unsigned short Keys2[16] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+static unsigned short Keys3[16] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+unsigned short Keys4[16] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+unsigned char NetPlugin[0x400];
+unsigned char SoundPlugin[0x400];
+unsigned char SubchannelW2kCachingLG;
+unsigned char SubchannelW2kCdromEnabled;
+unsigned char SubchannelW9xCachingLG;
+unsigned char SubchannelW9xCdromEnabled;
+unsigned char VideoPlugin[0x400];
+unsigned char create_window_flag = 0x1;
+static unsigned int pad3_small_motor_type;
+unsigned int pad2_big_motor_type;
+static unsigned int pad3_big_motor_type;
+static unsigned int pad4_big_motor_type;
+unsigned int pad2_analog_mode_flag;
+unsigned int pad3_analog_mode_flag;
+unsigned int pad4_analog_mode_flag;
+unsigned int g_EffectType1[1];
+unsigned int g_PlayerDeviceMap2;
+unsigned int g_PlayerDeviceMap3;
+unsigned int mdec_disable;
+unsigned char setup_wizard_required = 0x0;
+unsigned char sound_use_xa;
+unsigned int version_setting;
+
+
 uint8_t console_allocated;
 
 static char cfg_get_value(LPCSTR lpSubKey, LPCSTR lpValueName, LPBYTE lpData)
@@ -492,35 +524,3 @@ int cfg_cdrom_iso_set_path()
 {
   return cfg_set_value("Software\\epsxe\\config", "IsoDirectory", (BYTE *)IsoDirectory);
 }
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char CdromPlugin[0x400];
-unsigned short GamepadAxis[0x10];
-unsigned char IsoDirectory[0x400];
-unsigned short Keys1[10] = {0xcb, 0xcd, 0xc8, 0xd0, 0x20, 0x2d, 0x2c, 0x1f, 0x11, 0x12};
-unsigned short Keys2[16] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-unsigned short Keys3[16] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-unsigned short Keys4[16] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-unsigned char NetPlugin[0x400];
-unsigned char SoundPlugin[0x400];
-unsigned char SubchannelW2kCachingLG;
-unsigned char SubchannelW2kCdromEnabled;
-unsigned char SubchannelW9xCachingLG;
-unsigned char SubchannelW9xCdromEnabled;
-unsigned char VideoPlugin[0x400];
-unsigned char create_window_flag = 0x1;
-unsigned int pad3_small_motor_type;
-unsigned int pad2_big_motor_type;
-unsigned int pad3_big_motor_type;
-unsigned int pad4_big_motor_type;
-unsigned int pad2_analog_mode_flag;
-unsigned int pad3_analog_mode_flag;
-unsigned int pad4_analog_mode_flag;
-unsigned int g_EffectType1[1];
-unsigned int g_PlayerDeviceMap2;
-unsigned int g_PlayerDeviceMap3;
-unsigned int mdec_disable;
-unsigned char setup_wizard_required = 0x0;
-unsigned char sound_use_xa;
-unsigned int version_setting;

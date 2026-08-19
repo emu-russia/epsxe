@@ -1,5 +1,48 @@
 #include "pch.h"
 
+/* Decompiled globals (previously generated in src/_gen) */
+static unsigned char mdec_coeff_buffer[0x5a00];
+static unsigned int mdec_mono_expand_value;
+static unsigned short mdec_bit15_flag;
+static unsigned char mdec_color_lookup[0x80];
+static unsigned int mdec_color_table_0[0x80];
+static unsigned int mdec_color_table_1[0x80];
+static unsigned int mdec_color_table_2[0x80];
+static unsigned int mdec_color_table_3[0x80];
+static unsigned int mdec_color_table_4[0x80];
+static unsigned int mdec_color_table_5[0x80];
+static unsigned int mdec_color_table_6[0x80];
+static unsigned int mdec_color_table_7[0x80];
+static unsigned int mdec_command;
+static unsigned int mdec_dma_dest;
+static unsigned int mdec_idct_buffer[0xb40];
+static unsigned char mdec_idct_buffer_end[0x1680];
+static unsigned int mdec_image_size;
+static unsigned int mdec_in_ptr;
+static unsigned char mdec_mono_table_0[0x100];
+static unsigned char mdec_mono_table_1[0x80];
+static unsigned char mdec_mono_table_2[0x100];
+static unsigned int mdec_nonzero_counts[0xb8];
+static unsigned int mdec_out_addr;
+static unsigned int mdec_param_word;
+static unsigned int mdec_scale_table[0x20];
+unsigned int mdec_status;
+static unsigned char mdec_timer;
+unsigned int mdec_timer_count;
+static unsigned int mdec_zigzag[13] = {0x0, 0x1, 0x8, 0x10, 0x9, 0x2, 0x3, 0xa, 0x11, 0x18, 0x20, 0x19, 0x12};
+static uint64_t qword_455C20 = 0x5a825a825a825a82;
+static uint64_t qword_455C28 = 0xcf04cf04cf04cf04;
+static uint64_t qword_455C30 = 0x7641764176417641;
+static uint64_t qword_455C38 = 0x896f896f896f896f;
+static uint64_t qword_455C40 = 0xcf04cf04cf04cf04;
+static uint64_t qword_455C50 = 0x59ba0000d24e59ba;
+static uint64_t qword_455C58 = 0x7168ea0c0000;
+static uint64_t qword_455C60 = 0xd24e59ba0000;
+static uint64_t qword_455C68 = 0x7168ea0c00007168;
+static uint64_t qword_455C70 = 0x80808080;
+static uint64_t qword_455C78 = 0xffffffff0000;
+
+
 /* ---------------------------------------------------------------------------
  * The decompiled MDEC code below used x86 MMX intrinsics (__m64, _m_paddw,
  * _m_pmulhw, ...).  They are reimplemented here as plain portable C helpers
@@ -1512,49 +1555,3 @@ static void mdec_y_to_mono(unsigned int *src, unsigned char *dst, int blocks)
   }
   while ( blocks );
 }
-
-
-
-
-
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned char mdec_coeff_buffer[0x5a00];
-unsigned int mdec_mono_expand_value;
-unsigned short mdec_bit15_flag;
-unsigned char mdec_color_lookup[0x80];
-unsigned int mdec_color_table_0[0x80];
-unsigned int mdec_color_table_1[0x80];
-unsigned int mdec_color_table_2[0x80];
-unsigned int mdec_color_table_3[0x80];
-unsigned int mdec_color_table_4[0x80];
-unsigned int mdec_color_table_5[0x80];
-unsigned int mdec_color_table_6[0x80];
-unsigned int mdec_color_table_7[0x80];
-unsigned int mdec_command;
-unsigned int mdec_dma_dest;
-unsigned int mdec_idct_buffer[0xb40];
-unsigned char mdec_idct_buffer_end[0x1680];
-unsigned int mdec_image_size;
-unsigned int mdec_in_ptr;
-unsigned char mdec_mono_table_0[0x100];
-unsigned char mdec_mono_table_1[0x80];
-unsigned char mdec_mono_table_2[0x100];
-unsigned int mdec_nonzero_counts[0xb8];
-unsigned int mdec_out_addr;
-unsigned int mdec_param_word;
-unsigned int mdec_scale_table[0x20];
-unsigned int mdec_status;
-unsigned char mdec_timer;
-unsigned int mdec_timer_count;
-unsigned int mdec_zigzag[13] = {0x0, 0x1, 0x8, 0x10, 0x9, 0x2, 0x3, 0xa, 0x11, 0x18, 0x20, 0x19, 0x12};
-uint64_t qword_455C20 = 0x5a825a825a825a82;
-uint64_t qword_455C28 = 0xcf04cf04cf04cf04;
-uint64_t qword_455C30 = 0x7641764176417641;
-uint64_t qword_455C38 = 0x896f896f896f896f;
-uint64_t qword_455C40 = 0xcf04cf04cf04cf04;
-uint64_t qword_455C50 = 0x59ba0000d24e59ba;
-uint64_t qword_455C58 = 0x7168ea0c0000;
-uint64_t qword_455C60 = 0xd24e59ba0000;
-uint64_t qword_455C68 = 0x7168ea0c00007168;
-uint64_t qword_455C70 = 0x80808080;
-uint64_t qword_455C78 = 0xffffffff0000;

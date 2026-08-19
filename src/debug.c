@@ -1,4 +1,14 @@
 ﻿#include "pch.h"
+
+/* Decompiled globals (previously generated in src/_gen) */
+int ( *cdrom_deinit_cb)();
+static unsigned char console_log_enabled;
+static unsigned char console_log_flush_pending;
+static unsigned char dynarec_active;
+static FILE *error_log_file;
+static unsigned int last_tick_count;
+int ( *spu_destroy_cb)();
+
 #include "debug.h"
 
 /** Console output handle, set by alloc_console(). */
@@ -184,12 +194,3 @@ void dump_log(FILE *Stream, const char *Format, ...)
         free(buf);
     }
 }
-
-/* Decompiled globals (previously generated in src/_gen) */
-int ( *cdrom_deinit_cb)();
-unsigned char console_log_enabled;
-unsigned char console_log_flush_pending;
-unsigned char dynarec_active;
-FILE *error_log_file;
-unsigned int last_tick_count;
-int ( *spu_destroy_cb)();
