@@ -6,7 +6,7 @@ static unsigned int audio_buffer_size_bytes = 0x4800;
 static unsigned int audio_sample_rate_mode = 0x3;
 static unsigned int audio_stereo_flag = 0x1;
 static unsigned char spu_gauss_kernel[10] = {0x1b, 0xe8, 0xea, 0x8a, 0xbb, 0xf6, 0xb0, 0x51, 0x19, 0xf1};
-static unsigned char spu_gauss_table;
+static unsigned char spu_gauss_table[0x8000];
 static unsigned char spu_xa_decoded_pcm[0x8004];
 static unsigned char spu_dsound_write_cursor;
 static unsigned char spu_xa_play_data[0x8000];

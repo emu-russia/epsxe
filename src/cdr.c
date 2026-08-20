@@ -769,6 +769,11 @@ int cdr_get_response_status()
     return (uint8_t)g_cdr_status_regs[62];
 }
 
+char cdr_get_response_byte()
+{
+  return g_cdr_response_fifo[g_cdr_response_index < g_cdr_response_size ? g_cdr_response_index : 0];
+}
+
 static void cdr_queue_response()
 {
   if ( g_cdr_status_regs[63] )

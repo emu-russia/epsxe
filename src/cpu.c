@@ -14,10 +14,8 @@ unsigned int scanline_counter;
 
 
 uint32_t cpu_opcode;
-uint32_t cpu_gpr[32];
-uint32_t cpu_HI;
-uint32_t cpu_LO;
-unsigned char *reg_pc;
+cpu_registers cpu_regs;
+unsigned char *reg_pc = (unsigned char *)&cpu_regs;
 
 int cpu_clear_regs()
 {

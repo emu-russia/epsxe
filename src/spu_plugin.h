@@ -14,8 +14,8 @@
 /** Uncompressed sizes of the ZIP entries loaded by the PLL loader, indexed by entry slot (filled in zip.c, read in loader.c). */
 extern unsigned int Size[0x100];
 
-/** Pointer to the SPU DMA channel (channel 4) CHCR register; read to determine the active DMA transfer mode. */
-extern unsigned int spu_dma_chcr_ptr;
+/** Pointer to the SPU DMA channel (channel 4) CHCR register slot; read to determine the active DMA transfer mode. */
+extern unsigned int *spu_dma_chcr_ptr;
 
 /** Master sound enable flag (1 = sound enabled); gates all SPU plugin and DMA activity. */
 extern unsigned char sound_enabled;

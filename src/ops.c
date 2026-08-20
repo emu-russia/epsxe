@@ -2,10 +2,6 @@
 
 /* Decompiled globals (previously generated in src/_gen) */
 unsigned char xenogears_cd_detected;
-unsigned int cop0_regs[1];
-unsigned int cop0_sr;
-unsigned int cop0_cause;
-unsigned int cop0_epc;
 
 
 static uint32_t op_jump_addr;
@@ -44,9 +40,8 @@ void op_LB()
     offset = cpu_opcode | 0xFFFF0000;
     op_ofs = offset;
   }
-  mem_hw_reg_read_byte(offset + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
+  value = mem_hw_reg_read_byte(offset + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
   rt = (uint8_t)op_rt;
-  value = (uint8_t)value;
   cpu_gpr[(uint8_t)op_rt] = (uint8_t)value;
   if ( (value & 0x80u) != 0 )
   {
@@ -58,7 +53,6 @@ void op_LB()
 void op_LBU()
 {
   unsigned int offset;
-  uint8_t value;
 
   offset = (uint16_t)cpu_opcode;
   op_rs = ((unsigned int)cpu_opcode >> 21) & 0x1F;
@@ -71,8 +65,7 @@ void op_LBU()
   }
   if ( (cpu_opcode & 0x1F0000) != 0 )
   {
-    mem_hw_reg_read_byte(offset + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
-    cpu_gpr[(uint8_t)op_rt] = value;
+    cpu_gpr[(uint8_t)op_rt] = (uint8_t)mem_hw_reg_read_byte(offset + cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F]);
   }
   else
   {
@@ -376,6 +369,19 @@ void op_ADDI()
 }
 
 void op_ADD()
+{
+  int rtValue;
+  int value;
+
+  op_rt = BYTE2(cpu_opcode) & 0x1F;
+  op_rs_0 = ((unsigned int)cpu_opcode >> 21) & 0x1F;
+  rtValue = cpu_gpr[BYTE2(cpu_opcode) & 0x1F];
+  op_rd = ((unsigned int)cpu_opcode >> 11) & 0x1F;
+  value = cpu_gpr[((unsigned int)cpu_opcode >> 21) & 0x1F] + rtValue;
+  cpu_gpr[(uint16_t)cpu_opcode >> 11] = value;
+}
+
+void op_ADDU()
 {
   int rtValue;
   int value;

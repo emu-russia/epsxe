@@ -23,8 +23,6 @@ static unsigned int recomp_special_flags;
 unsigned int rcnt2_mode;
 unsigned int rcnt2_compare;
 static unsigned int cpu_recomp_state[0xb];
-unsigned int int_mask;
-unsigned int int_reg[1];
 static unsigned int patch_offset_ptr;
 unsigned int recomp_buffer;
 unsigned int recomp_code_base;

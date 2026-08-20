@@ -24,13 +24,13 @@ extern unsigned char subchannel_mode_enabled;
 extern unsigned char track_count;
 
 /** \brief Base of the 8-sector data cache buffer (one sector = 2352 bytes). */
-extern unsigned char cd_sector_cache[1];
+extern unsigned char cd_sector_cache[0x5000];
 
 /** \brief Continuation of the 8-sector data cache buffer beyond the first sector. */
 extern unsigned char cd_sector_cache_cont[0x924];
 
 /** \brief Raw Q-subchannel bytes cache (one 16-byte entry per cached sector). */
-extern unsigned char sub_q_cache[1];
+extern unsigned char sub_q_cache[0x5000];
 
 /** \brief Cached Q-subchannel absolute-minute (BCD) value. */
 extern unsigned char sub_q_minute;
@@ -48,7 +48,7 @@ extern unsigned int sub_q_asec_aframe;
 extern unsigned int sub_q_rest[0x10d1];
 
 /** \brief Q-subchannel block cache holding 8 sectors x 16 bytes of Q data. */
-extern unsigned int sub_q_block_cache[1];
+extern unsigned int sub_q_block_cache[32];
 
 /** \brief Second 32-bit word of the current Q-subchannel block entry (alias of sub_q_block_cache[1]). */
 extern unsigned int sub_q_block_cache1;

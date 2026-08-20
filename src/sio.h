@@ -110,13 +110,15 @@ char sio_memcard_both_save();
  */
 char sio_memcard_load();
 /**
- * \brief Advances the SIO receive state and triggers the RX-ready IRQ when a transfer is pending.
+ * \brief Reads the next received SIO byte and advances the receive state.
  *
  * Clears sio_transfer_pending and asserts the RX-ready IRQ if a transfer is
  * pending and has not expired, then updates the received-byte counter and
  * clears the RX-full bit when the buffer has been fully read.
+ *
+ * \return The next received byte from the SIO RX buffer.
  */
-void sio_read_data_byte();
+char sio_read_data_byte();
 /**
  * \brief Reads an SIO0 (JOY) register.
  *

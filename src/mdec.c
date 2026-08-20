@@ -13,7 +13,10 @@ static unsigned int mdec_color_table_4[0x80];
 static unsigned int mdec_color_table_5[0x80];
 static unsigned int mdec_color_table_6[0x80];
 static unsigned int mdec_color_table_7[0x80];
-static unsigned int mdec_command;
+/* MDEC command/state block (0x60 bytes, the "MDE" savestate chunk); the
+ * decompiler had declared mdec_command as a value and dereferenced it. */
+mdec_registers mdec_regs;
+static unsigned int *mdec_command = &mdec_regs.command;
 static unsigned int mdec_dma_dest;
 static unsigned int mdec_idct_buffer[0xb40];
 static unsigned char mdec_idct_buffer_end[0x1680];

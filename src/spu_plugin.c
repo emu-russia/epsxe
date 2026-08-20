@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 
 /* Decompiled globals (previously generated in src/_gen) */
 static unsigned int SPUabout;
@@ -32,7 +32,9 @@ static int (__stdcall *SPUwriteDMAMem)();
 static int (__stdcall *SPUwriteRegister)();
 unsigned int Size[0x100];
 static unsigned char spu_plugin_closed_flag = 0x0;
-unsigned int spu_dma_chcr_ptr;
+/* SPU DMA CHCR slot (decompile artifact: used as a pointer, was declared as a value). */
+static unsigned int spu_dma_chcr_storage;
+unsigned int *spu_dma_chcr_ptr = &spu_dma_chcr_storage;
 static unsigned int spu_transfer_addr;
 static unsigned int hSpuModule = 0x0;
 unsigned char sound_enabled = 0x1;

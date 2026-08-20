@@ -121,6 +121,11 @@ void op_DIVU();
 void op_ADD();
 
 /**
+ * \brief Executes the MIPS ADDU instruction (unsigned add).
+ */
+void op_ADDU();
+
+/**
  * \brief Executes the MIPS SUB instruction.
  */
 void op_SUB();
@@ -337,14 +342,5 @@ void op_UNKNOWN();
 /** \brief Set by the CD-ROM layer when a Xenogears disc is detected; used by op_MTC0 for a BPC register workaround. */
 extern unsigned char xenogears_cd_detected;
 
-/** \brief Register file of Coprocessor 0 (system control). */
-extern unsigned int cop0_regs[1];
-
-/** \brief COP0 Status Register. */
-extern unsigned int cop0_sr;
-
-/** \brief COP0 Cause Register. */
-extern unsigned int cop0_cause;
-
-/** \brief COP0 Exception Program Counter. */
-extern unsigned int cop0_epc;
+/* cop0_regs, cop0_sr, cop0_cause and cop0_epc are now macros for members of
+ * the cpu_registers context declared in regctx.h. */

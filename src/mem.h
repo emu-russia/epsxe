@@ -87,15 +87,16 @@ unsigned int mem_gpu_dma_read(unsigned int addr);
 void mem_gpu_dma_write(unsigned int addr, unsigned int value);
 
 /**
- * \brief Handles a byte read from the hardware register area.
+ * \brief Reads a byte from the hardware register area (or general memory).
  *
- * Emulates the side effects of reading CD-ROM, SIO and DMA registers
- * (advancing response indices, consuming SIO bytes, etc.) and logs
- * unknown registers.
+ * Performs the side effects of reading CD-ROM, SIO and DMA registers
+ * (advancing response indices, consuming SIO bytes, etc.), logs unknown
+ * registers, and returns the value read.
  *
  * \param addr Address of the hardware register.
+ * \return The byte read (0 for unknown/unimplemented registers).
  */
-void mem_hw_reg_read_byte(unsigned int addr);
+int mem_hw_reg_read_byte(unsigned int addr);
 
 /**
  * \brief Handles a byte write to a hardware register.

@@ -17,7 +17,7 @@ static OPCODE cpu_special_opcode_table[64] = {
     /* 0x14 */ op_UNKNOWN,  /* 0x15 */ op_UNKNOWN, /* 0x16 */ op_UNKNOWN,  /* 0x17 */ op_UNKNOWN,
     /* 0x18 */ op_MULT,     /* 0x19 */ op_MULTU,   /* 0x1A */ op_DIV,      /* 0x1B */ op_DIVU,
     /* 0x1C */ op_UNKNOWN,  /* 0x1D */ op_UNKNOWN, /* 0x1E */ op_UNKNOWN,  /* 0x1F */ op_UNKNOWN,
-    /* 0x20 */ op_ADD,      /* 0x21 */ op_ADDI,    /* 0x22 */ op_SUB,      /* 0x23 */ op_SUB,
+    /* 0x20 */ op_ADD,      /* 0x21 */ op_ADDU,    /* 0x22 */ op_SUB,      /* 0x23 */ op_SUB,
     /* 0x24 */ op_AND,      /* 0x25 */ op_OR,      /* 0x26 */ op_XOR,      /* 0x27 */ op_NOR,
     /* 0x28 */ op_UNKNOWN,  /* 0x29 */ op_UNKNOWN, /* 0x2A */ op_SLT,      /* 0x2B */ op_SLTU,
     /* 0x2C */ op_UNKNOWN,  /* 0x2D */ op_UNKNOWN, /* 0x2E */ op_UNKNOWN,  /* 0x2F */ op_UNKNOWN,

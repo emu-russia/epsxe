@@ -1,16 +1,19 @@
 #include "pch.h"
 
 /* Decompiled globals (previously generated in src/_gen) */
-unsigned int sio_irq_timeout;
-unsigned int sio_irq_delay_time;
-unsigned int rcnt_target[1];
-unsigned int rcnt_compare[1];
-static unsigned int irq_hw_regs_a[1];
-static unsigned int irq_hw_regs_b[1];
-static unsigned int irq_hw_regs_c[1];
+irq_registers irq_state;
+unsigned int *int_reg = &irq_state.int_reg;
+unsigned int *sio_irq_timeout = &irq_state.sio_irq_timeout;
+unsigned int *sio_irq_delay_time = &irq_state.sio_irq_delay_time;
+unsigned int *sio_irq_pending = &irq_state.sio_irq_pending;
+unsigned int rcnt_target[16];
+unsigned int rcnt_compare[16];
+static unsigned int irq_hw_regs_a[0x4d];
+static unsigned int irq_hw_regs_b[0x4d];
+static unsigned int irq_hw_regs_c[0x4d];
 static unsigned int irq_hw_regs_d[0x4d];
-static unsigned int irq_hw_regs_e[1];
-static unsigned int irq_hw_regs_f[1];
+static unsigned int irq_hw_regs_e[0x2e];
+static unsigned int irq_hw_regs_f[0x2e];
 static unsigned int irq_hw_regs_g[0x2e];
 static unsigned int sio_transfer_timeout_saved;
 static unsigned int sio_pending_time_saved;

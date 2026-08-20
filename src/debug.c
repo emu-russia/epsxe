@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 
 /* Decompiled globals (previously generated in src/_gen) */
 int ( *cdrom_deinit_cb)();
@@ -194,3 +194,149 @@ void dump_log(FILE *Stream, const char *Format, ...)
         free(buf);
     }
 }
+
+#ifdef _DEBUG
+#include <dbghelp.h>
+#pragma comment(lib, "dbghelp.lib")
+#include <crtdbg.h>
+#include <rtcapi.h>
+
+/*
+ * Debug-build crash reporter (issue #28 debugging session).
+ * Writes the exception and a symbolized stack trace to "crash.log"
+ * in the working directory, then terminates the process.
+ */
+
+/* Log /RTC run-time-check failures (uninitialized variable reads etc.)
+ * instead of popping the "Microsoft Visual C++ Runtime Library" dialog. */
+static int __cdecl epsxe_rtc_error_func(int errorType, const char *filename, int linenumber)
+{
+    void *frames[16];
+    USHORT nframes = RtlCaptureStackBackTrace(0, 16, frames, NULL);
+    HANDLE process = GetCurrentProcess();
+    FILE *f = fopen("rtc.log", "a");
+    if (f) {
+        int i;
+        fprintf(f, "RTC error %d at %s:%d\n", errorType, filename ? filename : "?", linenumber);
+        for (i = 2; i < (int)nframes; ++i) {
+            char symbuf[sizeof(SYMBOL_INFO) + 1024];
+            SYMBOL_INFO *sym = (SYMBOL_INFO *)symbuf;
+            DWORD64 disp = 0;
+            if ((ULONG_PTR)frames[i] < 0x10000)
+                break;
+            sym->SizeOfStruct = sizeof(SYMBOL_INFO);
+            sym->MaxNameLen = 1024;
+            if (SymFromAddr(process, (DWORD64)(ULONG_PTR)frames[i], &disp, sym))
+                fprintf(f, "  0x%08llX  %s+0x%llX\n", (DWORD64)(ULONG_PTR)frames[i], sym->Name, disp);
+            else
+                fprintf(f, "  0x%08llX\n", (DWORD64)(ULONG_PTR)frames[i]);
+        }
+        fclose(f);
+    }
+    return 0; /* continue execution instead of showing the dialog */
+}
+
+/* Log invalid CRT parameters (memcpy size etc.) instead of popping the
+ * "Microsoft Visual C++ Runtime Library - Runtime Error!" dialog. */
+static void __cdecl epsxe_invalid_parameter_handler(
+    const wchar_t *expression, const wchar_t *function,
+    const wchar_t *file, unsigned int line, uintptr_t reserved)
+{
+    FILE *f = fopen("crash.log", "a");
+    if (f) {
+        fprintf(f, "=== Invalid CRT parameter ===\n");
+        if (expression) fprintf(f, "Expression: %ls\n", expression);
+        if (function)   fprintf(f, "Function:   %ls\n", function);
+        if (file)       fprintf(f, "File:       %ls:%u\n", file, line);
+        else            fprintf(f, "File:       <unknown>:%u\n", line);
+        fclose(f);
+    }
+    _set_invalid_parameter_handler(epsxe_invalid_parameter_handler);
+}
+static LONG WINAPI epsxe_crash_handler(struct _EXCEPTION_POINTERS *ep)
+{
+    HANDLE process = GetCurrentProcess();
+    HANDLE thread = GetCurrentThread();
+    FILE *f;
+    STACKFRAME64 frame;
+    CONTEXT context;
+    DWORD machine = IMAGE_FILE_MACHINE_I386;
+    int depth = 0;
+
+    f = fopen("crash.log", "a");
+    if (f) {
+        fprintf(f, "=== ePSXe crash at %lu ===\n", (unsigned long)GetTickCount());
+        fprintf(f, "Exception code: 0x%08lX\n", (unsigned long)ep->ExceptionRecord->ExceptionCode);
+        fprintf(f, "Faulting address: 0x%08lX\n", (unsigned long)ep->ExceptionRecord->ExceptionAddress);
+        fflush(f);
+    }
+
+    context = *ep->ContextRecord;
+
+    SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES);
+    SymInitialize(process, NULL, TRUE);
+
+    memset(&frame, 0, sizeof(frame));
+    frame.AddrPC.Offset = context.Eip;
+    frame.AddrPC.Mode = AddrModeFlat;
+    frame.AddrFrame.Offset = context.Ebp;
+    frame.AddrFrame.Mode = AddrModeFlat;
+    frame.AddrStack.Offset = context.Esp;
+    frame.AddrStack.Mode = AddrModeFlat;
+
+    if (f)
+        fprintf(f, "Stack trace:\n");
+    while (StackWalk64(machine, process, thread, &frame, &context, NULL,
+                       SymFunctionTableAccess64, SymGetModuleBase64, NULL)) {
+        DWORD64 addr = frame.AddrPC.Offset;
+        char symbuf[sizeof(SYMBOL_INFO) + 1024];
+        SYMBOL_INFO *sym = (SYMBOL_INFO *)symbuf;
+        DWORD64 disp = 0;
+        IMAGEHLP_LINE64 line;
+        DWORD ldisp = 0;
+
+        if (addr == 0)
+            break;
+        sym->SizeOfStruct = sizeof(SYMBOL_INFO);
+        sym->MaxNameLen = 1024;
+        if (f) {
+            if (SymFromAddr(process, addr, &disp, sym)) {
+                fprintf(f, "  0x%08llX  %s+0x%llX", addr, sym->Name, disp);
+                memset(&line, 0, sizeof(line));
+                line.SizeOfStruct = sizeof(line);
+                if (SymGetLineFromAddr64(process, addr, &ldisp, &line))
+                    fprintf(f, "  [%s:%lu]", line.FileName, line.LineNumber);
+                fprintf(f, "\n");
+            } else {
+                fprintf(f, "  0x%08llX\n", addr);
+            }
+            fflush(f);
+        }
+        if (++depth >= 32)
+            break;
+    }
+
+    if (f)
+        fclose(f);
+    SymCleanup(process);
+    fflush(stdout);
+    TerminateProcess(process, 0xC0000005u);
+    return EXCEPTION_EXECUTE_HANDLER;
+}
+
+void install_crash_handler(void)
+{
+    /* Redirect debug-CRT error/assertion reports (heap corruption, asserts)
+     * from the modal dialog to stderr so the session does not block on a
+     * "Runtime Error!" message box. */
+    _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG);
+    _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
+    _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG);
+    _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
+    _set_invalid_parameter_handler(epsxe_invalid_parameter_handler);
+    _RTC_SetErrorFunc(epsxe_rtc_error_func);
+    SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES);
+    SymInitialize(GetCurrentProcess(), NULL, TRUE);
+    SetUnhandledExceptionFilter(epsxe_crash_handler);
+}
+#endif

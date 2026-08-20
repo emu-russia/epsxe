@@ -569,6 +569,10 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
   int argc;
   uint32_t argv[256];
 
+#ifdef _DEBUG
+  install_crash_handler();
+#endif
+
   cmdline_len = (unsigned int)strlen(lpCmdLine) + 1;
   argc = 1;
   cmdline_end = cmdline_len - 1;

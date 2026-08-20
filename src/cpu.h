@@ -13,17 +13,11 @@
 /** \brief The opcode currently being decoded/executed by the interpreter. */
 extern uint32_t cpu_opcode;
 
-/** \brief The 32 general-purpose registers of the MIPS CPU. */
-extern uint32_t cpu_gpr[32];
+/* Note: the CPU register state (cpu_gpr, cpu_HI, cpu_LO, cop0_regs, cop0_sr,
+ * cop0_cause, cop0_epc, reg_pc) now lives in the cpu_registers context
+ * declared in regctx.h; cpu_gpr/cpu_HI/cpu_LO/cop0_* are macros for the
+ * corresponding struct members there. */
 
-/** \brief HI register: high word of multiply/divide results. */
-extern uint32_t cpu_HI;
-
-/** \brief LO register: low word of multiply/divide results. */
-extern uint32_t cpu_LO;
-
-/** \brief Pointer to the current program counter (PC); the 32-bit value it points to is the PC, with the low/high 16-bit halves indexing the memory hook tables. */
-extern unsigned char *reg_pc;
 /* Decompiled globals (previously generated in src/_gen) */
 
 /** \brief Counts scanline updates to pace the SPU async update callback (fired every 32 updates). */

@@ -14,29 +14,28 @@
 /** \brief 64 KB mirror of the PlayStation hardware register space. */
 extern unsigned char hw_regs[0x10000];
 
-/** \brief Flag indicating a pending SIO interrupt. */
-extern unsigned int sio_irq_pending;
+/* sio_irq_pending is now a pointer into the irq_registers context (regctx.h). */
 
 /** \brief DMA interrupt control register (DICR). */
 extern unsigned int dma_int_ctrl;
 
 /** \brief Current count values of the root counters (PSX timers). */
-extern unsigned int rcnt_counter[1];
+extern unsigned int rcnt_counter[16];
 
 /** \brief Mode registers of the root counters (PSX timers). */
-extern unsigned int rcnt_mode[1];
+extern unsigned int rcnt_mode[16];
 
 /** \brief DMA channel status/control register values (DPCR/CHCR). */
-extern unsigned int dma_channel_status[1];
+extern unsigned int dma_channel_status[2];
 
 /** \brief Control register of the CD-ROM DMA channel (CD CHCR). */
 extern unsigned int g_cdr_dma_channel_control;
 
-/** \brief Pointer (stored as an unsigned int) to the saved-state buffer for the hardware registers. */
-extern unsigned int hw_saved_state;
+/** \brief Pointer to the saved-state buffer for the hardware registers (points into a static 4-byte slot). */
+extern unsigned int *hw_saved_state;
 
-/** \brief Status value of DMA channel 6 (GPU DMA). */
-extern unsigned int gpu_dma6_status;
+/** \brief Pointer to the status value of DMA channel 6 (GPU DMA). */
+extern unsigned int *gpu_dma6_status;
 
 /** \brief Counter of emulated timing ticks since the last frame; used for timer and IRQ timing. */
 extern unsigned int hw_update_counter;
@@ -44,8 +43,8 @@ extern unsigned int hw_update_counter;
 /** \brief MDEC DMA control register values (CHCR). */
 extern unsigned int mdec_dma_control[1];
 
-/** \brief MDEC DMA source address register values (MADR). */
-extern unsigned int mdec_dma_src[1];
+/** \brief MDEC DMA source address register values (MADR), one per mode (0x60-byte save chunk). */
+extern unsigned int mdec_dma_src[0x18];
 
 /** \brief Status of the MDEC DMA. */
 extern unsigned int mdec_dma_status;

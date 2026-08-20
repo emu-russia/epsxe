@@ -67,6 +67,13 @@ int cdr_freeze(const char *tag, int gz_file);
 int cdr_get_response_status();
 
 /**
+ * \brief Returns the next byte from the CD response FIFO.
+ *
+ * \return The response byte at the current FIFO read position.
+ */
+char cdr_get_response_byte();
+
+/**
  * \brief Forces the CD response status to the given value.
  *
  * Sets the response status register and prepares a one-byte response in

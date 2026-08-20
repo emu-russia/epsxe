@@ -54,31 +54,33 @@ void mem_init_memory_handlers()
   dbg_print_no_flush(" * Memory handlers init. \n");
 }
 
-void mem_hw_reg_read_byte(unsigned int addr)
+int mem_hw_reg_read_byte(unsigned int addr)
 {
+  int value;
+
   hw_update_counter -= 4;
-  if ( (addr & 0x1FC00000) != 0x1F800000 || (uint16_t)addr < 0x1000u )
-    return;
+  if ( (addr & 0x1FC00000) != 0x1F800000 )
+    return *(uint8_t *)((uint16_t)addr + mem_read_hooks[HIWORD(addr)]);
+  if ( (uint16_t)addr < 0x1000u )
+    return dcache[addr & 0xFFF];
   if ( addr >= 0x1F801C00 && addr <= 0x1F801EEF )
-  {
-    spu_read_register_cb(addr);
-    return;
-  }
+    return (uint8_t)spu_read_register_cb(addr);
   if ( addr > PSX_REG_CD_RESPONSE )
   {
     if ( addr == PSX_REG_CD_DATA )
     {
       ++g_cdr_data_bytes_transferred;
-      return;
+      return 0;
     }
     if ( addr == PSX_REG_CD_INT )
-      return;
+      return 0;
 LABEL_19:
     dump_log(console_log_handle, "REG %s [%08x] -> %08x sizeof(%d)\n", "UNK", addr, 0, 1);
-    return;
+    return 0;
   }
   if ( addr == PSX_REG_CD_RESPONSE )
   {
+    value = cdr_get_response_byte();
     if ( (uint8_t)g_cdr_response_index < (uint8_t)g_cdr_response_size )
     {
       if ( g_cdr_irq_pending )
@@ -87,15 +89,13 @@ LABEL_19:
           g_cdr_irq_pending = 0;
       }
     }
-    return;
+    return value;
   }
   if ( addr == PSX_REG_JOY_DATA )
-  {
-    sio_read_data_byte();
-    return;
-  }
+    return (uint8_t)sio_read_data_byte();
   if ( addr != PSX_REG_DMA_ICR + 2 && addr != PSX_REG_CD_INDEX_STATUS )
     goto LABEL_19;
+  return 0;
 }
 
 int16_t mem_read_half(unsigned int addr)

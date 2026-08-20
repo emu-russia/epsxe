@@ -131,3 +131,15 @@ void ui_error(const char *Format, ...);
  * \param ...    Format arguments.
  */
 void fatal_error_with_message_box(const char *Format, ...);
+
+#ifdef _DEBUG
+/**
+ * \brief Installs an unhandled-exception filter that logs crashes to crash.log.
+ *
+ * Debug-build aid used during the runtime-stabilization pass: on an
+ * unhandled exception it writes the exception code, faulting address
+ * and a symbolized stack trace to "crash.log" in the working directory,
+ * then terminates the process. It does not run in release builds.
+ */
+void install_crash_handler(void);
+#endif

@@ -24,11 +24,8 @@ extern unsigned int rcnt2_mode;
 /** \brief Compare/target value of root counter 2. */
 extern unsigned int rcnt2_compare;
 
-/** \brief Interrupt mask register (I_MASK). */
-extern unsigned int int_mask;
-
-/** \brief Interrupt status register (I_STAT), accessed through this pointer. */
-extern unsigned int int_reg[1];
+/* int_reg and int_mask now live in the irq_registers context declared in
+ * regctx.h: int_reg is a pointer into it, int_mask is a macro for the member. */
 
 /** \brief Start of the recompiler's code buffer, where generated x86 code is written. */
 extern unsigned int recomp_buffer;

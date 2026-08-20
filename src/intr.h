@@ -11,17 +11,14 @@
 
 /* Decompiled globals (previously generated in src/_gen) */
 
-/** \brief Cycle count at which a pending SIO interrupt fires. */
-extern unsigned int sio_irq_timeout;
-
-/** \brief Delay in cycles before the SIO interrupt becomes pending. */
-extern unsigned int sio_irq_delay_time;
+/* sio_irq_timeout, sio_irq_delay_time, sio_irq_pending and int_reg are now
+ * pointers into the irq_registers context declared in regctx.h. */
 
 /** \brief Target register values of the root counters (PSX timers). */
-extern unsigned int rcnt_target[1];
+extern unsigned int rcnt_target[16];
 
 /** \brief Compare register values of the root counters (PSX timers). */
-extern unsigned int rcnt_compare[1];
+extern unsigned int rcnt_compare[16];
 
 /* Function prototypes (previously generated in src/_gen) */
 

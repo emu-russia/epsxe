@@ -32,7 +32,7 @@ unsigned char pad_analog_mode_flags[8];
 static unsigned char rumble_big_motor_state[8];
 static unsigned char rumble_small_motor_state[8];
 unsigned int sio0_mode_reg;
-static unsigned char sio_config_data[19] = {0x1, 0xf3, 0x5a, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xff, 0xf3, 0x5a, 0x1, 0x2, 0x0, 0x2};
+static unsigned char sio_config_data[36] = {0x1, 0xf3, 0x5a, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xff, 0xf3, 0x5a, 0x1, 0x2, 0x0, 0x2};
 static unsigned char sio_controller_response_alt[1];
 static unsigned char sio_controller_response_buffer[1];
 static unsigned char sio_controller_slot_index;
@@ -924,31 +924,31 @@ void sio_trigger_rx_ready_irq()
   LOWORD(sio0_mode_reg) = sio0_mode_reg | 0x202;
 }
 
-void sio_read_data_byte()
+char sio_read_data_byte()
 {
+  char rx_byte;
+
   if ( sio_transfer_pending && hw_update_counter < (unsigned int)sio_transfer_timeout )
   {
     sio_transfer_pending = 0;
     sio_trigger_rx_ready_irq();
   }
+  rx_byte = sio_tx_fifo[(uint8_t)sio_tx_fifo[259] + 3];
   if ( sio_tx_fifo[259] != (uint8_t)sio_rx_fifo_count && ++sio_tx_fifo[259] == (uint8_t)sio_rx_fifo_count )
     LOBYTE(sio0_mode_reg) = sio0_mode_reg & 0xFD;
+  return rx_byte;
 }
 
 static int16_t sio_read_halfword(int address)
 {
-  char hi_byte;
   int16_t value;
-  char lo_byte;
   int16_t reg_value;
 
   switch ( address )
   {
     case PSX_REG_JOY_DATA:
-      sio_read_data_byte();
-      HIBYTE(value) = hi_byte;
-      sio_read_data_byte();
-      LOBYTE(value) = lo_byte;
+      HIBYTE(value) = sio_read_data_byte();
+      LOBYTE(value) = sio_read_data_byte();
       reg_value = value;
       break;
     case PSX_REG_JOY_STATUS:
@@ -980,22 +980,18 @@ static int16_t sio_read_halfword(int address)
 
 static int sio_read_word(int address)
 {
-  char byte1;
   uint16_t word;
-  char byte2;
   uint8_t byte3;
   int value;
   uint8_t byte4;
 
   if ( address == PSX_REG_JOY_DATA )
   {
-    sio_read_data_byte();
-    HIBYTE(word) = byte1;
-    sio_read_data_byte();
-    LOBYTE(word) = byte2;
-    sio_read_data_byte();
+    HIBYTE(word) = sio_read_data_byte();
+    LOBYTE(word) = sio_read_data_byte();
+    byte3 = sio_read_data_byte();
     value = (byte3 | (word << 8)) << 8;
-    sio_read_data_byte();
+    byte4 = sio_read_data_byte();
     return value | byte4;
   }
   else if ( address == PSX_REG_JOY_STATUS )

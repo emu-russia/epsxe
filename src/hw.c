@@ -2,21 +2,27 @@
 
 /* Decompiled globals (previously generated in src/_gen) */
 unsigned char hw_regs[0x10000];
-unsigned int sio_irq_pending;
 unsigned int dma_int_ctrl;
-unsigned int rcnt_counter[1];
-unsigned int rcnt_mode[1];
-unsigned int dma_channel_status[1];
+unsigned int rcnt_counter[16];
+unsigned int rcnt_mode[16];
+unsigned int dma_channel_status[2];
 static unsigned int mdec_dma_bcr[1];
 unsigned int g_cdr_dma_channel_control;
 static unsigned int pio_dma_chcr;
 static unsigned int dma6_madr;
 static unsigned int dma6_bcr;
-unsigned int hw_saved_state;
-unsigned int gpu_dma6_status;
+/* Backing storage for the hardware-register save-state slot (hw_saved_state
+ * is a pointer to it; the decompiler had left it as a raw unsigned int, which
+ * made select_plugins_backend() write through a NULL pointer - issue #28). */
+static unsigned int hw_saved_state_storage;
+unsigned int *hw_saved_state = &hw_saved_state_storage;
+/* Backing storage for the GPU DMA channel 6 status slot (same decompile
+ * artifact: used as a pointer, was declared as a value). */
+static unsigned int gpu_dma6_status_storage;
+unsigned int *gpu_dma6_status = &gpu_dma6_status_storage;
 unsigned int hw_update_counter;
 unsigned int mdec_dma_control[1];
-unsigned int mdec_dma_src[1];
+unsigned int mdec_dma_src[0x18];
 unsigned int mdec_dma_status;
 unsigned int mdec_param_count;
 
@@ -322,10 +328,8 @@ LABEL_34:
           LOWORD(value) = *(uint16_t *)&hw_regs[(uint16_t)addr];
           break;
         case PSX_REG_JOY_DATA:
-          sio_read_data_byte();
-          HIBYTE(sio_val) = sio_byte;
-          sio_read_data_byte();
-          LOBYTE(sio_val) = value;
+          HIBYTE(sio_val) = sio_read_data_byte();
+          LOBYTE(sio_val) = sio_read_data_byte();
           LOWORD(value) = sio_val;
           break;
         case PSX_REG_JOY_STATUS:
