@@ -802,7 +802,7 @@ static int spucore_write_voice_reg(int voice, int reg, uint16_t value)
       *(uint32_t *)((char *)&spu_voice_param[0].adsr_release_mode + scratch) = sustain_idx;
       sustain_val = spu_adsr_sustain_level_table[sustain_idx];
       *(uint32_t *)((char *)&spu_voice_param[0].adsr_sustain_level + scratch) = decay_shift;
-      *(int32_t *)((char *)&spu_voice_param[0].pitch_mod_param2 + scratch) = -HIDWORD(scratch);
+      *(int32_t *)((char *)&spu_voice_param[0].pitch_mod_param2 + scratch) = -(int)HIDWORD(scratch);
       *(uint32_t *)((char *)&spu_voice_param[0].unknown47 + scratch) = sustain_val;
       break;
     case 10:
@@ -818,8 +818,8 @@ static int spucore_write_voice_reg(int voice, int reg, uint16_t value)
       *(uint32_t *)((char *)&spu_voice_param[0].loop_start_addr + scratch) = sustain_shift;
       *(uint32_t *)((char *)&spu_voice_param[0].pitch_mod_factor + scratch) = release_shift;
       if ( !sustain_inc )
-        HIDWORD(scratch) = -HIDWORD(scratch);
-      release_rate = -spu_adsr_release_rate_table[release_shift];
+        HIDWORD(scratch) = -(int)HIDWORD(scratch);
+      release_rate = -(int)spu_adsr_release_rate_table[release_shift];
       spu_voice_param[voice].unknown48 = HIDWORD(scratch);
       spu_voice_param[voice].unknown49 = release_rate;
       break;
@@ -1559,14 +1559,14 @@ int spucore_unfreeze(int unused, uint32_t *file)
             p_adsr_lower[18] = release_shift;
             if ( sustain_dir )
             {
-              sustain_rate = -spu_adsr_sustain_rate_table[sustain_shift];
-              release_rate = -spu_adsr_release_rate_table[release_shift];
+              sustain_rate = -(int)spu_adsr_sustain_rate_table[sustain_shift];
+              release_rate = -(int)spu_adsr_release_rate_table[release_shift];
               p_adsr_lower[68] = sustain_rate;
             }
             else
             {
               p_adsr_lower[68] = spu_adsr_sustain_rate_table[sustain_shift];
-              release_rate = -spu_adsr_release_rate_table[release_shift];
+              release_rate = -(int)spu_adsr_release_rate_table[release_shift];
             }
             p_adsr_lower[69] = release_rate;
             break;

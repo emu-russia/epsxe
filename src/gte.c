@@ -1472,7 +1472,7 @@ static int gte_op()
   gte_regs.data[GTE_DATA_MAC3] = mac3;
   GTE_SAT16(GTE_DATA_IR1, 0x81000000, -32768, mac1);
   GTE_SAT16(GTE_DATA_IR2, 0x80800000, -32768, mac2.s32);
-  if ( mac3.s32 >= (int)-0x8000u )
+  if ( mac3.s32 >= -(int)0x8000u )
   {
     if ( mac3.s32 <= 0x7FFF )
     {
@@ -1487,7 +1487,7 @@ static int gte_op()
   }
   else
   {
-    gte_regs.data[GTE_DATA_IR3].u32 = -0x8000u;
+    gte_regs.data[GTE_DATA_IR3].u32 = -(int)0x8000u;
     mac1 = gte_regs.ctrl[GTE_CTRL_FLAG].u32 | 0x400000;
     gte_regs.ctrl[GTE_CTRL_FLAG].u32 |= 0x400000u;
   }

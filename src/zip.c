@@ -797,7 +797,7 @@ static int zip_build_huffman_tree(
   int codes_remain;
   unsigned int *saved_sym_p;
   int entry_word;
-  char *entry_base;
+  char *entry_base = 0;
   uint32_t *counts_p;
   unsigned int pattern;
   signed int max_len;
@@ -1653,7 +1653,7 @@ static int zip_locate_central_dir(FILE *Stream, int *eocd)
   if ( (int)zip_file_size > 0x2000 )
     read_size = 0x2000;
   file = Stream;
-  status = fseek(Stream, -read_size, 2);
+  status = fseek(Stream, -(int)read_size, 2);
   if ( status )
   {
     zip_print("Error in zipfile %s: fseek failed\n", *(const char **)zip_filename);

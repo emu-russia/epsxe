@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ePSXe Sources">
+      <UniqueIdentifier>{f7f77b8e-c6e7-4116-a806-d20fa91dd6cc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="UnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burutter.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cdfs.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cdr.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cdr_plugin.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cdrom_fake.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cdrom_iso.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cdrom_w2k.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cdrom_w9x.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cfg.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cheat.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cont.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cpu.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\debug.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dinput_shim.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dlg_callbacks.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dynarec.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gpu_plugin.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gte.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\hw.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\input.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\intr.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\loader.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mainwnd.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mdec.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mem.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\net.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\op_tabs.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ops.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\plugin.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ppf.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\setup_wizard.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sio.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\spu_plugin.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\spucore.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sstates.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\xa.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\zip.c">
+      <Filter>ePSXe Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\bios_descr.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burutter.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cdfs.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cdr.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cdr_plugin.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cdrom_fake.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cdrom_iso.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cdrom_w2k.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cdrom_w9x.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cfg.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cheat.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cont.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cpu.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\debug.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dinput_shim.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dlg_callbacks.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dynarec.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gpu_plugin.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gte.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hw.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\input.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\intr.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\loader.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\main.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mainwnd.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mdec.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mem.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mmx_compat.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\net.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\op_tabs.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ops.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pch.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\plugin.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ppf.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\psemu.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\psxdefs.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\setup_wizard.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sio.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\spu_plugin.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\spucore.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sstates.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\wnaspi32.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\xa.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\zip.h">
+      <Filter>ePSXe Sources</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
