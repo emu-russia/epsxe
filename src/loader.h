@@ -38,10 +38,6 @@ extern unsigned char parasite_eve_cheat;
 extern unsigned char unknown_cd_setting;
 /** \brief Video scanlines for the detected region (262 for NTSC, 312 for PAL). */
 extern unsigned int video_scanlines;
-/** \brief Names of the entries found in the loaded ZIP archive. */
-extern unsigned char zip_entry_names[0x10000];
-/** \brief Number of entries loaded from the ZIP archive. */
-extern unsigned int zip_num_entries_loaded;
 
 /* Function prototypes (previously generated in src/_gen) */
 /**

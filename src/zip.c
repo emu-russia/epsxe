@@ -1,33 +1,111 @@
 #include "pch.h"
 
-/* Decompiled globals (previously generated in src/_gen) */
-unsigned int Stream;
-static unsigned char zip_local_file_header_buffer[0x2000];
-static unsigned char zip_path_buffer[0x100];
-static unsigned short zip_bit_masks[12] = {0x0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f, 0x7f, 0xff, 0x1ff, 0x3ff, 0x7ff};
-static unsigned char zip_central_dir_buffer[0x2000];
-static unsigned int zip_code_length_order[14] = {0x10, 0x11, 0x12, 0x0, 0x8, 0x7, 0x9, 0x6, 0xa, 0x5, 0xb, 0x4, 0xc, 0x3};
-static unsigned char zip_distance_base[17] = {0x1, 0x0, 0x2, 0x0, 0x3, 0x0, 0x4, 0x0, 0x5, 0x0, 0x7, 0x0, 0x9, 0x0, 0xd, 0x0, 0x11};
-static unsigned char zip_distance_extra_bits[22] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x1, 0x0, 0x2, 0x0, 0x2, 0x0, 0x3, 0x0, 0x3, 0x0, 0x4, 0x0};
-static unsigned int zip_file_size;
-static unsigned int zip_filename;
-static unsigned int zip_inflate_bit_buffer;
-static unsigned int zip_inflate_bit_count;
-static unsigned int zip_inflate_dtree;
-static unsigned int zip_inflate_dtree_bits;
-static unsigned int zip_inflate_ltree;
-static unsigned int zip_inflate_ltree_bits;
-static unsigned int zip_inflate_max_memory_used;
-static unsigned int zip_inflate_output_ptr;
-static unsigned int zip_inflate_window_pos;
-static unsigned char zip_length_base[17] = {0x3, 0x0, 0x4, 0x0, 0x5, 0x0, 0x6, 0x0, 0x7, 0x0, 0x8, 0x0, 0x9, 0x0, 0xa, 0x0, 0xb};
-static unsigned char zip_length_extra_bits[30] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x2, 0x0, 0x2, 0x0, 0x2, 0x0};
-static unsigned char zip_signature = 0x50;
-static unsigned int zip_sliding_window;
-static unsigned int zip_static_dtree_max_bits = 0x6;
-static unsigned int zip_static_ltree_max_bits = 0x9;
-static unsigned int zipfile_input_buffer;
+/* ---------------------------------------------------------------------------
+ * ZIP archive reader (decompiled from the original ePSXe 1.6.0 binary).
+ *
+ * Public API: zip_extract_file() / zip_load_file() (see zip.h).
+ *
+ * Internal inflate implementation (stored / fixed / dynamic DEFLATE blocks,
+ * huft-style multi-level Huffman tables) follows the classic zlib inflate
+ * algorithm. This file has been cleaned up from the decompiler output:
+ *   - EOCD record is parsed into ZipEndOfCentralDirectory (no more writes
+ *     into a 4-byte int or reads of uninitialized locals);
+ *   - pointers are stored in pointer-sized types (the code previously used
+ *     "unsigned int", truncating pointers on x64);
+ *   - the DEFLATE base/extra-bits tables, the bit masks and the
+ *     code-length order were truncated during decompilation and have been
+ *     restored to their full sizes;
+ *   - Huffman tree nodes use ZipHuffmanNode (pointer-sized child links) and
+ *     the parent-table link bug (offsets[level + 16]) is fixed;
+ *   - misc. decompiler artifacts (junk pointer stores, strncmp against a
+ *     single-byte "signature", stack overflows) are removed.
+ * ------------------------------------------------------------------------- */
 
+/* Exported global stream handle (a decompilation leftover; see zip.h). */
+unsigned int Stream;
+
+/* ---------------------------------------------------------------------------
+ * Static state
+ * ------------------------------------------------------------------------- */
+
+static char *zip_filename;                              /* archive path (for error messages) */
+static uint8_t zip_local_file_header_buffer[ZIP_READ_BUFFER_SIZE];
+static char zip_path_buffer[0x100];                     /* scratch for zip_get_filename_from_path() */
+static uint8_t zip_central_dir_buffer[ZIP_READ_BUFFER_SIZE];
+static unsigned int zip_file_size;                      /* size of the currently open archive */
+
+/* Deflate bit masks: zip_bit_masks[n] == (1u << n) - 1. */
+static const uint16_t zip_bit_masks[14] = {
+    0x0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f, 0x7f, 0xff, 0x1ff, 0x3ff, 0x7ff, 0xfff, 0x1fff
+};
+
+/* Order in which the code-length codes are stored (HCLEN field). */
+static const uint8_t zip_code_length_order[19] = {
+    0x10, 0x11, 0x12, 0x0, 0x8, 0x7, 0x9, 0x6, 0xa, 0x5, 0xb, 0x4, 0xc, 0x3, 0xd, 0x2, 0xe, 0x1, 0xf
+};
+
+/* Length codes 257..287: base lengths and extra bits (DEFLATE spec, 3.2.5). */
+static const uint16_t zip_length_base[31] = {
+    3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
+    35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0
+};
+static const uint8_t zip_length_extra_bits[31] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
+    3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 112, 112   /* 112 = invalid */
+};
+
+/* Distance codes 0..29: base distances and extra bits (DEFLATE spec, 3.2.5). */
+static const uint16_t zip_distance_base[30] = {
+    1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
+    257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577
+};
+static const uint8_t zip_distance_extra_bits[30] = {
+    0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
+    7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13
+};
+
+/* ---------------------------------------------------------------------------
+ * Huffman tree nodes
+ *
+ * One node per table slot: byte 0 = operation (e), byte 1 = bits (b),
+ * the rest = value (v).  e == 16 means "literal byte follows" (in the low
+ * byte of v), e == 15 means "end of block", e == 99 means "invalid code";
+ * e > 16 means "points to a sub-table" (e - 16 = bits of the sub-table,
+ * v = pointer to it); otherwise e = extra bits and v = length/distance base.
+ * ------------------------------------------------------------------------- */
+
+typedef struct ZipHuffmanNode {
+    uint8_t e;                  /* operation */
+    uint8_t b;                  /* bits consumed by this code/sub-table */
+    uint16_t reserved;          /* padding */
+    uintptr_t v;                /* literal / base value / sub-table pointer */
+} ZipHuffmanNode;
+
+/* Header stored before each allocated table: links the tables of one tree
+ * into a single list so zip_free_huffman_tree() can release them all. */
+typedef struct ZipHuffmanTableHeader {
+    uintptr_t next;             /* next table of the same tree (0 = none) */
+} ZipHuffmanTableHeader;
+
+/* ---------------------------------------------------------------------------
+ * Inflate state (shared between the blocks of one DEFLATE stream)
+ * ------------------------------------------------------------------------- */
+
+static uint8_t *zipfile_input_buffer;       /* remaining compressed input */
+static uint8_t *zip_sliding_window;         /* 32 KB LZ77 window */
+static uint8_t *zip_inflate_output_ptr;     /* next output position */
+static unsigned int zip_inflate_bit_buffer; /* pending input bits */
+static unsigned int zip_inflate_bit_count;  /* number of pending input bits */
+static unsigned int zip_inflate_window_pos; /* fill level of the sliding window */
+static unsigned int zip_inflate_max_memory_used;
+
+/* Cached fixed Huffman trees (built on first use, reused for every fixed block). */
+static ZipHuffmanNode *zip_inflate_ltree;
+static ZipHuffmanNode *zip_inflate_dtree;
+static unsigned int zip_inflate_ltree_bits = 9;
+static unsigned int zip_inflate_dtree_bits = 6;
+static const unsigned int zip_static_ltree_max_bits = 9;
+static const unsigned int zip_static_dtree_max_bits = 6;
 
 /* static prototypes for internal functions */
 static int zip_inflate_block(int *final_flag);
@@ -35,1702 +113,1468 @@ static int zip_build_huffman_tree(
         uint32_t *lengths,
         unsigned int num_lengths,
         unsigned int literal_codes,
-        int base_table,
-        int extra_table,
-        uint32_t *tree,
+        const uint16_t *base_table,
+        const uint8_t *extra_table,
+        ZipHuffmanNode **tree,
         unsigned int *max_bits);
-static int zip_free_huffman_tree(int tree);
+static int zip_free_huffman_tree(ZipHuffmanNode *tree);
+static ZipHuffmanNode *zip_alloc_huffman_table(unsigned int entries, ZipHuffmanTableHeader **header);
 static unsigned int zip_copy_sliding_window_to_output(const void *src, unsigned int size);
-static char * zip_get_filename_from_path(const char *path);
+static char *zip_get_filename_from_path(const char *path);
 static int zip_print(char *Format, ...);
-static int zip_read_compressed_data_to_buffer(FILE *Stream, int cd_entry, int local_header, LPVOID *out_buffer);
-static int zip_read_local_file_header(FILE *Stream, int cd_entry, ZipLocalFileHeaderInMem *local_header, uint8_t *Buffer);
-static int zip_load_central_directory(FILE *Stream, const char *search_name, int eocd, ZipCentralDirectoryEntry *cd_entry);
-static int zip_load_local_file_headers(FILE *Stream, int eocd, ZipCentralDirectoryEntryInMem *cd_entry);
+static int zip_read_compressed_data_to_buffer(
+        FILE *Stream,
+        ZipCentralDirectoryEntryInMem *cd_entry,
+        ZipLocalFileHeaderInMem *local_header,
+        LPVOID *out_buffer);
+static int zip_read_local_file_header(
+        FILE *Stream,
+        ZipCentralDirectoryEntryInMem *cd_entry,
+        ZipLocalFileHeaderInMem *local_header,
+        uint8_t *Buffer);
+static int zip_load_central_directory(
+        FILE *Stream,
+        const char *search_name,
+        const ZipEndOfCentralDirectory *eocd,
+        ZipCentralDirectoryEntryInMem *cd_entry);
+static int zip_load_local_file_headers(
+        FILE *Stream,
+        const ZipEndOfCentralDirectory *eocd,
+        ZipCentralDirectoryEntryInMem *cd_entry);
 static int zip_compare_filename_case_insensitive(const char *str1, const char *str2);
 static int zip_parse_cd_entry(ZipCentralDirectoryEntry *entry, ZipCentralDirectoryEntryInMem *cd_entry);
-static int zip_locate_central_dir(FILE *Stream, int *eocd);
-static BOOL zip_find_end_of_central_dir_signature(int buffer, int size, uint32_t *offset);
+static int zip_locate_central_dir(FILE *Stream, ZipEndOfCentralDirectory *eocd);
+static int zip_find_end_of_central_dir_signature(const uint8_t *buffer, int size, uint32_t *offset);
 static int zip_get_file_size(FILE *Stream, uint32_t *size);
-static int16_t zip_read_uint16_le(int ptr);
-static uint32_t zip_read_uint32_le(uint8_t *ptr);
+static uint16_t zip_read_uint16_le(const uint8_t *ptr);
+static uint32_t zip_read_uint32_le(const uint8_t *ptr);
 
-static int zip_inflate_data_with_trees(int ltree, int dtree, unsigned int ltree_bits, unsigned int dtree_bits)
+/* ===========================================================================
+ * DEFLATE decoder
+ * =========================================================================== */
+
+/* Copies [size] bytes from the sliding window to the output buffer. */
+static unsigned int zip_copy_sliding_window_to_output(const void *src, unsigned int size)
 {
-  unsigned int window_pos;
-  unsigned int bit_count;
-  unsigned int bit_buffer;
-  uint8_t *in_ptr;
-  char bit_shift;
-  uint8_t *ltree_node;
-  unsigned int node_type;
-  int drop_bits;
-  unsigned int bits_needed;
-  int refill_byte;
-  int node_bits;
-  char sym_shift;
-  unsigned int dist_bit_count;
-  unsigned int dist_bit_buffer;
-  char dist_shift;
-  uint8_t *dtree_node;
-  unsigned int dist_node_type;
-  int dist_drop_bits;
-  unsigned int dist_bits_needed;
-  int dist_refill_byte;
-  int dist_node_bits;
-  unsigned int dist_value;
-  unsigned int dist_bits_left;
-  int match_refill_byte;
-  unsigned int copy_src;
-  unsigned int copy_start;
-  unsigned int copy_len;
-  unsigned int saved_window_pos;
-  unsigned int copy_remaining;
-  int ltree_mask;
-  int dtree_mask;
+    memcpy(zip_inflate_output_ptr, src, size);
+    zip_inflate_output_ptr += size;
+    return size;
+}
 
-  window_pos = zip_inflate_window_pos;
-  bit_count = zip_inflate_bit_count;
-  bit_buffer = zip_inflate_bit_buffer;
-  ltree_mask = (uint16_t)zip_bit_masks[ltree_bits];
-  dtree_mask = (uint16_t)zip_bit_masks[dtree_bits];
-LABEL_2:
-  saved_window_pos = window_pos;
-  while ( 1 )
-  {
-    while ( 1 )
+/* Inflates the remaining input (zipfile_input_buffer) using the given
+ * literal/length and distance trees.  Returns 0 on success, 1 on error. */
+static int zip_inflate_data_with_trees(
+        ZipHuffmanNode *ltree,
+        ZipHuffmanNode *dtree,
+        unsigned int ltree_bits,
+        unsigned int dtree_bits)
+{
+    unsigned int window_pos = zip_inflate_window_pos;
+    unsigned int bit_count = zip_inflate_bit_count;
+    unsigned int bit_buffer = zip_inflate_bit_buffer;
+    uint8_t *in_ptr = zipfile_input_buffer;
+    unsigned int ltree_mask = zip_bit_masks[ltree_bits];
+    unsigned int dtree_mask = zip_bit_masks[dtree_bits];
+
+    for (;;)
     {
-      for ( in_ptr = (uint8_t *)zipfile_input_buffer; bit_count < ltree_bits; zipfile_input_buffer = (int)in_ptr )
-      {
-        bit_shift = bit_count;
-        bit_count += 8;
-        bit_buffer |= *in_ptr++ << bit_shift;
-      }
-      ltree_node = (uint8_t *)(ltree + 8 * (bit_buffer & ltree_mask));
-      node_type = *ltree_node;
-      if ( node_type > 0x10 )
-      {
-        while ( node_type != 99 )
+        ZipHuffmanNode *node;
+        unsigned int node_type;
+        unsigned int saved_window_pos = window_pos;
+
+        /* --- Decode a literal/length code --- */
+        while (bit_count < ltree_bits)
         {
-          drop_bits = ltree_node[1];
-          bits_needed = node_type - 16;
-          bit_buffer >>= drop_bits;
-          bit_count -= drop_bits;
-          if ( bit_count < bits_needed )
-          {
+            bit_buffer |= (unsigned int)*in_ptr++ << bit_count;
+            bit_count += 8;
+        }
+        zipfile_input_buffer = in_ptr;
+        node = ltree + (bit_buffer & ltree_mask);
+        node_type = node->e;
+        if (node_type > 0x10)
+        {
             do
             {
-              refill_byte = *in_ptr << bit_count;
-              bit_count += 8;
-              bit_buffer |= refill_byte;
-              zipfile_input_buffer = (int)++in_ptr;
+                unsigned int drop;
+                unsigned int bits_needed;
+
+                if (node_type == 99)
+                    return 1;                       /* invalid code */
+                drop = node->b;
+                bits_needed = node_type - 16;       /* bits in the sub-table */
+                bit_buffer >>= drop;
+                bit_count -= drop;
+                while (bit_count < bits_needed)
+                {
+                    bit_buffer |= (unsigned int)*in_ptr << bit_count;
+                    bit_count += 8;
+                    zipfile_input_buffer = ++in_ptr;
+                }
+                window_pos = saved_window_pos;
+                node = (ZipHuffmanNode *)node->v + (bit_buffer & zip_bit_masks[bits_needed]);
+                node_type = node->e;
+            } while (node_type > 0x10);
+        }
+        {
+            unsigned int node_bits = node->b;
+            bit_buffer >>= node_bits;
+            bit_count -= node_bits;
+        }
+        if (node_type == 16)
+        {
+            /* literal byte */
+            zip_sliding_window[window_pos++] = (uint8_t)node->v;
+            saved_window_pos = window_pos;
+            if (window_pos == ZIP_SLIDING_WINDOW_SIZE)
+            {
+                zip_copy_sliding_window_to_output(zip_sliding_window, ZIP_SLIDING_WINDOW_SIZE);
+                window_pos = 0;
             }
-            while ( bit_count < bits_needed );
-            window_pos = saved_window_pos;
-          }
-          ltree_node = (uint8_t *)(*((uint32_t *)ltree_node + 1) + 8 * (bit_buffer & (uint16_t)zip_bit_masks[bits_needed]));
-          node_type = *ltree_node;
-          if ( node_type <= 0x10 )
-            goto LABEL_11;
+            continue;
         }
-        return 1;
-      }
-LABEL_11:
-      node_bits = ltree_node[1];
-      bit_buffer >>= node_bits;
-      bit_count -= node_bits;
-      if ( node_type != 16 )
-        break;
-      *((uint8_t *)zip_sliding_window + window_pos++) = ltree_node[4];
-      saved_window_pos = window_pos;
-      if ( window_pos == 0x8000 )
-      {
-        zip_copy_sliding_window_to_output(zip_sliding_window, 0x8000u);
-        window_pos = 0;
-        goto LABEL_2;
-      }
-    }
-    if ( node_type == 15 )
-      break;
-    if ( bit_count < node_type )
-    {
-      do
-      {
-        sym_shift = bit_count;
-        bit_count += 8;
-        bit_buffer |= *in_ptr++ << sym_shift;
-        zipfile_input_buffer = (int)in_ptr;
-      }
-      while ( bit_count < node_type );
-      window_pos = saved_window_pos;
-    }
-    dist_bit_count = bit_count - node_type;
-    copy_remaining = *((uint16_t *)ltree_node + 2) + (bit_buffer & (uint16_t)zip_bit_masks[node_type]);
-    for ( dist_bit_buffer = bit_buffer >> node_type; dist_bit_count < dtree_bits; zipfile_input_buffer = (int)in_ptr )
-    {
-      dist_shift = dist_bit_count;
-      dist_bit_count += 8;
-      dist_bit_buffer |= *in_ptr++ << dist_shift;
-    }
-    dtree_node = (uint8_t *)(dtree + 8 * (dist_bit_buffer & dtree_mask));
-    dist_node_type = *dtree_node;
-    if ( dist_node_type > 0x10 )
-    {
-      while ( dist_node_type != 99 )
-      {
-        dist_drop_bits = dtree_node[1];
-        dist_bits_needed = dist_node_type - 16;
-        dist_bit_buffer >>= dist_drop_bits;
-        dist_bit_count -= dist_drop_bits;
-        if ( dist_bit_count < dist_bits_needed )
+        if (node_type == 15)
+            break;                                  /* end of block */
+
+        /* length code: node->e = extra bits, node->v = length base */
         {
-          do
-          {
-            dist_refill_byte = *in_ptr << dist_bit_count;
-            dist_bit_count += 8;
-            dist_bit_buffer |= dist_refill_byte;
-            zipfile_input_buffer = (int)++in_ptr;
-          }
-          while ( dist_bit_count < dist_bits_needed );
-          window_pos = saved_window_pos;
+            unsigned int extra = node_type;
+            unsigned int length = (uint16_t)node->v;
+            unsigned int dist;
+            unsigned int dist_extra;
+            unsigned int dist_base;
+            unsigned int copy_remaining;
+            unsigned int copy_src;
+            unsigned int copy_len;
+            unsigned int copy_start;
+
+            if (extra)
+            {
+                while (bit_count < extra)
+                {
+                    bit_buffer |= (unsigned int)*in_ptr++ << bit_count;
+                    bit_count += 8;
+                }
+                zipfile_input_buffer = in_ptr;
+                length += bit_buffer & zip_bit_masks[extra];
+                bit_buffer >>= extra;
+                bit_count -= extra;
+                window_pos = saved_window_pos;
+            }
+
+            /* --- Decode a distance code --- */
+            while (bit_count < dtree_bits)
+            {
+                bit_buffer |= (unsigned int)*in_ptr++ << bit_count;
+                bit_count += 8;
+            }
+            zipfile_input_buffer = in_ptr;
+            node = dtree + (bit_buffer & dtree_mask);
+            node_type = node->e;
+            if (node_type > 0x10)
+            {
+                do
+                {
+                    unsigned int drop;
+                    unsigned int bits_needed;
+
+                    if (node_type == 99)
+                        return 1;
+                    drop = node->b;
+                    bits_needed = node_type - 16;
+                    bit_buffer >>= drop;
+                    bit_count -= drop;
+                    while (bit_count < bits_needed)
+                    {
+                        bit_buffer |= (unsigned int)*in_ptr << bit_count;
+                        bit_count += 8;
+                        zipfile_input_buffer = ++in_ptr;
+                    }
+                    window_pos = saved_window_pos;
+                    node = (ZipHuffmanNode *)node->v + (bit_buffer & zip_bit_masks[bits_needed]);
+                    node_type = node->e;
+                } while (node_type > 0x10);
+            }
+            dist_extra = node_type;
+            dist_base = (uint16_t)node->v;
+            if (dist_extra == 15 || dist_extra == 16)
+                return 1;                   /* invalid distance code in a corrupt stream */
+            {
+                unsigned int node_bits = node->b;
+                bit_buffer >>= node_bits;
+                bit_count -= node_bits;
+            }
+            if (dist_extra)
+            {
+                while (bit_count < dist_extra)
+                {
+                    bit_buffer |= (unsigned int)*in_ptr << bit_count;
+                    bit_count += 8;
+                    zipfile_input_buffer = ++in_ptr;
+                }
+                window_pos = saved_window_pos;
+            }
+            dist = dist_base + (bit_buffer & zip_bit_masks[dist_extra]);
+            bit_buffer >>= dist_extra;
+            bit_count -= dist_extra;
+
+            /* --- Copy [length] bytes from [dist] bytes back --- */
+            copy_remaining = length;
+            copy_src = (window_pos - dist) & 0x7FFFu;
+            do
+            {
+                copy_start = (copy_src <= window_pos) ? window_pos : copy_src;
+                copy_len = ZIP_SLIDING_WINDOW_SIZE - copy_start;
+                if (copy_len > copy_remaining)
+                    copy_len = copy_remaining;
+                copy_remaining -= copy_len;
+                if (window_pos - copy_src < copy_len)
+                {
+                    /* overlapping copy, byte by byte */
+                    do
+                    {
+                        zip_sliding_window[window_pos++] = zip_sliding_window[copy_src++];
+                        --copy_len;
+                    } while (copy_len);
+                }
+                else
+                {
+                    memcpy(zip_sliding_window + window_pos, zip_sliding_window + copy_src, copy_len);
+                    window_pos = saved_window_pos + copy_len;
+                    copy_src = (copy_src + copy_len) & 0x7FFFu;
+                }
+                saved_window_pos = window_pos;
+                if (window_pos == ZIP_SLIDING_WINDOW_SIZE)
+                {
+                    zip_copy_sliding_window_to_output(zip_sliding_window, ZIP_SLIDING_WINDOW_SIZE);
+                    window_pos = 0;
+                    saved_window_pos = 0;
+                }
+            } while (copy_remaining);
         }
-        dtree_node = (uint8_t *)(*((uint32_t *)dtree_node + 1) + 8 * (dist_bit_buffer & (uint16_t)zip_bit_masks[dist_bits_needed]));
-        dist_node_type = *dtree_node;
-        if ( dist_node_type <= 0x10 )
-          goto LABEL_26;
-      }
-      return 1;
     }
-LABEL_26:
-    dist_node_bits = dtree_node[1];
-    dist_value = dist_bit_buffer >> dist_node_bits;
-    dist_bits_left = dist_bit_count - dist_node_bits;
-    if ( dist_bits_left < dist_node_type )
-    {
-      do
-      {
-        match_refill_byte = *in_ptr << dist_bits_left;
-        dist_bits_left += 8;
-        dist_value |= match_refill_byte;
-        zipfile_input_buffer = (int)++in_ptr;
-      }
-      while ( dist_bits_left < dist_node_type );
-      window_pos = saved_window_pos;
-    }
-    LOWORD(copy_src) = window_pos - (dist_value & zip_bit_masks[dist_node_type]) - *((uint16_t *)dtree_node + 2);
-    bit_buffer = dist_value >> dist_node_type;
-    bit_count = dist_bits_left - dist_node_type;
-    do
-    {
-      copy_src &= 0x7FFFu;
-      copy_start = copy_src;
-      if ( copy_src <= window_pos )
-        copy_start = window_pos;
-      copy_len = 0x8000 - copy_start;
-      if ( 0x8000 - copy_start > copy_remaining )
-        copy_len = copy_remaining;
-      copy_remaining -= copy_len;
-      if ( window_pos - copy_src < copy_len )
-      {
-        do
-        {
-          *((uint8_t *)zip_sliding_window + window_pos++) = *((uint8_t *)zip_sliding_window + copy_src++);
-          --copy_len;
-        }
-        while ( copy_len );
-      }
-      else
-      {
-        qmemcpy((char *)zip_sliding_window + window_pos, (char *)zip_sliding_window + copy_src, copy_len);
-        window_pos = copy_len + saved_window_pos;
-        LOWORD(copy_src) = copy_len + copy_src;
-      }
-      saved_window_pos = window_pos;
-      if ( window_pos == 0x8000 )
-      {
-        zip_copy_sliding_window_to_output(zip_sliding_window, 0x8000u);
-        window_pos = 0;
-        saved_window_pos = 0;
-      }
-    }
-    while ( copy_remaining );
-  }
-  zip_inflate_bit_buffer = bit_buffer;
-  zip_inflate_bit_count = bit_count;
-  zip_inflate_window_pos = window_pos;
-  return 0;
+
+    zip_inflate_bit_buffer = bit_buffer;
+    zip_inflate_bit_count = bit_count;
+    zip_inflate_window_pos = window_pos;
+    return 0;
 }
 
-static int zip_inflate_file()
+/* Inflates the whole compressed stream (zipfile_input_buffer) into the
+ * output buffer.  Returns 0 on success, non-zero on error. */
+static int zip_inflate_file(void)
 {
-  unsigned int max_memory_used;
-  int block_result;
-  int final_block;
+    unsigned int max_memory_used = 0;
+    int final_block;
+    int block_result;
 
-  zip_inflate_window_pos = 0;
-  zip_inflate_bit_count = 0;
-  zip_inflate_bit_buffer = 0;
-  max_memory_used = 0;
-  while ( 1 )
-  {
-    zip_inflate_max_memory_used = 0;
-    block_result = zip_inflate_block(&final_block);
-    if ( block_result )
-      break;
-    if ( zip_inflate_max_memory_used > max_memory_used )
-      max_memory_used = zip_inflate_max_memory_used;
-    if ( final_block )
+    zip_inflate_window_pos = 0;
+    zip_inflate_bit_count = 0;
+    zip_inflate_bit_buffer = 0;
+    for (;;)
     {
-      zip_copy_sliding_window_to_output(zip_sliding_window, zip_inflate_window_pos);
-      return 0;
+        zip_inflate_max_memory_used = 0;
+        block_result = zip_inflate_block(&final_block);
+        if (block_result)
+            break;
+        if (zip_inflate_max_memory_used > max_memory_used)
+            max_memory_used = zip_inflate_max_memory_used;
+        if (final_block)
+        {
+            zip_copy_sliding_window_to_output(zip_sliding_window, zip_inflate_window_pos);
+            return 0;
+        }
     }
-  }
-  return block_result;
+    return block_result;
 }
 
+/* Inflates one DEFLATE block.  Returns 0 on success, 1 on invalid data,
+ * 2 on an unknown block type. */
 static int zip_inflate_block(int *final_flag)
 {
-  int bit_count;
-  unsigned int bit_buffer;
-  uint8_t *in_ptr;
-  int refill_byte;
-  int *input_ptr;
-  int is_final;
-  unsigned int header_bits;
-  unsigned int header_bit_count;
-  int header_refill_byte;
-  int block_type;
-  int static_ltree_result;
-  uint8_t *stored_in_ptr;
-  int window_pos;
-  int align_bits;
-  unsigned int stored_bit_count;
-  unsigned int stored_bit_buffer;
-  int stored_refill_byte;
-  unsigned int len_bit_count;
-  int stored_len;
-  unsigned int stored_nlen;
-  int len_refill_byte;
-  unsigned int byte_buffer;
-  unsigned int byte_bit_count;
-  char byte_shift;
-  int static_dtree_result;
-  uint8_t *dyn_in_ptr;
-  unsigned int hlit_bit_buffer;
-  unsigned int hlit_bit_count;
-  int hlit_refill_byte;
-  unsigned int hlit;
-  unsigned int hdist_bit_count;
-  unsigned int hdist_bit_buffer;
-  int hdist_refill_byte;
-  unsigned int hdist;
-  unsigned int hclen_bit_count;
-  unsigned int hclen_bit_buffer;
-  int hclen_refill_byte;
-  unsigned int hclen;
-  unsigned int clen_bit_buffer;
-  unsigned int clen_bit_count;
-  unsigned int clen_index;
-  char clen_shift;
-  int order_index;
-  int code_length;
-  int clen_order;
-  int clen_tree_result;
-  unsigned int clen_bits;
-  int saved_result;
-  unsigned int lit_count;
-  uint16_t tree_mask;
-  unsigned int clen_pos;
-  uint8_t *clen_in_ptr;
-  int clen_refill_byte;
-  int node_bits;
-  int node_value;
-  int repeat16_refill_byte;
-  unsigned int repeat16_count;
-  int repeat17_refill_byte;
-  int repeat_count;
-  int repeat18_refill_byte;
-  int dyn_ltree_result;
-  unsigned int dyn_dtree_result;
-  int ltree;
-  unsigned int tree_bits;
-  int prev_code_length;
-  unsigned int total_codes;
-  int dtree;
-  unsigned int dtree_bits;
-  unsigned int hlit_count;
-  unsigned int hdist_count;
-  int clen_mask;
-  uint32_t code_lengths[32];
-  uint32_t static_lengths1[144];
-  uint32_t static_lengths2[112];
-  uint32_t static_lengths3[24];
-  uint32_t static_lengths4[8];
+    uint8_t *in_ptr;
+    unsigned int bit_count;
+    unsigned int bit_buffer;
+    unsigned int header_bits;
+    unsigned int header_bit_count;
+    int block_type;
 
-  bit_count = zip_inflate_bit_count;
-  bit_buffer = zip_inflate_bit_buffer;
-  if ( !zip_inflate_bit_count )
-  {
-    in_ptr = (uint8_t *)zipfile_input_buffer;
-    do
+    bit_count = zip_inflate_bit_count;
+    bit_buffer = zip_inflate_bit_buffer;
+    if (!bit_count)
     {
-      refill_byte = *in_ptr << bit_count;
-      bit_count += 8;
-      bit_buffer |= refill_byte;
-      zipfile_input_buffer = (int)++in_ptr;
+        in_ptr = zipfile_input_buffer;
+        bit_buffer |= (unsigned int)*in_ptr++ << bit_count;
+        bit_count += 8;
+        zipfile_input_buffer = in_ptr;
     }
-    while ( !bit_count );
-  }
-  input_ptr = final_flag;
-  is_final = bit_buffer & 1;
-  header_bits = bit_buffer >> 1;
-  header_bit_count = bit_count - 1;
-  *final_flag = is_final;
-  if ( header_bit_count < 2 )
-  {
-    input_ptr = (int *)zipfile_input_buffer;
-    do
+
+    /* Read the 3-bit block header (BFINAL, BTYPE). */
+    *final_flag = bit_buffer & 1;
+    header_bits = bit_buffer >> 1;
+    header_bit_count = bit_count - 1;
+    if (header_bit_count < 2)
     {
-      header_refill_byte = *(uint8_t *)input_ptr << header_bit_count;
-      header_bit_count += 8;
-      header_bits |= header_refill_byte;
-      input_ptr = (int *)((char *)input_ptr + 1);
-      zipfile_input_buffer = (int)input_ptr;
-    }
-    while ( header_bit_count < 2 );
-  }
-  block_type = header_bits & 3;
-  zip_inflate_bit_buffer = header_bits >> 2;
-  zip_inflate_bit_count = header_bit_count - 2;
-  if ( block_type == 2 )
-  {
-    dyn_in_ptr = (uint8_t *)zipfile_input_buffer;
-    hlit_bit_buffer = zip_inflate_bit_buffer;
-    for ( hlit_bit_count = zip_inflate_bit_count; hlit_bit_count < 5; zipfile_input_buffer = (int)dyn_in_ptr )
-    {
-      hlit_refill_byte = *dyn_in_ptr << hlit_bit_count;
-      hlit_bit_count += 8;
-      hlit_bit_buffer |= hlit_refill_byte;
-      ++dyn_in_ptr;
-    }
-    hlit = (hlit_bit_buffer & 0x1F) + 257;
-    hdist_bit_count = hlit_bit_count - 5;
-    hdist_bit_buffer = hlit_bit_buffer >> 5;
-    for ( hlit_count = hlit; hdist_bit_count < 5; zipfile_input_buffer = (int)dyn_in_ptr )
-    {
-      hdist_refill_byte = *dyn_in_ptr << hdist_bit_count;
-      hdist_bit_count += 8;
-      hdist_bit_buffer |= hdist_refill_byte;
-      ++dyn_in_ptr;
-    }
-    hdist = (hdist_bit_buffer & 0x1F) + 1;
-    hclen_bit_count = hdist_bit_count - 5;
-    hclen_bit_buffer = hdist_bit_buffer >> 5;
-    for ( hdist_count = hdist; hclen_bit_count < 4; zipfile_input_buffer = (int)dyn_in_ptr )
-    {
-      hclen_refill_byte = *dyn_in_ptr << hclen_bit_count;
-      hclen_bit_count += 8;
-      hclen_bit_buffer |= hclen_refill_byte;
-      ++dyn_in_ptr;
-    }
-    hclen = (hclen_bit_buffer & 0xF) + 4;
-    clen_bit_buffer = hclen_bit_buffer >> 4;
-    clen_bit_count = hclen_bit_count - 4;
-    if ( hlit <= 0x120 && hdist <= 0x20 )
-    {
-      clen_index = 0;
-      if ( !hclen )
-        goto LABEL_94;
-      do
-      {
-        for ( ; clen_bit_count < 3; zipfile_input_buffer = (int)dyn_in_ptr )
-        {
-          clen_shift = clen_bit_count;
-          clen_bit_count += 8;
-          clen_bit_buffer |= *dyn_in_ptr++ << clen_shift;
-        }
-        order_index = zip_code_length_order[clen_index];
-        code_length = clen_bit_buffer & 7;
-        clen_bit_buffer >>= 3;
-        clen_bit_count -= 3;
-        ++clen_index;
-        code_lengths[order_index] = code_length;
-      }
-      while ( clen_index < hclen );
-      if ( clen_index < 0x13 )
-      {
-LABEL_94:
+        in_ptr = zipfile_input_buffer;
         do
         {
-          clen_order = zip_code_length_order[clen_index++];
-          code_lengths[clen_order] = 0;
-        }
-        while ( clen_index < 0x13 );
-      }
-      tree_bits = 7;
-      clen_tree_result = zip_build_huffman_tree(code_lengths, 0x13u, 0x13u, 0, 0, &ltree, &tree_bits);
-      clen_bits = tree_bits;
-      saved_result = clen_tree_result;
-      if ( !tree_bits )
-      {
-        zip_free_huffman_tree(ltree);
-        return 1;
-      }
-      if ( clen_tree_result )
-      {
-        if ( clen_tree_result == 1 )
-          zip_free_huffman_tree(ltree);
-        return saved_result;
-      }
-      lit_count = hlit_count;
-      tree_mask = zip_bit_masks[tree_bits];
-      clen_pos = 0;
-      total_codes = hlit_count + hdist_count;
-      prev_code_length = 0;
-      clen_mask = tree_mask;
-      if ( hlit_count + hdist_count )
-      {
-        clen_in_ptr = (uint8_t *)zipfile_input_buffer;
-        while ( 1 )
+            header_bits |= (unsigned int)*in_ptr++ << header_bit_count;
+            header_bit_count += 8;
+            zipfile_input_buffer = in_ptr;
+        } while (header_bit_count < 2);
+    }
+    block_type = header_bits & 3;
+    bit_buffer = header_bits >> 2;
+    bit_count = header_bit_count - 2;
+    zip_inflate_bit_buffer = bit_buffer;
+    zip_inflate_bit_count = bit_count;
+
+    if (block_type == 2)
+    {
+        /* ------------------------- Dynamic Huffman block ------------------------- */
+        uint32_t code_lengths[320];     /* literal/length (<= 288) + distance (<= 32) lengths */
+        uint8_t *dyn_in_ptr = zipfile_input_buffer;
+        unsigned int hlit_bit_buffer;
+        unsigned int hlit_bit_count;
+        unsigned int hdist_bit_buffer;
+        unsigned int hdist_bit_count;
+        unsigned int hclen_bit_buffer;
+        unsigned int hclen_bit_count;
+        unsigned int clen_bit_buffer;
+        unsigned int clen_bit_count;
+        unsigned int hlit;
+        unsigned int hdist;
+        unsigned int hclen;
+        unsigned int clen_index;
+        unsigned int clen_pos;
+        unsigned int total_codes;
+        unsigned int lit_count;
+        unsigned int hdist_count;
+        int prev_code_length = 0;
+        ZipHuffmanNode *ltree;
+        ZipHuffmanNode *dtree;
+        unsigned int tree_bits;
+        unsigned int dtree_bits;
+        int result;
+
+        /* HLIT (5 bits): number of literal/length codes - 257. */
+        hlit_bit_buffer = zip_inflate_bit_buffer;
+        hlit_bit_count = zip_inflate_bit_count;
+        while (hlit_bit_count < 5)
         {
-          if ( clen_bit_count < clen_bits )
-          {
-            do
+            hlit_bit_buffer |= (unsigned int)*dyn_in_ptr++ << hlit_bit_count;
+            hlit_bit_count += 8;
+            zipfile_input_buffer = dyn_in_ptr;
+        }
+        hlit = (hlit_bit_buffer & 0x1F) + 257;
+
+        /* HDIST (5 bits): number of distance codes - 1. */
+        hdist_bit_count = hlit_bit_count - 5;
+        hdist_bit_buffer = hlit_bit_buffer >> 5;
+        while (hdist_bit_count < 5)
+        {
+            hdist_bit_buffer |= (unsigned int)*dyn_in_ptr++ << hdist_bit_count;
+            hdist_bit_count += 8;
+            zipfile_input_buffer = dyn_in_ptr;
+        }
+        hdist = (hdist_bit_buffer & 0x1F) + 1;
+
+        /* HCLEN (4 bits): number of code-length codes - 4. */
+        hclen_bit_count = hdist_bit_count - 5;
+        hclen_bit_buffer = hdist_bit_buffer >> 5;
+        while (hclen_bit_count < 4)
+        {
+            hclen_bit_buffer |= (unsigned int)*dyn_in_ptr++ << hclen_bit_count;
+            hclen_bit_count += 8;
+            zipfile_input_buffer = dyn_in_ptr;
+        }
+        hclen = (hclen_bit_buffer & 0xF) + 4;
+        clen_bit_buffer = hclen_bit_buffer >> 4;
+        clen_bit_count = hclen_bit_count - 4;
+
+        if (hlit > 0x120 || hdist > 0x20)
+            return 1;                       /* HLIT > 288 or HDIST > 32 */
+
+        /* Read the HCLEN 3-bit code lengths (in zip_code_length_order). */
+        memset(code_lengths, 0, sizeof(code_lengths));
+        for (clen_index = 0; clen_index < hclen; ++clen_index)
+        {
+            unsigned int order_index;
+            while (clen_bit_count < 3)
             {
-              clen_refill_byte = *clen_in_ptr << clen_bit_count;
-              clen_bit_count += 8;
-              clen_bit_buffer |= clen_refill_byte;
-              zipfile_input_buffer = (int)++clen_in_ptr;
-            }
-            while ( clen_bit_count < tree_bits );
-          }
-          dtree = ltree + 8 * (clen_bit_buffer & clen_mask);
-          node_bits = *(uint8_t *)(dtree + 1);
-          clen_bit_buffer >>= node_bits;
-          clen_bit_count -= node_bits;
-          node_value = *(uint16_t *)(dtree + 4);
-          if ( (uint16_t)node_value >= 0x10u )
-          {
-            if ( (uint16_t)node_value == 16 )
-            {
-              for ( ; clen_bit_count < 2; zipfile_input_buffer = (int)clen_in_ptr )
-              {
-                repeat16_refill_byte = *clen_in_ptr << clen_bit_count;
+                clen_bit_buffer |= (unsigned int)*dyn_in_ptr++ << clen_bit_count;
                 clen_bit_count += 8;
-                clen_bit_buffer |= repeat16_refill_byte;
-                ++clen_in_ptr;
-              }
-              repeat16_count = (clen_bit_buffer & 3) + 3;
-              clen_bit_buffer >>= 2;
-              clen_bit_count -= 2;
-              if ( clen_pos + repeat16_count > total_codes )
-                return 1;
-              if ( repeat16_count )
-              {
-                memset32(&code_lengths[clen_pos], prev_code_length, repeat16_count);
-                clen_pos += repeat16_count;
-              }
+                zipfile_input_buffer = dyn_in_ptr;
             }
-            else
+            order_index = zip_code_length_order[clen_index];
+            code_lengths[order_index] = clen_bit_buffer & 7;
+            clen_bit_buffer >>= 3;
+            clen_bit_count -= 3;
+        }
+
+        /* Build the code-length tree (all 19 codes are "simple"). */
+        tree_bits = 7;
+        result = zip_build_huffman_tree(code_lengths, 19, 19, NULL, NULL, &ltree, &tree_bits);
+        if (!tree_bits)
+        {
+            zip_free_huffman_tree(ltree);
+            return 1;
+        }
+        if (result)
+        {
+            if (result == 1)
+                zip_free_huffman_tree(ltree);
+            return result;
+        }
+
+        /* Decode the literal/length and distance code lengths. */
+        lit_count = hlit;
+        hdist_count = hdist;
+        total_codes = lit_count + hdist_count;
+        clen_pos = 0;
+        {
+            unsigned int clen_bits = tree_bits;
+            unsigned int clen_mask = zip_bit_masks[tree_bits];
+            while (clen_pos < total_codes)
             {
-              if ( node_value == 17 )
-              {
-                for ( ; clen_bit_count < 3; zipfile_input_buffer = (int)clen_in_ptr )
+                ZipHuffmanNode *node;
+                unsigned int node_bits;
+                unsigned int node_value;
+
+                while (clen_bit_count < clen_bits)
                 {
-                  repeat17_refill_byte = *clen_in_ptr << clen_bit_count;
-                  clen_bit_count += 8;
-                  clen_bit_buffer |= repeat17_refill_byte;
-                  ++clen_in_ptr;
+                    clen_bit_buffer |= (unsigned int)*dyn_in_ptr++ << clen_bit_count;
+                    clen_bit_count += 8;
+                    zipfile_input_buffer = dyn_in_ptr;
                 }
-                repeat_count = (clen_bit_buffer & 7) + 3;
-                clen_bit_buffer >>= 3;
-                clen_bit_count -= 3;
-              }
-              else
-              {
-                for ( ; clen_bit_count < 7; zipfile_input_buffer = (int)clen_in_ptr )
+                node = ltree + (clen_bit_buffer & clen_mask);
+                node_bits = node->b;
+                clen_bit_buffer >>= node_bits;
+                clen_bit_count -= node_bits;
+                node_value = (uint16_t)node->v;
+                if (node_value >= 0x10)
                 {
-                  repeat18_refill_byte = *clen_in_ptr << clen_bit_count;
-                  clen_bit_count += 8;
-                  clen_bit_buffer |= repeat18_refill_byte;
-                  ++clen_in_ptr;
+                    /* repeat codes 16/17/18 */
+                    unsigned int repeat;
+                    if (node_value == 16)
+                    {
+                        while (clen_bit_count < 2)
+                        {
+                            clen_bit_buffer |= (unsigned int)*dyn_in_ptr++ << clen_bit_count;
+                            clen_bit_count += 8;
+                            zipfile_input_buffer = dyn_in_ptr;
+                        }
+                        repeat = (clen_bit_buffer & 3) + 3;
+                        clen_bit_buffer >>= 2;
+                        clen_bit_count -= 2;
+                        if (clen_pos + repeat > total_codes)
+                        {
+                            zip_free_huffman_tree(ltree);
+                            return 1;
+                        }
+                        memset32(&code_lengths[clen_pos], prev_code_length, repeat);
+                        clen_pos += repeat;
+                    }
+                    else if (node_value == 17)
+                    {
+                        while (clen_bit_count < 3)
+                        {
+                            clen_bit_buffer |= (unsigned int)*dyn_in_ptr++ << clen_bit_count;
+                            clen_bit_count += 8;
+                            zipfile_input_buffer = dyn_in_ptr;
+                        }
+                        repeat = (clen_bit_buffer & 7) + 3;
+                        clen_bit_buffer >>= 3;
+                        clen_bit_count -= 3;
+                        if (clen_pos + repeat > total_codes)
+                        {
+                            zip_free_huffman_tree(ltree);
+                            return 1;
+                        }
+                        memset(&code_lengths[clen_pos], 0, repeat * sizeof(uint32_t));
+                        clen_pos += repeat;
+                        prev_code_length = 0;
+                    }
+                    else /* node_value == 18 */
+                    {
+                        while (clen_bit_count < 7)
+                        {
+                            clen_bit_buffer |= (unsigned int)*dyn_in_ptr++ << clen_bit_count;
+                            clen_bit_count += 8;
+                            zipfile_input_buffer = dyn_in_ptr;
+                        }
+                        repeat = (clen_bit_buffer & 0x7F) + 11;
+                        clen_bit_buffer >>= 7;
+                        clen_bit_count -= 7;
+                        if (clen_pos + repeat > total_codes)
+                        {
+                            zip_free_huffman_tree(ltree);
+                            return 1;
+                        }
+                        memset(&code_lengths[clen_pos], 0, repeat * sizeof(uint32_t));
+                        clen_pos += repeat;
+                        prev_code_length = 0;
+                    }
                 }
-                repeat_count = (clen_bit_buffer & 0x7F) + 11;
-                clen_bit_buffer >>= 7;
-                clen_bit_count -= 7;
-              }
-              if ( clen_pos + repeat_count > total_codes )
-                return 1;
-              if ( repeat_count )
-              {
-                memset(&code_lengths[clen_pos], 0, 4 * repeat_count);
-                clen_pos += repeat_count;
-              }
-              prev_code_length = 0;
+                else
+                {
+                    code_lengths[clen_pos] = node_value;
+                    prev_code_length = node_value;
+                    ++clen_pos;
+                }
+                clen_bits = tree_bits;
             }
-          }
-          else
-          {
-            code_lengths[clen_pos] = node_value;
-            prev_code_length = node_value;
-            ++clen_pos;
-          }
-          if ( clen_pos >= total_codes )
-            break;
-          clen_bits = tree_bits;
         }
-        lit_count = hlit_count;
-      }
-      zip_free_huffman_tree(ltree);
-      tree_bits = zip_static_ltree_max_bits;
-      zip_inflate_bit_buffer = clen_bit_buffer;
-      zip_inflate_bit_count = clen_bit_count;
-      dyn_ltree_result = zip_build_huffman_tree(code_lengths, lit_count, 0x101u, (int)zip_length_base, (int)zip_length_extra_bits, &ltree, &tree_bits);
-      if ( !tree_bits )
-      {
-        dyn_ltree_result = 1;
-        goto LABEL_82;
-      }
-      if ( dyn_ltree_result )
-      {
-        if ( dyn_ltree_result != 1 )
-          return dyn_ltree_result;
-LABEL_82:
-        printf("%s", "(incomplete l-tree)  ");
         zip_free_huffman_tree(ltree);
-        return dyn_ltree_result;
-      }
-      dtree_bits = zip_static_dtree_max_bits;
-      dyn_dtree_result = zip_build_huffman_tree(&code_lengths[lit_count], hdist_count, 0, (int)zip_distance_base, (int)zip_distance_extra_bits, &dtree, &dtree_bits);
-      if ( dtree_bits || lit_count <= 0x101 )
-      {
-        if ( dyn_dtree_result >= 2 )
+        zip_inflate_bit_buffer = clen_bit_buffer;
+        zip_inflate_bit_count = clen_bit_count;
+
+        /* Build the literal/length tree. */
+        tree_bits = zip_static_ltree_max_bits;
+        result = zip_build_huffman_tree(code_lengths, lit_count, 0x101,
+                                        zip_length_base, zip_length_extra_bits,
+                                        &ltree, &tree_bits);
+        if (!tree_bits || result)
         {
-          zip_free_huffman_tree(ltree);
-          return dyn_dtree_result;
+            if (result && result != 1)
+                return result;
+            printf("%s", "(incomplete l-tree)  ");
+            zip_free_huffman_tree(ltree);
+            return 1;
         }
-        if ( !zip_inflate_data_with_trees(ltree, dtree, tree_bits, dtree_bits) )
+
+        /* Build the distance tree. */
+        dtree_bits = zip_static_dtree_max_bits;
+        result = zip_build_huffman_tree(&code_lengths[lit_count], hdist_count, 0,
+                                        zip_distance_base, zip_distance_extra_bits,
+                                        &dtree, &dtree_bits);
+        if (dtree_bits || lit_count <= 0x101)
         {
-          zip_free_huffman_tree(ltree);
-          zip_free_huffman_tree(dtree);
-          return 0;
+            if (result >= 2)
+            {
+                zip_free_huffman_tree(ltree);
+                return result;
+            }
+            if (!zip_inflate_data_with_trees(ltree, dtree, tree_bits, dtree_bits))
+            {
+                zip_free_huffman_tree(ltree);
+                zip_free_huffman_tree(dtree);
+                return 0;
+            }
+            zip_free_huffman_tree(ltree);
+            zip_free_huffman_tree(dtree);
+            return 1;
         }
-      }
-      else
-      {
         printf("%s", "(incomplete d-tree)  ");
         zip_free_huffman_tree(ltree);
-      }
+        return 1;
     }
-    return 1;
-  }
-  if ( (header_bits & 3) != 0 )
-  {
-    if ( block_type != 1 )
-      return 2;
-    code_lengths[31] = input_ptr;
-    if ( zip_inflate_ltree )
-      return zip_inflate_data_with_trees(
-               zip_inflate_ltree,
-               zip_inflate_dtree,
-               zip_inflate_ltree_bits,
-               zip_inflate_dtree_bits) != 0;
-    memset32(static_lengths1, 8, 0x90u);
-    memset32(static_lengths2, 9, 0x70u);
-    memset32(static_lengths3, 7, 0x18u);
-    memset32(static_lengths4, 8, 8u);
-    zip_inflate_ltree_bits = 7;
-    static_ltree_result = zip_build_huffman_tree(
-               static_lengths1,
-               0x120u,
-               0x101u,
-               (int)zip_length_base,
-               (int)zip_length_extra_bits,
-               &zip_inflate_ltree,
-               (unsigned int *)&zip_inflate_ltree_bits);
-    if ( static_ltree_result )
+
+    if (block_type == 1)
     {
-      zip_inflate_ltree = 0;
-      return static_ltree_result;
-    }
-    memset32(static_lengths1, 5, 0x1Eu);
-    zip_inflate_dtree_bits = 5;
-    static_dtree_result = zip_build_huffman_tree(
-            static_lengths1,
-            0x1Eu,
-            0,
-            (int)zip_distance_base,
-            (int)zip_distance_extra_bits,
-            &zip_inflate_dtree,
-            (unsigned int *)&zip_inflate_dtree_bits);
-    if ( static_dtree_result <= 1 )
-    {
-      return zip_inflate_data_with_trees(
-               zip_inflate_ltree,
-               zip_inflate_dtree,
-               zip_inflate_ltree_bits,
-               zip_inflate_dtree_bits) != 0;
-    }
-    else
-    {
-      zip_free_huffman_tree(zip_inflate_ltree);
-      zip_inflate_ltree = 0;
-      return static_dtree_result;
-    }
-  }
-  else
-  {
-    stored_in_ptr = (uint8_t *)zipfile_input_buffer;
-    window_pos = zip_inflate_window_pos;
-    static_lengths4[5] = input_ptr;
-    align_bits = zip_inflate_bit_count & 7;
-    stored_bit_count = zip_inflate_bit_count - align_bits;
-    for ( stored_bit_buffer = (unsigned int)zip_inflate_bit_buffer >> align_bits; stored_bit_count < 0x10; zipfile_input_buffer = (int)stored_in_ptr )
-    {
-      stored_refill_byte = *stored_in_ptr << stored_bit_count;
-      stored_bit_count += 8;
-      stored_bit_buffer |= stored_refill_byte;
-      ++stored_in_ptr;
-    }
-    len_bit_count = stored_bit_count - 16;
-    stored_len = (uint16_t)stored_bit_buffer;
-    for ( stored_nlen = HIWORD(stored_bit_buffer); len_bit_count < 0x10; zipfile_input_buffer = (int)stored_in_ptr )
-    {
-      len_refill_byte = *stored_in_ptr << len_bit_count;
-      len_bit_count += 8;
-      stored_nlen |= len_refill_byte;
-      ++stored_in_ptr;
-    }
-    if ( stored_len == (uint16_t)~(uint16_t)stored_nlen )
-    {
-      byte_buffer = HIWORD(stored_nlen);
-      byte_bit_count = len_bit_count - 16;
-      if ( stored_len )
-      {
-        while ( 1 )
+        /* --------------------------- Fixed Huffman block -------------------------- */
+        uint32_t static_lengths[288];
+        int result;
+
+        if (zip_inflate_ltree)
+            return zip_inflate_data_with_trees(zip_inflate_ltree, zip_inflate_dtree,
+                                               zip_inflate_ltree_bits, zip_inflate_dtree_bits) != 0;
+
+        /* Fixed literal/length tree: 144 codes of 8 bits, 112 of 9,
+           24 of 7 and 8 of 8 (DEFLATE spec, 3.2.6). */
+        memset32(static_lengths, 8, 144);
+        memset32(static_lengths + 144, 9, 112);
+        memset32(static_lengths + 256, 7, 24);
+        memset32(static_lengths + 280, 8, 8);
+        zip_inflate_ltree_bits = 7;
+        result = zip_build_huffman_tree(static_lengths, 0x120, 0x101,
+                                        zip_length_base, zip_length_extra_bits,
+                                        &zip_inflate_ltree, &zip_inflate_ltree_bits);
+        if (result)
         {
-          for ( ; byte_bit_count < 8; zipfile_input_buffer = (int)stored_in_ptr )
-          {
-            byte_shift = byte_bit_count;
-            byte_bit_count += 8;
-            byte_buffer |= *stored_in_ptr++ << byte_shift;
-          }
-          *((uint8_t *)zip_sliding_window + window_pos++) = byte_buffer;
-          if ( window_pos == 0x8000 )
-          {
-            zip_copy_sliding_window_to_output(zip_sliding_window, 0x8000u);
-            window_pos = 0;
-          }
-          byte_buffer >>= 8;
-          byte_bit_count -= 8;
-          if ( !--stored_len )
-            break;
-          stored_in_ptr = (uint8_t *)zipfile_input_buffer;
+            zip_inflate_ltree = NULL;
+            return result;
         }
-      }
-      zip_inflate_bit_count = byte_bit_count;
-      zip_inflate_window_pos = window_pos;
-      zip_inflate_bit_buffer = byte_buffer;
-      return 0;
+
+        /* Fixed distance tree: 30 codes of 5 bits. */
+        memset32(static_lengths, 5, 30);
+        zip_inflate_dtree_bits = 5;
+        result = zip_build_huffman_tree(static_lengths, 0x1E, 0,
+                                        zip_distance_base, zip_distance_extra_bits,
+                                        &zip_inflate_dtree, &zip_inflate_dtree_bits);
+        if (result <= 1)
+            return zip_inflate_data_with_trees(zip_inflate_ltree, zip_inflate_dtree,
+                                               zip_inflate_ltree_bits, zip_inflate_dtree_bits) != 0;
+        zip_free_huffman_tree(zip_inflate_ltree);
+        zip_inflate_ltree = NULL;
+        return result;
     }
-    else
+
+    if (block_type == 0)
     {
-      return 1;
+        /* ------------------------------ Stored block ------------------------------ */
+        uint8_t *stored_in_ptr = zipfile_input_buffer;
+        unsigned int window_pos = zip_inflate_window_pos;
+        unsigned int align_bits = zip_inflate_bit_count & 7;
+        unsigned int stored_bit_count;
+        unsigned int stored_bit_buffer;
+        unsigned int len_bit_count;
+        unsigned int stored_len;
+        unsigned int stored_nlen;
+        unsigned int byte_buffer;
+        unsigned int byte_bit_count;
+
+        /* Align to the next byte boundary, then read LEN (16 bits). */
+        stored_bit_count = zip_inflate_bit_count - align_bits;
+        stored_bit_buffer = zip_inflate_bit_buffer >> align_bits;
+        while (stored_bit_count < 16)
+        {
+            stored_bit_buffer |= (unsigned int)*stored_in_ptr++ << stored_bit_count;
+            stored_bit_count += 8;
+            zipfile_input_buffer = stored_in_ptr;
+        }
+        len_bit_count = stored_bit_count - 16;
+        stored_len = (uint16_t)stored_bit_buffer;
+
+        /* Read NLEN (16 bits) and verify LEN == ~NLEN. */
+        stored_nlen = stored_bit_buffer >> 16;
+        while (len_bit_count < 16)
+        {
+            stored_nlen |= (unsigned int)*stored_in_ptr++ << len_bit_count;
+            len_bit_count += 8;
+            zipfile_input_buffer = stored_in_ptr;
+        }
+        if (stored_len != (uint16_t)~stored_nlen)
+            return 1;
+
+        /* Copy the stored bytes into the sliding window. */
+        byte_buffer = stored_nlen >> 16;    /* buffered bytes after LEN/NLEN */
+        byte_bit_count = len_bit_count - 16;
+        while (stored_len--)
+        {
+            while (byte_bit_count < 8)
+            {
+                byte_buffer |= (unsigned int)*stored_in_ptr++ << byte_bit_count;
+                byte_bit_count += 8;
+                zipfile_input_buffer = stored_in_ptr;
+            }
+            zip_sliding_window[window_pos++] = (uint8_t)byte_buffer;
+            if (window_pos == ZIP_SLIDING_WINDOW_SIZE)
+            {
+                zip_copy_sliding_window_to_output(zip_sliding_window, ZIP_SLIDING_WINDOW_SIZE);
+                window_pos = 0;
+            }
+            byte_buffer >>= 8;
+            byte_bit_count -= 8;
+            stored_in_ptr = zipfile_input_buffer;
+        }
+        zip_inflate_bit_count = byte_bit_count;
+        zip_inflate_window_pos = window_pos;
+        zip_inflate_bit_buffer = byte_buffer;
+        return 0;
     }
-  }
+
+    return 2;   /* unknown block type (BTYPE == 3) */
+}
+
+/* ===========================================================================
+ * Huffman table construction (classic zlib huft_build algorithm)
+ *
+ * Builds the multi-level lookup tables for the given code lengths.  Returns
+ * 0 on success, 1 when the code set is incomplete (tables are still built),
+ * 2 when it is over-subscribed, 3 on out-of-memory.
+ * =========================================================================== */
+
+static ZipHuffmanNode *zip_alloc_huffman_table(unsigned int entries, ZipHuffmanTableHeader **header)
+{
+    ZipHuffmanTableHeader *hdr = (ZipHuffmanTableHeader *)malloc(
+            sizeof(ZipHuffmanTableHeader) + (size_t)entries * sizeof(ZipHuffmanNode));
+    if (!hdr)
+        return NULL;
+    hdr->next = 0;
+    *header = hdr;
+    return (ZipHuffmanNode *)((uint8_t *)hdr + sizeof(ZipHuffmanTableHeader));
+}
+
+static int zip_free_huffman_tree(ZipHuffmanNode *tree)
+{
+    while (tree)
+    {
+        ZipHuffmanTableHeader *hdr = (ZipHuffmanTableHeader *)((uint8_t *)tree - sizeof(ZipHuffmanTableHeader));
+        ZipHuffmanNode *next = (ZipHuffmanNode *)(uintptr_t)hdr->next;
+        free(hdr);
+        tree = next;
+    }
+    return 0;
 }
 
 static int zip_build_huffman_tree(
         uint32_t *lengths,
         unsigned int num_lengths,
         unsigned int literal_codes,
-        int base_table,
-        int extra_table,
-        uint32_t *tree,
+        const uint16_t *base_table,
+        const uint8_t *extra_table,
+        ZipHuffmanNode **tree,
         unsigned int *max_bits)
 {
-  uint32_t *p;
-  unsigned int left;
-  uint32_t *count_ptr;
-  int status;
-  unsigned int cur_bits;
-  unsigned int bit_pattern;
-  signed int bits;
-  unsigned int scan_len;
-  int avail_codes;
-  int diff;
-  unsigned int top_len;
-  int max_count;
-  int dummy_codes;
-  int offset;
-  unsigned int steps;
-  int idx;
-  int *len_p;
-  unsigned int sym;
-  int len;
-  int pos;
-  unsigned int *sym_p;
-  int level;
-  unsigned int bits_before;
-  unsigned int table_size;
-  signed int bits_so_far;
-  unsigned int bits_cur;
-  unsigned int bits_rem;
-  unsigned int table_bits;
-  unsigned int entries;
-  uint32_t *counts_save;
-  unsigned int avail;
-  unsigned int next_count;
-  unsigned int twice_avail;
-  uint32_t *new_table;
-  char *table_ptr;
-  unsigned int bits_saved;
-  unsigned int parent_idx;
-  int parent_tbl;
-  unsigned int sym_idx;
-  int fill_count;
-  unsigned int entry_idx;
-  char *entry_ptr;
-  unsigned int mask;
-  int prev_bits;
-  signed int cur_len;
-  int codes_remain;
-  unsigned int *saved_sym_p;
-  int entry_word;
-  char *entry_base = 0;
-  uint32_t *counts_p;
-  unsigned int pattern;
-  signed int max_len;
-  char bits_minus_one;
-  unsigned int max_bits_allowed;
-  char *cur_table;
-  int incomplete;
-  uint32_t counts[17];
-  uint32_t level_bits[16];
-  uint32_t offsets[17];
-  int level_tables[16];
-  uint32_t symbols[288];
-  int top_start;
+    uint32_t counts[17];            /* number of codes of each bit length (0..16) */
+    uint32_t symbols[288];          /* code values in order of bit length */
+    ZipHuffmanNode *level_tables[17]; /* table stack (one per level) */
+    uint32_t level_bits[17];        /* table size (bits) per level */
+    ZipHuffmanNode *list_head;      /* root of the allocated tables (for freeing) */
+    ZipHuffmanNode *last_table;     /* previously allocated table (linked to the new one) */
+    ZipHuffmanNode *cur_table;      /* table currently being filled */
+    unsigned int i, j, k;           /* counters */
+    unsigned int g;                 /* maximum code length */
+    unsigned int l;                 /* bits per table (requested/actual) */
+    unsigned int w;                 /* bits decoded before the current table */
+    unsigned int a;                 /* number of codes of length k */
+    unsigned int f;                 /* repeat count when filling entries */
+    unsigned int z;                 /* number of entries in the current table */
+    unsigned int y;                 /* number of dummy codes added */
+    unsigned int mask;              /* (1 << w) - 1, for the backup loop */
+    uint32_t *p;                    /* pointer into lengths[] / symbols[] */
+    ZipHuffmanNode *q;              /* points to the current table */
+    ZipHuffmanNode r;               /* table entry for structure assignment */
+    unsigned int x[17];             /* saved code pattern per level (backup) */
+    unsigned int *xp;               /* pointer into x[] */
+    unsigned int top_start;         /* end of the real symbols (== number of values) */
+    unsigned int max_bits_allowed;
+    int incomplete;                 /* non-zero when dummy codes were added */
+    int h;                          /* current table level */
 
-  if ( num_lengths <= 0x100 )
-    max_bits_allowed = 16;
-  else
-    max_bits_allowed = lengths[256];
-  memset(counts, 0, sizeof(counts));
-  p = lengths;
-  left = num_lengths;
-  do
-  {
-    count_ptr = &counts[*p++];
-    --left;
-    ++*count_ptr;
-  }
-  while ( left );
-  if ( counts[0] == num_lengths )
-  {
-    *tree = 0;
-    *max_bits = 0;
-    return 0;
-  }
-  for ( cur_bits = 1; cur_bits <= 0x10; ++cur_bits )
-  {
-    bit_pattern = 0;
-    if ( counts[cur_bits] )
-      break;
-  }
-  bits = cur_bits;
-  cur_len = cur_bits;
-  if ( *max_bits < cur_bits )
-    *max_bits = cur_bits;
-  scan_len = 16;
-  do
-  {
-    if ( counts[scan_len] )
-      break;
-    --scan_len;
-  }
-  while ( scan_len );
-  max_len = scan_len;
-  if ( *max_bits > scan_len )
-    *max_bits = scan_len;
-  for ( avail_codes = 1 << cur_bits; cur_bits < scan_len; avail_codes = 2 * diff )
-  {
-    diff = avail_codes - counts[cur_bits];
-    if ( diff < 0 )
-      return 2;
-    ++cur_bits;
-  }
-  top_len = scan_len;
-  max_count = counts[scan_len];
-  dummy_codes = avail_codes - max_count;
-  incomplete = dummy_codes;
-  if ( dummy_codes < 0 )
-    return 2;
-  counts[scan_len] = dummy_codes + max_count;
-  offset = 0;
-  steps = scan_len - 1;
-  offsets[1] = 0;
-  if ( steps )
-  {
-    idx = 0;
-    do
-    {
-      offset += counts[idx + 1];
-      offsets[idx + 2] = offset;
-      ++idx;
-      --steps;
-    }
-    while ( steps );
-  }
-  memset(symbols, 0, sizeof(symbols));
-  len_p = lengths;
-  sym = 0;
-  do
-  {
-    len = *len_p++;
-    if ( len )
-    {
-      pos = offsets[len];
-      symbols[pos] = sym;
-      offsets[len] = pos + 1;
-    }
-    ++sym;
-  }
-  while ( sym < num_lengths );
-  top_start = offsets[top_len];
-  sym_p = symbols;
-  level = -1;
-  bits_before = 0;
-  table_size = 0;
-  pattern = 0;
-  offsets[0] = 0;
-  saved_sym_p = symbols;
-  level_tables[0] = 0;
-  cur_table = nullptr;
-  if ( bits > max_len )
-  {
-LABEL_65:
-    *max_bits = level_bits[0];
-    if ( !incomplete )
-      return 0;
-    status = 1;
-    if ( max_len == 1 )
-      return 0;
-  }
-  else
-  {
-    bits_minus_one = bits - 1;
-    counts_p = &counts[bits];
-    while ( 1 )
-    {
-      codes_remain = *counts_p;
-      if ( *counts_p )
-        break;
-LABEL_64:
-      ++counts_p;
-      ++bits;
-      ++bits_minus_one;
-      cur_len = bits;
-      if ( bits > max_len )
-        goto LABEL_65;
-    }
-    while ( 1 )
-    {
-      --codes_remain;
-      bits_so_far = bits_before + level_bits[level];
-      if ( bits > bits_so_far )
-        break;
-LABEL_49:
-      if ( sym_p < &symbols[top_start] )
-      {
-        sym_idx = *sym_p;
-        if ( *sym_p >= literal_codes )
-        {
-          sym_idx = 2 * (sym_idx - literal_codes);
-          LOBYTE(entry_word) = *(uint8_t *)(sym_idx + extra_table);
-          LOWORD(sym_idx) = *(uint16_t *)(sym_idx + base_table);
-        }
-        else
-        {
-          LOBYTE(entry_word) = (sym_idx < 0x100) + 15;
-        }
-        LOWORD(entry_base) = sym_idx;
-        saved_sym_p = sym_p + 1;
-      }
-      else
-      {
-        LOBYTE(entry_word) = 99;
-      }
-      fill_count = 1 << (cur_len - bits_before);
-      entry_idx = bit_pattern >> bits_before;
-      if ( bit_pattern >> bits_before < table_size )
-      {
-        entry_ptr = &cur_table[8 * entry_idx];
-        do
-        {
-          BYTE1(entry_word) = cur_len - bits_before;
-          *(uint32_t *)entry_ptr = entry_word;
-          *((uint32_t *)entry_ptr + 1) = entry_base;
-          entry_idx += fill_count;
-          entry_ptr += 8 * fill_count;
-        }
-        while ( entry_idx < table_size );
-        bit_pattern = pattern;
-      }
-      for ( mask = 1 << bits_minus_one; (mask & bit_pattern) != 0; mask >>= 1 )
-        bit_pattern ^= mask;
-      bit_pattern ^= mask;
-      for ( pattern = bit_pattern; (bit_pattern & ((1 << bits_before) - 1)) != offsets[level]; bits_before -= prev_bits )
-        prev_bits = level_bits[--level];
-      sym_p = saved_sym_p;
-      bits = cur_len;
-      if ( !codes_remain )
-        goto LABEL_64;
-    }
-    while ( 1 )
-    {
-      bits_cur = bits_so_far;
-      bits_rem = max_len - bits_so_far;
-      ++level;
-      if ( max_len - bits_so_far > *max_bits )
-        bits_rem = *max_bits;
-      table_bits = cur_len - bits_so_far;
-      entries = 1 << (cur_len - bits_so_far);
-      if ( entries > codes_remain + 1 )
-      {
-        counts_save = counts_p;
-        avail = -1 - codes_remain + entries;
-        if ( ++table_bits < bits_rem )
-        {
-          do
-          {
-            next_count = counts_save[1];
-            ++counts_save;
-            twice_avail = 2 * avail;
-            if ( twice_avail <= next_count )
-              break;
-            avail = twice_avail - next_count;
-            ++table_bits;
-          }
-          while ( table_bits < bits_rem );
-        }
-      }
-      if ( table_bits + bits_cur > max_bits_allowed && bits_cur < max_bits_allowed )
-        table_bits = max_bits_allowed - bits_cur;
-      table_size = 1 << table_bits;
-      level_bits[level] = table_bits;
-      new_table = malloc(8 * (1 << table_bits) + 8);
-      if ( !new_table )
-        break;
-      zip_inflate_max_memory_used += table_size + 1;
-      table_ptr = (char *)(new_table + 2);
-      *tree = new_table + 2;
-      tree = new_table + 1;
-      new_table[1] = 0;
-      cur_table = (char *)(new_table + 2);
-      level_tables[level] = (int)(new_table + 2);
-      if ( level )
-      {
-        LOBYTE(entry_word) = table_bits + 16;
-        BYTE1(entry_word) = level_bits[level - 1];
-        bits_saved = bits_cur;
-        offsets[level] = pattern;
-        entry_base = table_ptr;
-        parent_idx = (pattern & ((1 << bits_cur) - 1)) >> (bits_cur - LOBYTE(level_bits[level - 1]));
-        parent_tbl = offsets[level + 16];
-        *(uint32_t *)(parent_tbl + 8 * parent_idx) = entry_word;
-        *(uint32_t *)(parent_tbl + 8 * parent_idx + 4) = entry_base;
-      }
-      else
-      {
-        bits_saved = bits_cur;
-      }
-      bits_so_far = level_bits[level] + bits_saved;
-      if ( cur_len <= bits_so_far )
-      {
-        bits_before = bits_cur;
-        bit_pattern = pattern;
-        sym_p = saved_sym_p;
-        goto LABEL_49;
-      }
-    }
-    if ( level )
-      zip_free_huffman_tree(level_tables[0]);
-    return 3;
-  }
-  return status;
-}
+    /* Bound the first table size: for more than 256 codes the limit is the
+       length of code 256 (the end-of-block code). */
+    max_bits_allowed = (num_lengths <= 0x100) ? 16 : lengths[256];
 
-static int zip_free_huffman_tree(int tree)
-{
-  int node;
-  int next;
-
-  node = tree;
-  if ( tree )
-  {
-    do
+    /* Count the number of codes of each length. */
+    memset(counts, 0, sizeof(counts));
+    for (i = 0; i < num_lengths; ++i)
+        ++counts[lengths[i]];
+    if (counts[0] == num_lengths)   /* no codes at all */
     {
-      next = *(uint32_t *)(node - 4);
-      free((LPVOID)(node - 8));
-      node = next;
+        *tree = NULL;
+        *max_bits = 0;
+        return 0;
     }
-    while ( next );
-  }
-  return 0;
-}
 
-static unsigned int zip_copy_sliding_window_to_output(const void *src, unsigned int size)
-{
-  qmemcpy((void *)zip_inflate_output_ptr, src, size);
-  zip_inflate_output_ptr += size;
-  return size;
-}
+    /* Find the minimum and maximum code length and clamp *max_bits. */
+    l = *max_bits;
+    for (j = 1; j <= 16; ++j)
+        if (counts[j])
+            break;
+    k = j;                          /* minimum code length */
+    if (l < j)
+        l = j;
+    for (i = 16; i != 0; --i)
+        if (counts[i])
+            break;
+    g = i;                          /* maximum code length */
+    if (l > i)
+        l = i;
+    *max_bits = l;
 
-int zip_extract_file(char *FileName, char *search_name, LPVOID *out_data, size_t *out_size)
-{
-  FILE *fp;
-  FILE *file;
-  int file_size;
-  char *name_ptr;
-  char upper_ch;
-  void *out_buffer;
-  int inflate_result;
-  int ch;
-  LPVOID data;
-  LPVOID lpMem;
-  int eocd;
-  int16_t disk_number;
-  int16_t cd_start_disk;
-  int16_t entries_this_disk;
-  int16_t total_entries;
-  ZipLocalFileHeaderInMem local_header;
-  char ArgList[32];
-  ZipCentralDirectoryEntry cd_entry;
+    /* Adjust the last length count to fill out all codes (Kraft inequality). */
+    for (y = 1 << j; j < i; ++j, y <<= 1)
+        if ((y -= counts[j]) < 0)
+            return 2;               /* over-subscribed */
+    if ((y -= counts[i]) < 0)
+        return 2;
+    counts[i] += y;
+    incomplete = (y != 0) ? 1 : 0;
 
-  lpMem = nullptr;
-  data = nullptr;
-  *(uint32_t *)zip_filename = zip_get_filename_from_path(FileName);
-  fp = fopen(FileName, "rb");
-  file = fp;
-  if ( fp )
-  {
-    file_size = zip_get_file_size(fp, &zip_file_size);
-    if ( file_size )
+    /* Generate the starting offsets into the value table for each length. */
+    x[1] = 0;
+    j = 0;
+    p = counts + 1;
+    xp = x + 2;
+    while (--i)                     /* i == g here */
+        *xp++ = (j += *p++);
+
+    /* Make a table of values in order of bit length. */
+    p = lengths;
+    for (i = 0; i < num_lengths; ++i)
+        if ((j = *p++) != 0)
+            symbols[x[j]++] = i;
+    top_start = x[g];               /* == number of values */
+
+    /* Generate the Huffman codes and, for each, the table entries. */
+    x[0] = i = 0;                   /* first Huffman code is zero */
+    p = symbols;                    /* grab values in bit order */
+    h = -1;                         /* no tables yet--level -1 */
+    w = 0;                          /* bits decoded before the current table */
+    q = NULL;
+    cur_table = NULL;
+    list_head = NULL;
+    last_table = NULL;
+
+    /* Go through the bit lengths; k is the bits in the shortest code. */
+    for (; k <= g; ++k)
     {
-      zip_print("Error in zipfile %s: get_file_length() failed\n", *(const char **)zip_filename);
-    }
-    else
-    {
-      file_size = zip_locate_central_dir(file, &eocd);
-      if ( file_size )
-      {
-        zip_print("Error reading 'end of central directory' in zipfile %s\n", *(const char **)zip_filename);
-      }
-      else
-      {
-        if ( disk_number != cd_start_disk || entries_this_disk != total_entries || !total_entries )
+        a = counts[k];
+        while (a--)
         {
-          file_size = -1;
-          zip_print("Unsupported zipfile %s: zipfile cannot span disks\n", *(const char **)zip_filename);
-          goto LABEL_13;
-        }
-        name_ptr = ArgList;
-        do
-        {
-          ch = *search_name++;
-          upper_ch = toupper(ch);
-          *name_ptr++ = upper_ch;
-        }
-        while ( upper_ch );
-        file_size = zip_load_central_directory(file, ArgList, (int)&eocd, &cd_entry);
-        if ( file_size )
-        {
-          zip_print("Could not find %s in zipfile %s\n", ArgList, *(uint32_t *)zip_filename);
-        }
-        else
-        {
-          file_size = zip_read_local_file_header(file, (int)&cd_entry, &local_header, (uint8_t *)&zip_central_dir_buffer);
-          if ( !file_size )
-          {
-            if ( local_header.compression_method )
+            /* Here i is the Huffman code of length k bits for value *p.
+               Make tables up to the level required by this code. */
+            while (k > w)
             {
-              if ( local_header.compression_method == 8 )
-              {
-                file_size = zip_read_compressed_data_to_buffer(file, (int)&cd_entry, (int)&local_header, &lpMem);
-                if ( file_size )
+                unsigned int table_bits;
+                unsigned int bits_rem;
+                unsigned int entries;
+                ZipHuffmanTableHeader *header;
+
+                ++h;
+                bits_rem = g - w;
+                if (bits_rem > *max_bits)
+                    bits_rem = *max_bits;
+
+                /* Compute the minimum table size <= bits_rem bits. */
+                table_bits = k - w;
+                entries = 1u << table_bits;
+                if (entries > a + 1)
                 {
-                  zip_print("Could not create input buffer for zipfile %s\n", *(const char **)zip_filename);
-                  goto LABEL_13;
+                    /* Too few codes for a table_bits-bit table: try smaller. */
+                    unsigned int avail = entries - a - 1;
+                    if (++table_bits < bits_rem)
+                    {
+                        uint32_t *counts_p = counts + k;
+                        do
+                        {
+                            unsigned int twice_avail = 2 * avail;
+                            ++counts_p;
+                            if (twice_avail <= *counts_p)
+                                break;
+                            avail = twice_avail - *counts_p;
+                            ++table_bits;
+                        } while (table_bits < bits_rem);
+                    }
                 }
-                zipfile_input_buffer = (int)lpMem;
-                out_buffer = malloc(local_header.uncompressed_size);
-                data = out_buffer;
-                if ( !out_buffer )
+                if (table_bits + w > max_bits_allowed && w < max_bits_allowed)
+                    table_bits = max_bits_allowed - w;
+                z = 1u << table_bits;
+
+                /* Allocate the new table and link it into the tree's list. */
+                q = zip_alloc_huffman_table(z, &header);
+                if (!q)
                 {
-                  zip_print(
-                    "Couldn't allocate %d bytes for zipfile %s output buffer\n",
-                    *(uint32_t *)zip_filename,
-                    (const char *)local_header.uncompressed_size);
-                  file_size = -1;
-                  goto LABEL_13;
+                    if (list_head)
+                        zip_free_huffman_tree(list_head);
+                    return 3;       /* out of memory */
                 }
-                zip_inflate_output_ptr = (int)out_buffer;
-                zip_sliding_window = malloc(0x8000u);
-                if ( !zip_sliding_window )
+                level_tables[h] = q;
+                level_bits[h] = table_bits;
+                if (last_table)
+                    ((ZipHuffmanTableHeader *)((uint8_t *)last_table - sizeof(ZipHuffmanTableHeader)))->next = (uintptr_t)q;
+                last_table = q;
+                if (!list_head)
+                    list_head = q;
+                zip_inflate_max_memory_used += z + 1;
+                cur_table = q;
+
+                /* Connect the new table to its parent, if there is one. */
+                if (h)
                 {
-                  zip_print("Could not create 32K sliding window for zipfile %s\n", *(const char **)zip_filename);
-                  file_size = -1;
-                  goto LABEL_13;
+                    unsigned int parent_idx;
+                    x[h] = i;       /* save the pattern for backing up */
+                    r.b = (uint8_t)level_bits[h - 1];   /* bits to dump before this table */
+                    r.e = (uint8_t)(16 + table_bits);   /* bits in this table */
+                    r.v = (uintptr_t)q;                 /* pointer to this table */
+                    parent_idx = (i >> (w - level_bits[h - 1])) & zip_bit_masks[level_bits[h - 1]];
+                    level_tables[h - 1][parent_idx] = r;   /* connect to the parent table */
                 }
-                inflate_result = zip_inflate_file();
-                file_size = inflate_result;
-                if ( inflate_result )
-                {
-                  zip_print("Error %d inflating compressed file from zipfile %s\n", inflate_result, *(uint32_t *)zip_filename);
-                  goto LABEL_13;
-                }
-              }
+                else
+                    *tree = q;      /* the first table is the returned result */
+                w += table_bits;
+            }
+
+            /* Set up the table entry in r. */
+            r.b = (uint8_t)(k - (w - level_bits[h]));
+            if (p >= symbols + top_start)
+                r.e = 99;           /* out of values--invalid code */
+            else if (*p < literal_codes)
+            {
+                r.e = (uint8_t)((*p < 0x100) ? 16 : 15);    /* 16 = literal, 15 = end of block */
+                r.v = *p++;         /* simple code is just the value */
             }
             else
             {
-              file_size = zip_read_compressed_data_to_buffer(file, (int)&cd_entry, (int)&local_header, &data);
-              if ( file_size )
-              {
-                zip_print("Couldn't extract uncompressed file from zipfile %s\n", *(const char **)zip_filename);
-                goto LABEL_13;
-              }
+                r.e = extra_table[*p - literal_codes];      /* non-simple--look up in the lists */
+                r.v = base_table[*p++ - literal_codes];
             }
-            *out_data = data;
-            *out_size = local_header.uncompressed_size;
-            data = nullptr;
-            goto LABEL_13;
-          }
-          zip_print("Error reading 'local file header' in zipfile %s\n", *(const char **)zip_filename);
+
+            /* Fill the code-like entries with r. */
+            f = 1u << r.b;
+            for (j = i >> (w - level_bits[h]); j < z; j += f)
+                cur_table[j] = r;
+
+            /* Backwards increment the k-bit code i. */
+            for (j = 1u << (k - 1); i & j; j >>= 1)
+                i ^= j;
+            i ^= j;
+
+            /* Back up over finished tables. */
+            mask = (1u << (w - level_bits[h])) - 1;
+            while ((i & mask) != x[h])
+            {
+                w -= level_bits[h]; /* drop the current table's bits from the covered total */
+                --h;                /* move up to the parent table */
+                mask = (1u << (w - level_bits[h])) - 1;
+            }
         }
-      }
     }
-LABEL_13:
-    fclose(file);
-    goto LABEL_14;
-  }
-  zip_print("Could not open zipfile %s\n", FileName);
-  file_size = -1;
-LABEL_14:
-  if ( lpMem )
-    free(lpMem);
-  if ( data )
-    free(data);
-  if ( zip_sliding_window )
-  {
-    free(zip_sliding_window);
-    zip_sliding_window = nullptr;
-  }
-  return file_size;
+
+    /* Return 1 (incomplete) if dummy codes were added and the code set is
+       not a single-code set, 0 otherwise.  *max_bits receives the actual
+       size (in bits) of the first table, which may be smaller than the
+       requested value. */
+    *max_bits = level_bits[0];
+    return (incomplete && g != 1) ? 1 : 0;
 }
 
-static char * zip_get_filename_from_path(const char *path)
-{
-  char *token;
-  char *last_token;
+/* ===========================================================================
+ * ZIP parsing helpers
+ * =========================================================================== */
 
-  strcpy(zip_path_buffer, path);
-  token = strtok(zip_path_buffer, "/\\:");
-  if ( token )
-  {
-    do
+/* Returns the last path component of a path (e.g. "C:\\dir\\file.zip" -> "file.zip"). */
+static char *zip_get_filename_from_path(const char *path)
+{
+    char *token;
+    char *last_token = NULL;
+
+    strcpy(zip_path_buffer, path);
+    token = strtok(zip_path_buffer, "/\\:");
+    while (token)
     {
-      last_token = token;
-      token = strtok(nullptr, "/\\:");
+        last_token = token;
+        token = strtok(NULL, "/\\:");
     }
-    while ( token );
     return last_token;
-  }
-  return token;
 }
 
 static int zip_print(char *Format, ...)
 {
-  char Buffer[256];
-  va_list ArgList;
+    char Buffer[256];
+    va_list ArgList;
+    int len;
 
-  va_start(ArgList, Format);
-  vsprintf(Buffer, Format, ArgList);
-  return printf(Buffer);
-}
-
-int zip_load_file(char *FileName)
-{
-  FILE *fp;
-  FILE *file;
-  int eocd;
-  int16_t disk_number;
-  int16_t cd_start_disk;
-  int16_t entries_this_disk;
-  int16_t total_entries;
-  int entry_buf[13];
-
-  *(uint32_t *)zip_filename = zip_get_filename_from_path(FileName);
-  fp = fopen(FileName, "rb");
-  file = fp;
-  if ( fp )
-  {
-    if ( zip_get_file_size(fp, &zip_file_size) )
-    {
-      zip_print("Error in zipfile %s: get_file_length() failed\n", *(uint32_t *)zip_filename);
-    }
-    else if ( zip_locate_central_dir(file, &eocd) )
-    {
-      zip_print("Error reading 'end of central directory' in zipfile %s\n", *(uint32_t *)zip_filename);
-    }
-    else
-    {
-      if ( disk_number == cd_start_disk && entries_this_disk == total_entries && total_entries )
-      {
-        zip_load_local_file_headers(file, (int)&eocd, (ZipCentralDirectoryEntryInMem *)entry_buf);
-        fclose(file);
-        return 0;
-      }
-      zip_print("Unsupported zipfile %s: zipfile cannot span disks\n", *(uint32_t *)zip_filename);
-    }
-    fclose(file);
-  }
-  return 0;
-}
-
-static int zip_read_compressed_data_to_buffer(FILE *Stream, int cd_entry, int local_header, LPVOID *out_buffer)
-{
-  size_t compressed_size;
-  void *buffer;
-  int status;
-
-  compressed_size = *(uint32_t *)(local_header + 20);
-  buffer = malloc(compressed_size);
-  *out_buffer = buffer;
-  if ( !buffer )
-  {
-    zip_print("Couldn't allocate %ld bytes for input buffer for zipfile %s\n", compressed_size, *(const char **)zip_filename);
-    return -1;
-  }
-  status = fseek(Stream, *(uint16_t *)(local_header + 28) + *(uint16_t *)(local_header + 30) + *(uint32_t *)(cd_entry + 44) + 30, 0);
-  if ( status )
-  {
-    zip_print("Error reading zipfile %s: fseek to compressed data failed\n", *(const char **)zip_filename);
-LABEL_7:
-    if ( *out_buffer )
-    {
-      free(*out_buffer);
-      *out_buffer = nullptr;
-    }
-    return status;
-  }
-  if ( fread(*out_buffer, 1u, compressed_size, Stream) != compressed_size )
-  {
-    zip_print("Error in zipfile %s: couldn't read %ld bytes of compressed data\n", *(const char **)zip_filename, compressed_size);
-    status = -1;
-    goto LABEL_7;
-  }
-  return status;
-}
-
-static int zip_read_local_file_header(FILE *Stream, int cd_entry, ZipLocalFileHeaderInMem *local_header, uint8_t *Buffer)
-{
-  int offset;
-  size_t read_size;
-  int status;
-
-  offset = *(uint32_t *)(cd_entry + 44);
-  read_size = zip_file_size - offset;
-  if ( zip_file_size - offset >= 0x2000 )
-    read_size = 0x2000;
-  status = fseek(Stream, offset, 0);
-  if ( status )
-  {
-    zip_print("Error in zipfile %s: couldn't fseek to local file header\n", *(const char **)zip_filename);
-    return status;
-  }
-  else if ( fread(Buffer, 1u, read_size, Stream) == read_size )
-  {
-
-    local_header->signature = zip_read_uint32_le(Buffer);
-    local_header->version_needed = zip_read_uint16_le((int)(Buffer + 4));
-    local_header->general_purpose_bit_flag = zip_read_uint16_le((int)(Buffer + 6));
-    local_header->compression_method = zip_read_uint16_le((int)(Buffer + 8));
-    local_header->last_mod_time = zip_read_uint16_le((int)(Buffer + 10));
-    local_header->last_mod_date = zip_read_uint16_le((int)(Buffer + 12));
-    local_header->crc32 = zip_read_uint32_le(Buffer + 14);
-    local_header->compressed_size = zip_read_uint32_le(Buffer + 18);
-    local_header->uncompressed_size = zip_read_uint32_le(Buffer + 22);
-    local_header->filename_length = zip_read_uint16_le((int)(Buffer + 26));
-    local_header->extra_field_length = zip_read_uint16_le((int)(Buffer + 28));
-    local_header->filename = (char *)(Buffer + 30);
-    return 0;
-  }
-  else
-  {
-    zip_print("Error in zipfile %s: couldn't read %ld bytes from local file header", *(const char **)zip_filename, read_size);
-    return -1;
-  }
-}
-
-static int zip_load_central_directory(FILE *Stream, const char *search_name, int eocd, ZipCentralDirectoryEntry *cd_entry)
-{
-  int found;
-  size_t read_size;
-  int name_index;
-  char ch;
-  uint16_t filename_length;
-  uint16_t compression_method;
-  int entry_index;
-  ZipCentralDirectoryEntry *entry;
-  char name_buf[256];
-
-  found = 0;
-  read_size = 0x2000;
-  if ( *(uint32_t *)(eocd + 12) <= 0x2000u )
-    read_size = *(uint32_t *)(eocd + 12);
-  if ( fseek(Stream, *(uint32_t *)(eocd + 16), 0) )
-  {
-    zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)zip_filename);
-    return -1;
-  }
-  else if ( fread(&zip_central_dir_buffer, 1u, read_size, Stream) == read_size )
-  {
-    entry_index = 0;
-    entry = &zip_central_dir_buffer;
-    while ( entry_index < *(uint16_t *)(eocd + 10) )
-    {
-      zip_parse_cd_entry(entry, (ZipCentralDirectoryEntryInMem *)cd_entry);
-      name_index = 0;
-      if ( cd_entry->filename_length )
-      {
-        do
-        {
-          if ( name_index >= 254 )
-            break;
-          ch = toupper(*(char *)(*(uint32_t *)((char *)&cd_entry[1].signature + 2) + name_index));
-          filename_length = cd_entry->filename_length;
-          name_buf[name_index++] = ch;
-        }
-        while ( name_index < filename_length );
-      }
-      name_buf[name_index] = 0;
-      if ( !zip_compare_filename_case_insensitive(name_buf, search_name) )
-      {
-        compression_method = cd_entry->compression_method;
-        found = 1;
-        if ( compression_method && compression_method != 8 )
-        {
-          found = 0;
-          zip_print(
-            "Error in zipfile %s: compression method for file %s unsupported.\n",
-            *(const char **)zip_filename,
-            search_name);
-          zip_print("Method: $%04x  must be $0000 (Stored) or $0008 (Deflated)\n", cd_entry->compression_method);
-        }
-        if ( LOBYTE(cd_entry->version_needed) > 0x14u )
-        {
-          found = 0;
-          zip_print("Error in zipfile %s: version for file %s too new.\n", *(const char **)zip_filename, search_name);
-          zip_print("Version: $%02x must be $14 or less\n", LOBYTE(cd_entry->version_needed));
-        }
-        if ( HIBYTE(cd_entry->version_needed) )
-        {
-          found = 0;
-          zip_print("Error in zipfile %s: OS for file %s not supported.\n", *(const char **)zip_filename, search_name);
-          zip_print("OS: $%02x must be $00\n", HIBYTE(cd_entry->version_needed));
-        }
-        if ( cd_entry->disk_number_start != *(uint16_t *)(eocd + 4) )
-        {
-          found = 0;
-          zip_print("Error in zipfile %s: zipfile cannot span disks\n", *(const char **)zip_filename);
-        }
-      }
-      entry = (ZipCentralDirectoryEntry *)((char *)entry
-                                      + cd_entry->filename_length
-                                      + cd_entry->extra_field_length
-                                      + cd_entry->file_comment_length
-                                      + 46);
-      ++entry_index;
-      if ( found )
-        return 0;
-    }
-    return -1;
-  }
-  else
-  {
-    zip_print("Error in zipfile %s: couldn't read %ld bytes from central directory\n", *(const char **)zip_filename, read_size);
-    return -1;
-  }
-}
-
-static int zip_load_local_file_headers(FILE *Stream, int eocd, ZipCentralDirectoryEntryInMem *cd_entry)
-{
-  size_t read_size;
-  int entry_index;
-  ZipCentralDirectoryEntry *entry;
-  int name_index;
-  char upper_ch;
-  uint16_t filename_length;
-  int entry_slot;
-  char *name_ptr;
-  char *dst;
-  char ch;
-  ZipLocalFileHeaderInMem local_header;
-  uint8_t name_buf[256];
-
-  read_size = *(uint32_t *)(eocd + 12);
-  if ( read_size > 0x2000 )
-    read_size = 0x2000;
-  if ( fseek(Stream, *(uint32_t *)(eocd + 16), 0) )
-  {
-    zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", *(const char **)zip_filename);
-    return -1;
-  }
-  else if ( fread(&zip_central_dir_buffer, 1u, read_size, Stream) == read_size )
-  {
-    entry_index = 0;
-    entry = &zip_central_dir_buffer;
-    while ( entry_index < *(uint16_t *)(eocd + 10) )
-    {
-      zip_parse_cd_entry(entry, cd_entry);
-      name_index = 0;
-      if ( cd_entry->filename_length )
-      {
-        do
-        {
-          if ( name_index >= 254 )
-            break;
-          upper_ch = toupper(cd_entry->filename[name_index]);
-          filename_length = cd_entry->filename_length;
-          name_buf[name_index++] = upper_ch;
-        }
-        while ( name_index < filename_length );
-      }
-      name_buf[name_index] = 0;
-      if ( zip_read_local_file_header(Stream, (int)cd_entry, &local_header, zip_local_file_header_buffer) )
-        zip_print("Error reading 'local file header' in zipfile %s\n", *(const char **)zip_filename);
-      if ( entry_index < 256 )
-      {
-        entry_slot = zip_num_entries_loaded;
-        name_ptr = name_buf;
-        dst = &zip_entry_names[(zip_num_entries_loaded << 8) - (uint32_t)name_buf];
-        do
-        {
-          ch = *name_ptr;
-          name_ptr[(uint32_t)dst] = *name_ptr;
-          ++name_ptr;
-        }
-        while ( ch );
-        Size[entry_slot] = local_header.uncompressed_size;
-        zip_num_entries_loaded = entry_slot + 1;
-      }
-      entry = (ZipCentralDirectoryEntry *)((char *)entry
-                                      + cd_entry->filename_length
-                                      + cd_entry->extra_field_length
-                                      + cd_entry->file_comment_length
-                                      + 46);
-      ++entry_index;
-    }
-    return -1;
-  }
-  else
-  {
-    zip_print("Error in zipfile %s: couldn't read %ld bytes from central directory\n", *(const char **)zip_filename, read_size);
-    return -1;
-  }
-}
-
-static int zip_compare_filename_case_insensitive(const char *str1, const char *str2)
-{
-  const char *p2;
-  const char *p1;
-  bool less;
-  uint8_t c1;
-  uint8_t c2;
-  char *token;
-  char *last_token;
-  const char *q1;
-  uint8_t c1b;
-  uint8_t c2b;
-  char String[256];
-
-  p2 = str2;
-  if ( strlen(str1) == strlen(str2) )
-  {
-    for ( p1 = str1; ; p1 += 2 )
-    {
-      less = *p1 < (unsigned int)*p2;
-      if ( *p1 != *p2 )
-        break;
-      if ( !*p1 )
-        return 0;
-      c1 = p1[1];
-      c2 = p2[1];
-      less = c1 < c2;
-      if ( c1 != c2 )
-        break;
-      p2 += 2;
-      if ( !c1 )
-        return 0;
-    }
-  }
-  else
-  {
-    if ( str1[strlen(str1) - 1] == 47 )
-      return 1;
-    strcpy(String, str1);
-    token = strtok(String, "/");
-    if ( !token )
-      return 1;
-    do
-    {
-      last_token = token;
-      token = strtok(nullptr, "/");
-    }
-    while ( token );
-    q1 = last_token;
-    while ( 1 )
-    {
-      less = *q1 < (unsigned int)*p2;
-      if ( *q1 != *p2 )
-        break;
-      if ( *q1 )
-      {
-        c1b = q1[1];
-        c2b = p2[1];
-        less = c1b < c2b;
-        if ( c1b != c2b )
-          return -less - (less - 1);
-        q1 += 2;
-        p2 += 2;
-        if ( c1b )
-          continue;
-      }
-      return 0;
-    }
-  }
-  return -less - (less - 1);
-}
-
-static int zip_parse_cd_entry(ZipCentralDirectoryEntry *entry, ZipCentralDirectoryEntryInMem *cd_entry)
-{
-  int local_header_offset;
-
-  cd_entry->signature = zip_read_uint32_le((uint8_t *)entry);
-  cd_entry->version_made_by = entry->version_made_by;
-  cd_entry->version_needed = entry->version_needed;
-  cd_entry->general_purpose_bit_flag = zip_read_uint16_le((int)&entry->general_purpose_bit_flag);
-  cd_entry->compression_method = zip_read_uint16_le((int)&entry->compression_method);
-  cd_entry->last_mod_time = zip_read_uint16_le((int)&entry->last_mod_time);
-  cd_entry->last_mod_date = zip_read_uint16_le((int)&entry->last_mod_date);
-  cd_entry->crc32 = zip_read_uint32_le((uint8_t *)&entry->crc32);
-  cd_entry->compressed_size = zip_read_uint32_le((uint8_t *)&entry->compressed_size);
-  cd_entry->uncompressed_size = zip_read_uint32_le((uint8_t *)&entry->uncompressed_size);
-  cd_entry->filename_length = zip_read_uint16_le((int)&entry->filename_length);
-  cd_entry->extra_field_length = zip_read_uint16_le((int)&entry->extra_field_length);
-  cd_entry->file_comment_length = zip_read_uint16_le((int)&entry->file_comment_length);
-  cd_entry->disk_number_start = zip_read_uint16_le((int)&entry->disk_number_start);
-  cd_entry->internal_attributes = zip_read_uint16_le((int)&entry->internal_attributes);
-  cd_entry->external_attributes = zip_read_uint32_le((uint8_t *)&entry->external_attributes);
-  local_header_offset = zip_read_uint32_le((uint8_t *)&entry->local_header_offset);
-  cd_entry->filename = (char *)&entry[1];
-  cd_entry->local_header_offset = local_header_offset;
-  return local_header_offset;
-}
-
-static int zip_locate_central_dir(FILE *Stream, int *eocd)
-{
-  size_t read_size;
-  FILE *file;
-  int status;
-  BOOL end_of_central_dir_signature;
-  uint8_t *eocd_ptr;
-  uint32_t signature;
-  int *record;
-
-  read_size = zip_file_size;
-  if ( (int)zip_file_size > 0x2000 )
-    read_size = 0x2000;
-  file = Stream;
-  status = fseek(Stream, -(int)read_size, 2);
-  if ( status )
-  {
-    zip_print("Error in zipfile %s: fseek failed\n", *(const char **)zip_filename);
-    return status;
-  }
-  else if ( fread(&zip_central_dir_buffer, 1u, read_size, file) == read_size )
-  {
-    end_of_central_dir_signature = zip_find_end_of_central_dir_signature((int)&zip_central_dir_buffer, read_size, &Stream);
-    if ( end_of_central_dir_signature )
-    {
-      zip_print("Error in zipfile %s: couldn't find 'end of central dir' signature\n", *(const char **)zip_filename);
-      return end_of_central_dir_signature;
-    }
-    else
-    {
-      eocd_ptr = (uint8_t *)&zip_central_dir_buffer + (uint32_t)Stream;
-      signature = zip_read_uint32_le((uint8_t *)&zip_central_dir_buffer + (uint32_t)Stream);
-      record = eocd;
-      *eocd = signature;
-      *((uint16_t *)record + 2) = zip_read_uint16_le((int)(eocd_ptr + 4));
-      *((uint16_t *)record + 3) = zip_read_uint16_le((int)(eocd_ptr + 6));
-      *((uint16_t *)record + 4) = zip_read_uint16_le((int)(eocd_ptr + 8));
-      *((uint16_t *)record + 5) = zip_read_uint16_le((int)(eocd_ptr + 10));
-      record[3] = zip_read_uint32_le(eocd_ptr + 12);
-      record[4] = zip_read_uint32_le(eocd_ptr + 16);
-      *((uint16_t *)record + 10) = zip_read_uint16_le((int)(eocd_ptr + 20));
-      return 0;
-    }
-  }
-  else
-  {
-    zip_print("Error in zipfile %s: couldn't read %ld bytes from end of file\n", *(const char **)zip_filename, read_size);
-    return -1;
-  }
-}
-
-static BOOL zip_find_end_of_central_dir_signature(int buffer, int size, uint32_t *offset)
-{
-  int pos;
-  int found;
-
-  pos = size - 22;
-  found = 0;
-  if ( size - 22 >= 0 )
-  {
-    while ( strncmp((const char *)(pos + buffer), zip_signature, 4u) )
-    {
-      if ( --pos < 0 )
-        return 1;
-    }
-    found = 1;
-    *offset = pos;
-  }
-  return found == 0;
+    va_start(ArgList, Format);
+    len = vsnprintf(Buffer, sizeof(Buffer), Format, ArgList);
+    va_end(ArgList);
+    printf("%s", Buffer);
+    return len;
 }
 
 static int zip_get_file_size(FILE *Stream, uint32_t *size)
 {
-  int status;
-  int pos;
+    long pos;
 
-  status = fseek(Stream, 0, 2);
-  if ( status )
-    return status;
-  pos = ftell(Stream);
-  *size = pos;
-  if ( pos != -1 )
-    return status;
-  return pos;
+    if (fseek(Stream, 0, SEEK_END))
+        return -1;
+    pos = ftell(Stream);
+    if (pos < 0)
+        return -1;
+    *size = (uint32_t)pos;
+    return 0;
 }
 
-static int16_t zip_read_uint16_le(int ptr)
+static uint16_t zip_read_uint16_le(const uint8_t *ptr)
 {
-  return *(uint16_t *)ptr;
+    return (uint16_t)(ptr[0] | ((uint16_t)ptr[1] << 8));
 }
 
-static uint32_t zip_read_uint32_le(uint8_t *ptr)
+static uint32_t zip_read_uint32_le(const uint8_t *ptr)
 {
-  return *ptr | ((ptr[1] | (*((uint16_t *)ptr + 1) << 8)) << 8);
+    return (uint32_t)ptr[0]
+         | ((uint32_t)ptr[1] << 8)
+         | ((uint32_t)ptr[2] << 16)
+         | ((uint32_t)ptr[3] << 24);
+}
+
+/* Scans the given buffer (the tail of the archive) for the end-of-central-
+ * directory signature; returns 0 when found (offset set) and 1 otherwise. */
+static int zip_find_end_of_central_dir_signature(const uint8_t *buffer, int size, uint32_t *offset)
+{
+    int pos = size - 22;
+
+    while (pos >= 0)
+    {
+        if (zip_read_uint32_le(buffer + pos) == ZIP_END_OF_CD_SIGNATURE)
+        {
+            *offset = (uint32_t)pos;
+            return 0;
+        }
+        --pos;
+    }
+    return 1;
+}
+
+/* Locates and parses the end-of-central-directory record of the archive. */
+static int zip_locate_central_dir(FILE *Stream, ZipEndOfCentralDirectory *eocd)
+{
+    size_t read_size = zip_file_size;
+    uint32_t eocd_offset;
+    const uint8_t *eocd_ptr;
+
+    if (read_size > ZIP_READ_BUFFER_SIZE)
+        read_size = ZIP_READ_BUFFER_SIZE;
+    if (fseek(Stream, -(long)read_size, SEEK_END))
+    {
+        zip_print("Error in zipfile %s: fseek failed\n", zip_filename);
+        return -1;
+    }
+    if (fread(zip_central_dir_buffer, 1, read_size, Stream) != read_size)
+    {
+        zip_print("Error in zipfile %s: couldn't read %lu bytes from end of file\n", zip_filename, (unsigned long)read_size);
+        return -1;
+    }
+    if (zip_find_end_of_central_dir_signature(zip_central_dir_buffer, (int)read_size, &eocd_offset))
+    {
+        zip_print("Error in zipfile %s: couldn't find 'end of central dir' signature\n", zip_filename);
+        return -1;
+    }
+    eocd_ptr = zip_central_dir_buffer + eocd_offset;
+    eocd->signature = zip_read_uint32_le(eocd_ptr);
+    eocd->disk_number = zip_read_uint16_le(eocd_ptr + 4);
+    eocd->cd_start_disk = zip_read_uint16_le(eocd_ptr + 6);
+    eocd->entries_this_disk = zip_read_uint16_le(eocd_ptr + 8);
+    eocd->total_entries = zip_read_uint16_le(eocd_ptr + 10);
+    eocd->central_dir_size = zip_read_uint32_le(eocd_ptr + 12);
+    eocd->central_dir_offset = zip_read_uint32_le(eocd_ptr + 16);
+    eocd->comment_length = zip_read_uint16_le(eocd_ptr + 20);
+    return 0;
+}
+
+/* Copies the on-disk central directory entry into the in-memory structure
+ * (little-endian reads, filename pointer into the read buffer). */
+static int zip_parse_cd_entry(ZipCentralDirectoryEntry *entry, ZipCentralDirectoryEntryInMem *cd_entry)
+{
+    cd_entry->signature = zip_read_uint32_le((uint8_t *)entry);
+    cd_entry->version_made_by = zip_read_uint16_le((uint8_t *)&entry->version_made_by);
+    cd_entry->version_needed = zip_read_uint16_le((uint8_t *)&entry->version_needed);
+    cd_entry->general_purpose_bit_flag = zip_read_uint16_le((uint8_t *)&entry->general_purpose_bit_flag);
+    cd_entry->compression_method = zip_read_uint16_le((uint8_t *)&entry->compression_method);
+    cd_entry->last_mod_time = zip_read_uint16_le((uint8_t *)&entry->last_mod_time);
+    cd_entry->last_mod_date = zip_read_uint16_le((uint8_t *)&entry->last_mod_date);
+    cd_entry->crc32 = zip_read_uint32_le((uint8_t *)&entry->crc32);
+    cd_entry->compressed_size = zip_read_uint32_le((uint8_t *)&entry->compressed_size);
+    cd_entry->uncompressed_size = zip_read_uint32_le((uint8_t *)&entry->uncompressed_size);
+    cd_entry->filename_length = zip_read_uint16_le((uint8_t *)&entry->filename_length);
+    cd_entry->extra_field_length = zip_read_uint16_le((uint8_t *)&entry->extra_field_length);
+    cd_entry->file_comment_length = zip_read_uint16_le((uint8_t *)&entry->file_comment_length);
+    cd_entry->disk_number_start = zip_read_uint16_le((uint8_t *)&entry->disk_number_start);
+    cd_entry->internal_attributes = zip_read_uint16_le((uint8_t *)&entry->internal_attributes);
+    cd_entry->external_attributes = zip_read_uint32_le((uint8_t *)&entry->external_attributes);
+    cd_entry->local_header_offset = zip_read_uint32_le((uint8_t *)&entry->local_header_offset);
+    cd_entry->filename = (char *)&entry[1];
+    return (int)cd_entry->local_header_offset;
+}
+
+/* Reads the local file header of the given entry into local_header. */
+static int zip_read_local_file_header(
+        FILE *Stream,
+        ZipCentralDirectoryEntryInMem *cd_entry,
+        ZipLocalFileHeaderInMem *local_header,
+        uint8_t *Buffer)
+{
+    size_t read_size;
+    uint32_t offset = cd_entry->local_header_offset;
+
+    if (offset >= zip_file_size)
+        return -1;
+    read_size = zip_file_size - offset;
+    if (read_size > ZIP_READ_BUFFER_SIZE)
+        read_size = ZIP_READ_BUFFER_SIZE;
+    if (fseek(Stream, (long)offset, SEEK_SET))
+    {
+        zip_print("Error in zipfile %s: couldn't fseek to local file header\n", zip_filename);
+        return -1;
+    }
+    if (fread(Buffer, 1, read_size, Stream) != read_size)
+    {
+        zip_print("Error in zipfile %s: couldn't read %lu bytes from local file header\n", zip_filename, (unsigned long)read_size);
+        return -1;
+    }
+
+    local_header->signature = zip_read_uint32_le(Buffer);
+    local_header->version_needed = zip_read_uint16_le(Buffer + 4);
+    local_header->general_purpose_bit_flag = zip_read_uint16_le(Buffer + 6);
+    local_header->compression_method = zip_read_uint16_le(Buffer + 8);
+    local_header->last_mod_time = zip_read_uint16_le(Buffer + 10);
+    local_header->last_mod_date = zip_read_uint16_le(Buffer + 12);
+    local_header->crc32 = zip_read_uint32_le(Buffer + 14);
+    local_header->compressed_size = zip_read_uint32_le(Buffer + 18);
+    local_header->uncompressed_size = zip_read_uint32_le(Buffer + 22);
+    local_header->filename_length = zip_read_uint16_le(Buffer + 26);
+    local_header->extra_field_length = zip_read_uint16_le(Buffer + 28);
+    local_header->filename = (char *)(Buffer + 30);
+    return 0;
+}
+
+/* Reads the entry data (stored or deflated) into a newly allocated buffer. */
+static int zip_read_compressed_data_to_buffer(
+        FILE *Stream,
+        ZipCentralDirectoryEntryInMem *cd_entry,
+        ZipLocalFileHeaderInMem *local_header,
+        LPVOID *out_buffer)
+{
+    size_t compressed_size = local_header->compressed_size;
+    long data_offset = (long)cd_entry->local_header_offset + 30
+                     + local_header->filename_length + local_header->extra_field_length;
+    void *buffer = malloc(compressed_size);
+
+    *out_buffer = buffer;
+    if (!buffer)
+    {
+        zip_print("Couldn't allocate %lu bytes for input buffer for zipfile %s\n", (unsigned long)compressed_size, zip_filename);
+        return -1;
+    }
+    if (fseek(Stream, data_offset, SEEK_SET))
+    {
+        zip_print("Error reading zipfile %s: fseek to compressed data failed\n", zip_filename);
+        free(buffer);
+        *out_buffer = NULL;
+        return -1;
+    }
+    if (fread(buffer, 1, compressed_size, Stream) != compressed_size)
+    {
+        zip_print("Error in zipfile %s: couldn't read %lu bytes of compressed data\n", zip_filename, (unsigned long)compressed_size);
+        free(buffer);
+        *out_buffer = NULL;
+        return -1;
+    }
+    return 0;
+}
+
+/* Searches the central directory for search_name (case-insensitive, matching
+ * either the full entry name or its final path component) and fills
+ * cd_entry with the matching entry.  Returns 0 on success, non-zero on error. */
+static int zip_load_central_directory(
+        FILE *Stream,
+        const char *search_name,
+        const ZipEndOfCentralDirectory *eocd,
+        ZipCentralDirectoryEntryInMem *cd_entry)
+{
+    size_t read_size = eocd->central_dir_size;
+    int entry_index;
+    int name_index;
+    ZipCentralDirectoryEntry *entry;
+    char name_buf[ZIP_MAX_FILENAME_LEN];
+
+    if (read_size > ZIP_READ_BUFFER_SIZE)
+        read_size = ZIP_READ_BUFFER_SIZE;
+    if (fseek(Stream, (long)eocd->central_dir_offset, SEEK_SET))
+    {
+        zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", zip_filename);
+        return -1;
+    }
+    if (fread(zip_central_dir_buffer, 1, read_size, Stream) != read_size)
+    {
+        zip_print("Error in zipfile %s: couldn't read %lu bytes from central directory\n", zip_filename, (unsigned long)read_size);
+        return -1;
+    }
+
+    entry = (ZipCentralDirectoryEntry *)zip_central_dir_buffer;
+    for (entry_index = 0; entry_index < eocd->total_entries; ++entry_index)
+    {
+        int found = 0;
+
+        zip_parse_cd_entry(entry, cd_entry);
+        name_index = 0;
+        if (cd_entry->filename_length)
+        {
+            do
+            {
+                if (name_index >= ZIP_MAX_FILENAME_LEN - 1)
+                    break;
+                name_buf[name_index] = (char)toupper((unsigned char)cd_entry->filename[name_index]);
+                ++name_index;
+            } while (name_index < cd_entry->filename_length);
+        }
+        name_buf[name_index] = 0;
+
+        if (!zip_compare_filename_case_insensitive(name_buf, search_name))
+        {
+            found = 1;
+            if (cd_entry->compression_method && cd_entry->compression_method != 8)
+            {
+                found = 0;
+                zip_print("Error in zipfile %s: compression method for file %s unsupported.\n", zip_filename, search_name);
+                zip_print("Method: $%04x  must be $0000 (Stored) or $0008 (Deflated)\n", cd_entry->compression_method);
+            }
+            if ((uint8_t)cd_entry->version_needed > 0x14)
+            {
+                found = 0;
+                zip_print("Error in zipfile %s: version for file %s too new.\n", zip_filename, search_name);
+                zip_print("Version: $%02x must be $14 or less\n", (uint8_t)cd_entry->version_needed);
+            }
+            if ((cd_entry->version_needed >> 8) != 0)
+            {
+                found = 0;
+                zip_print("Error in zipfile %s: OS for file %s not supported.\n", zip_filename, search_name);
+                zip_print("OS: $%02x must be $00\n", cd_entry->version_needed >> 8);
+            }
+            if (cd_entry->disk_number_start != eocd->disk_number)
+            {
+                found = 0;
+                zip_print("Error in zipfile %s: zipfile cannot span disks\n", zip_filename);
+            }
+            if (found)
+                return 0;
+        }
+        entry = (ZipCentralDirectoryEntry *)((char *)entry
+                                        + cd_entry->filename_length
+                                        + cd_entry->extra_field_length
+                                        + cd_entry->file_comment_length
+                                        + 46);
+    }
+    return -1;
+}
+
+/* Loads all central directory entries and their local file headers into
+ * zip_entry_names / Size[] / zip_num_entries_loaded. */
+static int zip_load_local_file_headers(
+        FILE *Stream,
+        const ZipEndOfCentralDirectory *eocd,
+        ZipCentralDirectoryEntryInMem *cd_entry)
+{
+    size_t read_size = eocd->central_dir_size;
+    int entry_index;
+    int name_index;
+    int entry_slot;
+    ZipCentralDirectoryEntry *entry;
+    ZipLocalFileHeaderInMem local_header;
+    char name_buf[ZIP_MAX_FILENAME_LEN];
+
+    if (read_size > ZIP_READ_BUFFER_SIZE)
+        read_size = ZIP_READ_BUFFER_SIZE;
+    if (fseek(Stream, (long)eocd->central_dir_offset, SEEK_SET))
+    {
+        zip_print("Error in zipfile %s: couldn't fseek to start of central directory\n", zip_filename);
+        return -1;
+    }
+    if (fread(zip_central_dir_buffer, 1, read_size, Stream) != read_size)
+    {
+        zip_print("Error in zipfile %s: couldn't read %lu bytes from central directory\n", zip_filename, (unsigned long)read_size);
+        return -1;
+    }
+
+    entry = (ZipCentralDirectoryEntry *)zip_central_dir_buffer;
+    for (entry_index = 0; entry_index < eocd->total_entries; ++entry_index)
+    {
+        zip_parse_cd_entry(entry, cd_entry);
+        name_index = 0;
+        if (cd_entry->filename_length)
+        {
+            do
+            {
+                if (name_index >= ZIP_MAX_FILENAME_LEN - 1)
+                    break;
+                name_buf[name_index] = (char)toupper((unsigned char)cd_entry->filename[name_index]);
+                ++name_index;
+            } while (name_index < cd_entry->filename_length);
+        }
+        name_buf[name_index] = 0;
+
+        if (zip_read_local_file_header(Stream, cd_entry, &local_header, zip_local_file_header_buffer))
+            zip_print("Error reading 'local file header' in zipfile %s\n", zip_filename);
+        if (entry_index < 256)
+        {
+            entry_slot = zip_num_entries_loaded;
+            strcpy((char *)&zip_entry_names[entry_slot << 8], name_buf);
+            Size[entry_slot] = local_header.uncompressed_size;
+            zip_num_entries_loaded = entry_slot + 1;
+        }
+        entry = (ZipCentralDirectoryEntry *)((char *)entry
+                                        + cd_entry->filename_length
+                                        + cd_entry->extra_field_length
+                                        + cd_entry->file_comment_length
+                                        + 46);
+    }
+    return 0;
+}
+
+/* Case-insensitive comparison of two (already upper-cased) names.  Returns 0
+ * when str1 equals str2 or when the final path component of str1 equals
+ * str2 (archive entries may carry directory prefixes), non-zero otherwise. */
+static int zip_compare_filename_case_insensitive(const char *str1, const char *str2)
+{
+    if (strcmp(str1, str2) == 0)
+        return 0;
+    {
+        const char *last = strrchr(str1, '/');
+        if (last && strcmp(last + 1, str2) == 0)
+            return 0;
+    }
+    return 1;
+}
+
+/* ===========================================================================
+ * Public API
+ * =========================================================================== */
+
+int zip_extract_file(char *FileName, char *search_name, LPVOID *out_data, size_t *out_size)
+{
+    FILE *file;
+    int status;
+    int name_len;
+    int i;
+    void *out_buffer = NULL;
+    LPVOID data = NULL;
+    LPVOID lpMem = NULL;
+    ZipEndOfCentralDirectory eocd;
+    ZipLocalFileHeaderInMem local_header;
+    ZipCentralDirectoryEntryInMem cd_entry;
+    char ArgList[ZIP_MAX_FILENAME_LEN];
+
+    zip_filename = zip_get_filename_from_path(FileName);
+    file = fopen(FileName, "rb");
+    if (!file)
+    {
+        zip_print("Could not open zipfile %s\n", FileName);
+        return -1;
+    }
+    if (zip_get_file_size(file, &zip_file_size))
+    {
+        zip_print("Error in zipfile %s: get_file_length() failed\n", zip_filename);
+        fclose(file);
+        return -1;
+    }
+    if (zip_locate_central_dir(file, &eocd))
+    {
+        zip_print("Error reading 'end of central directory' in zipfile %s\n", zip_filename);
+        fclose(file);
+        return -1;
+    }
+    if (eocd.disk_number != eocd.cd_start_disk
+        || eocd.entries_this_disk != eocd.total_entries
+        || !eocd.total_entries)
+    {
+        zip_print("Unsupported zipfile %s: zipfile cannot span disks\n", zip_filename);
+        fclose(file);
+        return -1;
+    }
+
+    /* Upper-case the requested entry name (search is case-insensitive). */
+    name_len = (int)strlen(search_name);
+    if (name_len >= ZIP_MAX_FILENAME_LEN)
+        name_len = ZIP_MAX_FILENAME_LEN - 1;
+    for (i = 0; i < name_len; ++i)
+        ArgList[i] = (char)toupper((unsigned char)search_name[i]);
+    ArgList[name_len] = 0;
+
+    status = zip_load_central_directory(file, ArgList, &eocd, &cd_entry);
+    if (status)
+    {
+        zip_print("Could not find %s in zipfile %s\n", ArgList, zip_filename);
+        fclose(file);
+        return -1;
+    }
+
+    status = zip_read_local_file_header(file, &cd_entry, &local_header, zip_local_file_header_buffer);
+    if (status)
+    {
+        zip_print("Error reading 'local file header' in zipfile %s\n", zip_filename);
+        fclose(file);
+        return -1;
+    }
+
+    if (local_header.compression_method == 8)
+    {
+        /* Deflated entry: read the compressed data and inflate it. */
+        status = zip_read_compressed_data_to_buffer(file, &cd_entry, &local_header, &lpMem);
+        if (status)
+        {
+            zip_print("Could not create input buffer for zipfile %s\n", zip_filename);
+            fclose(file);
+            return -1;
+        }
+        zipfile_input_buffer = (uint8_t *)lpMem;
+        out_buffer = malloc(local_header.uncompressed_size);
+        data = out_buffer;
+        if (!out_buffer)
+        {
+            zip_print("Couldn't allocate %lu bytes for zipfile %s output buffer\n", (unsigned long)local_header.uncompressed_size, zip_filename);
+            free(lpMem);
+            fclose(file);
+            return -1;
+        }
+        zip_inflate_output_ptr = (uint8_t *)out_buffer;
+        zip_sliding_window = (uint8_t *)malloc(ZIP_SLIDING_WINDOW_SIZE);
+        if (!zip_sliding_window)
+        {
+            zip_print("Could not create 32K sliding window for zipfile %s\n", zip_filename);
+            free(lpMem);
+            free(data);
+            fclose(file);
+            return -1;
+        }
+        status = zip_inflate_file();
+        free(zip_sliding_window);
+        zip_sliding_window = NULL;
+        if (status)
+        {
+            zip_print("Error %d inflating compressed file from zipfile %s\n", status, zip_filename);
+            free(lpMem);
+            free(data);
+            fclose(file);
+            return -1;
+        }
+    }
+    else if (local_header.compression_method == 0)
+    {
+        /* Stored entry: read the raw data. */
+        status = zip_read_compressed_data_to_buffer(file, &cd_entry, &local_header, &data);
+        if (status)
+        {
+            zip_print("Couldn't extract uncompressed file from zipfile %s\n", zip_filename);
+            fclose(file);
+            return -1;
+        }
+    }
+    else
+    {
+        zip_print("Error in zipfile %s: compression method %u unsupported.\n", zip_filename, local_header.compression_method);
+        fclose(file);
+        return -1;
+    }
+
+    *out_data = data;
+    *out_size = local_header.uncompressed_size;
+    data = NULL;
+    fclose(file);
+    return 0;
+}
+
+int zip_load_file(char *FileName)
+{
+    FILE *file;
+    ZipEndOfCentralDirectory eocd;
+    ZipCentralDirectoryEntryInMem cd_entry;
+
+    zip_filename = zip_get_filename_from_path(FileName);
+    file = fopen(FileName, "rb");
+    if (!file)
+        return -1;
+    if (zip_get_file_size(file, &zip_file_size))
+    {
+        zip_print("Error in zipfile %s: get_file_length() failed\n", zip_filename);
+        fclose(file);
+        return -1;
+    }
+    if (zip_locate_central_dir(file, &eocd))
+    {
+        zip_print("Error reading 'end of central directory' in zipfile %s\n", zip_filename);
+        fclose(file);
+        return -1;
+    }
+    if (eocd.disk_number == eocd.cd_start_disk
+        && eocd.entries_this_disk == eocd.total_entries
+        && eocd.total_entries)
+    {
+        zip_load_local_file_headers(file, &eocd, &cd_entry);
+        fclose(file);
+        return 0;
+    }
+    zip_print("Unsupported zipfile %s: zipfile cannot span disks\n", zip_filename);
+    fclose(file);
+    return -1;
 }
